@@ -1,7 +1,7 @@
 
 <div class="content__card">
 	<div class="card__header">
-		<h3>엑셀 상품 등록/수정</h3>
+		<h3>엑셀 상품 옵션 등록/수정</h3>
 		<div class="drive--x"></div>
 	</div>
 	<div class="card__body">
