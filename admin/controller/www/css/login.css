@@ -1,0 +1,150 @@
+* { font-family : 'NanumGothic' ; font-size : 13px ; margin : 0 ; padding : 0 ; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box }
+img { border : 0 }
+body { margin : 0 ; background : #f1f3fa }
+label,a { cursor : pointer }
+
+.forget-password a { background-color : #3598dc ; text-decoration : none ; color : #ffffff  }
+.forget-password a:hover { background-color : #232323 }
+
+#login-intro { width : 100% ; height : 100% ; min-width : 400px ; min-height : 580px ; position : absolute ; overflow : auto ; color : #ffffff }
+#login-intro > div.container { position : absolute ; left : 50% ; top : 50% ; margin-left : -170px ; margin-top : -250px ; width : 340px ; height : 400px ; z-index : 1 }
+#login-intro > div.container div.bg { position : absolute ; top : 0 ; left : 0 ; z-index : -1 ; width : 100% ; height : 100% ; background-color : #ffffff ; opacity : 0.2 }
+#login-intro > div.container > h1 { padding-bottom : 30px ; text-align : center ; display : inline-block ; font-family : "Century Gothic" ; font-size : 30px ; width : 100% ; font-weight : 400 }
+#login-intro > div.container > h1 i { font-size : 30px ; margin : 0 10px ; opacity : 0.5 }
+#login-intro > div.container > div.head { padding-bottom : 30px ; text-align : center }
+#login-intro > div.container > div.con { position : relative ; padding : 50px 30px 30px 30px }
+#login-intro > div.container > div.con > h3 { font-size : 24px ; font-weight : 200 ; padding-bottom : 20px }
+#login-intro > div.container > div.foot { padding-top : 10px ; text-align : center ; font-family: "Open Sans", sans-serif; font-size : 12px }
+#login-intro .form-group > div { padding: 7px 0 ; border-left: none ; }
+#login-intro .form-group input { border-radius : 0 ; height : 37px }
+#login-intro .form-control { background-color: #fff; }
+#login-intro .input-icon > .form-control { padding-left: 33px; }
+#login-intro .input-icon > i { color: #ccc;
+    display: block;
+    position: absolute;
+    margin: 11px 2px 4px 10px;
+    z-index: 3;
+    width: 16px;
+    font-size: 16px;
+    text-align: center;
+}
+#login-intro .has-error .form-control {
+    border-color: #ebccd1;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+#login-intro .has-error .form-control {
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+#login-intro .form-control {
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    box-shadow: none;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+#login-intro .form-actions { padding-top : 10px }
+#login-intro .forget-password { width : 100% ; display : inline-block ; margin-top : 20px ; padding-top : 20px ; border-top : dotted 1px #ffffff }
+#login-intro .forget-password > h4 { font-size : 17px ; font-weight : 200 ; padding-bottom : 10px }
+
+#login-background { position : absolute ; z-index : -10; width : 100% ; height : 100% }
+#login-background div { position : absolute ; width : 100% ; height : 100% }
+
+label.checkbox { display : inline-block ; padding-top : 10px ; position : relative }
+label.checkbox > input { position : absolute ; opacity : 0 }
+label.checkbox > span,label.checkbox > i { opacity : 0.5 }
+label.checkbox > input:checked ~ span,label.checkbox > input:checked ~ i,label.checkbox:hover > i { opacity : 1}
+
+.btn {
+    border-width: 0;
+    padding: 7px 14px;
+    font-size: 14px;
+    outline: none !important;
+    background : #3598dc !important;
+	color : #fff ; 
+	cursor : pointer ;
+    filter: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    text-shadow: none;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+	; -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; 
+}
+.btn:hover { box-shadow : 0 0 5px #444 }
+.pull-right {
+    float: right !important;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+}
+.alert {
+    border-width: 1px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+.display-none, .display-hide {
+    display: none;
+}
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    border: 0;
+    display: inline-block;
+    margin-top: 0px;
+    margin-right: 0px;
+    width: 9px;
+    height: 9px;
+    background-repeat: no-repeat !important;
+    text-indent: -10000px;
+    outline: none;
+    background-image: url("../images/remove-icon-small.png") !important;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+}
+button.close:hover { filter: alpha(opacity=70); opacity: 0.7; }

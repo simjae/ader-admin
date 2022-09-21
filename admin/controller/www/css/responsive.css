@@ -1,0 +1,68 @@
+@media only screen and (max-width: 980px) {
+	body { padding-left : 0 }
+	#gnb { display : none ; height : 0 ; padding : 10px ; margin-top : 0 }
+	#gnb > ul { background-color : #3D3D3D ; margin-bottom : 0 }
+	#gnb > ul > li > .sub { box-shadow : none ; position : static ; width : 100% ; height : 0 ; overflow : hidden ; display : block ; padding : 0 }
+	#gnb > ul > li > .sub a { text-align : center }
+	body.short { padding-left : 0 }
+	body.short > #header { padding-left : 210px }
+	body.short > #header > .bi { width : 210px ; text-align: left }
+	body.short > #header > .bi > .t { display : inline-block }
+	body.short > #header > .bi a { float : right }
+	body.short > #gnb { width : 100% ; display : block ; height : auto ; position : static }
+	body.short > #gnb > .bg { display : none }
+	body.short > #gnb > ul > li > a .title { display : block }
+	body.short > #gnb > ul > li .arrow { display : none }
+}
+
+@media only screen and (max-width: 780px) {
+	.not-mobile { display : none !important }
+
+	#header { padding-left : 0 ; height : 120px }
+	#header > .bi { width : 100% ; position : static }
+	#header.short { padding-left : 0 }
+	#header.short > .bi { width : 100% }
+	body.short > #header { padding-left : 0px }
+	body.short > #header > .bi { width : 100% }
+
+	#container > h1 > small { display : none }
+
+	/** LAYOUT : GRID **/
+	div.row > .col-4 { width : 50% ; padding : 0 10px }
+	div.row > .col-4:first-child,div.row > .col-4:nth-child(2) { padding-bottom : 20px }
+	div.row > .col-4:nth-child(2n-1) { padding-left : 0 }
+	div.row > .col-4:nth-child(2n) { padding-right : 0 }
+
+	.body .footer { padding-top : 15px ; margin-top : 15px }
+	.modal .body .footer { margin-top : 0 }
+
+	/** UI : GALLERY **/
+	.gallery.col-4 > .item { width : 50% }
+	.gallery.col-4 > .item:nth-child(2n+1) { padding-left : 0 }
+	.gallery.col-4 > .item:nth-child(2n+2) { padding-right : 0 }
+
+	/** FORM **/
+	.form-group { padding : 50px 0 0 0 }
+	.form-group > .control-label { top : 15px ; width : auto ; height : auto ; padding : 0 0 5px 0 ; font-weight : 600 ; color : #000 ; border-bottom : solid 1px #aaa }
+	.form-group .tail { top : 51px }
+	.form-group .btn { margin : 2px 0 }
+}
+
+@media only screen and (max-width: 479px) {
+	#header > .top input { width : 0 }
+	#header > .top > .top-menu > li { padding : 18px 13px }
+	div.row > .col-2,div.row > .col-3,div.row > .col-4 { width : 100% !important ; padding : 0 0 20px 0 !important }
+	div.row > .col-4:last-child { padding : 0 !important }
+
+	/** UI : GALLERY **/
+	.gallery.col-4 > .item { width : 100% ; padding : 6px 0 !important }
+
+	/** TABLE **/
+	table.list { min-width : 100% ; display : block ; border : none }
+	table.list td.not-mobile { display : none }
+	table.list > thead { display : none }
+	table.list > tbody { width : 100% ; display : inline-block }
+	table.list > tbody > tr { width : 100% ; display : inline-block ; margin : 5px 0 ; border : solid 1px #ddd }
+	table.list > tbody > tr > td { width : 100% ; display : inline-block ; border : none ; border-bottom : solid 1px #eee }
+	table.list > tbody > tr > td:last-child { border : none }
+}

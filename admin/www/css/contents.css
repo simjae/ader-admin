@@ -1,0 +1,11 @@
+.page-mypage-profile .profile-img { width : 100% ; height  :auto ; max-width : 200px ; border-radius : 50% }
+.page-mypage-profile .profile-name { margin-top : 15px ; font-size : 18px ; font-weight : 600 ; color : #333 }
+.page-mypage-profile .profile-name > small { font-size : 12px ; color : #aaa }
+
+.device-loading,.device-no-response { padding : 100px 0 ; text-align : center ; font-size : 18px ; color : #888 ; text-shadow : 0 0 1px 1px #fff }
+.device-loading:before,.device-no-response:before { font-family : "xeicon" ; font-size : 90px ; color : #000 }
+.device-loading:after,.device-no-response:after { display : block ; margin-top : 30px }
+.device-loading:before { content : "\ec33" ; animation : xi-spin infinite 2s linear ; display : inline }
+.device-loading:after { content : "기기 정보 읽는중..." }
+.device-no-response:before { content : "\e9ae" }
+.device-no-response:after { content : "기기 응답이 없습니다." }
