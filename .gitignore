@@ -1,3 +1,10 @@
+
+
+# video file
 *.mp4
+
+
+# Log file
+*.log
 
 admin/log/
