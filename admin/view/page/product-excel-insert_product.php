@@ -13,7 +13,7 @@
 					<thead><th colspan="2" style="font-size: 14px;font-weight: bold;color: #000;">양식다운로드</th></thead>
 					<tbody>
 						<tr>
-							<td>상품 등록용 엑셀 다운로드</td>
+							<td style="width: 20%;">상품 등록용 엑셀 다운로드</td>
 							<td><div class="exel__btn">다운로드</div></td>
 						</tr>
 					</tbody>
