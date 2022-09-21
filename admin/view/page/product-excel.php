@@ -64,20 +64,17 @@
 		grid-template-columns: 3fr 7fr;
 		padding: 20px;
 	}
-	.file__drag__wrap{
 	
-		
-	}
 	.file__content__wrap{
 		padding: 0 20px;
 	}
 	.exel__zone{
-		margin-bottom:20px;
 		width: 100%;
-		border: 1px dashed #779af6;
-		background-color: #F1F6FF;
+		height: 200px;
+		border: 1px solid #bfbfbf;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		align-items: center;
 	}
 	.img__zone{
@@ -90,13 +87,16 @@
 		align-items: center;
 	}
 	.exel__upload__btn{
-		padding: 20px 40px;
-		background-color: #86A8F4;
-		border-radius: 30px;
+		background-color: #BFBFC0;
 		color: #fff;
+		font-size: 12px;
+		width: 140px;
+		text-align: center;
+		line-height: 2;
+		height: 22px;
 		font-weight: 500;
-		box-shadow: 2px 2px 6px #2d222238;
-		margin-bottom: 70px;
+		box-shadow: 1px 1px 4px #2d222238;
+		border-radius: 2px;
 	}
 	#exel-dropzone{
 		margin: 60px 0 20px 0;
@@ -151,39 +151,49 @@
 		gap: 20px;
 		padding: 20px;
 	}
+	.exel__btn__wrap{
+		display: flex;
+		gap: 10px;
+		justify-content: end;
+		padding-top: 20px;
+		align-items: center;
+	}
+	.exel__btn{
+		cursor: pointer;
+		display: flex;
+		font-size: 13px;
+		align-items: center;
+		justify-content: center;
+		width: 140px;
+		height: 22px;
+		border-radius: 2px;
+		padding: 10px;
+		border: solid 1px #707070;
+	}
+	.exel__btn.blue{
+		background-color: #140f82;
+    	color: #fff;
+	}
+	.bold__font{
+		font-family: NanumSquareRound;
+		font-size: 14px;font-weight: bold;color: #000;
+	}
 </style>
-
-<div class="navigation">
-	<ul>
-		<li>Home</li>
-		<li>상품관리</li>
-		<li>엑셀 등록</li>
-	</ul>
-</div>
-<div class="row">
-	<div class="row">
-		<button class="excel_tab_btn" tab_num="01" style="width:150px; height:30px; border:1px solid #000000;background-color:#3CB3AB;color:#ffffff;font-weight:800;margin-right:10px;cursor:pointer;" onClick="excelTabBtnClick(this);">엑셀-상품 등록/수정</button>
-		<button class="excel_tab_btn" tab_num="02" style="width:150px; height:30px; border:1px solid #000000;background-color:#ffffff;color:#000000;font-weight:500;margin-right:10px;cursor:pointer;" onClick="excelTabBtnClick(this);">엑셀-상품옵션 등록/수정</button>
+	<div class="filter-wrap" style="margin-bottom:20px">
+		<button class="excel_tab_btn tap__button" tab_num="01" style="background-color: #000;color: #fff;font-weight: 500;" onClick="excelTabBtnClick(this);">엑셀-상품 등록/수정</button>
+		<button class="excel_tab_btn tap__button" tab_num="02" onClick="excelTabBtnClick(this);">엑셀-상품옵션 등록/수정</button>
 	</div>
 	
-	<div class="portlet" style="margin-top:20px;">
-		<div class="title">
-			<h1 id="tabTitle">엑셀-상품등록/수정</h1>
-			<!--<input id="pwtest" type="text" value = "test">-->
-		</div>
-		
-		<div class="body">
-			<input id="tab_num" type="hidden" value="01">
-			<div id="excel_tab_01" class="row excel_tab" style="margin-top:0px;">
-				<?php include_once("product-excel-insert_product.php"); ?>
-			</div>
-			
-			<div id="excel_tab_02" class="row excel_tab" style="display:none;margin-top:0px;">
-				<?php include_once("product-excel-update_product.php"); ?>
-			</div>
-		</div>
+
+	<input id="tab_num" type="hidden" value="01">
+
+	<div id="excel_tab_01" class=" excel_tab">
+		<?php include_once("product-excel-insert_product.php"); ?>
 	</div>
-</div>
+	
+	<div id="excel_tab_02" class=" excel_tab" style="display:none;">
+		<?php include_once("product-excel-update_product.php"); ?>
+	</div>
 
 <script>
 var wait_sheet 	= [];
@@ -202,13 +212,11 @@ function excelTabBtnClick(obj) {
 	$('.excel_tab').hide();
 	$('#excel_tab_' + tab_num).show();
 	
-	$(obj).css('background-color','#3CB3AB');
+	$(obj).css('background-color','#000000');
 	$(obj).css('color','#ffffff');
-	$(obj).css('font-weight','800');
 	
 	$('.excel_tab_btn').not($(obj)).css('background-color','#ffffff');
 	$('.excel_tab_btn').not($(obj)).css('color','#000000');
-	$('.excel_tab_btn').not($(obj)).css('font-weight','500');
 	resetExcelList();
 }
 
@@ -237,11 +245,11 @@ $('.upload_btn').on('change', function(e){
 	setSheetList(files);
 	event.target.value = '';
 })
-$('.filter-tap').on('click', '.exel__zone', function(e){
+$('.exel__zone').on('click', function(e){
 	var tab_num = $('#tab_num').val();
     $("input[name='upload_btn_"+tab_num+"']").click();
 })
-$('.file__content__wrap').on('click', '.exel__execute__btn', function(e){
+$('.exel__execute__btn').on('click', function(e){
 	confirm("상품등록작업을 시작하시겠습니까?", `excelActionBtn()`);
 })
 function setSheetList(obj){
@@ -429,10 +437,7 @@ function printWaitSheetList(){
 			last_modify_date = last_modify_date.replace('T', ' ');
 			$('#wait_list_table_'+tab_num).append(`
 				<TR>
-					<TD>
-						<i style="font-size: 30px;" class="xi-file-text-o"></i>
-					</TD>
-					<TD>${element.name}</TD>
+					<TD style="width: 70%;">${element.name}</TD>
 					<TD>최종수정시간:${last_modify_date}</TD>
 				</TR>
 			`);
@@ -451,11 +456,8 @@ function printFinishSheetList(element, json_str){
 
 	$('#finish_list_table_'+tab_num).append(`
 		<TR onclick="openExcelResultModal(this)" style="cursor:pointer;">
-			<TD>
-				<i style="font-size: 30px;" class="xi-file-text-o"></i>
-				<input type="hidden" value='${json_str}'>
-			</TD>
-			<TD>${element.name}</TD>
+		<input type="hidden" value='${json_str}'>
+			<TD style="width: 70%;">${element.name}</TD>
 			<TD>업로드 시간: ${regist_date}</TD>
 		</TR>
 	`);
@@ -464,10 +466,7 @@ function printFailSheetList(element){
 	var tab_num = $('#tab_num').val();
 	$('#fail_list_table_'+tab_num).append(`
 		<TR>
-			<TD>
-				<i style="font-size: 30px;" class="xi-file-text-o"></i>
-			</TD>
-			<TD>${element.name}</TD>
+			<TD style="width: 70%;">${element.name}</TD>
 			<TD>실패원인: ${element.error_msg}</TD>
 		</TR>
 	`);

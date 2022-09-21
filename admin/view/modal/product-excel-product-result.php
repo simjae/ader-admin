@@ -124,13 +124,8 @@ $(document).ready(function() {
         }
         
         var str_div = `
-            <div class="card__header">
-                <div class="flex justify-between">
-                    <h3 id=''>${title} 정보</h3>
-                </div>
-                <div class="drive--x"></div>
-            </div>
             <div class="card__body">
+                <h4 style="margin-left:10px";>${title} 정보</h4>
                 <div class="content__wrap">
                     <div class="content__title">전체 업로드 데이터 개수</div>
                     <div class="content__row">
@@ -153,7 +148,7 @@ $(document).ready(function() {
             </div>
             ${str_table}
         `;
-        $('.content__card').append(str_div);
+        $('.modal .content__card').append(str_div);
     });
 
     
