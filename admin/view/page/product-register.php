@@ -19,7 +19,7 @@
     <div class="card__body">
         <div id="delete_tab_01" class="row delete_tab" style="margin-top:0px;">
             <form id="frm-regist" action="product/add" enctype="multipart/form-data">
-                <div class="table table__wrap">
+				<div class="table table__wrap">
                     <button type="button" toggle_table="ordersheet"
                         style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
                         onClick="toggleTableClick(this);">오더시트 - 기획MD</button>
@@ -34,20 +34,18 @@
 
 									<TD style="width:10%;">상품코드</TD>
 									<TD colspan="2">
-										<div >
+										<div>
 											<input id="duplicate_check" type="hidden" value="false">
 											<input id="product_code" type="text" name="product_code" style="width:70%;"
 												value="">
 											<button id="duplicate_btn" class="btn__gray" type="button"onClick="productDuplicateCheck();">상품코드 중복체크</button>
 										</div>
-
 									</TD>
 								</TR>
-
 								<TR>
 									<TD style="width:10%;">오더시트 상품분류</TD>
 									<TD colspan="5">
-										<div >
+										<div>
 											<input id="pl_lrg_category" type="text" name="pl_lrg_category" placeholder=""
 												style="width:15%;" value="">
 											<input id="pl_mdl_category" type="text" name="pl_mdl_category" placeholder=""
@@ -59,18 +57,16 @@
 										</div>
 									</TD>
 								</TR>
-					
 								<TR>
 									<TD style="width:10%;">온라인 MD 상품분류</TD>
 									<TD colspan="5" style="width:90%;overflow:scroll;">
-										<div class="flex"  style="width:1500px;height:300px;">
+										<div class="flex"  style="width:100%;height:300px;">
 											<input type="hidden" name="md_category_1" value="">
 											<input type="hidden" name="md_category_2" value="">
 											<input type="hidden" name="md_category_3" value="">
 											<input type="hidden" name="md_category_4" value="">
 											<input type="hidden" name="md_category_5" value="">
 											<input type="hidden" name="md_category_6" value="">
-
 											<input type="hidden" name="category_idx" value="">
 
 											<div id="md_category_1" depth="1" style="width:200px;height:100%;">
@@ -99,7 +95,6 @@
 										</div>
 									</TD>
 								</TR>
-
 								<TR>
 									<TD style="width:10%;">소재</TD>
 									<TD>
@@ -116,7 +111,6 @@
 										<input id="fit" type="text" name="fit" value="">
 									</TD>
 								</TR>
-
 								<TR>
 									<TD>상품 이름</TD>
 									<TD colspan="2">
@@ -127,7 +121,6 @@
 										<input type="text" id="size" name="size" value="One Size">
 									</TD>
 								</TR>
-
 								<TR>
 									<TD>상품 컬러</TD>
 									<TD colspan="2">
@@ -138,7 +131,6 @@
 										<input id="color_code" type="text" name="color_code" value="">
 									</TD>
 								</TR>
-
 								<TR>
 									<TD>네비게이션</TD>
 									<TD colspan="2">
@@ -376,6 +368,9 @@
 										<button type="button"
 											style="width:100px;height:30px;background-color:#140f82;color:#ffffff;float:right;cursor:pointer;"
 											onClick="productOptionRegister();">옵션 저장</button>
+										<button type="button"
+											style="width:160px;height:30px;background-color:#140f82;color:#ffffff;float:right;cursor:pointer;margin-right:25px"
+											onClick="productSizeFormOpen();">사이즈 설정창 열기</button>
 									</TD>
 								</TR>
 							</TBODY>
@@ -1103,6 +1098,7 @@ var img_wear_detail = [];
 var seo_description = [];
 
 var size_category_info = {};
+var chk_list_arr = [];
 
 function setSmartEditor() {
 	//material
@@ -1849,12 +1845,6 @@ function getProductOption() {
 						$('#option_info_table').remove();
 						
 						var option_code_list = [];
-						
-						//추가된 부분 - 옵션 사이즈 관련 2022-09-20
-						var strBtnStr = "";
-						var strSelStr = "";
-						//---
-
 						var strDiv = "";
 						strDiv += '<TABLE id="option_info_table"  style="font-size:0.5rem;">';
 						strDiv += '    <THEAD>';
@@ -1891,12 +1881,6 @@ function getProductOption() {
 						strDiv += '    <TBODY>';
 						
 						data.forEach(function(row) {
-							//추가된 부분 - 옵션 사이즈 관련 2022-09-20
-							strBtnStr += `
-								<button type="button" class="size_btn" action-flg="false" style="display:none;width:100px;height:30px;background-color:#000000;color:#ffffff;float:left;margin-right:5px;cursor:pointer;" onClick="sizeBtnClick(this)">${row.option_name}</button>
-							`;
-							//---
-
 							option_code_list.push(row.option_code);
 							
 							strDiv += '    <TR id="option_row_' + row.no + '">';
@@ -1996,61 +1980,6 @@ function getProductOption() {
 							
 							strDiv += '    </TR>';
 						});
-						//추가된 부분 - 옵션 사이즈 관련 2022-09-20
-						strSelStr = `
-							<select id="size_category" style="width:200px;height:30px;float:left;margin-right:5px;">
-								<option value="">---one piece---</option>
-								<option value="/01_one_piece/dress">dress</option>
-								<option value="">---two piece---</option>
-								<option value="/02_two_piece/01_top/coat">coat</option>
-								<option value="/02_two_piece/01_top/hoodie">hoodie</option>
-								<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
-								<option value="/02_two_piece/01_top/shirts">---one piece---</option>
-								<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
-								<option value="/02_two_piece/01_top/tShirts">tShirts</option>
-								<option value="/02_two_piece/01_top/vest">vest</option>
-								<option value="/02_two_piece/01_top/zipup">zipup</option>
-								<option value="/02_two_piece/02_bottom/pants">pants</option>
-								<option value="/02_two_piece/02_bottom/skirt">skirt</option>
-								<option value="">---bag---------</option>
-								<option value="/03_etc/01_bag/backPack">backPack</option>
-								<option value="/03_etc/01_bag/crossBag">crossBag</option>
-								<option value="/03_etc/01_bag/toteBag">toteBag</option>
-								<option value="">---hat---------</option>
-								<option value="/03_etc/02_hat/beanie">beanie</option>
-								<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
-								<option value="/03_etc/02_hat/cap">cap</option>
-								<option value="">---acc---------</option>
-								<option value="/03_etc/03_acc/belt">belt</option>
-								<option value="/03_etc/03_acc/necktie">necktie</option>
-								<option value="/03_etc/03_acc/sock">sock</option>
-							</select>
-						`;
-						$('#option_btn_td').prepend(strBtnStr);
-						$('#option_btn_td').prepend(strSelStr);
-
-						$('#size_category').change(function() {	
-							$('.size_btn').css('display','block');
-							var size_category = $('#size_category option:checked').text();
-							$.ajax({
-								type: "post",
-								data: {'size_category' : size_category},
-								dataType: "json",
-								url: config.api + "product/size/get",
-								error: function() {
-									alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
-								},
-								success: function(d) {
-									if(d.code == 200) {
-										if(d.data != null){
-											size_category_info = d.data[0];
-											console.log(size_category_info['category_name']);
-										}
-									}
-								}
-							});
-						});
-						//---
 
 						$('#option_code_list').val(option_code_list);
 						
@@ -2070,93 +1999,239 @@ function getProductOption() {
 		return false;
 	}
 }
-function printSizeOptionForm(){
+function productSizeFormOpen(){
+	var duplicate_check = $('#duplicate_check').val();
+	var product_code = $('#product_code').val();
+
+	if (product_code != null && duplicate_check != "false") {
+		size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a1_en.getById["size_detail_a1_en"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a1_cn.getById["size_detail_a1_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
+		
+		size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a2_en.getById["size_detail_a2_en"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a2_cn.getById["size_detail_a2_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
+		
+		size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a3_en.getById["size_detail_a3_en"].exec("UPDATE_CONTENTS_FIELD", []);
+		size_detail_a3_cn.getById["size_detail_a3_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
+		
+		size_detail_a4_kr.getById["size_detail_a4_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a4_en.getById["size_detail_a4_en"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
+		
+		size_detail_a5_kr.getById["size_detail_a5_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_a5_en.getById["size_detail_a5_en"].exec("UPDATE_CONTENTS_FIELD", []);		
+		size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
+		
+		size_detail_onesize_kr.getById["size_detail_onesize_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_onesize_en.getById["size_detail_onesize_en"].exec("UPDATE_CONTENTS_FIELD", []); 
+		size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
+
+		chk_list_arr = [];
+		chk_list_arr.push(['size_detail_a1_kr','A1']);
+		chk_list_arr.push(['size_detail_a2_kr','A2']);
+		chk_list_arr.push(['size_detail_a3_kr','A3']);
+		chk_list_arr.push(['size_detail_a4_kr','A4']);
+		chk_list_arr.push(['size_detail_a5_kr','A5']);
+
+		$('#size_category').remove();
+		var strSelStr = `
+			<div class="content__row" style="float:left;">
+				<select id="size_category" style="width:200px;height:30px;margin-right:5px;">
+					<option value="">---one piece---</option>
+					<option value="/01_one_piece/dress">dress</option>
+					<option value="">---two piece---</option>
+					<option value="/02_two_piece/01_top/coat">coat</option>
+					<option value="/02_two_piece/01_top/hoodie">hoodie</option>
+					<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
+					<option value="/02_two_piece/01_top/shirts">---one piece---</option>
+					<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
+					<option value="/02_two_piece/01_top/tShirts">tShirts</option>
+					<option value="/02_two_piece/01_top/vest">vest</option>
+					<option value="/02_two_piece/01_top/zipup">zipup</option>
+					<option value="/02_two_piece/02_bottom/pants">pants</option>
+					<option value="/02_two_piece/02_bottom/skirt">skirt</option>
+					<option value="">---bag---------</option>
+					<option value="/03_etc/01_bag/backPack">backPack</option>
+					<option value="/03_etc/01_bag/crossBag">crossBag</option>
+					<option value="/03_etc/01_bag/toteBag">toteBag</option>
+					<option value="">---hat---------</option>
+					<option value="/03_etc/02_hat/beanie">beanie</option>
+					<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
+					<option value="/03_etc/02_hat/cap">cap</option>
+					<option value="">---acc---------</option>
+					<option value="/03_etc/03_acc/belt">belt</option>
+					<option value="/03_etc/03_acc/necktie">necktie</option>
+					<option value="/03_etc/03_acc/sock">sock</option>
+				</select>
+			</div>
+		`;
+		$('#option_btn_td').prepend(strSelStr);
+		$('#size_option_tr').remove();
+
+		$('#size_category').change(function() {	
+			var size_category = $('#size_category option:checked').text();
+			if(size_category.length > 0){
+				$.ajax({
+					type: "post",
+					data: {'size_category' : size_category},
+					dataType: "json",
+					url: config.api + "product/size/get",
+					error: function() {
+						alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
+					},
+					success: function(d) {
+						if(d.code == 200) {
+							if(d.data != null){
+								size_category_info = d.data[0];
+								printSizeOptionForm(size_category_info);
+							}
+						}
+					}
+				});
+				$('#default_size_msg').text('');
+			}
+		});
+	}
+	else {
+		alert('사이즈 설정창을 열기 위해 상품코드를 입력/중복체크가 필요합니다.');
+		return false;
+	}
+}
+function printSizeOptionForm(category_info){
+	var strDiv = "";
+	var strThDiv = "";
+	var img_path = '/images/sizeguide';
+	var column_cnt = 0;
+	img_path += $('#size_category option:checked').val();
+	img_path += `/${category_info['category_name']}.svg`;
+	
+	console.log(img_path);
 	$('#size_option_tr').remove();
-	var strDiv = `
+	strDiv = `
 		<TR id = "size_option_tr">
 			<TD colspan="4">
 				<div class="row">
 					<div style="float:left;width: 33%;">
-						<img id="size_img" src="/images/sizeguide/02_two_piece/01_top/coat/coat_a.svg" >
+						<img id="size_img" src="${img_path}" >
 					</div>
 					<div style="float:left;width: 50%;padding-top:50px;">
 						<table id="size_desc_table">
-							<tr>
-								<td>총장</td>
-								<td>옆목점에서 끝단 까지의 수직길이</td>
+	`;
+
+	for(var i = 0; i < 6; i++){
+		if(category_info['size_title_' + String(i+1)] != null && category_info['size_title_' + String(i+1)].length > 0){
+			strDiv +=	`			
+							<tr data-idx="${i+1}" style="cursor:pointer">
+								<td>${category_info['size_title_' + String(i+1)]}</td>
+								<td>${category_info['size_desc_' + String(i+1)]}</td>
 							</tr> 
-							<tr>
-								<td>가슴단면</td>
-								<td>암홀점에서 1CM아래 양끝의 수평길이</td>
-							</tr>
-							<tr>
-								<td>어깨너비</td>
-								<td>어깨점 양끝의 수평길이</td>
-							</tr>
-							<tr>
-								<td>목너비</td>
-								<td>옆목점 양끝의 수평길이</td>
-							</tr>
-							<tr>
-								<td>소매장</td>
-								<td>어깨점부터 소매끝단까지의 길이</td>
-							</tr>  
-							<tr>
-								<td>소매입구</td>
-								<td>옆목점에서소매 끝단의 양끝의 수평길이</td>
-							</tr>
-						</table>
+						`;
+			strThDiv += `
+							<th style="width:12%">${category_info['size_title_' + String(i+1)]}</th> 
+						`;
+			column_cnt++;
+		}
+	}
+	strDiv +=	`		</table>
 					</div>
 				</div>
+				<div class="drive--x"></div>
+				<form id="frm-size">
+					<input type="hidden" name="column_cnt" value="${column_cnt}">
+					<table>
+						<thead>
+							<tr>
+								<th style="width:7%">사이즈(cm)</th>
+								${strThDiv}
+							</tr>
+						</thead>
+						<tbody id="product_size_regist_table">
+						</tbody>
+					</table>
+				</form>
+				<button type="button" style="width:100px;height:30px;background-color:#140f82;color:#ffffff;float:right;cursor:pointer;margin-top:10px;" onclick="productSizeRegister();">사이즈 저장</button>
 			</TD>
 		</TR>
 	`;
 	$('#insert_table_size_detail').append(strDiv);
+
+	addSizeRow();
+
 	$('#size_desc_table tr').mouseover(function(){
+		var img_path = '/images/sizeguide';
+		var tr_idx = $(this).attr('data-idx');
+		var img_specify_keyword = `/${size_category_info['category_name']}_${String.fromCharCode(parseInt(tr_idx) + 96)}.svg`;
+
+		img_path += $('#size_category option:checked').val();
+		img_path += img_specify_keyword;
+
         $('#size_desc_table td').css('text-decoration', 'none');
         $(this).find('td').css('text-decoration', 'underline');
-        var size_part = $(this).find('td').eq(0).text();
-		console.log(size_part);
-		switch(size_part){
-			case '총장':
-				$('#size_img').attr('src','/images/sizeguide/02_two_piece/01_top/coat/coat_a.svg');
-				break;
-			case '가슴단면':
-				$('#size_img').attr('src','/images/sizeguide/02_two_piece/01_top/coat/coat_b.svg');
-				break;
-			case '어깨너비':
-				$('#size_img').attr('src','/images/sizeguide/02_two_piece/01_top/coat/coat_c.svg');
-				break;
-			case '목너비':
-				$('#size_img').attr('src','/images/sizeguide/02_two_piece/01_top/coat/coat_d.svg');
-				break;
-			case '소매장':
-				$('#size_img').attr('src','/images/sizeguide/02_two_piece/01_top/coat/coat_e.svg');
-				break;
-			case '소매입구':
-				$('#size_img').attr('src','/images/sizeguide/02_two_piece/01_top/coat/coat_f.svg');
-				break;
-		}
+		
+		$('#size_img').attr('src', img_path);
+    })
+	$('#size_desc_table tr').mouseout(function(){
+		var img_path = '/images/sizeguide';
+		var tr_idx = $(this).attr('data-idx');
+		var img_specify_keyword = `/${size_category_info['category_name']}.svg`;
+
+		img_path += $('#size_category option:checked').val();
+		img_path += img_specify_keyword;
+
+        $('#size_desc_table td').css('text-decoration', 'none');
+		
+		$('#size_img').attr('src', img_path);
     })
 }
-function sizeBtnClick(obj){
-	var option_name = $(obj).text();
-	if($(obj).attr('action-flg') == 'true'){
-		$(obj).css('backgroundColor', '#000000');
-		$(obj).attr('action-flg','false');
-		removeSizeTd(option_name);
+function addSizeRow(){
+	for(var i=0; i<chk_list_arr.length;i++){
+		var textarea_id = chk_list_arr[i][0];
+		var size_name 	= chk_list_arr[i][1];
+
+		if($('#' + textarea_id).val() != '<p>&nbsp;</p>'){
+			addSizeTd(size_name);
+		}
 	}
-	else{
-		$(obj).css('backgroundColor', '#140f82');
-		$(obj).attr('action-flg','true');
-		addSizeTd(option_name);
-	}
-}
-function removeSizeTd(name){
-	console.log(name + ' remove');
 }
 function addSizeTd(name){
-	console.log(name + ' add');
+	strDiv = `
+		<tr>
+			<td><input type="hidden" name="category_name[]" value="${name}">${name}</td>`;
+	for(var i = 0; i < 6; i++){
+		if(size_category_info['size_title_' + String(i+1)] != null && size_category_info['size_title_' + String(i+1)].length > 0){
+			strDiv += `
+			<td>
+				<input type="number" name="size_info_${i+1}[]" value="" style="width:100px">cm
+			</td>`;
+		}
+	}
+	strDiv += `
+		</tr>
+	`;
+	$('#product_size_regist_table').append(strDiv);
+}
+function productSizeRegister(){
+	confirm("작업을 계속 진행하시겠습니까?", function(){
+		var formData = new FormData();
+		formData = $("#frm-size").serializeObject();
+		formData.product_code = $('#product_code').val();
+		$.ajax({
+			type: "post",
+			data: formData,
+			dataType: "json",
+			url: config.api + "product/size/add",
+			error: function() {
+				alert("상품사이즈 등록 처리에 실패했습니다.");
+			},
+			success: function(d) {
+				if(d.code == 200) {
+					alert("상품사이즈 등록 처리에 성공했습니다.");
+				}
+			}
+		});
+	});
 }
 function selectAllClick(obj) {
 	if ($(obj).prop('checked') == true) {
