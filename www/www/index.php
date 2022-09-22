@@ -16,6 +16,9 @@ RewriteRule ^(.*)$ index.php?_url=$1 [QSA,L]';
 	fputs($fp,$htaccess);
 	fclose($fp);
 }
+function Console_log($data){
+	echo "<script>console.log('PHP_Console:".$data."');</script>";
+}
 
 /*==============================================================
 	
@@ -144,6 +147,7 @@ if(!file_exists($_CONFIG['PATH']['PAGE'].$_inc_page.'.php') && !file_exists($_CO
 /*==============================================================
 	레이아웃
   ==============================================================*/
+  Console_log($_CONFIG['PATH']['PAGE'].$_inc_page);
 if(file_exists($_CONFIG['PATH']['PAGE'].$_inc_page.'.php')) {
 	if(!$is_fullscreen && $pagebody != 'y' && file_exists($_CONFIG['PATH']['LAYOUT'].'base.php')) {
 		include $_CONFIG['PATH']['LAYOUT'].'base.php';

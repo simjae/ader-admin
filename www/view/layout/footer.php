@@ -1,24 +1,8 @@
-<header>
-	<section class="header">
-		<div class="wrap">
 
-		</div>
-	</div>
-	<section class="gnb">
-		<div class="wrap">
-		</div>
-	</section>
-</header>
-<aside>
-	<nav>
-
-	</nav>
-</aside>
-<footer>
-	<div class="wrap">
-
-	</div>
-</footer>
-
-</body>
+		<footer>
+			<?php
+			include $_CONFIG['PATH']['PAGE'] . '/components/footer.php';
+			?>
+		</footer>
+	</body>
 </html>

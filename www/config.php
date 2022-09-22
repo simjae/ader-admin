@@ -17,9 +17,9 @@ define('SESSION',array(
 define('PAGE_OPTION',array(
 	'login-false'=>array(
 		'page'=>array(
-			'intro','login','join','search','introduce','pay',
+			'landing','login','join','search','introduce','pay',
 			'guide','privacy-policy','terms-of-use','refund-policy','faq','notice',
-			'studio','performance','audition','store','account-search'
+			'studio','performance','audition','store','account-search','components'
 		),
 		'header'=>'header',
 		'footer'=>'footer',
@@ -28,7 +28,8 @@ define('PAGE_OPTION',array(
 	'base'=>'base'
 ));
 define('PAGE',array(
-	'intro'=>array(''),
+	'components'=>array('nav','footer'),
+	'landing'=>array(''),
 	'login'=>array(''),
 	'join'=>array('','google','naver','kakao'),
 	'faq'=>array(''),
