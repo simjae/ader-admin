@@ -131,12 +131,6 @@ if(!isset($pagebody)) $pagebody = 'n';
 if(!defined('PAGE_OPTION')) {
 }
 
-if(isset($_SESSION[SESSION['HEAD'].'NO'])) {
-	if(isset($_SESSION[SESSION['HEAD'].'LEVEL']) && $_SESSION[SESSION['HEAD'].'LEVEL'] != '파트너' && $_CONFIG['M'][0] == 'partner') {
-		$_inc_page = 'main';
-	}
-}
-
 /*==============================================================
 	페이지별 정보 정의
   ==============================================================*/

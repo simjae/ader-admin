@@ -29,10 +29,10 @@
 	<link href="/scripts/static/jquery.scrollbar.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://d13fzx7h5ezopb.cloudfront.net/fonts/font.css" />
 	<link rel="stylesheet" href="/scripts/static/taggingJS/example/tag-basic-style.css" />
-	<link rel="stylesheet" href="/css/layout.css?v=<?=time()?>" />
+	<!-- <link rel="stylesheet" href="/css/layout.css?v=<?=time()?>" />
 	<link rel="stylesheet" href="/css/contents.css?v=<?=time()?>" />
-	<link rel="stylesheet" href="/css/responsive.css?v=<?=time()?>" />
-
+	<link rel="stylesheet" href="/css/responsive.css?v=<?=time()?>" /> -->
+	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="//code.jquery.com/jquery-latest.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4462b31e026bb8cd62b6483c63163cb2&&libraries=services,clusterer,drawing"></script>
