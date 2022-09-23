@@ -347,18 +347,29 @@ function menuBtnCheck(e){
 	$('.edit__menu__wrap').data("current",setClass);
 }
 /*---------------- 카테고리 추가 버튼 ----------------*/
+// 0923 수정 : 카테고리 삭제 직후 추가버튼을 누를시 아무런 행동안하는 버그 수정
+// 'current'키의 value값을 가져오는 방식대신,
+// 카테고리를 클릭했을때 추가되는 클래스인 '.checked' selector를 직접 사용하는 방식으로 수정
 function categoryAddBtn(){
-    let result = $('.edit__menu__wrap').data("current");
-	console.log('edit__menu__wrap',result);
-	let largeCheck ='.large__nav--btn.checked';
-	let mediumCheck ='.medium__nav--btn.checked';
+	let checked_div = document.querySelectorAll('.checked');
+	let div_depth = '';
 	
-	if(result == largeCheck){
-		mediumAppend();
-	}else if (result == mediumCheck){
-		smallAppend();
-	} else {
-		largeAppend();
+	if(checked_div != undefined && checked_div.length == 1){
+		div_depth = checked_div[0].className.split(' ')[0];
+	}
+
+	const largeBtnClass ='large__nav--btn';
+	const mediumBtnClass ='medium__nav--btn';
+
+	switch(div_depth){
+		case largeBtnClass:
+			mediumAppend();
+			break;
+		case mediumBtnClass:
+			smallAppend();
+			break;
+		default:
+			largeAppend();
 	}
 }
 /*----------------  카테고리 추가  ----------------*/
@@ -429,18 +440,18 @@ function applyBtn(){
 }
 
 /*---------------- 메뉴 요소 삭제 ----------------*/
+//0923 수정 : 새로운 최상위 카테고리 추가 후 바로 삭제할 시, 모든 카테고리가 삭제되는 버그 수정
+//삭제 버튼 클릭시 실질적으로 없어져야할 최상위 class명으로 접근하여 삭제하는 방식으로 변경
 function menuRemoveBtn(e, category){
 	switch (category) {
 		case 'large':
-			$(e).parent().parent().parent().remove();
+			$(e).parents('.large__nav__wrap').remove();
 			break;
-	
 		case 'medium':
-			$(e).parent().parent().remove();
+			$(e).parents('.medium__nav__box').remove();
 			break;
-	
 		case 'small':
-			$(e).parent().parent().remove();
+			$(e).parents('.small__nav__box').remove();
 			break;
 	}
 }

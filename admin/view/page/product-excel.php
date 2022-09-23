@@ -238,11 +238,12 @@ $('.exel__zone').on('dragenter', function(e){
     e.preventDefault();
     $('.exel__zone').css("background-color","#F1F6FF");
     var files = e.originalEvent.dataTransfer.files;
-	setSheetList(files);
+	setSheetList(nomalizeNFC(files));
 })
 $('.upload_btn').on('change', function(e){
     var files = e.target.files;
-	setSheetList(files);
+	
+	setSheetList(nomalizeNFC(files));
 	event.target.value = '';
 })
 $('.exel__zone').on('click', function(e){
@@ -252,6 +253,14 @@ $('.exel__zone').on('click', function(e){
 $('.exel__execute__btn').on('click', function(e){
 	confirm("상품등록작업을 시작하시겠습니까?", `excelActionBtn()`);
 })
+//맥에서 파일 업로드 할 경우, 자모음 분리현상이 나타난다. 
+//이를 해결하기 위한 함수
+function nomalizeNFC(files){
+	for(var i= 0; i < files.length; i++){
+		files[i].name = files[i].name.normalize('NFC');
+	}
+	return files;
+}
 function setSheetList(obj){
 	var overlap_flg = false;
 	for(var i = 0; i < obj.length; i++){
@@ -418,7 +427,7 @@ function putExcel(element,json_str,file_name){
 						msg = '잘못된 값이 존재합니다.';
 					}
 				}
-			});
+			})
 		}
 	}
 	if(msg.length != ''){

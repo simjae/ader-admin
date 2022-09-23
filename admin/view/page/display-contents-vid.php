@@ -139,11 +139,11 @@ $(document).ready(function() {
 });
 
 function openContentsVidAddModal() {
-	modal('/add');
+	modal('vid/add');
 }
 
 function getContentsVid() {
-	$("#result_table").html('');
+	$("#result_table_02").html('');
 	
 	var strDiv = '';
 	strDiv += '<TD class="default_td" colspan="10">';

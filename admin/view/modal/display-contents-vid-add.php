@@ -100,7 +100,7 @@ function duplicateCheck(){
 	var img_title = $('#img_title').val();
 	
 	if(img_title.length == 0 || img_title == null){
-		alert('이미지 타이틀을 입력해주세요.');
+		alert('동영상 타이틀을 입력해주세요.');
 		return false;
 	} else{
 		$.ajax({
@@ -112,7 +112,7 @@ function duplicateCheck(){
 			dataType: "json",
 			url: config.api + "display/contents/check",
 			error: function() {
-				alert('이미지 타이틀 중복체크에 실패했습니다.');
+				alert('동영상 타이틀 중복체크에 실패했습니다.');
 			},
 			success: function(d) {
 				var data = d.data;
@@ -122,7 +122,7 @@ function duplicateCheck(){
 						$('#duplicate_btn').css('background-color','#E43A45');
 						$('#duplicate_btn').text('중복체크');
 		
-						alert("이미지 타이틀이 중복됩니다. 다른 타이틀을 입력해주세요.");
+						alert("동영상 타이틀이 중복됩니다. 다른 타이틀을 입력해주세요.");
 					} else{
 						$('#duplicate_check').val(true);
 						$('#duplicate_btn').css('background-color','#114400');
@@ -136,24 +136,24 @@ function duplicateCheck(){
 
 function contentsImgCheck(){
 	var duplicate_check = $('#duplicate_check').val();
-	var img_title = $('#img_title').val();
-	var img_type = $('#img_type').val();
+	var vid_title = $('#vid_title').val();
+	var vid_type = $('#vid_type').val();
 	
 	if (duplicate_check == "false") {
-		alert('이미지 등록을 위해 페이지명 죽복검사를 확인해주세요.');
+		alert('동영상 등록을 위해 타이틀 죽복검사를 확인해주세요.');
 		return false;
 	}
 	
-	if (img_title == null) {
-		alert('이미지 타이틀을 입력해주세요.');
+	if (vid_title == null) {
+		alert('동영상 타이틀을 입력해주세요.');
 		return false;
 	}
 	
-	if (img_type == null) {
-		alert('이미지 타입을 입력해주세요.');
+	if (vid_type == null) {
+		alert('동영상 타입을 입력해주세요.');
 		return false;
 	}
 		
-	modal_submit($('#frm-list'),'getContentsImg');
+	modal_submit($('#frm-list'),'getContentsVid');
 }
 </script>

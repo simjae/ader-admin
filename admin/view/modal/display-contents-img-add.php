@@ -134,7 +134,7 @@ function contentsImgCheck(){
 	var img_type = $('#img_type').val();
 	
 	if (duplicate_check == "false") {
-		alert('이미지 등록을 위해 페이지명 죽복검사를 확인해주세요.');
+		alert('이미지 등록을 위해 타이틀 죽복검사를 확인해주세요.');
 		return false;
 	}
 	
