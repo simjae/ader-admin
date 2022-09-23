@@ -1,5 +1,5 @@
 <style>
-    .f_desk {
+    .f__desk {
         color: #fff;
         display: grid;
         grid-template-columns: repeat(16, 120px);
@@ -7,12 +7,25 @@
         max-width: 1920px;
         margin: 0 auto;
     }
+    .f__desk__last{
+        color: #fff;
+        display: grid;
+        gap: 10px;
+        max-width: 1920px;
+        font-size: 13px;
+        margin: 0 auto;
+        font-weight: 300;
+        font-family: NotoSansCJKkr;
+        padding-bottom: 15px;
+    }
     
     .f__title {
         padding-top: 10px;
+        font-size: 12px;
     }
     .f_content {
         padding-top: 10px;
+        font-size: 11px;
     }
 </style>
 
@@ -91,7 +104,7 @@
 </ul>
 <!-- 데스크탑 -->
 <div class="hidden lg:block">
-    <ul class="f_desk">
+    <ul class="f__desk">
         <li class="about" style="grid-column: 1/4;">
             <div class="f__title">
                 <span class="p-0">About ADERERROR</span class="p-0">
@@ -158,7 +171,7 @@
             </div>
         </li>
     </ul>
-    <ul class="last">
+    <ul class="f__desk__last">
         <div class="f__title">
             <span class="p-0">© ADERERROR 2022</span class="p-0">
         </div>
