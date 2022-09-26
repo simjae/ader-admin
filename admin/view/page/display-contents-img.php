@@ -19,7 +19,7 @@
 			<div class="content__wrap">
 				<div class="content__title">이미지 타이틀</div>
 				<div class="content__row">
-					<input id="img_title" type="text" name="title" value="">
+					<input type="text" name="title" value="">
 				</div>
 			</div>
 			

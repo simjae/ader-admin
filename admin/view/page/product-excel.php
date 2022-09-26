@@ -182,17 +182,22 @@
 	<div class="filter-wrap" style="margin-bottom:20px">
 		<button class="excel_tab_btn tap__button" tab_num="01" style="background-color: #000;color: #fff;font-weight: 500;" onClick="excelTabBtnClick(this);">엑셀-상품 등록/수정</button>
 		<button class="excel_tab_btn tap__button" tab_num="02" onClick="excelTabBtnClick(this);">엑셀-상품옵션 등록/수정</button>
+		<button class="excel_tab_btn tap__button" tab_num="03" onClick="excelTabBtnClick(this);">엑셀-관련상품 등록/수정</button>
 	</div>
 	
 
 	<input id="tab_num" type="hidden" value="01">
 
 	<div id="excel_tab_01" class=" excel_tab">
-		<?php include_once("product-excel-insert_product.php"); ?>
+		<?php include_once("product-excel-product.php"); ?>
 	</div>
 	
 	<div id="excel_tab_02" class=" excel_tab" style="display:none;">
-		<?php include_once("product-excel-update_product.php"); ?>
+		<?php include_once("product-excel-product_option.php"); ?>
+	</div>
+
+	<div id="excel_tab_03" class=" excel_tab" style="display:none;">
+		<?php include_once("product-excel-related_product.php"); ?>
 	</div>
 
 <script>
@@ -375,11 +380,11 @@ function putExcel(element,json_str,file_name){
 	else{
 		switch(tab_num){
 		case '01':
-			api_addr = 'put';
+			api_addr = 'product/put';
 			action_str = '상품 등록/수정';
 			break;
 		case '02':
-			api_addr = 'update';
+			api_addr = 'product_option/update';
 			action_str = '상품 옵션 등록/수정';
 			break;
 		}

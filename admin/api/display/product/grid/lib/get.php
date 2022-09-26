@@ -13,7 +13,7 @@
  | 
  +=============================================================================
 */
-
+header("Access-Control-Allow-Origin: *");
 /** 변수 정리 **/
 $search_type		= $_POST['search_type'];
 $search_keyword		= $_POST['search_keyword'];

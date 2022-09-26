@@ -2,9 +2,9 @@
 #seo{margin-top : 50px;}
 .sub{margin-top : 10px;}
 </style>
-<div class="content__card" style="margin: 0;">
+<div class="content__card" styee="margin: 0;">
 	<form id="frm-add" action="display/contents/add">
-		<input type="hidden" name="">
+		<input type="hidden" name="contents_type" value="IMG">
 	
 		<div class="card__header">
 			<div class="flex justify-between">
@@ -54,7 +54,7 @@
 		<div class="card__footer">
 			<div class="footer__btn__wrap" style="grid: none;">
 				<div class="btn__wrap--lg">
-					<div  onclick="productDisplayRegistCheck();"  class="blue__color__btn" onClick=""><span>저장</span></div>
+					<div  onclick="contentsImgCheck();"  class="blue__color__btn" onClick=""><span>저장</span></div>
 					<div onclick="modal_cancel();" class="defult__color__btn"><span>작성 취소</span></div>
 				</div>
 			</div>
@@ -91,7 +91,7 @@ $(document).ready(function() {
 });
 
 function duplicateCheck(){
-	var img_title = $('#img_title').val();
+	var img_title = $('#frm-add').find('#img_title').val();
 	
 	if(img_title.length == 0 || img_title == null){
 		alert('이미지 타이틀을 입력해주세요.');
@@ -130,8 +130,8 @@ function duplicateCheck(){
 
 function contentsImgCheck(){
 	var duplicate_check = $('#duplicate_check').val();
-	var img_title = $('#img_title').val();
-	var img_type = $('#img_type').val();
+	var img_title = $('#frm-add').find('#img_title').val();
+	var img_type = $('#frm-add').find('#img_type').val();
 	
 	if (duplicate_check == "false") {
 		alert('이미지 등록을 위해 타이틀 죽복검사를 확인해주세요.');

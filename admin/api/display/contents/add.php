@@ -56,7 +56,7 @@ if ($contents_type == "IMG") {
 									'".$upload_file[$i]['img_size']."',
 									'".$img_path.$upload_file[$i]['filename']."',
 									'".$img_path.$upload_file[$i]['filename']."',
-									'".$img_memo."'
+									'".$img_memo."',
 									NOW(),
 									'Admin',
 									NOW(),
@@ -102,7 +102,7 @@ if ($contents_type == "IMG") {
 									'".$vid_type."',
 									'".$vid_path.$file_name."',
 									'".$vid_path.$file_name."',
-									'".$vid_memo."'
+									'".$vid_memo."',
 									NOW(),
 									'Admin',
 									NOW(),

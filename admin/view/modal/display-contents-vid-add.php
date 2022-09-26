@@ -4,7 +4,7 @@
 </style>
 <div class="content__card" style="margin: 0;">
 	<form id="frm-add" action="display/contents/add">
-		<input type="hidden" name="">
+		<input type="hidden" name="contents_type" value="VID">
 	
 		<div class="card__header">
 			<div class="flex justify-between">
