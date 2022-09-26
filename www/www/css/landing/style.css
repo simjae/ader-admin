@@ -24,7 +24,9 @@ nav li{
     display: flex;
     gap: 30px;
 }
-
+.swiper-wrapper{
+    height: auto;
+}
 /* 햄버거 */
 .hamburger .line {
     width: 20px;
@@ -97,6 +99,8 @@ transform: translateY(-6px) rotate(-45deg);
     padding: 0 10px;
     height: 30px;
     border-bottom-width: 1px;
+    max-width: 1920px;
+    margin: 0 auto;
 }
 .notice__wrap .notice__title{
     font-size: 11px;
@@ -356,7 +360,6 @@ header {
     border-right-width: 0px;
     border-left-width: 1px;
     border-bottom-width: 1px;
-    border-left-color: #dcdcdc;
 }
 .for__you__box{
     width: 240px;
@@ -599,6 +602,10 @@ footer [data-dropdown="show"]{
     header{
         min-width: 320px;
         margin: 0 auto;
+        
+    }
+    nav {
+        max-width: 1920px;
     }
     main{
         max-width: 1920px;
@@ -606,7 +613,13 @@ footer [data-dropdown="show"]{
         margin: 0 auto;
         overflow: hidden;
     }
-
+    footer{
+        margin:0 auto;
+    }
+    .for__you__box{
+        flex-shrink: 0;
+        padding: 20px 60px;
+    }
     .nav__bar{
         display: grid;
         justify-content: space-between;
@@ -639,7 +652,9 @@ footer [data-dropdown="show"]{
         align-items: flex-end;
         padding-left: 80px;
     }
-
+    .styling-swiper .styling__img{
+        height: 600px;
+    }
 
 
 

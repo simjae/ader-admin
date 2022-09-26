@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 	<head>
 		<title></title>
@@ -15,8 +15,8 @@
 		<meta property="og:title" content="">
 		<meta property="og:description" content="">
 		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<!-- <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"> -->
 
 		<link rel="stylesheet" href="/scripts/static/swiper.min.css">
 		<link rel="stylesheet" href="/scripts/static/jquery-ui.min.css" />
@@ -35,7 +35,7 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-		<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4462b31e026bb8cd62b6483c63163cb2&&libraries=services,clusterer,drawing"></script>
+		<!-- <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4462b31e026bb8cd62b6483c63163cb2&&libraries=services,clusterer,drawing"></script> -->
 		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
 		<script src="//cdn.tiny.cloud/1/8hqw5yh8xbtwt4pm8v4989rj0osoy7jyes9s0kwkncucraz4/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>

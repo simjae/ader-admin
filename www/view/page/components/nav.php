@@ -15,7 +15,7 @@
         </li>
         <li class="hidden w-32 cursor-pointer lg:block">베스트</li>
         <li class="hidden w-32 cursor-pointer lg:block">남성</li>
-        <li class="hidden w-32 cursor-pointer lg:block">여성 `</li>
+        <li class="hidden w-32 cursor-pointer lg:block">여성</li>
         <li class="hidden w-32 cursor-pointer lg:block">라이프스타일</li>
         <li class="hidden w-32 cursor-pointer lg:block">콜라보레이션</li>
     </ul>
