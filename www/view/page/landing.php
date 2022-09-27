@@ -1,4 +1,5 @@
 <link rel=stylesheet href='/css/landing/style.css' type='text/css'>
+<link rel=stylesheet href='/css/product/style.css' type='text/css'>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <main>
     <!-- banner -->
@@ -131,6 +132,118 @@
             </div>
         </div>
     </section>
+    <section class="product__list__wrap">
+        <div class="top__banner"></div>
+        <div class="prd__meun">
+            <div>
+                스와이퍼 
+            </div>
+            <div>
+                <li>정렬</li>
+                <li>필터</li>
+                <li>아이템보기</li>
+                <li>2칸보기</li>
+            </div>
+        </div>
+        <div class="product__list__box grid grid-cols-4">
+            <div class="prd__list">
+                <div class="absolute right-0 p-5">
+                    <img src="/images/nav/wishlist.svg" alt="">
+                </div>
+                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
+                <div class="px-2 py-3">
+                    <div class="flex justify-between">
+                        <div>${index.product_code}</div>
+                        <div>529.000</div>
+                    </div>
+                    <div>Gray</div>
+                    <div class="flex justify-between">
+                        <div class="color__chip">
+                            <li class="bg-slate-500"></li>
+                            <li class="bg-orange-600"></li>
+                            <li class="bg-emerald-400"></li>
+                        </div>
+                        <div class="flex gap-3">
+                            <div>A1</div>
+                            <div>A2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="prd__list">
+                <div class="absolute right-0 p-5">
+                    <img src="/images/nav/wishlist.svg" alt="">
+                </div>
+                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
+                <div class="px-2 py-3">
+                    <div class="flex justify-between">
+                        <div>${index.product_code}</div>
+                        <div>529.000</div>
+                    </div>
+                    <div>Gray</div>
+                    <div class="flex justify-between">
+                        <div class="color__chip">
+                            <li class="bg-slate-500"></li>
+                            <li class="bg-orange-600"></li>
+                            <li class="bg-emerald-400"></li>
+                        </div>
+                        <div class="flex gap-3">
+                            <div>A1</div>
+                            <div>A2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="prd__list">
+                <div class="absolute right-0 p-5">
+                    <img src="/images/nav/wishlist.svg" alt="">
+                </div>
+                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
+                <div class="px-2 py-3">
+                    <div class="flex justify-between">
+                        <div>${index.product_code}</div>
+                        <div>529.000</div>
+                    </div>
+                    <div>Gray</div>
+                    <div class="flex justify-between">
+                        <div class="color__chip">
+                            <li class="bg-slate-500"></li>
+                            <li class="bg-orange-600"></li>
+                            <li class="bg-emerald-400"></li>
+                        </div>
+                        <div class="flex gap-3">
+                            <div>A1</div>
+                            <div>A2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="prd__list">
+                <div class="absolute right-0 p-5">
+                    <img src="/images/nav/wishlist.svg" alt="">
+                </div>
+                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
+                <div class="px-2 py-3">
+                    <div class="flex justify-between">
+                        <div>${index.product_code}</div>
+                        <div>529.000</div>
+                    </div>
+                    <div>Gray</div>
+                    <div class="flex justify-between">
+                        <div class="color__chip">
+                            <li class="bg-slate-500"></li>
+                            <li class="bg-orange-600"></li>
+                            <li class="bg-emerald-400"></li>
+                        </div>
+                        <div class="flex gap-3">
+                            <div>A1</div>
+                            <div>A2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 <script>
     window.addEventListener('DOMContentLoaded', function() {
@@ -140,7 +253,12 @@
         mobileSearch();
         productLoadApi();
     });
-
+    class product {
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+}
 
     const productLoadApi = () => {
         let pram_arr = [5];
@@ -156,7 +274,6 @@
             },
             success: function(d) {
                 let data = d.data;
-                console.log("data",data);
                 let productHtml =""
                 let imagesUrl = "/images/landing/"
                 let productWrap = document.querySelector('.recommend-swiper .swiper-wrapper');

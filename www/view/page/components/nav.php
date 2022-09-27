@@ -8,7 +8,7 @@
     </Marquee>
     <div class="notice__close"><img src="/images/landing/close.svg" alt=""></div>
 </div>
-<nav class="flex items-start justify-between h-12 pt-3 lg:mr-12 lg:ml-32">
+<nav class="flex items-start justify-between h-12 pt-3">
     <ul class="flex">
         <li class="cursor-pointer header__logo">
             <img src="/images/landing/logo.png" alt="">
