@@ -17,9 +17,10 @@ define('SESSION',array(
 define('PAGE_OPTION',array(
 	'login-false'=>array(
 		'page'=>array(
-			'landing','login','join','search','introduce','pay',
+			'main','landing','login','join','search','introduce','pay',
 			'guide','privacy-policy','terms-of-use','refund-policy','faq','notice',
-			'studio','performance','audition','store','account-search','components'
+			'studio','performance','audition','store','account-search','components',
+			'product', 'order'
 		),
 		'header'=>'header',
 		'footer'=>'footer',
@@ -29,7 +30,7 @@ define('PAGE_OPTION',array(
 ));
 define('PAGE',array(
 	'components'=>array('nav','footer'),
-	'landing'=>array(''),
+	'main'=>array(''),
 	'login'=>array(''),
 	'join'=>array('','google','naver','kakao'),
 	'faq'=>array(''),
@@ -44,12 +45,8 @@ define('PAGE',array(
 	'booking'=>array('','ok'),
 	'pay'=>array('ok','close'),
 
-	'studio'=>array('','detail'),
-	'performance'=>array('','detail'),
-	'audition'=>array('','detail'),
-	'store'=>array('','detail'),
-	'partner'=>array('','booking','close','studio','studio-detail','studio-add','contents','ad','ad-submit-ok','notice','guide','customer','calendar'),
-	'mypage'=>array('info','booking','board','contents','leave'),
-	'notice'=>array('')
+	'notice'=>array(''),
+	'product'=>array('classify','register','list'),
+	'order'=>array('list')
 ));
 ?>

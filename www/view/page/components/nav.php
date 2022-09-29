@@ -8,41 +8,49 @@
     </Marquee>
     <div class="notice__close"><img src="/images/landing/close.svg" alt=""></div>
 </div>
-<nav class="flex items-start justify-between h-12 pt-3">
-    <ul class="flex">
+<nav class="header__wrap">
+    <ul class="header__grid">
         <li class="cursor-pointer header__logo">
             <img src="/images/landing/logo.png" alt="">
         </li>
-        <li class="hidden w-32 cursor-pointer lg:block">베스트</li>
-        <li class="hidden w-32 cursor-pointer lg:block">남성</li>
-        <li class="hidden w-32 cursor-pointer lg:block">여성</li>
-        <li class="hidden w-32 cursor-pointer lg:block">라이프스타일</li>
-        <li class="hidden w-32 cursor-pointer lg:block">콜라보레이션</li>
-    </ul>
-    <ul class="flex items-center gap-3 pr-4">
-        <li class="hidden w-32 cursor-pointer lg:block">스토리</li>
-        <li class="hidden w-32 cursor-pointer lg:block">매장보기</li>
-        <li class="flex hidden w-16 cursor-pointer "><img src="/images/nav/search.svg" alt=""><span class="pl-1">검색</span></li>
-        <li class="hidden w-16 cursor-pointer lg:block">지구</li>
-        <li class="flex cursor-pointer "><img src="/images/nav/wishlist.svg" alt=""><span class="pl-1">12</span></li>
-        <li class="flex cursor-pointer "><img src="/images/nav/basket.svg" alt=""><span class="pl-1">15</span></li>
-        <li class="hidden w-16 cursor-pointer lg:block">
-            <img src="/images/landing/6554.png" alt="">
-        </li>
-        <li class="hidden w-16 cursor-pointer lg:block">사용자</li>
-        <li class="flex cursor-pointer lg:hidden mobileMenu">
-            <div class="hamburger" id="hamburger">
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-            </div>
-        </li>
+        <li class="hidden w-24 cursor-pointer lg:block web">베스트</li>
+        <li class="hidden w-24 cursor-pointer lg:block web">남성</li>
+        <li class="hidden w-24 cursor-pointer lg:block web">여성</li>
+        <li class="hidden w-24 cursor-pointer lg:block web">라이프스타일</li>
+        <li class="hidden w-24 cursor-pointer lg:block web">콜라보레이션</li>
+        <li class="hidden w-24 cursor-pointer lg:block web" style="grid-column: 12/13;">스토리</li>
+        <li class="hidden w-24 cursor-pointer lg:block web" style="grid-column: 13/14;">매장보기</li>
+        <ul class="right__nav">
+            <li class="w-13 hidden cursor-pointer lg:block web">
+                <div class="flex">
+                    <img src="/images/nav/search.svg" alt="">
+                    <span class="pl-1">검색</span>
+                </div>
+            </li>
+            <li class="hidden cursor-pointer lg:block web"><img class="w-4" src="/images/nav/earth.svg" alt=""></li>
+            <li class="flex cursor-pointer "><img src="/images/nav/wishlist.svg" alt=""><span class="pl-1">12</span></li>
+            <li class="flex cursor-pointer "><img src="/images/nav/basket.svg" alt=""><span class="pl-1">15</span></li>
+            <li class="hidden cursor-pointer w-13 lg:block web">
+                <div class="flex gap-1">
+                    <img src="/images/nav/blue-tag.svg" alt="">
+                    <img src="/images/landing/6554.png" alt="">
+                </div>
+            </li>
+            <li class="hidden cursor-pointer lg:block web">사</li>
+            <li class="flex cursor-pointer lg:hidden mobileMenu pr-3">
+                <div class="hamburger" id="hamburger">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+            </li>
+        </ul>
     </ul>
 </nav>
 <nav class="hidden lg:hidden" id="web">
     <div class="right-0 w-full mt-2 origin-top-right">
-        <div class="grid w-full pt-2 pb-4 h-96 gap-x-8" style="grid-template-columns: repeat(15, minmax(0, 1fr));">
-            <div class="col-start-4">
+        <div class="grid w-full pt-2 pb-4 h-96 gap-x-8" style="grid-template-columns: repeat(16,1fr);gap: 10px;">
+            <div style="grid-column: 4/5;">
                 <div class="">컬렉션</div>
             </div>
             <div>오리진</div>
@@ -118,3 +126,97 @@
         </div>
     </div>
 </nav>
+<script>
+      window.addEventListener('DOMContentLoaded', function() {
+        mobileMenu();
+        webMenu();
+        dropMenu();
+        mobileSearch();
+        //productLoadApi();
+    });
+      (() => {
+        const $headerWeb = document.querySelectorAll('.header__grid .web');
+        const $web = document.querySelector('#web');
+        const $header = document.querySelector('header');
+        $headerWeb.forEach((el) => {
+            el.addEventListener('mouseover', () => {
+                $web.style.display = "block";
+            });
+        });
+        $web.addEventListener('mouseleave', () => {
+            $web.style.display = "none";
+        });
+        $header.addEventListener('mouseleave', () => {
+            $web.style.display = "none";
+        });
+    })();
+    const webMenu = () => {
+        const navBtn = document.querySelectorAll('.webMenu');
+        const web = document.querySelector('#web');
+        navBtn.forEach((el) => {
+            el.addEventListener('click', (ev) => {
+                let slected = event.target.classList.contains('slected');
+                console.log(contain);
+                if (slected) {
+                    ev.target.classList.remove('slected');
+                    web.style.display = 'none';
+                } else {
+                    ev.target.classList.add('slected');
+                    web.style.display = 'block';
+                }
+            });
+        });
+    }
+    const mobileMenu = () => {
+        const mobileMenuBtn = document.querySelector('.mobileMenu');
+        const mobileSide = document.querySelector('#mobile');
+        const hamburgerBtn = document.querySelector(".hamburger");
+
+        mobileMenuBtn.addEventListener('click', (ev) => {
+            mobileSide.classList.toggle('menu__on');
+            hamburgerBtn.classList.toggle("is-active");
+        });
+    };
+    let dropMenu = () => {
+        const menuBtn = document.querySelectorAll('.drop__menu');
+        const miusSvg = "css/images/footer/minus.svg";
+        const plusSvg = "css/images/nav/plus.svg";
+        menuBtn.forEach((el) => {
+            el.addEventListener("click", function(ev) {
+                let dropStatus = this.querySelector('.drop__down__content').dataset.dropdown;
+                if (dropStatus === "none") {
+                    console.log();
+                    this.querySelector('.drop__down__wrap img').src = miusSvg;
+                    this.querySelector('.drop__down__content').dataset.dropdown = "show";
+                } else {
+                    this.querySelector('.drop__down__wrap img').src = plusSvg;
+                    this.querySelector('.drop__down__content').dataset.dropdown = "none";
+                }
+            });
+        });
+    }
+
+    const mobileSearch = () => {
+        let mobile = document.querySelector("#mobile");
+        let mobileSearchBtn = document.querySelector(".mobile__search__btn");
+        let mobileMenuWrap = document.querySelector(".mobile__menu");
+        let mobileSearchWrap = document.querySelector(".mobile__search");
+        mobileSearchBtn.addEventListener("click", () => {
+            mobileMenuWrap.style.display = "none";
+            mobileSearchWrap.style.display = "block";
+            mobile.classList.add('search');
+        });
+    }
+
+    function checkMobileDevice() {
+        var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
+        for (var info in mobileKeyWords) {
+            if (navigator.userAgent.match(mobileKeyWords[info]) != null) {
+                //mobile
+                return true;
+            }
+        }
+        //web
+        return false;
+    }
+</script>
