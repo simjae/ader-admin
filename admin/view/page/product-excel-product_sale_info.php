@@ -1,7 +1,7 @@
 
 <div class="content__card">
 	<div class="card__header">
-		<h3>엑셀 판매정보 등록/수정</h3>
+		<h3>엑셀 상품 판매정보 등록/수정</h3>
 		<div class="drive--x"></div>
 	</div>
 	<div class="card__body">
@@ -12,7 +12,7 @@
 					<thead><th colspan="2" style="font-size: 14px;font-weight: bold;color: #000;">양식다운로드</th></thead>
 					<tbody>
 						<tr>
-							<td style="width: 20%;">판매정보 등록용 엑셀 다운로드</td>
+							<td style="width: 20%;">상품 판매정보 등록용 엑셀 다운로드</td>
 							<td><div class="exel__btn">다운로드</div></td>
 						</tr>
 					</tbody>
@@ -47,7 +47,7 @@
 				</table>
 			</div>
 			<div class="exel__btn__wrap">
-				<div class="exel__btn blue exel__execute__btn">판매정보 등록</div>
+				<div class="exel__btn blue exel__execute__btn">상품 판매정보 등록</div>
 				<div class="exel__btn" onclick="resetExcelList()"><i class="xi-refresh"></i>초기화</div>
 			</div>
 		</div>

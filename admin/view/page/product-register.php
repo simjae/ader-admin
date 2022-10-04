@@ -366,11 +366,8 @@
 								<TR>
 									<TD ID = "option_btn_td" colspan="4">
 										<button type="button"
-											style="width:100px;height:30px;background-color:#140f82;color:#ffffff;float:right;cursor:pointer;"
-											onClick="productOptionRegister();">옵션 저장</button>
-										<button type="button"
 											style="width:160px;height:30px;background-color:#140f82;color:#ffffff;float:right;cursor:pointer;margin-right:25px"
-											onClick="productSizeFormOpen();">사이즈 설정창 열기</button>
+											onClick="productOptionBtn(this);" btn-action-type="size">사이즈 설정창 열기</button>
 									</TD>
 								</TR>
 							</TBODY>
@@ -537,24 +534,13 @@
 											value="0">
 									</TD>
 								</TR>
-
 								<TR>
 									<TD style="width:10%;">
 										이미 등록한 옵션정보 불러오기
 									</TD>
 									<TD colspan="5" id="history_option_td">
 										<div class="content__row">
-											<select class="fSelect eSearch" id="search_type" style="width:163px;">
-												<option value="product_code">상품 코드</option>
-												<option value="product_name">상품 이름</option>
-											</select>
-											<input type="text" id="search_keyword" style="width:60%;" value="">
-											<button type="button"
-												style="width:120px;height:30px;border:1px solid #000000;background-color:#140f82;color:#ffffff;cursor:pointer;"
-												onClick="productOptionCheck();">옵션정보 검색</button>
-											<button type="button"
-												style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;"
-												onClick="historyProductOptionReset();">초기화</button>
+											상품 카테고리를 먼저 선택해주세요
 										</div>
 									</TD>
 								</TR>
@@ -566,7 +552,39 @@
 										<input id="option_code_list" type="hidden" value="">
 									</TD>
 									<TD id="option_td" colspan="5">
-										옵션정보를 등록해주세요.
+										<div colspan="5" id="option_category_td">
+											<div class="content__row">
+												<select id="size_category" name="size_category" class="fSelect eSearch" style="width:163px;">
+													<option value="">---one piece---</option>
+													<option value="/01_one_piece/dress">dress</option>
+													<option value="">---two piece---</option>
+													<option value="/02_two_piece/01_top/coat">coat</option>
+													<option value="/02_two_piece/01_top/hoodie">hoodie</option>
+													<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
+													<option value="/02_two_piece/01_top/shirts">---one piece---</option>
+													<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
+													<option value="/02_two_piece/01_top/tShirts">tShirts</option>
+													<option value="/02_two_piece/01_top/vest">vest</option>
+													<option value="/02_two_piece/01_top/zipup">zipup</option>
+													<option value="/02_two_piece/02_bottom/pants">pants</option>
+													<option value="/02_two_piece/02_bottom/skirt">skirt</option>
+													<option value="">---bag---------</option>
+													<option value="/03_etc/01_bag/backPack">backPack</option>
+													<option value="/03_etc/01_bag/crossBag">crossBag</option>
+													<option value="/03_etc/01_bag/toteBag">toteBag</option>
+													<option value="">---hat---------</option>
+													<option value="/03_etc/02_hat/beanie">beanie</option>
+													<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
+													<option value="/03_etc/02_hat/cap">cap</option>
+													<option value="">---acc---------</option>
+													<option value="/03_etc/03_acc/belt">belt</option>
+													<option value="/03_etc/03_acc/necktie">necktie</option>
+													<option value="/03_etc/03_acc/sock">sock</option>
+												</select>
+											</div>
+											<div id="option_insert_div">
+											</div>
+										</div>
 									</TD>
 								</TR>
 
@@ -1343,7 +1361,29 @@ $(document).ready(function() {
 			//$(this).slideUp(); //파일 양식 감춤
 		}
 	});
-	
+	$('#size_category').change(function() {	
+		var size_category = $('#size_category option:checked').text();
+		if(size_category.length > 0){
+			$.ajax({
+				type: "post",
+				data: {'size_category' : size_category},
+				dataType: "json",
+				url: config.api + "product/size/get",
+				error: function() {
+					alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
+				},
+				success: function(d) {
+					if(d.code == 200) {
+						if(d.data != null){
+							size_category_info = d.data[0];
+							printOptionForm(size_category_info);
+						}
+					}
+				}
+			});
+		}
+	});
+
 	setSmartEditor();
 	getCurrencyInfo();
 	getProductCategory(0,0);
@@ -1562,64 +1602,10 @@ function setMdCategory(depth,d){
 	}	
 }
 
-function productOptionRegister(obj) {
-	var duplicate_check = $('#duplicate_check').val();
-	var product_code = $('#product_code').val();
-	
-	if (product_code != null && duplicate_check != "false") {
-		size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a1_en.getById["size_detail_a1_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a1_cn.getById["size_detail_a1_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a2_en.getById["size_detail_a2_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a2_cn.getById["size_detail_a2_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a3_en.getById["size_detail_a3_en"].exec("UPDATE_CONTENTS_FIELD", []);
-		size_detail_a3_cn.getById["size_detail_a3_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a4_kr.getById["size_detail_a4_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a4_en.getById["size_detail_a4_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a5_kr.getById["size_detail_a5_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a5_en.getById["size_detail_a5_en"].exec("UPDATE_CONTENTS_FIELD", []);		
-		size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_onesize_kr.getById["size_detail_onesize_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_onesize_en.getById["size_detail_onesize_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		var formData = new FormData();
-		formData = $("#frm-regist").serializeObject();
-		
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "product/option/add",
-			error: function() {
-				alert("상품옵션 등록 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					alert("상품옵션 등록 처리에 성공했습니다.");
-					getProductOption();
-				}
-			}
-		});
-	} else {
-		alert('옵션코드 등록을 위해 상품코드를 입력/중복체크가 필요합니다.');
-		return false;
-	}
-}
-
 function productOptionCheck() {
 	var search_type = $('#search_type').val();
 	var search_keyword = $('#search_keyword').val();
-	
-	var option_cnt = $('#option_info_table').length;
+
 	if (search_type != null && search_keyword != null) {
 		getHistoryProductOption();
 	} else {
@@ -1629,12 +1615,15 @@ function productOptionCheck() {
 }
 
 function getHistoryProductOption() {
-	var search_type = $('#search_type').val();
-	var search_keyword = $('#search_keyword').val();
+	var category_name 	= $('#sel_category_name').val();
+	var search_type 	= $('#search_type').val();
+	var search_keyword 	= $('#search_keyword').val();
 	
+	historyProductOptionReset();
 	$.ajax({
 		type: "post",
 		data: {
+			'category_name':category_name,
 			'search_type':search_type,
 			'search_keyword':search_keyword
 		},
@@ -1647,119 +1636,69 @@ function getHistoryProductOption() {
 			if(d.code == 200) {
 				var data = d.data;
 				if (data != null) {
-					$('#history_option_info_table').remove();
-					
+					var idx = 0;
+					var size_key = [];
+					for(var key in data[0].size){
+						size_key.push(key);
+						idx++;
+					}
+					var strTh = '';
+					for(var i = 0; i < size_key.length; i++){
+						strTh += `<TH style="width:7%;">${size_key[i]} (cm)</TH>`;
+					}
 					var strDiv = "";
 					strDiv += '<TABLE id="history_option_info_table"  style="font-size:0.5rem;margin-top:10px;">';
 					strDiv += '    <THEAD>';
 					strDiv += '        <TR>';
-					strDiv += '            <TH style="width:7%;"></TH>';
-					strDiv += '            <TH>상품코드</TH>';
-					strDiv += '            <TH style="width:15%;">상품이름</TH>';
-					strDiv += '            <TH style="width:15%;">옵션코드</TH>';
-					strDiv += '            <TH style="width:10%;">옵션이름</TH>';
-					strDiv += '            <TH style="width:10%;">재고관리 사용유무</TH>';
+					strDiv += '            <TH style="width:5%;"></TH>';
+					strDiv += '            <TH style="width:7%;">상품코드</TH>';
+					strDiv += '            <TH style="width:10%;">상품이름</TH>';
+					strDiv += '            <TH style="width:5%;">옵션이름</TH>';
 					strDiv += '            <TH style="width:10%;">재고관리 등급</TH>';
-					strDiv += '            <TH style="width:10%;">수량체크 기준</TH>';
-					strDiv += '            <TH style="width:10%;">품절표시</TH>';
+					strDiv += 			   strTh;
 					strDiv += '        </TR>';
 					strDiv += '    </THEAD>';
 					strDiv += '    <TBODY>';
 					
 					data.forEach(function(row) {
+						var idx = 0;
+						var size_key = [];
+						var size_value = [];
+						for(var key in row.size){
+							size_key.push(key);
+							size_value.push(row.size[size_key[idx]]);
+							idx++;
+						}
+						var strTd = '';
+						for(var i = 0; i < size_key.length; i++){
+							strTd += `<TD>${size_value[i]}</TD>`;
+						}
+
 						strDiv += '    <TR id="option_row_' + row.no + '">';
 						strDiv += '        <TD>';
 						strDiv += '            <button option_code="' + row.option_code + '" style="width:50px;height:30px;background-color:#140f82;color:#ffffff;cursor:pointer;font-size:0.5rem;" onClick="historyOptionCheck(this);">적용</button>';
 						strDiv += '        </TD>';
 						strDiv += '        <TD>' + row.product_code + '</TD>';
 						strDiv += '        <TD>' + row.product_name + '</TD>';
-						strDiv += '        <TD>' + row.option_code + '</TD>';
 						strDiv += '        <TD>' + row.option_name + '</TD>';
-						
-						strDiv += '        <TD>';
-						
-						if (row.stock_management != null) {
-							var checked_true = null;
-							var checked_false = null;
-							if (row.stock_management == true) {
-								checked_true = "checked";
-							} else {
-								checked_false = "checked";
-							}
-							strDiv += '    <div class="flex" style="gap: 10px;">';
-							strDiv += '        <label class="rd__square">';
-							strDiv += '            <input type="radio" name="stock_management_' + row.no + '" value="true" ' + checked_true + '>';
-							strDiv += '            <div><div></div></div>';
-							strDiv += '            <span>사용</span>';
-							strDiv += '        </label>';
-							strDiv += '        <label class="rd__square">';
-							strDiv += '            <input type="radio" name="stock_management_' + row.no + '" value="false" ' + checked_false + '>';
-                            strDiv += '            <div><div></div></div>';
-							strDiv += '            <span>미사용</span>';
-							strDiv += '        </label>';
-							strDiv += '    </div>';
-						}
-						
-						strDiv += '        </TD>';
-						
-						var stock_type_a = "";
-						var stock_type_b = "";
-						if (row.stock_grade == 'A') {
-							stock_type_a = "selected";
+
+						var stock_type_common = "";
+						var stock_type_important = "";
+						if (row.stock_grade == '0') {
+							stock_type_common = "selected";
 						} else {
-							stock_type_b = "selected";
+							stock_type_important = "selected";
 						}
 						
 						strDiv += '        <TD>';
 						strDiv += '        		<div class="content__row">';
-						strDiv += '            		<select class="fSelect" name="stock_grade[]" style="font-size:0.5rem;">';
-						strDiv += '                		<option value="A" ' + stock_type_a + '>일반</option>';
-						strDiv += '                		<option value="B" ' + stock_type_b + '>중요</option>';
+						strDiv += '            		<select class="fSelect" style="font-size:0.5rem;">';
+						strDiv += '                		<option value="0" ' + stock_type_common + '>일반</option>';
+						strDiv += '                		<option value="1" ' + stock_type_important + '>중요</option>';
 						strDiv += '           		 </select>';
 						strDiv += '        		</div>';
 						strDiv += '        </TD>';
-						
-						var check_type_a = "";
-						var check_type_b = "";
-						if (row.qty_check_type == 'A') {
-							check_type_a = "selected";
-						} else {
-							check_type_b = "selected";
-						}
-						
-						strDiv += '        <TD>';
-						strDiv += '        		<div class="content__row">';
-						strDiv += '            		<select class="fSelect" name="qty_check_type[]" style="font-size:0.5rem;">';
-						strDiv += '                		<option value="A" ' + check_type_a + '>주문</option>';
-						strDiv += '                		<option value="B" ' + check_type_b + '>결제</option>';
-						strDiv += '            		</select>';
-						strDiv += '        		</div>';
-						strDiv += '        </TD>';
-						
-						strDiv += '        <TD>';
-						if (row.sold_out_flg != null) {
-							var checked_true = null;
-							var checked_false = null;
-							if (row.sold_out_flg == true) {
-								checked_true = "checked";
-							} else {
-								checked_false = "checked";
-							}
-							strDiv += '        <div class="flex" style="gap: 10px;">';
-							strDiv += '            <label class="rd__square">';
-							strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="true" ' + checked_true + '>';
-                            strDiv += '                <div><div></div></div>';
-							strDiv += '                <span>사용</span>';
-							strDiv += '            </label>';
-							strDiv += '            <label class="rd__square">';
-							strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="false" ' + checked_false + '>';
-                            strDiv += '                <div><div></div></div>';
-							strDiv += '                <span>미사용</span>';
-							strDiv += '            </label>';
-							strDiv += '        </div>';
-						}
-						strDiv += '        </TD>';
-						
+						strDiv += 		   strTd;
 						strDiv += '    </TR>';
 					});
 					
@@ -1772,234 +1711,35 @@ function getHistoryProductOption() {
 		}
 	});
 }
+function historyOptionCheck(obj){
+	var sel_history_info = $(obj).parents('tr').children();
+	var option_name = sel_history_info.eq(3).text();
+	var stock_grade = sel_history_info.eq(4).find('select').val();
+	var column_cnt 	= sel_history_info.length - 4;
+
+	var option_info = $('#option_input_table').find('tbody').children();
+	var option_row_cnt = option_info.length;
+
+	for(var i = 0; i < option_row_cnt; i++){
+		console.log(option_info.eq(i).children().eq(3).text());
+		console.log(option_name);
+		if(option_info.eq(i).children().eq(3).text() == option_name){
+			option_info.eq(i).find('select').val(stock_grade).prop("selected",true);
+			for(var j = 0; j < column_cnt; j++){
+				option_info.eq(i).find('input').eq(j+3).val(sel_history_info.eq(j+5).text());
+			}
+			return true;
+		}
+	}
+	alert('일치하는 옵션이 없습니다.');
+	return false;
+}
 
 function historyProductOptionReset() {
 	$('#history_option_info_table').remove();
 }
 
-function historyOptionCheck(obj) {
-	var option_code_list = $('#option_code_list').val();
-	var option_code_arr = option_code_list.split(',');
-	
-	var duplicate_check = $('#duplicate_check').val();
-	var product_code = $('#product_code').val();
-	var history_option_code = $(obj).attr('option_code');
-	
-	var cnt = 0;
-	for (var i=0; i<option_code_arr.length; i++) {
-		var history_option_code_arr = history_option_code.split('_');
-		var option_code_arr = option_code_arr[i].split('_');
-		
-		if (history_option_code_arr[1] == option_code_arr[1]) {
-			cnt++;
-		}
-	}
-	
-	if (cnt > 0) {
-		alert('이미 선택된 옵션입니다.');
-		return false;
-	} else {
-		if (product_code.length > 0 && product_code != null && duplicate_check != "false") {
-			$.ajax({
-				type: "post",
-				data: {
-					'product_code':product_code,
-					'history_option_code':history_option_code
-				},
-				dataType: "json",
-				url: config.api + "product/option/add",
-				error: function() {
-					alert("상품옵션 등록 처리에 실패했습니다.");
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						getProductOption();
-					}
-				}
-			});
-		} else {
-			alert('옵션코드 등록을 위해 상품코드를 입력/중복체크가 필요합니다.');
-			return false;
-		}
-	}
-}
-
-function getProductOption() {
-	var product_code = $('#product_code').val();
-	
-	if (product_code.length > 0 && product_code != null) {
-		$.ajax({
-			type: "post",
-			data: {
-				'product_code':product_code,
-			},
-			dataType: "json",
-			url: config.api + "product/option/get",
-			error: function() {
-				alert("옵션정보 불러오기 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					var data = d.data;
-					if (data != null) {
-						$('#option_info_table').remove();
-						
-						var option_code_list = [];
-						var strDiv = "";
-						strDiv += '<TABLE id="option_info_table"  style="font-size:0.5rem;">';
-						strDiv += '    <THEAD>';
-						strDiv += '        <TR>';
-						strDiv += '            <TH colspan="8">';
-						strDiv += '                <div class="row">';
-						strDiv += '                    <input id="action_type" type="hidden" name="action_type" value="">';
-						strDiv += '                    <button type="button" action_type="reset" style="width:150px;height:30px;background-color:#000000;color:#ffffff;float:left;cursor:pointer;" onClick="optionInfoCheck(this);">옵션정보 사용 안함</button>';
-						strDiv += '                    <button type="button" action_type="delete" style="width:100px;height:30px;background-color:#E43A45;color:#ffffff;float:right;margin-right:5px;cursor:pointer;" onClick="optionInfoCheck(this);">옵션삭제</button>';
-						strDiv += '                    <button type="button" action_type="update" style="width:100px;height:30px;background-color:#140f82;color:#ffffff;float:right;margin-right:5px;cursor:pointer;" onClick="optionInfoCheck(this);">옵션저장</button>';
-						strDiv += '                    <button type="button" action_type="remove" style="width:100px;height:30px;background-color:#000000;color:#ffffff;float:right;margin-right:5px;cursor:pointer;" onClick="optionInfoCheck(this);">옵션제외</button>';
-						strDiv += '                </div>';
-						strDiv += '            </TH>';
-						strDiv += '        </TR>';
-						
-						strDiv += '        <TR>';
-						strDiv += '            <TH style="width:3%;">';
-						strDiv += '                <div class="form-group">';
-						strDiv += '                    <label>';
-						strDiv += '                        <input type="checkbox" onClick="selectAllClick(this);" checked>';
-						strDiv += '                        <span></span>';
-						strDiv += '                    </label>';
-						strDiv += '                </div>';
-						strDiv += '            </TH>';
-						strDiv += '            <TH>상품코드</TH>';
-						strDiv += '            <TH style="width:15%;">옵션코드</TH>';
-						strDiv += '            <TH style="width:6%;">옵션이름</TH>';
-						strDiv += '            <TH style="width:10%;">재고관리 사용유무</TH>';
-						strDiv += '            <TH style="width:10%;">재고관리 등급</TH>';
-						strDiv += '            <TH style="width:10%;">수량체크 기준</TH>';
-						strDiv += '            <TH style="width:10%;">품절표시</TH>';
-						strDiv += '        </TR>';
-						strDiv += '    </THEAD>';
-						strDiv += '    <TBODY>';
-						
-						data.forEach(function(row) {
-							option_code_list.push(row.option_code);
-							
-							strDiv += '    <TR id="option_row_' + row.no + '">';
-							strDiv += '        <TD>';
-							strDiv += '            <div class="form-group">';
-							strDiv += '                <label>';
-							strDiv += '                    <input class="option_idx" type="checkbox" name="option_idx[]" value="' + row.no + '" onClick="optionIdxClick();" checked>';
-							strDiv += '                    <span></span>';
-							strDiv += '                </label>';
-							strDiv += '            </div>';
-							strDiv += '        </TD>';
-							strDiv += '        <TD>' + row.product_code + '</TD>';
-							strDiv += '        <TD>' + row.option_code + '</TD>';
-							strDiv += '        <TD>' + row.option_name + '</TD>';
-							
-							strDiv += '        <TD>';
-							
-							if (row.stock_management != null) {
-								var checked_true = null;
-								var checked_false = null;
-								if (row.stock_management == true) {
-									checked_true = "checked";
-								} else {
-									checked_false = "checked";
-								}
-								strDiv += '        <div class="flex" style="gap: 10px;">';
-								strDiv += '            <label class="rd__square">';
-								strDiv += '                <input type="radio" name="stock_management_' + row.no + '" value="true" ' + checked_true + '>';
-								strDiv += '                <div><div></div></div>';
-								strDiv += '                <span>사용</span>';
-								strDiv += '            </label>';
-								strDiv += '            <label class="rd__square">';
-								strDiv += '                <input type="radio" name="stock_management_' + row.no + '" value="false" ' + checked_false + '>';
-								strDiv += '                <div><div></div></div>';
-								strDiv += '                <span>미사용</span>';
-								strDiv += '            </label>';
-								strDiv += '        </div>';
-							}
-							
-							strDiv += '        </TD>';
-							
-							var stock_type_a = "";
-							var stock_type_b = "";
-							if (row.stock_grade == 'A') {
-								stock_type_a = "selected";
-							} else {
-								stock_type_b = "selected";
-							}
-							
-							strDiv += '        <TD>';
-							strDiv += '        		<div class="content__row">';
-							strDiv += '            		<select class="fSelect" name="stock_grade[]" style="font-size:0.5rem;">';
-							strDiv += '                		<option value="A" ' + stock_type_a + '>일반</option>';
-							strDiv += '                		<option value="B" ' + stock_type_b + '>중요</option>';
-							strDiv += '            		</select>';
-							strDiv += '        		</div>';
-							strDiv += '        </TD>';
-							
-							var check_type_a = "";
-							var check_type_b = "";
-							if (row.qty_check_type == 'A') {
-								check_type_a = "selected";
-							} else {
-								check_type_b = "selected";
-							}
-							
-							strDiv += '        <TD>';
-							strDiv += '        		<div class="content__row">';
-							strDiv += '            		<select class="fSelect" name="qty_check_type[]" style="font-size:0.5rem;">';
-							strDiv += '                		<option value="A" ' + check_type_a + '>주문</option>';
-							strDiv += '                		<option value="B" ' + check_type_b + '>결제</option>';
-							strDiv += '            		</select>';
-							strDiv += '        		</div>';
-							strDiv += '        <TD>';
-							if (row.sold_out_flg != null) {
-								var checked_true = null;
-								var checked_false = null;
-								if (row.sold_out_flg == true) {
-									checked_true = "checked";
-								} else {
-									checked_false = "checked";
-								}
-								strDiv += '        <div class="flex" style="gap: 10px;">';
-								strDiv += '            <label class="rd__square">';
-								strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="true" ' + checked_true + '>';
-								strDiv += '                <div><div></div></div>';
-								strDiv += '                <span>사용</span>';
-								strDiv += '            </label>';
-								strDiv += '            <label class="rd__square">';
-								strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="false" ' + checked_false + '>';
-								strDiv += '                <div><div></div></div>';
-								strDiv += '                <span>미사용</span>';
-								strDiv += '            </label>';
-								strDiv += '        </div>';
-							}
-							strDiv += '        </TD>';
-							
-							strDiv += '    </TR>';
-						});
-
-						$('#option_code_list').val(option_code_list);
-						
-						strDiv += '    </TBODY>';
-						strDiv += '</TABLE>';
-						
-						$('#option_td').append(strDiv);
-
-					} else {
-						$('#option_info_table').remove();
-					}
-				}
-			}
-		});
-	} else {
-		alert('등록한 옵션을 불러오기 위해 상품코드를 입력해주세요.');
-		return false;
-	}
-}
-function productSizeFormOpen(){
+function printOptionForm(size_category_info){
 	var duplicate_check = $('#duplicate_check').val();
 	var product_code = $('#product_code').val();
 
@@ -2029,77 +1769,37 @@ function productSizeFormOpen(){
 		size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
 
 		chk_list_arr = [];
+		chk_list_arr.push(['size_detail_onesize_kr','ONE']);
 		chk_list_arr.push(['size_detail_a1_kr','A1']);
 		chk_list_arr.push(['size_detail_a2_kr','A2']);
 		chk_list_arr.push(['size_detail_a3_kr','A3']);
 		chk_list_arr.push(['size_detail_a4_kr','A4']);
 		chk_list_arr.push(['size_detail_a5_kr','A5']);
 
-		$('#size_category').remove();
-		var strSelStr = `
-			<div class="content__row" style="float:left;">
-				<select id="size_category" style="width:200px;height:30px;margin-right:5px;">
-					<option value="">---one piece---</option>
-					<option value="/01_one_piece/dress">dress</option>
-					<option value="">---two piece---</option>
-					<option value="/02_two_piece/01_top/coat">coat</option>
-					<option value="/02_two_piece/01_top/hoodie">hoodie</option>
-					<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
-					<option value="/02_two_piece/01_top/shirts">---one piece---</option>
-					<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
-					<option value="/02_two_piece/01_top/tShirts">tShirts</option>
-					<option value="/02_two_piece/01_top/vest">vest</option>
-					<option value="/02_two_piece/01_top/zipup">zipup</option>
-					<option value="/02_two_piece/02_bottom/pants">pants</option>
-					<option value="/02_two_piece/02_bottom/skirt">skirt</option>
-					<option value="">---bag---------</option>
-					<option value="/03_etc/01_bag/backPack">backPack</option>
-					<option value="/03_etc/01_bag/crossBag">crossBag</option>
-					<option value="/03_etc/01_bag/toteBag">toteBag</option>
-					<option value="">---hat---------</option>
-					<option value="/03_etc/02_hat/beanie">beanie</option>
-					<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
-					<option value="/03_etc/02_hat/cap">cap</option>
-					<option value="">---acc---------</option>
-					<option value="/03_etc/03_acc/belt">belt</option>
-					<option value="/03_etc/03_acc/necktie">necktie</option>
-					<option value="/03_etc/03_acc/sock">sock</option>
-				</select>
-			</div>
-		`;
-		$('#option_btn_td').prepend(strSelStr);
-		$('#size_option_tr').remove();
-
-		$('#size_category').change(function() {	
-			var size_category = $('#size_category option:checked').text();
-			if(size_category.length > 0){
-				$.ajax({
-					type: "post",
-					data: {'size_category' : size_category},
-					dataType: "json",
-					url: config.api + "product/size/get",
-					error: function() {
-						alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
-					},
-					success: function(d) {
-						if(d.code == 200) {
-							if(d.data != null){
-								size_category_info = d.data[0];
-								printSizeOptionForm(size_category_info);
-							}
-						}
-					}
-				});
-				$('#default_size_msg').text('');
-			}
-		});
+		$('#history_option_td').children('.content__row').html('');
+		$('#history_option_td').children('.content__row').append(`
+			<input type="text" id="sel_category_name" style="width:10%;" value="${size_category_info.category_name}" disabled>
+			<select class="fSelect eSearch" id="search_type" style="width:163px;">
+				<option value="product_code">상품 코드</option>
+				<option value="product_name">상품 이름</option>
+			</select>
+			<input type="text" id="search_keyword" style="width:60%;" value="">
+			<button type="button"
+				style="width:120px;height:30px;border:1px solid #000000;background-color:#140f82;color:#ffffff;cursor:pointer;"
+				onClick="productOptionCheck();">옵션정보 검색</button>
+			<button type="button"
+				style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;"
+				onClick="historyProductOptionReset();">초기화</button>
+		`);
+		historyProductOptionReset();
+		setOptionForm(size_category_info);
 	}
 	else {
-		alert('사이즈 설정창을 열기 위해 상품코드를 입력/중복체크가 필요합니다.');
+		alert('옵션 설정창을 열기 위해 상품코드를 입력/중복체크가 필요합니다.');
 		return false;
 	}
 }
-function printSizeOptionForm(category_info){
+function setOptionForm(category_info){
 	var strDiv = "";
 	var strThDiv = "";
 	var img_path = '/images/sizeguide';
@@ -2108,10 +1808,8 @@ function printSizeOptionForm(category_info){
 	img_path += `/${category_info['category_name']}.svg`;
 	
 	console.log(img_path);
-	$('#size_option_tr').remove();
+	$('#option_insert_div').html('');
 	strDiv = `
-		<TR id = "size_option_tr">
-			<TD colspan="4">
 				<div class="row">
 					<div style="float:left;width: 33%;">
 						<img id="size_img" src="${img_path}" >
@@ -2138,24 +1836,23 @@ function printSizeOptionForm(category_info){
 					</div>
 				</div>
 				<div class="drive--x"></div>
-				<form id="frm-size">
-					<input type="hidden" name="column_cnt" value="${column_cnt}">
-					<table>
-						<thead>
-							<tr>
-								<th style="width:7%">사이즈(cm)</th>
-								${strThDiv}
-							</tr>
-						</thead>
-						<tbody id="product_size_regist_table">
-						</tbody>
-					</table>
-				</form>
-				<button type="button" style="width:100px;height:30px;background-color:#140f82;color:#ffffff;float:right;cursor:pointer;margin-top:10px;" onclick="productSizeRegister();">사이즈 저장</button>
-			</TD>
-		</TR>
+				<input type="hidden" name="column_cnt" value="${column_cnt}">
+				<table id="option_input_table">
+					<thead>
+						<tr>
+							<TH style="width:3%;"></TH>
+							<TH style="width:7%;">상품코드</TH>
+							<TH style="width:7%;">옵션코드</TH>
+							<TH style="width:5%">옵션 이름</TH>
+							<TH style="width:8%">재고관리 등급</TH>
+							${strThDiv}
+						</tr>
+					</thead>
+					<tbody id="product_size_regist_table">
+					</tbody>
+				</table>
 	`;
-	$('#insert_table_size_detail').append(strDiv);
+	$('#option_insert_div').append(strDiv);
 
 	addSizeRow();
 
@@ -2196,9 +1893,26 @@ function addSizeRow(){
 	}
 }
 function addSizeTd(name){
+	var product_code = $('#product_code').val();
 	strDiv = `
 		<tr>
-			<td><input type="hidden" name="category_name[]" value="${name}">${name}</td>`;
+			<td>
+				<a class="btn red" onclick="delOptionRow(this)">
+					<i class="xi-trash"></i>
+					<span class="tooltip top">삭제</span>
+				</a>
+			</td>
+			<td><input type="hidden" name="option_product_code[]" value="${product_code}">${product_code}</td>
+			<td><input type="hidden" name="option_code[]" value="${product_code}_${name}">${product_code}_${name}</td>
+			<td><input type="hidden" name="option_name[]" value="${name}">${name}</td>
+			<td>
+				<div class="content__row">
+					<select class="fSelect" name="stock_grade[]" style="font-size:0.5rem;">
+						<option value="0" selected>일반</option>
+						<option value="1" >중요</option>
+					</select>
+				</div>
+			</td>`;
 	for(var i = 0; i < 6; i++){
 		if(size_category_info['size_title_' + String(i+1)] != null && size_category_info['size_title_' + String(i+1)].length > 0){
 			strDiv += `
@@ -2212,27 +1926,12 @@ function addSizeTd(name){
 	`;
 	$('#product_size_regist_table').append(strDiv);
 }
-function productSizeRegister(){
-	confirm("작업을 계속 진행하시겠습니까?", function(){
-		var formData = new FormData();
-		formData = $("#frm-size").serializeObject();
-		formData.product_code = $('#product_code').val();
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "product/size/add",
-			error: function() {
-				alert("상품사이즈 등록 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					alert("상품사이즈 등록 처리에 성공했습니다.");
-				}
-			}
-		});
+function delOptionRow(obj){
+	confirm('정말로 해당 옵션을 제외하시겠습니까?', function(){
+		$(obj).parent().parent().remove();
 	});
 }
+
 function selectAllClick(obj) {
 	if ($(obj).prop('checked') == true) {
 		$(obj).prop('checked',true);
@@ -2241,7 +1940,6 @@ function selectAllClick(obj) {
 		$(obj).attr('checked',false);
 		$('.option_idx').prop('checked',false);
 	}
-	
 	optionIdxClick();
 }
 
@@ -2255,7 +1953,6 @@ function optionIdxClick() {
 			option_idx_arr.push(option_idx.val());
 		}
 	}
-	
 	$('#option_stock_set').val(option_idx_arr);
 }
 

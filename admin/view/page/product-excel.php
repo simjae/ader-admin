@@ -181,7 +181,7 @@
 </style>
 	<div class="filter-wrap" style="margin-bottom:20px">
 		<button class="excel_tab_btn tap__button" tab_num="01" style="background-color: #000;color: #fff;font-weight: 500;" onClick="excelTabBtnClick(this);">엑셀-상품 등록/수정</button>
-		<button class="excel_tab_btn tap__button" tab_num="02" onClick="excelTabBtnClick(this);">엑셀-상품옵션 등록/수정</button>
+		<button class="excel_tab_btn tap__button" tab_num="02" onClick="excelTabBtnClick(this);">엑셀-상품 판매정보 등록/수정</button>
 		<button class="excel_tab_btn tap__button" tab_num="03" onClick="excelTabBtnClick(this);">엑셀-관련상품 등록/수정</button>
 	</div>
 	
@@ -193,7 +193,7 @@
 	</div>
 	
 	<div id="excel_tab_02" class=" excel_tab" style="display:none;">
-		<?php include_once("product-excel-product_option.php"); ?>
+		<?php include_once("product-excel-product_sale_info.php"); ?>
 	</div>
 
 	<div id="excel_tab_03" class=" excel_tab" style="display:none;">
@@ -323,11 +323,14 @@ function readExcel(element, index, tab_num){
             if(sheetName == '오더시트'){
                 var order_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 10, header:1});
                 total_row.order_sheet = order_sheet;
-				
             }
 			else if(sheetName == '판매용 추가정보'){
-                var optional_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 10, header:1});
-				total_row.optional_sheet = optional_sheet;
+                var sales_info_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 10, header:1});
+				total_row.sales_info_sheet = sales_info_sheet;
+            }
+			else if(sheetName == '상품옵션 추가정보'){
+                var option_info_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 2, header:1});
+				total_row.option_info_sheet = option_info_sheet;
             }
 			else if(sheetName == '상품 이미지정보'){
                 var img_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 0, header:1});
@@ -337,7 +340,7 @@ function readExcel(element, index, tab_num){
 		switch (tab_num){
 			case '01':
 				if(!total_row.hasOwnProperty('order_sheet')){
-					msg = 'order_sheet가 존재하지않습니다.';
+					msg = '오더시트가 존재하지않습니다.';
 				}
 				else{
 					total_row.order_sheet.forEach(function(element, index, array){
@@ -347,8 +350,8 @@ function readExcel(element, index, tab_num){
 				}
 				break;
 			case '02':
-				if(!total_row.hasOwnProperty('optional_sheet')){
-					msg = 'optional_sheet가 존재하지 않습니다.';
+				if(!total_row.hasOwnProperty('sales_info_sheet')){
+					msg = '판매정보 시트가 존재하지 않습니다.';
 				}
 				break;
 		}
@@ -380,12 +383,12 @@ function putExcel(element,json_str,file_name){
 	else{
 		switch(tab_num){
 		case '01':
-			api_addr = 'product/put';
+			api_addr = 'put';
 			action_str = '상품 등록/수정';
 			break;
 		case '02':
-			api_addr = 'product_option/update';
-			action_str = '상품 옵션 등록/수정';
+			api_addr = 'update';
+			action_str = '상품 판매정보 등록/수정';
 			break;
 		}
 		if(api_addr != ''){
@@ -404,9 +407,10 @@ function putExcel(element,json_str,file_name){
 					insertLog('상품관리 > 엑셀 등록', action_str + ": " + file_name, 1);
 					if(d.code == 200) {
 						var result_cnt = 0;
-						result_json.product = d.result.product;
-						result_json.img 	= d.result.img;
-						result_json.option 	= d.result.option;
+						result_json.product 	= d.result.product;
+						result_json.option_info = d.result.option_info;
+						result_json.sales_info 	= d.result.sales_info
+						result_json.img 		= d.result.img;
 
 						var json_str = JSON.stringify(result_json);
 						if(tab_num == '01'){
@@ -419,8 +423,8 @@ function putExcel(element,json_str,file_name){
 							}
 						}
 						else if(tab_num == '02'){
-							if(d.result.option.true.length == 0){
-								msg = '갱신된 상품-옵션이 없습니다.';
+							if(d.result.sales_info.true.length == 0){
+								msg = '갱신된 상품판매정보가 없습니다.';
 							}
 							else{
 								alert('등록이 완료되었습니다.');

@@ -13,12 +13,17 @@
  | 
  +=============================================================================
 */
+$category_name = $_POST['category_name'];
 $product_code = $_POST['product_code'];
 $search_type = $_POST['search_type'];
 $search_keyword = $_POST['search_keyword'];
 $option_code = $_POST['option_code'];
 
 $where = "1=1";
+
+if($category_name != null){
+	$where .= ' AND OPTION.CATEGORY_NAME = "'.$category_name.'" ';
+}
 
 if ($product_code != null) {
 	$where .= ' AND (OPTION.OPTION_CODE LIKE "'.$product_code.'%") ';
@@ -39,33 +44,52 @@ if ($product_code != null) {
 //검색 유형 - 디폴트
 $sql = 	"SELECT
 			OPTION.IDX,
-			OPTION.PRODUCT_CODE,
-			PRODUCT.PRODUCT_NAME,
 			OPTION.OPTION_CODE,
 			OPTION.OPTION_NAME,
-			OPTION.STOCK_MANAGEMENT,
+			OPTION.PRODUCT_IDX,
+			OPTION.PRODUCT_CODE,
+			PRODUCT.PRODUCT_NAME,
 			OPTION.STOCK_GRADE,
-			OPTION.QTY_CHECK_TYPE,
-			OPTION.SOLD_OUT_FLG
+			OPTION.CATEGORY_NAME,
+			OPTION.SIZE_INFO_1,
+			OPTION.SIZE_INFO_2,
+			OPTION.SIZE_INFO_3,
+			OPTION.SIZE_INFO_4,
+			OPTION.SIZE_INFO_5,
+			OPTION.SIZE_INFO_6,
+			SIZE.SIZE_TITLE_1,
+            SIZE.SIZE_TITLE_2,
+            SIZE.SIZE_TITLE_3,
+            SIZE.SIZE_TITLE_4,
+            SIZE.SIZE_TITLE_5,
+            SIZE.SIZE_TITLE_6
 		FROM
 			dev.PRODUCT_OPTION OPTION
 			LEFT JOIN dev.SHOP_PRODUCT PRODUCT ON
 			OPTION.PRODUCT_CODE = PRODUCT.PRODUCT_CODE
+			LEFT JOIN dev.SIZE_DESCRIPTION SIZE ON
+            SIZE.CATEGORY_NAME = OPTION.CATEGORY_NAME
 		WHERE
 			".$where;
 
 $db->query($sql);
+
 foreach($db->fetch() as $data) {
-	$json_result['data'][] = array(
-		'no'				=>intval($data['IDX']),
-		'option_code'		=>$data['OPTION_CODE'],
-		'option_name'		=>$data['OPTION_NAME'],
-		'product_code'		=>$data['PRODUCT_CODE'],
-		'product_name'		=>$data['PRODUCT_NAME'],
-		'stock_management'	=>$data['STOCK_MANAGEMENT'],
-		'stock_grade'		=>$data['STOCK_GRADE'],
-		'qty_check_type'	=>$data['QTY_CHECK_TYPE'],
-		'sold_out_flg'		=>$data['SOLD_OUT_FLG'],
-	);
+	$row_arr = array('no'						=>intval($data['IDX']),
+					'option_code'				=>$data['OPTION_CODE'],
+					'option_name'				=>$data['OPTION_NAME'],
+					'product_idx'				=>$data['PRODUCT_IDX'],
+					'product_code'				=>$data['PRODUCT_CODE'],
+					'product_name'				=>$data['PRODUCT_NAME'],
+					'stock_grade'				=>$data['STOCK_GRADE'],
+					'category_name'				=>$data['CATEGORY_NAME']);
+	$column_arr = array();
+	for($i = 1; $i <= 6; $i++){
+		if(strlen($data['SIZE_TITLE_'.$i]) > 0){
+			$column_arr[$data['SIZE_TITLE_'.$i]]	= $data['SIZE_INFO_'.$i];
+		}
+	}
+	$row_arr['size'] = $column_arr;
+	$json_result['data'][] = $row_arr;
 }
 ?>

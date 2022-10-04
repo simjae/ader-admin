@@ -978,6 +978,66 @@ $db->query($sql);
 $product_idx = $db->last_id();
 
 if (!empty($product_idx)) {
+
+	$size_category = $_POST['size_category'];
+	$category_temp = explode('/',$size_category);
+	$size_category_str = $category_temp[count($category_temp)-1];
+	$option_code = $_POST['option_code'];
+	$option_name = $_POST['option_name'];
+	$stock_grade = $_POST['stock_grade'];
+	$size_info_1 = $_POST['size_info_1'];
+	$size_info_2 = $_POST['size_info_2'];
+	$size_info_3 = $_POST['size_info_3'];
+	$size_info_4 = $_POST['size_info_4'];
+	$size_info_5 = $_POST['size_info_5'];
+	$size_info_6 = $_POST['size_info_6'];
+	$column_cnt	 = $_POST['column_cnt'];
+
+	$column_sql = "";
+	$value_sql  = "";
+
+	// 상품 옵션 추가
+	for($i=1; $i <= $column_cnt; $i++){
+        $column_sql .= " SIZE_INFO_".$i.", ";
+    }
+    if($size_category_str != null){
+        for($i=0; $i < count($option_name); $i++){
+            $value_sql .= "
+                (	'".$option_code[$i]."',
+					'".$option_name[$i]."',
+					".$product_idx.",
+                 	'".$product_code."',
+                 	".$stock_grade[$i].",
+            ";
+            for($j=1; $j<=$column_cnt; $j++){
+                if(strlen(${"size_info_".$j}[$i]) > 0){
+                    $value_sql .= " '".${"size_info_".$j}[$i]."', ";
+                }
+                else{
+                    $value_sql .= " NULL, ";
+                }
+            }
+            $value_sql .= " '".$size_category_str."')";
+            if($i < count($option_name)-1){
+                $value_sql .= ",";
+            }
+        }
+    }
+    $sql = "
+            INSERT INTO dev.PRODUCT_OPTION (
+                OPTION_CODE,
+				OPTION_NAME,
+				PRODUCT_IDX,
+                PRODUCT_CODE,
+				STOCK_GRADE,
+                ".$column_sql."
+				CATEGORY_NAME
+            )
+            VALUE
+            ".$value_sql."
+        ";
+    $db->query($sql);
+
 	// 상품 이미지 업로드
 	$path = "/var/www/admin/www/images/product/";
 	if($_FILES['img_outfit']['size'] > 0) {

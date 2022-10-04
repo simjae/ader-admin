@@ -17,7 +17,7 @@ $action_type		= $_POST['action_type'];
 
 $option_idx			= $_POST['option_idx'];
 $stock_grade		= $_POST['stock_grade'];
-$qty_check_type		= $_POST['qty_check_type'];
+//$qty_check_type		= $_POST['qty_check_type'];
 
 if ($action_type != null) {
 	if ($action_type == 'update') {
@@ -27,10 +27,7 @@ if ($action_type != null) {
 			$sql = "UPDATE
 						dev.PRODUCT_OPTION
 					SET
-						STOCK_MANAGEMENT = ".$stock_management.",
-						STOCK_GRADE = '".$stock_grade[$i]."',
-						QTY_CHECK_TYPE = '".$qty_check_type[$i]."',
-						SOLD_OUT_FLG = ".$sold_out_flg."
+						STOCK_GRADE = '".$stock_grade[$i]."'
 					WHERE
 						IDX = ".$option_idx[$i];
 			$db->query($sql);

@@ -16,19 +16,12 @@ RewriteRule ^(.*)$ index.php?_url=$1 [L]';
 	fputs($fp,$htaccess);
 	fclose($fp);
 }
-/*==============================================================	
-
+/*==============================================================
+	
   ==============================================================*/
 if(is_array($_CONFIG['M']) && sizeof($_CONFIG['M']) > 1) {
 	$_CONFIG['REAL_URL'] = implode('/',array_slice($_CONFIG['M'],1));
 	switch($_CONFIG['M'][0]) {
-		case '_xls': // 엑셀 Export
-			$inc_path = $_CONFIG['PATH']['STATIC'].'controller/xls.php';
-		break;
-		case '_preview': // 이벤트 페이지 생성 후 미리보기
-			$inc_path = $_CONFIG['PATH']['STATIC'].'controller/preview.php';
-		break;
-
 		case '_api': // API 요청일 경우
 			@error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 			@ini_set("display_errors", 1);
@@ -163,15 +156,13 @@ if(!file_exists($_CONFIG['PATH']['PAGE'].$_inc_page.'.php') && !file_exists($_CO
 /*==============================================================
 	레이아웃
   ==============================================================*/
+//print_r($_CONFIG);
 if(!$is_fullscreen && file_exists($_CONFIG['PATH']['LAYOUT'].'base.php')) {
 	include $_CONFIG['PATH']['LAYOUT'].'base.php';
 }
 if(!$is_fullscreen && file_exists($_CONFIG['PATH']['LAYOUT'].'header.php')) {
 	include $_CONFIG['PATH']['LAYOUT'].'header.php';
 }
-// if(!$is_fullscreen && file_exists($_CONFIG['PATH']['LAYOUT'].'main.php')) {
-// 	include $_CONFIG['PATH']['LAYOUT'].'main.php';
-// }
 include $_CONFIG['PATH']['PAGE'].$_inc_page.'.php';
 if(!$is_fullscreen && file_exists($_CONFIG['PATH']['LAYOUT'].'footer.php')) {
 	include $_CONFIG['PATH']['LAYOUT'].'footer.php';

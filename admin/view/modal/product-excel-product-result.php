@@ -26,7 +26,7 @@ $(document).ready(function() {
             str_table += `
                 <div class="card__header">
                     <div class="flex justify-between">
-                        <h3 id=''>실패정보 안내</h3>
+                        <h4 style="margin-left:10px"; id=''>실패정보 안내</h3>
                     </div>
                 </div>
                 <div class="card__body">
@@ -44,6 +44,7 @@ $(document).ready(function() {
                                         <th>상품 코드</th>
                                         <th>상품 명</th>
                                         <th>엑셀 행번호</th>
+                                        <th>실패 원인</th>
                     `;
                     for(var i = 0; i < value.false.length; i++){
                         str_td += `
@@ -52,16 +53,18 @@ $(document).ready(function() {
                                                 <td>${value.false[i].product_code}</td>
                                                 <td>${value.false[i].product_name}</td>
                                                 <td>${value.false[i].row_num}</td>
+                                                <td>${value.false[i].reason}</td>
                                             </tr>
                         `;
                     }
                     break;
-                case 'option':
-                    title = '상품옵션';
+                case 'sales_info':
+                    title = '판매옵션';
                     str_table += `
                                         <th>No.</th>
                                         <th>상품 코드</th>
                                         <th>엑셀 행번호</th>
+                                        <th>실패 원인</th>
                     `;
                     for(var i = 0; i < value.false.length; i++){
                         str_td += `
@@ -69,6 +72,28 @@ $(document).ready(function() {
                                                 <td>${i+1}</td>
                                                 <td>${value.false[i].product_code}</td>
                                                 <td>${value.false[i].row_num}</td>
+                                                <td>${value.false[i].reason}</td>
+                                            </tr>
+                        `;
+                    }
+                    break;
+                case 'option_info':
+                    title = '상품옵션';
+                    str_table += `
+                                        <th>No.</th>
+                                        <th>상품 코드</th>
+                                        <th>옵션 이름</th>
+                                        <th>엑셀 행번호</th>
+                                        <th>실패 원인</th>
+                    `;
+                    for(var i = 0; i < value.false.length; i++){
+                        str_td += `
+                                            <tr>
+                                                <td>${i+1}</td>
+                                                <td>${value.false[i].product_code}</td>
+                                                <td>${value.false[i].option_name}</td>
+                                                <td>${value.false[i].row_num}</td>
+                                                <td>${value.false[i].reason}</td>
                                             </tr>
                         `;
                     }
@@ -105,7 +130,6 @@ $(document).ready(function() {
                             </table>
                         </div>
                     </div>
-                    <div class="drive--x"></div>
                 </div>
             `;
         }
@@ -114,7 +138,10 @@ $(document).ready(function() {
                 case 'product':
                     title = '상품';
                     break;
-                case 'option':
+                case 'sales_info':
+                    title = '판매옵션';
+                    break;
+                case 'option_info':
                     title = '상품옵션';
                     break;
                 case 'img':
@@ -125,7 +152,7 @@ $(document).ready(function() {
         
         var str_div = `
             <div class="card__body">
-                <h4 style="margin-left:10px";>${title} 정보</h4>
+                <h3 style="margin-left:10px";>${title} 정보</h4>
                 <div class="content__wrap">
                     <div class="content__title">전체 업로드 데이터 개수</div>
                     <div class="content__row">
@@ -147,6 +174,7 @@ $(document).ready(function() {
                 <div class="content__wrap"></div>
             </div>
             ${str_table}
+            <div class="drive--x"></div>
         `;
         $('.modal .content__card').append(str_div);
     });

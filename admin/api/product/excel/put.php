@@ -25,13 +25,23 @@ $where_ist_values = array();
 $sheet_data = json_decode($sheet_str, true);
 
 $order_sheet   = $sheet_data['order_sheet'];
-$option_sheet = $sheet_data['optional_sheet'];
+$sales_info_sheet = $sheet_data['sales_info_sheet'];
+$option_info_sheet = $sheet_data['option_info_sheet'];
+
 $img_sheet      = $sheet_data['img_sheet'];
 $product_info = array();
 $product_true = array();
 $product_false = array();
 
 date_default_timezone_set('Asia/Seoul');
+$option_info_arr = array();
+
+if($option_info_sheet != null && count($option_info_sheet) != 0){
+    $excel_start_row = 3;
+    foreach($option_info_sheet as $key => $val){
+        $option_info_arr[$val[0]][$val[0]."_".$val[1]] = array($key + $excel_start_row, $val);
+    }
+}
 
 if($order_sheet != null && count($order_sheet) != 0){
     $excel_start_row = 11;
@@ -39,71 +49,7 @@ if($order_sheet != null && count($order_sheet) != 0){
         $val[2] = trim($val[2]);
         $val[3] = trim($val[3]);
 
-        $delete_sql = "
-            DELETE FROM dev.PRODUCT_OPTION
-            WHERE  PRODUCT_CODE = '".$val[3]."'
-        ";
-        $db->query($delete_sql);
-
-        $option_set_array = array();
-
-        //A1 ~ A5 옵션정보 추가
-        for($i = 0; $i < 5; $i++){
-            $chk_str =  strval($val[$i+23]).       //KR
-                        strval($val[$i+29]).       //EN
-                        strval($val[$i+35]);       //CN
-                        
-            if(strlen($chk_str) > 0 ){ 
-                $insert_sql = "
-                    INSERT INTO dev.PRODUCT_OPTION (
-                            OPTION_CODE,
-                            OPTION_NAME,
-                            PRODUCT_CODE
-                        ) 
-                    VALUES (
-                            '".$val[3]."_A".strval($i+1)."',
-                            'A".strval($i+1)."',
-                            '".$val[3]."'
-                        )
-                ";
-
-                $db->query($insert_sql);
-                $option_set_idx = $db->last_id();
-                if($option_set_idx != null){
-                    array_push($option_set_array, $option_set_idx);
-                }
-            }
-        }
-
-        // ONE Size 옵션 추가
-
-        $chk_str =  strval($val[28]).       //KR
-                    strval($val[34]).       //EN
-                    strval($val[40]);       //CN
-        if(strlen($chk_str) > 0 ){ 
-
-            $insert_sql = "
-                INSERT INTO dev.PRODUCT_OPTION (
-                        OPTION_CODE,
-                        OPTION_NAME,
-                        PRODUCT_CODE
-                    ) 
-                VALUES (
-                        '".$val[3]."_ONE',
-                        'ONE',
-                        '".$val[3]."'
-                    )
-            ";
-            $db->query($insert_sql);
-
-            $option_set_idx = $db->last_id();
-            if($option_set_idx != null){
-                array_push($option_set_array, $option_set_idx);
-            }
-        }
-
         $json_result['data_cnt'] = count($order_sheet);
-        $stock_set = $option_stock_arr[$val[3]]['OPTION_STOCK_SET'];
         $product_code_cnt = $db->count("dev.SHOP_PRODUCT"," PRODUCT_CODE='".$val[3]."'");
         if($val[3] != null){
             if($product_code_cnt == 0 ){
@@ -166,7 +112,6 @@ if($order_sheet != null && count($order_sheet) != 0){
                         PRICE_KR_GB, 
                         PRICE_EN, 
                         PRICE_CN, 
-                        OPTION_STOCK_SET, 
                         CREATER, 
                         UPDATER
                     )
@@ -299,7 +244,6 @@ if($order_sheet != null && count($order_sheet) != 0){
                     'SALES_PRICE_KR'            => $val[47],
                     'SALES_PRICE_EN'            => $val[49],
                     'SALES_PRICE_CN'            => $val[50],
-                    'OPTION_STOCK_SET'          =>(count($option_set_array)>0?"'".implode(',',$option_set_array)."'":null),
                     
                     'UPDATER'                   =>'Admin',
                     'UPDATE_DATE'               =>date("Y-m-d H:i:s",time())
@@ -310,15 +254,69 @@ if($order_sheet != null && count($order_sheet) != 0){
                     $product_idx = $data['IDX'];
                 }
             }
-            
-            if($product_idx > 0) {
-                //code = 200;
+            if($product_idx > 0 && $product_idx != null) {
                 $product_info[$val[3]]['PRODUCT_CODE'] = $val[3];
                 $product_info[$val[3]]['PRODUCT_IDX'] = $product_idx;
                 array_push($product_true, array('product_code' => $val[3], 'product_name' => $val[11], 'row_num' => $key + $excel_start_row));
+
+                if($option_info_arr[$val[3]] != null){
+                    foreach($option_info_arr[$val[3]] as $option_data){
+                        $option_cnt = $db->count("dev.PRODUCT_OPTION", "OPTION_CODE='".$option_data[1][0]."_".$option_data[1][1]."'");
+                        if($option_cnt == 0){
+                            $option_info_query = "
+                                INSERT INTO dev.PRODUCT_OPTION
+                                    (   OPTION_CODE,
+                                        OPTION_NAME,
+                                        PRODUCT_IDX,
+                                        PRODUCT_CODE,
+                                        STOCK_GRADE,
+                                        CATEGORY_NAME,
+                                        SIZE_INFO_1,
+                                        SIZE_INFO_2,
+                                        SIZE_INFO_3,
+                                        SIZE_INFO_4,
+                                        SIZE_INFO_5,
+                                        SIZE_INFO_6
+                                    )
+                                VALUES (
+                                    '".$option_data[1][0]."_".$option_data[1][1]."',
+                                    '".$option_data[1][1]."',
+                                    ".$product_idx.",
+                                    '".$option_data[1][0]."',
+                                    '".$option_data[1][2]."',
+                                    '".$option_data[1][3]."',
+
+                                    '".$option_data[1][4]."',
+                                    '".$option_data[1][5]."',
+                                    '".$option_data[1][6]."',
+                                    '".$option_data[1][7]."',
+                                    '".$option_data[1][8]."',
+                                    '".$option_data[1][9]."',
+                                )
+                            ";
+                            $db->query($option_info_query);
+                        }
+                        else{
+                            $option_info_query = "
+                                UPDATE dev.PRODUCT_OPTION
+                                SET
+                                    STOCK_GRADE         = '".$option_data[1][2]."',
+                                    CATEGORY_NAME       = '".$option_data[1][3]."',
+                                    SIZE_INFO_1         = '".$option_data[1][4]."',
+                                    SIZE_INFO_2         = '".$option_data[1][5]."',
+                                    SIZE_INFO_3         = '".$option_data[1][6]."',
+                                    SIZE_INFO_4         = '".$option_data[1][7]."',
+                                    SIZE_INFO_5         = '".$option_data[1][8]."',
+                                    SIZE_INFO_6         = '".$option_data[1][9]."'
+                                WHERE
+                                    OPTION_CODE         = '".$option_data[1][0]."_".$option_data[1][1]."'
+                            ";
+                            $db->query($option_info_query);
+                        }
+                    }
+                }
             }
             else{
-                //array_push($product_false, $val[3]);
                 array_push($product_false, array('product_code' => $val[3], 'product_name' => $val[11], 'row_num' => $key + $excel_start_row));
             }
         }
@@ -327,83 +325,88 @@ if($order_sheet != null && count($order_sheet) != 0){
     $json_result['result']['product']['false']     = $product_false;
 }
 
-$option_true = array();     //상품옵션 등록 성공
-$option_false = array();    //상품옵션 등록 실패
-$option_product_code = null;
+$option_info_true = array();    //size옵션 등록 성공
+$option_info_false = array();
 
-if($option_sheet != null && count($option_sheet) != 0){
+foreach($option_info_arr as $key => $val){
+    foreach($option_info_arr[$key] as $option_key => $option_val){
+        if($product_info[$key] != null){
+            array_push($option_info_true, array('product_code' => $key, 'option_name' => $option_key, 'row_num' => $option_val[0]));
+        }
+        else{
+            array_push($option_info_false, array('product_code' => $key, 'option_name' => $option_key, 'row_num' => $option_val[0], 'reason' => '오더시트에 상품이 없습니다.'));
+        }     
+    }
+}
+$json_result['result']['option_info']['true']     = $option_info_true;
+$json_result['result']['option_info']['false']     = $option_info_false;
+
+$sales_info_true = array();     //상품옵션 등록 성공
+$sales_info_false = array();    //상품옵션 등록 실패
+$sales_info_product_code = null;
+
+if($sales_info_sheet != null && count($sales_info_sheet) != 0){
     $excel_start_row = 11;
-    for ($i=0; $i<count($option_sheet); $i++) {
+    for ($i=0; $i<count($sales_info_sheet); $i++) {
         $where = 'PRODUCT_CODE = ?';
-        $current_code = $option_sheet[$i][0];
+        $current_code = $sales_info_sheet[$i][0];
         
-        if ($option_product_code != $current_code) {
+        if ($sales_info_product_code != $current_code) {
             if ($product_info[$current_code] == null) {
-                array_push($option_false, array('product_code' => $current_code, 'row_num' => $i + $excel_start_row));
+                array_push($sales_info_false, array('product_code' => $current_code, 'row_num' => $i + $excel_start_row, 'reason' => '오더시트에 없는 상품코드입니다.'));
                 continue;
             } else {
-                $option_product_code = $current_code;
+                $sales_info_product_code = $current_code;
             }
         }
         $values = array(
-            'LIMIT_PURCHASE_MEMBER'     =>($option_sheet[$i][1]!=null?$option_sheet[$i][1]:'0'),
-            'LIMIT_PURCHASE_SINGLE'     =>($option_sheet[$i][2]!=null?$option_sheet[$i][2]:0),
-            'LIMIT_PURCHASE_QTY_MIN_NUM'=>($option_sheet[$i][3]!=null?$option_sheet[$i][3]:1),
-            'LIMIT_PURCHASE_QTY_MAX_NUM'=>($option_sheet[$i][4]!=null?$option_sheet[$i][4]:0),
-            'PRODUCT_KEYWORD'           =>$option_sheet[$i][5],
-            'PRODUCT_TAG'               =>$option_sheet[$i][6],
+            'LIMIT_PURCHASE_MEMBER'     =>($sales_info_sheet[$i][1]!=null?$sales_info_sheet[$i][1]:'0'),
+            'LIMIT_PURCHASE_SINGLE'     =>($sales_info_sheet[$i][2]!=null?$sales_info_sheet[$i][2]:0),
+            'LIMIT_PURCHASE_QTY_MIN_NUM'=>($sales_info_sheet[$i][3]!=null?$sales_info_sheet[$i][3]:1),
+            'LIMIT_PURCHASE_QTY_MAX_NUM'=>($sales_info_sheet[$i][4]!=null?$sales_info_sheet[$i][4]:0),
+            'PRODUCT_KEYWORD'           =>$sales_info_sheet[$i][5],
+            'PRODUCT_TAG'               =>$sales_info_sheet[$i][6],
     
-            'PRODUCT_TOTAL_WEIGHT'      =>($option_sheet[$i][8]!=null?$$option_sheet[$i][8]:'0'),
-            'HS_CODE'                   =>$option_sheet[$i][9],
-            'PRODUCT_DIVISION'          =>$option_sheet[$i][10],
-            'PRODUCT_MATERIAL_KR'       =>$option_sheet[$i][11],
-            'PRODUCT_MATERIAL_EN'       =>$option_sheet[$i][12],
-            'FABRIC'                    =>$option_sheet[$i][13],
+            'PRODUCT_TOTAL_WEIGHT'      =>($sales_info_sheet[$i][8]!=null?$$sales_info_sheet[$i][8]:'0'),
+            'HS_CODE'                   =>$sales_info_sheet[$i][9],
+            'PRODUCT_DIVISION'          =>$sales_info_sheet[$i][10],
+            'PRODUCT_MATERIAL_KR'       =>$sales_info_sheet[$i][11],
+            'PRODUCT_MATERIAL_EN'       =>$sales_info_sheet[$i][12],
+            'FABRIC'                    =>$sales_info_sheet[$i][13],
     
-            'MANUFACTURER'              =>$option_sheet[$i][14],
-            'SUPPLIER'                  =>$option_sheet[$i][15],
-            'BRAND'                     =>$option_sheet[$i][16],
-            'TREND'                     =>$option_sheet[$i][17],
-            'SELF_CLASSIFICATION'       =>$option_sheet[$i][18],
-            'MANUFACTURING_DATE'        =>$option_sheet[$i][19],
-            'RELEASE_DATE'              =>$option_sheet[$i][20],
-            'VALIDATE_START_DATE'       =>$option_sheet[$i][21],
-            'VALIDATE_END_DATE'         =>$option_sheet[$i][22],
-            'ORIGIN_COUNTRY'            =>$option_sheet[$i][23],
-            'PRODUCT_WIDTH'             =>$option_sheet[$i][24],
-            'PRODUCT_DEPTH'             =>$option_sheet[$i][25],
-            'PRODUCT_HEIGHT'            =>$option_sheet[$i][26],
+            'MANUFACTURER'              =>$sales_info_sheet[$i][14],
+            'SUPPLIER'                  =>$sales_info_sheet[$i][15],
+            'BRAND'                     =>$sales_info_sheet[$i][16],
+            'TREND'                     =>$sales_info_sheet[$i][17],
+            'SELF_CLASSIFICATION'       =>$sales_info_sheet[$i][18],
+            'MANUFACTURING_DATE'        =>$sales_info_sheet[$i][19],
+            'RELEASE_DATE'              =>$sales_info_sheet[$i][20],
+            'VALIDATE_START_DATE'       =>$sales_info_sheet[$i][21],
+            'VALIDATE_END_DATE'         =>$sales_info_sheet[$i][22],
+            'ORIGIN_COUNTRY'            =>$sales_info_sheet[$i][23],
+            'PRODUCT_WIDTH'             =>$sales_info_sheet[$i][24],
+            'PRODUCT_DEPTH'             =>$sales_info_sheet[$i][25],
+            'PRODUCT_HEIGHT'            =>$sales_info_sheet[$i][26],
     
-            'SEO_EXPOSURE_FLG'          =>$option_sheet[$i][27],
-            'SEO_TITLE'                 =>$option_sheet[$i][28],
-            'SEO_AUTHOR'                =>$option_sheet[$i][29],
-            'SEO_DESCRIPTION'           =>$option_sheet[$i][30],
-            'SEO_KEYWORDS'              =>$option_sheet[$i][31],
-            'SEO_ALT_TEXT'              =>$option_sheet[$i][32],
-            'MEMO'                      =>$option_sheet[$i][33],
+            'SEO_EXPOSURE_FLG'          =>$sales_info_sheet[$i][27],
+            'SEO_TITLE'                 =>$sales_info_sheet[$i][28],
+            'SEO_AUTHOR'                =>$sales_info_sheet[$i][29],
+            'SEO_DESCRIPTION'           =>$sales_info_sheet[$i][30],
+            'SEO_KEYWORDS'              =>$sales_info_sheet[$i][31],
+            'SEO_ALT_TEXT'              =>$sales_info_sheet[$i][32],
+            'MEMO'                      =>$sales_info_sheet[$i][33],
 
             'UPDATER'                   =>'Admin',
             'UPDATE_DATE'               =>date("Y-m-d H:i:s",time())
         );
-        if($db->count('dev.SHOP_PRODUCT',$where, array($current_code)) > 0) {
-            $db->update('dev.SHOP_PRODUCT', $values,$where,array($current_code));
-            array_push($option_true, array('product_code' => $current_code, 'row_num' => $i + $excel_start_row));
-        }
-        else{
-            array_push($option_false, array('product_code' => $current_code, 'row_num' => $i + $excel_start_row));
-        }
-        //$insert_sql = "INSERT INTO dev.PRODUCT_OPTION () VALUES ()";
+        $db->update('dev.SHOP_PRODUCT', $values,$where,array($current_code));
+        array_push($sales_info_true, array('product_code' => $current_code, 'row_num' => $i + $excel_start_row));
         /*
-        if($db->update('dev.SHOP_PRODUCT', $values,$where,array($current_code))){
-            array_push($option_true, $current_code);
-        }
-        else{
-            array_push($option_false, $current_code);
-        }
+        쿼리가 실행되지 못했을 경우의 조건 추가 개발 필요
         */
     }
-    $json_result['result']['option']['true']      = $option_true;
-    $json_result['result']['option']['false']     = $option_false;
+    $json_result['result']['sales_info']['true']      = $sales_info_true;
+    $json_result['result']['sales_info']['false']     = $sales_info_false;
 }
 
 $img_true = array();    //이미지 등록 성공
