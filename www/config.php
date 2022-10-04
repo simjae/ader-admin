@@ -20,7 +20,10 @@ define('PAGE_OPTION',array(
 			'main','landing','login','join','search','introduce','pay',
 			'guide','privacy-policy','terms-of-use','refund-policy','faq','notice',
 			'studio','performance','audition','store','account-search','components',
-			'product', 'order'
+			'product', 'order',
+			'member',
+			'posting',
+			'purchase',
 		),
 		'header'=>'header',
 		'footer'=>'footer',
@@ -29,13 +32,22 @@ define('PAGE_OPTION',array(
 	'base'=>'base'
 ));
 define('PAGE',array(
+	/* 22-10-02 bvdev.jhsim */
 	'components'=>array('nav','footer'),
 	'main'=>array(''),
 	'login'=>array(''),
+	'member'=>array('register','reminder','mypage','update','mileage','coupon','voucher','qna','deposit'),
+	'posting'=>array('list','collaboration','collection','exhibition','editorial','lookbook','event','draw'),
+	'search'=>array('shop','product'),
+	'product'=>array('bluemark','list','detail'),
+	'order'=>array('wish','basket','confirm','complete','list'),
+	'purchase'=>array('refund','exchange','complete'),
+	'notice'=>array('notify','faq','qna','guide','service','privacy'),
+	/* 22-10-02 bvdev.jhsim */
+
 	'join'=>array('','google','naver','kakao'),
 	'faq'=>array(''),
 	'calendar'=>array(''),
-	'search'=>array(''),
 	'account-search'=>array(''),
 	'introduce'=>array('company','service'),
 	'guide'=>array(''),
@@ -44,9 +56,9 @@ define('PAGE',array(
 	'terms-of-use'=>array(''),
 	'booking'=>array('','ok'),
 	'pay'=>array('ok','close'),
+	// 'notice'=>array(''),
+	// 'product'=>array('classify','register','list'),
+	// 'order'=>array('list'),
 
-	'notice'=>array(''),
-	'product'=>array('classify','register','list'),
-	'order'=>array('list')
 ));
 ?>
