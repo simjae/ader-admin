@@ -1,7 +1,7 @@
 /* common */
 
 .btn__wrap{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -101,7 +101,7 @@
     background-color: #fbfbfb;
 }
 .exhibtion__content .title{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -240,6 +240,12 @@
     .exhibtion__wrap{
         display: flex;
     }
+    .exhibtion__prd__wrap{
+        background-color: #ffffff;
+    }
+    .exhibtion__content {
+        background-color: #ffffff;
+    }
     .exhibtion__wrap .exhibtion__img{
         width: 50%;
         order: 2;
@@ -264,6 +270,8 @@
         align-items: flex-end;
         padding-left: 80px;
     }
+
+
     .styling-swiper .styling__img{
         height: 600px;
     }

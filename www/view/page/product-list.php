@@ -193,7 +193,7 @@
                             <li class="bg-emerald-400"></li>
                         </div>
                         <div class="flex gap-3">
-                            <div>A1</div>
+                            <div data-sold="true">A1</div>
                             <div>A2</div>
                         </div>
                     </div>
@@ -365,7 +365,7 @@
                     let imagesUrl = "/images/landing/"
                     let productWrap = document.querySelector('.recommend-swiper .swiper-wrapper');
                     data.forEach(function(index) {
-                        productHtml += `
+                    productHtml += `
                     <div class="swiper-slide">
                         <div class="relative recommend__prd">
                             <div class="absolute right-0 p-5">

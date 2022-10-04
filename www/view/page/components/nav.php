@@ -179,8 +179,8 @@
     };
     let dropMenu = () => {
         const menuBtn = document.querySelectorAll('.drop__menu');
-        const miusSvg = "css/images/footer/minus.svg";
-        const plusSvg = "css/images/nav/plus.svg";
+        const miusSvg = "images/footer/minus.svg";
+        const plusSvg = "images/nav/plus.svg";
         menuBtn.forEach((el) => {
             el.addEventListener("click", function(ev) {
                 let dropStatus = this.querySelector('.drop__down__content').dataset.dropdown;
@@ -219,4 +219,9 @@
         //web
         return false;
     }
+    window.addEventListener('resize', () => {
+        const web = document.querySelector('#web');
+        const mobile = document.querySelector('#mobile');
+        web.style.display = 'none';
+    });
 </script>

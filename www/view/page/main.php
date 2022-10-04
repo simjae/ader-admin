@@ -399,7 +399,7 @@
         </div>
     </section>
     <!-- Styling -->
-    <section class="lg:flex" style="">
+    <section>
         <div class="text-left for__you__box lg:text-right"><u>Styling</u><span class="ml-3">></span></div>
         <div class="styling-swiper swiper">
             <div class="swiper-wrapper">
@@ -444,6 +444,7 @@
     </section>
 </main>
 <script>
+    //swiper
     let newSwiper = new Swiper(".new__project__swiper", {
         navigation: {
             nextEl: ".new__project__swiper .swiper-button-next",
@@ -471,7 +472,10 @@
             320: {
                 slidesPerView: 2.5
             },
-            640: {
+            920: {
+                slidesPerView: 3.5
+            },
+            1400: {
                 slidesPerView: 4.5
             }
         }
@@ -497,4 +501,13 @@
             }
         }
     });
+    //
+    (()=> {
+        let $slide = document.querySelectorAll('.recommend-swiper .swiper-slide');
+        $slide.forEach((el) => {
+            el.addEventListener('click', () => {
+                location.href="http://116.124.128.246:80/product/list";
+            });
+        });
+    })();
 </script>

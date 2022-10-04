@@ -14,7 +14,7 @@ footer ul > li .drop__down__wrap {
 
 }
 footer .drop__down__content.about .about{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 10px;
     font-weight: 300;
     font-stretch: normal;
@@ -28,7 +28,7 @@ footer .drop__down__content .disclaimer{
     display: flex;
     height: 45px;
     border-bottom:1px solid #464646;
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 10px;
     font-weight: 300;
     font-stretch: normal;
@@ -39,7 +39,7 @@ footer .drop__down__content .disclaimer{
     color: #fff;
 }
 footer .drop__down__content .service{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 10px;
     font-weight: 300;
     font-stretch: normal;
@@ -50,7 +50,7 @@ footer .drop__down__content .service{
     color: #fff;
 }
 footer .drop__down__content .info{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 10px;
     font-weight: 300;
     font-stretch: normal;
@@ -105,7 +105,7 @@ footer [data-dropdown="show"]{
 }
 
 .footer__content{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 12px;
     font-weight: 300;
     font-stretch: normal;
@@ -130,7 +130,7 @@ footer [data-dropdown="show"]{
     font-size: 13px;
     margin: 0 auto;
     font-weight: 300;
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     padding-bottom: 15px;
 }
 

@@ -1,10 +1,44 @@
-html{
-   
+@font-face {
+    font-family: 'NotoSansCJKkr';
+    font-weight: 100;
+    src: url('../fonts/NotoSansCJKkr-Thin.woff') format('woff')
 }
-body {
-    width:100%;
-    overflow-x:hidden;
+
+@font-face {
+    font-family: 'NotoSansCJKkr';
+    font-weight: 300;
+    src: url('../fonts/NotoSansCJKkr-Light.woff') format('woff')
 }
-main{
-    padding-top: 80px;
+@font-face {
+    font-family: 'NotoSansCJKkr';
+    font-weight: 350;
+    src: url('../fonts/NotoSansCJKkr-DemiLight.woff') format('woff')
 }
+@font-face {
+    font-family: 'NotoSansCJKkr';
+    font-weight: 400;
+    src: url('../fonts/NotoSansCJKkr-Regular.woff') format('woff')
+}
+@font-face {
+    font-family: 'NotoSansCJKkr';
+    font-weight: 500;
+    src: url('../fonts/NotoSansCJKkr-Medium.woff') format('woff')
+}
+@font-face {
+    font-family: 'NotoSansCJKkr';
+    font-weight: 700;
+    src: url('../fonts/NotoSansCJKkr-Bold.woff') format('woff')
+}
+@font-face {
+    font-family: 'NotoSansCJKkr';
+    font-weight: 900;
+    src: url('../fonts/NotoSansCJKkr-Black.woff') format('woff');
+}
+
+
+
+html{}
+body {width:100%;overflow-x:hidden;background-color : #fff ; color : #000 ;}
+a { text-decoration : none ; color : #000 }
+body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
+main{padding-top: 80px;}

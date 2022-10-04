@@ -26,7 +26,7 @@
     overflow: hidden;
 }
 .prd__meun__grid .prd__meun__box .prd__title{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
@@ -35,7 +35,7 @@
     color: #343434;
 }
 .prd__meun__grid .prd__meun__sort span{
-    font-family: NotoSansCJKkr;
+    font-family: Noto Sans KR;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;
@@ -96,9 +96,13 @@
     width: 20px;
 }
 .product__list__box .prd__list{
+    font-size: 13px;
+    font-family: FuturaLTPro;
+    color: #343434;
     border-right-width: 0px;
     border-left-width: 1px;
     position: relative;
+
 }
 .product__list__box .prd__list:first-child{
     border-left-width: 0px;
@@ -124,6 +128,13 @@
     list-style-type: none;
     width: 8px;
     height: 8px;
+}
+
+[data-sold="true"]::after{
+    content:url('/images/product/sold-line.svg');
+    position: relative;
+    right: 13px;
+    top: 4px;
 }
 /* web */
 @media (min-width: 1024px){
@@ -155,7 +166,7 @@
         overflow: hidden;
     }
     .prd__meun__grid .prd__meun__box .prd__title{
-        font-family: NotoSansCJKkr;
+        font-family: Noto Sans KR;
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -164,7 +175,7 @@
         color: #343434;
     }
     .prd__meun__grid .prd__meun__sort span{
-        font-family: NotoSansCJKkr;
+        font-family: Noto Sans KR;
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
