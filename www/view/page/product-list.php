@@ -1,4 +1,4 @@
-<link rel=stylesheet href='/css/product/product.css' type='text/css'>
+<link rel=stylesheet href='/css/product/list.css' type='text/css'>
 <main>
     <section class="product__list__wrap">
         <div class="top__banner"></div>
@@ -358,7 +358,6 @@
     window.addEventListener('DOMContentLoaded', function() {
         productListSelectGrid();
     });
-
     const productLoadApi = () => {
         let pram_arr = [5];
         $.ajax({
