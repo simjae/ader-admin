@@ -120,13 +120,17 @@
                     <img src="/images/product/cloth.svg" alt="" style="width: 11px;">
                     <span>아이템보기</span>
                 </li>
-                <li class="sort__grid" data-view="2">
+                <li class="web sort__grid" data-grid="2">
+                    <img src="/images/product/grid-cols-2.svg" alt="">
+                    <span>2칸보기</span>
+                </li>
+                <li class="moblie sort__grid" data-grid="2">
                     <img src="/images/product/grid-cols-2.svg" alt="">
                     <span>2칸보기</span>
                 </li>
             </div>
         </div>
-        <div class="product__list__box grid grid-cols-4">
+        <div class="product__list__box" data-grid="4">
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
                     <img src="/images/nav/wishlist.svg" alt="">
@@ -347,78 +351,139 @@
     </section>
 </main>
 <script>
+    window.addEventListener('DOMContentLoaded', function() {
+        productListSelectGrid();
+        // productListResizeReset();
+    });
+    // window.addEventListener('resize', () => {
+    //     productListResizeReset()
+    // });
     const productLoadApi = () => {
-            let pram_arr = [5];
-            $.ajax({
-                type: "post",
-                data: {
-                    "product_idx": pram_arr
-                },
-                dataType: "json",
-                url: "http://116.124.128.246:81/_api/display/product/grid/lib/get",
-                error: function() {
-                    alert("상품 이미지 불러오기 처리에 실패했습니다.");
-                },
-                success: function(d) {
-                    let data = d.data;
-                    let productHtml = ""
-                    let imagesUrl = "/images/landing/"
-                    let productWrap = document.querySelector('.recommend-swiper .swiper-wrapper');
-                    data.forEach(function(index) {
-                    productHtml += `
-                    <div class="swiper-slide">
-                        <div class="relative recommend__prd">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+        let pram_arr = [5];
+        $.ajax({
+            type: "post",
+            data: {
+                "product_idx": pram_arr
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:81/_api/display/product/grid/lib/get",
+            error: function() {
+                alert("상품 이미지 불러오기 처리에 실패했습니다.");
+            },
+            success: function(d) {
+                let data = d.data;
+                let productHtml = ""
+                let imagesUrl = "/images/landing/"
+                let productWrap = document.querySelector('.recommend-swiper .swiper-wrapper');
+                data.forEach(function(index) {
+                productHtml += `
+                <div class="swiper-slide">
+                    <div class="relative recommend__prd">
+                        <div class="absolute right-0 p-5">
+                            <img src="/images/nav/wishlist.svg" alt="">
+                        </div>
+                        <div class="recommend__img" style="background-image:url('${index.img_location}') ;"></div>
+                        <div class="px-2 py-3">
+                            <div class="flex justify-between">
+                                <div>${index.product_code}</div>
+                                <div>529.000</div>
                             </div>
-                            <div class="recommend__img" style="background-image:url('${index.img_location}') ;"></div>
-                            <div class="px-2 py-3">
-                                <div class="flex justify-between">
-                                    <div>${index.product_code}</div>
-                                    <div>529.000</div>
+                            <div>Gray</div>
+                            <div class="flex justify-between">
+                                <div class="color__chip">
+                                    <li class="bg-slate-500"></li>
+                                    <li class="bg-orange-600"></li>
+                                    <li class="bg-emerald-400"></li>
                                 </div>
-                                <div>Gray</div>
-                                <div class="flex justify-between">
-                                    <div class="color__chip">
-                                        <li class="bg-slate-500"></li>
-                                        <li class="bg-orange-600"></li>
-                                        <li class="bg-emerald-400"></li>
-                                    </div>
-                                    <div class="flex gap-3">
-                                        <div>A1</div>
-                                        <div>A2</div>
-                                    </div>
+                                <div class="flex gap-3">
+                                    <div>A1</div>
+                                    <div>A2</div>
                                 </div>
                             </div>
                         </div>
-                    </div>`
-                    });
-                    productWrap.innerHTML = productHtml;
-                    console.log(productWrap);
-                }
+                    </div>
+                </div>`
+                });
+                productWrap.innerHTML = productHtml;
+                console.log(productWrap);
+            }
 
-            });
-        }
-        (() => {
-            const $prdListBox = document.querySelector(".product__list__box");
-            const $sortGrid = document.querySelector(".sort__grid");
-            let $sortSpan = document.querySelector(".sort__grid").querySelector('span');
-            let $sortImg = document.querySelector(".sort__grid").querySelector('img');
-            $sortGrid.addEventListener("click", () => {
-                let view = $sortGrid.dataset.view;
-                if (view == 2) {
-                    $sortGrid.dataset.view = 4;
-                    $sortSpan.innerText = '4칸보기';
-                    $sortImg.src = '/images/product/grid-cols-4.svg';
-                    $prdListBox.classList.replace('grid-cols-4', 'grid-cols-2');
-                } else {
-                    $sortGrid.dataset.view = 2;
-                    $sortSpan.innerText = '2칸보기';
-                    $sortImg.src = '/images/product/grid-cols-2.svg';
-                    $prdListBox.classList.replace('grid-cols-2', 'grid-cols-4');
+        });
+    }
+    // let productListResizeReset = () => {
+    //     let windowSize = window.screen.width;
+    //     let $prdListBox = document.querySelector(".product__list__box");
+    //     let $sortGrid = document.querySelector(".sort__grid");
+    //     let $sortSpan = document.querySelector(".sort__grid").querySelector('span');
+    //     let $sortImg = document.querySelector(".sort__grid").querySelector('img');
+    //     if(windowSize < 1200) {
+    //         $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
+    //         $prdListBox.dataset.grid = 3;
+    //         $sortGrid.dataset.grid = 2;
+    //         $sortSpan.innerText = '2칸보기';
+    //         $sortImg.src = '/images/product/grid-cols-2.svg';
+    //     } else {
+    //         $prdListBox.style.gridTemplateColumns = "repeat(16, 1fr)"
+    //         $prdListBox.dataset.grid = 4;
+    //         $sortGrid.dataset.grid = 2;
+    //         $sortSpan.innerText = '2칸보기';
+    //         $sortImg.src = '/images/product/grid-cols-2.svg';
+    //     }
+    // }
+    let productListSelectGrid = () => {
+        let $body =document.querySelector("body");
+        let $wSortGrid = document.querySelector(".web.sort__grid");
+        let $mSortGrid = document.querySelector(".mobile.sort__grid");
+        let $sortSpan = document.querySelector(".sort__grid").querySelector('span');
+        let $sortImg = document.querySelector(".sort__grid").querySelector('img');
+        let $prdListBox = document.querySelector(".product__list__box");
+        
+        let viewSize = $body.dataset.view;
+        $sortGrid.addEventListener("click", () => {
+            let gridBtn = $sortGrid.dataset.grid;
+            if(viewSize == "W"){
+                switch (gridBtn){
+                    case "2": 
+                        $prdListBox.dataset.grid = 2;
+                        $sortGrid.dataset.grid = 4;
+                        $sortSpan.innerText = '4칸보기';
+                        $sortImg.src = '/images/product/grid-cols-4.svg';
+                        break;
+                    
+                    case "4": 
+                        $prdListBox.dataset.grid = 4;
+                        $sortGrid.dataset.grid = 2;
+                        $sortSpan.innerText = '2칸보기';
+                        $sortImg.src = '/images/product/grid-cols-2.svg';
+                        break;
                 }
-            });
-        })();
+            } else {
+                switch (gridBtn){
+                    case "3": 
+                        $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
+                        $prdListBox.dataset.grid = 3;
+                        $sortGrid.dataset.grid = 2;
+                        $sortSpan.innerText = '2칸보기';
+                        $sortImg.src = '/images/product/grid-cols-2.svg';
+                        break;
+                    
+                    case "2": 
+                        $prdListBox.style.gridTemplateColumns = "repeat(8, 1fr)"
+                        $prdListBox.dataset.grid = 2;
+                        $sortGrid.dataset.grid = 1;
+                        $sortSpan.innerText = '1칸보기';
+                        $sortImg.src = '/images/product/grid-cols-1.svg';
+                        break;
+                    case "1": 
+                        $prdListBox.dataset.grid = 1;
+                        $sortGrid.dataset.grid = 3;
+                        $sortSpan.innerText = '3칸보기';
+                        $sortImg.src = '/images/product/grid-cols-3.svg';
+                        break;
+                }
+            } 
+        });
+    }
     // product script
     let productListSwiper = new Swiper(".prd__meun__swiper", {
         navigation: {

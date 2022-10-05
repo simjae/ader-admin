@@ -132,9 +132,23 @@
         webMenu();
         dropMenu();
         mobileSearch();
+        windowResponsive()
         //productLoadApi();
     });
-      (() => {
+    window.addEventListener('resize', () => {
+        windowResponsive()
+    });
+    function windowResponsive(){
+        let width = window.screen.width;
+        const $body = document.querySelector("body");
+        console.log(width);
+        if(width  >= 1200){
+            $body.dataset.view = "W"
+        }else{
+            $body.dataset.view = "M"
+        }
+    }
+    (() => {
         const $headerWeb = document.querySelectorAll('.header__grid .web');
         const $web = document.querySelector('#web');
         const $header = document.querySelector('header');
@@ -207,7 +221,6 @@
             mobile.classList.add('search');
         });
     }
-
     function checkMobileDevice() {
         var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
         for (var info in mobileKeyWords) {
@@ -219,9 +232,4 @@
         //web
         return false;
     }
-    window.addEventListener('resize', () => {
-        const web = document.querySelector('#web');
-        const mobile = document.querySelector('#mobile');
-        web.style.display = 'none';
-    });
 </script>

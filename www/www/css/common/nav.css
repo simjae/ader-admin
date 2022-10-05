@@ -301,7 +301,7 @@ transform: translateY(-6px) rotate(-45deg);
         grid-column: 14/17;
         justify-content: flex-start;
         align-items: center;
-        gap: 17px;
+        gap: 10px;
     }
 
 }
