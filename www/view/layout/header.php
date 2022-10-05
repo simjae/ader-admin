@@ -53,12 +53,12 @@
 		<script src="/scripts/static/taggingJS/tagging.min.js"></script>
 		<script src="/scripts/functions.js?v=<?=time()?>"></script>
 		<script src="/scripts/helix.js?v=<?=time()?>"></script>
-
+		
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 		<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
 
-		<!--- Apple id --->
-		<script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+		<!-- Apple id -->
 		<meta name="appleid-signin-client-id" content="[CLIENT_ID]">
 		<meta name="appleid-signin-scope" content="[SCOPES]">
 		<meta name="appleid-signin-redirect-uri" content="[REDIRECT_URI]">

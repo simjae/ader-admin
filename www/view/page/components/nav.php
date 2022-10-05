@@ -143,9 +143,9 @@
         const $body = document.querySelector("body");
         console.log(width);
         if(width  >= 1200){
-            $body.dataset.view = "W"
+            $body.dataset.view = "rW"
         }else{
-            $body.dataset.view = "M"
+            $body.dataset.view = "rM"
         }
     }
     (() => {

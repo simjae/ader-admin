@@ -108,25 +108,29 @@
                 <div class="swiper-button-next"></div>
             </div>
             <div class="prd__meun__sort">
-                <li>
+                <li class="flex">
                     <img src="/images/product/sort-bottom.svg" alt="" style="width: 10px;">
                     <span>정렬</span>
                 </li>
-                <li>
+                <li class="flex">
                     <img src="/images/product/filter.svg" alt="" style="width: 15px;">
                     <span>필터</span>
                 </li>
-                <li>
+                <li class="flex">
                     <img src="/images/product/cloth.svg" alt="" style="width: 11px;">
                     <span>아이템보기</span>
                 </li>
-                <li class="web sort__grid" data-grid="2">
-                    <img src="/images/product/grid-cols-2.svg" alt="">
-                    <span>2칸보기</span>
+                <li class="hidden lg:block">
+                    <div class="rW sort__grid" data-grid="2">
+                        <img src="/images/product/grid-cols-2.svg" alt="">
+                        <span>2칸보기</span>
+                    </div>
                 </li>
-                <li class="moblie sort__grid" data-grid="2">
-                    <img src="/images/product/grid-cols-2.svg" alt="">
-                    <span>2칸보기</span>
+                <li class="lg:hidden">
+                    <div class="rM sort__grid" data-grid="2">
+                        <img src="/images/product/grid-cols-2.svg" alt="">
+                        <span>2칸보기</span>
+                    </div>
                 </li>
             </div>
         </div>
@@ -353,11 +357,8 @@
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         productListSelectGrid();
-        // productListResizeReset();
     });
-    // window.addEventListener('resize', () => {
-    //     productListResizeReset()
-    // });
+
     const productLoadApi = () => {
         let pram_arr = [5];
         $.ajax({
@@ -410,81 +411,97 @@
 
         });
     }
-    // let productListResizeReset = () => {
-    //     let windowSize = window.screen.width;
-    //     let $prdListBox = document.querySelector(".product__list__box");
-    //     let $sortGrid = document.querySelector(".sort__grid");
-    //     let $sortSpan = document.querySelector(".sort__grid").querySelector('span');
-    //     let $sortImg = document.querySelector(".sort__grid").querySelector('img');
-    //     if(windowSize < 1200) {
-    //         $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
-    //         $prdListBox.dataset.grid = 3;
-    //         $sortGrid.dataset.grid = 2;
-    //         $sortSpan.innerText = '2칸보기';
-    //         $sortImg.src = '/images/product/grid-cols-2.svg';
-    //     } else {
-    //         $prdListBox.style.gridTemplateColumns = "repeat(16, 1fr)"
-    //         $prdListBox.dataset.grid = 4;
-    //         $sortGrid.dataset.grid = 2;
-    //         $sortSpan.innerText = '2칸보기';
-    //         $sortImg.src = '/images/product/grid-cols-2.svg';
-    //     }
-    // }
+    //모바일 & 웹 그리드별 보기 기능
     let productListSelectGrid = () => {
         let $body =document.querySelector("body");
-        let $wSortGrid = document.querySelector(".web.sort__grid");
-        let $mSortGrid = document.querySelector(".mobile.sort__grid");
-        let $sortSpan = document.querySelector(".sort__grid").querySelector('span');
-        let $sortImg = document.querySelector(".sort__grid").querySelector('img');
         let $prdListBox = document.querySelector(".product__list__box");
+        let mql = window.matchMedia("screen and (max-width: 1024px)");
+
+        let $webSortGrid = document.querySelector(".rW.sort__grid");
+        let $websortSpan = document.querySelector(".rW.sort__grid").querySelector('span');
+        let $websortImg = document.querySelector(".rW.sort__grid").querySelector('img');
         
-        let viewSize = $body.dataset.view;
-        $sortGrid.addEventListener("click", () => {
-            let gridBtn = $sortGrid.dataset.grid;
-            if(viewSize == "W"){
-                switch (gridBtn){
-                    case "2": 
-                        $prdListBox.dataset.grid = 2;
-                        $sortGrid.dataset.grid = 4;
-                        $sortSpan.innerText = '4칸보기';
-                        $sortImg.src = '/images/product/grid-cols-4.svg';
-                        break;
-                    
-                    case "4": 
-                        $prdListBox.dataset.grid = 4;
-                        $sortGrid.dataset.grid = 2;
-                        $sortSpan.innerText = '2칸보기';
-                        $sortImg.src = '/images/product/grid-cols-2.svg';
-                        break;
-                }
-            } else {
-                switch (gridBtn){
-                    case "3": 
-                        $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
-                        $prdListBox.dataset.grid = 3;
-                        $sortGrid.dataset.grid = 2;
-                        $sortSpan.innerText = '2칸보기';
-                        $sortImg.src = '/images/product/grid-cols-2.svg';
-                        break;
-                    
-                    case "2": 
-                        $prdListBox.style.gridTemplateColumns = "repeat(8, 1fr)"
-                        $prdListBox.dataset.grid = 2;
-                        $sortGrid.dataset.grid = 1;
-                        $sortSpan.innerText = '1칸보기';
-                        $sortImg.src = '/images/product/grid-cols-1.svg';
-                        break;
-                    case "1": 
-                        $prdListBox.dataset.grid = 1;
-                        $sortGrid.dataset.grid = 3;
-                        $sortSpan.innerText = '3칸보기';
-                        $sortImg.src = '/images/product/grid-cols-3.svg';
-                        break;
-                }
-            } 
+        let $mobileSortGrid = document.querySelector(".rM.sort__grid");
+        let $mobileSortSpan = document.querySelector(".rM.sort__grid").querySelector('span');
+        let $mobileSortImg = document.querySelector(".rM.sort__grid").querySelector('img');
+        //그리드 초기화 
+        if (mql.matches) {
+            $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
+            $prdListBox.dataset.grid = 3;
+            $mobileSortSpan.innerText = '2칸보기';
+        } else {
+            $prdListBox.style.gridTemplateColumns = "repeat(16, 1fr)"
+            $prdListBox.dataset.grid = 4;
+        }
+        //웹 sort 버튼 클릭
+        $webSortGrid.addEventListener("click", ()=> {
+            let currentGrid = document.querySelector(".product__list__box").dataset.grid;
+            switch (currentGrid){
+                case "2": //4칸으로 바꿔야함 2칸보기로 바꾸기
+                    //그리드 박스 변경
+                    $prdListBox.style.gridTemplateColumns = "repeat(16, 1fr)"
+                    $prdListBox.dataset.grid = 4;
+                    //그리드 버튼 변경
+                    $webSortGrid.dataset.grid = 2;
+                    $websortSpan.innerText = '2칸보기';
+                    $websortImg.src = '/images/product/grid-cols-2.svg';
+                    break;
+                
+                case "4": 
+                    //그리드 박스 변경
+                    $prdListBox.style.gridTemplateColumns = "repeat(16, 1fr)"
+                    $prdListBox.dataset.grid = 2;
+                    //그리드 버튼 변경
+                    $webSortGrid.dataset.grid = 4;
+                    $websortSpan.innerText = '4칸보기';
+                    $websortImg.src = '/images/product/grid-cols-4.svg';
+                    break;
+            }
         });
-    }
-    // product script
+        //모바일 sort 버튼 클릭
+        $mobileSortGrid.addEventListener("click", ()=> {
+            currentGrid = document.querySelector(".product__list__box").dataset.grid;
+            switch (currentGrid){
+                case "3": 
+                    $prdListBox.style.gridTemplateColumns = "repeat(8, 1fr)"
+                    $prdListBox.dataset.grid = 2;
+                    
+                    $mobileSortGrid.dataset.grid = 1;
+                    $mobileSortSpan.innerText = '1칸보기';
+                    $mobileSortImg.src = '/images/product/grid-cols-2.svg';
+                    break;
+                
+                case "2": 
+                    $prdListBox.style.gridTemplateColumns = "repeat(8, 1fr)"
+                    $prdListBox.dataset.grid = 1;
+
+                    $mobileSortGrid.dataset.grid = 3;
+                    $mobileSortSpan.innerText = '3칸보기';
+                    $mobileSortImg.src = '/images/product/grid-cols-3.svg';
+                    break;
+                case "1": 
+                    $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
+                    $prdListBox.dataset.grid = 3;
+
+                    $mobileSortGrid.dataset.grid = 2;
+                    $mobileSortSpan.innerText = '2칸보기';
+                    $mobileSortImg.src = '/images/product/grid-cols-2.svg';
+                    break;
+                }
+        });
+        //사이즈 변경시 그리드 대응
+        window.addEventListener('resize', function() {
+            if (mql.matches) {
+                $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
+                $prdListBox.dataset.grid = 3;
+                $mobileSortSpan.innerText = '2칸보기';
+            } else {
+                $prdListBox.style.gridTemplateColumns = "repeat(16, 1fr)"
+                $prdListBox.dataset.grid = 4;
+            }
+        });
+    } 
+    /* 모바일 & 웹 상품 카테고리 스와이프 */
     let productListSwiper = new Swiper(".prd__meun__swiper", {
         navigation: {
             nextEl: ".prd__meun__grid .swiper-button-next",
