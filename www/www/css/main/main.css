@@ -210,33 +210,11 @@
 
  
 @media (min-width: 1024px){
-    header{
-        min-width: 320px;
-        margin: 0 auto;
-        
-    }
-    nav {
-        max-width: 1920px;
-        margin: 0 auto;
-    }
-    main{
-        max-width: 1920px;
-        min-width: 320px;
-        margin: 0 auto;
-        overflow: hidden;
-    }
-    footer{
-        margin:0 auto;
-    }
-    .for__you__box{
-        flex-shrink: 0;
-        padding: 20px 60px;
-    }
-    .nav__bar{
+    /* .nav__bar{
         display: grid;
         justify-content: space-between;
         grid-template-columns: repeat(16, 120px);gap: 10px;
-    }
+    } */
     .exhibtion__wrap{
         display: flex;
     }

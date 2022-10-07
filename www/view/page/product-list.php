@@ -500,6 +500,14 @@
             }
         });
     } 
+    (() => {
+        const $$prd__list = document.querySelectorAll('.prd__list');
+            $$prd__list.forEach((el) => {
+                el.addEventListener("click", () => {
+                    location.href="http://116.124.128.246:80/product/detail"
+                });
+            })
+    })()
     /* 모바일 & 웹 상품 카테고리 스와이프 */
     let productListSwiper = new Swiper(".prd__meun__swiper", {
         navigation: {

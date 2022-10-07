@@ -37,8 +37,32 @@
 
 
 
-html{}
+html { font-size: 62.5%; }
 body {width:100%;overflow-x:hidden;background-color : #fff ; color : #000 ;}
 a { text-decoration : none ; color : #000 }
 body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
 main{padding-top: 80px;}
+@media (min-width: 1024px){
+    header{
+        min-width: 320px;
+        margin: 0 auto;
+        
+    }
+    nav {
+        max-width: 1920px;
+        margin: 0 auto;
+    }
+    main{
+        max-width: 1920px;
+        min-width: 320px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    footer{
+        margin:0 auto;
+    }
+    .for__you__box{
+        flex-shrink: 0;
+        padding: 20px 60px;
+    }
+}
