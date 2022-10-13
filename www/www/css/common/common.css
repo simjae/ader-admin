@@ -35,7 +35,10 @@
     src: url('../fonts/NotoSansCJKkr-Black.woff') format('woff');
 }
 
-
+:root{
+    --w-g : repeat(16,1fr);
+    --m-g : repeat(8,1fr);
+}
 
 html { font-size: 62.5%; }
 body {width:100%;overflow-x:hidden;background-color : #fff ; color : #000 ;}

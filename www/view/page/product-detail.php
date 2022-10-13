@@ -90,14 +90,24 @@
             <div class="product__price">289,000</div>
             <div class="product__color">컬러색상</div>
             <div class="color__chip">
-                <li class="bg-slate-500"></li>
-                <li class="bg-orange-600"></li>
-                <li class="bg-emerald-400"></li>
-                <li class="bg-sky-500"></li>
+                <div class="color__chip">
+                    <div class="color__outline select">
+                        <div class="color" style="background-color:pink"></div>
+                    </div>
+                    <div class="color__outline">
+                        <div class="color" style="background-color:slateblue"></div>
+                    </div>
+                    <div class="color__outline">
+                        <div class="color" style="background-color:orange"></div>
+                    </div>
+                    <div class="color__outline">
+                        <div class="color" style="background-color:greenyellow"></div>
+                    </div>
+                </div>
             </div>
             <div class="product__size">
                 <div>Size</div>
-                <div class="pl-28 flex gap-4">
+                <div class="size__box">
                     <li>A1</li>
                     <li>A2</li>
                     <li>A3</li>
@@ -147,8 +157,45 @@
                             <div class="product__color">Gray</div>
                             <div class="flex justify-between">
                                 <div class="color__chip">
+                                    <div class="color__outline select">
+                                        <div class="color" style="background-color:pink"></div>
+                                    </div>
+                                    <div class="color__outline">
+                                        <div class="color" style="background-color:slateblue"></div>
+                                    </div>
+                                    <div class="color__outline">
+                                        <div class="color" style="background-color:orange"></div>
+                                    </div>
+                                    <div class="color__outline">
+                                        <div class="color" style="background-color:greenyellow"></div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="product__size">A1</div>
+                                    <div class="product__size">A2</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="prd__list__wrap">
+                        <div class="prd__option__wrap">
+                            <div class="absolute right-0 p-5">
+                                <img src="/images/nav/wishlist.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
+                        <div class="prd__list__content">
+                            <div class="flex justify-between">
+                                <div class="product__title">BLASSHD01KK</div>
+                                <div class="product__price">529.000</div>
+                            </div>
+                            <div class="product__color">Gray</div>
+                            <div class="flex justify-between">
+                                <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -176,7 +223,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -204,7 +251,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -232,7 +279,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -260,7 +307,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -288,7 +335,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -316,7 +363,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -344,7 +391,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -372,7 +419,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -400,35 +447,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -464,7 +483,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -492,7 +511,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -520,7 +539,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -548,7 +567,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -576,7 +595,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -604,7 +623,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -632,7 +651,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -660,7 +679,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -688,7 +707,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -716,7 +735,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -744,7 +763,7 @@
                             <div class="flex justify-between">
                                 <div class="color__chip">
                                     <li class="color bg-slate-500"></li>
-                                    <li class="color bg-orange-600"></li>
+                                    <li class="bg-orange-600 color"></li>
                                     <li class="color bg-emerald-400"></li>
                                 </div>
                                 <div class="flex gap-3">
@@ -901,7 +920,7 @@
             </div>
             <div class="product__size">
                 <div>Size</div>
-                <div class="pl-28 flex gap-4">
+                <div class="flex gap-4 pl-28">
                     <li>A1</li>
                     <li>A2</li>
                     <li>A3</li>

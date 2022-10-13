@@ -85,11 +85,26 @@ ul,li{
     text-align: left;
     color: #343434;
 }
+.detail__wrapper .info__wrap .color__chip .color__outline.select {
+    padding: 3px;
+    outline-style: auto;
+    outline-width: 1px;
+    outline-color: #7a7a7a;
+    border-radius:50%;
+
+}
+.detail__wrapper .info__wrap .color__chip .color {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+}
+
+
 .info__wrap .product__size {
     display: flex;
     font-family: FuturaLTPro;
     font-size: 11px;
-    text-align: left;
+    justify-content: space-between;
     color: #343434;
 }
 .info__wrap .product__size li {
@@ -99,6 +114,11 @@ ul,li{
     font-size: 11px;
     text-align: left;
     color: #343434;
+}
+.product__size .size__box {
+    display: flex;
+    gap: 30px;
+    padding-right: 30px;
 }
 .info__wrap .product__size__guide {
     display: flex;

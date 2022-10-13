@@ -33,7 +33,7 @@ define('PAGE_OPTION',array(
 ));
 define('PAGE',array(
 	/* 22-10-02 bvdev.jhsim */
-	'components'=>array('nav','footer'),
+	'components'=>array('nav','footer','basket'),
 	'main'=>array(''),
 	'login'=>array(''),
 	'member'=>array('register','reminder','mypage','update','mileage','coupon','voucher','qna','deposit'),

@@ -1,4 +1,4 @@
-<div class="notice__wrap">
+<!-- <div class="notice__wrap">
     <Marquee width="90%">
         <div class="notice__marquee">
             <div class="notice__title">cs 및 배송 시스템 개편 안내</div>
@@ -7,7 +7,7 @@
         </div>
     </Marquee>
     <div class="notice__close"><img src="/images/landing/close.svg" alt=""></div>
-</div>
+</div> -->
 <nav class="header__wrap">
     <ul class="header__grid">
         <li class="cursor-pointer header__logo">
@@ -21,7 +21,7 @@
         <li class="hidden w-24 cursor-pointer lg:block web" style="grid-column: 12/13;">스토리</li>
         <li class="hidden w-24 cursor-pointer lg:block web" style="grid-column: 13/14;">매장보기</li>
         <ul class="right__nav">
-            <li class="w-13 hidden cursor-pointer lg:block web">
+            <li class="hidden cursor-pointer w-13 lg:block web">
                 <div class="flex">
                     <img src="/images/nav/search.svg" alt="">
                     <span class="pl-1">검색</span>
@@ -29,7 +29,7 @@
             </li>
             <li class="hidden cursor-pointer lg:block web"><img class="w-4" src="/images/nav/earth.svg" alt=""></li>
             <li class="flex cursor-pointer "><img src="/images/nav/wishlist.svg" alt=""><span class="pl-1">12</span></li>
-            <li class="flex cursor-pointer "><img src="/images/nav/basket.svg" alt=""><span class="pl-1">15</span></li>
+            <li class="flex cursor-pointer basket__btn "><img src="/images/nav/basket.svg" alt=""><span class="pl-1">15</span></li>
             <li class="hidden cursor-pointer w-13 lg:block web">
                 <div class="flex gap-1">
                     <img src="/images/nav/blue-tag.svg" alt="">
@@ -37,7 +37,7 @@
                 </div>
             </li>
             <li class="hidden cursor-pointer lg:block web">사</li>
-            <li class="flex cursor-pointer lg:hidden mobileMenu pr-3">
+            <li class="flex pr-3 cursor-pointer lg:hidden mobileMenu">
                 <div class="hamburger" id="hamburger">
                     <span class="line"></span>
                     <span class="line"></span>

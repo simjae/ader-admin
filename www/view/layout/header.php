@@ -68,7 +68,7 @@
 	</head>
 	<body>
 		<header>
-			<?php
-			include $_CONFIG['PATH']['PAGE'] . '/components/nav.php';
-			?>
+			<?php include $_CONFIG['PATH']['PAGE'] . '/components/nav.php';?>
 		</header>
+		<?php include $_CONFIG['PATH']['PAGE'] . '/components/basket.php';?>
+		<?php include $_CONFIG['PATH']['PAGE'] . '/components/wishlist.php';?>
