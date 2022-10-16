@@ -61,6 +61,10 @@
                 <div class="title__box">
                     <img src="/images/nav/wishlist.svg" alt="" style="width:15px;">
                     <span>위시리스트</span>
+                    <div class="flex" onclick="location.href='http://116.124.128.246:80/order/wish'">
+                        <img src="" alt="">
+                        <span>전체보기</span>
+                    </div>
                 </div>
             </div>
             <div class="swipe">

@@ -36,7 +36,7 @@
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 		<!-- <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4462b31e026bb8cd62b6483c63163cb2&&libraries=services,clusterer,drawing"></script> -->
-		<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+		<!-- <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> -->
 
 		<script src="//cdn.tiny.cloud/1/8hqw5yh8xbtwt4pm8v4989rj0osoy7jyes9s0kwkncucraz4/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
