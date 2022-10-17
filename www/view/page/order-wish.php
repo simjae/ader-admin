@@ -42,7 +42,7 @@
     }
     .product__list__box .prd__img{
         width: 100%;
-        height: 600px;
+        height: 250px;
         background-color: #fbfbfb;
         background-repeat: no-repeat;
         background-position: center;
@@ -97,6 +97,7 @@
     font-size: 11px;
     text-align: left;
     color: #343434;
+    padding-right: 30px;
 }
 .color__chip .color__outline.select {
     padding: 3px;
@@ -124,7 +125,7 @@
 .product__size .size__box {
     display: flex;
     gap: 30px;
-    padding-left: 30px;
+    align-items: flex-end;
 }
 .product__size li {
     list-style: none;
@@ -132,6 +133,86 @@
     font-size: 11px;
     text-align: left;
     color: #343434;
+}
+/* 옵션없을떄 */
+.option__defult__wrap{
+    display: none;
+    animation: fadeOut 0.5s ease-out;
+}
+.minus__btn{
+    cursor: pointer;
+}
+.plus__btn{
+    cursor: pointer;
+}
+.option__defult__wrap.select{
+    border-top: 1px solid #dcdcdc;
+    border-right: 1px solid #dcdcdc;
+    border-left: 1px solid #dcdcdc;
+    background-color: #fff;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    position: absolute;
+    transform: translateY(-100px);
+    height: 100px;
+    animation: fadeIn 0.5s ease-out;
+}
+.option__defult__wrap.select > div{
+    padding-bottom: 10px;
+}
+@keyframes fadeIn {
+    0%{
+        display: none; 
+        opacity: 0;
+    }
+    1% {
+        display: block; 
+        opacity: 0;
+    }
+    100% {
+        display: block; 
+        opacity: 1;
+    }
+}
+@keyframes fadeOut {
+    0%{
+        display: block; 
+        opacity: 1;
+    }
+    1% {
+        display: none; 
+        opacity: 1;
+    }
+    100% {
+        display: none; 
+        opacity: 0;
+    }
+}
+.option__btn {
+    margin-top: 10px;
+    border: solid 1px #dcdcdc;
+    padding: 5px;
+    text-align: center;
+}
+.count__btn__box{
+    display: flex;
+    gap: 30px;
+    font-family: FuturaLTPro;
+    font-size: 11px;
+    text-align: left;
+    color: #343434;
+}
+.count__val{
+    width: 10px;
+    text-align: center;
+}
+.count__val:focus{
+    outline: none;
+}
+.disableBtn {
+    pointer-events: none;
+    opacity: 0.4;
 }
 
 </style>
@@ -155,35 +236,193 @@
             <div></div>
         </div>
         <div class="product__body">
-            <div class="product__list__box" data-grid="4">
-                <div class="prd__list">
-                    <div class="">
-                        <label class="prd__checkBox" for=""><input type="checkbox" name="" id=""></label>
-                        <img class="absolute right-0 p-5" src="/images/nav/wishlist.svg" alt="">
+            <div class="product__list__box" data-grid="4"></div>
+        </div>
+    </section>
+</main>
+
+<script>
+//옵션확인해서 옵션 박스 선택해주는 함수
+(function() {
+    let option = 0;
+    let option1 = 1;
+    let wishList =[];
+    let wishHtml = "";
+    const $productListBox = document.querySelector(".product__list__box");
+    if (option == 0 ){
+        wishHtml += `
+            <div class="prd__list" idx="">
+                <div class="">
+                    <label class="prd__checkBox" for=""><input type="checkbox" name="" id=""></label>
+                    <div class="prd__close__btn">
+                        <span class="line"></span>
+                        <span class="line"></span>
                     </div>
-                    <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                    <div class="product__info__wrap">
-                        <div class="product__info__1">
-                            <div>${index.product_code}</div>
-                            <div>529.000</div>
-                        </div>
-                        <div class="product__info__2">
-                            <div class="product__color">gray</div>
-                            <div class="color__chip">
-                                <div class="color__outline">
-                                    <div class="color" style="background-color:slateblue"></div>
+                </div>
+                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
+                <div class="product__info__wrap">
+                    <div class="product__info__1">
+                        <div>Twin heart hoodie</div>
+                        <div>529.000</div>
+                    </div>
+                    <div style="position: relative;">
+                        <div class="option__defult__wrap">
+                            <div class="flex justify-between">
+                                <div>Size</div>
+                                <div class="close__btn">
+                                    <span class="line"></span>
+                                    <span class="line"></span>
                                 </div>
                             </div>
                             <div class="product__size">
                                 <div class="size__box">
-                                    <li>A1</li>
-                                    <li>A2</li>
+                                    <li data-soldout="stcl">A1</li>
+                                    <li data-soldout="stin">A2</li>
+                                    <li data-soldout="STSC">A3</li>
+                                    <li data-soldout="STSO">A4</li>
                                 </div>
+                            </div>
+                            <div class="count__btn__box">
+                                <div>Qty</div>
+                                <div class="minus__btn">-</div>
+                                <input class="count__val" type="text" value="1" onchange="countChange()">
+                                <div class="plus__btn">+</div>
+                            </div>
+                        </div>
+                        <div class="option__btn">
+                            <img src="" alt="">
+                            <span>필수 옵션을 선택해주세요</span>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        `   
+        wishList.push(wishHtml);
+    } 
+    if( option1 == 1 ) {
+        wishHtml += `
+            <div class="prd__list">
+                <div class="">
+                    <label class="prd__checkBox" for=""><input type="checkbox" name="" id=""></label>
+                    <div class="prd__close__btn">
+                        <span class="line"></span>
+                        <span class="line"></span>
+                    </div>
+                </div>
+                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
+                <div class="product__info__wrap">
+                    <div class="product__info__1">
+                        <div>Twin heart hoodie</div>
+                        <div>529.000</div>
+                    </div>
+                    <div class="product__info__2">
+                        <div class="product__color">gray</div>
+                        <div class="color__chip">
+                            <div class="color__outline">
+                                <div class="color" style="background-color:slateblue"></div>
+                            </div>
+                        </div>
+                        <div class="product__size">
+                            <div class="size__box">
+                                <li>A1</li>
+                                <li>A2</li>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        `
+        wishList.push(wishHtml);
+    }
+    $productListBox.innerHTML = wishHtml;
+})();
+
+(() => {
+    const $optionBtn = document.querySelector(".option__btn");
+    const $defultWrap = document.querySelector(".option__defult__wrap");
+    let $closeBtn = document.querySelector(".close__btn");
+    $optionBtn.addEventListener("click", () => {
+        $defultWrap.classList.toggle("select");
+    });
+    $closeBtn.addEventListener("click", () => {
+        $defultWrap.classList.remove("select");
+    });
+})();
+
+(function() {
+    const $minusBtn = document.querySelector(".count__btn__box .minus__btn");
+    const $plusBtn = document.querySelector(".count__btn__box .plus__btn");
+    const $countInput = document.querySelector(".count__btn__box .count__val");
+    let countVal = document.querySelector(".count__btn__box .count__val").value;
+    
+    countUpdateInput(countVal);
+
+    $minusBtn.addEventListener("click",() => {
+        countVal = parseInt(countVal) - 1;
+        countUpdateInput(countVal);
+    });
+    $plusBtn.addEventListener("click",() => {
+        countVal = parseInt(countVal) + 1;
+        countUpdateInput(countVal);
+    });
+
+})();
+
+function countUpdateInput(value){
+    document.querySelector(".count__val").value = value;
+    document.querySelector(".count__val").setAttribute("value",value);
+    const $minusBtn = document.querySelector(".count__btn__box .minus__btn");
+    const $plusBtn = document.querySelector(".count__btn__box .plus__btn");
+    let countVal = document.querySelector(".count__btn__box .count__val").value;
+
+    if(countVal == "1"){
+        $minusBtn.classList.add('disableBtn');
+    }else{
+        $minusBtn.classList.remove('disableBtn');
+    }
+
+    if(countVal == "9"){
+        $plusBtn.classList.add('disableBtn');
+    }else{
+        $plusBtn.classList.remove('disableBtn');
+    }
+}
+
+function selectOption(size,qty) {
+    let divWrap = document.createElement("div");
+    let defultOption = document.querySelector(".option__btn");
+    let optionDefultWrap = document.querySelector(".option__defult__wrap");
+    let addOptionHtml = `                   
+        <div class="product__info__2">
+            <div class="product__color">gray</div>
+            <div class="color__chip">
+                <div class="color__outline">
+                    <div class="color" style="background-color:slateblue"></div>
+                </div>
+            </div>
+            <div class="product__size">
+                <div class="size__box">
+                    <li>${size}</li>
+                    <li>Qty:${qty}</li>
+                </div>
+            </div>
+        </div>`
+    divWrap.innerHTML = addOptionHtml;
+    document.querySelector(".product__info__wrap").appendChild(divWrap);
+    defultOption.style.display = "none"
+    optionDefultWrap.classList.remove("select");
+}
+
+(function() {
+    let $sizeBoxLi = document.querySelectorAll(".size__box > li");
+    $sizeBoxLi.forEach((el) => {
+        el.addEventListener("click", function(ev) {
+            let qty = this.parentNode.parentNode.parentNode.querySelector(".count__val").value;
+            let size = el.innerHTML;
+            selectOption(size,qty);
+        });
+    }); 
+})();
+</script>

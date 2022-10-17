@@ -45,6 +45,91 @@ body {width:100%;overflow-x:hidden;background-color : #fff ; color : #000 ;}
 a { text-decoration : none ; color : #000 }
 body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
 main{padding-top: 80px;}
+/* close 버튼 */
+.close__btn .line {
+    width: 10px;
+    height: 1px;
+    background-color: #000;
+    display: block;
+    margin: 5px 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.close__btn:hover {
+    cursor: pointer;
+}
+
+.close__btn .line:nth-child(1) {
+-webkit-transform: translateY(6px) rotate(45deg);
+-ms-transform: translateY(6px) rotate(45deg);
+-o-transform: translateY(6px) rotate(45deg);
+transform: translateY(6px) rotate(45deg);
+}
+
+.close__btn .line:nth-child(2) {
+-webkit-transform: translateY(0px) rotate(-45deg);
+-ms-transform: translateY(0px) rotate(-45deg);
+-o-transform: translateY(0px) rotate(-45deg);
+transform: translateY(0px) rotate(-45deg);
+}
+/* 상품 제거 close 버튼 */
+.prd__close__btn{
+   position: absolute;
+   right: 0;
+   padding: 10px;
+}
+.prd__close__btn .line {
+    width: 15px;
+    height: 1px;
+    background-color: #000;
+    display: block;
+    margin: 5px 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.prd__close__btn:hover {
+    cursor: pointer;
+}
+
+.prd__close__btn .line:nth-child(1) {
+-webkit-transform: translateY(2px) rotate(45deg);
+-ms-transform: translateY(2px) rotate(45deg);
+-o-transform: translateY(2px) rotate(45deg);
+transform: translateY(2px) rotate(45deg);
+}
+
+.prd__close__btn .line:nth-child(2) {
+-webkit-transform: translateY(-4px) rotate(-45deg);
+-ms-transform: translateY(-4px) rotate(-45deg);
+-o-transform: translateY(-4px) rotate(-45deg);
+transform: translateY(-4px) rotate(-45deg);
+}
+/* 사이즈 상태  */
+.size__box li[data-soldout="stcl"] {}
+.size__box li[data-soldout="stin"] {
+    /* 재고없음(재고 증가 예정) */
+    color:#343434;
+    opacity: 0.5;
+
+}
+.size__box li[data-soldout="STSC"]::after{
+    /* 품절임박 */
+    content: url(/images/wish/wish-redsold.svg);
+    position: relative;
+    bottom: 0.8rem;
+    left: 0rem;
+}
+.size__box li[data-soldout="STSO"]::after {
+    /* 재고없음(재고 증가 없음) */
+    content: url(/images/product/sold-line.svg);
+    position: relative;
+    right: 1.3rem;
+    top: 0.1rem;
+}
+
+
 @media (min-width: 1024px){
     header{
         min-width: 320px;
