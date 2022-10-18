@@ -1,5 +1,5 @@
 <style>
-#basket__wrap {
+#basket__side__wrap {
     visibility:hidden;
     top: 0;
     left: 0;
@@ -8,7 +8,7 @@
     z-index: 10;
     position: fixed;
 }
-#basket__wrap.open{
+#basket__side__wrap.open{
     visibility:visible;
 }
 .modal__background{
@@ -103,7 +103,7 @@
     align-items: center;
 }
 </style>
-<div id="basket__wrap">
+<div id="basket__side__wrap">
     <div class="modal__background" data-modal="basket">
         <div class="modal__wrap" data-modal="basket">
             <div class="modal__box" data-modal="basket">
@@ -168,7 +168,7 @@
 
 <script>
     (function basketBtn (){
-        const basketWrap = document.querySelector("#basket__wrap");
+        const basketWrap = document.querySelector("#basket__side__wrap");
         const basketBtn = document.querySelector(".basket__btn");
         const modalBg= document.querySelector(".modal__background");
         const modalWrap = document.querySelector(".modal__wrap");
