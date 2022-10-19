@@ -176,62 +176,6 @@
             basketWrap.classList.toggle("open")
             modalBg.classList.toggle("open");
             modalWrap.classList.toggle("open");
-            
         });
     })()
-    // (function getProduct() {
-    
-    //     const config = {
-    //         method: "get",
-    //         credentials: 'include'
-            
-    //     };
-        
-    //     fetch("http://192.168.0.10:5000/product", config)
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //         console.log('성공:', data);
-    //         function getbasket (data) {
-    //             var div = document.createElement('div');
-    //             var docFrag = document.createDocumentFragment();
-    //             const flag = `
-    //                 <div class="basket__box">
-    //                     <div class="prd__img" style="background-image:url('${data.product_img.img_location[0]}');"></div>
-    //                     <div class="prd__info">
-    //                         <span class="prd__title">${data.product_name}</span>
-    //                         <span class="prd__price">${data.sales_price_kr}</span>
-    //                         <div class="flex">
-    //                             <span class="prd__color__name"></span>
-    //                             ${data.map( color => ` <div class="prd__color">${color}</div>`)}
-    //                         </div>
-    //                         ${data.map( product_size => ` <span class="prd__size">${product_size}</span>`)}
-    //                         <div class="flex justify-between text-algin">
-    //                             <div>
-    //                                 <span class="prd__qty">Qty</span>
-    //                                 <select name="product__qty" id="">
-    //                                     <option value=""></option>
-    //                                 </select>
-    //                             </div>
-    //                             <div>
-    //                                 [x]
-    //                             </div>
-    //                         </div>
-    //                     </div>
-    //                 </div>
-    //                 `
-                    
-    //         }
-            
-
-    //         // DocumentFragment에 div를 추가
-    //         docFrag.appendChild(div);
-
-    //         // 문자열로부터 DOM 구조를 생성
-    //         docFrag.querySelector('div').innerHTML = flag;
-            
-    //         })
-    //         .catch((error) => {
-    //         console.error('실패:', error);
-    //         });
-    // })();
 </script>
