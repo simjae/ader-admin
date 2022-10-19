@@ -109,26 +109,26 @@
             </div>
             <div class="prd__meun__sort">
                 <li class="flex">
-                    <img src="/images/product/sort-bottom.svg" alt="" style="width: 10px;">
+                    <img src="/images/svg/sort-bottom.svg" alt="" style="width: 10px;">
                     <span>정렬</span>
                 </li>
                 <li class="flex">
-                    <img src="/images/product/filter.svg" alt="" style="width: 15px;">
+                    <img src="/images/svg/filter.svg" alt="" style="width: 15px;">
                     <span>필터</span>
                 </li>
                 <li class="flex">
-                    <img src="/images/product/cloth.svg" alt="" style="width: 11px;">
+                    <img src="/images/svg/cloth.svg" alt="" style="width: 11px;">
                     <span>아이템보기</span>
                 </li>
                 <li class="hidden lg:block">
                     <div class="rW sort__grid" data-grid="2">
-                        <img src="/images/product/grid-cols-2.svg" alt="">
+                        <img src="/images/svg/grid-cols-2.svg" alt="">
                         <span>2칸보기</span>
                     </div>
                 </li>
                 <li class="lg:hidden">
                     <div class="rM sort__grid" data-grid="2">
-                        <img src="/images/product/grid-cols-2.svg" alt="">
+                        <img src="/images/svg/grid-cols-2.svg" alt="">
                         <span>2칸보기</span>
                     </div>
                 </li>
@@ -137,7 +137,7 @@
         <div class="product__list__box" data-grid="4">
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -161,7 +161,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -185,7 +185,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -209,7 +209,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -233,7 +233,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -257,7 +257,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -281,7 +281,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -305,7 +305,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -329,7 +329,7 @@
             </div>
             <div class="prd__list">
                 <div class="absolute right-0 p-5">
-                    <img src="/images/nav/wishlist.svg" alt="">
+                    <img src="/images/svg/wishlist.svg" alt="">
                 </div>
                 <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
                 <div class="px-2 py-3">
@@ -380,7 +380,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('${index.img_location}') ;"></div>
                         <div class="px-2 py-3">
@@ -443,7 +443,7 @@
                     //그리드 버튼 변경
                     $webSortGrid.dataset.grid = 2;
                     $websortSpan.innerText = '2칸보기';
-                    $websortImg.src = '/images/product/grid-cols-2.svg';
+                    $websortImg.src = '/images/svg/grid-cols-2.svg';
                     break;
                 
                 case "4": 
@@ -453,7 +453,7 @@
                     //그리드 버튼 변경
                     $webSortGrid.dataset.grid = 4;
                     $websortSpan.innerText = '4칸보기';
-                    $websortImg.src = '/images/product/grid-cols-4.svg';
+                    $websortImg.src = '/images/svg/grid-cols-4.svg';
                     break;
             }
         });
@@ -467,7 +467,7 @@
                     
                     $mobileSortGrid.dataset.grid = 1;
                     $mobileSortSpan.innerText = '1칸보기';
-                    $mobileSortImg.src = '/images/product/grid-cols-2.svg';
+                    $mobileSortImg.src = '/images/svg/grid-cols-2.svg';
                     break;
                 
                 case "2": 
@@ -476,7 +476,7 @@
 
                     $mobileSortGrid.dataset.grid = 3;
                     $mobileSortSpan.innerText = '3칸보기';
-                    $mobileSortImg.src = '/images/product/grid-cols-3.svg';
+                    $mobileSortImg.src = '/images/svg/grid-cols-3.svg';
                     break;
                 case "1": 
                     $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
@@ -484,7 +484,7 @@
 
                     $mobileSortGrid.dataset.grid = 2;
                     $mobileSortSpan.innerText = '2칸보기';
-                    $mobileSortImg.src = '/images/product/grid-cols-2.svg';
+                    $mobileSortImg.src = '/images/svg/grid-cols-2.svg';
                     break;
                 }
         });

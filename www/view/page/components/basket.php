@@ -109,7 +109,7 @@
             <div class="modal__box" data-modal="basket">
                 <div class="basket__header">
                     <div class="flex text-algin">
-                        <img class="basket__img" src="/images/nav/basket.svg" alt="">
+                        <img class="basket__img" src="/images/svg/basket.svg" alt="">
                         <span>쇼핑백</span>
                     </div>
                     <div>
@@ -155,7 +155,7 @@
                     <div class="payment__wrap">
                         <div class="purchase__btn"><span>결제하기</span></div>
                         <div class="basket__btn">
-                            <img class="basket__img" src="/images/nav/basket.svg" alt="">
+                            <img class="basket__img" src="/images/svg/basket.svg" alt="">
                             <span>쇼핑백 보러가기</span>
                         </div>
                     </div>

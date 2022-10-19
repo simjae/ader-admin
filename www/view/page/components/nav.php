@@ -23,16 +23,16 @@
         <ul class="right__nav">
             <li class="hidden cursor-pointer w-13 lg:block web">
                 <div class="flex">
-                    <img src="/images/nav/search.svg" alt="">
+                    <img src="/images/svg/search.svg" alt="">
                     <span class="pl-1">검색</span>
                 </div>
             </li>
-            <li class="hidden cursor-pointer lg:block web"><img class="w-4" src="/images/nav/earth.svg" alt=""></li>
-            <li class="flex cursor-pointer "><img src="/images/nav/wishlist.svg" alt=""><span class="pl-1">12</span></li>
-            <li class="flex cursor-pointer basket__btn "><img src="/images/nav/basket.svg" alt=""><span class="pl-1">15</span></li>
+            <li class="hidden cursor-pointer lg:block web"><img class="w-4" src="/images/svg/earth.svg" alt=""></li>
+            <li class="flex cursor-pointer "><img src="/images/svg/wishlist.svg" alt=""><span class="pl-1">12</span></li>
+            <li class="flex cursor-pointer basket__btn "><img src="/images/svg/basket.svg" alt=""><span class="pl-1">15</span></li>
             <li class="hidden cursor-pointer w-13 lg:block web">
                 <div class="flex gap-1">
-                    <img src="/images/nav/blue-tag.svg" alt="">
+                    <img src="/images/svg/blue-tag.svg" alt="">
                     <img src="/images/landing/6554.png" alt="">
                 </div>
             </li>
@@ -73,15 +73,15 @@
                 <li><span>매장찾기</span></li>
             </ul>
             <ul class="text3">
-                <li class="flex gap-2 w-7 mobile__search__btn"><img class="w-4" src="/images/nav/search.svg" alt=""><span>검색</span></li>
-                <li class="flex gap-2"><img class="w-4" src="/images/nav/earth.svg" alt=""><span>한국어</span></li>
-                <li class="flex gap-2"><img class="w-4" src="/images/nav/blue-tag.svg" alt=""><img src="/images/nav/mobile-bluemark.svg" alt=""></li>
-                <li class="flex gap-2"><img class="w-4" src="/images/nav/user.svg" alt=""><span>사용자</span></li>
+                <li class="flex gap-2 w-7 mobile__search__btn"><img class="w-4" src="/images/svg/search.svg" alt=""><span>검색</span></li>
+                <li class="flex gap-2"><img class="w-4" src="/images/svg/earth.svg" alt=""><span>한국어</span></li>
+                <li class="flex gap-2"><img class="w-4" src="/images/svg/blue-tag.svg" alt=""><img src="/images/svg/mobile-bluemark.svg" alt=""></li>
+                <li class="flex gap-2"><img class="w-4" src="/images/svg/user.svg" alt=""><span>사용자</span></li>
             </ul>
         </div>
         <div class="mobile__search">
             <div class="seach__input">
-                <img src="/images/nav/mobile-search.svg" alt="">
+                <img src="/images/svg/mobile-search.svg" alt="">
                 <input type="text" placeholder="검색어를 입력하세요">
             </div>
             <div class="recommend__search">
@@ -194,7 +194,7 @@
     let dropMenu = () => {
         const menuBtn = document.querySelectorAll('.drop__menu');
         const miusSvg = "images/footer/minus.svg";
-        const plusSvg = "images/nav/plus.svg";
+        const plusSvg = "images/svg/plus.svg";
         menuBtn.forEach((el) => {
             el.addEventListener("click", function(ev) {
                 let dropStatus = this.querySelector('.drop__down__content').dataset.dropdown;

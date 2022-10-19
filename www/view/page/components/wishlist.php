@@ -44,22 +44,22 @@
     <div class="wish__box">
         <div class="wish__btn__wrap">
             <div class="btn__box">
-                <img src="/images/wish/wish-recent.svg" alt="">
+                <img src="/images/svg/wish-recent.svg" alt="">
             </div>
             <div class="btn__box">
-                <img src="/images/wish/wish-real.svg" alt="">
+                <img src="/images/svg/wish-real.svg" alt="">
             </div>
             <div class="btn__box">
-                <img src="/images/wish/wish-list.svg" alt="">
+                <img src="/images/svg/wish-list.svg" alt="">
             </div>
             <div class="btn__box">
-                <img src="/images/wish/wish-faq.svg" alt="">
+                <img src="/images/svg/wish-faq.svg" alt="">
             </div>
         </div>
         <div class="wish__wrap">
             <div>
                 <div class="title__box">
-                    <img src="/images/nav/wishlist.svg" alt="" style="width:15px;">
+                    <img src="/images/svg/wishlist.svg" alt="" style="width:15px;">
                     <span>위시리스트</span>
                     <div class="flex" onclick="location.href='http://116.124.128.246:80/order/wish'">
                         <img src="" alt="">

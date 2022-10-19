@@ -35,7 +35,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -61,7 +61,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -87,7 +87,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -113,7 +113,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -139,7 +139,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -165,7 +165,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -191,7 +191,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -217,7 +217,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -243,7 +243,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -269,7 +269,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -295,7 +295,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">
@@ -321,7 +321,7 @@
                 <div class="swiper-slide">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
-                            <img src="/images/nav/wishlist.svg" alt="">
+                            <img src="/images/svg/wishlist.svg" alt="">
                         </div>
                         <div class="recommend__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
                         <div class="px-2 py-3">

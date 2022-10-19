@@ -5,7 +5,7 @@
             <div class="sidebar__wrap" data-modal="detail">
                 <div class="sidebar__box" data-modal="detail">
                     <div class="sidebar__header">
-                        <img class="sidebar__close__btn" src="/images/product/close.svg" alt="">
+                        <img class="sidebar__close__btn" src="/images/svg/close.svg" alt="">
                     </div>
                     <div class="sidebar__body">
                         <div class="content__btn__wrap">
@@ -113,19 +113,17 @@
             <div class="product__price">289,000</div>
             <div class="product__color">컬러색상</div>
             <div class="color__chip">
-                <div class="color__chip">
-                    <div class="color__outline select">
-                        <div class="color" style="background-color:pink"></div>
-                    </div>
-                    <div class="color__outline">
-                        <div class="color" style="background-color:slateblue"></div>
-                    </div>
-                    <div class="color__outline">
-                        <div class="color" style="background-color:orange"></div>
-                    </div>
-                    <div class="color__outline">
-                        <div class="color" style="background-color:greenyellow"></div>
-                    </div>
+                <div class="color__outline select">
+                    <div class="color" style="background-color:pink"></div>
+                </div>
+                <div class="color__outline">
+                    <div class="color" style="background-color:slateblue"></div>
+                </div>
+                <div class="color__outline">
+                    <div class="color" style="background-color:orange"></div>
+                </div>
+                <div class="color__outline">
+                    <div class="color" style="background-color:greenyellow"></div>
                 </div>
             </div>
             <div class="product__size">
@@ -138,17 +136,17 @@
                 </div>
             </div>
             <div class="product__size__guide">
-                <li><img src="/images/product/size-guide.svg" alt=""></li>
+                <li><img src="/images/svg/size-guide.svg" alt=""></li>
                 <li>사용자 가이즈</li>
             </div>
             <div class="basket__wrap">
                 <div class="basket__box">
                     <div class="flex gap-2" style="align-items: center;padding: 10px;width: 80%;justify-content: center;border-right: 1px solid;">
-                        <img src="/images/nav/basket.svg" alt="">
+                        <img src="/images/svg/basket.svg" alt="">
                         <span style="">쇼핑백에 담기</span>
                     </div>
                     <div style="justify-content: center;display: flex;width: 20%;">
-                        <img src="/images/product/basket-heart.svg" alt="" style="">
+                        <img src="/images/svg/basket-heart.svg" alt="" style="">
                     </div>
                 </div>
                 <div class="detail__info__wrap">
@@ -168,7 +166,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -205,7 +203,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -233,7 +231,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -261,7 +259,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -289,7 +287,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -317,7 +315,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -345,7 +343,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -373,7 +371,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -401,7 +399,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -429,7 +427,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -457,7 +455,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -493,7 +491,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -521,7 +519,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -549,7 +547,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -577,7 +575,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -605,7 +603,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -633,7 +631,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -661,7 +659,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -689,7 +687,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -717,7 +715,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -745,7 +743,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -773,7 +771,7 @@
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
-                                <img src="/images/nav/wishlist.svg" alt="">
+                                <img src="/images/svg/wishlist.svg" alt="">
                             </div>
                         </div>
                         <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
@@ -950,17 +948,17 @@
                     </div>
                 </div>
                 <div class="product__size__guide">
-                    <li><img src="/images/product/size-guide.svg" alt=""></li>
+                    <li><img src="/images/svg/size-guide.svg" alt=""></li>
                     <li>사용자 가이즈</li>
                 </div>
                 <div class="basket__wrap">
                     <div class="basket__box">
                         <div class="flex gap-2" style="align-items: center;padding: 10px;width: 80%;justify-content: center;border-right: 1px solid;">
-                            <img src="/images/nav/basket.svg" alt="">
+                            <img src="/images/svg/basket.svg" alt="">
                             <span style="">쇼핑백에 담기</span>
                         </div>
                         <div style="justify-content: center;display: flex;width: 20%;">
-                            <img src="/images/product/basket-heart.svg" alt="" style="">
+                            <img src="/images/svg/basket-heart.svg" alt="" style="">
                         </div>
                     </div>
                     <div class="detail__info__wrap">
@@ -976,8 +974,9 @@
         
         `
     }());
-    //슬라이드 js init
-    (function () {
+    //제품 소재, 상세정보, 취급유의사항 슬라이드
+    (function(){
+        
         let recommendSwiper = new Swiper(".recommend-swiper", {
             navigation: {
                 nextEl: ".recommend-swiper .swiper-button-next",
@@ -1061,9 +1060,7 @@
                 swiper: thumbSwiper
             },
         });
-    })();
-    //제품 소재, 상세정보, 취급유의사항 슬라이드
-    (function(){
+
         const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
         const $sidebarBg= document.querySelector(".detail__sidebar__wrap .sidebar__background");
         const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
@@ -1090,7 +1087,7 @@
                 this.querySelector("span").classList.add("select");
             });
         });
-        
+
         function sideBarClose() {
             $detailSidebarWrap.classList.remove("open")
             $sidebarBg.classList.remove("open");

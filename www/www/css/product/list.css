@@ -63,11 +63,11 @@
     width: 10px;
 }
 .prd__meun__grid .swiper-button-prev::after{
-    content: url('/images/product/sort-bottom.svg');
+    content: url('/images/svg/sort-bottom.svg');
     transform: rotate(90deg);
 }
 .prd__meun__grid .swiper-button-next::after{
-    content: url('/images/product/sort-bottom.svg');
+    content: url('/images/svg/sort-bottom.svg');
     transform: rotate(270deg);
 }
 .prd__meun__grid .swiper-button-next{
@@ -151,7 +151,7 @@
 }
 
 [data-sold="true"]::after{
-    content:url('/images/product/sold-line.svg');
+    content:url('/images/svg/sold-line.svg');
     position: relative;
     right: 13px;
     top: 4px;
@@ -219,11 +219,11 @@
         width: 10px;
     }
     .prd__meun__grid .swiper-button-prev::after{
-        content: url('/images/product/sort-bottom.svg');
+        content: url('/images/svg/sort-bottom.svg');
         transform: rotate(90deg);
     }
     .prd__meun__grid .swiper-button-next::after{
-        content: url('/images/product/sort-bottom.svg');
+        content: url('/images/svg/sort-bottom.svg');
         transform: rotate(270deg);
     }
     .prd__meun__grid .swiper-button-next{
