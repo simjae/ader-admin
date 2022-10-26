@@ -40,7 +40,7 @@ define('PAGE',array(
 	'posting'=>array('list','collaboration','collection','exhibition','editorial','lookbook','event','draw'),
 	'search'=>array('shop','product'),
 	'product'=>array('bluemark','list','detail'),
-	'order'=>array('wish','basket','confirm','complete','list'),
+	'order'=>array('wish','basket','confirm','complete','basket-list'),
 	'purchase'=>array('refund','exchange','complete'),
 	'notice'=>array('notify','faq','qna','guide','service','privacy'),
 	/* 22-10-02 bvdev.jhsim */

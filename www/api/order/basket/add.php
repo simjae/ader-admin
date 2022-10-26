@@ -14,16 +14,23 @@
  +=============================================================================
 */
 
-$member_idx		= $_SESSION[SS_HEAD.'MEMBER_IDX'];
-$member_id		= $_SESSION[SS_HEAD.'MEMBER_ID'];
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$member_id = null;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_id = $_SESSION['MEMBER_ID'];
+}
 
 $product_idx	= $_POST['product_idx'];
 $option_idx		= $_POST['option_idx'];
 $product_qty	= $_POST['product_qty'];
 
-if ($member_idx == null || $member_id == null) {
-	$code = 401;
-	$msg = "로그인 후 다시 시도해 주세요.";
+if ($member_idx == 0 || $member_id == null) {
+	$json_result['code'] = 401;
+	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
 	exit;
 }
 

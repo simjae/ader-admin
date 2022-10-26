@@ -14,8 +14,15 @@
  +=============================================================================
 */
 
-$member_idx		= $_SESSION[SS_HEAD.'MEMBER_IDX'];
-$member_id		= $_SESSION[SS_HEAD.'MEMBER_ID'];
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$member_id = null;
+if (isset($_SESSION['MEMBER_ID'])) {
+	$member_id = $_SESSION['MEMBER_ID'];
+}
 
 $product_idx	= $_POST['product_idx'];
 
@@ -46,13 +53,13 @@ if ($product_idx != null) {
 					UPDATER
 				)
 				SELECT
-					".$member_idx.",
-					'".$member_id."',
+					".$member_idx."		AS MEMBER_IDX,
+					'".$member_id."'	AS MEMBER_ID,
 					IDX					AS PRODUCT_IDX,
-					PRODUCT_CODE,
-					PRODUCT_NAME,
-					'".$member_id."',
-					'".$member_id."'
+					PRODUCT_CODE		AS PRODUCT_CODE,
+					PRODUCT_NAME		AS PRODUCT_NAME,
+					'".$member_id."'	AS CREATER,
+					'".$member_id."'	AS UPDATER
 				FROM
 					dev.SHOP_PRODUCT
 				WHERE

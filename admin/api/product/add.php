@@ -1003,7 +1003,7 @@ if (!empty($product_idx)) {
     if($size_category_str != null){
         for($i=0; $i < count($option_name); $i++){
             $value_sql .= "
-                (	'".$option_code[$i]."',
+                (	'".$product_code."_".$option_name[$i]."',
 					'".$option_name[$i]."',
 					".$product_idx.",
                  	'".$product_code."',

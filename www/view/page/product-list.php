@@ -1,5 +1,18 @@
 <link rel=stylesheet href='/css/product/list.css' type='text/css'>
 <main>
+	<?php
+		function getUrlParamter($url, $sch_tag) {
+			$parts = parse_url($url);
+			parse_str($parts['query'], $query);
+			return $query[$sch_tag];
+		}
+		
+		$page_url = $_SERVER['REQUEST_URI'];
+		$page_idx = getUrlParamter($page_url, 'page_idx');
+	?>
+	<input id="page_idx" type="hidden" value="<?=$page_idx?>">
+	<input id="country" type="hidden" value="KR">
+	
     <section class="product__list__wrap">
         <div class="top__banner"></div>
         <div class="prd__meun">
@@ -134,8 +147,10 @@
                 </li>
             </div>
         </div>
+		
         <div class="product__list__box" data-grid="4">
-            <div class="prd__list">
+            
+			<div class="prd__list">
                 <div class="absolute right-0 p-5">
                     <img src="/images/svg/wishlist.svg" alt="">
                 </div>
@@ -159,257 +174,71 @@
                     </div>
                 </div>
             </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div>A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div data-sold="true">A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div>A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div>A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div>A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div>A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div>A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prd__list">
-                <div class="absolute right-0 p-5">
-                    <img src="/images/svg/wishlist.svg" alt="">
-                </div>
-                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png') ;"></div>
-                <div class="px-2 py-3">
-                    <div class="flex justify-between">
-                        <div>${index.product_code}</div>
-                        <div>529.000</div>
-                    </div>
-                    <div>Gray</div>
-                    <div class="flex justify-between">
-                        <div class="color__chip">
-                            <li class="bg-slate-500"></li>
-                            <li class="bg-orange-600"></li>
-                            <li class="bg-emerald-400"></li>
-                        </div>
-                        <div class="flex gap-3">
-                            <div>A1</div>
-                            <div>A2</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </section>
 </main>
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         productListSelectGrid();
+        getProductList();
+
     });
-    const productLoadApi = () => {
-        let pram_arr = [5];
+    const getProductList = () => {
+		let page_idx = $('#page_idx').val();
+		let country = $('#country').val();
+		
         $.ajax({
             type: "post",
             data: {
-                "product_idx": pram_arr
+                "page_idx": page_idx,
+				"country": country,
             },
             dataType: "json",
-            url: "http://116.124.128.246:81/_api/display/product/grid/lib/get",
+            url: "http://116.124.128.246:80/_api/product/list/get",
             error: function() {
-                alert("상품 이미지 불러오기 처리에 실패했습니다.");
+                alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
             },
             success: function(d) {
                 let data = d.data;
-                let productHtml = ""
-                let imagesUrl = "/images/landing/"
-                let productWrap = document.querySelector('.recommend-swiper .swiper-wrapper');
-                data.forEach(function(index) {
-                productHtml += `
-                <div class="swiper-slide">
-                    <div class="relative recommend__prd">
-                        <div class="absolute right-0 p-5">
-                            <img src="/images/svg/wishlist.svg" alt="">
-                        </div>
-                        <div class="recommend__img" style="background-image:url('${index.img_location}') ;"></div>
-                        <div class="px-2 py-3">
-                            <div class="flex justify-between">
-                                <div>${index.product_code}</div>
-                                <div>529.000</div>
-                            </div>
-                            <div>Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="bg-slate-500"></li>
-                                    <li class="bg-orange-600"></li>
-                                    <li class="bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div>A1</div>
-                                    <div>A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>`
+                /*let productHtml = ""
+                let imagesUrl = "/images/product/"
+                let productWrap = document.querySelector('.recommend-swiper .swiper-wrapper');*/
+                
+				data.forEach(function(index) {
+					/*productHtml += `
+					<div class="swiper-slide">
+						<div class="relative recommend__prd">
+							<div class="absolute right-0 p-5">
+								<img src="/images/svg/wishlist.svg" alt="">
+							</div>
+							<div class="recommend__img" style="background-image:url('${index.img_location}') ;"></div>
+							<div class="px-2 py-3">
+								<div class="flex justify-between">
+									<div>${index.product_code}</div>
+									<div>529.000</div>
+								</div>
+								<div>Gray</div>
+								<div class="flex justify-between">
+									<div class="color__chip">
+										<li class="bg-slate-500"></li>
+										<li class="bg-orange-600"></li>
+										<li class="bg-emerald-400"></li>
+									</div>
+									<div class="flex gap-3">
+										<div>A1</div>
+										<div>A2</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>`*/
                 });
-                productWrap.innerHTML = productHtml;
-                console.log(productWrap);
+                //productWrap.innerHTML = productHtml;
             }
-
         });
     }
+	
     //모바일 & 웹 그리드별 보기 기능
     let productListSelectGrid = () => {
         let $body =document.querySelector("body");

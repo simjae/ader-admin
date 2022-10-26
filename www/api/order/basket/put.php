@@ -14,52 +14,86 @@
  +=============================================================================
 */
 
-$member_idx		= $_SESSION[SS_HEAD.'MEMBER_IDX'];
-$member_id		= $_SESSION[SS_HEAD.'MEMBER_ID'];
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$member_id = null;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_id = $_SESSION['MEMBER_ID'];
+}
 
 $basket_idx		= $_POST['basket_idx'];
 $product_idx	= $_POST['product_idx'];
 $option_idx		= $_POST['option_idx'];
-$product_qty	= $_POST['product_qty'];
+$basket_qty		= $_POST['basket_qty'];
 $stock_status	= $_POST['stock_status'];
 
-if ($member_idx != null && $basket_idx != null && $stock_status != null) {
-	if ($stock_status == "STIN" || $stock_status == "STSH" || $stock_status == "STCL") {
-		//"STIN" : 재고 있음 (Stock in)
-		//"STSH" : 재고 부족 (Stock shortage)
-		//"STCL" : 품절 임박 (Stock sold out close)
-		$update_sql="UPDATE
-					dev.BASKET_INFO BI,
-					(
-						SELECT
-							IDX					AS OPTION_IDX,
-							BARCODE				AS BARCODE,
-							OPTION_NAME			AS OPTION_NAME
-						FROM
-							dev.ORDERSHEET_OPTION
-						WHERE
-							IDX =".$option_idx."
-					) OO
-				SET
-					BI.OPTION_IDX = OO.OPTION_IDX,
-					BI.BARCODE = OO.BARCODE,
-					BI.OPTION_NAME = OO.OPTION_NAME,
-					BI.PRODUCT_QTY = ".$product_qty."
-				WHERE
-					BI.IDX = ".$basket_idx." AND
-					BI.MEMBER_IDX = ".$member_idx." AND
-					BI.PRODUCT_IDX = ".$product_idx." AND
-					BI.OPTION_IDX = ".$option_idx;
-	
-		$db->query($update_sql);
-	} else if ($stock_status == "STSC" || $stock_status == "STSO") {
-		//"STSC" : 재고 없음(재고 증가 예정 (Stock in schedule))
-		//"STSO" : 재고 없음(증가 예정 재고 없음 (Stock sold out))
-		
-		$delete_sql="DELETE FROM
-						dev.BASKET_INFO
+if ($member_idx == 0 || $member_id == null) {
+	$json_result['code'] = 401;
+	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	exit;
+}
+
+if ($basket_idx != null && $product_idx != null && $stock_status != null) {
+	if ($stock_status == "STIN") {
+		$stock_sql = "SELECT
+						(
+							SELECT
+								IFNULL(SUM(STOCK_QTY),0)
+							FROM
+								dev.PRODUCT_STOCK S_PS
+							WHERE
+								S_PS.PRODUCT_IDX = BI.PRODUCT_IDX AND
+								S_PS.OPTION_IDX = BI.OPTION_IDX AND
+								S_PS.STOCK_DATE <= NOW()
+						)	AS STOCK_QTY,
+						(
+							SELECT
+								IFNULL(SUM(OP.PRODUCT_QTY),0)
+							FROM
+								dev.ORDER_INFO OI
+								LEFT JOIN dev.ORDER_PRODUCT OP ON
+								OI.IDX = OP.ORDER_INFO_IDX
+							WHERE
+								OI.ORDER_STATUS IN ('DPG','DCP') AND
+								OP.PRODUCT_IDX = BI.PRODUCT_IDX
+						)	AS ORDER_QTY
+					FROM
+						dev.BASKET_INFO BI
 					WHERE
-						IDX = ".$basket_idx;
+						BI.IDX = ".$basket_idx;
+		
+		$db->query($stock_sql);
+		
+		$product_qty = 0;
+		foreach($db->fetch() as $data) {
+			$product_qty = intval($data['STOCK_QTY']) - intval($data['ORDER_QTY']);
+		}
+		
+		if ($product_qty > 0 && $product_qty >= $basket_qty) {
+			$update_sql="UPDATE
+							dev.BASKET_INFO BI
+						SET
+							BI.PRODUCT_QTY = ".$basket_qty.",
+							BI.UPDATER = '".$member_id."',
+							BI.UPDATE_DATE = NOW()
+						WHERE
+							BI.IDX = ".$basket_idx." AND
+							BI.MEMBER_IDX = ".$member_idx." AND
+							BI.PRODUCT_IDX = ".$product_idx;
+		
+			$db->query($update_sql);
+		} else {
+			$json_result['code'] = 403;
+			$json_result['msg'] = "재고 수량보다 많은 양을 선택할 수 없습니다.";
+		}
+	} else if ($stock_status == "STSO") {
+		$delete_sql="DELETE FROM
+						dev.BASKET_INFO BI
+					WHERE
+						BI.IDX = ".$basket_idx;
 		
 		$db->query($delete_sql);
 		

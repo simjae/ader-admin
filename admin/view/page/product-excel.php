@@ -310,7 +310,7 @@ function excelActionBtn(){
 }
 function readExcel(element, index, tab_num){
 	var tab_num = $('#tab_num').val();
-
+	
 	var file_name = element.name;
 	var msg = '';
     var reader = new FileReader();
@@ -336,7 +336,12 @@ function readExcel(element, index, tab_num){
                 var img_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 0, header:1});
 				total_row.img_sheet = img_sheet;
             }
+			else if(sheetName == '관련상품 정보'){
+                var relevant_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 2, header:1});
+				total_row.relevant_sheet = relevant_sheet;
+            }
         })
+		console.log(total_row);
 		switch (tab_num){
 			case '01':
 				if(!total_row.hasOwnProperty('order_sheet')){
@@ -354,6 +359,10 @@ function readExcel(element, index, tab_num){
 					msg = '판매정보 시트가 존재하지 않습니다.';
 				}
 				break;
+			case '03':
+				if(!total_row.hasOwnProperty('relevant_sheet')){
+					msg = '관련상품 시트가 존재하지 않습니다.';
+				}
 		}
 		
 		if(msg.length > 0){
@@ -390,6 +399,10 @@ function putExcel(element,json_str,file_name){
 			api_addr = 'update';
 			action_str = '상품 판매정보 등록/수정';
 			break;
+		case '03':
+			api_addr = 'relevant/put';
+			action_str = '상품 판매정보 등록/수정';
+			break;
 		}
 		if(api_addr != ''){
 			var result_json = {};
@@ -407,10 +420,12 @@ function putExcel(element,json_str,file_name){
 					insertLog('상품관리 > 엑셀 등록', action_str + ": " + file_name, 1);
 					if(d.code == 200) {
 						var result_cnt = 0;
+						console.log(d.result);
 						result_json.product 	= d.result.product;
 						result_json.option_info = d.result.option_info;
 						result_json.sales_info 	= d.result.sales_info
 						result_json.img 		= d.result.img;
+						result_json.relevant 	= d.result.relevant;
 
 						var json_str = JSON.stringify(result_json);
 						if(tab_num == '01'){
@@ -425,6 +440,16 @@ function putExcel(element,json_str,file_name){
 						else if(tab_num == '02'){
 							if(d.result.sales_info.true.length == 0){
 								msg = '갱신된 상품판매정보가 없습니다.';
+							}
+							else{
+								alert('등록이 완료되었습니다.');
+								printFinishSheetList(element, json_str);
+							}
+						}
+						else if(tab_num == '03'){
+							console.log();
+							if(d.result.relevant.true.length == 0){
+								msg = '갱신된 관련상품 정보가 없습니다.';
 							}
 							else{
 								alert('등록이 완료되었습니다.');

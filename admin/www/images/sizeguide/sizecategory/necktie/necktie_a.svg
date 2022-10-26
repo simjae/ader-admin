@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="298" height="382" viewBox="0 0 298 382">
+  <defs>
+    <filter id="tie" x="0" y="0" width="298" height="382" filterUnits="userSpaceOnUse">
+      <feOffset dx="1" dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="그룹_3173" data-name="그룹 3173" transform="translate(-162.5 -157.5)">
+    <g transform="matrix(1, 0, 0, 1, 162.5, 157.5)" filter="url(#tie)">
+      <image id="tie-2" data-name="tie" width="379" height="295" transform="translate(0.5 379.5) rotate(-90)" xlink:href="data:image/png;base64,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"/>
+    </g>
+    <g id="그룹_3036" data-name="그룹 3036" transform="translate(476.5 -40.5) rotate(90)">
+      <line id="선_2584" data-name="선 2584" y2="5" transform="translate(198.5 142.5)" fill="none" stroke="#000" stroke-width="1"/>
+      <line id="선_2585" data-name="선 2585" y2="5" transform="translate(576.25 142.5)" fill="none" stroke="#000" stroke-width="1"/>
+      <line id="선_2586" data-name="선 2586" x1="377.75" transform="translate(198.5 144.5)" fill="none" stroke="#000" stroke-width="1"/>
+    </g>
+    <g id="그룹_3037" data-name="그룹 3037" transform="translate(512.813 309.375) rotate(180)">
+      <line id="선_2584-2" data-name="선 2584" y2="5" transform="translate(198.5 142.5)" fill="none" stroke="#000" stroke-width="1"/>
+      <line id="선_2585-2" data-name="선 2585" y2="5" transform="translate(206.125 142.5)" fill="none" stroke="#000" stroke-width="1"/>
+      <line id="선_2586-2" data-name="선 2586" x1="7.625" transform="translate(198.5 144.5)" fill="none" stroke="#000" stroke-width="1"/>
+    </g>
+    <g id="그룹_3038" data-name="그룹 3038" transform="translate(518 667.375) rotate(180)">
+      <line id="선_2584-3" data-name="선 2584" y2="5" transform="translate(198.5 142.5)" fill="none" stroke="#000" stroke-width="1"/>
+      <line id="선_2585-3" data-name="선 2585" y2="5" transform="translate(214.5 142.5)" fill="none" stroke="#000" stroke-width="1"/>
+      <line id="선_2586-3" data-name="선 2586" x1="16" transform="translate(198.5 144.5)" fill="none" stroke="#000" stroke-width="1"/>
+    </g>
+  </g>
+</svg>

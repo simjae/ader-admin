@@ -14,11 +14,24 @@
  +=============================================================================
 */
 
-$member_idx		= $_SESSION[SS_HEAD.'MEMBER_IDX'];
-$member_id		= $_SESSION[SS_HEAD.'MEMBER_ID'];
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$member_id = null;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_id = $_SESSION['MEMBER_ID'];
+}
 
 $product_idx	= $_POST['product_idx'];
 $option_idx		= $_POST['option_idx'];
+
+if ($member_idx == 0 || $member_id == null) {
+	$json_result['code'] = 401;
+	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	exit;
+}
 
 if ($product_idx != null && $option_idx != null) {
 	//재입고 알림 등록 전 동일 상품 중복체크

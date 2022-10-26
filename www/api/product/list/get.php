@@ -13,15 +13,18 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/www/api/common/common.php");
 
-$member_idx		= $_SESSION[SS_HEAD.'MEMBER_IDX'];
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
 
 $page_idx		= $_POST['page_idx'];
 $country		= $_POST['country'];
 
 if ($page_idx != null && $country != null) {
-	$page_count = $db->count("dev.PRODUCT_PAGE_DISPLAY","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
-	
+	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
 	if ($page_count > 0) {
 		$sql = "SELECT
 					PG.DISPLAY_NUM				AS DISPLAY_NUM,
@@ -31,7 +34,21 @@ if ($page_idx != null && $country != null) {
 					PG.GRID_SIZE				AS GRID_SIZE,
 					PG.GRID_BACKGROUND_COLOR	AS BACKGROUND_COLOR,
 					PG.PRODUCT_IDX				AS PRODUCT_IDX,
-					PR.PRODUC_NAME				AS PRODUCT_NAME,
+					PR.PRODUCT_NAME				AS PRODUCT_NAME,
+					(
+						SELECT
+							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+						FROM
+							dev.PRODUCT_IMG S_PI
+						WHERE
+							S_PI.PRODUCT_IDX = PR.IDX AND
+							S_PI.IMG_TYPE = 'P' AND
+							S_PI.IMG_SIZE = 'M'
+						ORDER BY
+							S_PI.IDX ASC
+						LIMIT
+							0,1
+					)							AS PRODUCT_IMG,
 					PR.PRICE_".$country."		AS PRICE,
 					PR.DISCOUNT_".$country."	AS DISCOUNT,
 					PR.SALES_PRICE_".$country."	AS SALES_PRICE,
@@ -53,12 +70,16 @@ if ($page_idx != null && $country != null) {
 			$product_idx = $data['PRODUCT_IDX'];
 			
 			$whish_flg = false;
-			if ($member_idx != null) {
+			if ($member_idx > 0) {
 				$whish_count = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
 				if ($whish_count > 0) {
 					$whish_flg = true;
 				}
 			}
+			
+			$product_color = getProductColor($db,$product_idx);
+			
+			$product_size = getProductSize($db,$product_idx);
 			
 			$json_result['data'][] = array(
 				'display_num'		=>$data['DISPLAY_NUM'],
@@ -68,11 +89,13 @@ if ($page_idx != null && $country != null) {
 				'grid_size'			=>$data['GRID_SIZE'],
 				'background_color'	=>$data['BACKGROUND_COLOR'],
 				'product_idx'		=>$data['PRODUCT_IDX'],
-				'product_name'		=>$data['PRODUC_NAME'],
+				'product_name'		=>$data['PRODUCT_NAME'],
 				'price'				=>$data['PRICE'],
 				'discount'			=>$data['DISCOUNT'],
 				'sales_price'		=>$data['SALES_PRICE'],
 				'color'				=>$data['COLOR'],
+				'product_color'		=>$product_color,
+				'product_size'		=>$product_size,
 				'whish_flg'			=>$whish_flg
 			);
 		}

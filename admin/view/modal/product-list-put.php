@@ -1,6 +1,7 @@
 <style>
 	.checked{background-color:#707070!important;color:#ffffff!important;}
 	.unchecked{background-color:#ffffff!important;color:#000000!important;}
+	.size_textarea{width:90%; height:150px;resize: none;border: solid 1px #bfbfbf;}
 </style>
 
 <div class="body">
@@ -185,133 +186,174 @@
 				<TABLE id="insert_table_size_detail" class="list" style="font-size:0.7rem;">
 					<colgroup>
 						<col width="10%">
-						<col width="40%">
+						<col width="23.3%">
 						<col width="10%">
-						<col width="40%">
+						<col width="23.3%">
+						<col width="10%">
+						<col width="23.3%">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD>모델</TD>
-							<TD>
+							<TD colspan="1">모델</TD>
+							<TD colspan="1">
 								<input type="text" name="size_detail_model" value="">
 							</TD>
-							<TD>Wearing size</TD>
-							<TD>
+							<TD colspan="1">Wearing<br>size</TD>
+							<TD colspan="1">
 								<input type="text" name="size_detail_wear" value="">
 							</TD>
+							<TD colspan="2"></td>
 						</TR>
-						
+
 						<TR>
 							<TD>A1한글</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a1_kr" name="size_detail_a1_kr" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a1_kr" name="size_detail_a1_kr"></textarea>
 							</TD>
-							
+
 							<TD>A2한글</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a2_kr" name="size_detail_a2_kr" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a2_kr" name="size_detail_a2_kr"></textarea>
 							</TD>
-						</TR>
-						
-						<TR>
+
 							<TD>A3한글</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a3_kr" name="size_detail_a3_kr" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a3_kr" name="size_detail_a3_kr"></textarea>
 							</TD>
-							
+						</tr>
+						<tr>
 							<TD>A4한글</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a4_kr" name="size_detail_a4_kr" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a4_kr" name="size_detail_a4_kr"></textarea>
 							</TD>
-						</TR>
-						
-						<TR>
+
 							<TD>A5한글</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a5_kr" name="size_detail_a5_kr" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a5_kr" name="size_detail_a5_kr"></textarea>
 							</TD>
-						
-							<TD>ONESIZE한글</TD>
+
+							<TD>ONESIZE<br>한글</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_onesize_kr" name="size_detail_onesize_kr" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_onesize_kr"
+									name="size_detail_onesize_kr"></textarea>
 							</TD>
 						</TR>
-						
+
 						<TR>
 							<TD>A1영문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a1_en" name="size_detail_a1_en" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a1_en" name="size_detail_a1_en"></textarea>
 							</TD>
-							
+
 							<TD>A2영문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a2_en" name="size_detail_a2_en" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a2_en" name="size_detail_a2_en"></textarea>
 							</TD>
-						</TR>
-						
-						<TR>
+							
 							<TD>A3영문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a3_en" name="size_detail_a3_en" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a3_en" name="size_detail_a3_en"></textarea>
 							</TD>
-							
+						</tr>
+						<tr>
 							<TD>A4영문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a4_en" name="size_detail_a4_en" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a4_en" name="size_detail_a4_en"></textarea>
 							</TD>
-						</TR>
-						
-						<TR>
+
 							<TD>A5영문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a5_en" name="size_detail_a5_en" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a5_en" name="size_detail_a5_en"></textarea>
 							</TD>
-							
-							<TD>ONESIZE영문</TD>
+
+							<TD>ONESIZE<br>영문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_onesize_en" name="size_detail_onesize_en" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_onesize_en"
+									name="size_detail_onesize_en"></textarea>
 							</TD>
 						</TR>
-						
+
 						<TR>
 							<TD>A1중문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a1_cn" name="size_detail_a1_cn" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a1_cn" name="size_detail_a1_cn"></textarea>
 							</TD>
-							
+
 							<TD>A2중문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a2_cn" name="size_detail_a2_cn" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a2_cn" name="size_detail_a2_cn"></textarea>
 							</TD>
-						</TR>
-						
-						<TR>
+
 							<TD>A3중문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a3_cn" name="size_detail_a3_cn" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a3_cn" name="size_detail_a3_cn"></textarea>
 							</TD>
-							
+						</tr>
+						<tr>
 							<TD>A4중문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a4_cn" name="size_detail_a4_cn" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a4_cn" name="size_detail_a4_cn"></textarea>
 							</TD>
-						</TR>
-						
-						<TR>
 							<TD>A5중문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_a5_cn" name="size_detail_a5_cn" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_a5_cn" name="size_detail_a5_cn"></textarea>
 							</TD>
-							
-							<TD>ONESIZE중문</TD>
+
+							<TD>ONESIZE<br>중문</TD>
 							<TD>
-								<textarea class="width-100p" id="size_detail_onesize_cn" name="size_detail_onesize_cn" style="width:90%; height:150px;"></textarea>
+								<textarea class="width-100p size_textarea" id="size_detail_onesize_cn"
+									name="size_detail_onesize_cn" ></textarea>
 							</TD>
 						</TR>
-						
 						<TR>
-							<TD colspan="4">
-								<button type="button" style="width:100px;height:30px;background-color:#000000;color:#ffffff;float:right;cursor:pointer;" onClick="productOptionRegister();">옵션 저장</button>
+							<TD colspan="1">
+								이미 등록한<br>옵션정보<br>불러오기
+							</TD>
+							<TD colspan="10" id="history_option_td">
+								<div class="content__row">
+									상품 카테고리를 먼저 선택해주세요
+								</div>
+							</TD>
+						</TR>
+						<TR>
+							<TD ID = "option_td" colspan="6">
+								<div id="option_category_td">
+									<div class="content__row">
+										<select id="size_category" name="size_category" class="fSelect eSearch" style="width:163px;">
+											<option value="">---one piece---</option>
+											<option value="/01_one_piece/dress">dress</option>
+											<option value="">---two piece---</option>
+											<option value="/02_two_piece/01_top/coat">coat</option>
+											<option value="/02_two_piece/01_top/hoodie">hoodie</option>
+											<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
+											<option value="/02_two_piece/01_top/shirts">---one piece---</option>
+											<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
+											<option value="/02_two_piece/01_top/tShirts">tShirts</option>
+											<option value="/02_two_piece/01_top/vest">vest</option>
+											<option value="/02_two_piece/01_top/zipup">zipup</option>
+											<option value="/02_two_piece/02_bottom/pants">pants</option>
+											<option value="/02_two_piece/02_bottom/skirt">skirt</option>
+											<option value="">---bag---------</option>
+											<option value="/03_etc/01_bag/backPack">backPack</option>
+											<option value="/03_etc/01_bag/crossBag">crossBag</option>
+											<option value="/03_etc/01_bag/toteBag">toteBag</option>
+											<option value="">---hat---------</option>
+											<option value="/03_etc/02_hat/beanie">beanie</option>
+											<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
+											<option value="/03_etc/02_hat/cap">cap</option>
+											<option value="">---acc---------</option>
+											<option value="/03_etc/03_acc/belt">belt</option>
+											<option value="/03_etc/03_acc/necktie">necktie</option>
+											<option value="/03_etc/03_acc/sock">sock</option>
+										</select>
+										<span id="size_default_msg" style="color:red">카테고리 선택시, 옵션 입력창이 생성됩니다.</span>
+										<button type="button" id="sizeFormBtn"
+											style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;display:none"
+											onClick="initSizeForm();" >초기화</button>
+									</div>
+									<div id="option_insert_div">
+									</div>
+								</div>
 							</TD>
 						</TR>
 					</TBODY>
@@ -937,28 +979,6 @@
 var material_kr = [];
 var material_en = [];
 var material_cn = [];
-
-var size_detail_a1_kr = [];
-var size_detail_a2_kr = [];
-var size_detail_a3_kr = [];
-var size_detail_a4_kr = [];
-var size_detail_a5_kr = [];
-var size_detail_onesize_kr = [];
-
-var size_detail_a1_en = [];
-var size_detail_a2_en = [];
-var size_detail_a3_en = [];
-var size_detail_a4_en = [];
-var size_detail_a5_en = [];
-var size_detail_onesize_en = [];
-
-var size_detail_a1_cn = [];
-var size_detail_a2_cn = [];
-var size_detail_a3_cn = [];
-var size_detail_a4_cn = [];
-var size_detail_a5_cn = [];
-var size_detail_onesize_cn = [];
-
 var care_kr = [];
 var care_en = [];
 var care_cn = [];
@@ -998,7 +1018,30 @@ $(document).ready(function() {
 			//$(this).slideUp(); //파일 양식 감춤
 		}
 	});
-	
+	$('#size_category').change(function() {	
+		var size_category = $('#size_category option:checked').text();
+		if(size_category.length > 0){
+			$.ajax({
+				type: "post",
+				data: {'size_category' : size_category},
+				dataType: "json",
+				url: config.api + "product/size/get",
+				error: function() {
+					alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
+				},
+				success: function(d) {
+					if(d.code == 200) {
+						if(d.data != null){
+							size_category_info = d.data[0];
+							printOptionForm(size_category_info);
+							$('#size_default_msg').css('display','none');
+							$('#sizeFormBtn').css('display', 'block');
+						}
+					}
+				}
+			});
+		}
+	});
 	$.ajax({
 		type: "post",
 		data: { 'product_idx' : <?=$product_idx?> },
@@ -1144,6 +1187,7 @@ $(document).ready(function() {
 				$("input[name='product_height']").val(data['data'][0].product_height);
 				$("input[name='product_volume']").val(data['data'][0].product_volume);
 				
+				
 				var relevant_product = data['data'][0].relevant_product;
 				if (relevant_product != null && relevant_product.data != null) {
 					relevant_product.data.forEach(function(relevant_row) {
@@ -1223,7 +1267,6 @@ $(document).ready(function() {
 			}
 			getCurrencyInfo();
 			setProductCategory();
-			getProductOption(false);
 			
 			getProductCategory(0,0);
 			if (data['data'][0].category_idx != 0) {
@@ -1237,7 +1280,23 @@ $(document).ready(function() {
 			}
 		}
 	});
-	
+	/*
+	$.ajax({
+		type: "post",
+		data: { 'product_idx' : <?=$product_idx?> },
+		dataType: "json",
+		url: config.api + "product/option/get",
+		error: function() {
+			alert("갱신할 상품정보를 불러오는데 실패했습니다.");
+		},
+		success: function(data) {
+			if(data.code == 200) {
+				$("select[name='size_category'] option:contains(" + data['data'][0].category_name + ")").attr("selected","selected");
+				
+			}
+		}
+	});
+	*/
 	productVolumeCalc();
 });
 
@@ -1392,59 +1451,6 @@ function setMdCategory(depth,d){
 	}	
 }
 
-function productOptionRegister(obj) {
-	var product_code = $('#product_code').val();
-	if (product_code.length == 0) {
-		alert('상품코드를 입력해 주세요.');
-	} else {
-		size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a1_en.getById["size_detail_a1_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a1_cn.getById["size_detail_a1_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a2_en.getById["size_detail_a2_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a2_cn.getById["size_detail_a2_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a3_en.getById["size_detail_a3_en"].exec("UPDATE_CONTENTS_FIELD", []);
-		size_detail_a3_cn.getById["size_detail_a3_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a4_kr.getById["size_detail_a4_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a4_en.getById["size_detail_a4_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a5_kr.getById["size_detail_a5_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a5_en.getById["size_detail_a5_en"].exec("UPDATE_CONTENTS_FIELD", []);		
-		size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_onesize_kr.getById["size_detail_onesize_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_onesize_en.getById["size_detail_onesize_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		var formData = new FormData();
-		formData = $("#frm-update").serializeObject();
-		
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "product/option/add",
-			error: function() {
-				alert("상품옵션 등록 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					alert("상품옵션 등록 처리에 성공했습니다.");
-					getProductOption();
-				} else if (d.code == 999) {
-					alert(d.msg);
-					return false;
-				}
-			}
-		});
-	}
-}
-
 function productOptionCheck() {
 	var search_type = $('#search_type').val();
 	var search_keyword = $('#search_keyword').val();
@@ -1459,12 +1465,15 @@ function productOptionCheck() {
 }
 
 function getHistoryProductOption() {
-	var search_type = $('#search_type').val();
-	var search_keyword = $('#search_keyword').val();
+	var category_name 	= $('#sel_category_name').val();
+	var search_type 	= $('#search_type').val();
+	var search_keyword 	= $('#search_keyword').val();
 	
+	historyProductOptionReset();
 	$.ajax({
 		type: "post",
 		data: {
+			'category_name':category_name,
 			'search_type':search_type,
 			'search_keyword':search_keyword
 		},
@@ -1477,111 +1486,69 @@ function getHistoryProductOption() {
 			if(d.code == 200) {
 				var data = d.data;
 				if (data != null) {
-					$('#history_option_info_table').remove();
-					
+					var idx = 0;
+					var size_key = [];
+					for(var key in data[0].size){
+						size_key.push(key);
+						idx++;
+					}
+					var strTh = '';
+					for(var i = 0; i < size_key.length; i++){
+						strTh += `<TH style="width:7%;">${size_key[i]} (cm)</TH>`;
+					}
 					var strDiv = "";
-					strDiv += '<TABLE id="history_option_info_table" class="list" style="font-size:0.5rem;margin-top:10px;">';
+					strDiv += '<TABLE id="history_option_info_table"  style="font-size:0.5rem;margin-top:10px;">';
 					strDiv += '    <THEAD>';
 					strDiv += '        <TR>';
-					strDiv += '            <TH style="width:7%;"></TH>';
-					strDiv += '            <TH>상품코드</TH>';
-					strDiv += '            <TH style="width:15%;">상품이름</TH>';
-					strDiv += '            <TH style="width:15%;">옵션코드</TH>';
-					strDiv += '            <TH style="width:10%;">옵션이름</TH>';
-					strDiv += '            <TH style="width:10%;">재고관리 사용유무</TH>';
-					strDiv += '            <TH style="width:10%;">재고관리 등급</TH>';
-					strDiv += '            <TH style="width:10%;">수량체크 기준</TH>';
-					strDiv += '            <TH style="width:10%;">품절표시</TH>';
+					strDiv += '            <TH style="width:5%;"></TH>';
+					strDiv += '            <TH style="width:7%;">상품코드</TH>';
+					strDiv += '            <TH style="width:10%;">상품이름</TH>';
+					strDiv += '            <TH style="width:5%;">옵션이름</TH>';
+					strDiv += '            <TH style="width:12%;">재고관리 등급</TH>';
+					strDiv += 			   strTh;
 					strDiv += '        </TR>';
 					strDiv += '    </THEAD>';
 					strDiv += '    <TBODY>';
 					
 					data.forEach(function(row) {
+						var idx = 0;
+						var size_key = [];
+						var size_value = [];
+						for(var key in row.size){
+							size_key.push(key);
+							size_value.push(row.size[size_key[idx]]);
+							idx++;
+						}
+						var strTd = '';
+						for(var i = 0; i < size_key.length; i++){
+							strTd += `<TD>${size_value[i]}</TD>`;
+						}
+
 						strDiv += '    <TR id="option_row_' + row.no + '">';
 						strDiv += '        <TD>';
 						strDiv += '            <button option_code="' + row.option_code + '" style="width:50px;height:30px;background-color:#140f82;color:#ffffff;cursor:pointer;font-size:0.5rem;" onClick="historyOptionCheck(this);">적용</button>';
 						strDiv += '        </TD>';
 						strDiv += '        <TD>' + row.product_code + '</TD>';
 						strDiv += '        <TD>' + row.product_name + '</TD>';
-						strDiv += '        <TD>' + row.option_code + '</TD>';
 						strDiv += '        <TD>' + row.option_name + '</TD>';
-						
-						strDiv += '        <TD>';
-						
-						if (row.stock_management != null) {
-							var checked_true = null;
-							var checked_false = null;
-							if (row.stock_management == true) {
-								checked_true = "checked";
-							} else {
-								checked_false = "checked";
-							}
-							strDiv += '    <div class="form-group row">';
-							strDiv += '        <label>';
-							strDiv += '            <input type="radio" name="stock_management_' + row.no + '" value="true" ' + checked_true + '>';
-							strDiv += '            <span>사용</span>';
-							strDiv += '        </label>';
-							strDiv += '        <label>';
-							strDiv += '            <input type="radio" name="stock_management_' + row.no + '" value="false" ' + checked_false + '>';
-							strDiv += '            <span>미사용</span>';
-							strDiv += '        </label>';
-							strDiv += '    </div>';
-						}
-						
-						strDiv += '        </TD>';
-						
-						var stock_type_a = "";
-						var stock_type_b = "";
-						if (row.stock_grade == 'A') {
-							stock_type_a = "selected";
+
+						var stock_type_common = "";
+						var stock_type_important = "";
+						if (row.stock_grade == '0') {
+							stock_type_common = "selected";
 						} else {
-							stock_type_b = "selected";
+							stock_type_important = "selected";
 						}
 						
 						strDiv += '        <TD>';
-						strDiv += '            <select class="fSelect" name="stock_grade[]" style="font-size:0.5rem;">';
-						strDiv += '                <option value="A" ' + stock_type_a + '>일반</option>';
-						strDiv += '                <option value="B" ' + stock_type_b + '>중요</option>';
-						strDiv += '            </select>';
+						strDiv += '        		<div class="content__row">';
+						strDiv += '            		<select class="fSelect" style="font-size:0.5rem;">';
+						strDiv += '                		<option value="0" ' + stock_type_common + '>일반</option>';
+						strDiv += '                		<option value="1" ' + stock_type_important + '>중요</option>';
+						strDiv += '           		 </select>';
+						strDiv += '        		</div>';
 						strDiv += '        </TD>';
-						
-						var check_type_a = "";
-						var check_type_b = "";
-						if (row.qty_check_type == 'A') {
-							check_type_a = "selected";
-						} else {
-							check_type_b = "selected";
-						}
-						
-						strDiv += '        <TD>';
-						strDiv += '            <select class="fSelect" name="qty_check_type[]" style="font-size:0.5rem;">';
-						strDiv += '                <option value="A" ' + check_type_a + '>주문</option>';
-						strDiv += '                <option value="B" ' + check_type_b + '>결제</option>';
-						strDiv += '            </select>';
-						strDiv += '        </TD>';
-						
-						strDiv += '        <TD>';
-						if (row.sold_out_flg != null) {
-							var checked_true = null;
-							var checked_false = null;
-							if (row.sold_out_flg == true) {
-								checked_true = "checked";
-							} else {
-								checked_false = "checked";
-							}
-							strDiv += '        <div class="form-group row">';
-							strDiv += '            <label>';
-							strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="true" ' + checked_true + '>';
-							strDiv += '                <span>사용</span>';
-							strDiv += '            </label>';
-							strDiv += '            <label>';
-							strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="false" ' + checked_false + '>';
-							strDiv += '                <span>미사용</span>';
-							strDiv += '            </label>';
-							strDiv += '        </div>';
-						}
-						strDiv += '        </TD>';
-						
+						strDiv += 		   strTd;
 						strDiv += '    </TR>';
 					});
 					
@@ -1595,221 +1562,193 @@ function getHistoryProductOption() {
 	});
 }
 
+function historyOptionCheck(obj){
+	var sel_history_info = $(obj).parents('tr').children();
+	var option_name = sel_history_info.eq(3).text();
+	var stock_grade = sel_history_info.eq(4).find('select').val();
+	var column_cnt 	= sel_history_info.length - 4;
+
+	var option_info = $('#option_input_table').find('tbody').children();
+	var option_row_cnt = option_info.length;
+
+	for(var i = 0; i < option_row_cnt; i++){
+		if(option_info.eq(i).children().eq(1).text() == option_name){
+			option_info.eq(i).find('select').val(stock_grade).prop("selected",true);
+			for(var j = 0; j < column_cnt; j++){
+				option_info.eq(i).find('input').eq(j+1).val(sel_history_info.eq(j+5).text());
+			}
+			return true;
+		}
+	}
+	alert('일치하는 옵션이 없습니다.');
+	return false;
+}
+
 function historyProductOptionReset() {
 	$('#history_option_info_table').remove();
 }
+function printOptionForm(size_category_info){
+	chk_list_arr = [];
+	chk_list_arr.push(['size_detail_onesize_kr','ONE']);
+	chk_list_arr.push(['size_detail_a1_kr','A1']);
+	chk_list_arr.push(['size_detail_a2_kr','A2']);
+	chk_list_arr.push(['size_detail_a3_kr','A3']);
+	chk_list_arr.push(['size_detail_a4_kr','A4']);
+	chk_list_arr.push(['size_detail_a5_kr','A5']);
 
-function historyOptionCheck(obj) {
-	var option_code_list = $('#option_code_list').val();
-	var option_code_arr = option_code_list.split(',');
+	$('#history_option_td').children('.content__row').html('');
+	$('#history_option_td').children('.content__row').append(`
+		<input type="text" id="sel_category_name" style="width:10%;" value="${size_category_info.category_name}" disabled>
+		<select class="fSelect eSearch" id="search_type" style="width:163px;">
+			<option value="product_code">상품 코드</option>
+			<option value="product_name">상품 이름</option>
+		</select>
+		<input type="text" id="search_keyword" style="width:60%;" value="">
+		<button type="button"
+			style="width:120px;height:30px;border:1px solid #000000;background-color:#140f82;color:#ffffff;cursor:pointer;"
+			onClick="productOptionCheck();">옵션정보 검색</button>
+		<button type="button"
+			style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;"
+			onClick="historyProductOptionReset();">초기화</button>
+	`);
+	historyProductOptionReset();
+	setOptionForm(size_category_info);
+}
+function initSizeForm(){
+	setOptionForm(size_category_info);
+}
+function setOptionForm(category_info){
+	var strDiv = "";
+	var strThDiv = "";
+	var img_path = '/images/sizeguide';
+	var column_cnt = 0;
+	img_path += $('#size_category option:checked').val();
+	img_path += `/${category_info['category_name']}.svg`;
 	
-	var product_code = $('#product_code').val();
-	var history_option_code = $(obj).attr('option_code');
-	
-	var cnt = 0;
-	for (var i=0; i<option_code_arr.length; i++) {
-		var history_option_code_size_arr = history_option_code.split('_');
-		var option_code_size_arr = option_code_arr[i].split('_');
+	console.log(img_path);
+	$('#option_insert_div').html('');
+	strDiv = `
+				<div class="row">
+					<div style="float:left;width: 33%;padding-top:50px;">
+						<img id="size_img" src="${img_path}" >
+					</div>
+					<div style="float:left;width: 64%;padding-top:50px;">
+						<table id="size_desc_table" style="width:90%">
+	`;
+
+	for(var i = 0; i < 6; i++){
+		if(category_info['size_title_' + String(i+1)] != null && category_info['size_title_' + String(i+1)].length > 0){
+			strDiv +=	`			
+							<tr data-idx="${i+1}" style="cursor:pointer">
+								<td>${category_info['size_title_' + String(i+1)]}</td>
+								<td>${category_info['size_desc_' + String(i+1)]}</td>
+							</tr> 
+						`;
+			strThDiv += `
+							<th>${category_info['size_title_' + String(i+1)]}<br>(cm)</th> 
+						`;
+			column_cnt++;
+		}
+	}
+	strDiv +=	`		</table>
+					</div>
+				</div>
+				<div class="drive--x"></div>
+				<input type="hidden" name="column_cnt" value="${column_cnt}">
+				<table id="option_input_table" style="margin-top:50px;width:95%">
+					<thead>
+						<tr>
+							<TH style="width:3%;"></TH>
+							<TH style="width:6%">옵션<br>이름</TH>
+							<TH style="width:8%">재고관리<br>등급</TH>
+							${strThDiv}
+						</tr>
+					</thead>
+					<tbody id="product_size_regist_table">
+					</tbody>
+				</table>
+	`;
+	$('#option_insert_div').append(strDiv);
+
+	addSizeRow();
+
+	$('#size_desc_table tr').mouseover(function(){
+		var img_path = '/images/sizeguide';
+		var tr_idx = $(this).attr('data-idx');
+		var img_specify_keyword = `/${size_category_info['category_name']}_${String.fromCharCode(parseInt(tr_idx) + 96)}.svg`;
+
+		img_path += $('#size_category option:checked').val();
+		img_path += img_specify_keyword;
+
+        $('#size_desc_table td').css('text-decoration', 'none');
+        $(this).find('td').css('text-decoration', 'underline');
 		
-		if (history_option_code_size_arr[1] == option_code_size_arr[1]) {
-			cnt++;
+		$('#size_img').attr('src', img_path);
+    })
+	$('#size_desc_table tr').mouseout(function(){
+		var img_path = '/images/sizeguide';
+		var tr_idx = $(this).attr('data-idx');
+		var img_specify_keyword = `/${size_category_info['category_name']}.svg`;
+
+		img_path += $('#size_category option:checked').val();
+		img_path += img_specify_keyword;
+
+        $('#size_desc_table td').css('text-decoration', 'none');
+		
+		$('#size_img').attr('src', img_path);
+    })
+}
+function addSizeRow(){
+	var success_cnt = 0;
+	for(var i=0; i<chk_list_arr.length;i++){
+		var textarea_id = chk_list_arr[i][0];
+		var size_name 	= chk_list_arr[i][1];
+
+		if($('#' + textarea_id).val() != ''){
+			success_cnt++;
+			addSizeTd(size_name);
 		}
 	}
-	
-	if (cnt > 0) {
-		alert('이미 선택된 옵션입니다.');
-		return false;
-	} else {
-		if (product_code.length > 0 && product_code != null) {
-			$.ajax({
-				type: "post",
-				data: {
-					'product_code':product_code,
-					'history_option_code':history_option_code
-				},
-				dataType: "json",
-				url: config.api + "product/option/add",
-				error: function() {
-					alert("상품옵션 등록 처리에 실패했습니다.");
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						getProductOption();
-					}
-				}
-			});
+	if(success_cnt == 0){
+		$('#product_size_regist_table').append(`<tr><td colspan="9">입력된 사이즈 옵션이 없습니다.</td></tr>`);
+	}
+}
+function addSizeTd(name){
+	strDiv = `
+		<tr>
+			<td>
+				<a class="btn red" onclick="delOptionRow(this)">
+					<i class="xi-trash"></i>
+					<span class="tooltip top">삭제</span>
+				</a>
+			</td>
+			<td><input type="hidden" name="option_name[]" value="${name}">${name}</td>
+			<td>
+				<div class="content__row">
+					<select class="fSelect" name="stock_grade[]" style="width:80px;font-size:0.5rem;">
+						<option value="0" selected>일반</option>
+						<option value="1" >중요</option>
+					</select>
+				</div>
+			</td>`;
+	for(var i = 0; i < 6; i++){
+		if(size_category_info['size_title_' + String(i+1)] != null && size_category_info['size_title_' + String(i+1)].length > 0){
+			strDiv += `
+			<td>
+				<input type="number" name="size_info_${i+1}[]" value="" style="width:60px">
+			</td>`;
 		}
 	}
+	strDiv += `
+		</tr>
+	`;
+	$('#product_size_regist_table').append(strDiv);
 }
-
-function getProductOption(load_flg) {
-	var product_code = $('#product_code').val();
-	
-	if (product_code.length > 0 && product_code != null) {
-		$.ajax({
-			type: "post",
-			data: {
-				'product_code':product_code,
-			},
-			dataType: "json",
-			url: config.api + "product/option/get",
-			error: function() {
-				alert("옵션정보 불러오기 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					var data = d.data;
-					if (data != null) {
-						$('#option_info_table').remove();
-						
-						var option_code_list = [];
-						
-						var strDiv = "";
-						strDiv += '<TABLE id="option_info_table" class="list" style="font-size:0.5rem;">';
-						strDiv += '    <THEAD>';
-						strDiv += '        <TR>';
-						strDiv += '            <TH colspan="8">';
-						strDiv += '                <div class="row">';
-						strDiv += '                    <input id="action_type" type="hidden" name="action_type" value="">';
-						strDiv += '                    <button type="button" action_type="delete" style="width:100px;height:30px;background-color:#E43A45;color:#ffffff;float:right;margin-right:5px;cursor:pointer;" onClick="optionInfoCheck(this);">옵션삭제</button>';
-						strDiv += '                    <button type="button" action_type="update" style="width:100px;height:30px;background-color:#140f82;color:#ffffff;float:right;margin-right:5px;cursor:pointer;" onClick="optionInfoCheck(this);">옵션저장</button>';
-						strDiv += '                </div>';
-						strDiv += '            </TH>';
-						strDiv += '        </TR>';
-						
-						strDiv += '        <TR>';
-						strDiv += '            <TH style="width:3%;">';
-						strDiv += '                <div class="form-group">';
-						strDiv += '                    <label>';
-						strDiv += '                        <input type="checkbox" onClick="selectAllClick(this);" checked>';
-						strDiv += '                        <span></span>';
-						strDiv += '                    </label>';
-						strDiv += '                </div>';
-						strDiv += '            </TH>';
-						strDiv += '            <TH>상품코드</TH>';
-						strDiv += '            <TH style="width:15%;">옵션코드</TH>';
-						strDiv += '            <TH style="width:6%;">옵션이름</TH>';
-						strDiv += '            <TH style="width:10%;">재고관리 사용유무</TH>';
-						strDiv += '            <TH style="width:10%;">재고관리 등급</TH>';
-						strDiv += '            <TH style="width:10%;">수량체크 기준</TH>';
-						strDiv += '            <TH style="width:10%;">품절표시</TH>';
-						strDiv += '        </TR>';
-						strDiv += '    </THEAD>';
-						strDiv += '    <TBODY>';
-						
-						data.forEach(function(row) {
-							option_code_list.push(row.option_code);
-							
-							strDiv += '    <TR id="option_row_' + row.no + '">';
-							strDiv += '        <TD>';
-							strDiv += '            <div class="form-group">';
-							strDiv += '                <label>';
-							strDiv += '                    <input class="option_idx" type="checkbox" name="option_idx[]" value="' + row.no + '" onClick="optionIdxClick();" checked>';
-							strDiv += '                    <span></span>';
-							strDiv += '                </label>';
-							strDiv += '            </div>';
-							strDiv += '        </TD>';
-							strDiv += '        <TD>' + row.product_code + '</TD>';
-							strDiv += '        <TD>' + row.option_code + '</TD>';
-							strDiv += '        <TD>' + row.option_name + '</TD>';
-							
-							strDiv += '        <TD>';
-							
-							if (row.stock_management != null) {
-								var checked_true = null;
-								var checked_false = null;
-								if (row.stock_management == true) {
-									checked_true = "checked";
-								} else {
-									checked_false = "checked";
-								}
-								strDiv += '    <div class="form-group row">';
-								strDiv += '        <label>';
-								strDiv += '            <input type="radio" name="stock_management_' + row.no + '" value="true" ' + checked_true + '>';
-								strDiv += '            <span>사용</span>';
-								strDiv += '        </label>';
-								strDiv += '        <label>';
-								strDiv += '            <input type="radio" name="stock_management_' + row.no + '" value="false" ' + checked_false + '>';
-								strDiv += '            <span>미사용</span>';
-								strDiv += '        </label>';
-								strDiv += '    </div>';
-							}
-							
-							strDiv += '        </TD>';
-							
-							var stock_type_a = "";
-							var stock_type_b = "";
-							if (row.stock_grade == 'A') {
-								stock_type_a = "selected";
-							} else {
-								stock_type_b = "selected";
-							}
-							
-							strDiv += '        <TD>';
-							strDiv += '            <select class="fSelect" name="stock_grade[]" style="font-size:0.5rem;">';
-							strDiv += '                <option value="A" ' + stock_type_a + '>일반</option>';
-							strDiv += '                <option value="B" ' + stock_type_b + '>중요</option>';
-							strDiv += '            </select>';
-							strDiv += '        </TD>';
-							
-							var check_type_a = "";
-							var check_type_b = "";
-							if (row.qty_check_type == 'A') {
-								check_type_a = "selected";
-							} else {
-								check_type_b = "selected";
-							}
-							
-							strDiv += '        <TD>';
-							strDiv += '            <select class="fSelect" name="qty_check_type[]" style="font-size:0.5rem;">';
-							strDiv += '                <option value="A" ' + check_type_a + '>주문</option>';
-							strDiv += '                <option value="B" ' + check_type_b + '>결제</option>';
-							strDiv += '            </select>';
-							strDiv += '        </TD>';
-							
-							strDiv += '        <TD>';
-							if (row.sold_out_flg != null) {
-								var checked_true = null;
-								var checked_false = null;
-								if (row.sold_out_flg == true) {
-									checked_true = "checked";
-								} else {
-									checked_false = "checked";
-								}
-								strDiv += '        <div class="form-group row">';
-								strDiv += '            <label>';
-								strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="true" ' + checked_true + '>';
-								strDiv += '                <span>사용</span>';
-								strDiv += '            </label>';
-								strDiv += '            <label>';
-								strDiv += '                <input type="radio" name="sold_out_flg_' + row.no + '" value="false" ' + checked_false + '>';
-								strDiv += '                <span>미사용</span>';
-								strDiv += '            </label>';
-								strDiv += '        </div>';
-							}
-							strDiv += '        </TD>';
-							
-							strDiv += '    </TR>';
-						});
-						
-						$('#option_code_list').val(option_code_list);
-						
-						strDiv += '    </TBODY>';
-						strDiv += '</TABLE>';
-						
-						$('#option_td').append(strDiv);
-					} else {
-						$('#option_info_table').remove();
-					}
-				}
-			}
-		});
-	} else {
-		alert('등록한 옵션을 불러오기 위해 상품코드를 입력해주세요.');
-		return false;
-	}
+function delOptionRow(obj){
+	confirm('정말로 해당 옵션을 제외하시겠습니까?', function(){
+		$(obj).parent().parent().remove();
+	});
 }
-
 function selectAllClick(obj) {
 	if ($(obj).prop('checked') == true) {
 		$(obj).prop('checked',true);
@@ -1882,27 +1821,6 @@ function optionInfoCheck(obj) {
 			alert(action_name + '할 옵션을 선택해주세요.');
 		}
 	}
-}
-
-function optionInfoAction(action_name) {
-	var formData = new FormData();
-	formData = $("#frm-update").serializeObject();
-	
-	$.ajax({
-		type: "post",
-		data: formData,
-		dataType: "json",
-		url: config.api + "product/option/put",
-		error: function() {
-			alert("선택한 옵션의 " + action_name + " 처리에 실패했습니다.");
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				alert("선택한 옵션의 " + action_name + " 처리에 성공했습니다.");
-				getProductOption(action_name);
-			}
-		}
-	});
 }
 
 function optionInfoReset() {
@@ -2322,7 +2240,7 @@ function productUpdateCheck() {
 	material_kr.getById["material_kr"].exec("UPDATE_CONTENTS_FIELD", []);
 	material_en.getById["material_en"].exec("UPDATE_CONTENTS_FIELD", []);
 	material_cn.getById["material_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-
+/*
 	size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []);
 	size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []);
 	size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []);
@@ -2341,7 +2259,7 @@ function productUpdateCheck() {
 	size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []);
 	size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []);
 	size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-
+*/
 	care_kr.getById["care_kr"].exec("UPDATE_CONTENTS_FIELD", []);
 	care_en.getById["care_en"].exec("UPDATE_CONTENTS_FIELD", []);
 	care_cn.getById["care_cn"].exec("UPDATE_CONTENTS_FIELD", []);

@@ -1,5 +1,18 @@
 <link rel=stylesheet href='/css/product/detail.css' type='text/css'>
 <main>
+	<?php
+		function getUrlParamter($url, $sch_tag) {
+			$parts = parse_url($url);
+			parse_str($parts['query'], $query);
+			return $query[$sch_tag];
+		}
+		
+		$page_url = $_SERVER['REQUEST_URI'];
+		$product_idx = getUrlParamter($page_url,'product_idx');
+	?>
+	<input id="product_idx" type="hidden" value="<?=$product_idx?>">
+	<input id="country" type="hidden" value="KR">
+	
     <div class="detail__sidebar__wrap">
         <div class="sidebar__background" data-modal="detail">
             <div class="sidebar__wrap" data-modal="detail">
@@ -800,6 +813,77 @@
     </section>
 </main>
 <script>
+	window.addEventListener('DOMContentLoaded', function() {
+		getProduct();
+		getRecommendProductList();
+	});
+	
+	const getProduct = () => {
+		let product_idx = $('#product_idx').val();
+		let country = $('#country').val();
+		
+		$.ajax({
+			type: "post",
+			data: {
+				"product_idx": product_idx,
+				"country": country,
+			},
+			dataType: "json",
+			url: "http://116.124.128.246:80/_api/product/get",
+			error: function() {
+				alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
+			},
+			success: function(d) {
+				let data = d.data;
+				
+				let relevant_idx = data[0].relevant_idx;
+				console.log(relevant_idx);
+				if (relevant_idx != null) {
+					getRelevantProductList(relevant_idx,country);
+				}
+			}
+		});
+	}
+	
+	const getRelevantProductList = (relevant_idx,country) => {
+		$.ajax({
+			type: "post",
+			data: {
+				"relevant_idx": relevant_idx,
+				"country": country
+			},
+			dataType: "json",
+			url: "http://116.124.128.246:80/_api/common/relevant/get",
+			error: function() {
+				alert("관련 상품 정보불러오기 처리에 실패했습니다.");
+			},
+			success: function(d) {
+				let data = d.data;
+				console.log(data);
+			}
+		});
+	}
+	
+	const getRecommendProductList = () => {
+		let country = $('#country').val();
+		
+		$.ajax({
+			type: "post",
+			data: {
+				"country": country
+			},
+			dataType: "json",
+			url: "http://116.124.128.246:80/_api/common/recommend/get",
+			error: function() {
+				alert("관련 상품 정보불러오기 처리에 실패했습니다.");
+			},
+			success: function(d) {
+				let data = d.data;
+				console.log(data);
+			}
+		});
+	}
+	
     (function() {
         const data = {
             product :[
@@ -919,10 +1003,12 @@
                 }
             ]   
         }
+		
         data.product.forEach((el, idx)=> { 
             console.log(`${idx} : ${el.PRODUCT_CODE}`);
         });
-        let detailPrdHtml = `
+		
+		let detailPrdHtml = `
             <div class="img__box">
                 <div class="img"
                     style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png');">
@@ -968,11 +1054,7 @@
                     </div>
                 </div>
             </div>
-        
-        
-        
-        
-        `
+        `;
     }());
     //제품 소재, 상세정보, 취급유의사항 슬라이드
     (function(){

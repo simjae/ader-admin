@@ -14,14 +14,28 @@
  +=============================================================================
 */
 
-$member_idx		= $_SESSION[SS_HEAD.'MEMBER_IDX'];
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$member_id = null;
+if (isset($_SESSION['MEMBER_ID'])) {
+	$member_id = $_SESSION['MEMBER_ID'];
+}
 
 $whish_idx		= $_POST['whish_idx'];
 $product_idx	= $_POST['product_idx'];
 $option_idx		= $_POST['option_idx'];
 $product_qty	= $_POST['product_qty'];
 
-if ($member_idx != null && $whish_list_idx != null && $product_idx != null && $option_idx != null && $product_qty != null) {
+if ($member_idx == 0 || $member_id == null) {
+	$json_result['code'] = 401;
+	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	exit;
+}
+
+if ($whish_idx != null && $product_idx != null && $option_idx != null && $product_qty != null) {
 	$sql = "UPDATE
 				dev.WHISH_LIST WL,
 				(
@@ -38,7 +52,9 @@ if ($member_idx != null && $whish_list_idx != null && $product_idx != null && $o
 				WL.OPTION_IDX = OO.OPTION_IDX,
 				WL.BARCODE = OO.BARCODE,
 				WL.OPTION_NAME = OO.OPTION_NAME,
-				WL.PRODUCT_QTY = ".$product_qty."
+				WL.PRODUCT_QTY = ".$product_qty.",
+				WL.UPDATER = '".$member_id."',
+				WL.UPDATE_DATE = NOW()
 			WHERE
 				WL.IDX = ".$whish_idx." AND
 				WL.MEMBER_IDX = ".$member_idx." AND

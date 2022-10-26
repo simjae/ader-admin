@@ -214,9 +214,10 @@
     pointer-events: none;
     opacity: 0.4;
 }
-
 </style>
 <main>
+	<input id="country" type="hidden" value="KR">
+	
     <section class="product__list__wrap">
         <div class="product__header">
             <h1>
@@ -242,6 +243,50 @@
 </main>
 
 <script>
+	window.addEventListener('DOMContentLoaded', function() {
+		getWhishProductList();
+		getRecommendProductList();
+	});
+	
+	const getWhishProductList = () => {
+		let country = $('#country').val();
+		
+		$.ajax({
+			type: "post",
+			data: {
+				"country": country,
+			},
+			dataType: "json",
+			url: "http://116.124.128.246:80/_api/order/whish/list/get",
+			error: function() {
+				alert("위시 리스트 등록 상품 불러오기 처리에 실패했습니다.");
+			},
+			success: function(d) {
+				let data = d.data;
+				console.log(data);
+			}
+		});
+	}
+	
+	const getRecommendProductList = () => {
+		let country = $('#country').val();
+		
+		$.ajax({
+			type: "post",
+			data: {
+				"country": country
+			},
+			dataType: "json",
+			url: "http://116.124.128.246:80/_api/common/recommend/get",
+			error: function() {
+				alert("관련 상품 정보불러오기 처리에 실패했습니다.");
+			},
+			success: function(d) {
+				let data = d.data;
+				console.log(data);
+			}
+		});
+	}
 //옵션확인해서 옵션 박스 선택해주는 함수
 (function() {
     let option = 0;

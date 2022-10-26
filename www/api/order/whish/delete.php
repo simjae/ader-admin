@@ -14,16 +14,33 @@
  +=============================================================================
 */
 
-$member_idx		= $_SESSION[SS_HEAD.'MEMBER_IDX'];
-$whish_idx_list	= $_POST['whish_list_idx'];
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
 
-if ($member_idx != null && $whish_list_idx != null) {
+$member_id = null;
+if (isset($_SESSION['MEMBER_ID'])) {
+	$member_id = $_SESSION['MEMBER_ID'];
+}
+
+$whish_idx	= $_POST['whish_idx'];
+
+if ($member_idx == 0 || $member_id == null) {
+	$json_result['code'] = 401;
+	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	exit;
+}
+
+if ($whish_idx != null) {
 	$sql = "UPDATE
 				dev.WHISH_LIST
 			SET
-				DEL_FLG = TRUE
+				DEL_FLG = TRUE,
+				UPDATER = '".$member_id."',
+				UPDATE_DATE = NOW()
 			WHERE
-				IDX IN (".$whish_idx_list.") AND
+				IDX IN (".$whish_idx.") AND
 				MEMBER_IDX = ".$member_idx;
 	
 	$db->query($sql);

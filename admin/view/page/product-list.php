@@ -426,6 +426,7 @@ function setSmartEditor() {
 	});
 	
 	//size_detail_kr
+	/*
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: size_detail_a1_kr,
 		elPlaceHolder: "size_detail_a1_kr",
@@ -538,7 +539,7 @@ function setSmartEditor() {
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload : function(){}}
 	});
-	
+	*/
 	//care
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: care_kr,

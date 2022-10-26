@@ -8,6 +8,7 @@
         height: 200px;
         background: #fff;
         display: flex;
+        transition-duration: 0.5s;
     }
     .wish__btn__wrap{
         width: 60px;
@@ -150,24 +151,19 @@
 </div>
 
 <script>
-
-// (() => {
-//     window.addeventlistener("scroll", function() {
-//         const scrolledHeight = window.scrolly;
-//         const windowHeight = window.innerheight;
-//         const docTotalHeight = document.body.offsetheight;
-//         const isBottom = windowHeight + scrolledHeight === docTotalHeight;
-//         const $wishbox = document.queryselector(".wish__box");
-
-//         if (isBottom) {
-//             $wishbox.style.bottom = "200px";
-//             $wishbox.style.transitionduration="0.5s";
-//         }else {
-//             $wishbox.style.bottom = "0px";
-//             $wishbox.style.transitionduration = "0.5s";
-//         }
-//     });
-// })();
+(function() {
+    window.addEventListener("scroll" ,() => {
+        console.log("scroll")
+        const $wishbox = document.querySelector(".wish__box");
+        const footer = document.querySelector("footer").style.height;
+        if ((window.innerHeight + window.scrollY) == document.body.offsetHeight) {
+            $wishbox.style.bottom = "200px";
+            console.log("200")
+        }else {
+            $wishbox.style.bottom = "0px";
+        }
+    });
+})();
 (() => {
     let $btnBox = document.querySelector(".btn__box");
     let $btnBoxImg = document.querySelector(".btn__box img");
@@ -185,10 +181,12 @@
             let $currentTarget = e.currentTarget;
             let $target = e.target;
             let targetData = e.currentTarget.dataset.quick;
+
             if(e.currentTarget.classList.contains("select")) {
-                    e.currentTarget.classList.remove("select");
-                    $contentWrap.classList.remove("open");
-            }else {
+                e.currentTarget.classList.remove("select");
+                $contentWrap.classList.remove("open");
+
+            } else {
                 removeSelect();
                 if(targetData == "recent") {
                     $titleBoxSpan.innerText= "최근 본 제품";
@@ -217,11 +215,13 @@
             }
         });
     });
+    
     function removeSelect() {
         $$btnBox.forEach((el) =>  {
             el.classList.remove("select");
         });
     }
+
 })();
 
 

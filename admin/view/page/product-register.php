@@ -9,6 +9,7 @@
 		background-color: #bfbfbf;
 		cursor:pointer;
 	}
+	.size_textarea{width:90%; height:150px;resize: none;border: solid 1px #bfbfbf;}
 </style>
 
 <div class="content__card">
@@ -221,19 +222,27 @@
 					<div class="overflow-x-auto">
 						<TABLE id="insert_table_size_detail">
 							<colgroup>
-								<col width="10%">
-								<col width="40%">
-								<col width="10%">
-								<col width="40%">
+								<col width="3%">
+								<col width="11%">
+								<col width="3%">
+								<col width="11%">
+								<col width="3%">
+								<col width="11%">
+								<col width="3%">
+								<col width="11%">
+								<col width="3%">
+								<col width="11%">
+								<col width="3%">
+								<col width="11%">
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TD>모델</TD>
-									<TD>
+									<TD colspan="2">모델</TD>
+									<TD colspan="4">
 										<input type="text" name="size_detail_model" value="">
 									</TD>
-									<TD>Wearing size</TD>
-									<TD>
+									<TD colspan="2">Wearing size</TD>
+									<TD colspan="4">
 										<input type="text" name="size_detail_wear" value="">
 									</TD>
 								</TR>
@@ -241,133 +250,149 @@
 								<TR>
 									<TD>A1한글</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a1_kr" name="size_detail_a1_kr"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a1_kr" name="size_detail_a1_kr"></textarea>
 									</TD>
 
 									<TD>A2한글</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a2_kr" name="size_detail_a2_kr"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a2_kr" name="size_detail_a2_kr"></textarea>
 									</TD>
-								</TR>
 
-								<TR>
 									<TD>A3한글</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a3_kr" name="size_detail_a3_kr"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a3_kr" name="size_detail_a3_kr"></textarea>
 									</TD>
 
 									<TD>A4한글</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a4_kr" name="size_detail_a4_kr"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a4_kr" name="size_detail_a4_kr"></textarea>
 									</TD>
-								</TR>
 
-								<TR>
 									<TD>A5한글</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a5_kr" name="size_detail_a5_kr"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a5_kr" name="size_detail_a5_kr"></textarea>
 									</TD>
 
 									<TD>ONESIZE한글</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_onesize_kr"
-											name="size_detail_onesize_kr" style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_onesize_kr"
+											name="size_detail_onesize_kr"></textarea>
 									</TD>
 								</TR>
 
 								<TR>
 									<TD>A1영문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a1_en" name="size_detail_a1_en"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a1_en" name="size_detail_a1_en"></textarea>
 									</TD>
 
 									<TD>A2영문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a2_en" name="size_detail_a2_en"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a2_en" name="size_detail_a2_en"></textarea>
 									</TD>
-								</TR>
-
-								<TR>
+									
 									<TD>A3영문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a3_en" name="size_detail_a3_en"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a3_en" name="size_detail_a3_en"></textarea>
 									</TD>
 
 									<TD>A4영문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a4_en" name="size_detail_a4_en"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a4_en" name="size_detail_a4_en"></textarea>
 									</TD>
-								</TR>
 
-								<TR>
 									<TD>A5영문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a5_en" name="size_detail_a5_en"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a5_en" name="size_detail_a5_en"></textarea>
 									</TD>
 
 									<TD>ONESIZE영문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_onesize_en"
-											name="size_detail_onesize_en" style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_onesize_en"
+											name="size_detail_onesize_en"></textarea>
 									</TD>
 								</TR>
 
 								<TR>
 									<TD>A1중문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a1_cn" name="size_detail_a1_cn"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a1_cn" name="size_detail_a1_cn"></textarea>
 									</TD>
 
 									<TD>A2중문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a2_cn" name="size_detail_a2_cn"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a2_cn" name="size_detail_a2_cn"></textarea>
 									</TD>
-								</TR>
 
-								<TR>
 									<TD>A3중문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a3_cn" name="size_detail_a3_cn"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a3_cn" name="size_detail_a3_cn"></textarea>
 									</TD>
 
 									<TD>A4중문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a4_cn" name="size_detail_a4_cn"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a4_cn" name="size_detail_a4_cn"></textarea>
 									</TD>
-								</TR>
-
-								<TR>
 									<TD>A5중문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_a5_cn" name="size_detail_a5_cn"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_a5_cn" name="size_detail_a5_cn"></textarea>
 									</TD>
 
 									<TD>ONESIZE중문</TD>
 									<TD>
-										<textarea class="width-100p" id="size_detail_onesize_cn"
-											name="size_detail_onesize_cn" style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p size_textarea" id="size_detail_onesize_cn"
+											name="size_detail_onesize_cn" ></textarea>
 									</TD>
 								</TR>
 								<TR>
-									<TD ID = "option_btn_td" colspan="4">
-										<button type="button"
-											style="width:160px;height:30px;background-color:#140f82;color:#ffffff;float:right;cursor:pointer;margin-right:25px"
-											onClick="productOptionBtn(this);" btn-action-type="size">사이즈 설정창 열기</button>
+									<TD colspan="2">
+										이미 등록한 옵션정보 불러오기
+									</TD>
+									<TD colspan="10" id="history_option_td">
+										<div class="content__row">
+											상품 카테고리를 먼저 선택해주세요
+										</div>
+									</TD>
+								</TR>
+								<TR>
+									<TD ID = "option_td" colspan="12">
+										<div colspan="5" id="option_category_td">
+											<div class="content__row">
+												<select id="size_category" name="size_category" class="fSelect eSearch" style="width:163px;">
+													<option value="">---one piece---</option>
+													<option value="/01_one_piece/dress">dress</option>
+													<option value="">---two piece---</option>
+													<option value="/02_two_piece/01_top/coat">coat</option>
+													<option value="/02_two_piece/01_top/hoodie">hoodie</option>
+													<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
+													<option value="/02_two_piece/01_top/shirts">---one piece---</option>
+													<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
+													<option value="/02_two_piece/01_top/tShirts">tShirts</option>
+													<option value="/02_two_piece/01_top/vest">vest</option>
+													<option value="/02_two_piece/01_top/zipup">zipup</option>
+													<option value="/02_two_piece/02_bottom/pants">pants</option>
+													<option value="/02_two_piece/02_bottom/skirt">skirt</option>
+													<option value="">---bag---------</option>
+													<option value="/03_etc/01_bag/backPack">backPack</option>
+													<option value="/03_etc/01_bag/crossBag">crossBag</option>
+													<option value="/03_etc/01_bag/toteBag">toteBag</option>
+													<option value="">---hat---------</option>
+													<option value="/03_etc/02_hat/beanie">beanie</option>
+													<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
+													<option value="/03_etc/02_hat/cap">cap</option>
+													<option value="">---acc---------</option>
+													<option value="/03_etc/03_acc/belt">belt</option>
+													<option value="/03_etc/03_acc/necktie">necktie</option>
+													<option value="/03_etc/03_acc/sock">sock</option>
+												</select>
+												<span id="size_default_msg" style="color:red">카테고리 선택시, 옵션 입력창이 생성됩니다.</span>
+												<button type="button" id="sizeFormBtn"
+													style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;display:none"
+													onClick="initSizeForm();" >초기화</button>
+											</div>
+											<div id="option_insert_div">
+											</div>
+										</div>
 									</TD>
 								</TR>
 							</TBODY>
@@ -534,60 +559,6 @@
 											value="0">
 									</TD>
 								</TR>
-								<TR>
-									<TD style="width:10%;">
-										이미 등록한 옵션정보 불러오기
-									</TD>
-									<TD colspan="5" id="history_option_td">
-										<div class="content__row">
-											상품 카테고리를 먼저 선택해주세요
-										</div>
-									</TD>
-								</TR>
-
-								<TR>
-									<TD style="width:10%;">
-										옵션정보설정
-										<input id="option_stock_set" type="hidden" name="option_stock_set" value="0">
-										<input id="option_code_list" type="hidden" value="">
-									</TD>
-									<TD id="option_td" colspan="5">
-										<div colspan="5" id="option_category_td">
-											<div class="content__row">
-												<select id="size_category" name="size_category" class="fSelect eSearch" style="width:163px;">
-													<option value="">---one piece---</option>
-													<option value="/01_one_piece/dress">dress</option>
-													<option value="">---two piece---</option>
-													<option value="/02_two_piece/01_top/coat">coat</option>
-													<option value="/02_two_piece/01_top/hoodie">hoodie</option>
-													<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
-													<option value="/02_two_piece/01_top/shirts">---one piece---</option>
-													<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
-													<option value="/02_two_piece/01_top/tShirts">tShirts</option>
-													<option value="/02_two_piece/01_top/vest">vest</option>
-													<option value="/02_two_piece/01_top/zipup">zipup</option>
-													<option value="/02_two_piece/02_bottom/pants">pants</option>
-													<option value="/02_two_piece/02_bottom/skirt">skirt</option>
-													<option value="">---bag---------</option>
-													<option value="/03_etc/01_bag/backPack">backPack</option>
-													<option value="/03_etc/01_bag/crossBag">crossBag</option>
-													<option value="/03_etc/01_bag/toteBag">toteBag</option>
-													<option value="">---hat---------</option>
-													<option value="/03_etc/02_hat/beanie">beanie</option>
-													<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
-													<option value="/03_etc/02_hat/cap">cap</option>
-													<option value="">---acc---------</option>
-													<option value="/03_etc/03_acc/belt">belt</option>
-													<option value="/03_etc/03_acc/necktie">necktie</option>
-													<option value="/03_etc/03_acc/sock">sock</option>
-												</select>
-											</div>
-											<div id="option_insert_div">
-											</div>
-										</div>
-									</TD>
-								</TR>
-
 								<TR>
 									<TD style="width:10%;">구매멤버 제한</TD>
 									<TD colspan="5">
@@ -1018,12 +989,12 @@
 									<TD>
 										<div class="flex" style="gap: 10px;">
 											<label class="rd__square">
-												<input id="seo_exposure_flg" type="hidden" name="seo_exposure_flg" value="true">
+												<input type="radio" name="seo_exposure_flg" value="true" checked>
 												<div><div></div></div>
 												<span>노출함</span>
 											</label>
 											<label class="rd__square">
-											<input class="seo_exposure_flg" type="radio" name="seo_exposure_flg_input" value="false" onClick="seoExposureFlgClick(this);">
+												<input type="radio" name="seo_exposure_flg" value="false">
 												<div><div></div></div>
 												<span>노출안함</span>
 											</label>
@@ -1076,7 +1047,7 @@
 var material_kr = [];
 var material_en = [];
 var material_cn = [];
-
+/*
 var size_detail_a1_kr = [];
 var size_detail_a2_kr = [];
 var size_detail_a3_kr = [];
@@ -1097,7 +1068,7 @@ var size_detail_a3_cn = [];
 var size_detail_a4_cn = [];
 var size_detail_a5_cn = [];
 var size_detail_onesize_cn = [];
-
+*/
 var care_kr = [];
 var care_en = [];
 var care_cn = [];
@@ -1138,7 +1109,7 @@ function setSmartEditor() {
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload : function(){}}
 	});
-	
+	/*
 	//size_detail_kr
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: size_detail_a1_kr,
@@ -1252,7 +1223,7 @@ function setSmartEditor() {
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload : function(){}}
 	});
-	
+	*/
 	//care
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: care_kr,
@@ -1377,6 +1348,8 @@ $(document).ready(function() {
 						if(d.data != null){
 							size_category_info = d.data[0];
 							printOptionForm(size_category_info);
+							$('#size_default_msg').css('display','none');
+							$('#sizeFormBtn').css('display', 'block');
 						}
 					}
 				}
@@ -1721,12 +1694,10 @@ function historyOptionCheck(obj){
 	var option_row_cnt = option_info.length;
 
 	for(var i = 0; i < option_row_cnt; i++){
-		console.log(option_info.eq(i).children().eq(3).text());
-		console.log(option_name);
-		if(option_info.eq(i).children().eq(3).text() == option_name){
+		if(option_info.eq(i).children().eq(1).text() == option_name){
 			option_info.eq(i).find('select').val(stock_grade).prop("selected",true);
 			for(var j = 0; j < column_cnt; j++){
-				option_info.eq(i).find('input').eq(j+3).val(sel_history_info.eq(j+5).text());
+				option_info.eq(i).find('input').eq(j+1).val(sel_history_info.eq(j+5).text());
 			}
 			return true;
 		}
@@ -1740,64 +1711,34 @@ function historyProductOptionReset() {
 }
 
 function printOptionForm(size_category_info){
-	var duplicate_check = $('#duplicate_check').val();
-	var product_code = $('#product_code').val();
+	chk_list_arr = [];
+	chk_list_arr.push(['size_detail_onesize_kr','ONE']);
+	chk_list_arr.push(['size_detail_a1_kr','A1']);
+	chk_list_arr.push(['size_detail_a2_kr','A2']);
+	chk_list_arr.push(['size_detail_a3_kr','A3']);
+	chk_list_arr.push(['size_detail_a4_kr','A4']);
+	chk_list_arr.push(['size_detail_a5_kr','A5']);
 
-	if (product_code != null && duplicate_check != "false") {
-		size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a1_en.getById["size_detail_a1_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a1_cn.getById["size_detail_a1_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a2_en.getById["size_detail_a2_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a2_cn.getById["size_detail_a2_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a3_en.getById["size_detail_a3_en"].exec("UPDATE_CONTENTS_FIELD", []);
-		size_detail_a3_cn.getById["size_detail_a3_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a4_kr.getById["size_detail_a4_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a4_en.getById["size_detail_a4_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_a5_kr.getById["size_detail_a5_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_a5_en.getById["size_detail_a5_en"].exec("UPDATE_CONTENTS_FIELD", []);		
-		size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-		
-		size_detail_onesize_kr.getById["size_detail_onesize_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_onesize_en.getById["size_detail_onesize_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-		size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-
-		chk_list_arr = [];
-		chk_list_arr.push(['size_detail_onesize_kr','ONE']);
-		chk_list_arr.push(['size_detail_a1_kr','A1']);
-		chk_list_arr.push(['size_detail_a2_kr','A2']);
-		chk_list_arr.push(['size_detail_a3_kr','A3']);
-		chk_list_arr.push(['size_detail_a4_kr','A4']);
-		chk_list_arr.push(['size_detail_a5_kr','A5']);
-
-		$('#history_option_td').children('.content__row').html('');
-		$('#history_option_td').children('.content__row').append(`
-			<input type="text" id="sel_category_name" style="width:10%;" value="${size_category_info.category_name}" disabled>
-			<select class="fSelect eSearch" id="search_type" style="width:163px;">
-				<option value="product_code">상품 코드</option>
-				<option value="product_name">상품 이름</option>
-			</select>
-			<input type="text" id="search_keyword" style="width:60%;" value="">
-			<button type="button"
-				style="width:120px;height:30px;border:1px solid #000000;background-color:#140f82;color:#ffffff;cursor:pointer;"
-				onClick="productOptionCheck();">옵션정보 검색</button>
-			<button type="button"
-				style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;"
-				onClick="historyProductOptionReset();">초기화</button>
-		`);
-		historyProductOptionReset();
-		setOptionForm(size_category_info);
-	}
-	else {
-		alert('옵션 설정창을 열기 위해 상품코드를 입력/중복체크가 필요합니다.');
-		return false;
-	}
+	$('#history_option_td').children('.content__row').html('');
+	$('#history_option_td').children('.content__row').append(`
+		<input type="text" id="sel_category_name" style="width:10%;" value="${size_category_info.category_name}" disabled>
+		<select class="fSelect eSearch" id="search_type" style="width:163px;">
+			<option value="product_code">상품 코드</option>
+			<option value="product_name">상품 이름</option>
+		</select>
+		<input type="text" id="search_keyword" style="width:60%;" value="">
+		<button type="button"
+			style="width:120px;height:30px;border:1px solid #000000;background-color:#140f82;color:#ffffff;cursor:pointer;"
+			onClick="productOptionCheck();">옵션정보 검색</button>
+		<button type="button"
+			style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;"
+			onClick="historyProductOptionReset();">초기화</button>
+	`);
+	historyProductOptionReset();
+	setOptionForm(size_category_info);
+}
+function initSizeForm(){
+	setOptionForm(size_category_info);
 }
 function setOptionForm(category_info){
 	var strDiv = "";
@@ -1841,8 +1782,6 @@ function setOptionForm(category_info){
 					<thead>
 						<tr>
 							<TH style="width:3%;"></TH>
-							<TH style="width:7%;">상품코드</TH>
-							<TH style="width:7%;">옵션코드</TH>
 							<TH style="width:5%">옵션 이름</TH>
 							<TH style="width:8%">재고관리 등급</TH>
 							${strThDiv}
@@ -1883,17 +1822,21 @@ function setOptionForm(category_info){
     })
 }
 function addSizeRow(){
+	var success_cnt = 0;
 	for(var i=0; i<chk_list_arr.length;i++){
 		var textarea_id = chk_list_arr[i][0];
 		var size_name 	= chk_list_arr[i][1];
 
-		if($('#' + textarea_id).val() != '<p>&nbsp;</p>'){
+		if($('#' + textarea_id).val() != ''){
+			success_cnt++;
 			addSizeTd(size_name);
 		}
 	}
+	if(success_cnt == 0){
+		$('#product_size_regist_table').append(`<tr><td colspan="9">입력된 사이즈 옵션이 없습니다.</td></tr>`);
+	}
 }
 function addSizeTd(name){
-	var product_code = $('#product_code').val();
 	strDiv = `
 		<tr>
 			<td>
@@ -1902,8 +1845,6 @@ function addSizeTd(name){
 					<span class="tooltip top">삭제</span>
 				</a>
 			</td>
-			<td><input type="hidden" name="option_product_code[]" value="${product_code}">${product_code}</td>
-			<td><input type="hidden" name="option_code[]" value="${product_code}_${name}">${product_code}_${name}</td>
 			<td><input type="hidden" name="option_name[]" value="${name}">${name}</td>
 			<td>
 				<div class="content__row">
@@ -1942,7 +1883,7 @@ function selectAllClick(obj) {
 	}
 	optionIdxClick();
 }
-
+/*
 function optionIdxClick() {
 	var length = $('.option_idx').length;
 	var option_idx_arr = [];
@@ -1955,7 +1896,7 @@ function optionIdxClick() {
 	}
 	$('#option_stock_set').val(option_idx_arr);
 }
-
+*/
 function optionInfoCheck(obj) {
 	var action_type = $(obj).attr('action_type');
 	
@@ -2400,7 +2341,7 @@ function getProductTag() {
 	if (wkla != null && wkla != "") {
 		tag.push(wkla);
 	}
-
+/*
 	size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
 	size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
 	size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
@@ -2508,7 +2449,7 @@ function getProductTag() {
 	) {
 		tag.push('ONESIZE');
 	}
-	
+	*/
 	addProductTag(tag,true);
 }
 
@@ -2538,25 +2479,6 @@ function productRegister() {
 	material_kr.getById["material_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
 	material_en.getById["material_en"].exec("UPDATE_CONTENTS_FIELD", []); 
 	material_cn.getById["material_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	
-	size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a4_kr.getById["size_detail_a4_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a5_kr.getById["size_detail_a5_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_onesize_kr.getById["size_detail_onesize_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a1_en.getById["size_detail_a1_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a2_en.getById["size_detail_a2_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a3_en.getById["size_detail_a3_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a4_en.getById["size_detail_a4_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a5_en.getById["size_detail_a5_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_onesize_en.getById["size_detail_onesize_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a1_cn.getById["size_detail_a1_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a2_cn.getById["size_detail_a2_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a3_cn.getById["size_detail_a3_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
 	
 	care_kr.getById["care_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
 	care_en.getById["care_en"].exec("UPDATE_CONTENTS_FIELD", []); 

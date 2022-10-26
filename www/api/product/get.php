@@ -13,10 +13,18 @@
  | 
  +=============================================================================
 */
+
+include_once("/var/www/www/api/common/common.php");
+
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
 $product_idx	= $_POST['product_idx'];
 $country		= $_POST['country'];
 
-if ($product_idx != null) {
+if ($product_idx != null && $country != null) {
 	$sql = "SELECT
 				PR.IDX						AS PRODUCT_IDX,
 				PR.PRODUCT_NAME				AS PRODUCT_NAME,
@@ -28,7 +36,8 @@ if ($product_idx != null) {
 				OM.DETAIL_".$country."		AS DETAIL,
 				OM.CARE_".$country."		AS CARE,
 				PR.REFUND_FLG				AS REFUND_FLG,
-				PR.REFUND_".$country."		AS REFUND_MSG
+				PR.REFUND_".$country."		AS REFUND_MSG,
+				PR.RELEVANT_IDX				AS RELEVANT_IDX
 			FROM
 				dev.SHOP_PRODUCT PR
 				LEFT JOIN dev.ORDERSHEET_MST OM ON
@@ -42,53 +51,104 @@ if ($product_idx != null) {
 		$product_idx = $data['PRODUCT_IDX'];
 		
 		if ($product_idx != null) {
-			$img_product = array();
+			$product_img = array();
 			
 			$img_sql = "SELECT
 							PI.IDX			AS IMG_IDX,
 							PI.IMG_TYPE		AS IMG_TYPE,
-							PI.IMG_LOCATION	AS IMG_LOCATION
+							PI.IMG_SIZE		AS IMG_SIZE,
+							REPLACE(
+								PI.IMG_LOCATION,'/var/www/admin/www',''
+							)				AS IMG_LOCATION,
+							REPLACE(
+								PI.IMG_URL,'/var/www/admin/www',''
+							)				AS IMG_URL
 						FROM
 							dev.PRODUCT_IMG PI
 						WHERE
-							PI.PRODUCT_IDX = ".$product_idx."
+							PI.PRODUCT_IDX = ".$product_idx." AND
+							PI.IMG_SIZE IN ('L','S')
 						ORDER BY
-							PI.IDX ASC"
+							PI.IDX ASC";
 			
 			$db->query($img_sql);
 			
-			$img_main = array();
-			$img_detail = array();
+			$img_product_l = array();
+			$img_product_s = array();
+			
+			$img_outfit_l = array();
+			$img_outfit_s = array();
+			
+			$img_detail_l = array();
+			$img_detail_s = array();
+			
 			foreach($db->fetch() as $img_data) {
+				$img_size = $img_data['IMG_SIZE'];
 				$img_type = $img_data['IMG_TYPE'];
 				
-				if ($img_type == "MAIN") {
-					$img_main['data'][] = array(
-						'img_location'		=>$img_data['IMG_LOCATION']
-					);
-				} else if ($img_type == "DETAIL") {
-					$img_detail['data'][] = array(
-						'img_location'		=>$img_data['IMG_LOCATION']
-					);
+				if ($img_size == "L") {
+					switch ($img_type) {
+						case "P" :
+							array_push($img_product_l,$img_data['IMG_URL']);
+							break;
+						
+						case "O" :
+							array_push($img_outfit_l,$img_data['IMG_URL']);
+							break;
+						
+						case "D" :
+							array_push($img_detail_l,$img_data['IMG_URL']);
+							break;
+					}
+				} else if ($img_size == "S") {
+					switch ($img_type) {
+						case "P" :
+							array_push($img_product_s,$img_data['IMG_LOCATION']);
+							break;
+						
+						case "O" :
+							array_push($img_outfit_s,$img_data['IMG_LOCATION']);
+							break;
+						
+						case "D" :
+							array_push($img_detail_s,$img_data['IMG_LOCATION']);
+							break;
+					}
 				}
 			}
 			
-			$img_product[] = array(
-				'img_main'		=>$img_main,
-				'img_detail'	=>$img_detail
+			$product_img_l = array(
+				'img_product'	=>$img_product_l,
+				'img_outfit'	=>$img_outfit_l,
+				'img_detail'	=>$img_detail_l
+			);
+			
+			$product_img_s = array(
+				'img_product'	=>$img_product_s,
+				'img_outfit'	=>$img_outfit_s,
+				'img_detail'	=>$img_detail_s
+			);
+			
+			$product_img = array(
+				'product_img_l'	=>$product_img_l,
+				'product_img_s'	=>$product_img_s
 			);
 			
 			$whish_flg = false;
-			if ($member_idx != null) {
-				$whish_cnt => $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
+			if ($member_idx > 0) {
+				$whish_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
 				if ($whish_cnt > 0) {
 					$whish_flg = true;
 				}
 			}
 			
+			$product_color = getProductColor($db,$product_idx);
+			
+			$product_size = getProductSize($db,$product_idx);
+			
 			$json_result['data'][] = array(
 				'product_idx'		=>$data['PRODUCT_IDX'],
-				'img_product'		=>$img_product,
+				'product_img'		=>$product_img,
 				'product_name'		=>$data['PRODUCT_NAME'],
 				'color'				=>$data['COLOR'],
 				'price'				=>$data['PRICE'],
@@ -99,6 +159,9 @@ if ($product_idx != null) {
 				'care'				=>$data['CARE'],
 				'refund_flg'		=>$data['REFUND_FLG'],
 				'refund_msg'		=>$data['REFUND_MSG'],
+				'relevant_idx'		=>$data['RELEVANT_IDX'],
+				'product_color'		=>$product_color,
+				'product_size'		=>$product_size,
 				'whish_flg'			=>$whish_flg
 			);
 		}

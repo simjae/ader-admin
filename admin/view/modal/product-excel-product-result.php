@@ -119,6 +119,27 @@ $(document).ready(function() {
                         `;
                     }
                     break;
+                case 'relevant':
+                    title = '관련상품';
+                    str_table += `
+                                        <th>No.</th>
+                                        <th>상품 코드</th>
+                                        <th>관련상품 코드</th>
+                                        <th>엑셀 행번호</th>
+                                        <th>실패 원인</th>
+                    `;
+                    for(var i = 0; i < value.false.length; i++){
+                        str_td += `
+                                            <tr>
+                                                <td>${i+1}</td>
+                                                <td>${value.false[i].product_code}</td>
+                                                <td>${value.false[i].relevant_code}</td>
+                                                <td>${value.false[i].row_num}</td>
+                                                <td>${value.false[i].reason}</td>
+                                            </tr>
+                        `;
+                    }
+                    break;
             }
             str_table += `
                                                 
@@ -146,6 +167,9 @@ $(document).ready(function() {
                     break;
                 case 'img':
                     title = '상품 이미지';
+                    break;
+                case 'relevant':
+                    title = '관련상품';
                     break;
             }
         }

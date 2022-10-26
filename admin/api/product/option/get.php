@@ -13,6 +13,7 @@
  | 
  +=============================================================================
 */
+$product_idx = $_POST['product_idx'];
 $category_name = $_POST['category_name'];
 $product_code = $_POST['product_code'];
 $search_type = $_POST['search_type'];
@@ -21,24 +22,29 @@ $option_code = $_POST['option_code'];
 
 $where = "1=1";
 
-if($category_name != null){
-	$where .= ' AND OPTION.CATEGORY_NAME = "'.$category_name.'" ';
+if($product_idx != null){
+	$where .= ' AND OPTION.PRODUCT_IDX = '.$product_idx.' ';
 }
-
-if ($product_code != null) {
-	$where .= ' AND (OPTION.OPTION_CODE LIKE "'.$product_code.'%") ';
-} else if ($search_type != null && $search_keyword != null) {
-	switch ($search_type) {
-		case "product_code" :
-			$where .= ' AND (PRODUCT.PRODUCT_CODE LIKE "%'.$search_keyword.'%") ';
-			break;
-		
-		case "product_name" :
-			$where .= ' AND (PRODUCT.PRODUCT_NAME LIKE "%'.$search_keyword.'%") ';
-			break;
+else{
+	if($category_name != null){
+		$where .= ' AND OPTION.CATEGORY_NAME = "'.$category_name.'" ';
 	}
-} else if ($option_code != null) {
-	$where .= " AND (OPTION.OPTION_CODE = '".$option_code."') ";
+	
+	if ($product_code != null) {
+		$where .= ' AND (OPTION.OPTION_CODE LIKE "'.$product_code.'%") ';
+	} else if ($search_type != null && $search_keyword != null) {
+		switch ($search_type) {
+			case "product_code" :
+				$where .= ' AND (PRODUCT.PRODUCT_CODE LIKE "%'.$search_keyword.'%") ';
+				break;
+			
+			case "product_name" :
+				$where .= ' AND (PRODUCT.PRODUCT_NAME LIKE "%'.$search_keyword.'%") ';
+				break;
+		}
+	} else if ($option_code != null) {
+		$where .= " AND (OPTION.OPTION_CODE = '".$option_code."') ";
+	}
 }
 
 //검색 유형 - 디폴트
