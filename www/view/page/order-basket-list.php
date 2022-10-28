@@ -44,11 +44,11 @@
     .list__header {
         width: 100%;
         display: flex;
-        height: 10vh;
+        height: 120px;
         padding-top: 40px;
         position: sticky;
         top: 70px;
-        z-index: 10;
+        z-index: 1;
         background: #ffffff;
         flex-direction: column;
     }
@@ -112,7 +112,7 @@
         width: 35rem;
         height: 97vh;
         position: sticky;
-        top: 0;
+        top: 70px;
         flex-direction: column;
         justify-content: center;
     }
@@ -149,11 +149,24 @@
         width: 10px;
         text-align: center;
     }
+    .prd__qty .minus__btn {
+        cursor: pointer;
+    }
+    .prd__qty .plus__btn {
+        cursor: pointer;
+    }
+    .count__val:focus{
+    outline: none;
+    }
+    .disableBtn {
+        pointer-events: none;
+        opacity: 0.4;
+    }
 </style>
 <main>
     <div class="basket__wrap">
         <div class="basket__box">
-            <div class="list__header">
+            <!-- <div class="list__header">
                 <div class="icon__box">
                     <img src="/images/svg/basket.svg" alt="">
                     <div>쇼핑백</div>
@@ -165,7 +178,7 @@
                         <u class="ufont">모두 삭제</u>
                     </div>            
                 </div>
-            </div>
+            </div> -->
             <div class="list__box">
                 <div class="list__header">
                     <div class="icon__box">
@@ -173,238 +186,30 @@
                         <div>쇼핑백</div>
                     </div>
                     <div class="checkbox__box">
-                        <input class="prd_cb all__cb" type="checkbox" name="basket">
+                        <input class="prd_cb all__cb" type="checkbox" name="stock">
                         <div class="flex gap-10">
-                            <u class="ufont">선택 삭제</u>
-                            <u class="ufont">모두 삭제</u>
+                            <u class="ufont st__checked__btn" btn="stock">선택 삭제</u>
+                            <u class="ufont st__all__btn" btn="stock">모두 삭제</u>
                         </div>            
                     </div>
                 </div>
                 <div class="list__body">
-                    <div class="product__box">
-                        <input class="prd__cb self__cb" type="checkbox" name="basket">
-                        <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__content">
-                            <div class="prd__title">Product name</div>
-                            <div class="prd__price">000,000</div>
-                            <div class="prd__color">Color</div>
-                            <div class="prd__size">
-                                <div class="size__box">
-                                    <li data-soldout="stcl">A1</li>
-                                    <li data-soldout="stin">A2</li>
-                                    <li data-soldout="STSC">A3</li>
-                                    <li data-soldout="STSO">A4</li>
-                                </div>
-                            </div>
-                            <div class="prd__qty">
-                                <div>Qty</div>
-                                <div class="minus__btn">-</div>
-                                <input class="count__val" type="text" value="1" onchange="countChange()">
-                                <div class="plus__btn">+</div>
-                                <div class="totalPrice">000,000</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product__box">
-                        <input class="prd__cb self__cb" type="checkbox" name="basket">
-                        <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__content">
-                            <div class="prd__title">Product name</div>
-                            <div class="prd__price">000,000</div>
-                            <div class="prd__color">색상</div>
-                            <div class="prd__size">
-                                <div class="size__box">
-                                    <li data-soldout="stcl">A1</li>
-                                    <li data-soldout="stin">A2</li>
-                                    <li data-soldout="STSC">A3</li>
-                                    <li data-soldout="STSO">A4</li>
-                                </div>
-                            </div>
-                            <div class="prd__qty">
-                                <div>Qty</div>
-                                <div class="minus__btn">-</div>
-                                <input class="count__val" type="text" value="1" onchange="countChange()">
-                                <div class="plus__btn">+</div>
-                                <div class="totalPrice">000,000</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product__box">
-                        <input class="prd__cb self__cb" type="checkbox" name="basket">
-                        <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__content">
-                            <div class="prd__title">Product name</div>
-                            <div class="prd__price">000,000</div>
-                            <div class="prd__color">색상</div>
-                            <div class="prd__size">
-                                <div class="size__box">
-                                    <li data-soldout="stcl">A1</li>
-                                    <li data-soldout="stin">A2</li>
-                                    <li data-soldout="STSC">A3</li>
-                                    <li data-soldout="STSO">A4</li>
-                                </div>
-                            </div>
-                            <div class="prd__qty">
-                                <div>Qty</div>
-                                <div class="minus__btn">-</div>
-                                <input class="count__val" type="text" value="1" onchange="countChange()">
-                                <div class="plus__btn">+</div>
-                                <div class="totalPrice">000,000</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product__box">
-                        <input class="prd__cb self__cb" type="checkbox" name="basket">
-                        <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__content">
-                            <div class="prd__title">Product name</div>
-                            <div class="prd__price">000,000</div>
-                            <div class="prd__color">색상</div>
-                            <div class="prd__size">
-                                <div class="size__box">
-                                    <li data-soldout="stcl">A1</li>
-                                    <li data-soldout="stin">A2</li>
-                                    <li data-soldout="STSC">A3</li>
-                                    <li data-soldout="STSO">A4</li>
-                                </div>
-                            </div>
-                            <div class="prd__qty">
-                                <div>Qty</div>
-                                <div class="minus__btn">-</div>
-                                <input class="count__val" type="text" value="1" onchange="countChange()">
-                                <div class="plus__btn">+</div>
-                                <div class="totalPrice">000,000</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product__box">
-                        <input class="prd__cb self__cb" type="checkbox" name="basket">
-                        <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__content">
-                            <div class="prd__title">Product name</div>
-                            <div class="prd__price">000,000</div>
-                            <div class="prd__color">색상</div>
-                            <div class="prd__size">
-                                <div class="size__box">
-                                    <li data-soldout="stcl">A1</li>
-                                    <li data-soldout="stin">A2</li>
-                                    <li data-soldout="STSC">A3</li>
-                                    <li data-soldout="STSO">A4</li>
-                                </div>
-                            </div>
-                            <div class="prd__qty">
-                                <div>Qty</div>
-                                <div class="minus__btn">-</div>
-                                <input class="count__val" type="text" value="1" onchange="countChange()">
-                                <div class="plus__btn">+</div>
-                                <div class="totalPrice">000,000</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sold__list__box">
-                        <div class="list__header">
-                            <div class="icon__box">
-                                <img src="/images/svg/basket.svg" alt="">
-                                <div>품절제품</div>
-                            </div>
-                            <div class="checkbox__box">
-                                <input class="prd_cb all__cb" type="checkbox" name="basket">
-                                <div class="flex gap-10">
-                                    <u class="ufont">선택 삭제</u>
-                                    <u class="ufont">모두 삭제</u>
-                                </div>            
-                            </div>
-                        </div>
-                        <div class="list__body">
-                            <div class="product__box">
-                                <input class="prd__cb self__cb" type="checkbox" name="basket">
-                                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                                <div class="prd__content">
-                                    <div class="prd__title">Product name</div>
-                                    <div class="prd__price">000,000</div>
-                                    <div class="prd__color">색상</div>
-                                    <div class="prd__size">
-                                        <div class="size__box">
-                                            <li data-soldout="stcl">A1</li>
-                                            <li data-soldout="stin">A2</li>
-                                            <li data-soldout="STSC">A3</li>
-                                            <li data-soldout="STSO">A4</li>
-                                        </div>
-                                    </div>
-                                    <div class="prd__qty">
-                                        <div>Qty</div>
-                                        <div class="minus__btn">-</div>
-                                        <input class="count__val" type="text" value="1" onchange="countChange()">
-                                        <div class="plus__btn">+</div>
-                                        <div class="totalPrice">000,000</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__box">
-                                <input class="prd__cb self__cb" type="checkbox" name="basket">
-                                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                                <div class="prd__content">
-                                    <div class="prd__title">Product name</div>
-                                    <div class="prd__price">000,000</div>
-                                    <div class="prd__color">색상</div>
-                                    <div class="prd__size">
-                                        <div class="size__box">
-                                            <li data-soldout="stcl">A1</li>
-                                            <li data-soldout="stin">A2</li>
-                                            <li data-soldout="STSC">A3</li>
-                                            <li data-soldout="STSO">A4</li>
-                                        </div>
-                                    </div>
-                                    <div class="prd__qty">
-                                        <div>Qty</div>
-                                        <div class="minus__btn">-</div>
-                                        <input class="count__val" type="text" value="1" onchange="countChange()">
-                                        <div class="plus__btn">+</div>
-                                        <div class="totalPrice">000,000</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__box">
-                                <input class="prd__cb self__cb" type="checkbox" name="basket">
-                                <div class="prd__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                                <div class="prd__content">
-                                    <div class="prd__title">Product name</div>
-                                    <div class="prd__price">000,000</div>
-                                    <div class="prd__color">색상</div>
-                                    <div class="prd__size">
-                                        <div class="size__box">
-                                            <li data-soldout="stcl">A1</li>
-                                            <li data-soldout="stin">A2</li>
-                                            <li data-soldout="STSC">A3</li>
-                                            <li data-soldout="STSO">A4</li>
-                                        </div>
-                                    </div>
-                                    <div class="prd__qty">
-                                        <div>Qty</div>
-                                        <div class="minus__btn">-</div>
-                                        <input class="count__val" type="text" value="1" onchange="countChange()">
-                                        <div class="plus__btn">+</div>
-                                        <div class="totalPrice">000,000</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <div class="dash"></div>
             <div class="pay__box">
                 <div class="pay__row">
                     <div>제품합계</div>
-                    <div>2,182,000</div>
+                    <div class="product__total__price"></div>
                 </div>
                 <div class="pay__row">
                     <div>배송비</div>
-                    <div>0</div>
+                    <div class="deli__price">0</div>
                 </div>
                 <div class="pay__row">
                     <div>총 합계</div>
-                    <div>2,182,000</div>
+                    <div class="pay__total__price"></div>
                 </div>
                 <div class="pay__btn"><span>결제하기</span></div>
                 <p class="pay__notiy">품절제품을 삭제 후 결제를 진행해주세요.</p> 
@@ -413,16 +218,44 @@
     </div>
 </main>
 <script>
+    
+
+
     window.addEventListener('DOMContentLoaded', function() {
         getBasketProductList();
-        // putBasketProduct();
-        // deleteBasketProduct();
     });
-    const deleteBasketProduct = () => {
+     //재고상품 선택삭제 버튼
+    (function stockCheckedDeleteBtn(){
+        const $checkedDelete = document.querySelector(".st__checked__btn");
+        $checkedDelete.addEventListener("click", () => {
+            console.log("선택삭제");
+            const $$checkedSelfBox = document.querySelectorAll(".self__cb:checked");
+            $$checkedSelfBox.forEach( el => {
+                let basketIdx = el.parentElement.dataset.basketidx;
+                el.parentElement.remove();
+                deleteBasketProduct(basketIdx);
+                let productPrice = getProductListSumPrice();
+                payBoxSumPrice(productPrice);
+            });
+        });
+    })();
+    //재고상품 전체삭제 버튼
+    (function stockAllDeleteBtn(){
+        const $checkedDelete = document.querySelector(".st__all__btn");
+        $checkedDelete.addEventListener("click", () => {
+            let $inputbox = document.querySelectorAll(".self__cb[name='stock']");
+            $inputbox.forEach(el => {
+                let basketIdx = el.parentNode.dataset.basketidx;
+                el.checked = true;
+            })
+        });
+    })();
+    //삭제 api
+    const deleteBasketProduct = (basketIdx) => {
         $.ajax({
             type: "post",
             data: {
-                "basket_idx":basket_idx
+                "basket_idx":basketIdx
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/order/basket/delete",
@@ -437,6 +270,7 @@
             }
         });
     }
+    //수정 api
     const putBasketProduct = () => {
         $.ajax({
             type: "post",
@@ -459,7 +293,7 @@
             }
         });
     }
-
+    //가져오기 api
     const getBasketProductList = () => {
         let country = "KR";
         $.ajax({
@@ -474,47 +308,187 @@
             },
             success: function(d) {
                 let data = d.data;
-                console.log(data);
+                let sold = data[0].basket_so_info;
+                let stock = data[0].basket_st_info;
+                
+                writeProductListDomTree( stock, sold );
             }
         });
     }
-    (function() {
-        const $listBox = document.querySelector(".list__box");
-        let height = $listBox.offsetHeight
-        document.querySelector(".dash").style.height = height;
-    })();
 
-    (function() {
-        const $allCheckBox = document.querySelector(".all__cb"); 
-        const $selfCheckBox = document.querySelectorAll(".self__cb"); 
+    //쇼핑백 리스트 그려주는 함수
+    function writeProductListDomTree(stock, sold) {
+        let docFrag = document.createDocumentFragment();
+        let stockHtml  = ""
+        let soldHtml = ""
+        let productWrap = document.createElement("div");
+        let soldProductWrap = document.createElement("div");
+        productWrap.classList.add("product__wrap");
+        soldProductWrap.classList.add("sold__list__box");
         
-        $allCheckBox.addEventListener("click" , function() {
-            let getName = $allCheckBox.getAttribute("name");
-            allSelect(getName)
-        });
-        
-        //체크박스 전체선택 
-        function allSelect(value) {
-            document.querySelector("input[name="+value+"]").addEventListener("change", function (e) {
-                e.preventDefault();
-                let list = document.querySelectorAll("input[name="+value+"]");
+        docFrag.appendChild(productWrap);
+        //품절상품이 있을 경우  
+        if(sold.length > 0 ){
+            docFrag.appendChild(soldProductWrap);
+            soldHtml +=
+            `<div class="sold__list__box">
+                <div class="list__header">
+                    <div class="icon__box">
+                        <img src="/images/svg/basket.svg" alt="">
+                        <div>품절제품</div>
+                    </div>
+                    <div class="checkbox__box">
+                        <input class="prd_cb all__cb" type="checkbox" name="sold">
+                        <div class="flex gap-10">
+                            <u class="ufont">선택 삭제</u>
+                            <u class="ufont">모두 삭제</u>
+                        </div>            
+                    </div>
+                </div>
+                <div class="list__body">
+                </div>
+            </div> `
+            soldProductWrap.innerHTML = soldHtml;
+        }
+        //재고상품 있는 경우 
+        else if(stock.length > 0 ) {
+            stock.forEach( el => {
+                stockHtml += 
+                `<div class="product__box" data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
+                    <input class="prd__cb self__cb" type="checkbox" name="stock">
+                    <div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div>
+                    <div class="prd__content">
+                        <div class="prd__title">${el.product_name}</div>
+                        <div class="prd__price">${el.sales_price}</div>
+                        <div class="prd__color">${el.color}</div>
+                        <div class="prd__size">
+                            <div class="size__box">
+                                <li data-soldout="${el.stock_status}">${el.option_name}</li>
+                            </div>
+                        </div>
+                        <div class="prd__qty">
+                            <div>Qty</div>
+                            <div class="minus__btn">-</div>
+                            <input class="count__val" type="text" value="1" readonly>
+                            <div class="plus__btn">+</div>
+                            <div class="totalPrice stock">${el.sales_price}</div>
+                        </div>
+                    </div>
+                </div>`
+            });
+            docFrag.querySelector('.product__wrap').innerHTML = stockHtml;
+            document.querySelector('.list__box .list__body').appendChild(docFrag);
+        }
+        //품절도 재고도 없을 경우 
+        else {
+            console.log("쇼핑백에 상품이 없습니다.");
+        }
+
+        (function() {
+            const $allCheckBox = document.querySelector(".all__cb"); 
+            const $$selfCheckBox = document.querySelectorAll(".self__cb"); 
+            const $$productBox = document.querySelectorAll(".product__box"); 
+            let getCheckboxName = $allCheckBox.getAttribute("name");
+            $allCheckBox.addEventListener("click" , function() {
+                allCheckedBox(getCheckboxName);
+            });
+            $$selfCheckBox.forEach( el => {
+                el.addEventListener("change", (e) => {
+                    console.log(e.path[1].querySelector(".totalPrice").innerText);
+                });
+            });
+            $$productBox.forEach( el => {
                 
-                for (var i = 0; i < list.length; i++) {
-                    list[i].checked = this.checked;
+            });
+            //name 값 별 체크박스 전체선택 
+        })();
+        setCountBtnEvent();
+        let productPrice = getProductListSumPrice();
+        payBoxSumPrice(productPrice);
+    }
+    //체크박스 전체 선택 함수 
+    function allCheckedBox(value) {
+        document.querySelector("input[name="+value+"]").addEventListener("change", function (e) {
+            e.preventDefault();
+            let list = document.querySelectorAll("input[name="+value+"]");
+            for (var i = 0; i < list.length; i++) {
+                list[i].checked = this.checked;
+            }
+        });
+    }
+    
+    //쇼핑백 상품 수량 이벤트 
+    function setCountBtnEvent() {
+        let $$minusBtn = document.querySelectorAll(".minus__btn");
+        let $$plusBtn = document.querySelectorAll(".plus__btn");
+        let $$Cnt = document.querySelectorAll(".count__val")
+        //업&다운 버튼 css 초기화 
+        $$Cnt.forEach(el => {
+            cntVal = el.value;
+            if(cntVal == "1"){
+                el.parentNode.querySelector(".minus__btn").classList.add('disableBtn');
+            }
+            if(cntVal == "9"){
+                el.parentNode.querySelector(".plus__btn").classList.add('disableBtn');
+            }
+        });
+        //수량 다운버튼 클릭이벤트
+        $$minusBtn.forEach(el => {
+            el.addEventListener("click", function() {
+                let cntVal = this.parentNode.querySelector(".count__val").value;
+                let $plusBtn = this.parentNode.querySelector(".plus__btn");
+
+                cntVal = parseInt(cntVal) - 1;
+                this.parentNode.querySelector(".count__val").value = cntVal;
+
+                if(cntVal == "1"){
+                    this.classList.add('disableBtn');
+                }else{
+                    $plusBtn.classList.remove('disableBtn');
                 }
             });
-        }
-        
-        function getSelectData() {
+        });
+        //수량 업버튼 클릭 이벤트
+        $$plusBtn.forEach(el => {
+            el.addEventListener("click", function() {
+                let cntVal = this.parentNode.querySelector(".count__val").value;
+                let $minusBtn = this.parentNode.querySelector(".minus__btn");
+                
+                cntVal = parseInt(cntVal) + 1;
+                this.parentNode.querySelector(".count__val").value = cntVal;
+
+                if(cntVal == "9"){
+                    this.classList.add('disableBtn');
+                }else{
+                    $minusBtn.classList.remove('disableBtn');
+                }
+            });
+        });
+    };
+    
+    //제품합계 함수
+    function getProductListSumPrice(){
+        let $$productBox = document.querySelectorAll(".product__box .totalPrice.stock");
+        let sumPrice = 0;
+        let totalPrice = 0;
+
+        $$productBox.forEach(el => {
+            sumPrice += parseInt(el.innerText);
             
-        }
+        });
+        return sumPrice;
+    }
+    //결제박스 합계 
+    function payBoxSumPrice (value){
+        let $productTotalText = document.querySelector(".product__total__price");
+        let $payTotalText = document.querySelector(".pay__total__price");
+        let $deliText = document.querySelector(".deli__price");
 
-
-
-
+        let productPrice = value;//int 
+        let deliPrice = parseInt($deliText.innerText); //0
         
-    })();
-
-
-       
+        $productTotalText.innerText = productPrice.toLocaleString('ko-KR')
+        let totalPrice = (productPrice + deliPrice).toLocaleString('ko-KR');        
+        $payTotalText.innerText = totalPrice;
+    }
 </script>

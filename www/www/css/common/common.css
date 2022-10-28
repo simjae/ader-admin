@@ -107,8 +107,8 @@ transform: translateY(2px) rotate(45deg);
 transform: translateY(-4px) rotate(-45deg);
 }
 /* 사이즈 상태  */
-.size__box li[data-soldout="stcl"] {}
-.size__box li[data-soldout="stin"] {
+.size__box li[data-soldout="STCL"] {}
+.size__box li[data-soldout="STIN"] {
     /* 재고없음(재고 증가 예정) */
     color:#343434;
     opacity: 0.5;
