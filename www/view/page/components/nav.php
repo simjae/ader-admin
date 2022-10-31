@@ -141,7 +141,7 @@
     function windowResponsive(){
         let width = window.screen.width;
         const $body = document.querySelector("body");
-        console.log(width);
+        // console.log(width);
         if(width  >= 1200){
             $body.dataset.view = "rW"
         }else{

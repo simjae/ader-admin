@@ -201,15 +201,15 @@
             <div class="pay__box">
                 <div class="pay__row">
                     <div>제품합계</div>
-                    <div class="product__total__price"></div>
+                    <div class="product__total__price">0</div>
                 </div>
                 <div class="pay__row">
                     <div>배송비</div>
-                    <div class="deli__price">0</div>
+                    <div class="deli__price" data-deli="5000">0</div>
                 </div>
                 <div class="pay__row">
                     <div>총 합계</div>
-                    <div class="pay__total__price"></div>
+                    <div class="pay__total__price">0</div>
                 </div>
                 <div class="pay__btn"><span>결제하기</span></div>
                 <p class="pay__notiy">품절제품을 삭제 후 결제를 진행해주세요.</p> 
@@ -218,9 +218,6 @@
     </div>
 </main>
 <script>
-    
-
-
     window.addEventListener('DOMContentLoaded', function() {
         getBasketProductList();
     });
@@ -234,8 +231,8 @@
                 let basketIdx = el.parentElement.dataset.basketidx;
                 el.parentElement.remove();
                 deleteBasketProduct(basketIdx);
-                let productPrice = getProductListSumPrice();
-                payBoxSumPrice(productPrice);
+                let getCheckedPrice = checkedProductPrice();
+                payBoxSumPrice(getCheckedPrice);
             });
         });
     })();
@@ -383,47 +380,20 @@
         else {
             console.log("쇼핑백에 상품이 없습니다.");
         }
-
-        (function() {
-            const $allCheckBox = document.querySelector(".all__cb"); 
-            const $$selfCheckBox = document.querySelectorAll(".self__cb"); 
-            const $$productBox = document.querySelectorAll(".product__box"); 
-            let getCheckboxName = $allCheckBox.getAttribute("name");
-            $allCheckBox.addEventListener("click" , function() {
-                allCheckedBox(getCheckboxName);
-            });
-            $$selfCheckBox.forEach( el => {
-                el.addEventListener("change", (e) => {
-                    console.log(e.path[1].querySelector(".totalPrice").innerText);
-                });
-            });
-            $$productBox.forEach( el => {
-                
-            });
-            //name 값 별 체크박스 전체선택 
-        })();
+        inputCheckBoxEvent();
         setCountBtnEvent();
-        let productPrice = getProductListSumPrice();
-        payBoxSumPrice(productPrice);
     }
-    //체크박스 전체 선택 함수 
-    function allCheckedBox(value) {
-        document.querySelector("input[name="+value+"]").addEventListener("change", function (e) {
-            e.preventDefault();
-            let list = document.querySelectorAll("input[name="+value+"]");
-            for (var i = 0; i < list.length; i++) {
-                list[i].checked = this.checked;
-            }
-        });
-    }
-    
-    //쇼핑백 상품 수량 이벤트 
+    //쇼핑백 상품 수량 init,up,down 이벤트 
     function setCountBtnEvent() {
         let $$minusBtn = document.querySelectorAll(".minus__btn");
         let $$plusBtn = document.querySelectorAll(".plus__btn");
-        let $$Cnt = document.querySelectorAll(".count__val")
+        let $$Cnt = document.querySelectorAll(".count__val");
+        let setTotalPrice = 0;
+
         //업&다운 버튼 css 초기화 
         $$Cnt.forEach(el => {
+            let getProductPrice = el.parentNode.querySelector(".totalPrice").textContent;
+            el.parentNode.dataset.init = getProductPrice;
             cntVal = el.value;
             if(cntVal == "1"){
                 el.parentNode.querySelector(".minus__btn").classList.add('disableBtn');
@@ -432,20 +402,27 @@
                 el.parentNode.querySelector(".plus__btn").classList.add('disableBtn');
             }
         });
+        
         //수량 다운버튼 클릭이벤트
         $$minusBtn.forEach(el => {
             el.addEventListener("click", function() {
                 let cntVal = this.parentNode.querySelector(".count__val").value;
                 let $plusBtn = this.parentNode.querySelector(".plus__btn");
-
+                let transferPrice = this.parentNode.querySelector(".totalPrice").textContent.replace(/,/g , '');
+                let getProductPrice = parseInt(transferPrice);
                 cntVal = parseInt(cntVal) - 1;
                 this.parentNode.querySelector(".count__val").value = cntVal;
+                getProductPrice -= parseInt(this.parentNode.dataset.init);
 
                 if(cntVal == "1"){
                     this.classList.add('disableBtn');
+                    setTotalPrice = this.parentNode.dataset.init;
                 }else{
                     $plusBtn.classList.remove('disableBtn');
                 }
+                this.parentNode.querySelector(".totalPrice").textContent = getProductPrice.toLocaleString('ko-KR');
+                let getCheckedPrice = checkedProductPrice();
+                payBoxSumPrice(getCheckedPrice);
             });
         });
         //수량 업버튼 클릭 이벤트
@@ -453,42 +430,110 @@
             el.addEventListener("click", function() {
                 let cntVal = this.parentNode.querySelector(".count__val").value;
                 let $minusBtn = this.parentNode.querySelector(".minus__btn");
+                let transferPrice = this.parentNode.querySelector(".totalPrice").textContent.replace(/,/g , '');
+                let getProductPrice = parseInt(transferPrice);
+                getProductPrice += parseInt(this.parentNode.dataset.init);
+                
                 
                 cntVal = parseInt(cntVal) + 1;
                 this.parentNode.querySelector(".count__val").value = cntVal;
-
+                this.parentNode.querySelector(".totalPrice").innerText = getProductPrice.toLocaleString('ko-KR');
                 if(cntVal == "9"){
                     this.classList.add('disableBtn');
                 }else{
                     $minusBtn.classList.remove('disableBtn');
                 }
+                let getCheckedPrice = checkedProductPrice();
+                payBoxSumPrice(getCheckedPrice);
             });
         });
+        
     };
-    
-    //제품합계 함수
-    function getProductListSumPrice(){
-        let $$productBox = document.querySelectorAll(".product__box .totalPrice.stock");
-        let sumPrice = 0;
-        let totalPrice = 0;
-
-        $$productBox.forEach(el => {
-            sumPrice += parseInt(el.innerText);
+    //input 체크박스 클릭(전체, 개별)
+    function inputCheckBoxEvent () {
+        const $allCheckBox = document.querySelector(".all__cb"); //
+        const $$selfCheckBox = document.querySelectorAll(".self__cb"); 
+        const $$productBox = document.querySelectorAll(".product__box"); 
+        let getCheckboxName = $allCheckBox.getAttribute("name");
+        let productPrice = 0;
+        //전체 체크박스 클릭시에 
+        $allCheckBox.addEventListener("click" , function() {
+            let stockList = document.querySelectorAll("input[name='stock']");
+            stockList.forEach(el => {
+                el.checked = this.checked;
+            });  
+            let getCheckedPrice = checkedProductPrice();
+            payBoxSumPrice(getCheckedPrice);  
             
         });
-        return sumPrice;
+        $$selfCheckBox.forEach( el => {
+            el.addEventListener("click", (e) => {
+                let currentPrice = parseInt(e.path[1].querySelector(".totalPrice").innerText.replace(/,/g , ''));
+                if(e.target.checked){
+                    //체크시
+                    if(getCheckboxName == "stock") {
+                        productPrice += currentPrice;
+                        console.log(productPrice);
+                    } else if (getCheckboxName == "sold") { 
+                        //재고가 없는 체크된 상품 
+                    }
+
+                }else {
+                    //체크 해제됬을떄
+                    productPrice -= currentPrice;
+                    console.log(productPrice);
+                }
+                let getCheckedPrice = checkedProductPrice();
+                payBoxSumPrice(getCheckedPrice);
+            });
+        });
     }
-    //결제박스 합계 
+    //선택한 상품만 가격 합산
+    function checkedProductPrice() {
+        let productPrice = 0;
+        let $$checkedInput = document.querySelectorAll(".self__cb[name='stock']:checked");
+        $$checkedInput.forEach(el => {
+            let checkedPrice = parseInt(el.parentNode.querySelector(".totalPrice.stock").textContent.replace(/,/g , ''));
+            productPrice += checkedPrice;
+            console.log(productPrice);
+        });
+        return productPrice;
+    }
+    //선택한 상품 결제박스 합계 표기
     function payBoxSumPrice (value){
         let $productTotalText = document.querySelector(".product__total__price");
         let $payTotalText = document.querySelector(".pay__total__price");
         let $deliText = document.querySelector(".deli__price");
-
-        let productPrice = value;//int 
-        let deliPrice = parseInt($deliText.innerText); //0
         
-        $productTotalText.innerText = productPrice.toLocaleString('ko-KR')
-        let totalPrice = (productPrice + deliPrice).toLocaleString('ko-KR');        
-        $payTotalText.innerText = totalPrice;
+        let productPrice = value;//int 
+        let freeDeliPrice = 80000;
+        // let deliPrice = parseInt($deliText.innerText);
+        let deliPrice = parseInt($deliText.dataset.deli);
+        let totalPrice = (productPrice + deliPrice);    
+
+        if(totalPrice == deliPrice){
+            totalPrice = 0;
+        }   
+        if(freeDeliPrice <= productPrice) {
+            totalPrice -= deliPrice;
+            deliPrice = 0;
+        }     
+        if(totalPrice == 0 ) {
+            deliPrice = 0 ;
+        }
+
+        $productTotalText.textContent = productPrice;
+        $deliText.textContent = deliPrice.toLocaleString('ko-KR');
+        $payTotalText.textContent = totalPrice.toLocaleString('ko-KR');
     }
+    //  //선택한 상품 합계 함수 
+    //  function getProductListSumPrice(checkedPrice){
+    //     console.log("checkedPrice",checkedPrice);
+    //     let $$productBox = document.querySelectorAll(".product__box .totalPrice.stock");
+    //     let sumPrice = 0;
+    //     let totalPrice = 0;
+    //     sumPrice += checkedPrice; 
+    //     console.log(sumPrice);
+    //     return sumPrice;
+    // }
 </script>
