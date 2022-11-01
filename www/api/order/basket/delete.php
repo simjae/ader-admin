@@ -24,15 +24,15 @@ $basket_idx		= $_POST['basket_idx'];
 if ($member_idx == 0) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
-	exit;
+	return $json_result;
 }
 
 if ($basket_idx != null) {
 	$sql = "DELETE FROM
-				dev.BASKET_INFO BI
+				dev.BASKET_INFO
 			WHERE
-				BI.IDX IN (".$basket_idx.") AND
-				BI.MEMBER_IDX = ".$member_idx;
+				IDX IN (".$basket_idx.") AND
+				MEMBER_IDX = ".$member_idx;
 	
 	$db->query($sql);
 }

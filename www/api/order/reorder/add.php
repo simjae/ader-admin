@@ -20,7 +20,7 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 }
 
 $member_id = null;
-if (isset($_SESSION['MEMBER_IDX'])) {
+if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
@@ -30,7 +30,7 @@ $option_idx		= $_POST['option_idx'];
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
-	exit;
+	return $json_result;
 }
 
 if ($product_idx != null && $option_idx != null) {
@@ -38,9 +38,9 @@ if ($product_idx != null && $option_idx != null) {
 	$reorder_cnt => $db->count("dev.PRODUCT_REORDER"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND OPTION_IDX = ".$option_idx." AND DEL_FLG = FALSE");
 	
 	if ($reorder_cnt > 0) {
-		$code = 402;
-		$msg = "해당 상품은 이미 재입고 알림 등록된 상품입니다.";
-		exit;
+		$json_result['code'] = 402;
+		$json_result['msg'] = "해당 상품은 이미 재입고 알림이 등록된 상품입니다.";
+		return $json_result;
 	} else {
 		$sql = "INSERT INTO
 					dev.PRODUCT_REORDER

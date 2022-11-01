@@ -29,10 +29,10 @@ $whish_idx	= $_POST['whish_idx'];
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
-	exit;
+	return $json_result;
 }
 
-if ($whish_idx != null) {
+if ($whish_idx != null && $member_idx != null) {
 	$sql = "UPDATE
 				dev.WHISH_LIST
 			SET

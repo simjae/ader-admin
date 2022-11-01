@@ -20,7 +20,7 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 }
 
 $member_id = null;
-if (isset($_SESSION['MEMBER_IDX'])) {
+if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 

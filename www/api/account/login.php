@@ -35,6 +35,7 @@ if($result) {
 	if(is_array($data)) {
 		// 세션 등록
 		$_SESSION['MEMBER_IDX']	= $data['IDX'];
+		$_SESSION['MEMBER_ID'] = $data['ID'];
 
 	} else {
 		$result = false;

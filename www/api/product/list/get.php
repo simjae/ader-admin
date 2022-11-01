@@ -13,6 +13,7 @@
  | 
  +=============================================================================
 */
+
 include_once("/var/www/www/api/common/common.php");
 
 $member_idx = 0;
@@ -69,35 +70,59 @@ if ($page_idx != null && $country != null) {
 		foreach($db->fetch() as $data) {
 			$product_idx = $data['PRODUCT_IDX'];
 			
-			$whish_flg = false;
-			if ($member_idx > 0) {
-				$whish_count = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
-				if ($whish_count > 0) {
-					$whish_flg = true;
+			if ($product_idx != null) {
+				$product_img = array();
+			
+				$img_sql = "SELECT
+								REPLACE(
+									PI.IMG_LOCATION,'/var/www/admin/www',''
+								)				AS IMG_LOCATION
+							FROM
+								dev.PRODUCT_IMG PI
+							WHERE
+								PI.PRODUCT_IDX = ".$product_idx." AND
+								PI.IMG_SIZE IN ('M')
+							ORDER BY
+								PI.IDX ASC";
+				
+				$db->query($img_sql);
+				
+				foreach($db->fetch() as $img_data) {
+					array_push($product_img,$img_data['IMG_LOCATION']);
 				}
+				
+				$whish_flg = false;
+				
+				if ($member_idx > 0) {
+					$whish_count = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
+					if ($whish_count > 0) {
+						$whish_flg = true;
+					}
+				}
+				
+				$product_color = getProductColor($db,$product_idx);
+				
+				$product_size = getProductSize($db,$product_idx);
+				
+				$json_result['data'][] = array(
+					'display_num'		=>$data['DISPLAY_NUM'],
+					'grid_type'			=>$data['GRID_TYPE'],
+					'content_url'		=>$data['CONTENT_URL'],
+					'link_url'			=>$data['LINK_URL'],
+					'grid_size'			=>$data['GRID_SIZE'],
+					'background_color'	=>$data['BACKGROUND_COLOR'],
+					'product_idx'		=>$data['PRODUCT_IDX'],
+					'product_img'		=>$product_img,
+					'product_name'		=>$data['PRODUCT_NAME'],
+					'price'				=>$data['PRICE'],
+					'discount'			=>$data['DISCOUNT'],
+					'sales_price'		=>$data['SALES_PRICE'],
+					'color'				=>$data['COLOR'],
+					'product_color'		=>$product_color,
+					'product_size'		=>$product_size,
+					'whish_flg'			=>$whish_flg
+				);
 			}
-			
-			$product_color = getProductColor($db,$product_idx);
-			
-			$product_size = getProductSize($db,$product_idx);
-			
-			$json_result['data'][] = array(
-				'display_num'		=>$data['DISPLAY_NUM'],
-				'grid_type'			=>$data['GRID_TYPE'],
-				'content_url'		=>$data['CONTENT_URL'],
-				'link_url'			=>$data['LINK_URL'],
-				'grid_size'			=>$data['GRID_SIZE'],
-				'background_color'	=>$data['BACKGROUND_COLOR'],
-				'product_idx'		=>$data['PRODUCT_IDX'],
-				'product_name'		=>$data['PRODUCT_NAME'],
-				'price'				=>$data['PRICE'],
-				'discount'			=>$data['DISCOUNT'],
-				'sales_price'		=>$data['SALES_PRICE'],
-				'color'				=>$data['COLOR'],
-				'product_color'		=>$product_color,
-				'product_size'		=>$product_size,
-				'whish_flg'			=>$whish_flg
-			);
 		}
 	} else {
 		$code = 402;

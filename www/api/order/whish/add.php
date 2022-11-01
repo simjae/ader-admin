@@ -37,9 +37,9 @@ if ($product_idx != null) {
 	$whish_list_cnt => $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
 	
 	if ($whish_list_cnt > 0) {
-		$code = 402;
-		$msg = "해당 상품은 이미 위시 리스트에 등록된 상품입니다.";
-		exit;
+		$json_result['code'] = 402;
+		$json_result['msg'] = "해당 상품은 이미 위시 리스트에 등록된 상품입니다.";
+		return $json_result;
 	} else {
 		$sql = "INSERT INTO
 					dev.WHISH_LIST

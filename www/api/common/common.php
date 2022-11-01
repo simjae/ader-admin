@@ -36,7 +36,7 @@ function getProductColor($db,$product_idx) {
 							LEFT JOIN dev.ORDER_PRODUCT OP ON
 							OI.IDX = OP.ORDER_INFO_IDX
 						WHERE
-							OI.ORDER_STATUS IN ('DPG','DCP') AND
+							OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
 							OP.PRODUCT_IDX = PR.IDX
 					)	AS ORDER_QTY
 				FROM
@@ -115,7 +115,7 @@ function getProductSize($db,$product_idx) {
 							S_OI.IDX = S_OP.ORDER_INFO_IDX
 						WHERE
 							S_OP.OPTION_IDX = OO.IDX AND
-							S_OI.ORDER_STATUS IN ('DPG','DCP')
+							S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 					) AS ORDER_QTY
 				FROM
 					dev.SHOP_PRODUCT PR

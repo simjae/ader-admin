@@ -45,20 +45,25 @@
         width: 100%;
         display: flex;
         height: 120px;
-        padding-top: 40px;
+        padding: 40px 10px 0 0;
         position: sticky;
         top: 70px;
         z-index: 1;
         background: #ffffff;
         flex-direction: column;
+        border-bottom: 1px solid #dcdcdc;
     }
     .sold__list__box {
         background-color: #f9f9f9;
     }
     .sold__list__box .list__header {
         margin-bottom: 14px;
-        padding: 10px 5px 0px 5px;
+        padding: 10px 16px 0px 5px;
         margin-top: 20px;
+        height: auto;
+        background-color: #f9f9f9;
+        z-index: 0;
+        position: static;
     }
     .list__header .icon__box {
         display: flex;
@@ -69,6 +74,12 @@
     .list__header .checkbox__box{
         display: flex;
         padding: 0 5px;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .sold__list__box .list__header .checkbox__box{
+        display: flex;
+        padding: 10px 5px;
         justify-content: space-between;
         align-items: center;
     }
@@ -84,11 +95,11 @@
         border-top: 1px solid #dcdcdc;
         font-family: FuturaLTPro;
     }
-    
-    .product__box .prd__cb {
-        position: absolute;
-        margin: 5px;
+    .list__body .product__box:first-child {
+        border-top: 0px;
     }
+    
+
     .product__box .prd__img {
         background-repeat: no-repeat;
         background-size: cover;
@@ -162,23 +173,122 @@
         pointer-events: none;
         opacity: 0.4;
     }
+    .option__box{
+        display: flex;
+        justify-content: right;
+        align-items: center;
+        gap: 30px;
+        padding-right: 24px;
+    }
+    .option__change__btn {
+        display: flex;
+        gap: 5px;
+    }
+    .reorder__btn {
+        display: flex;
+        gap: 5px;
+    }
+    .option__select__head {
+        display: flex;
+        justify-content: space-between;
+    }
+    .option__select__box {
+        font-family: FuturaLTPro;
+        font-size: 1.1rem;
+        color: #343434;
+        padding: 10px 10px 4px 16px;
+        width: 60%;
+        height: 65%;
+        right: 20px;
+        bottom: 10px;
+        background-color: #fff;
+        position: absolute;
+        border: solid 1px #343434;
+    }
+    .option__select__box.hide {
+        display: none;
+    }
+    .option__size__box {
+        display: flex;
+        list-style: none;
+        gap: 20px;
+        padding-bottom: 20px;
+    }
+
+    .color__chip{
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        font-family: FuturaLTPro;
+        font-size: 11px;
+        text-align: left;
+        color: #343434;
+        padding-bottom: 20px;
+    }
+    .color__chip .color__outline.select {
+        padding: 3px;
+        outline-style: auto;
+        outline-width: 1px;
+        outline-color: #7a7a7a;
+        border-radius:50%;
+        
+    }
+    .color__chip .color__outline {
+        display: flex;
+        gap: 30px;
+        padding-left: 4px;
+    }
+    .color__chip .color {
+        width: 0.8rem;
+        height: 0.8rem;
+        border-radius: 50%;
+    }
+
+    /*체크박스 공통 */
+    .product__box .prd__cb {
+        position: absolute;
+        margin: 5px;
+        opacity: 0;
+    }
+    .cb__custom.self{
+        position: absolute;
+    }
+    .sold__list__box .cb__custom.self{
+        position: absolute;
+        padding: 5px;
+    }
+    .cb__custom .all__cb {
+        opacity: 0;
+        position: absolute;
+    }
+    .cb__custom.self .cb__mark{
+        margin: 5px;
+    }
+    .cb__mark {
+        height: 13px;
+        width: 13px;
+        border-radius: 2px;
+        background-color: #fff;
+        border: 1px solid #343434;
+    }
+    .cb__mark:after {
+        content: "";
+        display: none;
+    }
+
+    .cb__custom input:checked ~ .cb__mark:after {
+        display: block;
+    }
+    .cb__custom .cb__mark::after {
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        border: 1px solid #343434;
+    }
 </style>
 <main>
     <div class="basket__wrap">
         <div class="basket__box">
-            <!-- <div class="list__header">
-                <div class="icon__box">
-                    <img src="/images/svg/basket.svg" alt="">
-                    <div>쇼핑백</div>
-                </div>
-                <div class="checkbox__box">
-                    <input class="prd_cb all__cb" type="checkbox" name="basket">
-                    <div class="flex gap-10">
-                        <u class="ufont">선택 삭제</u>
-                        <u class="ufont">모두 삭제</u>
-                    </div>            
-                </div>
-            </div> -->
             <div class="list__box">
                 <div class="list__header">
                     <div class="icon__box">
@@ -186,16 +296,17 @@
                         <div>쇼핑백</div>
                     </div>
                     <div class="checkbox__box">
-                        <input class="prd_cb all__cb" type="checkbox" name="stock">
+                        <label class="cb__custom all" for="">
+                            <input class="prd_cb all__cb" type="checkbox" name="stock">
+                            <div class="cb__mark"></div>
+                        </label>
                         <div class="flex gap-10">
                             <u class="ufont st__checked__btn" btn="stock">선택 삭제</u>
                             <u class="ufont st__all__btn" btn="stock">모두 삭제</u>
                         </div>            
                     </div>
                 </div>
-                <div class="list__body">
-                    
-                </div>
+                <div class="list__body"></div>
             </div>
             <div class="dash"></div>
             <div class="pay__box">
@@ -225,8 +336,7 @@
     (function stockCheckedDeleteBtn(){
         const $checkedDelete = document.querySelector(".st__checked__btn");
         $checkedDelete.addEventListener("click", () => {
-            console.log("선택삭제");
-            const $$checkedSelfBox = document.querySelectorAll(".self__cb:checked");
+            const $$checkedSelfBox = document.querySelectorAll(".self__cb[name='stock']:checked");
             $$checkedSelfBox.forEach( el => {
                 let basketIdx = el.parentElement.dataset.basketidx;
                 el.parentElement.remove();
@@ -247,6 +357,29 @@
             })
         });
     })();
+     //품절상품 선택삭제 버튼
+    function soldCheckedDeleteBtn(){
+        const $checkedDelete = document.querySelector(".so__checked__btn");
+        $checkedDelete.addEventListener("click", (e) => {
+            const $$checkedSelfBox = document.querySelectorAll(".self__cb[name='sold']:checked");
+            $$checkedSelfBox.forEach( el => {
+                let basketIdx = el.parentNode.parentNode.dataset.basketidx;
+                el.parentNode.parentNode.remove();
+                //deleteBasketProduct(basketIdx); 
+            });
+        });
+    };
+    //품절상품 전체삭제 버튼
+    function soldAllDeleteBtn(){
+        const $checkedDelete = document.querySelector(".so__all__btn");
+        $checkedDelete.addEventListener("click", () => {
+            let $inputbox = document.querySelectorAll(".self__cb[name='sold']");
+            $inputbox.forEach(el => {
+                let basketIdx = el.parentNode.dataset.basketidx;
+                el.checked = true;
+            })
+        });
+    };
     //삭제 api
     const deleteBasketProduct = (basketIdx) => {
         $.ajax({
@@ -268,24 +401,25 @@
         });
     }
     //수정 api
-    const putBasketProduct = () => {
+    const putBasketProduct = (basketIdx, productIdx, basketQty,optionIdx, stockStatus) => {
         $.ajax({
             type: "post",
             data: {
-                "basket_idx":basket_idx,
-                "product_idx":product_idx,
-                "basket_qty":basket_qty,
-                "stock_status":stock_status
+                "basket_idx":basketIdx,
+                "product_idx":productIdx,
+                "basket_qty":basketQty,
+                "option_idx":optionIdx,
+                "stock_status":stockStatus
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/order/basket/put",
             error: function() {
-                alert("장바구니 상품 정보 수정 처리에 실패했습니다.");
+                console.log("장바구니 상품 정보 수정 처리에 실패했습니다.");
             },
             success: function(d) {
                 let code = d.code;
                 if (code == 403) {
-                    alert(d.msg)
+                    console.log(d.msg)
                 }
             }
         });
@@ -305,8 +439,8 @@
             },
             success: function(d) {
                 let data = d.data;
-                let sold = data[0].basket_so_info;
-                let stock = data[0].basket_st_info;
+                let sold = data.basket_so_info;
+                let stock = data.basket_st_info;
                 
                 writeProductListDomTree( stock, sold );
             }
@@ -316,45 +450,25 @@
     //쇼핑백 리스트 그려주는 함수
     function writeProductListDomTree(stock, sold) {
         let docFrag = document.createDocumentFragment();
-        let stockHtml  = ""
-        let soldHtml = ""
+        let stockHtml  = "";
+        let soldHeadHtml = "";
         let productWrap = document.createElement("div");
-        let soldProductWrap = document.createElement("div");
         productWrap.classList.add("product__wrap");
+        let soldProductWrap = document.createElement("div");
         soldProductWrap.classList.add("sold__list__box");
         
         docFrag.appendChild(productWrap);
-        //품절상품이 있을 경우  
-        if(sold.length > 0 ){
-            docFrag.appendChild(soldProductWrap);
-            soldHtml +=
-            `<div class="sold__list__box">
-                <div class="list__header">
-                    <div class="icon__box">
-                        <img src="/images/svg/basket.svg" alt="">
-                        <div>품절제품</div>
-                    </div>
-                    <div class="checkbox__box">
-                        <input class="prd_cb all__cb" type="checkbox" name="sold">
-                        <div class="flex gap-10">
-                            <u class="ufont">선택 삭제</u>
-                            <u class="ufont">모두 삭제</u>
-                        </div>            
-                    </div>
-                </div>
-                <div class="list__body">
-                </div>
-            </div> `
-            soldProductWrap.innerHTML = soldHtml;
-        }
         //재고상품 있는 경우 
-        else if(stock.length > 0 ) {
+        if(stock.length > 0 ) {
             stock.forEach( el => {
                 stockHtml += 
-                `<div class="product__box" data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
-                    <input class="prd__cb self__cb" type="checkbox" name="stock">
+                `<div class="product__box" data-optionidx="${el.option_idx}" data-status="STIN"  data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
+                    <label class="cb__custom self" for="">
+                        <input class="prd__cb self__cb" type="checkbox" name="stock">
+                        <div class="cb__mark"></div>
+                    </label>
                     <div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div>
-                    <div class="prd__content">
+                    <div class="prd__content" data-salesprice="${el.sales_price}" >
                         <div class="prd__title">${el.product_name}</div>
                         <div class="prd__price">${el.sales_price}</div>
                         <div class="prd__color">${el.color}</div>
@@ -366,7 +480,7 @@
                         <div class="prd__qty">
                             <div>Qty</div>
                             <div class="minus__btn">-</div>
-                            <input class="count__val" type="text" value="1" readonly>
+                            <input class="count__val" type="text" value="${el.basket_qty}" readonly>
                             <div class="plus__btn">+</div>
                             <div class="totalPrice stock">${el.sales_price}</div>
                         </div>
@@ -375,13 +489,104 @@
             });
             docFrag.querySelector('.product__wrap').innerHTML = stockHtml;
             document.querySelector('.list__box .list__body').appendChild(docFrag);
+        } 
+        if(sold.length > 0 ){
+            //품절상품이 있을 경우  
+            let productHtml = "";
+            let docFrag = document.createDocumentFragment();
+            docFrag.appendChild(soldProductWrap);
+            soldHeadHtml +=
+            `<div class="sold__list__box">
+                <div class="list__header">
+                    <div class="icon__box">
+                        <img src="/images/svg/basket.svg" alt="">
+                        <div>품절제품</div>
+                    </div>
+                    <div class="checkbox__box">
+                        <label class="cb__custom all" for="">
+                            <input class="prd_cb all__cb" type="checkbox" name="sold">
+                            <div class="cb__mark"></div>
+                        </label>
+                        <div class="flex gap-10">
+                            <u class="ufont so__checked__btn" btn="stock">선택 삭제</u>
+                            <u class="ufont so__all__btn" btn="stock">모두 삭제</u>
+                        </div>            
+                    </div>
+                </div>
+                <div class="list__body">
+                </div>
+            </div>`
+            soldProductWrap.innerHTML = soldHeadHtml;
+
+            sold.forEach( el => {
+                productHtml += 
+                `<div class="product__box" data-optionidx="${el.option_idx} data-status="STSO" data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
+                    <label class="cb__custom self" for="">
+                        <input class="prd__cb self__cb" type="checkbox" name="sold">
+                        <div class="cb__mark"></div>
+                    </label>
+                    <div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div>
+                    <div class="prd__content">
+                        <div class="prd__title">${el.product_name}</div>
+                        <div class="prd__price">${el.sales_price}</div>
+                        <div class="prd__color">${el.color}</div>
+                        <div class="prd__size">
+                            <div class="size__box">
+                                <li data-soldout="${el.sold_status}">${el.option_name}</li>
+                            </div>
+                        </div>
+                        <div class="option__box">
+                            <div class="option__change__btn open">
+                                <img src="/images/svg/edit.svg" alt="">
+                                <u>옵션 변경하기</u>
+                            </div>
+                            <div class="reorder__btn">
+                                <img src="/images/svg/reflesh.svg" alt="">
+                                <u>재입고 알림 신청하기</u>
+                            </div>
+                        </div>
+                        <div class="option__select__box hide">
+                            <div class="option__select__head">
+                                <div class="option__color">${el.color}</div>
+                                <div class="close__btn option">
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                </div>
+                            </div>
+                            <div class="color__chip">
+                                <div class="color__outline">
+                                ${
+                                    el.product_color.map((color) => {
+                                        return `<div class="color" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
+                                    }).join("")
+                                }
+                                </div>
+                            </div>
+                            <div class="option__size__box">
+                            ${
+                                el.product_size.map((size) => {
+                                    return`<li class="option__size" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+                                }).join("")
+                            }
+                            </div>
+                            <div class="option__change__btn apply">
+                                <img src="/images/svg/edit.svg" alt="">
+                                <u>옵션 변경하기</u>
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+                docFrag.querySelector(".list__body").innerHTML = productHtml;
+            });
+            document.querySelector('.list__box .list__body .product__wrap').appendChild(docFrag);
         }
-        //품절도 재고도 없을 경우 
-        else {
-            console.log("쇼핑백에 상품이 없습니다.");
-        }
+        soldCheckBoxEvent();
         inputCheckBoxEvent();
         setCountBtnEvent();
+        optionBoxCloseBtn();
+        optionChangeBtn();
+        soldCheckedDeleteBtn();
+        soldAllDeleteBtn();
     }
     //쇼핑백 상품 수량 init,up,down 이벤트 
     function setCountBtnEvent() {
@@ -392,8 +597,13 @@
 
         //업&다운 버튼 css 초기화 
         $$Cnt.forEach(el => {
-            let getProductPrice = el.parentNode.querySelector(".totalPrice").textContent;
-            el.parentNode.dataset.init = getProductPrice;
+            let salesPrice = el.offsetParent.querySelector(".prd__content").dataset.salesprice;
+            el.parentNode.dataset.init = salesPrice;
+            let getBasketQty = el.offsetParent.dataset.basketqty;
+            let getprice = el.offsetParent.dataset.basketqty;
+            let totalPrice = salesPrice * getBasketQty;
+            el.parentNode.querySelector(".totalPrice").textContent = totalPrice;
+
             cntVal = el.value;
             if(cntVal == "1"){
                 el.parentNode.querySelector(".minus__btn").classList.add('disableBtn');
@@ -406,10 +616,17 @@
         //수량 다운버튼 클릭이벤트
         $$minusBtn.forEach(el => {
             el.addEventListener("click", function() {
+                let basketIdx = this.offsetParent.dataset.basketidx;
+                let productIdx = this.offsetParent.dataset.productidx;
+                let basketQty = this.offsetParent.dataset.basketqty;
+                let optionIdx = this.offsetParent.dataset.optionidx;
+                let stockStatus = this.offsetParent.dataset.status;
+
                 let cntVal = this.parentNode.querySelector(".count__val").value;
                 let $plusBtn = this.parentNode.querySelector(".plus__btn");
                 let transferPrice = this.parentNode.querySelector(".totalPrice").textContent.replace(/,/g , '');
                 let getProductPrice = parseInt(transferPrice);
+
                 cntVal = parseInt(cntVal) - 1;
                 this.parentNode.querySelector(".count__val").value = cntVal;
                 getProductPrice -= parseInt(this.parentNode.dataset.init);
@@ -423,11 +640,18 @@
                 this.parentNode.querySelector(".totalPrice").textContent = getProductPrice.toLocaleString('ko-KR');
                 let getCheckedPrice = checkedProductPrice();
                 payBoxSumPrice(getCheckedPrice);
+                putBasketProduct(basketIdx, productIdx, cntVal ,optionIdx, stockStatus);
             });
         });
         //수량 업버튼 클릭 이벤트
         $$plusBtn.forEach(el => {
             el.addEventListener("click", function() {
+                let basketIdx = this.offsetParent.dataset.basketidx;
+                let productIdx = this.offsetParent.dataset.productidx;
+                let basketQty = this.offsetParent.dataset.basketqty;
+                let stockStatus = this.offsetParent.dataset.status;
+                let optionIdx = this.offsetParent.dataset.optionidx;
+
                 let cntVal = this.parentNode.querySelector(".count__val").value;
                 let $minusBtn = this.parentNode.querySelector(".minus__btn");
                 let transferPrice = this.parentNode.querySelector(".totalPrice").textContent.replace(/,/g , '');
@@ -445,6 +669,7 @@
                 }
                 let getCheckedPrice = checkedProductPrice();
                 payBoxSumPrice(getCheckedPrice);
+                putBasketProduct(basketIdx, productIdx, cntVal ,optionIdx,stockStatus);
             });
         });
         
@@ -464,38 +689,51 @@
             });  
             let getCheckedPrice = checkedProductPrice();
             payBoxSumPrice(getCheckedPrice);  
-            
         });
         $$selfCheckBox.forEach( el => {
             el.addEventListener("click", (e) => {
-                let currentPrice = parseInt(e.path[1].querySelector(".totalPrice").innerText.replace(/,/g , ''));
-                if(e.target.checked){
-                    //체크시
-                    if(getCheckboxName == "stock") {
-                        productPrice += currentPrice;
-                        console.log(productPrice);
-                    } else if (getCheckboxName == "sold") { 
-                        //재고가 없는 체크된 상품 
-                    }
+                let getInputName = e.currentTarget.getAttribute("name");
+                if(getInputName == "stock"){
+                    let currentPrice = parseInt(e.path[2].querySelector(".totalPrice").innerText.replace(/,/g , ''));
+                    if(e.target.checked){
+                        //체크시
+                        if(getCheckboxName == "stock") {
+                            productPrice += currentPrice;
+                        } else if (getCheckboxName == "sold") { 
+                            //재고가 없는 체크된 상품 
+                        }
 
-                }else {
-                    //체크 해제됬을떄
-                    productPrice -= currentPrice;
-                    console.log(productPrice);
+                    }else {
+                        //체크 해제됬을떄
+                        productPrice -= currentPrice;
+                    }
+                    let getCheckedPrice = checkedProductPrice();
+                    payBoxSumPrice(getCheckedPrice);
+                }else if(getInputName == "sold") {
+
                 }
-                let getCheckedPrice = checkedProductPrice();
-                payBoxSumPrice(getCheckedPrice);
+                
             });
         });
     }
+
+    function soldCheckBoxEvent(){
+        let $allCheckBox = document.querySelector(".sold__list__box .all__cb[name='sold']"); 
+        $allCheckBox.addEventListener("click" , function() {
+            let soldList = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
+            soldList.forEach(el => {
+                el.checked = this.checked;
+            });  
+        });
+    }
+    /************************* 공통함수 **************************/
     //선택한 상품만 가격 합산
     function checkedProductPrice() {
         let productPrice = 0;
         let $$checkedInput = document.querySelectorAll(".self__cb[name='stock']:checked");
         $$checkedInput.forEach(el => {
-            let checkedPrice = parseInt(el.parentNode.querySelector(".totalPrice.stock").textContent.replace(/,/g , ''));
+            let checkedPrice = parseInt(el.parentNode.parentNode.querySelector(".totalPrice.stock").textContent.replace(/,/g , ''));
             productPrice += checkedPrice;
-            console.log(productPrice);
         });
         return productPrice;
     }
@@ -526,14 +764,24 @@
         $deliText.textContent = deliPrice.toLocaleString('ko-KR');
         $payTotalText.textContent = totalPrice.toLocaleString('ko-KR');
     }
-    //  //선택한 상품 합계 함수 
-    //  function getProductListSumPrice(checkedPrice){
-    //     console.log("checkedPrice",checkedPrice);
-    //     let $$productBox = document.querySelectorAll(".product__box .totalPrice.stock");
-    //     let sumPrice = 0;
-    //     let totalPrice = 0;
-    //     sumPrice += checkedPrice; 
-    //     console.log(sumPrice);
-    //     return sumPrice;
-    // }
+    function optionBoxCloseBtn(){
+        const $$closeBtn = document.querySelectorAll(".close__btn.option");
+        $$closeBtn.forEach(el => {
+            el.addEventListener("click", function() {
+                this.offsetParent.classList.add("hide");
+            })
+        })
+    }
+    function optionChangeBtn() {
+        const $$optionChangeBtn = document.querySelectorAll(".option__change__btn");
+        $$optionChangeBtn.forEach(el => {
+            el.addEventListener("click", function(e) {
+                if(this.classList.contains("apply")){
+                    this.offsetParent.classList.add("hide");
+                } else if(this.classList.contains("open")){
+                    this.parentNode.nextElementSibling.classList.remove("hide");
+                }
+            });
+        });
+    }
 </script>

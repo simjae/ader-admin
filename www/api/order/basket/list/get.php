@@ -77,7 +77,7 @@ if ($country != null) {
 					WHERE
 						S_OP.PRODUCT_IDX = BI.PRODUCT_IDX AND
 						S_OP.OPTION_IDX = BI.OPTION_IDX AND
-						S_OI.ORDER_STATUS IN ('DPG','DCP')
+						S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 				)							AS ORDER_QTY,
 				BI.PRODUCT_QTY				AS BASKET_QTY
 			FROM
@@ -120,10 +120,6 @@ if ($country != null) {
 				$stock_status = "STSO";	//재고 없음(사선)		→ 증가 예정 재고 없음 (Stock sold out)
 			}
 			
-			$product_color = getProductColor($db,$product_idx);
-			
-			$product_size = getProductSize($db,$product_idx);
-			
 			if ($stock_status == "STSH" || $stock_status == "STIN" || $stock_status == "STCL") {
 				//[재고 있음] 장바구니 상품 데이터
 				$basket_st_info[] = array(
@@ -143,6 +139,10 @@ if ($country != null) {
 					'stock_status'		=>$stock_status
 				);
 			} else if ($stock_status == "STSO") {
+				$product_color = getProductColor($db,$product_idx);
+				
+				$product_size = getProductSize($db,$product_idx);
+				
 				//[재고 없음] 장바구니 상품 데이터
 				$basket_so_info[] = array(
 					'basket_idx'		=>$data['BASKET_IDX'],
@@ -158,13 +158,15 @@ if ($country != null) {
 					'sales_price'		=>$data['SALES_PRICE'],
 					'product_qty'		=>$product_qty,
 					'basket_qty'		=>$data['BASKET_QTY'],
-					'stock_status'		=>$stock_status
+					'stock_status'		=>$stock_status,
+					'product_color'		=>$product_color,
+					'product_size'		=>$product_size
 				);
 			}
 		}
 	}
 	
-	$json_result['data'][] = array(
+	$json_result['data'] = array(
 		'basket_st_info'	=>$basket_st_info,
 		'basket_so_info'	=>$basket_so_info
 	);

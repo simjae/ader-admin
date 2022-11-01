@@ -20,7 +20,7 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 }
 
 $member_id = null;
-if (isset($_SESSION['MEMBER_IDX'])) {
+if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
@@ -33,7 +33,7 @@ $stock_status	= $_POST['stock_status'];
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
-	exit;
+	return $json_result;
 }
 
 if ($basket_idx != null && $product_idx != null && $stock_status != null) {
@@ -57,7 +57,7 @@ if ($basket_idx != null && $product_idx != null && $stock_status != null) {
 								LEFT JOIN dev.ORDER_PRODUCT OP ON
 								OI.IDX = OP.ORDER_INFO_IDX
 							WHERE
-								OI.ORDER_STATUS IN ('DPG','DCP') AND
+								OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
 								OP.PRODUCT_IDX = BI.PRODUCT_IDX
 						)	AS ORDER_QTY
 					FROM
@@ -83,7 +83,7 @@ if ($basket_idx != null && $product_idx != null && $stock_status != null) {
 							BI.IDX = ".$basket_idx." AND
 							BI.MEMBER_IDX = ".$member_idx." AND
 							BI.PRODUCT_IDX = ".$product_idx;
-		
+			
 			$db->query($update_sql);
 		} else {
 			$json_result['code'] = 403;
@@ -113,17 +113,17 @@ if ($basket_idx != null && $product_idx != null && $stock_status != null) {
 						UPDATER
 					)
 					SELECT
-						".$member_idx.",
-						'".$member_id."',
-						PR.IDX			AS PRODUCT_IDX,
-						PR.PRODUCT_CODE	AS PRODUCT_CODE,
-						PR.PRODUCT_NAME	AS PRODUCT_NAME,
-						OO.IDX			AS OPTION_IDX,	
-						OO.BARCODE		AS BARCODE,
-						OO.OPTION_NAME	AS OPTION_NAME,
-						".$product_qty.",
-						'".$member_id."',
-						'".$member_id."'
+						".$member_idx."		AS MEMBER_IDX,
+						'".$member_id."'	AS MEMBER_ID,
+						PR.IDX				AS PRODUCT_IDX,
+						PR.PRODUCT_CODE		AS PRODUCT_CODE,
+						PR.PRODUCT_NAME		AS PRODUCT_NAME,
+						OO.IDX				AS OPTION_IDX,	
+						OO.BARCODE			AS BARCODE,
+						OO.OPTION_NAME		AS OPTION_NAME,
+						".$product_qty."	AS PRODUCT_QTY,
+						'".$member_id."'	AS CREATER,
+						'".$member_id."'	AS UPDATER
 					FROM
 						dev.SHOP_PRODUCT PR
 						LEFT JOIN dev.ORDERSHEET_OPTION OO ON
