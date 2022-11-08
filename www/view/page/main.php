@@ -27,12 +27,13 @@
             <div class="swiper-button-prev"></div>
         </div>
     </section>
-    <!-- recommend -->
+    
+	<!-- recommend -->
     <section class="lg:flex" style="">
         <div class="text-left for__you__box lg:text-right"><u>For you</u><span class="ml-3">></span></div>
         <div class="recommend-swiper swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -58,7 +59,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -84,7 +86,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -110,7 +113,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -136,7 +140,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -162,7 +167,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -188,7 +194,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -214,7 +221,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -240,7 +248,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -266,7 +275,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -292,7 +302,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -318,7 +329,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/list'">
                     <div class="relative recommend__prd">
                         <div class="absolute right-0 p-5">
                             <img src="/images/svg/wishlist.svg" alt="">
@@ -365,14 +377,15 @@
     <section>
         <div class="exhibtion__prd__wrap">
             <div class="prd__box">
-                <div class="prd__card">
+                <div class="prd__card" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__img__wrap">
                         <div class="prd__img" style="background-image: url('/images/product/prd1.png');"></div>
                     </div>
                     <p class="prd__title">Standic airpods
                         leather case</p>
                 </div>
-                <div class="prd__card">
+
+                <div class="prd__card" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__img__wrap">
                         <div class="prd__img" style="background-image: url('/images/product/prd2.png');"></div>
                     </div>
@@ -381,14 +394,15 @@
                 </div>
             </div>
             <div class="prd__box">
-                <div class="prd__card">
+                <div class="prd__card" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__img__wrap">
                         <div class="prd__img" style="background-image: url('/images/product/prd3.png');"></div>
                     </div>
                     <p class="prd__title">Standic airpods
                         leather case</p>
                 </div>
-                <div class="prd__card">
+                
+				<div class="prd__card" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__img__wrap">
                         <div class="prd__img" style="background-image: url('/images/product/prd4.png');"></div>
                     </div>

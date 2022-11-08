@@ -117,16 +117,16 @@ footer [data-dropdown="show"]{
 .f__desk {
     color: #fff;
     display: grid;
-    grid-template-columns: repeat(16, 120px);
+    grid-template-columns: repeat(16, 1fr);
     gap: 10px;
-    max-width: 1920px;
+    /* max-width: 1920px; */
     margin: 0 auto;
 }
 .f__desk__last{
     color: #fff;
     display: grid;
     gap: 10px;
-    max-width: 1920px;
+    /* max-width: 1920px; */
     font-size: 13px;
     margin: 0 auto;
     font-weight: 300;

@@ -44,7 +44,7 @@ html { font-size: 62.5%; }
 body {width:100%;overflow-x:hidden;background-color : #fff ; color : #000 ;}
 a { text-decoration : none ; color : #000 }
 body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
-main{padding-top: 80px;}
+main{padding-top: 50px;}
 /* close 버튼 */
 .close__btn .line {
     width: 10px;
@@ -106,7 +106,23 @@ transform: translateY(2px) rotate(45deg);
 -o-transform: translateY(-4px) rotate(-45deg);
 transform: translateY(-4px) rotate(-45deg);
 }
+
+.option__box{
+    display: flex;
+    justify-content: space-between;
+}
 /* 사이즈 상태  */
+.size__box {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    list-style: none;
+
+}
+.size__box li {
+    position: relative;
+    width: 15px;
+}
 .size__box li[data-soldout="STCL"] {}
 .size__box li[data-soldout="STIN"] {
     /* 재고없음(재고 증가 예정) */
@@ -124,11 +140,60 @@ transform: translateY(-4px) rotate(-45deg);
 .size__box li[data-soldout="STSO"]::after {
     /* 재고없음(재고 증가 없음) */
     content: url(/images/svg/sold-line.svg);
-    position: relative;
-    right: 1.3rem;
-    top: 0.1rem;
+    position: absolute;
+    right:1px;
+    top: 1px;
 }
+/* 컬러칩  */
+.color__chip{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    font-family: FuturaLTPro;
+    font-size: 11px;
+    text-align: left;
+    color: #343434;
+}
+.color__chip .color__outline.select {
+    padding: 3px;
+    outline-style: auto;
+    outline-width: 1px;
+    outline-color: #7a7a7a;
+    border-radius:50%;
+    
+}
+.color__chip .color__outline {
+    display: flex;
+    gap: 10px;
+    padding-left: 4px;
+}
+.color__chip .color {
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    position: relative;
+}
+.color__chip .color[data-soldout="STCL"] {}
+.color__chip .color[data-soldout="STIN"] {
+    /* 재고없음(재고 증가 예정) */
+    color:#343434;
+    opacity: 0.5;
 
+}
+.color__chip .color[data-soldout="STSC"]::after{
+    /* 품절임박 */
+    content: url(/images/svg/wish-redsold.svg);
+    position: relative;
+    bottom: 0.8rem;
+    left: 0rem;
+}
+.color__chip .color[data-soldout="STSO"]::after {
+    /* 재고없음(재고 증가 없음) */
+    content: url(/images/svg/sold-line.svg);
+    position: absolute;
+    left: -4px;
+    top: -3px;
+}
 
 @media (min-width: 1024px){
     header{
@@ -137,14 +202,14 @@ transform: translateY(-4px) rotate(-45deg);
         
     }
     nav {
-        max-width: 1920px;
+        /* max-width: 1920px; */
         margin: 0 auto;
     }
     main{
-        max-width: 1920px;
-        min-width: 320px;
+        /* max-width: 1920px;
+        min-width: 320px; */
         margin: 0 auto;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
     footer{
         margin:0 auto;

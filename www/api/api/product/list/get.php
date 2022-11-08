@@ -23,16 +23,10 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 
 $page_idx		= $_POST['page_idx'];
 $country		= $_POST['country'];
-$img_param		= $_POST['img_param'];
 
 if ($page_idx != null && $country != null) {
 	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
 	if ($page_count > 0) {
-		$img_type = "P";
-		if ($img_param != null) {
-			$img_type = $img_param;
-		}
-		
 		$sql = "SELECT
 					PG.DISPLAY_NUM				AS DISPLAY_NUM,
 					PG.GRID_TYPE				AS GRID_TYPE,
@@ -49,7 +43,7 @@ if ($page_idx != null && $country != null) {
 							dev.PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
-							S_PI.IMG_TYPE = '".$img_type."' AND
+							S_PI.IMG_TYPE = 'P' AND
 							S_PI.IMG_SIZE = 'M'
 						ORDER BY
 							S_PI.IDX ASC
@@ -80,6 +74,7 @@ if ($page_idx != null && $country != null) {
 				$product_img = array();
 			
 				$img_sql = "SELECT
+								PI.IMG_TYPE		AS IMG_TYPE,
 								REPLACE(
 									PI.IMG_LOCATION,'/var/www/admin/www',''
 								)				AS IMG_LOCATION
@@ -94,7 +89,10 @@ if ($page_idx != null && $country != null) {
 				$db->query($img_sql);
 				
 				foreach($db->fetch() as $img_data) {
-					array_push($product_img,$img_data['IMG_LOCATION']);
+					$product_img[] = array(
+						'img_type'		=>$img_data['IMG_TYPE'],
+						'img_location'	=>$img_data['IMG_LOCATION']
+					);
 				}
 				
 				$whish_flg = false;

@@ -114,6 +114,29 @@
         width: 13px;
         height: 13px;
     }
+    @media (max-width: 1024px){
+        .wish__box {
+            bottom: 0;
+            height: 60px;
+            width: 100%;
+        }
+
+        .wish__btn__wrap {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .btn__box {
+            display: flex;
+            flex: auto;
+            flex-direction: row!important;
+            align-items: center;
+            border: none!important;
+        }
+        .wish__btn__wrap .btn__box p {
+            visibility: visible;
+        }
+    }
     
 </style>
 <div data-modal="wish">

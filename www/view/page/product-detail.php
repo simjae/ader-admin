@@ -154,7 +154,7 @@
             </div>
             <div class="basket__wrap">
                 <div class="basket__box">
-                    <div class="flex gap-2" style="align-items: center;padding: 10px;width: 80%;justify-content: center;border-right: 1px solid;">
+                    <div class="flex gap-2" style="align-items: center;padding: 10px;width: 80%;justify-content: center;border-right: 1px solid;cursor:pointer;" onClick="location.href='/order/basket/list'">
                         <img src="/images/svg/basket.svg" alt="">
                         <span style="">쇼핑백에 담기</span>
                     </div>
@@ -175,7 +175,7 @@
         <div class="text-left prd__left__side lg:text-right"><u>Styling with</u><span class="ml-3">></span></div>
         <div class="styling-swiper prd__list__swiper swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -212,7 +212,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+                
+				<div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -240,7 +241,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -268,7 +270,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -296,7 +299,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -324,7 +328,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -352,7 +357,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -380,7 +386,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -408,7 +415,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -436,7 +444,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -464,7 +473,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -500,7 +510,7 @@
         <div class="text-left prd__left__side lg:text-right"><u>For you</u><span class="ml-3">></span></div>
         <div class="recommend-swiper prd__list__swiper swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -528,7 +538,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -556,7 +567,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -584,7 +596,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -612,7 +625,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -640,7 +654,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -668,7 +683,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -696,7 +712,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -724,7 +741,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -752,7 +770,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
@@ -780,7 +799,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="swiper-slide">
+				
+                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
                     <div class="prd__list__wrap">
                         <div class="prd__option__wrap">
                             <div class="absolute right-0 p-5">
