@@ -15,7 +15,7 @@
     src: url('../fonts/NotoSansCJKkr-DemiLight.woff') format('woff')
 }
 @font-face {
-    font-family: 'NotoSansCJKkr';
+    font-family: 'NotoSansCJKkr';vi
     font-weight: 400;
     src: url('../fonts/NotoSansCJKkr-Regular.woff') format('woff')
 }
@@ -38,6 +38,9 @@
 :root{
     --w-g : repeat(16,1fr);
     --m-g : repeat(8,1fr);
+     /* color */
+    --bk : #343434;
+    --wh : #ffffff;
 }
 
 html { font-size: 62.5%; }
@@ -45,6 +48,7 @@ body {width:100%;overflow-x:hidden;background-color : #fff ; color : #000 ;}
 a { text-decoration : none ; color : #000 }
 body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
 main{padding-top: 50px;}
+img {max-width: 100%;height:  auto;}
 /* close 버튼 */
 .close__btn .line {
     width: 10px;
@@ -218,4 +222,83 @@ transform: translateY(-4px) rotate(-45deg);
         flex-shrink: 0;
         padding: 20px 60px;
     }
+}
+
+
+/* 언더라인 */
+.under-line {
+    display:block;
+    text-decoration: none;
+    padding-bottom:0px;
+    position: relative;
+}
+.under-line.bk::before{
+    content:  '';
+    display: block;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #343434;
+    animation-delay: 0.5s;
+    animation-duration: 0.5s;
+    animation-name: appearLineB;
+}
+.under-line.bk::after {
+    content: '';
+    left: 10px;
+    width: calc(100% - 10px);
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    background-color: #fff;
+    animation-duration: 0.5s;
+    animation-name: appearLineA;
+}
+.under-line.wh::before{
+    content:  '';
+    display: block;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    animation-delay: 0.5s;
+    animation-duration: 0.5s;
+    animation-name: appearLineB;
+}
+.under-line.wh::after {
+    content: '';
+    left: 10px;
+    width: calc(100% - 10px);
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    background-color: #343434;
+    animation-duration: 0.5s;
+    animation-name: appearLineA;
+}
+.under-line:hover::before{
+    animation-name: none;
+}
+.under-line:hover::after{
+    animation-fill-mode: forwards;
+    animation-name:disappearLineA;
+    animation-duration: .5s;
+
+}
+
+@keyframes appearLineB {
+    0% {width: 0%;}
+    100% {width: 100%;}
+}
+@keyframes appearLineA {
+    0% {left: 0; width: 0;}
+    100% {left: 0px; width: 100%;}
+}
+@keyframes disappearLineA {
+    0% {left: 10px; width: calc(100% - 10px);}
+    100% {left: 100%; width: 0;}
 }

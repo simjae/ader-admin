@@ -180,11 +180,13 @@
         menuList.innerHTML = menuHtml;
         document.querySelector(".header__wrap").appendChild(domfrag);
         mobileMenu();
-        let webMenu = document.querySelectorAll(".web");
-        webMenu.forEach(el => {
-            el.addEventListener("mouseover", ()=> {
+        let $$webMenu = document.querySelectorAll(".web");
+        let $webMenu = document.querySelector(".web");
+        $$webMenu.forEach(el => {
+            el.addEventListener("mouseover", function(e) {
                 dropMenuAllSwiper();
-            });
+                
+            },{ once : true });
         });
     }
     const mobileWriteNavHtml = (data) => {

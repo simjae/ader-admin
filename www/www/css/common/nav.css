@@ -398,7 +398,6 @@ transform: translateY(-6px) rotate(-45deg);
 .header__logo{
     grid-column: 2/4;
     display: flex;
-    justify-content: center;
     min-width: 130px;
 }
 .header__logo img  {
