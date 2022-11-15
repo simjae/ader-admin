@@ -1,5 +1,5 @@
 <div class="content__card">
-	<form id="frm-list" action="display/product/get">
+	<form id="frm-list" action="display/product/list/get">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="rows" name="rows" value="10">
@@ -158,7 +158,6 @@
 								<TH style="width:250px;">페이지명(내부용)</TH>
 								<TH style="width:250px;">비고(내부용)</TH>
 								<TH style="width:250px;">URL</TH>
-								<TH>상품수(품절)</TH>
 								<TH style="width:250px;">진열위치</TH>
 								<TH>등록일</TH>
 								<TH>최근수정일</TH>
@@ -295,17 +294,17 @@ function getProdPageInfo() {
 				strDiv += '    <TD>';
 				strDiv += '        <div class="cb__color">';
 				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" name="select_idx[]" class="select" value="' + row.idx + '" >';
+				strDiv += '                <input type="checkbox" name="select_idx[]" class="select" value="' + row.page_idx + '" >';
 				strDiv += '                <span></span>';
 				strDiv += '            </label>';
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
 				strDiv += '    <TD>' + row.num + '</TD>';
 				strDiv += '    <TD>';
-				strDiv += '        <button type="button" page_idx="' + row.idx + '" style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">미리보기</button>';
+				strDiv += '        <button type="button" page_idx="' + row.page_idx + '" style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">미리보기</button>';
 				strDiv += '    </TD>';
 				strDiv += '    <TD>';
-				strDiv += '        <button type="button" page_idx="' + row.idx + '" page_url="' + row.page_url + '" style="font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;" onClick="location.href=\'/display/product/page?page_idx=' + row.idx + '\';">페이지 편집</button>';
+				strDiv += '        <button type="button" page_idx="' + row.page_idx + '" page_url="' + row.page_url + '" style="font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;" onClick="location.href=\'/display/product/page?page_idx=' + row.page_idx + '\';">페이지 편집</button>';
 				strDiv += '    </TD>';
 				
 				var display_flg = "";
@@ -313,10 +312,10 @@ function getProdPageInfo() {
 				var display_date = "";
 				
 				var today = new Date();
-				var start_date = new Date(row.display_start_date);
-				var end_date = new Date(row.display_end_date);					
+				var start_date = new Date(row.start_date);
+				var end_date = new Date(row.end_date);					
 				
-				if (row.display_end_date == '9999-12-31 23:59') {
+				if (row.end_date == '9999-12-31 23:59') {
 					display_date = "상시진열";
 				}
 				
@@ -326,19 +325,19 @@ function getProdPageInfo() {
 					if ((today <= start_date)) {
 						display_str = "진열예약";
 						if (display_date.length == 0) {
-							display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
+							display_date = "진열시작 : " + row.start_date + "<br>진열종료 : " + row.end_date;
 						}
 						
 					} else if ((today >= start_date) && (today <= end_date)) {
 						display_str = "진열중";
 						if (display_date.length == 0) {
-							display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
+							display_date = "진열시작 : " + row.start_date + "<br>진열종료 : " + row.end_date;
 						}
 						
 					} else if ((today >= start_date) && (today > end_date)) {
 						display_str = "진열종료";
 						if (display_date.length == 0) {
-							display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
+							display_date = "진열시작 : " + row.start_date + "<br>진열종료 : " + row.end_date;
 						}
 					}
 				} else {
@@ -346,7 +345,7 @@ function getProdPageInfo() {
 					
 					display_str = "진열안함";
 					if (display_date.length == 0) {
-						display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
+						display_date = "진열시작 : " + row.start_date + "<br>진열종료 : " + row.end_date;
 					}
 				}
 				
@@ -358,7 +357,6 @@ function getProdPageInfo() {
 				strDiv += '    <TD><font style="cursor:pointer;" onClick="openProductDisplayUpdateModal(' + row.idx + ');">' + row.page_title + '</font></TD>';
 				strDiv += '    <TD>' + row.page_memo + '</TD>';
 				strDiv += '    <TD>' + row.page_url + '</TD>';
-				strDiv += '    <TD style="text-align: right;"><span>' + row.product_cnt + '</span><span>(' + row.stock_out_cnt + ')</span></TD>';
 				strDiv += '    <TD>' + row.display_location + '</TD>';
 				strDiv += '    <TD>' + row.create_date + '</TD>';
 				strDiv += '    <TD>' + row.update_date + '</TD>';

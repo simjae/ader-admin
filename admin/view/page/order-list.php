@@ -1,59 +1,69 @@
 <div class="filter-wrap" style="margin-bottom:20px">
-	<button class="include_tab_btn tap__button" tab_num="01" style="background-color: #000;color: #fff;font-weight: 500;" onClick="includeTabBtnClick(this);">전체</button>
-	<button class="include_tab_btn tap__button" tab_num="02" onClick="includeTabBtnClick(this);">입금전</button>
-	<button class="include_tab_btn tap__button" tab_num="03" onClick="includeTabBtnClick(this);">배송준비중</button>
-	<button class="include_tab_btn tap__button" tab_num="04" onClick="includeTabBtnClick(this);">배송중</button>
-	<button class="include_tab_btn tap__button" tab_num="05" onClick="includeTabBtnClick(this);">배송완료</button>
+	<button class="order_tab_btn tap__button" tab_status="ALL" style="background-color: #000;color: #fff;font-weight: 500;" onClick="orderTabBtnClick(this);">전체</button>
+	<button class="order_tab_btn tap__button" tab_status="PCP" onClick="orderTabBtnClick(this);">결제완료</button>
+	<button class="order_tab_btn tap__button" tab_status="PPR" onClick="orderTabBtnClick(this);">상품준비</button>
+	<button class="order_tab_btn tap__button" tab_status="POP" onClick="orderTabBtnClick(this);">프리오더 준비</button>
+	<button class="order_tab_btn tap__button" tab_status="POD" onClick="orderTabBtnClick(this);">프리오더 상품 생산</button>
+	<button class="order_tab_btn tap__button" tab_status="DPR" onClick="orderTabBtnClick(this);">배송준비</button>
+	<button class="order_tab_btn tap__button" tab_status="DPG" onClick="orderTabBtnClick(this);">배송중</button>
+	<button class="order_tab_btn tap__button" tab_status="DCP" onClick="orderTabBtnClick(this);">배송완료</button>
 </div>
 
-<input id="tab_num" type="hidden" value="01">
+<input id="tab_status" type="hidden" value="ALL">
 
-<div id="include_tab_01" class="include_tab">
-	<?php include_once("order-list-order_all.php"); ?>
+<div id="order_tab_ALL" class="order_tab">
+	<?php include_once("order-list-all.php"); ?>
 </div>
-<div id="include_tab_02" class="include_tab" style="display:none;">
+
+<div id="order_tab_PCP" class="order_tab" style="display:none;">
+	<?php include_once("order-list-pcp.php"); ?>
 </div>
-<div id="include_tab_03" class="include_tab" style="display:none;">
+
+<div id="order_tab_PPR" class="order_tab" style="display:none;">
+	<?php include_once("order-list-ppr.php"); ?>
 </div>
-<div id="include_tab_04" class="include_tab" style="display:none;">
+
+<div id="order_tab_POP" class="order_tab" style="display:none;">
+	<?php include_once("order-list-pop.php"); ?>
+</div>
+
+<div id="order_tab_POD" class="order_tab" style="display:none;">
+	<?php include_once("order-list-pod.php"); ?>
+</div>
+
+<div id="order_tab_DPR" class="order_tab" style="display:none;">
+	<?php include_once("order-list-dpr.php"); ?>
+</div>
+
+<div id="order_tab_DPG" class="order_tab" style="display:none;">
+	<?php include_once("order-list-dpg.php"); ?>
+</div>
+
+<div id="order_tab_DCP" class="order_tab" style="display:none;">
+	<?php include_once("order-list-dcp.php"); ?>
 </div>
 
 <script>
 $(document).ready(function() {
-	$('.category__tab').click(function() {		
-		var tabNum = $(this).attr('tabNum');
-		if (tabNum != null) {
-			$('.tabNum').hide();
-			$('.tabNum_' + tabNum).show();
-		}
-		
-		$('.category__tab').not($(this)).css('color','#707070');
-		$('.category__tab').not($(this)).css('border-bottom','none');
-		
-		$(this).css('color','#140f82');
-		$(this).css('border-bottom','3px solid #140f82');
-	});
-
 	$('.detail_hidden').hide();
 });
 
-function includeTabBtnClick(obj) {
-	var tabTitle = $(obj).text();
-	$('#tabTitle').text(tabTitle);
-	
-	var tab_num = $(obj).attr('tab_num');
-	$('#tab_num').val(tab_num);
-	$('.include_tab').hide();
-	$('#include_tab_' + tab_num).show();
+function orderTabBtnClick(obj) {
+	var tab_status = $(obj).attr('tab_status');
+	$('#tab_status').val(tab_status);
+	$('.order_tab').hide();
+	$('#order_tab_' + tab_status).show();
 	
 	$(obj).css('background-color','#000000');
 	$(obj).css('color','#ffffff');
 	
-	$('.include_tab_btn').not($(obj)).css('background-color','#ffffff');
-	$('.include_tab_btn').not($(obj)).css('color','#000000');
+	$('.order_tab_btn').not($(obj)).css('background-color','#ffffff');
+	$('.order_tab_btn').not($(obj)).css('color','#000000');
 }
 
 function detailToggleClick(obj) {
+	let tab_status = $('#tab_status').val();
+	
 	if ($(obj).attr('toggle') == 'hide') {
 		$(obj).attr('toggle','show');
 		$('#detail_toggle').text('상세검색 닫기 -');
@@ -61,7 +71,7 @@ function detailToggleClick(obj) {
 		$(obj).attr('toggle','hide');
 		$('#detail_toggle').text('상세검색 열기 +');
 	}
-	$('.detail_hidden').toggle();
+	$('#frm-list_' + tab_status).find('.detail_hidden').toggle();
 }
 
 function searchDateClick(obj) {
@@ -84,6 +94,7 @@ function searchDateClick(obj) {
 		$('#order_to').val('');
 	}
 }
+
 function dateParamChange(obj) {
 	var date_type = $(obj).attr('date_type');
 	
@@ -94,6 +105,7 @@ function dateParamChange(obj) {
 		$('#search_date_order').val('');
 	} 
 }
+
 function searchTypeClick(obj){
 	let name = $(obj).attr('name');
 	let val = $(obj).val();

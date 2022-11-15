@@ -17,14 +17,31 @@ $ordersheet_idx_list     = $_POST['ordersheet_idx_list'];
 
 $db->begin_transaction();
 try {
-    $sql = 	'
-        UPDATE
-            dev.ORDERSHEET_MST
-        SET
-            ORDERSHEET_UPDATE_FLG = !ORDERSHEET_UPDATE_FLG
-        WHERE 
-            IDX IN ('.implode(",", $ordersheet_idx_list).')
-        ';
+	$err_cnt = 0;
+	
+	for ($i=0; $i<count($ordersheet_idx_list); $i++){
+		$ordersheet_idx = $ordersheet_idx_list[$i];
+		$option_cnt = $db->count("dev.ORDERSHEET_OPTION","ORDERSHEET_IDX = ".$ordersheet_idx);
+		
+		if ($option_cnt == 0) {
+			$err_cnt++;
+		}
+	}
+	
+	if ($err_cnt > 0) {
+		$json_result['code'] = 402;
+		$json_result['msg'] = "옵션이 등록되지 않은 오더시트는 진행완료 상태로 변경할 수 없습니다.";
+		return $json_result;
+	}
+	
+    $sql = "UPDATE
+				dev.ORDERSHEET_MST
+			SET
+				ORDERSHEET_UPDATE_FLG = !ORDERSHEET_UPDATE_FLG,
+				UPDATER = 'Admin',
+				UPDATE_DATE = NOW()
+			WHERE 
+				IDX IN (".implode(",", $ordersheet_idx_list).")";
 
     $update_row_cnt = 0;
 

@@ -20,60 +20,112 @@ $search_keyword		= $_POST['search_keyword'];
 
 $product_idx		= $_POST['product_idx'];
 
+$rows = $_POST['rows'];
+$page = $_POST['page'];
+
 /** 검색 조건 **/
 $where = "1=1";
-$where .= " AND (PRODUCT.DEL_FLG = FALSE AND PRODUCT.SALE_FLG = TRUE) ";
-$where .= " AND (IMG_TYPE = 'PRODUCT' AND IMG.IMG_SIZE = 'mdl' AND IMG.DEL_FLG = FALSE) ";
+$where .= " AND (PR.DEL_FLG = FALSE AND PR.SALE_FLG = TRUE) ";
+$where .= " AND (SELECT COUNT(IDX) FROM dev.PRODUCT_IMG S_PI WHERE S_PI.PRODUCT_IDX = PR.IDX > 0) ";
+$cnt_where .= $where;
 
 /* 검색조건 : 검색타입 - 검색키워드 */
 if ($search_type != null && $search_keyword != null) {
 	switch ($search_type) {
 		case "product_code" :
-			$where .=  " AND PRODUCT.PRODUCT_CODE LIKE '%".$search_keyword."%' ";
+			$where .=  " AND PR.PRODUCT_CODE LIKE '%".$search_keyword."%' ";
 			break;
 		
 		case "product_name" :
-			$where .=  " AND PRODUCT.PRODUCT_NAME LIKE '%".$search_keyword."%' ";
+			$where .=  " AND PR.PRODUCT_NAME LIKE '%".$search_keyword."%' ";
 			break;
 
-		case "option_code" :
-			$where .=  " AND OPTION.OPTION_CODE LIKE '%".$search_keyword."%' ";
+		case "barcode" :
+			$where .=  " AND OO.BARCODE LIKE '%".$search_keyword."%' ";
 			break;
 		
 		case "option_name" :
-			$where .=  " AND OPTION.OPTION_NAME LIKE '%".$search_keyword."%' ";
+			$where .=  " AND OO.OPTION_NAME LIKE '%".$search_keyword."%' ";
 			break;
 	}
 }
 
 if ($product_idx != null) {
-	$product_idx = implode(',',$product_idx);
-	$where .= " AND (PRODUCT.IDX NOT IN (".$product_idx.")) ";
+	$where .= " AND (PR.IDX NOT IN (".$product_idx.")) ";
 }
 
 /** DB 처리 **/
+$json_result = array(
+	'total' => $db->count("dev.SHOP_PRODUCT PR",$where),
+	'total_cnt' => $db->count("dev.SHOP_PRODUCT PR",$cnt_where),
+	'page' => intval($page)
+);
+
+$limit_start = (intval($page)-1)*$rows;
+
 $sql = "SELECT
-			PRODUCT.IDX											AS PRODUCT_IDX,
-			PRODUCT.PRODUCT_CODE								AS PRODUCT_CODE,
-			REPLACE(IMG.IMG_LOCATION,'/var/www/admin/www','')	AS IMG_LOCATION
+			PR.IDX				AS PRODUCT_IDX,
+			PR.PRODUCT_TYPE		AS PRODUCT_TYPE,
+			PR.STYLE_CODE		AS STYLE_CODE,
+			PR.COLOR_CODE		AS COLOR_CODE,
+			PR.PRODUCT_CODE		AS PRODUCT_CODE,
+			PR.PRODUCT_NAME		AS PRODUCT_NAME,
+			(
+				SELECT
+					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+				FROM
+					dev.PRODUCT_IMG S_PI
+				WHERE
+					S_PI.PRODUCT_IDX = PR.IDX AND
+					S_PI.IMG_TYPE = 'P' AND
+					S_PI.IMG_SIZE = 'S'
+				ORDER BY
+					S_PI.IDX ASC
+				LIMIT
+					0,1
+			)					AS IMG_LOCATION,
+			PR.PRICE_KR			AS PRICE_KR,
+			PR.PRICE_EN			AS PRICE_EN,
+			PR.PRICE_CN			AS PRICE_CN,
+			PR.DISCOUNT_KR		AS DISCOUNT_KR,
+			PR.DISCOUNT_EN		AS DISCOUNT_EN,
+			PR.DISCOUNT_CN		AS DISCOUNT_CN,
+			PR.SALES_PRICE_KR	AS SALES_PRICE_KR,
+			PR.SALES_PRICE_EN	AS SALES_PRICE_EN,
+			PR.SALES_PRICE_CN	AS SALES_PRICE_CN,
+			PR.UPDATE_DATE		AS UPDATE_DATE
 		FROM
-			dev.SHOP_PRODUCT PRODUCT
-			LEFT JOIN dev.PRODUCT_IMG IMG ON
-			PRODUCT.PRODUCT_CODE = IMG.PRODUCT_CODE
-			LEFT JOIN dev.PRODUCT_OPTION OPTION ON
-			PRODUCT.PRODUCT_CODE = OPTION.OPTION_CODE
+			dev.SHOP_PRODUCT PR
 		WHERE
 			".$where."
 		ORDER BY
-			PRODUCT.IDX DESC";
+			PR.IDX DESC";
+
+if ($rows != null) {
+	$sql .= " LIMIT ".$limit_start.",".$rows;
+}
 
 $db->query($sql);
-$sql;
+
 foreach($db->fetch() as $data) {
 	$json_result['data'][] = array(
-		'product_idx'	=>intval($data['PRODUCT_IDX']),
-		'product_code'	=>$data['PRODUCT_CODE'],
-		'img_location'	=>$data['IMG_LOCATION']
+		'product_idx'		=>$data['PRODUCT_IDX'],
+		'product_type'		=>$data['PRODUCT_TYPE'],
+		'style_code'		=>$data['STYLE_CODE'],
+		'color_code'		=>$data['COLOR_CODE'],
+		'product_code'		=>$data['PRODUCT_CODE'],
+		'product_name'		=>$data['PRODUCT_NAME'],
+		'img_location'		=>$data['IMG_LOCATION'],
+		'price_kr'			=>$data['PRICE_KR'],
+		'price_en'			=>$data['PRICE_EN'],
+		'price_cn'			=>$data['PRICE_CN'],
+		'discount_kr'		=>$data['DISCOUNT_KR'],
+		'discount_en'		=>$data['DISCOUNT_EN'],
+		'discount_cn'		=>$data['DISCOUNT_CN'],
+		'sales_price_kr'	=>$data['SALES_PRICE_KR'],
+		'sales_price_en'	=>$data['SALES_PRICE_EN'],
+		'sales_price_cn'	=>$data['SALES_PRICE_CN'],
+		'update_date'		=>$data['UPDATE_DATE']
 	);
 }
 ?>

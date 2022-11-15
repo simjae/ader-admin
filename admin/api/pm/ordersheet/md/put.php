@@ -44,37 +44,58 @@ if ($update_date != $last_update_date) {
 }
 
 if($ordersheet_idx != null){
-	$style_code = $_POST['style_code'];
-	if ($style_code != null) {
-		$style_code_str = " STYLE_CODE = '".$style_code."',";
-	}
-
-	$color_code = $_POST['color_code'];
-	if ($color_code != null) {
-		$color_code_str = " COLOR_CODE = '".$color_code."',";
-	}
-
-	$product_code = $_POST['product_code'];
-	if ($product_code != null) {
-		$product_code_str = " PRODUCT_CODE = '".$product_code."',";
-	}
-
 	$preorder_flg = $_POST['preorder_flg'];
 	if ($preorder_flg != null) {
 		$preorder_flg_str = " PREORDER_FLG = ".$preorder_flg.",";
 	}
+	$refund_flg = $_POST['refund_flg'];
+	if ($refund_flg != null) {
+		$refund_flg_str = " REFUND_FLG = ".$refund_flg.",";
+	}
+	$line_idx = $_POST['line_idx'];
+	$line_idx_str = " LINE_IDX = ".$line_idx.",";
 
-	$category_lrg = $_POST['category_lrg'];
-	$category_lrg_str = " CATEGORY_LRG = '".$category_lrg."',";
 
-	$category_mdl = $_POST['category_mdl'];
-	$category_mdl_str = " CATEGORY_MDL = '".$category_mdl."',";
 
-	$category_sml = $_POST['category_sml'];
-	$category_sml_str = " CATEGORY_SML = '".$category_sml."',";
+	
+	$md_category = $_POST['md_category'];
+	$category_idx = 0;
+	if(is_array($md_category)){
+		$category_lrg = $md_category[0];
+		if ($category_lrg != null) {
+			$category_lrg_str = " CATEGORY_LRG = '".$category_lrg."',";
+			if($category_lrg > 0){
+				$category_idx = $category_lrg;
+			}
+		}
+		$category_mdl = $md_category[1];
+		if ($category_mdl != null) {
+			$category_mdl_str = " CATEGORY_MDL = '".$category_mdl."',";
+			if($category_mdl > 0){
+				$category_idx = $category_mdl;
+			}
+		}
 
-	$category_dtl = $_POST['category_dtl'];
-	$category_dtl_str = " CATEGORY_DTL = '".$category_dtl."',";
+		$category_sml = $md_category[2];
+		if ($category_sml != null) {
+			$category_sml_str = " CATEGORY_SML = '".$category_sml."',";
+			if($category_sml > 0){
+				$category_idx = $category_sml;
+			}
+		}
+
+		$category_dtl = $md_category[3];
+		if ($category_dtl != null) {
+			$category_dtl_str = " CATEGORY_DTL = '".$category_dtl."',";
+			if($category_dtl > 0){
+				$category_idx = $category_dtl;
+			}
+		}
+	}
+
+	if ($category_idx != null && $category_idx > 0) {
+		$category_idx_str = " CATEGORY_IDX = '".$category_idx."',";
+	}
 
 	$graphic = $_POST['graphic'];
 	$graphic_str = " GRAPHIC = '".$graphic."',";
@@ -84,9 +105,6 @@ if($ordersheet_idx != null){
 
 	$material = $_POST['material'];
 	$material_str = " MATERIAL = '".$material."',";
-
-	$navigation = $_POST['navigation'];
-	$navigation_str = " NAVIGATION = '".$navigation."',";
 
 	$product_name = $_POST['product_name'];
 	$product_name_str = " PRODUCT_NAME = '".$product_name."',";
@@ -100,6 +118,12 @@ if($ordersheet_idx != null){
 	$color_rgb = $_POST['color_rgb'];
 	$color_rgb_str = " COLOR_RGB = '".$color_rgb."',";
 
+	$pantone_code = $_POST['pantone_code'];
+	$pantone_code_str = " PANTONE_CODE = '".$pantone_code."',";
+
+	$md_category_guide = $_POST['md_category_guide'];
+	$md_category_guide_str = " MD_CATEGORY_GUIDE = '".$md_category_guide."',";
+
 	$limit_qty = $_POST['limit_qty'];
 	$limit_qty_str = " LIMIT_QTY = '".$limit_qty."',";
 
@@ -107,6 +131,9 @@ if($ordersheet_idx != null){
 	$limit_member_str = " LIMIT_MEMBER = '".$limit_member."',";
 
 	//오더시트 - price
+	$price_cost = $_POST['price_cost'] != null?$_POST['price_cost'] : '0';
+	$price_cost_str = " PRICE_COST = ".$price_cost.",";
+
 	$price_kr = $_POST['price_kr'] != null?$_POST['price_kr'] : '0';
 	$price_kr_str = " PRICE_KR = ".$price_kr.",";
 
@@ -122,23 +149,17 @@ if($ordersheet_idx != null){
 	$product_qty = $_POST['product_qty'];
 	$product_qty_str = " PRODUCT_QTY = '".$product_qty."',";
 
-	$product_stock_grade = $_POST['product_stock_grade'];
-	$product_stock_grade_str = " PRODUCT_STOCK_GRADE = '".$product_stock_grade."',";
-
-	$mileage_flg = $_POST['mileage_flg'];
-	$mileage_flg_str = '';
-	if ($mileage_flg != null) {
-		$mileage_flg_str = " MILEAGE_FLG = ".$mileage_flg.",";
-	}
-
-	$exclusive_flg = $_POST['exclusive_flg'];
-	$exclusive_flg_str = '';
-	if ($exclusive_flg != null) {
-		$exclusive_flg_str = " EXCLUSIVE_FLG = ".$exclusive_flg.",";
-	}
+	$safe_qty = $_POST['safe_qty'];
+	$safe_qty_str = " SAFE_QTY = '".$safe_qty."',";
 
 	$launching_date = $_POST['launching_date'] != null ? $_POST['launching_date'] : 'NULL';
 	$launching_date_str = " LAUNCHING_DATE = '".$launching_date."',";
+
+	$receive_request_date = $_POST['receive_request_date'] != null ? $_POST['receive_request_date'] : 'NULL';
+	$receive_request_date_str = " RECEIVE_REQUEST_DATE = '".$receive_request_date."',";
+
+	$tp_completion_date = $_POST['tp_completion_date'] != null ? $_POST['tp_completion_date'] : 'NULL';
+	$tp_completion_date_str = " TP_COMPLETION_DATE = '".$tp_completion_date."',";
 	
 	$verify_ordersheet_query = "
 		SELECT
@@ -165,10 +186,13 @@ if($ordersheet_idx != null){
 					".$color_code_str."
 					".$product_code_str."
 					".$preorder_flg_str."
+					".$refund_flg_str."
+					".$line_idx_str."
 					".$category_lrg_str."
 					".$category_mdl_str."
 					".$category_sml_str."
 					".$category_dtl_str."
+					".$category_idx_str."
 					".$material_str."
 					".$graphic_str."
 					".$fit_str."
@@ -176,18 +200,20 @@ if($ordersheet_idx != null){
 					".$product_size_str."
 					".$color_str."
 					".$color_rgb_str."
-					".$navigation_str."
+					".$pantone_code_str."
+					".$md_category_guide_str."
 					".$limit_member_str."
 					".$limit_qty_str."
+					".$price_cost_str."
 					".$price_kr_str."
 					".$price_kr_gb_str."
 					".$price_en_str."
 					".$price_cn_str."
 					".$product_qty_str."
-					".$product_stock_grade_str."
-					".$mileage_flg_str."
-					".$exclusive_flg_str."
+					".$safe_qty_str."
 					".$launching_date_str."
+					".$receive_request_date_str."
+					".$tp_completion_date_str."
 
 					UPDATE_DATE = NOW(),
 					UPDATER = 'Admin'

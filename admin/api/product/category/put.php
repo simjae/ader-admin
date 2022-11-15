@@ -1,4 +1,6 @@
 <?php
+$tab_num		= $_POST['tab_num'];
+
 $action_type 	= $_REQUEST['action_type']; 
 $father_id 		= $_REQUEST['father_id'];
 $node 			= $_REQUEST['id'];
@@ -7,6 +9,13 @@ $title 			= $_REQUEST['title'];
 $desc 			= $_REQUEST['desc'];
 $depth 			= $_REQUEST['depth'];
 $seq 			= $_REQUEST['seq'];
+
+if($tab_num == '01'){
+	$table = 'dev.ORDERSHEET_CATEGORY';
+}
+else if($tab_num == '02'){
+	$table = 'dev.MD_CATEGORY';
+}
 
 $node_list = '';
 if ($node_arr != null) {
@@ -21,7 +30,7 @@ if($action_type != null){
 		case 'delete':
 			$sql = "
 				DELETE FROM 
-					dev.MD_CATEGORY 
+					".$table." 
 				WHERE 
 					NODE IN (".$node_list.")
 			";
@@ -29,7 +38,7 @@ if($action_type != null){
 		case 'rename':
 			$sql = "
 				UPDATE 
-					dev.MD_CATEGORY 
+					".$table."
 				SET 
 					TITLE = '".$title."' 
 				WHERE 
@@ -46,7 +55,7 @@ if($action_type != null){
 					SELECT 
 						IDX 
 					FROM 
-						dev.MD_CATEGORY
+						".$table."
 					WHERE 
 						NODE = '".$father_id."'
 				");
@@ -56,7 +65,7 @@ if($action_type != null){
 			}
 			$sql = "
 					UPDATE 
-					dev.MD_CATEGORY 
+					".$table."
 				SET 
 					FATHER_NO 	= ".$father_no.",
 					SEQ 		= ".$seq.",
@@ -68,7 +77,7 @@ if($action_type != null){
 		case 'info_update':
 			$sql = "
 				UPDATE 
-					dev.MD_CATEGORY 
+					".$table."
 				SET 
 					TITLE 		= '".$title."', 
 					DESCRIPTION = '".$desc."' 

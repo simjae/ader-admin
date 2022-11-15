@@ -18,6 +18,7 @@ $sample_idx		= $_POST['sample_idx'];
 $manufacturer	= $_POST['manufacturer'];
 $due_date		= $_POST['due_date'];
 $product_qty	= $_POST['product_qty'];
+$memo			= $_POST['memo'];
 
 if ($sample_idx != null) {
 	$set = "";
@@ -33,6 +34,11 @@ if ($sample_idx != null) {
 		$set .= " PRODUCT_QTY = ".$product_qty.", ";
 	}
 	
+	if ($memo == null) {
+		$memo = '';
+	}
+	$set .= " MEMO = '".$memo."', ";
+
 	$sql = "UPDATE
 				dev.SAMPLE_INFO
 			SET

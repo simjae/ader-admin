@@ -13,77 +13,96 @@
  | 
  +=============================================================================
 */
-$bluemark_idx 		= $_POST['bluemark_idx'];			//검색분류
+$bluemark_idx 		= $_POST['bluemark_idx'];
 
-$log_where = '1=1';
-$log_where .= ' AND BLUEMARK_IDX = '.$bluemark_idx.' '; 
-$log_table = '  dev.BLUEMARK_LOG	LOG 	LEFT JOIN
-                dev.MEMBER			MEMBER
-            ON	LOG.MEMBER_ID = MEMBER.IDX ';
+if ($bluemark_idx != null) {
+	$sql = "SELECT
+				CASE
+					WHEN
+						(
+							SELECT
+								COUNT(S_PI.IDX)
+							FROM
+								dev.PRODUCT_IMG S_PI
+							WHERE
+								S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
+								S_PI.IMG_SIZE = 'M' AND
+								S_PI.IMG_TYPE = 'P'
+						) > 0
+						THEN
+							(
+								SELECT
+									REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+								FROM
+									dev.PRODUCT_IMG S_PI
+								WHERE
+									S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
+									S_PI.DEL_FLG = FALSE AND
+									S_PI.IMG_SIZE = 'M' AND
+									S_PI.IMG_TYPE = 'P'
+								ORDER BY
+									S_PI.IDX ASC
+								LIMIT
+									0,1
+							)
+					ELSE
+						'/images/default_product_img.jpg'
+				END						AS IMG_LOCATION,
+				BI.PRODUCT_NAME			AS PRODUCT_NAME,
+				BI.PRODUCT_CODE			AS PRODUCT_CODE,
+				IFNULL(BI.BARCODE,'-')	AS BARCODE,
+				BI.SERIAL_CODE			AS SERIAL_CODE,
+				IFNULL(BI.SEASON,'-')	AS SEASON
+			FROM
+				dev.BLUEMARK_INFO BI
+			WHERE
+				BI.IDX = ".$bluemark_idx;
 
-$log_sql = "SELECT
-                MEMBER.ID,
-                MEMBER.LEVEL,
-                MEMBER.NAME,
-                LOG.IP,
-                LOG.REG_DATE
-            FROM
-                ".$log_table."
-            WHERE
-                ".$log_where;
-$db->query($log_sql);
+	$db->query($sql);
 
-$cnt_db = new db();
-$cnt_db->query("SELECT COUNT(0) AS CNT FROM ".$log_table." WHERE ".$log_where);
-foreach($cnt_db->fetch() as $data) {
-	$log_cnt = $data['CNT'];
-}
+	foreach($db->fetch() as $data) {
+		$log_cnt = $db->count("dev.BLUEMARK_LOG","BLUEMARK_IDX = ".$bluemark_idx);
+		
+		$log_info = array();
+		if ($log_cnt > 0) {
+			$log_sql = "SELECT
+							BL.MEMBER_IDX	AS MEMBER_IDX,
+							BL.MEMBER_ID	AS MEMBER_ID,
+							BL.MEMBER_NAME	AS MEMBER_NAME,
+							MB.LEVEL		AS MEMBER_LEVEL,
+							BL.IP			AS IP,
+							BL.REG_DATE		AS REG_DATE
+						FROM
+							dev.BLUEMARK_LOG BL
+							LEFT JOIN dev.MEMBER MB ON
+							BL.MEMBER_IDX = MB.IDX
+						WHERE
+							BL.BLUEMARK_IDX = ".$bluemark_idx;
 
+			$db->query($log_sql);
 
-foreach($db->fetch() as $data) {
-	$json_result['data']['log'][] = array(
-        'num'			=>$log_cnt--,
-		'member_id'		=>$data['ID'],
-		'member_level'	=>$data['LEVEL'],
-		'member_name'	=>$data['NAME'],
-		'ip'		    =>$data['IP'],
-		'reg_date'		=>$data['REG_DATE']
-	);
-}
-
-$product_where = '1=1';
-$product_where .= ' AND INFO.IDX = '.$bluemark_idx.'
-                    AND IMG.DEL_FLG = FALSE
-                    AND IMG_TYPE = "PRODUCT" 
-                    AND IMG_SIZE = "sml" '; 
-$product_table = '  dev.BLUEMARK_INFO	INFO 	                LEFT JOIN
-                    dev.SHOP_PRODUCT	PRODUCT
-                ON	INFO.PRODUCT_CODE = PRODUCT.PRODUCT_CODE    LEFT JOIN
-                    dev.PRODUCT_IMG     IMG
-                ON  INFO.PRODUCT_CODE = IMG.PRODUCT_CODE
-                ';
-$product_sql = "SELECT
-                    IFNULL(PRODUCT.PRODUCT_NAME,'-') AS PRODUCT_NAME,
-                    INFO.PRODUCT_CODE,
-                    IFNULL(INFO.OPTION_CODE,'-'),
-                    INFO.SERIAL_CODE,
-                    INFO.SEASON,
-                    REPLACE(IMG.IMG_LOCATION,'/var/www/admin/www','')		AS IMG_LOCATION
-                FROM
-                    ".$product_table."
-                WHERE
-                    ".$product_where;
-
-$db->query($product_sql);
-
-foreach($db->fetch() as $data) {
-    $json_result['data']['product'][] = array(
-        'product_name'	=>$data['PRODUCT_NAME'],
-        'product_code'	=>$data['PRODUCT_CODE'],
-        'option_code'	=>$data['OPTION_CODE'],
-        'serial_code'	=>$data['SERIAL_CODE'],
-        'season'		=>$data['SEASON'],
-        'img_location'	=>$data['IMG_LOCATION'],
-    );
+			foreach($db->fetch() as $log_data) {
+				$log_info[] = array(
+					'num'			=>$log_cnt--,
+					'member_idx'	=>$log_data['MEMBER_IDX'],
+					'member_id'		=>$log_data['MEMBER_ID'],
+					'member_name'	=>$log_data['MEMBER_NAME'],
+					'member_level'	=>$log_data['MEMBER_LEVEL'],
+					'ip'		    =>$log_data['IP'],
+					'reg_date'		=>$log_data['REG_DATE']
+				);
+			}
+		}
+		
+		$json_result['data'][] = array(
+			'product_name'	=>$data['PRODUCT_NAME'],
+			'product_code'	=>$data['PRODUCT_CODE'],
+			'barcode'		=>$data['BARCODE'],
+			'serial_code'	=>$data['SERIAL_CODE'],
+			'season'		=>$data['SEASON'],
+			'img_location'	=>$data['IMG_LOCATION'],
+			'log_info'		=>$log_info
+		);
+	}
 }
 ?>

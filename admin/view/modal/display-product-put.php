@@ -432,7 +432,7 @@ function productDisplayUpdateCheck(){
 			return false;
 		}
 	}
-	insertLog("전시관리 > 상품진열", "상품 진열 페이지 정보 수정", null);
+	
 	modal_submit($('#frm-list'),'getProdPageInfo');
 }
 </script>

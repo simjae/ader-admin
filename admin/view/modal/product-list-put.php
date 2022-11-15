@@ -2,368 +2,290 @@
 	.checked{background-color:#707070!important;color:#ffffff!important;}
 	.unchecked{background-color:#ffffff!important;color:#000000!important;}
 	.size_textarea{width:90%; height:150px;resize: none;border: solid 1px #bfbfbf;}
+	.btn-close{float:right;color:'#000';}
 </style>
 
-<div class="body">
-	<h1>
+<div class="content__card" style="width:1000px!important">
+	<h3>
 		상품정보 변경
 		<a onclick="modal_close();" class="btn-close">
 			<i class="xi-close"></i>
 		</a>
-	</h1>
+	</h3>
 	
-	<div class="contents">
-		<form id="frm-update" action="product/put">
-			<input id="product_idx" type="hidden" name="product_idx" value="<?=$product_idx?>">
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="ordersheet" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">오더시트 - 기획MD</button>
-				
-				<TABLE id="insert_table_ordersheet" class="list" style="font-size:0.7rem;">
+	<div class="card__body">
+		<div class="table table__wrap">
+			<button type="button" toggle_table="ordersheet"
+				style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
+				onClick="toggleTableClick(this);">오더시트 - 기획MD</button>
+			<div class="overflow-x-auto" id="insert_table_ordersheet">
+				<TABLE>
+					<colgroup>
+						<col width="10%">
+						<col width="22%">
+						<col width="10%">
+						<col width="22%">
+						<col width="10%">
+						<col width="22%">
+					</colgroup>
 					<TBODY>
 						<TR>
-							<TD style="width:10%;">스타일코드</TD>
-							<TD colspan="2">
-								<input id="product_style_code" readonly type="text" name="product_style_code" value="">
-							</TD>
-							
-							<TD style="width:10%;">상품코드</TD>
-							<TD colspan="2">
-								<div class="row">
-									<input id="product_code" readonly type="text" name="product_code" style="width:70%;" value="">
-								</div>
-								
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">오더시트 상품분류</TD>
-							<TD colspan="5">
-								<div class="row">
-									<input id="pl_lrg_category" type="text" name="pl_lrg_category" placeholder="" style="width:20%;" value="">
-									<input id="pl_mdl_category" type="text" name="pl_mdl_category" placeholder="" style="width:20%;" value="">
-									<input id="pl_sml_category" type="text" name="pl_sml_category" placeholder="" style="width:20%;" value="">
-									<input id="pl_dtl_category" type="text" name="pl_dtl_category" placeholder="" style="width:20%;" value="">
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">온라인 MD 상품분류</TD>
-							<TD colspan="5" style="width:90%;overflow:scroll;">
-								<div class="row" style="width:1500px;height:300px;">
-									<input type="hidden" name="md_category_1" value="">
-									<input type="hidden" name="md_category_2" value="">
-									<input type="hidden" name="md_category_3" value="">
-									<input type="hidden" name="md_category_4" value="">
-									<input type="hidden" name="md_category_5" value="">
-									<input type="hidden" name="md_category_6" value="">
-									
-									<input type="hidden" name="category_idx" value="">
-									
-									<div id="md_category_1" depth="1" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_2" depth="2" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_3" depth="3" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_4" depth="4" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_5" depth="5" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_6" depth="6" style="width:250px;height:100%;">
-										
-									</div>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">소재</TD>
-							<TD>
-								<input type="text" name="material" value="">
-							</TD>
-							
-							<TD style="width:10%;">상품 그래픽</TD>
-							<TD>
-								<input type="text" name="graphic" value="">
-							</TD>
-							
-							<TD style="width:10%;">상품 핏</TD>
-							<TD>
-								<input type="text" name="fit" value="">
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>상품 이름</TD>
-							<TD colspan="2">
-								<input type="text" name="product_name" value="">
-							</TD>
-							<TD>상품 사이즈</TD>
-							<TD colspan="2">
-								<input type="text" id="size" name="size" value="One Size">
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>상품 컬러</TD>
-							<TD colspan="2">
-								<input type="text" name="color" value="">
-							</TD>
+							<TD>스타일코드</TD>
+							<TD id="style_code"></TD>
 							<TD>컬러코드</TD>
-							<TD colspan="2">
-								<input type="text" name="color_code" value="">
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>네비게이션</TD>
-							<TD colspan="2">
-								<input type="text" name="navigation" value="">
-							</TD>
-							<TD>구매제한</TD>
-							<TD colspan="2">
-								<input type="text" name="limit_purchase_member_ext" value="">
-							</TD>
+							<TD id="color_code"></TD>
+							<TD>상품코드</TD>
+							<TD id="product_code"></TD>
 						</TR>
 					</TBODY>
 				</TABLE>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="material" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">W/K/L/A & Material</button>
-				
-				<TABLE id="insert_table_material" class="list" style="font-size:0.7rem;">
-					<colgroup>
-						<col width="10%">
-						<col width="90%">
-					</colgroup>
-					<TBODY>
-						<TR>
-							<TD>W/K/L/A</TD>
-							<TD>
-								<input type="text" name="wkla" value="">
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>Material 한글</TD>
-							<TD>
-								<textarea class="width-100p" id="material_kr" name="material_kr" style="width:90%; height:150px;"></textarea>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>Material 영문</TD>
-							<TD>
-								<textarea class="width-100p" id="material_en" name="material_en" style="width:90%; height:150px;"></textarea>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>Material 중문</TD>
-							<TD>
-								<textarea class="width-100p" id="material_cn" name="material_cn" style="width:90%; height:150px;"></textarea>
-							</TD>
-						</TR>
-					</TBODY>
 				<TABLE>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="size_detail" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">Size Detail</button>
-				
-				<TABLE id="insert_table_size_detail" class="list" style="font-size:0.7rem;">
 					<colgroup>
 						<col width="10%">
-						<col width="23.3%">
+						<col width="15%">
 						<col width="10%">
-						<col width="23.3%">
+						<col width="15%">
 						<col width="10%">
-						<col width="23.3%">
+						<col width="15%">
+						<col width="10%">
+						<col width="15%">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD colspan="1">모델</TD>
-							<TD colspan="1">
-								<input type="text" name="size_detail_model" value="">
-							</TD>
-							<TD colspan="1">Wearing<br>size</TD>
-							<TD colspan="1">
-								<input type="text" name="size_detail_wear" value="">
-							</TD>
-							<TD colspan="2"></td>
+							<TD>프리오더 사용여부</TD>
+							<TD colspan="3" id="preorder_flg">
+							<TD>교환 환불 가능유무</TD>
+							<TD colspan="3" id="refund_flg">
 						</TR>
-
-						<TR>
-							<TD>A1한글</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a1_kr" name="size_detail_a1_kr"></textarea>
-							</TD>
-
-							<TD>A2한글</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a2_kr" name="size_detail_a2_kr"></textarea>
-							</TD>
-
-							<TD>A3한글</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a3_kr" name="size_detail_a3_kr"></textarea>
-							</TD>
+						<tr>
+							<TD>라인 유형</TD>
+							<TD colspan="7"  id="line_info_table">
 						</tr>
 						<tr>
-							<TD>A4한글</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a4_kr" name="size_detail_a4_kr"></textarea>
+							<TD>MD 카테고리</TD>
+							<TD colspan="7">
+								<table style="width:40%">
+									<tbody>
+										<tr>
+											<td style="width:25%" id="category_lrg_title"></td>
+											<td style="width:25%" id="category_mdl_title"></td>
+											<td style="width:25%" id="category_sml_title"></td>
+											<td style="width:25%" id="category_dtl_title"></td>
+										</tr>
+									</tbody>
+								</table>
 							</TD>
+						</TR>
+						<TR>
+							<TD>소재</TD>
+							<TD colspan="3" id="material"></TD>
+							<TD>상품 그래픽</TD>
+							<TD colspan="3" id="graphic"></TD>
+						</TR>
+						<TR>
+							<TD>상품 핏</TD>
+							<TD colspan="3" id="fit"></TD>
+							<TD>상품 이름</TD>
+							<TD colspan="3" id="product_name"></TD>
+						</TR>
+						<TR>
+							<TD>상품 사이즈</TD>
+							<TD id="product_size"></TD>
+							<TD>상품 색상</TD>
+							<TD id="color"></TD>
+							<TD>RGB 코드</TD>
+							<TD id="color_rgb"></TD>
+							<TD>팬톤 코드</TD>
+							<TD id="pantone_code"></TD>
+						</TR>
+						<TR>
+							<TD>MD 카테고리 가이드</TD>
+							<TD colspan="3" id="md_category_guide"></TD>
+							<TD>구매 수량 제한</TD>
+							<TD id="limit_qty"></TD>
+							<TD>구매 멤버 제한</TD>
+							<TD id="limit_member"></TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+				<div style="margin-top:5px;">
+					<div id="currency_table" class="row form-group" style="margin-top:5px;display:none;"></div>
+					<div class="overflow-x-auto">
+						<TABLE>
+							<colgroup>
+								<col width="20%">
+								<col width="20%">
+								<col width="20%">
+								<col width="20%">
+								<col width="20%">
+							</colgroup>
+							<TBODY>
+								<TR>
+									<TD>기획원가</TD>
+									<TD>한국몰 판매가격 (원)</TD>
+									<TD>영문몰 변환가격 (원)</TD>
+									<TD>영문몰 판매가격 (달러)</TD>
+									<TD>중문몰 판매가격 (달러)</TD>
+								</TR>
+								<TR>
+									<TD id="price_cost"></TD>
+									<TD id="price_kr"></TD>
+									<TD id="price_kr_gb"></TD>
+									<TD id="price_en"></TD>
+									<TD id="price_cn"></TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</div>
+				</div>
+				<TABLE>
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
+					<TBODY>
+						<tr>
+							<TD>기획재고 수량</TD>
+							<TD id="product_qty"></TD>
+							<TD>안전재고 수량</TD>
+							<TD id="safe_qty"></TD>
+						</tr>
+					</TBODY>
+				</TABLE>
+				<TABLE>
+					<colgroup>
+						<col width="10%">
+						<col width="22%">
+						<col width="10%">
+						<col width="22%">
+						<col width="10%">
+						<col width="22%">
+					</colgroup>
+					<TBODY>
+						<tr>
+							<TD>런칭일</TD>
+							<TD id="launching_date"></TD>
+							<TD>입고 요청일</TD>
+							<TD id="receive_request_date"></TD>
+							<TD>최초 TP작성 완료일</TD>
+							<TD id="tp_completion_date"></TD>
+						</tr>
+					</TBODY>
+				</TABLE>
+			</div>
+		</div>
+
+		<div class="table table__wrap">
+			<button type="button" toggle_table="dsn"
+				style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
+				onClick="toggleTableClick(this);">오더시트 - 디자인</button>
+			<div class="overflow-x-auto" id="insert_table_dsn">
+				<TABLE class="size_info_table">
+					<colgroup>
+						<col width="3%">
+						<col width="11%">
+						<col width="3%">
+						<col width="11%">
+						<col width="3%">
+						<col width="11%">
+
+						<col width="3%">
+						<col width="11%">
+						<col width="3%">
+						<col width="11%">
+						<col width="3%">
+						<col width="11%">
+					</colgroup>
+					<TBODY>
+						<tr>
+							<TD>W/K/L/A</TD>
+							<TD colspan="11"  id="wkla_info_table">
+						</tr>
+						<TR>
+							<TD colspan="2">모델</TD>
+							<TD colspan="4" id="model"></TD>
+							<TD colspan="2">모델착용 사이즈</TD>
+							<TD colspan="4" id="model_wear"></TD>
+						</TR>
+						<TR>
+							<TD >A1한글</TD>
+							<TD class="size_info_text" id="size_a1_kr"></TD>
+
+							<TD>A2한글</TD>
+							<TD class="size_info_text" id="size_a2_kr"></TD>
+
+							<TD>A3한글</TD>
+							<TD class="size_info_text" id="size_a3_kr"></TD>
+
+							<TD>A4한글</TD>
+							<TD class="size_info_text" id="size_a4_kr"></TD>
 
 							<TD>A5한글</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a5_kr" name="size_detail_a5_kr"></textarea>
-							</TD>
+							<TD class="size_info_text" id="size_a5_kr"></TD>
 
-							<TD>ONESIZE<br>한글</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_onesize_kr"
-									name="size_detail_onesize_kr"></textarea>
-							</TD>
+							<TD>ONESIZE한글</TD>
+							<TD class="size_info_text" id="size_onesize_kr"></TD>
 						</TR>
 
 						<TR>
 							<TD>A1영문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a1_en" name="size_detail_a1_en"></textarea>
-							</TD>
+							<TD class="size_info_text" id="size_a1_en"></TD>
 
 							<TD>A2영문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a2_en" name="size_detail_a2_en"></textarea>
-							</TD>
-							
+							<TD class="size_info_text" id="size_a2_en"></TD>
+
 							<TD>A3영문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a3_en" name="size_detail_a3_en"></textarea>
-							</TD>
-						</tr>
-						<tr>
+							<TD class="size_info_text" id="size_a3_en"></TD>
+
 							<TD>A4영문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a4_en" name="size_detail_a4_en"></textarea>
-							</TD>
+							<TD class="size_info_text" id="size_a4_en"></TD>
 
 							<TD>A5영문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a5_en" name="size_detail_a5_en"></textarea>
-							</TD>
+							<TD class="size_info_text" id="size_a5_en"></TD>
 
-							<TD>ONESIZE<br>영문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_onesize_en"
-									name="size_detail_onesize_en"></textarea>
-							</TD>
+							<TD>ONESIZE영문</TD>
+							<TD class="size_info_text" id="size_onesize_en"></TD>
 						</TR>
 
 						<TR>
 							<TD>A1중문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a1_cn" name="size_detail_a1_cn"></textarea>
-							</TD>
+							<TD class="size_info_text" id="size_a1_cn"></TD>
 
 							<TD>A2중문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a2_cn" name="size_detail_a2_cn"></textarea>
-							</TD>
+							<TD class="size_info_text" id="size_a2_cn"></TD>
 
 							<TD>A3중문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a3_cn" name="size_detail_a3_cn"></textarea>
-							</TD>
-						</tr>
-						<tr>
-							<TD>A4중문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a4_cn" name="size_detail_a4_cn"></textarea>
-							</TD>
-							<TD>A5중문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_a5_cn" name="size_detail_a5_cn"></textarea>
-							</TD>
+							<TD class="size_info_text" id="size_a3_cn"></TD>
 
-							<TD>ONESIZE<br>중문</TD>
-							<TD>
-								<textarea class="width-100p size_textarea" id="size_detail_onesize_cn"
-									name="size_detail_onesize_cn" ></textarea>
-							</TD>
+							<TD>A4중문</TD>
+							<TD class="size_info_text" id="size_a4_cn"></TD>
+
+							<TD>A5중문</TD>
+							<TD class="size_info_text" id="size_a5_cn"></TD>
+
+							<TD>ONESIZE중문</TD>
+							<TD class="size_info_text" id="size_onesize_cn"></TD>
 						</TR>
 						<TR>
-							<TD colspan="1">
-								이미 등록한<br>옵션정보<br>불러오기
+							<TD colspan="2">
+								사이즈 카테고리
 							</TD>
-							<TD colspan="10" id="history_option_td">
-								<div class="content__row">
-									상품 카테고리를 먼저 선택해주세요
-								</div>
-							</TD>
-						</TR>
-						<TR>
-							<TD ID = "option_td" colspan="6">
-								<div id="option_category_td">
-									<div class="content__row">
-										<select id="size_category" name="size_category" class="fSelect eSearch" style="width:163px;">
-											<option value="">---one piece---</option>
-											<option value="/01_one_piece/dress">dress</option>
-											<option value="">---two piece---</option>
-											<option value="/02_two_piece/01_top/coat">coat</option>
-											<option value="/02_two_piece/01_top/hoodie">hoodie</option>
-											<option value="/02_two_piece/01_top/longSleeve">longSleeve</option>
-											<option value="/02_two_piece/01_top/shirts">---one piece---</option>
-											<option value="/02_two_piece/01_top/tailored-jacket">tailored-jacket</option>
-											<option value="/02_two_piece/01_top/tShirts">tShirts</option>
-											<option value="/02_two_piece/01_top/vest">vest</option>
-											<option value="/02_two_piece/01_top/zipup">zipup</option>
-											<option value="/02_two_piece/02_bottom/pants">pants</option>
-											<option value="/02_two_piece/02_bottom/skirt">skirt</option>
-											<option value="">---bag---------</option>
-											<option value="/03_etc/01_bag/backPack">backPack</option>
-											<option value="/03_etc/01_bag/crossBag">crossBag</option>
-											<option value="/03_etc/01_bag/toteBag">toteBag</option>
-											<option value="">---hat---------</option>
-											<option value="/03_etc/02_hat/beanie">beanie</option>
-											<option value="/03_etc/02_hat/bucketHat">bucketHat</option>
-											<option value="/03_etc/02_hat/cap">cap</option>
-											<option value="">---acc---------</option>
-											<option value="/03_etc/03_acc/belt">belt</option>
-											<option value="/03_etc/03_acc/necktie">necktie</option>
-											<option value="/03_etc/03_acc/sock">sock</option>
-										</select>
-										<span id="size_default_msg" style="color:red">카테고리 선택시, 옵션 입력창이 생성됩니다.</span>
-										<button type="button" id="sizeFormBtn"
-											style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;display:none"
-											onClick="initSizeForm();" >초기화</button>
-									</div>
-									<div id="option_insert_div">
-									</div>
-								</div>
-							</TD>
+							<TD colspan="10" id="size_category">dress</TD>
 						</TR>
 					</TBODY>
 				</TABLE>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="detail" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">Detail</button>
-				
-				<TABLE id="insert_table_detail" class="list" style="font-size:0.7rem;">
+				<div id="option_insert_div" style="margin-top:5px"></div>
+
+				<table style="margin-top:5px">
+					<thead id="product_size_table_head">
+					</thead>
+					<tbody id="product_size_regist_table">
+					</tbody>
+				</table>
+
+				<TABLE style="margin-top:5px">
 					<colgroup>
 						<col width="10%">
 						<col width="90%">
@@ -371,2155 +293,831 @@
 					<TBODY>
 						<TR>
 							<TD style="width:10%;">Detail 한글</TD>
-							<TD>
-								<textarea class="width-100p" id="detail_kr" name="detail_kr" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD class="smart_editer_text" id="detail_kr"></TD>
 						</TR>
-						
+
 						<TR>
 							<TD style="width:10%;">Detail 영문</TD>
-							<TD>
-								<textarea class="width-100p" id="detail_en" name="detail_en" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD class="smart_editer_text" id="detail_en"></TD>
 						</TR>
-						
+
 						<TR>
 							<TD style="width:10%;">Detail 중문</TD>
-							<TD>
-								<textarea class="width-100p" id="detail_cn" name="detail_cn" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD class="smart_editer_text" id="detail_cn"></TD>
 						</TR>
 					</TBODY>
 				</TABLE>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="care" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">Care</button>
-				
-				<TABLE id="insert_table_care" class="list" style="font-size:0.7rem;">
+				<TABLE style="margin-top:5px">
 					<colgroup>
 						<col width="10%">
 						<col width="90%">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD style="width:10%;">Care 한글</TD>
-							<TD>
-								<textarea class="width-100p" id="care_kr" name="care_kr" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD style="width:10%;">유의사항 (한글)</TD>
+							<TD class="smart_editer_text" id="care_dsn_kr"></TD>
 						</TR>
-						
+
 						<TR>
-							<TD style="width:10%;">Care 영문</TD>
-							<TD>
-								<textarea class="width-100p" id="care_en" name="care_en" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD style="width:10%;">유의사항 (영문)</TD>
+							<TD class="smart_editer_text" id="care_dsn_en"></TD>
 						</TR>
-						
+
 						<TR>
-							<TD style="width:10%;">Care 중문</TD>
-							<TD>
-								<textarea class="width-100p" id="care_cn" name="care_cn" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD style="width:10%;">유의사항 (중문)</TD>
+							<TD class="smart_editer_text" id="care_dsn_cn"></TD>
 						</TR>
 					</TBODY>
 				</TABLE>
 			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="price" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">Price</button>
-				
-				<div id="insert_table_price" class="row" style="margin-top:5px;">
-					<div class="row form-group">
-						<button type="button" style="width:120px;height:30px;border:1px solid #000000;cursor:pointer;float:right;" onClick="$('#currency_table').toggle();">환율정보 조회</button>
-						<button type="button" style="width:80px;height:30px;border:1px solid #000000;cursor:pointer;margin-right:10px;float:right;" onClick="productPriceCalc();">계산</button>
-						<input id="calc_val" type="text" style="width:163px;height:30px;margin-right:10px;float:right;" placeholder="배율" value="1.4">
-					</div>
-					
-					<div id="currency_table" class="row form-group" style="margin-top:5px;display:none;"></div>
-					
-					<div class="row" style="margin-top:10px;">
-						<TABLE class="list" style="font-size:0.7rem;">
-							<colgroup>
-								<col width="25%">
-								<col width="25%">
-								<col width="25%">
-								<col width="25%">
-							</colgroup>
-							<TBODY>
-								<TR>
-									<TD>ADER</TD>
-									<TD>ADER GB</TD>
-									<TD>ADER EN USD</TD>
-									<TD>ADER CN USD</TD>
-								</TR>
-								<TR>
-									<TD>
-										<input id="price_kr" type="number" step="0.01"  name="price_kr" value="0">
-									</TD>
-									<TD>
-										<input id="price_kr_gb" type="number" step="0.01" name="price_kr_gb" value="0">
-									</TD>
-									<TD>
-										<input id="price_en" type="number" step="0.01"  name="price_en" value="0">
-									</TD>
-									<TD>
-										<input id="price_cn" type="number" step="0.01"  name="price_cn" value="0">
-									</TD>
-								</TR>
-							</TBODY>
-						</TABLE>
-					</div>
-				</div>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="sales_info" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">판매정보</button>
-				
-				<TABLE id="insert_table_sales_info" class="list" style="font-size:0.7rem;">
+		</div>
+		<div class="table table__wrap">
+			<button type="button" toggle_table="td"
+				style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
+				onClick="toggleTableClick(this);">오더시트 - 생산</button>
+			<div class="overflow-x-auto" id="insert_table_td">
+				<TABLE>
+					<colgroup>
+						<col width="10%">
+						<col width="90%">
+					</colgroup>
 					<TBODY>
 						<TR>
-							<TD style="width:10%;">한국몰 판매가격</TD>
-							<TD>
-								<input id="sales_price_kr" type="number" step="0.01" name="sales_price_kr" value="0">
-							</TD>
-							
-							<TD style="width:10%;">영문몰 판매가격</TD>
-							<TD>
-								<input id="sales_price_en" type="number" step="0.01" name="sales_price_en" value="0">
-							</TD>
-							
-							<TD style="width:10%;">중문몰 판매가격</TD>
-							<TD>
-								<input id="sales_price_cn" type="number" step="0.01" name="sales_price_cn" value="0">
-							</TD>
+							<TD>유의사항(한글) - 생산</TD>
+							<TD class="smart_editer_text" id="care_td_kr"></TD>
 						</TR>
-						
 						<TR>
-							<TD style="width:10%;">
-								이미 등록한 옵션정보 불러오기
-							</TD>
-							<TD colspan="5" id="history_option_td">
-								<div class="row form-group">
-									<select class="fSelect eSearch" id="search_type" style="width:163px;">
-										<option value="product_code">상품 코드</option>
-										<option value="product_name">상품 이름</option>
-									</select>
-									<input type="text" id="search_keyword" style="width:40%;" value="">
-									<button type="button" style="width:120px;height:30px;border:1px solid #000000;background-color:#140f82;color:#ffffff;cursor:pointer;" onClick="productOptionCheck();">옵션정보 검색</button>
-									<button type="button" style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;"onClick="historyProductOptionReset();">초기화</button>
-								</div>
-							</TD>
+							<TD>유의사항(영문) - 생산</TD>
+							<TD class="smart_editer_text" id="care_td_en"></TD>
 						</TR>
-						
 						<TR>
-							<TD style="width:10%;">
-								옵션정보설정
-								<input id="option_stock_set" type="hidden" name="option_stock_set" value="0">
-								<input id="option_code_list" type="hidden" value="">
-							</TD>
-							<TD id="option_td" colspan="5">
-								옵션정보를 등록해주세요.
-							</TD>
+							<TD>유의사항(중문) - 생산</TD>
+							<TD class="smart_editer_text" id="care_td_cn"></TD>
 						</TR>
-								
 						<TR>
-							<TD style="width:10%;">구매멤버 제한</TD>
-							<TD colspan="5">
-								<div class="row form-group">
-									<label>
-										<input id="limit_purchase_member_all" class="limit_purchase_member" type="checkbox" name="limit_purchase_member[]" value="0" onClick="limitPurchaseMemberClick(this);" checked>
-										<span>전체</span>
-									</label>
-									
-									<label>
-										<input id="limit_purchase_member_1" class="limit_purchase_member" type="checkbox" name="limit_purchase_member[]" value="1" onClick="limitPurchaseMemberClick(this);">
-										<span>ADER family</span>
-									</label>
-									
-									<label>
-										<input id="limit_purchase_member_2" class="limit_purchase_member" type="checkbox" name="limit_purchase_member[]" value="2" onClick="limitPurchaseMemberClick(this);">
-										<span>일반회원</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">적립금 사용</TD>
-							<TD colspan="5">
-								<div class="row form-group">
-									<label>
-										<input id="mileage_flg_true" type="radio" name="mileage_flg" value="true" checked>
-										<span>사용</span>
-									</label>
-									
-									<label>
-										<input id="mileage_flg_false" type="radio" name="mileage_flg" value="false">
-										<span>사용안함</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">단독구매 제한</TD>
-							<TD colspan="5">
-								<div class="form-group row">
-									<input id="limit_purchase_single" type="hidden" name="limit_purchase_single" value="">
-									<label>
-										<input class="limit_purchase_single" type="radio" name="limit_purchase_single_input" value="false" checked onClick="limitPurchaseSingleFlgClick(this);">
-										<span>단독구매 제한 없음</span>
-									</label>
-									
-									<label>
-										<input class="limit_purchase_single" type="radio" name="limit_purchase_single_input" value="true" onClick="limitPurchaseSingleFlgClick(this);">
-										<span>단독구매 제한</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">구매수량 제한</TD>
-							<TD colspan="5">
-								<div class="row form-group">
-									<label>
-										<input class="limit_purchase_qty" type="radio" name="limit_purchase_qty" value="false" onClick="limitPurchaseQtyFlgClick(this);" checked>
-										<span>구매수량 제한 없음</span>
-									</label>
-									
-									<label>
-										<input class="limit_purchase_qty" type="radio" name="limit_purchase_qty" value="true" onClick="limitPurchaseQtyFlgClick(this);">
-										<span>구매수량 제한</span>
-									</label>
-								</div>
-								
-								<div id="limit_purchase_qty_input" class="row" style="display:none;margin-top:10px;">
-									<input type="number" step="0" name="limit_purchase_qty_min_num" style="width:163px;" value="0">
-									~
-									<input type="number" step="0" name="limit_purchase_qty_max_num" style="width:163px;" value="0">
-									<br>
-									<font style="margin-top:5px;">*구매제한수량의 최대값이 없을 경우 0을 입력해 주세요.</font>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD colspan="6">
-								<TABLE class="list" style="font-size:0.5rem;">
-									<THEAD>
-										<TR>
-											<TH style="width:10%;">상품유형 선택</TH>
-											<TH>
-												<div class="form-group">
-													<input type="hidden" name="refund_idx" value="">
-													<select id="product_category" class="fSelect eSearch" name="product_category" style="width:163px;">
-													</select>
-													
-													<button type="button" style="width:120px;height:30px;cursor:pointer;" onClick="getRefundInfo();">환불정보 조회</button>
-												</div>
-											</TH>
-										</TR>
-									</THEAD>
-									<TBODY id="refund_body">
-										
-									</TBODY>
-								</TABLE>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD colspan="6">
-								<div class="row">
-									<input type="text" name="refund_category" style="width:163px;margin-right:10px;" value="">
-									<input type="text" name="refund_title" style="width:450px;" value="">
-									<button type="button" style="width:50px;height:30px;background-color:#000000;color:#ffffff;float:right;cursor:pointer;" onClick="addDetailRefund();">등록</button>
-								</div>
-							</TD>
+							<TD>재료 (한글)</TD>
+							<TD class="smart_editer_text" id="material_kr"></TD>
 						</TR>
 
 						<TR>
-							<TD style="width:10%;">한국몰 추가 상세 정보<br>(교환/환불)</TD>
-							<TD colspan="5">
-								<textarea class="width-100p" id="detail_refund_kr" name="detail_refund_kr" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD>재료 (영문)</TD>
+							<TD class="smart_editer_text" id="material_en"></TD>
 						</TR>
 
 						<TR>
-							<TD style="width:10%;">영문몰 추가 상세 정보<br>(교환/환불)</TD>
-							<TD colspan="5">
-								<textarea class="width-100p" id="detail_refund_en" name="detail_refund_en" style="width:90%; height:150px;"></textarea>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD style="width:10%;">중문몰 추가 상세 정보<br>(교환/환불)</TD>
-							<TD colspan="5">
-								<textarea class="width-100p" id="detail_refund_cn" name="detail_refund_cn" style="width:90%; height:150px;"></textarea>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">상품 태그</TD>
-							<TD colspan="5">
-								<div class="row">
-									<input id="product_tag" type="text" value="" style="width:60%;">
-									<button style="border:1px solid #000000;background-color:#ffffff;color:#000000;width:80px;height:30px;font-size:0.5rem;cursor:pointer;" onClick="addProductTagBtnClick();">추가</button>
-									<button style="background-color:#000000;color:#ffffff;width:150px;height:30px;font-size:0.5rem;cursor:pointer;" onClick="confirm('상품태그를 불러올 경우 기존에 추가한 상품태그는 초기화됩니다.','getProductTag()');">상품태그 불러오기</button>
-								</div>
-								<div class="row" id="product_tag_div" style="margin-top:10px;">
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>관련상품 검색</TD>
-							<TD colspan="5">
-								<div class="row">
-									<input id="relevant_idx" type="hidden" name="relevant_idx" value="0">
-									
-									<select id="relevant_type" class="fSelect eSearch" name="product_category" style="width:163px;">
-										<option value="product_name">상품 이름</option>
-										<option value="product_code">상품 코드</option>
-										<option value="product_category">상품 카테고리</option>
-									</select>
-									
-									<input id="relevant_keyword" type="text" style="width:300px;" value="">
-									
-									<button type="button" style="width:100px;height:38px;float:right;cursor:pointer;border:1px solid #000000;" onClick="getRelevantProduct();">관련상품 검색</button>
-									
-									<div id="relevant_product_div" class="row" style="margin-top:10px;"></div>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>관련상품</TD>
-							<TD colspan="5">
-								<div id="relevant_list" class="row">
-									관련상품 없음
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">상품 이미지<br>아웃핏</TD>
-							<TD colspan="5">
-								<div class="form-group">
-									<span class="btn btn-large blue">
-										<i class="xi-image"></i> 상품 이미지 선택
-										<input class="product_img" id="img_outfit" type="file" name="img_outfit" class="input-image">
-									</span><br>
-									<img class="preview img_outfit" src="" style="display:none;">
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">상품 이미지<br>상품</TD>
-							<TD colspan="5">
-								<div class="form-group">
-									<span class="btn btn-large blue">
-										<i class="xi-image"></i> 상품 이미지 선택
-										<input class="product_img" id="img_product" type="file" name="img_product" class="input-image">
-									</span><br>
-									<img class="preview img_product" src="" style="display:none;">
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">상품 이미지<br>착장</TD>
-							<TD colspan="5">
-								<div class="form-group">
-									<span class="btn btn-large blue">
-										<i class="xi-image"></i> 상품 이미지 선택
-										<input class="product_img" id="img_wear" type="file" name="img_wear" class="input-image">
-									</span><br>
-									<img class="preview img_wear" src="" style="display:none;">
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">상품 이미지<br>상품상세</TD>
-							<TD colspan="5">
-								<textarea class="width-100p" id="img_product_detail" name="img_product_detail" style="width:90%; height:150px;"></textarea>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD style="width:10%;">상품 이미지<br>착장상세</TD>
-							<TD colspan="5">
-								<textarea class="width-100p" id="img_wear_detail" name="img_wear_detail" style="width:90%; height:150px;"></textarea>
-							</TD>
+							<TD>재료 (중문)</TD>
+							<TD class="smart_editer_text" id="material_cn"></TD>
 						</TR>
 					</TBODY>
 				</TABLE>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="delivery" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">배송정보</button>
-				
-				<TABLE id="insert_table_delivery" class="list" style="font-size:0.7rem;">
-					<TBODY>
-						<TR>
-							<TD style="width:10%;">HS코드</TD>
-							<TD>
-								<input type="text" name="hs_code" value="">
-							</TD>
-							<TD style="width:10%;">상품 전체 중량</TD>
-							<TD>
-								<input type="number" step="0.01" name="product_total_weight" value="">
-							</TD>
-							<TD style="width:10%;">상품 구분(해외통관)</TD>
-							<TD>
-								<input type="text" name="product_division" value="">
-							</TD>
-						</TR>
-						<TR>
-							<TD style="width:10%;">상품소재</TD>
-							<TD>
-								<input type="text" name="product_material_kr" value="">
-							</TD>
-							<TD style="width:10%;">영문 상품소재</TD>
-							<TD>
-								<input type="text" name="product_material_en" value="">
-							</TD>
-							<TD style="width:10%;">옷감</TD>
-							<TD>
-								<input type="text" name="fabric" value="">
-							</TD>
-						</TR>
-					</TBODY>
-				</TABLE>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="manufacture" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">제작정보</button>
-				
-				<TABLE id="insert_table_manufacture" class="list" style="font-size:0.7rem;">
+				<TABLE>
+					<colgroup>
+						<col width="10%">
+						<col width="40%">
+						<col width="10%">
+						<col width="40%">
+					</colgroup>
 					<TBODY>
 						<TR>
 							<TD style="width:10%;">제조사</TD>
-							<TD colspan="3">
-								<input type="text" name="manufacturer" value="">
-							</TD>
-							
+							<TD id="manufacturer"></TD>
 							<TD style="width:10%;">공급사</TD>
-							<TD colspan="3">
-								<input type="text" name="supplier" value="">
-							</TD>
-							
+							<TD id="supplier"></TD>
+						</TR>
+						<TR>
 							<TD style="width:10%;">원산지</TD>
-							<TD colspan="3">
-								<input type="text" name="origin_country" value="">
-							</TD>
-						</TR>
-						
-						<TR>
+							<TD id="origin_country"></TD>
 							<TD style="width:10%;">브랜드</TD>
-							<TD colspan="3">
-								<input type="text" name="brand" value="">
-							</TD>
-							
-							<TD style="width:10%;">트랜드</TD>
-							<TD colspan="3">
-								<input type="text" name="trend" value="">
-							</TD>
-							
-							<TD style="width:10%;">자체분류</TD>
-							<TD colspan="3">
-								<input type="text" name="self_classification" value="">
-							</TD>
+							<TD id="brand"></TD>
 						</TR>
-						
-						<TR>
-							<TD style="width:10%;">제조일자</TD>
-							<TD colspan="3">
-								<input id="manufacturing_date" class="dateParam" type="date" name="manufacturing_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
+						<tr>
+							<TD>상품 적재박스 유형</TD>
+							<TD colspan="3"  id="load_box_info_table">
+						</tr>
+						<tr>
+							<TD>상품 출고박스 유형</TD>
+							<TD colspan="3"  id="deliver_box_info_table">
+						</tr>
+						<tr>
+							<TD>상품 적재중량 (kg)</TD>
+							<TD id="load_weight"></TD>
+							<TD>상품 적재수량</TD>
+							<TD id="load_qty"></TD>
+						</tr>
+						<tr>
+							<TD>생산부자재</TD>
+							<TD>
+								<table style="width:50%">
+									<tbody id="td_sub_material"></tbody>
+								</table>
 							</TD>
-							
-							<TD style="width:10%;">출시일자</TD>
-							<TD colspan="3">
-								<input id="release_date" class="dateParam" type="date" name="release_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
+							<TD>배송부자재</TD>
+							<TD>
+								<table style="width:50%">
+									<tbody id="delivery_sub_material"></tbody>
+								</table>
 							</TD>
-							
-							<TD style="width:10%;">유효기간</TD>
-							<TD colspan="3">
-								<div class="row">
-									<input id="validate_start_date" class="dateParam" type="date" name="validate_start_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
-									<input id="validate_end_date" class="dateParam" type="date" name="validate_end_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>상품 가로길이</TD>
-							<TD colspan="2">
-								<input id="product_width" class="product_volume" type="number" step="0.01" name="product_width" value="">
-							</TD>
-							
-							<TD>상품 세로길이</TD>
-							<TD colspan="2">
-								<input id="product_depth" class="product_volume" type="number" step="0.01" name="product_depth" value="">
-							</TD>
-							
-							<TD>상품 높이</TD>
-							<TD colspan="2">
-								<input id="product_height" class="product_volume" type="number" step="0.01" name="product_height" value="">
-							</TD>
-							
-							<TD>상품 부피</TD>
-							<TD colspan="2">
-								<input id="product_volume" type="text" name="product_volume" value="0" readonly>
-							</TD>
-						</TR>
+						</tr>
 					</TBODY>
 				</TABLE>
 			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="release_info" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">출고정보</button>
-				
-				<TABLE id="insert_table_release_info" class="list" style="font-size:0.7rem;">
-					<TBODY>
-						<TR>
-							<TD style="width:10%;">출고 예정기간</TD>
-							<TD>
-								<div class="row">
-									<input id="release_start_date" class="dateParam" type="date" name="release_start_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
-									~
-									<input id="release_end_date" class="dateParam" type="date" name="release_end_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
-								</div>
-							</TD>
-							
-							<TD style="width:10%;">출고 표시 예정기간</TD>
-							<TD>
-								<div class="row">
-									<input id="display_start_date" class="dateParam" type="date" name="display_start_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
-									~
-									<input id="display_end_date" class="dateParam" type="date" name="display_end_date" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
-								</div>
-							</TD>
-							
-							<TD style="width:10%;">미출고사유 입력</TD>
-							<TD>
-								<input type="text" name="non_release_reason" value="">
-							</TD>
-						</TR>
-					</TBODY>
-				</TABLE>
-			</div>
-			
-			<div class="row" style="margin-top:10px;">
-				<button type="button" toggle_table="search_seo_info" style="width:100%;border:1px solid #000000;height:30px;cursor:pointer;" onClick="toggleTableClick(this);">검색엔진 최적화 SEO</button>
-				
-				<TABLE id="insert_table_search_seo_info" class="list" style="font-size:0.7rem;">
-					<TBODY>
-						<TR>
-							<TD style="width:10%;">검색엔진<br>노출설정</TD>
-							<TD>
-								<div class="row form-group">
-									<input id="seo_exposure_flg" type="hidden" name="seo_exposure_flg" value="">
-									<label>
-										<input class="seo_exposure_flg" type="radio" name="seo_exposure_flg_input" value="true" onClick="seoExposureFlgClick(this);">
-										<span>노출함</span>
-									</label>
-									
-									<label>
-										<input class="seo_exposure_flg" type="radio" name="seo_exposure_flg_input" value="false" onClick="seoExposureFlgClick(this);">
-										<span>노출안함</span>
-									</label>
-								</div>
-							</TD>
+		</div>
+		<form id="frm-update" action="product/put">
+			<input id="product_idx" type="hidden" name="product_idx" value="<?=$product_idx?>">
+			<div class="table table__wrap">
+				<button type="button" toggle_table="td"
+					style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
+				>독립몰 상품 정보</button>
+				<div style="width:100%;">
+					<TABLE>
+						<colgroup>
+							<col width="10%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+							<col width="8%">
+						</colgroup>
+						<TBODY>
+							<TR>
+								<TD>스타일코드</TD>
+								<TD colspan="3">
+									<input type="text" id="shop_style_code" name="shop_style_code" value=""> 
+								</TD>
+								<TD>컬러코드</TD>
+								<TD colspan="3">
+									<input type="text" id="shop_color_code" name="shop_color_code" value="">
+								</TD>
+								<TD>상품코드</TD>
+								<TD colspan="3">
+									<input type="text" id="shop_product_code" name="shop_product_code" value="">
+								</TD>
+							</TR>
+							<TR>
+								<TD>상품 이름</TD>
+								<TD colspan="11">
+									<input type="text" id="shop_product_name" name="shop_product_name" value="" style="width:40%">
+								</TD>
+							</TR>
 							
 							<TR>
-								<TD>브라우저<br>타이틀</TD>
-								<TD>
+								<TD>MD 제품 카테고리</TD>
+								<TD colspan="11">
+									<div class="content__row">
+										<input type="hidden" id="md_category_1" name="md_category_1" value="">
+										<input type="hidden" id="md_category_2" name="md_category_2" value="">
+										<input type="hidden" id="md_category_3" name="md_category_3" value="">
+										<input type="hidden" id="md_category_4" name="md_category_4" value="">
+										<input type="hidden" id="md_category_5" name="md_category_5" value="">
+										<input type="hidden" id="md_category_6" name="md_category_6" value="">
+										<select class="fSelect category eCategory eCategory1" depth="1" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+											<option value="">상품분류 01</option>	
+										</select>
+										<select class="fSelect category eCategory eCategory2" depth="2" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+											<option value="">상품분류 02</option>
+										</select>
+										<select class="fSelect category eCategory eCategory3" depth="3" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+											<option value="">상품분류 03</option>
+										</select>
+										<select class="fSelect category eCategory eCategory4" depth="4" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+											<option value="">상품분류 04</option>
+										</select>
+										<select class="fSelect category eCategory eCategory5" depth="5" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+											<option value="">상품분류 05</option>
+										</select>
+										<select class="fSelect category eCategory eCategory6" depth="6" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+											<option value="">상품분류 06</option>
+										</select>
+									</div>
+								</TD>
+							</TR>
+							<TR class="cal_discount">
+								<TD>한국몰 가격</TD>
+								<TD colspan="3"><input id="price_kr" class="price" type="number" step="0.01" name="price_kr" value="0"></TD>
+								<TD>한국몰 세일가격</TD>
+								<TD colspan="3"><input id="sales_price_kr" class="sales_price" type="number" step="0.01" name="sales_price_kr" value="0"></TD>
+								<TD>한국몰 할인율</TD>
+								<TD colspan="3"><input id="discount_kr" class="result" type="number" step="0.01" name="discount_kr" value="0" readonly></TD>
+
+							</TR>
+							<TR class="cal_discount">
+								<TD>영문몰 가격</TD>
+								<TD colspan="3"><input id="price_en" class="price" type="number" step="0.01" name="price_en" value="0"></TD>
+								<TD>영문몰 세일가격</TD>
+								<TD colspan="3"><input id="sales_price_en" class="sales_price" type="number" step="0.01" name="sales_price_en" value="0"></TD>
+								<TD>영문몰 할인율</TD>
+								<TD colspan="3"><input id="discount_en" class="result" type="number" step="0.01" name="discount_en" value="0" readonly></TD>
+
+							</TR>
+							<TR class="cal_discount"> 
+								<TD>중국몰 가격</TD>
+								<TD colspan="3"><input id="price_cn" class="price" type="number" step="0.01" name="price_cn" value="0"></TD>
+								<TD>중국몰 세일가격</TD>
+								<TD colspan="3"><input id="sales_price_cn" class="sales_price" type="number" step="0.01" name="sales_price_cn" value="0"></TD>
+								<TD>중국몰 할인율</TD>
+								<TD colspan="3"><input id="discount_cn" class="result" type="number" step="0.01" name="discount_cn" value="0" readonly></TD>
+
+							</TR>
+							<tr>
+								<TD >구매 멤버 제한</TD>
+								<TD colspan="11">
+									<div class="content__row form-group">
+										<label>
+											<input type="checkbox" name="limit_member[]" value="true" checked>
+											<span>전체</span>
+										</label>
+										<label>
+											<input type="checkbox" name="limit_member[]" value="false">
+											<span>비회원</span>
+										</label>
+										<label>
+											<input type="checkbox" name="limit_member[]" value="false">
+											<span>일반회원</span>
+										</label>
+										<label>
+											<input type="checkbox" name="limit_member[]" value="false">
+											<span>Ader Family</span>
+										</label>
+									</div>
+								</TD>
+							</tr>
+							<TR>
+								<TD>구매 수량 제한</TD>
+								<TD colspan="3">
+									<div class="content__row">
+										<label class="rd__square">
+											<input id="limit_purchase_qty_flg" type="radio" name="limit_purchase_qty_flg" value="true" checked>
+											<div><div></div></div>
+											<span>제한</span>
+										</label>
+										<label class="rd__square">
+											<input id="limit_purchase_qty_flg" type="radio" name="limit_purchase_qty_flg" value="false">
+											<div><div></div></div>
+											<span>제한안함</span>
+										</label>
+									</div>
+								</TD>
+								<TD>구매 수량 제한 최소값</TD>
+								<TD colspan="3"><input id="limit_purchase_qty_min" type="number" step="1" name="limit_purchase_qty_min" value="1"></TD>
+								<TD >구매 수량 제한 최대값</TD>
+								<TD colspan="3"><input id="limit_purchase_qty_max" type="number" step="1" name="limit_purchase_qty_max" value="0"></TD>
+							</TR>
+							<TR>
+								<TD>상품 검색어</TD>
+								<TD colspan="11"><input type="text" name="product_keyword" value="" style="width:90%"></TD>
+							</TR>
+							<TR>
+								<TD >상품 태그</TD>
+								<TD colspan="11">
+									<div class="row">
+										<input id="product_tag" type="text" value="" style="width:70%;">
+										<button style="border:1px solid #000000;background-color:#ffffff;color:#000000;width:80px;height:30px;font-size:0.5rem;cursor:pointer;" onClick="addProductTagBtnClick();">추가</button>
+										<button style="background-color:#000000;color:#ffffff;width:150px;height:30px;font-size:0.5rem;cursor:pointer;" onClick="confirm('상품태그를 불러올 경우 기존에 추가한 상품태그는 초기화됩니다.','getProductTag()');">상품태그 불러오기</button>
+									</div>
+									<div class="" id="product_tag_div" style="margin-top:10px;">
+									</div>
+								</TD>
+							</TR>
+							<TR>
+								<TD>해외 통관 정보</TD>
+								<TD colspan="11">
+									<div class="content__row">
+										<select id="custom_clearance" name="custom_clearance" class="fSelect eSearch" style="width:163px;">
+											<option value="ADAP0000">남성 신발</option>
+											<option value="AFAA0000">남성 지갑</option>
+											<option value="AFAC0000">남성 스카프/머플러</option>
+											<option value="AEAJ0000">양말</option>
+											<option value="AEAP0000">기타악세</option>
+											<option value="ADAG0000">남성 자켓</option>
+											<option value="ADAJ0000">남성 티셔츠</option>
+										</select>
+										<span>통관번호 : ADAP0000<span>
+									</div>
+								</TD>
+							</TR>
+							<TR>
+								<TD>관련상품 검색</TD>
+								<TD colspan="11">
+									<div class="content__row">
+										<input id="relevant_idx" type="hidden" name="relevant_idx" value="0">
+										
+										<select id="relevant_type" class="fSelect eSearch" name="product_category" style="width:163px;">
+											<option value="product_name">상품 이름</option>
+											<option value="product_code">상품 코드</option>
+											<option value="product_category">상품 카테고리</option>
+										</select>
+										
+										<input id="relevant_keyword" type="text" style="width:300px;" value="">
+										
+										<button type="button" style="width:100px;float:right;cursor:pointer;border:1px solid #000000;" onClick="getRelevantProduct();">관련상품 검색</button>
+										
+										<div id="relevant_product_div" class="row" style="margin-top:10px;"></div>
+									</div>
+								</TD>
+							</TR>
+							
+							<TR>
+								<TD>관련상품</TD>
+								<TD colspan="11">
+									<div id="relevant_list" class="row">
+										관련상품 없음
+									</div>
+								</TD>
+							</TR>
+							<TR>
+								<TD>상품 재고<br>품절 임박 수량</TD>
+								<TD colspan="5">
+									<input id="sold_out_qty" type="number" step="1" name="sold_out_qty" value="0">
+								</TD>
+								<TD>구매 전<br>환불정보 표시 플래그</TD>
+								<TD colspan="5">
+									<div class="content__row">
+										<label class="rd__square">
+											<input id="refund_flg" type="radio" name="refund_flg" value="true" checked>
+											<div><div></div></div>
+											<span>표시</span>
+										</label>
+										<label class="rd__square">
+											<input id="refund_flg" type="radio" name="refund_flg" value="false">
+											<div><div></div></div>
+											<span>표시안함</span>
+										</label>
+									</div>
+								</TD>
+							</TR>
+							<TR>
+								<TD>추가 교환/환불<br>상세정보 (한국몰)</TD>
+								<TD colspan="11">
+									<textarea class="width-100p" id="refund_kr" name="refund_kr"
+										style="width:90%; height:150px;"></textarea>
+								</TD>
+							</TR>
+
+							<TR>
+								<TD>추가 교환/환불<br>상세정보 (영문몰)</TD>
+								<TD colspan="11">
+									<textarea class="width-100p" id="refund_en" name="refund_en"
+										style="width:90%; height:150px;"></textarea>
+								</TD>
+							</TR>
+
+							<TR>
+								<TD>추가 교환/환불<br>상세정보 (중국몰)</TD>
+								<TD colspan="11">
+									<textarea class="width-100p" id="refund_cn" name="refund_cn"
+										style="width:90%; height:150px;"></textarea>
+								</TD>
+							</TR>
+
+							<TR>
+								<TD>메모</TD>
+								<TD colspan="11">
+									<textarea class="width-100p" id="memo" name="memo"
+										style="width:90%; height:150px;"></textarea>
+								</TD>
+							</TR>
+							<TR>
+								<TD>검색엔진<br>노출설정</TD>
+								<TD colspan="11">
+									<div class="flex" style="gap: 10px;">
+										<label class="rd__square">
+											<input type="radio" name="seo_exposure_flg" value="true" checked>
+											<div><div></div></div>
+											<span>노출함</span>
+										</label>
+										<label class="rd__square">
+											<input type="radio" name="seo_exposure_flg" value="false">
+											<div><div></div></div>
+											<span>노출안함</span>
+										</label>
+									</div>
+								</TD>
+							<TR>
+								<TD>검색엔진<br>브라우저 타이틀l_</TD>
+								<TD colspan="11">
 									<input type="text" name="seo_title" value="">
 								</TD>
 							</TR>
-							
 							<TR>
 								<TD>메타태그<br>Author</TD>
-								<TD>
+								<TD colspan="11">
 									<input type="text" name="seo_author" value="">
 								</TD>
 							</TR>
-							
 							<TR>
 								<TD>메타태그<br>Description</TD>
-								<TD>
-									<textarea class="width-100p" id="seo_description" name="seo_description" style="width:90%; height:150px;"></textarea>
+								<TD colspan="11">
+									<textarea class="width-100p" id="seo_description" name="seo_description"
+										style="width:90%; height:150px;"></textarea>
 								</TD>
 							</TR>
-							
 							<TR>
 								<TD>메타태그<br>Keyword</TD>
-								<TD>
+								<TD colspan="11">
 									<input type="text" name="seo_keywords" value="">
 								</TD>
 							</TR>
-						</TR>
-					</TBODY>
-				</TABLE>
+							<TR>
+								<TD>검색엔진<br>상품이미지<br>ALT 텍스트</TD>
+								<TD colspan="11">
+									<textarea class="width-100p" id="seo_alt_text" name="seo_alt_text"
+										style="width:90%; height:150px;"></textarea>
+								</TD>
+							</TR>
+						</TBODY>
+					</TABLE>
+				</div>
 			</div>
 		</form>
 	</div>
 	
-	<div class="footer">
+	<div class="card__footer">
 		<a onclick="modal_cancel();" class="btn"><i class="xi-close"></i>작성 취소</a>
 		<a onclick="productUpdateCheck();" class="btn red"><i class="xi-check"></i>완료</a>
 	</div>
 </div>
 
 <script>
-var material_kr = [];
-var material_en = [];
-var material_cn = [];
-var care_kr = [];
-var care_en = [];
-var care_cn = [];
-
-var detail_kr = [];
-var detail_en = [];
-var detail_cn = [];
-
-var detail_refund_kr = [];
-var detail_refund_en = [];
-var detail_refund_cn = [];
-
-var img_product_detail = [];
-var img_wear_detail = [];
-
-var seo_description = [];
-
 $(document).ready(function() {	
-	setSmartEditor();
-	
-	$('.product_img').on('change', function() {
-		ext = $(this).val().split('.').pop().toLowerCase(); //확장자
-		
-		//배열에 추출한 확장자가 존재하는지 체크
-		if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-			resetFormElement($(this)); //폼 초기화
-			window.alert('이미지 파일만 등록 가능합니다. (gif, png, jpg, jpeg 만 업로드 가능)');
-		} else {
-			var file = $(this).prop("files")[0];
-			
-			var img_id = $(this).attr('id');
-			
-			blobURL = window.URL.createObjectURL(file);
-			$('.' + img_id).show();
-			$('.' + img_id).attr('src', blobURL);
-			$('.' + img_id).slideDown(); //업로드한 이미지 미리보기 
-			//$(this).slideUp(); //파일 양식 감춤
-		}
-	});
-	$('#size_category').change(function() {	
-		var size_category = $('#size_category option:checked').text();
-		if(size_category.length > 0){
-			$.ajax({
-				type: "post",
-				data: {'size_category' : size_category},
-				dataType: "json",
-				url: config.api + "product/size/get",
-				error: function() {
-					alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						if(d.data != null){
-							size_category_info = d.data[0];
-							printOptionForm(size_category_info);
-							$('#size_default_msg').css('display','none');
-							$('#sizeFormBtn').css('display', 'block');
-						}
-					}
-				}
-			});
-		}
-	});
-	$.ajax({
-		type: "post",
-		data: { 'product_idx' : <?=$product_idx?> },
-		dataType: "json",
-		url: config.api + "product/get",
-		error: function() {
-			alert("갱신할 상품정보를 불러오는데 실패했습니다.");
-		},
-		success: function(data) {
-			if(data.code == 200) {
-				$("input[name='product_style_code']").val(data['data'][0].product_style_code);
-				$("input[name='product_code']").val(data['data'][0].product_code);
-				$("input[name='pl_lrg_category']").val(data['data'][0].pl_lrg_category);
-				$("input[name='pl_mdl_category']").val(data['data'][0].pl_mdl_category);
-				$("input[name='pl_sml_category']").val(data['data'][0].pl_sml_category);
-				$("input[name='pl_dtl_category']").val(data['data'][0].pl_dtl_category);
-				$("input[name='material']").val(data['data'][0].material);
-				$("input[name='graphic']").val(data['data'][0].graphic);
-				$("input[name='fit']").val(data['data'][0].fit);
-				$("input[name='product_name']").val(data['data'][0].product_name);
-				$("input[name='size']").val(data['data'][0].size);
-				$("input[name='color']").val(data['data'][0].color);
-				$("input[name='color_code']").val(data['data'][0].color_code);
-				$("input[name='navigation']").val(data['data'][0].navigation);
-				$("input[name='limit_purchase_member_ext']").val(data['data'][0].limit_purchase_member_ext);
-				
-				$("input[name='wkla']").val(data['data'][0].wkla);
-				$("textarea[name='material_kr']").val(data['data'][0].material_kr);
-				$("textarea[name='material_en']").val(data['data'][0].material_en);
-				$("textarea[name='material_cn']").val(data['data'][0].material_cn);
-				
-				$("input[name='size_detail_model']").val(data['data'][0].size_detail_model);
-				$("input[name='size_detail_wear']").val(data['data'][0].size_detail_wear);
-				$("textarea[name='size_detail_a1_kr']").val(data['data'][0].size_detail_a1_kr);
-				$("textarea[name='size_detail_a2_kr']").val(data['data'][0].size_detail_a2_kr);
-				$("textarea[name='size_detail_a3_kr']").val(data['data'][0].size_detail_a3_kr);
-				$("textarea[name='size_detail_a4_kr']").val(data['data'][0].size_detail_a4_kr);
-				$("textarea[name='size_detail_a5_kr']").val(data['data'][0].size_detail_a5_kr);
-				$("textarea[name='size_detail_onesize_kr']").val(data['data'][0].size_detail_onesize_kr);
-				$("textarea[name='size_detail_a1_en']").val(data['data'][0].size_detail_a1_en);
-				$("textarea[name='size_detail_a2_en']").val(data['data'][0].size_detail_a2_en);
-				$("textarea[name='size_detail_a3_en']").val(data['data'][0].size_detail_a3_en);
-				$("textarea[name='size_detail_a4_en']").val(data['data'][0].size_detail_a4_en);
-				$("textarea[name='size_detail_a5_en']").val(data['data'][0].size_detail_a5_en);
-				$("textarea[name='size_detail_onesize_en']").val(data['data'][0].size_detail_onesize_en);
-				$("textarea[name='size_detail_a1_cn']").val(data['data'][0].size_detail_a1_cn);
-				$("textarea[name='size_detail_a2_cn']").val(data['data'][0].size_detail_a2_cn);
-				$("textarea[name='size_detail_a3_cn']").val(data['data'][0].size_detail_a3_cn);
-				$("textarea[name='size_detail_a4_cn']").val(data['data'][0].size_detail_a4_cn);
-				$("textarea[name='size_detail_a5_cn']").val(data['data'][0].size_detail_a5_cn);
-				$("textarea[name='size_detail_onesize_cn']").val(data['data'][0].size_detail_onesize_cn);
-				
-				$("textarea[name='care_kr']").val(data['data'][0].care_kr);
-				$("textarea[name='care_en']").val(data['data'][0].care_en);
-				$("textarea[name='care_cn']").val(data['data'][0].care_cn);
-				
-				$("textarea[name='detail_kr']").val(data['data'][0].detail_kr);
-				$("textarea[name='detail_en']").val(data['data'][0].detail_en);
-				$("textarea[name='detail_cn']").val(data['data'][0].detail_cn);
-				
-				$("input[name='price_kr']").val(data['data'][0].price_kr);
-				$("input[name='price_kr_gb']").val(data['data'][0].price_kr_gb);
-				$("input[name='price_en']").val(data['data'][0].price_en);
-				$("input[name='price_cn']").val(data['data'][0].price_cn);
-				
-				$("input[name='md_category_1']").val(data['data'][0].md_category_1);
-				$("input[name='md_category_2']").val(data['data'][0].md_category_2);
-				$("input[name='md_category_3']").val(data['data'][0].md_category_3);
-				$("input[name='md_category_4']").val(data['data'][0].md_category_4);
-				$("input[name='md_category_5']").val(data['data'][0].md_category_5);
-				$("input[name='md_category_6']").val(data['data'][0].md_category_6);
-				$("input[name='category_idx']").val(data['data'][0].category_idx);
-				
-				$("input[name='sales_price_kr']").val(data['data'][0].sales_price_kr);
-				$("input[name='sales_price_en']").val(data['data'][0].sales_price_en);
-				$("input[name='sales_price_cn']").val(data['data'][0].sales_price_cn);
-				$("input[name='option_stock_set']").val(data['data'][0].option_stock_set);
-				$("input[name='limit_purchase_member']").val(data['data'][0].limit_purchase_member);
-				
-				var member_idx_list = data['data'][0].limit_purchase_member;
-				var member_idx_arr = member_idx_list.split(',');
-				for (var i=0; i<member_idx_arr.length; i++) {
-					var member_idx = $('#limit_member_' + member_idx_arr[i]);
-					member_idx.prop('checked',true);
-				}
-				
-				$("input[name='limit_purchase_single']").val(data['data'][0].limit_purchase_single);
-				var single_purchase_flg = data['data'][0].limit_purchase_single;
-				
-				if (single_purchase_flg == "0") {
-					$('.limit_purchase_single').eq(0).prop('checked',true);
-					$('.limit_purchase_single').eq(1).prop('checked',false);
-				} else if (single_purchase_flg == "1") {
-					$('.limit_purchase_single').eq(0).prop('checked',false);
-					$('.limit_purchase_single').eq(1).prop('checked',true);
-				}
-				
-				$("input[name='limit_purchase_qty_min_num']").val(data['data'][0].limit_purchase_qty_min_num);
-				$("input[name='limit_purchase_qty_max_num']").val(data['data'][0].limit_purchase_qty_max_num);
-				
-				var qty_min = data['data'][0].limit_purchase_qty_min_num;
-				var qty_max = data['data'][0].limit_purchase_qty_max_num;
-				
-				if (qty_min > 0 || qty_max > 0) {
-					$('.limit_purchase_qty').eq(0).prop('checked',false);
-					$('.limit_purchase_qty').eq(1).prop('checked',true);
-					$('#limit_purchase_qty_input').show();
-				} else {
-					$('.limit_purchase_qty').eq(0).prop('checked',true);
-					$('.limit_purchase_qty').eq(1).prop('checked',false);
-					
-					$("input[name='limit_purchase_qty_min_num']").val(0);
-					$("input[name='limit_purchase_qty_max_num']").val(0);
-					
-					$('#limit_purchase_qty_input').hide();
-				}
-				
-				$("textarea[name='detail_refund_kr']").val(data['data'][0].detail_refund_kr);
-				$("textarea[name='detail_refund_en']").val(data['data'][0].detail_refund_en);
-				$("textarea[name='detail_refund_cn']").val(data['data'][0].detail_refund_cn);
-				$("input[name='product_keyword']").val(data['data'][0].product_keyword);
-				$("input[name='mileage_per']").val(data['data'][0].mileage_per);
-				
-				$("input[name='product_total_weight']").val(data['data'][0].product_total_weight);
-				$("input[name='hs_code']").val(data['data'][0].hs_code);
-				$("input[name='product_division']").val(data['data'][0].product_division);
-				$("input[name='product_material_kr']").val(data['data'][0].product_material_kr);
-				$("input[name='product_material_en']").val(data['data'][0].product_material_en);
-				$("input[name='fabric']").val(data['data'][0].fabric);
-				
-				$("input[name='manufacturer']").val(data['data'][0].manufacturer);
-				$("input[name='supplier']").val(data['data'][0].supplier);
-				$("input[name='brand']").val(data['data'][0].brand);
-				$("input[name='trend']").val(data['data'][0].trend);
-				$("input[name='self_classification']").val(data['data'][0].self_classification);
-				$("input[name='manufacturing_date']").val(data['data'][0].manufacturing_date);
-				$("input[name='release_date']").val(data['data'][0].release_date);
-				$("input[name='validate_start_date']").val(data['data'][0].validate_start_date);
-				$("input[name='validate_end_date']").val(data['data'][0].validate_end_date);
-				$("input[name='origin_country']").val(data['data'][0].origin_country);
-				$("input[name='product_width']").val(data['data'][0].product_width);
-				$("input[name='product_depth']").val(data['data'][0].product_depth);
-				$("input[name='product_height']").val(data['data'][0].product_height);
-				$("input[name='product_volume']").val(data['data'][0].product_volume);
-				
-				
-				var relevant_product = data['data'][0].relevant_product;
-				if (relevant_product != null && relevant_product.data != null) {
-					relevant_product.data.forEach(function(relevant_row) {
-						var product_idx = relevant_row.idx;
-						var product_name = relevant_row.product_name;
-						
-						var strDiv = "";
-						strDiv += '<div class="relevant_product" style="width:45%;height:30px;background-color:#bdbdbd;color:#000000;border:1px solid #000000;border-radius:5px;padding:5px;margin-right:10px;margin-bottom:10px;cursor:pointer;">';
-						strDiv += '    <font class="relevant_idx" relevant_idx="' + product_idx + '">' + product_name + '</font>';
-						strDiv += '    <font style="float:right;cursor:pointer;" onClick="removeRelevantProduct(this);">x</font>';
-						strDiv += '</div>';
-						
-						$('#relevant_product_div').append(strDiv);
-					});
-				}
-				
-				$("input[name='release_start_date']").val(data['data'][0].release_start_date);
-				$("input[name='release_end_date']").val(data['data'][0].release_end_date);
-				$("input[name='display_start_date']").val(data['data'][0].display_start_date);
-				$("input[name='display_end_date']").val(data['data'][0].display_end_date);
-				$("input[name='non_release_reason']").val(data['data'][0].non_release_reason);
-				
-				$("input[name='seo_exposure_flg']").val(data['data'][0].seo_exposure_flg);
-				var seo_exposure_flg = data['data'][0].seo_exposure_flg
-				if (single_purchase_flg == "0") {
-					$('.seo_exposure_flg').eq(0).prop('checked',false);
-					$('.seo_exposure_flg').eq(1).prop('checked',true);
-				} else if (single_purchase_flg == "1") {
-					$('.seo_exposure_flg').eq(0).prop('checked',true);
-					$('.seo_exposure_flg').eq(1).prop('checked',false);
-				}
-				
-				$("input[name='seo_title']").val(data['data'][0].seo_title);
-				$("input[name='seo_author']").val(data['data'][0].seo_author);
-				$("textarea[name='seo_description']").val(data['data'][0].seo_description);
-				$("input[name='seo_keywords']").val(data['data'][0].seo_keywords);
-				$("input[name='seo_alt_text']").val(data['data'][0].seo_alt_text);
-				//$("input[name='memo']").val(data['data'][0].memo);
-				$("input[name='relevant_idx']").val(data['data'][0].relevant_idx);
-				
-				var product_tag_arr = [];
-				var product_tag = data['data'][0].product_tag;
-				if (product_tag != null) {
-					product_tag_arr = product_tag.split(',');
-				}
-				
-				if (product_tag_arr.length > 0) {
-					for (var i=0; i<product_tag_arr.length; i++) {
-						var strDiv = "";
-						strDiv += '<div style="width:15%;height:30px;background-color:#bdbdbd;color:#000000;border:1px solid #000000;border-radius:5px;padding:5px;margin-right:10px;margin-bottom:10px;">';
-						strDiv += '    <input type="hidden" name="product_tag[]" value="' + product_tag_arr[i] + '">';
-						strDiv += '    <font class="product_tag">' + product_tag_arr[i] + '</font>';
-						strDiv += '    <font style="float:right;cursor:pointer;" onClick="removeProductTag(this);">x</font>';
-						strDiv += '</div>';
-						
-						$('#product_tag_div').append(strDiv);
-					}
-				}
-				
-				var img_result = data['data'][0].img_result;
-				if (img_result.length > 0) {
-					img_result.data.forEach(function(img_row) {
-						var img_type = img_row.img_type;
-						var img_size = img_row.img_size;
-						
-						var preview_img = $('.img_' + img_type);
-						var img_location = img_row.img_location;
-						img_location = img_location.replace('/var/www/admin/www','');
-					
-						preview_img.attr('src',img_location);
-						preview_img.show();
-					});
-				}
-				
-				$("textarea[name='img_product_detail']").val(data['data'][0].img_product_detail);
-				$("textarea[name='img_wear_detail']").val(data['data'][0].img_wear_detail);
-			}
-			getCurrencyInfo();
-			setProductCategory();
-			
-			getProductCategory(0,0);
-			if (data['data'][0].category_idx != 0) {
-				for (var i=0; i<6; i++) {
-					var category_idx = $("input[name='md_category_" + (i+1) + "']").val();
-					if (parseInt(category_idx) > 0) {
-						var depth = $('#md_category_' + (i+1)).attr('depth');
-						getProductCategory(parseInt(depth),category_idx);
-					}
-				}
-			}
-		}
-	});
-	/*
-	$.ajax({
-		type: "post",
-		data: { 'product_idx' : <?=$product_idx?> },
-		dataType: "json",
-		url: config.api + "product/option/get",
-		error: function() {
-			alert("갱신할 상품정보를 불러오는데 실패했습니다.");
-		},
-		success: function(data) {
-			if(data.code == 200) {
-				$("select[name='size_category'] option:contains(" + data['data'][0].category_name + ")").attr("selected","selected");
-				
-			}
-		}
-	});
-	*/
-	productVolumeCalc();
-});
+	$('#insert_table_ordersheet').toggle();
+	$('#insert_table_dsn').toggle();
+	$('#insert_table_td').toggle();
 
+	var idx = $('#product_idx').val();
+	ordersheetGet(idx);
+	
+});
 function toggleTableClick(obj) {
 	var toggle_val = $(obj).attr('toggle_table');
 	
 	$('#insert_table_' + toggle_val).toggle();
 }
 
-function getCurrencyInfo() {
+function ordersheetGet(idx) {
+    $('input[name=ordersheet_idx]').val(idx);
 	$.ajax({
-		type: "post",
-		dataType: "json",
-		url: config.api + "product/currency/get",
-		error: function() {
-			alert("환율정보 불러오기 처리에 실패했습니다.");
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				var data = d.data;
-				if (data != null) {
-					
-					var strDiv = "";
-					strDiv += '<TABLE class="list" style="font-size:0.5rem;width:200px;float:right;">';
-					strDiv += '    <THEAD>';
-					strDiv += '        <TR>';
-					strDiv += '            <TH>국가</TH>';
-					strDiv += '            <TH>환율 비율</TH>';
-					strDiv += '        </TR>';
-					strDiv += '    </THEAD>';
-					strDiv += '    <TBODY>';
-					
-					data.forEach(function(row) {
-						strDiv += '    <TR>';
-						strDiv += '        <TD>' + row.country + '</TD>';
-						strDiv += '        <TD id="currency_' + row.country + '">' + row.currency + '</TD>';
-						strDiv += '    </TR>';
-					});
-					
-					strDiv += '    </TBODY>';
-					strDiv += '</TABLE>';
-					
-					$('#currency_table').append(strDiv);
+        type: "post",
+        data:{
+            'sel_idx':idx
+        },
+        dataType: "json",
+        url: config.api + "pm/ordersheet/get",
+        error: function() {
+            alert("오더시트 불러오기가 실패했습니다.");
+        },
+        success: function(d) {
+            if(d.code == 200) {
+                var data = d.data;
+				
+				//기획 MD
+				$('#style_code').text(data.style_code);
+				$('#color_code').text(data.color_code);
+				$('#product_code').text(data.product_code);
+				switch(data.preorder_flg){
+					case 0:
+						$('#preorder_flg').text('고객상품');
+						break;
+					case 1:
+						$('#preorder_flg').text('프리오더 상품');
+						break;
 				}
-			}
-		}
-	});
-}
-
-function productPriceCalc() {
-	var price_kr = $('#price_kr').val();
-	var calc_val = $('#calc_val').val();
-	
-	var currency_en = $('#currency_EN').text();
-	var currency_cn = $('#currency_CN').text();
-	
-	if (price_kr > 0 && calc_val > 0) {
-		var sales_price_kr = (price_kr * calc_val).toFixed();
-		var sales_price_en = 0;
-		var sales_price_cn = 0;
-		
-		if (currency_en != null) {
-			sales_price_en = (sales_price_kr * parseFloat(currency_en)).toFixed(2);
-		}
-		
-		if (currency_cn != null) {
-			sales_price_cn = (sales_price_kr * parseFloat(currency_cn)).toFixed(2);
-		}
-		
-		$('#price_kr_gb').val(sales_price_kr);
-		$('#price_en').val(sales_price_en);
-		$('#price_cn').val(sales_price_cn);
-		
-		$('#sales_price_kr').val(sales_price_kr);
-		$('#sales_price_en').val(sales_price_en);
-		$('#sales_price_cn').val(sales_price_cn);
-	}
-}
-
-function getProductCategory(depth,no) {
-	if (depth == 0) {
-		depth = 1;
-	} else {
-		depth += 1;
-	}
-	$.ajax({
-		type: "post",
-		data: {
-			'depth':depth,
-			'no':no
-		},
-		dataType: "json",
-		url: config.api + "product/common/get",
-		error: function() {
-			alert('MD 카테고리 정보를 불러오는데 실패했습니다.')
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				setMdCategory(depth,d.data);
-			}
-		}
-	});
-}
-
-function productCategoryClick(obj) {
-	var depth = parseInt($(obj).parent().attr('depth'));
-	var no = $(obj).attr('category_idx');
-	
-	for (var i=depth; i<=6; i++) {
-		$('#md_category_' + i).children('.md_category').css('background-color','#ffffff');
-		$('#md_category_' + i).children('.md_category').css('color','#000000');
-		$('#md_category_' + i).children('.md_category').removeClass('checked');
-		$('#md_category_' + i).children('.md_category').addClass('unchecked');
-	}
-	
-	$(obj).removeClass('unchecked');
-	$(obj).addClass('checked');
-	
-	var category_idx = $('#md_category_' + depth).children('.checked').attr('category_idx');
-	
-	$("input[name='md_category_" + depth + "']").val(category_idx);
-	$("input[name='category_idx']").val(category_idx);
-	
-	for (var i=(depth+1); i<=6; i++) {
-		$("input[name='md_category_" + i + "']").val(0);
-	}
-	
-	getProductCategory(depth,no);
-}
-
-function setMdCategory(depth,d){
-	var eCategory = $('#md_category_' + depth);
-	eCategory.empty();
-	
-	for (var i=(depth+1); i<=6; i++) {
-		$('#md_category_' + i).empty();
-	}
-	
-	var category_idx = $("input[name='md_category_" + depth + "']").val();
-	
-	if (d != null) {
-		d.forEach(function(row) {
-			var checked = "";
-			if (category_idx == row.no) {
-				checked = "checked";
-			} else {
-				checked = "unchecked";
-			}
-			
-			eCategory.append($('<div id="md_category_idx_' + row.no + '" class="md_category ' + checked + '" category_idx="' + row.no + '" style="width:100%;height:50px;border:1px solid #000000;cursor:pointer;" onClick="productCategoryClick(this);">' + row.text + '</div>'));
-		});
-	}	
-}
-
-function productOptionCheck() {
-	var search_type = $('#search_type').val();
-	var search_keyword = $('#search_keyword').val();
-	
-	var option_cnt = $('#option_info_table').length;
-	if (search_type != null && search_keyword != null) {
-		getHistoryProductOption();
-	} else {
-		alert('옵션정보를 조회하기위해 검색유형과 검색값을 입력해주세요.');
-		return false;
-	}
-}
-
-function getHistoryProductOption() {
-	var category_name 	= $('#sel_category_name').val();
-	var search_type 	= $('#search_type').val();
-	var search_keyword 	= $('#search_keyword').val();
-	
-	historyProductOptionReset();
-	$.ajax({
-		type: "post",
-		data: {
-			'category_name':category_name,
-			'search_type':search_type,
-			'search_keyword':search_keyword
-		},
-		dataType: "json",
-		url: config.api + "product/option/get",
-		error: function() {
-			alert("옵션정보 불러오기 처리에 실패했습니다.");
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				var data = d.data;
-				if (data != null) {
-					var idx = 0;
-					var size_key = [];
-					for(var key in data[0].size){
-						size_key.push(key);
-						idx++;
-					}
-					var strTh = '';
-					for(var i = 0; i < size_key.length; i++){
-						strTh += `<TH style="width:7%;">${size_key[i]} (cm)</TH>`;
-					}
-					var strDiv = "";
-					strDiv += '<TABLE id="history_option_info_table"  style="font-size:0.5rem;margin-top:10px;">';
-					strDiv += '    <THEAD>';
-					strDiv += '        <TR>';
-					strDiv += '            <TH style="width:5%;"></TH>';
-					strDiv += '            <TH style="width:7%;">상품코드</TH>';
-					strDiv += '            <TH style="width:10%;">상품이름</TH>';
-					strDiv += '            <TH style="width:5%;">옵션이름</TH>';
-					strDiv += '            <TH style="width:12%;">재고관리 등급</TH>';
-					strDiv += 			   strTh;
-					strDiv += '        </TR>';
-					strDiv += '    </THEAD>';
-					strDiv += '    <TBODY>';
-					
-					data.forEach(function(row) {
-						var idx = 0;
-						var size_key = [];
-						var size_value = [];
-						for(var key in row.size){
-							size_key.push(key);
-							size_value.push(row.size[size_key[idx]]);
-							idx++;
-						}
-						var strTd = '';
-						for(var i = 0; i < size_key.length; i++){
-							strTd += `<TD>${size_value[i]}</TD>`;
-						}
-
-						strDiv += '    <TR id="option_row_' + row.no + '">';
-						strDiv += '        <TD>';
-						strDiv += '            <button option_code="' + row.option_code + '" style="width:50px;height:30px;background-color:#140f82;color:#ffffff;cursor:pointer;font-size:0.5rem;" onClick="historyOptionCheck(this);">적용</button>';
-						strDiv += '        </TD>';
-						strDiv += '        <TD>' + row.product_code + '</TD>';
-						strDiv += '        <TD>' + row.product_name + '</TD>';
-						strDiv += '        <TD>' + row.option_name + '</TD>';
-
-						var stock_type_common = "";
-						var stock_type_important = "";
-						if (row.stock_grade == '0') {
-							stock_type_common = "selected";
-						} else {
-							stock_type_important = "selected";
-						}
-						
-						strDiv += '        <TD>';
-						strDiv += '        		<div class="content__row">';
-						strDiv += '            		<select class="fSelect" style="font-size:0.5rem;">';
-						strDiv += '                		<option value="0" ' + stock_type_common + '>일반</option>';
-						strDiv += '                		<option value="1" ' + stock_type_important + '>중요</option>';
-						strDiv += '           		 </select>';
-						strDiv += '        		</div>';
-						strDiv += '        </TD>';
-						strDiv += 		   strTd;
-						strDiv += '    </TR>';
-					});
-					
-					strDiv += '    </TBODY>';
-					strDiv += '</TABLE>';
-					
-					$('#history_option_td').append(strDiv);
+				switch(data.refund_flg){
+					case 0:
+						$('#refund_flg').text('교환 불가');
+						break;
+					case 1:
+						$('#refund_flg').text('교환 가능');
 				}
-			}
-		}
-	});
+
+				if(data.line_idx != null && data.line_idx > 0){
+					var type_str = '';
+					switch(data.line_type){
+						case 'C':
+							type_str = '컬렉션 라인';
+							break;
+						case 'O':
+							type_str = '오리진 라인';
+							break;
+						case 'T':
+							type_str = '티피컬 라인';
+							break;
+					}
+					strTable = `
+						<table style="width:40%">
+							<thead>
+								<tr>
+									<th>라인명</th>
+									<th>타입</th>
+									<th>색깔</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>${data.line_name}</td>
+									<td>${type_str}</td>
+									<td>${data.line_memo}</td>
+								</tr>
+							</tbody>
+						</table>
+					`;
+					$('#line_info_table').append(strTable);
+				}
+                $('#category_lrg_title').text(data.category_lrg_title);
+                $('#category_mdl_title').text(data.category_mdl_title);
+                $('#category_sml_title').text(data.category_sml_title);
+                $('#category_dtl_title').text(data.category_dtl_title);
+				
+                $('#graphic').text(data.graphic);
+                $('#fit').text(data.fit);
+                $('#material').text(data.material);
+                $('#product_name').text(data.product_name);
+                $('#product_size').text(data.product_size);
+                $('#color').text(data.color);
+                $('#color_rgb').text(data.color_rgb);
+                $('#pantone_code').text(data.pantone_code);
+                $('#md_category_guide').text(data.md_category_guide);
+                $('#limit_qty').text(data.limit_qty);
+                $('#limit_member').text(data.limit_member);
+                $('#price_cost').text(data.price_cost);
+                $('#price_kr').text(data.price_kr);
+                $('#price_kr_gb').text(data.price_kr_gb);
+                $('#price_en').text(data.price_en);
+                $('#price_cn').text(data.price_cn);
+                $('#product_qty').text(data.product_qty);
+                $('#safe_qty').text(data.safe_qty);
+                $('#launching_date').text(data.launching_date);
+                $('#receive_request_date').text(data.receive_request_date);
+                $('#tp_completion_date').text(data.tp_completion_date);
+
+                //디자인
+                if(data.wkla_idx != null){
+					strTable = `
+						<table style="width:30%">
+							<thead>
+								<tr>
+									<th>WKLA 명</th>
+									<th>비고</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>${data.wkla_name}</td>
+									<td>${data.wkla_memo}</td>
+								</tr>
+							</tbody>
+						</table>
+					`;
+					$('#wkla_info_table').append(strTable);
+				}
+                $('#model').text(data.model);
+                $('#model_wear').text(data.model_wear);
+                $('#size_a1_kr').html(data.size_a1_kr);
+                $('#size_a2_kr').html(data.size_a2_kr);
+                $('#size_a3_kr').html(data.size_a3_kr);
+                $('#size_a4_kr').html(data.size_a4_kr);
+                $('#size_a5_kr').html(data.size_a5_kr);
+                $('#size_onesize_kr').html(data.size_onesize_kr);
+                $('#size_a1_en').html(data.size_a1_en);
+                $('#size_a2_en').html(data.size_a2_en);
+                $('#size_a3_en').html(data.size_a3_en);
+                $('#size_a4_en').html(data.size_a4_en);
+                $('#size_a5_en').html(data.size_a5_en);
+                $('#size_onesize_en').html(data.size_onesize_en);
+                $('#size_a1_cn').html(data.size_a1_cn);
+                $('#size_a2_cn').html(data.size_a2_cn);
+                $('#size_a3_cn').html(data.size_a3_cn);
+                $('#size_a4_cn').html(data.size_a4_cn);
+                $('#size_a5_cn').html(data.size_a5_cn);
+                $('#size_onesize_cn').html(data.size_onesize_cn);
+                $('#size_category').text(data.size_category);
+                $('#detail_kr').html(data.detail_kr);
+                $('#detail_en').html(data.detail_en);
+                $('#detail_cn').html(data.detail_cn);
+                $('#care_dsn_kr').html(data.care_dsn_kr);
+                $('#care_dsn_en').html(data.care_dsn_en);
+                $('#care_dsn_cn').html(data.care_dsn_cn);
+
+                if(data.option_info.length != 0){
+                    colunm_name_size_1 = data.option_info[0].size_title_1;
+                    colunm_name_size_2 = data.option_info[0].size_title_2;
+                    colunm_name_size_3 = data.option_info[0].size_title_3;
+                    colunm_name_size_4 = data.option_info[0].size_title_4;
+                    colunm_name_size_5 = data.option_info[0].size_title_5;
+                    colunm_name_size_6 = data.option_info[0].size_title_6;
+                    strTh = `
+                        <tr>
+                            <th style="width:5%">옵션 이름</th>
+                    `;
+                    strTh += colunm_name_size_1 != null ? `<th>${colunm_name_size_1}</th>` : '';
+                    strTh += colunm_name_size_2 != null ? `<th>${colunm_name_size_2}</th>` : '';
+                    strTh += colunm_name_size_3 != null ? `<th>${colunm_name_size_3}</th>` : '';
+                    strTh += colunm_name_size_4 != null ? `<th>${colunm_name_size_4}</th>` : '';
+                    strTh += colunm_name_size_5 != null ? `<th>${colunm_name_size_5}</th>` : '';
+                    strTh += colunm_name_size_6 != null ? `<th>${colunm_name_size_6}</th>` : '';
+
+                    strTh += `
+                        </tr>
+                    `;
+                    $('#product_size_table_head').append(strTh);
+
+                    for(var i = 0; i < data.option_info.length; i++){
+                        var row_data = data.option_info[i];
+
+                        strTr = '';
+                        var option_size_1 = row_data.option_size_1;
+                        var option_size_2 = row_data.option_size_2;
+                        var option_size_3 = row_data.option_size_3;
+                        var option_size_4 = row_data.option_size_4;
+                        var option_size_5 = row_data.option_size_5;
+                        var option_size_6 = row_data.option_size_6;
+
+                        strTrCol = ``;
+                        strTrCol += option_size_1 != '-' ? `<td name="size_info_1[]">${option_size_1} cm</td>` : '';
+                        strTrCol += option_size_2 != '-' ? `<td name="size_info_2[]">${option_size_2} cm</td>` : '';
+                        strTrCol += option_size_3 != '-' ? `<td name="size_info_3[]">${option_size_3} cm</td>` : '';
+                        strTrCol += option_size_4 != '-' ? `<td name="size_info_4[]">${option_size_4} cm</td>` : '';
+                        strTrCol += option_size_5 != '-' ? `<td name="size_info_5[]">${option_size_5} cm</td>` : '';
+                        strTrCol += option_size_6 != '-' ? `<td name="size_info_6[]">${option_size_6} cm</td>` : '';
+                        
+                        strTr += `
+                            <tr>
+                                <td id="option_name">${row_data.option_name}</td>
+                                ${strTrCol}
+                            </tr>
+                        `;
+                        $('#product_size_regist_table').append(strTr);
+                    }
+                }
+                
+                //생산
+				$('#care_td_kr').html(data.care_td_kr);
+				$('#care_td_en').html(data.care_td_en);
+				$('#care_td_cn').html(data.care_td_cn);
+				$('#material_kr').html(data.material_kr);
+				$('#material_en').html(data.material_en);
+				$('#material_cn').html(data.material_cn);
+				$('#manufacturer').text(data.manufacturer);
+				$('#supplier').text(data.supplier);
+				$('#origin_country').text(data.origin_country);
+				$('#brand').text(data.brand);
+
+				if(data.load_box_idx != null && data.load_box_idx > 0){
+					strTable = `
+						<table>
+							<thead>
+								<tr>
+									<th>상자명</th>
+									<th>너비</th>
+									<th>길이</th>
+									<th>높이</th>
+									<th>부피</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>${data.load_box_name}</td>
+									<td>${data.load_box_width} cm</td>
+									<td>${data.load_box_length} cm</td>
+									<td>${data.load_box_height} cm</td>
+									<td>${data.load_box_volume} cm³</td>
+								</tr>
+							</tbody>
+						</table>
+					`;
+					$('#load_box_info_table').append(strTable);
+				}
+
+				if(data.deliver_box_idx != null && data.deliver_box_idx > 0){
+					strTable = `
+						<table>
+							<thead>
+								<tr>
+									<th>상자명</th>
+									<th>너비</th>
+									<th>길이</th>
+									<th>높이</th>
+									<th>부피</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>${data.deliver_box_name}</td>
+									<td>${data.deliver_box_width} cm</td>
+									<td>${data.deliver_box_length} cm</td>
+									<td>${data.deliver_box_height} cm</td>
+									<td>${data.deliver_box_volume} cm³</td>
+								</tr>
+							</tbody>
+						</table>
+					`;
+					$('#deliver_box_info_table').append(strTable);
+				}
+				$('#load_weight').text(data.load_weight);
+				$('#load_qty').text(data.load_qty);
+				var sub_info = data.sub_material_info;
+				sub_info.forEach(function(sub_data){
+					if(sub_data.sub_material_type == 'T'){
+						$('#td_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
+
+					}
+					else if(sub_data.sub_material_type == 'D'){
+						$('#delivery_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
+					}
+				})
+            }
+        }
+    }).then(
+        function(){
+            var size_category = $('#size_category').text();
+            if(size_category.length > 0){
+                $.ajax({
+                    type: "post",
+                    data: {'size_category' : size_category},
+                    dataType: "json",
+                    //SIZE_DESCRIPTION table : get api url 경로확인
+                    url: config.api + "product/size/get",
+                    error: function() {
+                        alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
+                    },
+                    success: function(d) {
+                        if(d.code == 200) {
+                            if(d.data != null){
+                                size_category_info = d.data[0];
+                                setOptionForm(size_category_info);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    );
 }
 
-function historyOptionCheck(obj){
-	var sel_history_info = $(obj).parents('tr').children();
-	var option_name = sel_history_info.eq(3).text();
-	var stock_grade = sel_history_info.eq(4).find('select').val();
-	var column_cnt 	= sel_history_info.length - 4;
-
-	var option_info = $('#option_input_table').find('tbody').children();
-	var option_row_cnt = option_info.length;
-
-	for(var i = 0; i < option_row_cnt; i++){
-		if(option_info.eq(i).children().eq(1).text() == option_name){
-			option_info.eq(i).find('select').val(stock_grade).prop("selected",true);
-			for(var j = 0; j < column_cnt; j++){
-				option_info.eq(i).find('input').eq(j+1).val(sel_history_info.eq(j+5).text());
-			}
-			return true;
-		}
-	}
-	alert('일치하는 옵션이 없습니다.');
-	return false;
-}
-
-function historyProductOptionReset() {
-	$('#history_option_info_table').remove();
-}
-function printOptionForm(size_category_info){
-	chk_list_arr = [];
-	chk_list_arr.push(['size_detail_onesize_kr','ONE']);
-	chk_list_arr.push(['size_detail_a1_kr','A1']);
-	chk_list_arr.push(['size_detail_a2_kr','A2']);
-	chk_list_arr.push(['size_detail_a3_kr','A3']);
-	chk_list_arr.push(['size_detail_a4_kr','A4']);
-	chk_list_arr.push(['size_detail_a5_kr','A5']);
-
-	$('#history_option_td').children('.content__row').html('');
-	$('#history_option_td').children('.content__row').append(`
-		<input type="text" id="sel_category_name" style="width:10%;" value="${size_category_info.category_name}" disabled>
-		<select class="fSelect eSearch" id="search_type" style="width:163px;">
-			<option value="product_code">상품 코드</option>
-			<option value="product_name">상품 이름</option>
-		</select>
-		<input type="text" id="search_keyword" style="width:60%;" value="">
-		<button type="button"
-			style="width:120px;height:30px;border:1px solid #000000;background-color:#140f82;color:#ffffff;cursor:pointer;"
-			onClick="productOptionCheck();">옵션정보 검색</button>
-		<button type="button"
-			style="width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;"
-			onClick="historyProductOptionReset();">초기화</button>
-	`);
-	historyProductOptionReset();
-	setOptionForm(size_category_info);
-}
-function initSizeForm(){
-	setOptionForm(size_category_info);
-}
-function setOptionForm(category_info){
-	var strDiv = "";
+function setOptionForm(size_category_info){
+    var strDiv = "";
 	var strThDiv = "";
-	var img_path = '/images/sizeguide';
-	var column_cnt = 0;
-	img_path += $('#size_category option:checked').val();
-	img_path += `/${category_info['category_name']}.svg`;
-	
-	console.log(img_path);
+    var category_name = size_category_info['category_name'];
+	var img_path = '/images/sizeguide/sizecategory/' + category_name;
+
+	img_path += `/${category_name}.svg`;
+
 	$('#option_insert_div').html('');
 	strDiv = `
 				<div class="row">
-					<div style="float:left;width: 33%;padding-top:50px;">
+					<div style="float:left;width: 33%;">
 						<img id="size_img" src="${img_path}" >
 					</div>
-					<div style="float:left;width: 64%;padding-top:50px;">
-						<table id="size_desc_table" style="width:90%">
+					<div style="float:left;width: 50%;padding-top:50px;">
+						<table id="size_desc_table">
 	`;
 
-	for(var i = 0; i < 6; i++){
-		if(category_info['size_title_' + String(i+1)] != null && category_info['size_title_' + String(i+1)].length > 0){
-			strDiv +=	`			
-							<tr data-idx="${i+1}" style="cursor:pointer">
-								<td>${category_info['size_title_' + String(i+1)]}</td>
-								<td>${category_info['size_desc_' + String(i+1)]}</td>
-							</tr> 
-						`;
-			strThDiv += `
-							<th>${category_info['size_title_' + String(i+1)]}<br>(cm)</th> 
-						`;
-			column_cnt++;
+	for(var i = 1; i <= 6; i++){
+        var size_title_str = size_category_info['size_title_' + i];
+        var size_desc_str  = size_category_info['size_desc_' + i];
+		
+		console.log(size_title_str);
+		if(size_title_str != null && size_title_str.length > 0){
+			strDiv += `			
+						<tr data-idx="${i}" style="cursor:pointer">
+							<td>${size_title_str}</td>
+							<td>${size_desc_str}</td>
+						</tr> 
+			`;
 		}
 	}
 	strDiv +=	`		</table>
 					</div>
 				</div>
-				<div class="drive--x"></div>
-				<input type="hidden" name="column_cnt" value="${column_cnt}">
-				<table id="option_input_table" style="margin-top:50px;width:95%">
-					<thead>
-						<tr>
-							<TH style="width:3%;"></TH>
-							<TH style="width:6%">옵션<br>이름</TH>
-							<TH style="width:8%">재고관리<br>등급</TH>
-							${strThDiv}
-						</tr>
-					</thead>
-					<tbody id="product_size_regist_table">
-					</tbody>
-				</table>
 	`;
 	$('#option_insert_div').append(strDiv);
 
-	addSizeRow();
-
 	$('#size_desc_table tr').mouseover(function(){
-		var img_path = '/images/sizeguide';
+        var category_name = size_category_info['category_name'];
+	    var img_path = '/images/sizeguide/sizecategory/'+category_name;
 		var tr_idx = $(this).attr('data-idx');
-		var img_specify_keyword = `/${size_category_info['category_name']}_${String.fromCharCode(parseInt(tr_idx) + 96)}.svg`;
-
-		img_path += $('#size_category option:checked').val();
-		img_path += img_specify_keyword;
+		img_path += `/${category_name}_${String.fromCharCode(parseInt(tr_idx) + 96)}.svg`;
 
         $('#size_desc_table td').css('text-decoration', 'none');
         $(this).find('td').css('text-decoration', 'underline');
 		
 		$('#size_img').attr('src', img_path);
     })
+	
 	$('#size_desc_table tr').mouseout(function(){
-		var img_path = '/images/sizeguide';
+		var category_name = size_category_info['category_name'];
+	    var img_path = '/images/sizeguide/sizecategory/'+category_name;
 		var tr_idx = $(this).attr('data-idx');
-		var img_specify_keyword = `/${size_category_info['category_name']}.svg`;
-
-		img_path += $('#size_category option:checked').val();
-		img_path += img_specify_keyword;
+		img_path += `/${category_name}.svg`;
 
         $('#size_desc_table td').css('text-decoration', 'none');
 		
 		$('#size_img').attr('src', img_path);
     })
-}
-function addSizeRow(){
-	var success_cnt = 0;
-	for(var i=0; i<chk_list_arr.length;i++){
-		var textarea_id = chk_list_arr[i][0];
-		var size_name 	= chk_list_arr[i][1];
-
-		if($('#' + textarea_id).val() != ''){
-			success_cnt++;
-			addSizeTd(size_name);
-		}
-	}
-	if(success_cnt == 0){
-		$('#product_size_regist_table').append(`<tr><td colspan="9">입력된 사이즈 옵션이 없습니다.</td></tr>`);
-	}
-}
-function addSizeTd(name){
-	strDiv = `
-		<tr>
-			<td>
-				<a class="btn red" onclick="delOptionRow(this)">
-					<i class="xi-trash"></i>
-					<span class="tooltip top">삭제</span>
-				</a>
-			</td>
-			<td><input type="hidden" name="option_name[]" value="${name}">${name}</td>
-			<td>
-				<div class="content__row">
-					<select class="fSelect" name="stock_grade[]" style="width:80px;font-size:0.5rem;">
-						<option value="0" selected>일반</option>
-						<option value="1" >중요</option>
-					</select>
-				</div>
-			</td>`;
-	for(var i = 0; i < 6; i++){
-		if(size_category_info['size_title_' + String(i+1)] != null && size_category_info['size_title_' + String(i+1)].length > 0){
-			strDiv += `
-			<td>
-				<input type="number" name="size_info_${i+1}[]" value="" style="width:60px">
-			</td>`;
-		}
-	}
-	strDiv += `
-		</tr>
-	`;
-	$('#product_size_regist_table').append(strDiv);
-}
-function delOptionRow(obj){
-	confirm('정말로 해당 옵션을 제외하시겠습니까?', function(){
-		$(obj).parent().parent().remove();
-	});
-}
-function selectAllClick(obj) {
-	if ($(obj).prop('checked') == true) {
-		$(obj).prop('checked',true);
-		$('.option_idx').prop('checked',true);
-	} else {
-		$(obj).attr('checked',false);
-		$('.option_idx').prop('checked',false);
-	}
-	
-	optionIdxClick();
-}
-
-function optionIdxClick() {
-	var length = $('.option_idx').length;
-	var option_idx_arr = [];
-	
-	for (var i=0; i<length; i++) {
-		var option_idx = $('.option_idx').eq(i);
-		if (option_idx.prop('checked') == true) {
-			option_idx_arr.push(option_idx.val());
-		}
-	}
-	
-	$('#option_stock_set').val(option_idx_arr);
-}
-
-function optionInfoCheck(obj) {
-	var action_type = $(obj).attr('action_type');
-	
-	var action_name = "";
-	if (action_type != null) {
-		$('#action_type').val(action_type);
-		
-		switch (action_type) {
-			case "remove":
-				action_name = "제외";
-			break;
-			
-			case "update":
-				action_name = "갱신";
-			break;
-			
-			case "delete":
-				action_name = "삭제";
-			break;
-		}
-	}
-	
-	if (action_type == "reset") {
-		confirm('옵션정보를 삭제하시겠습니까?','optionInfoReset()');
-	} else {
-		var length = $('.option_idx').length;
-		var option_idx_arr = [];
-		for (var i=0; i<length; i++) {
-			var option_idx = $('.option_idx').eq(i);
-			if (option_idx.prop('checked') == true) {
-				option_idx_arr.push(option_idx.val());
-			}
-		}
-		
-		if (option_idx_arr.length > 0) {
-			if (action_type == "remove") {
-				for (var i=0; i<option_idx_arr.length; i++) {
-					$('#option_row_' + option_idx_arr[i]).remove();
-				}
-			} else {
-				optionInfoAction(action_name);
-			}
-		} else {
-			alert(action_name + '할 옵션을 선택해주세요.');
-		}
-	}
-}
-
-function optionInfoReset() {
-	$('#option_info_table').remove();
-	$('#option_td').html('옵션정보 없음.');
-}
-
-function limitPurchaseSingleFlgClick(obj) {
-	var flg_val = $(obj).val();
-	$('#limit_purchase_single').val(flg_val);
-}
-
-function limitPurchaseQtyFlgClick(obj) {
-	var flg_val = $(obj).val();
-	
-	if (flg_val == 'true') {
-		$('#limit_purchase_qty_input').show();
-	} else {
-		$('#limit_purchase_qty_input').hide();
-		$("input[name='limit_purchase_qty_min_num']").val(0);
-		$("input[name='limit_purchase_qty_max_num']").val(0);
-	}
-}
-
-function seoExposureFlgClick(obj) {
-	var flg_val = $(obj).val();
-	$('#seo_exposure_flg').val(flg_val);
-}
-
-function getRefundInfo() {
-	var refund_category = $('#product_category').val();
-	$.ajax({
-		type: "post",
-		data: {
-			'refund_category':refund_category
-		},
-		dataType: "json",
-		url: config.api + "product/refund/get",
-		error: function() {
-			alert("환불정보 불러오기 처리에 실패했습니다.");
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				var data = d.data;
-				if (data != null) {
-					$('#refund_body').html('');
-					var strDiv = "";
-					data.forEach(function(row) {
-						strDiv += '    <TR>';
-						strDiv += '        <TD colspan="2">'
-						strDiv += '            <div class="row">';
-						strDiv += '                <font>' + row.refund_title + '</font>';
-						strDiv += '                <button refund_idx="' + row.idx + '" type="button" style="width:50px;height:30px;background-color:#E43A45;color:#ffffff;float:right;cursor:pointer;" onClick="removeDetailRefund(this);">삭제</button>';
-						strDiv += '                <button refund_idx="' + row.idx + '" type="button" style="width:50px;height:30px;background-color:#140f82;color:#ffffff;float:right;margin-right:10px;cursor:pointer;" onClick="setDetailRefund(this);">선택</button>';
-						strDiv += '            </div>';
-						strDiv += '    </TR>';
-					});
-					
-					$('#refund_body').append(strDiv);
-				}
-			}
-		}
-	});
-}
-
-function setDetailRefund(obj) {
-	var refund_idx = $(obj).attr('refund_idx');
-	
-	if (refund_idx != null) {
-		$.ajax({
-			type: "post",
-			data: {
-				'refund_idx':refund_idx
-			},
-			dataType: "json",
-			url: config.api + "product/refund/get",
-			error: function() {
-				alert("환불정보 내용 불러오기 처리에 실패했습니다.");
-			},
-			success: function(data) {
-				if(data.code == 200) {
-					$("input[name='refund_category']").val(data['data'][0].refund_category);
-					$("input[name='refund_title']").val(data['data'][0].refund_title);
-					
-					detail_refund_kr.getById["detail_refund_kr"].exec("SET_IR", [""]);
-					detail_refund_kr.getById["detail_refund_kr"].exec("PASTE_HTML", [data['data'][0].refund_content_kr]);
-					
-					detail_refund_en.getById["detail_refund_en"].exec("SET_IR", [""]);
-					detail_refund_en.getById["detail_refund_en"].exec("PASTE_HTML", [data['data'][0].refund_content_en]);
-					
-					detail_refund_cn.getById["detail_refund_cn"].exec("SET_IR", [""]);
-					detail_refund_cn.getById["detail_refund_cn"].exec("PASTE_HTML", [data['data'][0].refund_content_cn]);
-				}
-			}
-		});
-	}
-}
-
-function addDetailRefund() {
-	var refund_category = $("input[name='refund_category']").val();
-	var refund_title = $("input[name='refund_title']").val();
-	
-	detail_refund_kr.getById["detail_refund_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	detail_refund_en.getById["detail_refund_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	detail_refund_cn.getById["detail_refund_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-	
-	var refund_content_kr = $('#detail_refund_kr').val();
-	var refund_content_en = $('#detail_refund_en').val();
-	var refund_content_cn = $('#detail_refund_cn').val();
-	
-	if (refund_category.length == 0 || refund_category == null) {
-		alert('환불정보 내용을 등록할 상품의 카테고리를 입력해주세요.');
-		return false;
-	}
-	if (refund_title.length == 0 || refund_title == null) {
-		alert('환불정보 내용의 제목을 입력해주세요.');
-		return false;
-	}
-	
-	if (
-		(refund_content_kr.length == 0 || refund_content_kr == null) ||
-		(refund_content_en.length == 0 || refund_content_en == null) ||
-		(refund_content_cn.length == 0 || refund_content_cn == null)
-	) {
-		alert('환불정보 내용의 제목을 입력해주세요.');
-		return false;
-	}
-	
-	$.ajax({
-		type: "post",
-		data: {
-			'refund_category':refund_category,
-			'refund_title':refund_title,
-			'refund_content_kr':refund_content_kr,
-			'refund_content_en':refund_content_en,
-			'refund_content_cn':refund_content_cn,
-		},
-		dataType: "json",
-		url: config.api + "product/refund/add",
-		error: function() {
-			alert("환불정보 내용 등록 처리에 실패했습니다.");
-		},
-		success: function(data) {
-			if(data.code == 200) {
-				setProductCategory();
-			}
-		}
-	});
-}
-
-function removeDetailRefund(obj) {
-	var refund_idx = $(obj).attr('refund_idx');
-	
-	if (refund_idx != null) {
-		$.ajax({
-			type: "post",
-			data: {
-				'refund_idx':refund_idx
-			},
-			dataType: "json",
-			url: config.api + "product/refund/put",
-			error: function() {
-				alert("환불정보 내용 삭제 처리에 실패했습니다.");
-			},
-			success: function(data) {
-				if(data.code == 200) {
-					getRefundInfo();
-				}
-			}
-		});
-	}
-}
-
-function setProductCategory() {
-	$.ajax({
-		type: "post",
-		dataType: "json",
-		url: config.api + "product/refund/get",
-		error: function() {
-			alert("환불정보 불러오기 처리에 실패했습니다.");
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				var data = d.data;
-				if (data != null) {
-					$('#product_category').html('');
-					
-					var strDiv = "";
-					strDiv += '<option value="all" selected>검색분류 선택</option>';
-					data.forEach(function(row) {
-						strDiv += '<option value="' + row.refund_category + '">' + row.refund_category + '</option>';
-					});
-					
-					$('#refund_body').html('');
-					
-					$('#product_category').unbind();
-					$('#product_category').append(strDiv);
-				}
-			}
-		}
-	});
-}
-
-function getRelevantProduct() {
-	var relevant_type = $('#relevant_type').val();
-	var relevant_keyword = $('#relevant_keyword').val();
-	
-	if (relevant_type != null && relevant_keyword != null) {
-		$.ajax({
-			type: "post",
-			data: {
-				'relevant_type':relevant_type,
-				'relevant_keyword':relevant_keyword
-			},
-			dataType: "json",
-			url: config.api + "product/relevant/get",
-			error: function() {
-				alert("관련상품정보 불러오기 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					var data = d.data;
-					
-					if (data != null) {
-						$('#relevant_list').html('');
-						var strDiv = "";
-						
-						data.forEach(function(row) {
-							strDiv += '<div class="relevant_product" style="width:45%;height:30px;background-color:#bdbdbd;color:#000000;border:1px solid #000000;border-radius:5px;padding:5px;margin-right:10px;margin-bottom:10px;cursor:pointer;">';
-							strDiv += '    <font class="relevant_idx" relevant_idx="' + row.no + '" onClick="addRelevantProduct(this);">' + row.product_code + ' - ' + row.product_name + '</font>';
-							strDiv += '</div>';
-						});
-						
-						$('#relevant_list').unbind();
-						$('#relevant_list').append(strDiv);
-					} else {
-						alert('검색 결과가 없습니다. 관련상품 정보를 다시 입력해주세요.');
-					}
-				}
-			}
-		});
-	} else {
-		alert('검색 할 관련상품 정보를 정확히 입력해주세요.');
-		return false;
-	}
-}
-
-function addRelevantProduct(obj) {
-	var relevant_idx_arr = [];
-	var relevant_idx = $('#relevant_idx').val();
-	
-	var obj_idx = $(obj).attr('relevant_idx');
-	var product_name = $(obj).text();
-	
-	if (relevant_idx != "0") {
-		relevant_idx_arr = relevant_idx.split(',');
-	}
-	
-	var result_cnt = 0;
-	if (relevant_idx_arr.length > 0) {
-		if (relevant_idx_arr.indexOf(obj_idx) < 0) {
-			relevant_idx_arr.push(obj_idx);
-			result_cnt++;
-		} else {
-			alert('중복된 관련상품을 선택할 수 없습니다. 다른 관련상품을 선택해주세요.');
-			return false;
-		}
-	} else {
-		relevant_idx_arr.push(obj_idx);
-		result_cnt++;
-	}
-	
-	if (result_cnt > 0) {
-		$('#relevant_idx').val(relevant_idx_arr);
-		
-		var strDiv = "";
-		strDiv += '<div class="relevant_product" style="width:45%;height:30px;background-color:#bdbdbd;color:#000000;border:1px solid #000000;border-radius:5px;padding:5px;margin-right:10px;margin-bottom:10px;cursor:pointer;">';
-		strDiv += '    <font class="relevant_idx" relevant_idx="' + obj_idx + '">' + product_name + '</font>';
-		strDiv += '    <font style="float:right;cursor:pointer;" onClick="removeRelevantProduct(this);">x</font>';
-		strDiv += '</div>';
-		
-		$('#relevant_product_div').append(strDiv);
-	}
-}
-
-function removeRelevantProduct(obj) {
-	$(obj).parent().remove();
-	
-	var length = $('#relevant_product_div').find('.relevant_idx').length;
-	var relevant_idx_arr = [];
-	for (var i=0; i<length; i++) {
-		var relevant_idx = $('#relevant_product_div').find('.relevant_idx').eq(i).attr('relevant_idx');
-		relevant_idx_arr.push(relevant_idx);
-	}
-	
-	if (relevant_idx_arr.length == 0) {
-		$('#relevant_idx').val('0');
-	} else {
-		$('#relevant_idx').val(relevant_idx_arr);
-	}
-}
-
-function productVolumeCalc() {
-	$('.product_volume').change(function() {
-		var product_width = $('#product_width').val();
-		var product_depth = $('#product_depth').val();
-		var product_height = $('#product_height').val();
-		
-		if (product_width == "" || product_height == "" || product_depth == "") {
-			$('#product_volume').val(0);
-		} else if (product_width > 0 && product_depth > 0 && product_height > 0) {
-			$('#product_volume').val(parseInt(product_width) * parseInt(product_depth) * parseInt(product_height));
-		}
-	})
-}
-
-function getProductTag() {
-	var tag = [];
-
-	var pl_lrg_category = $('#pl_lrg_category').val();
-	if (pl_lrg_category != null) {
-		tag.push(pl_lrg_category);
-	}
-
-	var pl_mdl_category = $('#pl_mdl_category').val();
-	if (pl_mdl_category != null) {
-		tag.push(pl_mdl_category);
-	}
-
-	var pl_sml_category = $('#pl_sml_category').val();
-	if (pl_sml_category != null) {
-		tag.push(pl_sml_category);
-	}
-
-	var pl_dtl_category = $('#pl_dtl_category').val();
-	if (pl_dtl_category != null) {
-		tag.push(pl_dtl_category);
-	}
-
-	var material = $('#material').val();
-	if (material != null) {
-		tag.push(material);
-	}
-
-	var graphic = $('#graphic').val();
-	if (graphic != null) {
-		tag.push(graphic);
-	}
-
-	var fit = $('#fit').val();
-	if (fit != null) {
-		tag.push(fit);
-	}
-
-	var color = $('#color').val();
-	if (color != null) {
-		tag.push(color);
-	}
-
-	var color_code = $('#color_code').val();
-	if (color_code != null) {
-		tag.push(color_code);
-	}
-	
-	var wkla = $('#wkla').val();
-	if (wkla != null) {
-		tag.push(wkla);
-	}
-
-	if (size_detail_a1_kr != null || size_detail_a1_kr != null || size_detail_a1_kr != null) {
-		tag.push('A1');
-	}
-
-	if (size_detail_a2_kr != null || size_detail_a2_kr != null || size_detail_a2_kr != null) {
-		tag.push('A2');
-	}
-
-	if (size_detail_a3_kr != null || size_detail_a3_kr != null || size_detail_a3_kr != null) {
-		tag.push('A3');
-	}
-
-	if (size_detail_a4_kr != null || size_detail_a4_kr != null || size_detail_a4_kr != null) {
-		tag.push('A4');
-	}
-
-	if (size_detail_a5_kr != null || size_detail_a5_kr != null || size_detail_a5_kr != null) {
-		tag.push('A5');
-	}
-
-	if (size_detail_onesize_kr != null || size_detail_onesize_kr != null || size_detail_onesize_kr != null) {
-		tag.push('ONESIZE');
-	}
-	
-	addProductTag(tag);
-}
-
-function addProductTag(tag) {
-	var strDiv = "";
-	for (var i=0; i<tag.length; i++) {
-		strDiv += '<div style="width:15%;height:30px;background-color:#bdbdbd;color:#000000;border:1px solid #000000;border-radius:5px;padding:5px;margin-right:10px;margin-bottom:10px;">';
-		strDiv += '    <input type="hidden" name="product_tag[]" value="' + tag[i] + '">';
-		strDiv += '    <font>' + tag[i] + '</font>';
-		strDiv += '    <font style="float:right;cursor:pointer;" onClick="removeProductTag(this);">x</font>';
-		strDiv += '</div>';
-	}
-	
-	$('#product_tag_div').unbind();
-	$('#product_tag_div').empty();
-	$('#product_tag_div').append(strDiv);
-}
-
-function removeProductTag(obj) {
-	$(obj).parent().remove();
-}
-
-function productUpdateCheck() {
-	material_kr.getById["material_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	material_en.getById["material_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	material_cn.getById["material_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-/*
-	size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a4_kr.getById["size_detail_a4_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a5_kr.getById["size_detail_a5_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_onesize_kr.getById["size_detail_onesize_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a1_en.getById["size_detail_a1_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a2_en.getById["size_detail_a2_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a3_en.getById["size_detail_a3_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a4_en.getById["size_detail_a4_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a5_en.getById["size_detail_a5_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_onesize_en.getById["size_detail_onesize_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a1_cn.getById["size_detail_a1_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a2_cn.getById["size_detail_a2_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a3_cn.getById["size_detail_a3_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-	size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-*/
-	care_kr.getById["care_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	care_en.getById["care_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	care_cn.getById["care_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-
-	detail_kr.getById["detail_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	detail_en.getById["detail_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	detail_cn.getById["detail_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-
-	detail_refund_kr.getById["detail_refund_kr"].exec("UPDATE_CONTENTS_FIELD", []);
-	detail_refund_en.getById["detail_refund_en"].exec("UPDATE_CONTENTS_FIELD", []);
-	detail_refund_cn.getById["detail_refund_cn"].exec("UPDATE_CONTENTS_FIELD", []);
-	
-	seo_description.getById["seo_description"].exec("UPDATE_CONTENTS_FIELD", []);
-	
-	img_product_detail.getById["img_product_detail"].exec("UPDATE_CONTENTS_FIELD", []); 
-	img_wear_detail.getById["img_wear_detail"].exec("UPDATE_CONTENTS_FIELD", []); 
-	
-	modal_submit($('#frm-update'),'getProdTabInfo');
-}
-
-function limitPurchaseMemberClick(obj) {
-	var member_level_idx = $(obj).val();
-	var limit_purchase_id = $(obj).attr('id');
-	
-	var check_value = $(obj).prop('checked');
-	if (check_value == true) {
-		if (member_level_idx > 0) {
-			$('#limit_purchase_member_all').prop('checked',false);
-		} else {
-			$('.limit_purchase_member').not($(obj)).prop('checked',false);
-		}
-	} else if (check_value == false) {
-		var lengt = $('.limit_purchase_member').length;
-		
-		var cnt = 0;
-		for (var i=0; i<length; i++) {
-			if ($('.limit_purchase_member').eq(i).prop('checked') == true) {
-				cnt++;
-			}
-		}
-		
-		if (cnt == 0) {
-			$('#limit_purchase_member_all').prop('checked',true);
-		}
-	}
-}
-
-function addProductTagBtnClick() {
-	var tag_val = $('#product_tag').val();
-	
-	var tag = [];
-	if (tag_val != null && tag_val != "") {
-		var cnt = 0;
-		var length = $('.product_tag').length;
-		
-		if (length > 0) {
-			for (var i=0; i<length; i++) {
-				var product_tag = $('.product_tag').eq(i).text();
-				if (tag_val == product_tag) {
-					cnt++;
-				}
-			}
-		}
-		
-		if (cnt > 0) {
-			alert('중복된 상품태그를 등록할 수 없습니다.');
-			return false;
-		} else {
-			tag.push(tag_val);
-		}
-		addProductTag(tag,false);
-	} else {
-		alert('추가할 상품의 태그를 입력하주세요.');
-		return false;
-	}
-}
-
-function getProductTag() {
-	var tag = [];
-
-	var pl_lrg_category = $('#pl_lrg_category').val();
-	if (pl_lrg_category != null && pl_lrg_category != "") {
-		tag.push(pl_lrg_category);
-	}
-
-	var pl_mdl_category = $('#pl_mdl_category').val();
-	if (pl_mdl_category != null && pl_mdl_category != "") {
-		tag.push(pl_mdl_category);
-	}
-
-	var pl_sml_category = $('#pl_sml_category').val();
-	if (pl_sml_category != null && pl_sml_category != "") {
-		tag.push(pl_sml_category);
-	}
-
-	var pl_dtl_category = $('#pl_dtl_category').val();
-	if (pl_dtl_category != null && pl_dtl_category != "") {
-		tag.push(pl_dtl_category);
-	}
-
-	var material = $('#material').val();
-	if (material != null && material != "") {
-		tag.push(material);
-	}
-
-	var graphic = $('#graphic').val();
-	if (graphic != null && graphic != "") {
-		tag.push(graphic);
-	}
-
-	var fit = $('#fit').val();
-	if (fit != null && fit != "") {
-		tag.push(fit);
-	}
-
-	var color = $('#color').val();
-	if (color != null && color != "") {
-		tag.push(color);
-	}
-
-	var color_code = $('#color_code').val();
-	if (color_code != null && color_code != "") {
-		tag.push(color_code);
-	}
-	
-	var wkla = $('#wkla').val();
-	if (wkla != null && wkla != "") {
-		tag.push(wkla);
-	}
-
-	size_detail_a1_kr.getById["size_detail_a1_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a2_kr.getById["size_detail_a2_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a3_kr.getById["size_detail_a3_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a4_kr.getById["size_detail_a4_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a5_kr.getById["size_detail_a5_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_onesize_kr.getById["size_detail_onesize_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a1_en.getById["size_detail_a1_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a2_en.getById["size_detail_a2_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a3_en.getById["size_detail_a3_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a4_en.getById["size_detail_a4_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a5_en.getById["size_detail_a5_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_onesize_en.getById["size_detail_onesize_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a1_cn.getById["size_detail_a1_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a2_cn.getById["size_detail_a2_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a3_cn.getById["size_detail_a3_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a4_cn.getById["size_detail_a4_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_a5_cn.getById["size_detail_a5_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	size_detail_onesize_cn.getById["size_detail_onesize_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
-	
-	var tmp_size_detail_a1_kr = $('#size_detail_a1_kr').val();
-	tmp_size_detail_a1_kr = tmp_size_detail_a1_kr.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a2_kr = $('#size_detail_a2_kr').val();
-	tmp_size_detail_a2_kr = tmp_size_detail_a2_kr.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a3_kr = $('#size_detail_a3_kr').val();
-	tmp_size_detail_a3_kr = tmp_size_detail_a3_kr.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a4_kr = $('#size_detail_a4_kr').val();
-	tmp_size_detail_a4_kr = tmp_size_detail_a4_kr.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a5_kr = $('#size_detail_a5_kr').val();
-	tmp_size_detail_a5_kr = tmp_size_detail_a5_kr.replace('<p>&nbsp;</p>','');
-
-	var tmp_size_detail_a1_en = $('#size_detail_a1_en').val();
-	tmp_size_detail_a1_en = tmp_size_detail_a1_en.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a2_en = $('#size_detail_a2_en').val();
-	tmp_size_detail_a2_en = tmp_size_detail_a2_en.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a3_en = $('#size_detail_a3_en').val();
-	tmp_size_detail_a3_en = tmp_size_detail_a3_en.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a4_en = $('#size_detail_a4_en').val();
-	tmp_size_detail_a4_en = tmp_size_detail_a4_en.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a5_en = $('#size_detail_a5_en').val();
-	tmp_size_detail_a5_en = tmp_size_detail_a5_en.replace('<p>&nbsp;</p>','');
-
-	var tmp_size_detail_a1_cn = $('#size_detail_a1_cn').val();
-	tmp_size_detail_a1_cn = tmp_size_detail_a1_cn.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a2_cn = $('#size_detail_a2_cn').val();
-	tmp_size_detail_a2_cn = tmp_size_detail_a2_cn.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a3_cn = $('#size_detail_a3_cn').val();
-	tmp_size_detail_a3_cn = tmp_size_detail_a3_cn.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a4_cn = $('#size_detail_a4_cn').val();
-	tmp_size_detail_a4_cn = tmp_size_detail_a4_cn.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_a5_cn = $('#size_detail_a5_cn').val();
-	tmp_size_detail_a5_cn = tmp_size_detail_a5_cn.replace('<p>&nbsp;</p>','');
-
-
-	var tmp_size_detail_onesize_kr = $('#size_detail_onesize_kr').val();
-	tmp_size_detail_onesize_kr = tmp_size_detail_onesize_kr.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_onesize_en = $('#size_detail_onesize_en').val();
-	tmp_size_detail_onesize_en = tmp_size_detail_onesize_en.replace('<p>&nbsp;</p>','');
-	var tmp_size_detail_onesize_cn = $('#size_detail_onesize_cn').val();
-	tmp_size_detail_onesize_cn = tmp_size_detail_onesize_cn.replace('<p>&nbsp;</p>','');
-	
-	if (
-		(tmp_size_detail_a1_kr != null && tmp_size_detail_a1_kr != "") ||
-		(tmp_size_detail_a1_en != null && tmp_size_detail_a1_en != "") ||
-		(tmp_size_detail_a1_cn != null && tmp_size_detail_a1_cn != "")
-	) {
-		tag.push('A1');
-	}
-
-	if (
-		(tmp_size_detail_a2_kr != null && tmp_size_detail_a2_kr != "") ||
-		(tmp_size_detail_a2_en != null && tmp_size_detail_a2_en != "") ||
-		(tmp_size_detail_a2_cn != null && tmp_size_detail_a2_cn != "")
-	) {
-		tag.push('A2');
-	}
-	
-	if (
-		(tmp_size_detail_a3_kr != null && tmp_size_detail_a3_kr != "") ||
-		(tmp_size_detail_a3_en != null && tmp_size_detail_a3_en != "") ||
-		(tmp_size_detail_a3_cn != null && tmp_size_detail_a3_cn != "")
-	) {
-		tag.push('A3');
-	}
-	
-	if (
-		(tmp_size_detail_a4_kr != null && tmp_size_detail_a4_kr != "") ||
-		(tmp_size_detail_a4_en != null && tmp_size_detail_a4_en != "") ||
-		(tmp_size_detail_a4_cn != null && tmp_size_detail_a4_cn != "")
-	) {
-		tag.push('A4');
-	}
-	
-	if (
-		(tmp_size_detail_a5_kr != null && tmp_size_detail_a5_kr != "") ||
-		(tmp_size_detail_a5_en != null && tmp_size_detail_a5_en != "") ||
-		(tmp_size_detail_a5_cn != null && tmp_size_detail_a5_cn != "")
-	) {
-		tag.push('A5');
-	}
-	
-	if (
-		(tmp_size_detail_onesize_kr != null && tmp_size_detail_onesize_kr != "") ||
-		(tmp_size_detail_onesize_en != null && tmp_size_detail_onesize_en != "") ||
-		(tmp_size_detail_onesize_cn != null && tmp_size_detail_onesize_cn != "")
-	) {
-		tag.push('ONESIZE');
-	}
-	
-	addProductTag(tag,true);
-}
-
-function addProductTag(tag,reset_flg) {
-	var strDiv = "";
-	for (var i=0; i<tag.length; i++) {
-		strDiv += '<div style="width:15%;height:30px;background-color:#bdbdbd;color:#000000;border:1px solid #000000;border-radius:5px;padding:5px;margin-right:10px;margin-bottom:10px;">';
-		strDiv += '    <input type="hidden" name="product_tag[]" value="' + tag[i] + '">';
-		strDiv += '    <font class="product_tag">' + tag[i] + '</font>';
-		strDiv += '    <font style="float:right;cursor:pointer;" onClick="removeProductTag(this);">x</font>';
-		strDiv += '</div>';
-	}
-	
-	if (reset_flg == true) {
-		$('#product_tag_div').empty();
-	}
-	
-	$('#product_tag_div').unbind();
-	$('#product_tag_div').append(strDiv);
-}
-
-function removeProductTag(obj) {
-	$(obj).parent().remove();
 }
 </script>

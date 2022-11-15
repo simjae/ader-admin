@@ -19,6 +19,7 @@ $country		= $_POST['country'];
 $buyer			= $_POST['buyer'];
 $due_date		= $_POST['due_date'];
 $product_qty	= $_POST['product_qty'];
+$memo			= $_POST['memo'];
 
 if ($wholesale_idx != null) {
 	$set = "";
@@ -38,6 +39,11 @@ if ($wholesale_idx != null) {
 		$set .= " PRODUCT_QTY = ".$product_qty.", ";
 	}
 	
+	if($memo == null){
+		$memo = '';
+	}
+	$set .= " MEMO = '".$memo."', ";
+
 	$sql = "UPDATE
 				dev.WHOLESALE_INFO
 			SET

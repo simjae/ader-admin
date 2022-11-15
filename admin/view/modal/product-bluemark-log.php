@@ -7,43 +7,55 @@
         </div>
         <div class="drive--x"></div>
     </div>
-    <div class="content__wrap">
-        <div class="content__title">상품 이름</div>
-        <div class="content__row">
-            <span id="product_name"></span>
-        </div>
-    </div>
-    <div class="content__wrap">
-        <div class="content__title">상품 코드</div>
-        <div class="content__row">
-            <span id="product_code"></span>
-        </div>
-    </div>
-    <div class="content__wrap">
-        <div class="content__title">정품 코드</div>
-        <div class="content__row">
-            <span id="serial_code"></span>
-        </div>
-    </div>
-    <div class="content__wrap">
-        <div class="content__title">상품 이미지</div>
-        <div class="content__row">
-            <div id="product_img" style="border: 1px solid #000;"></div>
-        </div>
-    </div>
     <div class="card__body">
-        <div class="content__wrap">
-            <div class="content__title">로그</div>
-            <div id="cerify_div" class="content__row" >
-                <div class="table table__wrap" >
-                    <TABLE>
-                        <THEAD id="bluemark_log_table_head">
-                        </THEAD>
-                        <TBODY id="bluemark_log_table">
-                        </TBODY>
-                    </TABLE>
-                </table>
+        <div class="content__wrap" style="display:flex;">
+            <div class="table table__wrap" >
+				<TABLE id="excel_table" style="width:100%;">
+					<TBODY>
+						<TR>
+							<TD style="width:400px;">
+								<TABLE id="excel_table">
+									<THEAD>
+										<TR>
+											<TH>상품 이름</TH>
+											<TD id="product_name" style="background-color:#ffffff;"></TD>
+										</TR>
+										<TR>
+											<TH>상품 코드</TH>
+											<TD id="product_code" style="background-color:#ffffff;"></TD>
+										</TR>
+										<TR>
+											<TH>블루마크 시리얼 코드</TH>
+											<TD id="serial_code" style="background-color:#ffffff;"></TD>
+										</TR>
+										<TR>
+											<TD id="product_img" colspan="2" style="background-color:#ffffff;"></TD>
+										</TR>
+									</THEAD>
+									<TBODY id="product_info">
+									</TBODY>
+								</TABLE>
+							</TD>
+							
+							<TD style="width:50%;vertical-align:top;">
+								<TABLE id="excel_table">
+									<THEAD>
+										<TR>
+											<TH style="width:40px;">번호</TH>
+											<TH style="width:200px;">등록회원</TH>
+											<TH style="width:120px;">IP</TH>
+											<TH style="width:170px;">등록일자</TH>
+										</TR>
+									</THEAD>
+									<TBODY id="log_info">
+									</TBODY>
+								</TABLE>
+							</TD>
+						</TR>
+					</TBODY>
+				</TABLE>
             </div>
+                
             <div class="padding__wrap" style="display:none">
 				<input type="hidden" class="total_cnt" value="0" onChange="">
 				<input type="hidden" class="result_cnt" value="0" onChange="">
@@ -72,48 +84,39 @@ function getBluemarkLogList(){
 		success: function(d) {
 			var data = d.data;
 			if(data != null) {
-                var prod_info = data.product[0];
-                var imgDiv = `
-                <img class="library" draggable="false" id="${prod_info.product_code}" data-name="ader1" data-url="${prod_info.img_location}" data-productcode="${prod_info.product_code}" data-idx="${prod_info.idx}" src="${prod_info.img_location}" alt="">
-                `;
-                $('#product_name').text(prod_info.product_name);
-                $('#product_code').text(prod_info.product_code);
-                $('#serial_code').text(prod_info.serial_code);
-                $("#product_img").append(imgDiv); 
-                if(data.log != null){
-                    headDiv = `
-                        <TR>
-                            <TH style="width:40px;">번호</TH>
-                            <TH style="width:200px;">등록회원</TH>
-                            <TH style="width:120px;">IP</TH>
-                            <TH style="width:170px;">등록일자</TH>
-                        </TR>
-                    `;
-                    $("#bluemark_log_table_head").append(headDiv);
-                    $("#bluemark_log_table").html('');
-                    data.log.forEach(function(row){
-                    strDiv = `
-                            <tr>
-                                <td>
-                                    <span class="result__span">${row.num}</span> 
-                                </td>
-                                <td>
-                                    <span class="result__span">${row.member_id}(${row.member_level})</span> 
-                                </td>
-                                <td>
-                                    <span class="result__span">${row.ip}</span> 
-                                </td>
-                                <td>
-                                    <span class="result__span">${row.reg_date}</span> 
-                                </td>
-                            </tr>
-                        `;
-                        $("#bluemark_log_table").append(strDiv);
-                    })
-                }
-                else{
-                    $("#bluemark_log_table").html('<span>인증내용이 없습니다.</span>');
-                }
+				var strDiv = "";
+				
+				var background_url = "background-image:url('" + data[0].img_location + "');";
+				
+				var imgDiv = '<div class="product__img" style="width:100%;height:500px;' + background_url + '">';
+				$('#product_name').text(data[0].product_name);
+				$('#product_code').text(data[0].product_code);
+				$('#serial_code').text(data[0].serial_code);
+				$("#product_img").append(imgDiv); 
+				
+				var log_info = data[0].log_info;
+				if (log_info.length > 0) {
+					log_info.forEach(function(log) {
+						strDiv += '<tr>';
+						strDiv += '    <td>';
+						strDiv += '        <span class="result__span">' + log.num + '</span> ';
+						strDiv += '    </td>';
+						strDiv += '    <td>';
+						strDiv += '        <span class="result__span">' + log.member_id + ' (' + log.member_level + ')</span>';
+						strDiv += '    </td>';
+						strDiv += '    <td>';
+						strDiv += '        <span class="result__span">' + log.ip + '</span> ';
+						strDiv += '    </td>';
+						strDiv += '    <td>';
+						strDiv += '        <span class="result__span">' + log.reg_date + '</span> ';
+						strDiv += '    </td>';
+						strDiv += '</tr>';
+					});
+					
+					$("#log_info").append(strDiv);
+				} else {
+					$("#log_info").html('<TR><TD colspan="4"><span>인증내용이 없습니다.</span></TD></TR>');
+				}
 			}
 		}
 	});

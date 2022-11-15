@@ -1,5 +1,5 @@
 <div class="content__card">
-	<form id="frm-list_01" action="product/stock/get">
+	<form id="frm-list_01" action="product/stock/regist/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="rows" name="rows" value="10">
@@ -32,61 +32,71 @@
 					<button type="button" action_type="append" style="width:30px;height:30px;border:1px solid;background-color:#ffffff;cursor:pointer;" onClick="searchTypeBtnClick(this);">+</button>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">상품 구분</div>
 				<div class="content__row">
 					<div class="rd__block">
-						<input id="product_type_all_01" type="radio" name="product_type" value="ALL" checked>
-						<label for="product_type_all_01">전체</label>
-						<input id="product_type_basic_01" type="radio" name="product_type" value="BASIC" >
-						<label for="product_type_basic_01">기본상품</label>
-						<input id="product_type_set_01" type="radio" name="product_type" value="SET" >
-						<label for="product_type_set_01">세트상품</label>
+						<input id="regist_product_type_all" type="radio" name="product_type" value="ALL" checked>
+						<label for="regist_product_type_">전체</label>
+						
+						<input id="regist_product_type_basic" type="radio" name="product_type" value="B" >
+						<label for="regist_product_type_">기본상품</label>
+						
+						<input id="regist_product_type_set" type="radio" name="product_type" value="S" >
+						<label for="regist_product_type_set">세트상품</label>
 					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">상품 분류</div>
+				
 				<div class="content__row">
-				<div class="cb__color">
-					<label>
-						<input type="checkbox" name="product_type_all" value="">
-						<span>전체 상품분류 보기</span>
-					</label>
-				</div>
-				<select class="fSelect category eCategory eCategory1" depth="1" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-				</select>
-
-				<select class="fSelect category eCategory eCategory2" depth="2" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 02</option>
-				</select>
-				<select class="fSelect category eCategory eCategory3" depth="3" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 03</option>
-				</select>
-				<select class="fSelect category eCategory eCategory4" depth="4" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 04</option>
-				</select>
-				<select class="fSelect category eCategory eCategory5" depth="5" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 05</option>
-				</select>
-				<select class="fSelect category eCategory eCategory6" depth="6" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 06</option>
-				</select>
-				<div class="cb__color">
-					<label>
-						<input type="checkbox" name="child_search_flg" value="true">
-						<span>하위분류 포함검색</span>
-					</label>
+					<div class="cb__color">
+						<label>
+							<input type="checkbox" name="product_type_all" value="">
+							<span>전체 상품분류 보기</span>
+						</label>
+					</div>
 					
-					<label>
-						<input type="checkbox" name="none_category_flg" value="true">
-						<span>분류 미등록 상품 검색</span>
-					</label>
-				</div>
-		
+					<select class="fSelect category eCategory eCategory1" depth="1" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+					</select>
 
+					<select class="fSelect category eCategory eCategory2" depth="2" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 02</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory3" depth="3" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 03</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory4" depth="4" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 04</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory5" depth="5" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 05</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory6" depth="6" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 06</option>
+					</select>
+					
+					<div class="cb__color">
+						<label>
+							<input type="checkbox" name="child_search_flg" value="true">
+							<span>하위분류 포함검색</span>
+						</label>
+						
+						<label>
+							<input type="checkbox" name="none_category_flg" value="true">
+							<span>분류 미등록 상품 검색</span>
+						</label>
+					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">상품 등록일</div>
 				<div class="content__row">
@@ -94,6 +104,7 @@
 						<option value="CREATE_DATE">상품등록일</option>
 						<option value="UPDATE_DATE">상품최종수정일</option>
 					</select>
+					
 					<div class="content__date__wrap">
 						<div class="content__date__btn">
 							<input id="search_date_stock_regist" type="hidden" name="search_date" value="" style="width:150px;">
@@ -106,6 +117,7 @@
 							<div class="search_date_stock_regist date__picker" date_type="stock_regist" date="01m" type="button" onclick="searchDateClick(this);">1개월</div>
 							<div class="search_date_stock_regist date__picker" date_type="stock_regist" date="03m" type="button" onclick="searchDateClick(this);">3개월</div>
 						</div>
+						
 						<div class="content__date__picker">
 							<input id="stock_regist_from" class="date_param" type="date" name="stock_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="stock_regist" onChange="dateParamChange(this);">
 							<font>~</font>
@@ -114,143 +126,92 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap grid__half">
 				<div class="half__box__wrap">
 					<div class="content__title">진열 상태</div>
+					
 					<div class="content__row">
 						<div class="rd__block">
-							<input  id="displayStatus1_1" type="radio" name="displayStatus" value="all" checked>
-							<label for="displayStatus1_1" >전체</label>
+							<input id="regist_display_status_all" type="radio" name="display_status" value="all" checked>
+							<label for="regist_display_status_all">전체</label>
 							
-							<input id ="displayStatus1_2" type="radio" name="displayStatus" value="">
-							<label for="displayStatus1_2">진열 함</label>
-						
-							<input id="displayStatus1_3" type="radio" name="displayStatus" value="">
-							<label for="displayStatus1_3">진열 안함</label>
+							<input id="regist_display_status_true" type="radio" name="display_status" value="true" >
+							<label for="regist_display_status_true">진열 함</label>
+							
+							<input id="regist_display_status_false" type="radio" name="display_status" value="false" >
+							<label for="regist_display_status_false">진열 안함</label>
 						</div>
 					</div>
 				</div>
+				
 				<div class="half__box__wrap">
 					<div class="content__title">판매 상태</div>
 					<div class="content__row">
 						<div class="rd__block">
-							<input id="saleStatus1_1" type="radio" name="saleStatus" value="all" checked>
-							<label for="saleStatus1_1">전체</label>
+							<input id="regist_sale_status_all" type="radio" name="sale_status" value="all" checked>
+							<label for="regist_sale_status_all">전체</label>
 							
-							<input id="saleStatus1_2" type="radio" name="saleStatus" value="">
-							<label for="saleStatus1_2" >판매 함</label>
+							<input id="regist_sale_status_true" type="radio" name="sale_status" value="true">
+							<label for="regist_sale_status_true" >판매 함</label>
 						
-							<input id="saleStatus1_3" type="radio" name="saleStatus" value="">
-							<label for="saleStatus1_3" >판매 안함</label>
+							<input id="regist_sale_status_false" type="radio" name="sale_status" value="false">
+							<label for="regist_sale_status_false" >판매 안함</label>
 						</div>
 					</div>
 				</div>
 			</div>
+			
 			<div class="card__body--hide detail_hidden" style="display: none;">
-				<div class="content__wrap">
-					<div class="content__title">재고 사용</div>
-					<div class="content__row">
-						<div class="rd__block">
-							<input id="stockUse1_1" type="radio" name="stockUse" value="all" checked>
-							<label for="stockUse1_1">전체</label>
-							
-							<input id="stockUse1_2" type="radio" name="stockUse" value="" >
-							<label for="stockUse1_2">사용 함</label>
-							
-							<input id="stockUse1_3" type="radio" name="stockUse" value="" >
-							<label for="stockUse1_3">사용 안함</label>
-						</div>
-					</div>
-				</div>
 				<div class="content__wrap">
 					<div class="content__title">재고 수량</div>
 					<div class="content__row">
-						<select class="fSelect" name="stockcount[]" style="width:163px;">
-							<option value="stock">재고수량</option>
-							<option value="warn">안전재고</option>
+						<select class="fSelect" name="qty_type[]" style="width:163px;">
+							<option value="stock">상품 재고</option>
+							<option value="safe">안전 재고</option>
 						</select>
 						
-						<input type="text" value="" style="width:50px;margin-right:5px;" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');">개
+						<input type="number" value="" style="width:50px;margin-right:5px;">개
 						~
-						<input type="text" value="" style="width:50px;margin-right:5px;" onKeyup="this.value=this.value.replace(/[^-0-9]/g,'');">개
+						<input type="number" value="" style="width:50px;margin-right:5px;">개
 						
 						<button style="width:30px;height:30px;border:1px solid;background-color:#ffffff;">-</button>
 						<button style="width:30px;height:30px;border:1px solid;background-color:#ffffff;">+</button>
 					</div>
 				</div>
+				
 				<div class="content__wrap">
 					<div class="content__title">재고관리 등급</div>
 					<div class="content__row">
 						<div class="rd__block">
-							<input id="stockGrade1_1" type="radio" name="stockGrade" value="all" checked>
-							<label for="stockGrade1_1">전체</label>
-							<input id="stockGrade1_2" type="radio" name="stockGrade" value="" >
-							<label for="stockGrade1_2">일반 재고</label>
-							<input id="stockGrade1_3" type="radio" name="stockGrade" value="" >
-							<label for="stockGrade1_3">중요 재고</label>
+							<input id="regist_stock_grade_all" type="radio" name="stock_grade" value="all" checked>
+							<label for="regist_stock_grade_all">전체</label>
+							
+							<input id="regist_stock_grade_nml" type="radio" name="stock_grade" value="NML">
+							<label for="regist_stock_grade_nml">일반 재고</label>
+							
+							<input id="regist_stock_grade_imp" type="radio" name="stock_grade" value="IMP">
+							<label for="regist_stock_grade_imp">중요 재고</label>
 						</div>
 					</div>
 				</div>
-				<div class="content__wrap">
-					<div class="content__title">품절 사용</div>
-					<div class="content__row">
-						<div class="rd__block">
-							<input id="soldUse1_1" type="radio" name="soldUse" value="all" checked>
-							<label for="soldUse1_1">전체</label>
-							
-							<input id="soldUse1_2" type="radio" name="soldUse" value="" >
-							<label for="soldUse1_2">사용 함</label>
-							
-							<input id="soldUse1_3" type="radio" name="soldUse" value="" >
-							<label for="soldUse1_3">사용 안함</label>
-						</div>
-					</div>
-				</div>
+				
 				<div class="content__wrap">
 					<div class="content__title">품절 상태</div>
 					<div class="content__row">
 						<div class="rd__block">
-							<input id="soldStatus1_1" type="radio" name="soldStatus" value="all" checked>
-							<label for="soldStatus1_1">전체</label>
+							<input id="regist_sold_out_status_all" type="radio" name="sold_out_status" value="all" checked>
+							<label for="regist_sold_out_status_all">전체</label>
 							
-							<input id="soldStatus1_2" type="radio" name="soldStatus" value="" >
-							<label for="soldStatus1_2">품절</label>
+							<input id="regist_sold_out_status_true" type="radio" name="sold_out_status" value="true">
+							<label for="regist_sold_out_status_true">품절</label>
 							
-							<input id="soldStatus1_3" type="radio" name="soldStatus" value="" >
-							<label for="soldStatus1_3">품절 아님</label>
+							<input id="regist_sold_out_status_false" type="radio" name="sold_out_status" value="false">
+							<label for="regist_sold_out_status_false">품절 아님</label>
 						</div>
 					</div>
 				</div>
-				<div class="content__wrap grid__half">
-					<div class="half__box__wrap">
-						<div class="content__title">품목 진열 상태</div>
-						<div class="content__row">
-							<div class="rd__block">
-								<input id="soldDisplayStatus1_1" type="radio" name="soldDisplayStatus" value="all" checked>
-								<label for="soldDisplayStatus1_1">전체</label>
-								<input id="soldDisplayStatus1_2" type="radio" name="soldDisplayStatus" value="" >
-								<label for="soldDisplayStatus1_2">진열 함</label>
-								<input id="soldDisplayStatus1_3" type="radio" name="soldDisplayStatus" value="" >
-								<label for="soldDisplayStatus1_3">진열 안함</label>
-							</div>
-						</div>
-					</div>
-					<div class="half__box__wrap">
-						<div class="content__title">품목 판매 상태</div>
-						<div class="content__row">
-							<div class="rd__block">
-								<input id="soldSaleStatus1_1" type="radio" name="soldSaleStatus" value="all" checked>
-								<label for="soldSaleStatus1_1">전체</label>
-								
-								<input id="soldSaleStatus1_2" type="radio" name="soldSaleStatus" value="" >
-								<label for="soldSaleStatus1_2">판매 함</label>
-								
-								<input id="soldSaleStatus1_3" type="radio" name="soldSaleStatus" value="" >
-								<label for="soldSaleStatus1_3">판매 안함</label>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 				<div class="content__wrap">
 					<div class="content__title">상품 가격</div>
 					<div class="price_type_td">
@@ -275,6 +236,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="content__wrap">
 					<div class="content__title">상품 구분(해외통관)</div>
 					<div class="content__row">
@@ -286,6 +248,7 @@
 						</div>
 					</div>
 				</div>
+				
 				<div class="content__wrap">
 					<div class="content__title">번역 상태</div>
 					<div class="content__row">
@@ -298,6 +261,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="card__footer">
 			<div class="footer__btn__wrap">
 				<div class="detail_toggle" toggle="hide" onclick="detailToggleClick(this)">상세 검색 열기 +</div>
@@ -409,7 +373,6 @@
 						<TH style="width:10%;">옵션명</TH>
 						<TH style="width:5%;">재고수량</TH>
 						<TH style="width:5%;">안전재고</TH>
-						<TH style="width:5%;">누적판매량</TH>
 						<TH style="width:5%;">재고상태</TH>
 						<TH style="width:10%;">재고적용일</TH>
 						<TH style="width:10%;">재고등록일</TH>
@@ -522,12 +485,17 @@ function getProductStockList() {
 			d.forEach(function(row) {
 				var stock_date = new Date(row.stock_date);
 				var today = new Date();
+				var stock_appl = "";
 				if (stock_date <= today) {
+					stock_appl = "적용대기중";
+					
 					update_color = "#bfbfbf";
 					delete_color = "#bfbfbf";
 					btn_disabled = "disabled";
 					number_readonly = "readonly";
 				} else {
+					stock_appl = "적용완료";
+					
 					update_color = "#140f82";
 					delete_color = "#e7505a";
 					btn_disabled = "";
@@ -537,27 +505,17 @@ function getProductStockList() {
 				var strDiv = "";
 				strDiv += '<TR>';
 				strDiv += '    <TD>' + row.num + '</TD>';
-				strDiv += '    <TD action_type="product_code" code_val="' + row.product_code + '" style="cursor:pointer;" onClick="getProductStockTotal(this);">' + row.product_code + '</TD>';
+				strDiv += '    <TD action_type="product_idx" code_val="' + row.product_idx + '" style="cursor:pointer;" onClick="getProductStockTotal(this);">' + row.product_code + '</TD>';
 				strDiv += '    <TD>' + row.product_name + '</TD>';
-				strDiv += '    <TD action_type="option_code" code_val="' + row.option_code + '" style="cursor:pointer;" onClick="getProductStockTotal(this);">' + row.option_code + '</TD>';
+				strDiv += '    <TD action_type="option_idx" code_val="' + row.option_idx + '" style="cursor:pointer;" onClick="getProductStockTotal(this);">' + row.barcode + '</TD>';
 				strDiv += '    <TD>' + row.option_name + '</TD>';
 				
 				strDiv += '    <TD>';
-				strDiv += '        <input id="stock_qty_' + row.no + '" ' + number_readonly + ' type="number" style="width:100%;height:28px;border:1px solid #bfbfbf;" value="' + row.stock_qty + '">';
+				strDiv += '        <input id="stock_qty_' + row.stock_idx + '" ' + number_readonly + ' type="number" style="width:100%;height:28px;border:1px solid #bfbfbf;" value="' + row.stock_qty + '">';
 				strDiv += '    </TD>';
 				strDiv += '    <TD>';
-				strDiv += '        <input id="safe_qty_' + row.no + '" ' + number_readonly + ' type="number" style="width:100%;height:28px;border:1px solid #bfbfbf;" value="' + row.safe_qty + '">';
+				strDiv += '        <input id="safe_qty_' + row.stock_idx + '" ' + number_readonly + ' type="number" style="width:100%;height:28px;border:1px solid #bfbfbf;" value="' + row.stock_safe_qty + '">';
 				strDiv += '    </TD>';
-				strDiv += '    <TD>';
-				strDiv += '        <input id="total_sales_cnt_' + row.no + '" ' + number_readonly + ' type="number" style="width:100%;height:28px;border:1px solid #bfbfbf;" value="' + row.total_sales_cnt + '">';
-				strDiv += '    </TD>';
-				
-				var stock_appl = "";
-				if (row.stock_appl_flg == true) {
-					stock_appl = "적용완료";
-				} else {
-					stock_appl = "적용대기중";
-				}
 				
 				strDiv += '    <TD>' + stock_appl + '</TD>';
 				strDiv += '    <TD>' + row.stock_date + '</TD>';
@@ -565,8 +523,8 @@ function getProductStockList() {
 				strDiv += '    <TD>' + row.creater + '</TD>';
 				strDiv += '    <TD>';
 				strDiv += '        <div class="row">';
-				strDiv += '            <button stock_idx="' + row.no + '" btn_disabled="' + btn_disabled + '" action_type="update" style="width:50px;height:30px;background-color:' + update_color + ';color:#ffffff;font-size:0.5rem;" onClick="productStockCheck(this);">재고수정</button>';
-				strDiv += '            <button stock_idx="' + row.no + '" btn_disabled="' + btn_disabled + '" action_type="delete" style="width:50px;height:30px;background-color:' + delete_color + ';color:#ffffff;font-size:0.5rem;" onClick="productStockCheck(this);">재고삭제</button>';
+				strDiv += '            <button stock_idx="' + row.stock_idx + '" btn_disabled="' + btn_disabled + '" action_type="update" style="width:50px;height:30px;background-color:' + update_color + ';color:#ffffff;font-size:0.5rem;" onClick="productStockCheck(this);">재고수정</button>';
+				strDiv += '            <button stock_idx="' + row.stock_idx + '" btn_disabled="' + btn_disabled + '" action_type="delete" style="width:50px;height:30px;background-color:' + delete_color + ';color:#ffffff;font-size:0.5rem;" onClick="productStockCheck(this);">재고삭제</button>';
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
 				strDiv += '</TR>';
@@ -605,11 +563,11 @@ function productStockUpdate(stock_idx,stock_qty,safe_qty,total_sales_cnt) {
 			'action_type':"update",
 			'stock_idx':stock_idx,
 			'stock_qty':stock_qty,
-			'safe_qty':safe_qty,
+			'stock_safe_qty':safe_qty,
 			'total_sales_cnt':total_sales_cnt
 		},
 		dataType: "json",
-		url: config.api + "product/stock/put",
+		url: config.api + "product/stock/regist/put",
 		error: function() {
 			alert("상품 재고 수정처리에 실패했습니다.");
 		},
@@ -628,7 +586,7 @@ function productStockDelete(stock_idx) {
 			'stock_idx':stock_idx
 		},
 		dataType: "json",
-		url: config.api + "product/stock/put",
+		url: config.api + "product/stock/regist/put",
 		error: function() {
 			alert("상품 재고 삭제처리에 실패했습니다.");
 		},
@@ -643,13 +601,13 @@ function getProductStockTotal(obj) {
 	var action_type = $(obj).attr('action_type');
 	var code_val = $(obj).attr('code_val');
 	
-	var product_code = null;
-	var option_code = null;
+	var product_idx = null;
+	var option_idx = null;
 	
-	if (action_type == "product_code") {
-		product_code = code_val;
-	} else if (action_type == "option_code") {
-		option_code = code_val;
+	if (action_type == "product_idx") {
+		product_idx = code_val;
+	} else if (action_type == "option_idx") {
+		option_idx = code_val;
 	}
 	
 	$.ajax({
@@ -657,8 +615,8 @@ function getProductStockTotal(obj) {
 		data: {
 			'total_flg':true,
 			'action_type':"delete",
-			'product_code':product_code,
-			'option_code':option_code
+			'product_idx':product_idx,
+			'option_idx':option_idx
 		},
 		dataType: "json",
 		url: config.api + "product/stock/get",
@@ -684,17 +642,17 @@ function getProductStockTotal(obj) {
 				data.forEach(function(row) {
 					strDiv += '<TR>';
 					strDiv += '    <TD>';
-					strDiv += '        <font option_code="' + row.option_code + '" style="cursor:pointer;" onClick="showOptionInfoModal(this);">' + row.option_code + '</font>';
+					strDiv += '        <font barcode="' + row.barcode + '" style="cursor:pointer;" onClick="showOptionInfoModal(this);">' + row.barcode + '</font>';
 					strDiv += '    </TD>';
 					strDiv += '    <TD>' + row.option_name + '</TD>';
 					strDiv += '    <TD>' + row.stock_qty + '</TD>';
-					strDiv += '    <TD>' + row.safe_qty + '</TD>';
-					strDiv += '    <TD>' + row.total_sales_cnt + '</TD>';
+					strDiv += '    <TD>' + row.stock_safe_qty + '</TD>';
+					strDiv += '    <TD>' + row.order_qty + '</TD>';
 					strDiv += '</TR>';
 					
 					total_stock_qty += row.stock_qty;
-					total_safe_qty += row.safe_qty;
-					total_sales_cnt += row.total_sales_cnt;
+					total_safe_qty += row.stock_safe_qty;
+					total_sales_cnt += row.order_qty;
 				});
 				
 				strDiv += '    <TR>';
@@ -724,7 +682,7 @@ function resetProductStockTotal() {
 }
 
 function showOptionInfoModal(obj) {
-	var option_code = $(obj).attr('option_code');
-	modal("option/put", 'option_code=' + option_code);
+	var barcode = $(obj).attr('barcode');
+	modal("option/put", 'barcode=' + barcode);
 }
 </script>

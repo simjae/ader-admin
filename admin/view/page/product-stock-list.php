@@ -36,57 +36,65 @@
 				<div class="content__title">상품 구분</div>
 				<div class="content__row">
 					<div class="rd__block">
-						<input id="product_type_all_02" type="radio" name="product_type" value="ALL" checked>
-						<label for="product_type_all_02">전체</label>
-						<input id="product_type_basic_02" type="radio" name="product_type" value="BASIC" >
-						<label for="product_type_basic_02">기본상품</label>
-						<input id="product_type_set_02" type="radio" name="product_type" value="SET" >
-						<label for="product_type_set_02">세트상품</label>
+						<input id="list_product_type_all" type="radio" name="product_type" value="ALL" checked>
+						<label for="list_product_type_">전체</label>
+						
+						<input id="list_product_type_basic" type="radio" name="product_type" value="B" >
+						<label for="list_product_type_">기본상품</label>
+						
+						<input id="list_product_type_set" type="radio" name="product_type" value="S" >
+						<label for="list_product_type_set">세트상품</label>
 					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">상품 분류</div>
 				<div class="content__row">
-				<div class="cb__color">
-					<label>
-						<input type="checkbox" name="product_type_all" value="">
-						<span>전체 상품분류 보기</span>
-					</label>
-				</div>
-				<select class="fSelect category eCategory eCategory1" depth="1" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-				</select>
-
-				<select class="fSelect category eCategory eCategory2" depth="2" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 02</option>
-				</select>
-				<select class="fSelect category eCategory eCategory3" depth="3" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 03</option>
-				</select>
-				<select class="fSelect category eCategory eCategory4" depth="4" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 04</option>
-				</select>
-				<select class="fSelect category eCategory eCategory5" depth="5" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 05</option>
-				</select>
-				<select class="fSelect category eCategory eCategory6" depth="6" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 06</option>
-				</select>
-				<div class="cb__color">
-					<label>
-						<input type="checkbox" name="child_search_flg" value="true">
-						<span>하위분류 포함검색</span>
-					</label>
+					<div class="cb__color">
+						<label>
+							<input type="checkbox" name="product_type_all" value="">
+							<span>전체 상품분류 보기</span>
+						</label>
+					</div>
 					
-					<label>
-						<input type="checkbox" name="none_category_flg" value="true">
-						<span>분류 미등록 상품 검색</span>
-					</label>
-				</div>
-		
+					<select class="fSelect category eCategory eCategory1" depth="1" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+					</select>
 
+					<select class="fSelect category eCategory eCategory2" depth="2" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 02</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory3" depth="3" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 03</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory4" depth="4" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 04</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory5" depth="5" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 05</option>
+					</select>
+					
+					<select class="fSelect category eCategory eCategory6" depth="6" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 06</option>
+					</select>
+					
+					<div class="cb__color">
+						<label>
+							<input type="checkbox" name="child_search_flg" value="true">
+							<span>하위분류 포함검색</span>
+						</label>
+						
+						<label>
+							<input type="checkbox" name="none_category_flg" value="true">
+							<span>분류 미등록 상품 검색</span>
+						</label>
+					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">상품 등록일</div>
 				<div class="content__row">
@@ -115,34 +123,56 @@
 				</div>
 			</div>
 			
-			<div class="card__body--hide detail_hidden" style="display: none;">
-				<div class="content__wrap">
-					<div class="content__title">재고관리 사용</div>
+			<div class="content__wrap grid__half">
+				<div class="half__box__wrap">
+					<div class="content__title">진열 상태</div>
+					
 					<div class="content__row">
 						<div class="rd__block">
-							<input id="stock_management_all" type="radio" name="stock_management" value="all" checked>
-							<label for="stock_management_all">전체</label>
+							<input id="list_display_status_all" type="radio" name="display_status" value="all" checked>
+							<label for="list_display_status_all">전체</label>
 							
-							<input id="stock_management_true" type="radio" name="stock_management" value="true">
-							<label for="stock_management_true">사용 함</label>
+							<input id="list_display_status_true" type="radio" name="display_status" value="true" >
+							<label for="list_display_status_true">진열 함</label>
 							
-							<input id="stock_management_false" type="radio" name="stock_management" value="false">
-							<label for="stock_management_false">사용 안함</label>
+							<input id="list_display_status_false" type="radio" name="display_status" value="false" >
+							<label for="list_display_status_false">진열 안함</label>
 						</div>
 					</div>
 				</div>
 				
-				<div class="content__wrap">
-					<div class="content__title">재고수량</div>
+				<div class="half__box__wrap">
+					<div class="content__title">판매 상태</div>
 					<div class="content__row">
-						<select class="fSelect" name="stock_type" style="width:163px;">
-							<option value="stock">재고수량</option>
-							<option value="safe">안전재고</option>
+						<div class="rd__block">
+							<input id="list_sale_status_all" type="radio" name="sale_status" value="all" checked>
+							<label for="list_sale_status_all">전체</label>
+							
+							<input id="list_sale_status_true" type="radio" name="sale_status" value="true">
+							<label for="list_sale_status_true" >판매 함</label>
+						
+							<input id="list_sale_status_false" type="radio" name="sale_status" value="false">
+							<label for="list_sale_status_false" >판매 안함</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="card__body--hide detail_hidden" style="display: none;">
+				<div class="content__wrap">
+					<div class="content__title">재고 수량</div>
+					<div class="content__row">
+						<select class="fSelect" name="qty_type[]" style="width:163px;">
+							<option value="stock">상품 재고</option>
+							<option value="safe">안전 재고</option>
 						</select>
 						
-						<input type="number" name="stock_min" value="" style="height:28px;border:solid 1px #bfbfbf;width:50px;margin-right:5px;">개
+						<input type="number" value="" style="width:50px;margin-right:5px;">개
 						~
-						<input type="number" name="stock_max" value="" style="height:28px;border:solid 1px #bfbfbf;width:50px;margin-right:5px;">개
+						<input type="number" value="" style="width:50px;margin-right:5px;">개
+						
+						<button style="width:30px;height:30px;border:1px solid;background-color:#ffffff;">-</button>
+						<button style="width:30px;height:30px;border:1px solid;background-color:#ffffff;">+</button>
 					</div>
 				</div>
 				
@@ -150,28 +180,14 @@
 					<div class="content__title">재고관리 등급</div>
 					<div class="content__row">
 						<div class="rd__block">
-							<input id="stock_grade_all" type="radio" name="stock_grade" value="all" checked>
-							<label for="stock_grade_all">전체</label>
-							<input id="stock_grade_A" type="radio" name="stock_grade" value="A" >
-							<label for="stock_grade_A">일반 재고</label>
-							<input id="stock_grade_B" type="radio" name="stock_grade" value="B" >
-							<label for="stock_grade_B">중요 재고</label>
-						</div>
-					</div>
-				</div>
-				
-				<div class="content__wrap">
-					<div class="content__title">품절 사용</div>
-					<div class="content__row">
-						<div class="rd__block">
-							<input id="sold_out_flg_all" type="radio" name="seach_sold_out_flg" value="all" checked>
-							<label for="sold_out_flg_all">전체</label>
+							<input id="list_stock_grade_all" type="radio" name="stock_grade" value="all" checked>
+							<label for="list_stock_grade_all">전체</label>
 							
-							<input id="sold_out_flg_true" type="radio" name="seach_sold_out_flg" value="true">
-							<label for="sold_out_flg_true">사용 함</label>
+							<input id="list_stock_grade_nml" type="radio" name="stock_grade" value="NML">
+							<label for="list_stock_grade_nml">일반 재고</label>
 							
-							<input id="sold_out_flg_false" type="radio" name="seach_sold_out_flg" value="false">
-							<label for="sold_out_flg_false">사용 안함</label>
+							<input id="list_stock_grade_imp" type="radio" name="stock_grade" value="IMP">
+							<label for="list_stock_grade_imp">중요 재고</label>
 						</div>
 					</div>
 				</div>
@@ -180,47 +196,14 @@
 					<div class="content__title">품절 상태</div>
 					<div class="content__row">
 						<div class="rd__block">
-							<input id="sold_out_status_all" type="radio" name="sold_out_status" value="all" checked>
-							<label for="sold_out_status_all">전체</label>
+							<input id="list_sold_out_status_all" type="radio" name="sold_out_status" value="all" checked>
+							<label for="list_sold_out_status_all">전체</label>
 							
-
-							<input id="sold_out_status_false" type="radio" name="sold_out_status" value="false">
-							<label for="sold_out_status_false">품절</label>
+							<input id="list_sold_out_status_true" type="radio" name="sold_out_status" value="false">
+							<label for="list_sold_out_status_true">품절</label>
 							
-							<input id="sold_out_status_true" type="radio" name="sold_out_status" value="true">
-							<label for="sold_out_status_true">품절 아님</label>
-						</div>
-					</div>
-				</div>
-				
-				<div class="content__wrap grid__half">
-					<div class="half__box__wrap">
-						<div class="content__title">진열 상태</div>
-						<div class="content__row">
-							<div class="rd__block">
-								<input id="display_status_all" type="radio" name="display_status" value="all" checked>
-								<label for="display_status_all">전체</label>
-								<input id="display_status_true" type="radio" name="display_status" value="true">
-								<label for="display_status_true">진열 함</label>
-								<input id="display_status_false" type="radio" name="display_status" value="false">
-								<label for="display_status_false">진열 안함</label>
-							</div>
-						</div>
-					</div>
-					
-					<div class="half__box__wrap">
-						<div class="content__title">판매 여부</div>
-						<div class="content__row">
-							<div class="rd__block">
-								<input id="sale_flg_all" type="radio" name="sale_flg" value="all" checked>
-								<label for="sale_flg_all">전체</label>
-								
-								<input id="sale_flg_true" type="radio" name="sale_flg" value="true">
-								<label for="sale_flg_true">판매 함</label>
-								
-								<input id="sale_flg_false" type="radio" name="sale_flg" value="false">
-								<label for="sale_flg_false">판매 안함</label>
-							</div>
+							<input id="list_sold_out_status_false" type="radio" name="sold_out_status" value="true">
+							<label for="list_sold_out_status_false">품절 아님</label>
 						</div>
 					</div>
 				</div>
@@ -230,7 +213,7 @@
 					<div class="price_type_td">
 						<div class="content__row country_price">
 							<input type="hidden" class="price_type_list" value="">
-							
+										
 							<select id="price_type" class="fSelect price_type" name="price_type[]" style="width:163px;" onChange="priceTypeChange(this);">
 								<option value="">상품가격 선택</option>	
 								<option value="SALES_PRICE_KR">한국몰 가격</option>
@@ -356,12 +339,10 @@
 									</div>
 								</TH>
 								<TH>품목명</TH>
-								<TH style="width:8%;">재고관리 사용</TH>
 								<TH style="width:8%;">재고관리 등급</TH>
-								<TH style="width:8%;">수량체크 기준</TH>
 								<TH style="width:5%;">재고수량</TH>
+								<TH style="width:5%;">판매수량</TH>
 								<TH style="width:5%;">안전재고</TH>
-								<TH style="width:5%;">품절표시</TH>
 								<TH style="width:8%;">진열상태</TH>
 								<TH style="width:8%;">판매상태</TH>
 							</TR>
@@ -435,10 +416,10 @@ function getProductStockInfo_02() {
 					row_class = 'product_row_' + row.product_code;
 					stock_id = 'total_stock_' + row.product_code;
 					
-					total_stock = (row.stock_quantity - row.order_stock);
+					total_stock = (row.stock_qty - row.order_qty);
 				} else {
 					row_num++;
-					total_stock += (row.stock_quantity - row.order_stock);
+					total_stock += (row.stock_qty - row.order_qty);
 					$('.' + row_class).attr('rowspan',row_num);
 					$('#' + stock_id).text(total_stock);
 				}
@@ -474,83 +455,52 @@ function getProductStockInfo_02() {
 				strDiv += '    </TD>';
 				strDiv += '    <TD>';
 				strDiv += '        ' + row.option_name + '<br>';
-				strDiv += '        (' + row.option_code + ')';
-				strDiv += '    </TD>';
-				
-				var manage_selected_true = "";
-				var manage_selected_false = "";
-				if (row.stock_management == true) {
-					manage_selected_true = "selected";
-				} else {
-					manage_selected_false = "selected";
-				}
-				
-				strDiv += '    <TD>';
-				strDiv += '        <select class="fSelect" name="" style="font-size:0.5rem;">';
-				strDiv += '            <option value="T" ' + manage_selected_true + '>사용함</option>';
-				strDiv += '            <option value="F" ' + manage_selected_false + '>사용안함</option>';
-				strDiv += '        </select>';
+				strDiv += '        (' + row.barcode + ')';
 				strDiv += '    </TD>';
 
-				var stock_type_a = "";
-				var stock_type_b = "";
-				if (row.stock_grade == 'A') {
-					stock_type_a = "selected";
-				} else {
-					stock_type_b = "selected";
+				var stock_type_nml = "";
+				var stock_type_imp = "";
+				if (row.stock_grade == 'NML') {
+					stock_type_nml = "selected";
+				} else if (row.stock_grade == 'IMP') {
+					stock_type_imp = "selected";
 				}
 				
 				strDiv += '    <TD>';
 				strDiv += '        <select class="fSelect" name="" style="font-size:0.5rem;">';
-				strDiv += '            <option value="A" ' + stock_type_a + '>일반재고</option>';
-				strDiv += '            <option value="B" ' + stock_type_b + '>중요재고</option>';
+				strDiv += '            <option value="NML" ' + stock_type_nml + '>일반재고</option>';
+				strDiv += '            <option value="IMP" ' + stock_type_imp + '>중요재고</option>';
 				strDiv += '        </select>';
 				strDiv += '    </TD>';
 				
-				var check_type_a = "";
-				var check_type_b = "";
-				if (row.qty_check_type == 'A') {
-					check_type_a = "selected";
-				} else {
-					check_type_b = "selected";
+				strDiv += '    <TD>' + row.stock_qty + '</TD>';
+				strDiv += '    <TD>' + row.order_qty + '</TD>';
+				strDiv += '    <TD>' + row.stock_safe_qty + '</TD>';
+				
+				var display_flg = row.display_flg;
+				var display_status = "";
+				
+				if (display_flg == true) {
+					display_status = "진열함";
+				} else if (display_flg == false) {
+					display_status = "진열안함";
 				}
 				
 				strDiv += '    <TD>';
-				strDiv += '        <select class="fSelect" name="" style="font-size:0.5rem;">';
-				strDiv += '            <option value="A" ' + check_type_a + '>주문기준</option>';
-				strDiv += '            <option value="B" ' + check_type_b + '>결제기준</option>';
-				strDiv += '        </select>';
+				strDiv += '        ' + display_status;
 				strDiv += '    </TD>';
 				
-				strDiv += '    <TD>' + (row.stock_quantity - row.order_stock) + '</TD>';
-				strDiv += '    <TD>' + row.safe_quantity + '</TD>';
+				var sale_flg = row.sale_flg;
+				var sale_status = "";
 				
-				var sold_out_checked = "";
-				if (row.sold_out_flg == true) {
-					sold_out_checked = "checked";
+				if (sale_flg == true) {
+					sale_status = "판매함";
+				} else if (sale_flg == false) {
+					sale_status = "판매안함";
 				}
 				
 				strDiv += '    <TD>';
-				strDiv += '        <div class="cb__color">';
-				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" name="select" ' + sold_out_checked + '>';
-				strDiv += '                <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				
-				strDiv += '    <TD>';
-				strDiv += '        <select class="fSelect eStockValue" name="is_display[P0000LSF000A]" style="font-size:0.5rem;">';
-				strDiv += '            <option value="T" selected="selected">진열함</option>';
-				strDiv += '            <option value="F">진열안함</option>';
-				strDiv += '        </select>';
-				strDiv += '    </TD>';
-				
-				strDiv += '    <TD>';
-				strDiv += '        <select class="fSelect eStockValue" name="is_selling[P0000LSF000A]" style="font-size:0.5rem;">';
-				strDiv += '            <option value="T" selected="selected">판매함</option>';
-				strDiv += '            <option value="F">판매안함</option>';
-				strDiv += '        </select>';
+				strDiv += '        ' + sale_status;
 				strDiv += '    </TD>';
 				strDiv += '</TR>';
 				

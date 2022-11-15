@@ -175,6 +175,7 @@
         text-align: left;
         color: #343434;
         padding-bottom: 30px;
+        gap: 30px;
     }
 
 
@@ -188,7 +189,7 @@
 
     .styling-text {
         font-family: FuturaLTPro;
-        font-size: 1.6rem;
+        font-size: 1.3rem;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
@@ -229,7 +230,7 @@
     }
 
     .styling-swiper .title {
-        padding: 20px 0 10px 10px;
+        padding: 0px 0 10px 10px;
         font-family: FuturaLTPro;
         font-size: 2rem;
         font-weight: normal;
@@ -243,14 +244,20 @@
 
     .styling-swiper .t-box {
         padding-left: calc(100% - 85%);
+        padding-bottom: 30px;
+    padding-top: 28px;
     }
 
     /* recommand */
     .recommand-wrap {
         padding-bottom: 130px;
     }
+
     .re-swiper {
         position: relative;
+    }
+    .re-swiper .swiper-slide:hover {
+        background-color: #FBFBFB;
     }
     .slide-box {
         box-sizing: border-box;
@@ -275,14 +282,21 @@
         padding-bottom: 300px;
         position: relative;
     }
+
     .foryou-wrap .foryou-text {
         position: absolute;
         padding: 22px;
         z-index: 10;
+        font-family: FuturaLTPro;
+        font-size: 1.3rem;
+        font-weight: normal;
+        color: #343434;
     }
-    .foryou-wrap .foryou-swiper{
+
+    .foryou-wrap .foryou-swiper {
         position: relative;
     }
+
     .foryou-wrap .wish__btn {
         position: absolute;
         right: 0;
@@ -320,6 +334,7 @@
         right: 2%;
         color: #343434;
     }
+
     .new__project__swiper .navigation .swiper-button-prev {
         width: 1.2rem;
         content: url('/images/svg/sw-ar-wh.svg');
@@ -328,6 +343,7 @@
         top: calc(100% - 19%);
         color: #343434;
     }
+
     .re-swiper .navigation .swiper-button-next {
         width: 1.2rem;
         content: url('/images/svg/sw-ar-bk.svg');
@@ -335,6 +351,7 @@
         right: 2%;
         color: #343434;
     }
+
     .re-swiper .navigation .swiper-button-prev {
         display: none;
         content: url('/images/svg/sw-ar-bk.svg');
@@ -342,20 +359,20 @@
         top: calc(100% - 50%);
         color: #343434;
     }
-    /* .styling-swiper .navigation .swiper-button-next {
-        width: 1.2rem;
-        content: url('/images/svg/sw-ar-bk.svg');
-        top: calc(100% - 5%);
-        right: 2%;
-        color: #343434;
-    } */
     .styling-swiper .navigation .swiper-button-next {
-        width: calc(100% - 99%);
-        top: 97%;
-        right: 0;
-        color: #343434;
-        background-color: red;
+            top: auto;
+            height: 110px;
+            right: 0;
+            bottom: 0;
+            color:var(--bk);
+            background-color: var(--wh);
+        }
+    .styling-swiper .navigation .swiper-button-next::after{
+        content: url('/images/svg/sw-ar-bk.svg');
+        position: relative;
+        bottom: 10px;
     }
+
     .styling-swiper .navigation .swiper-button-prev {
         display: none;
         content: url('/images/svg/sw-ar-bk.svg');
@@ -363,6 +380,7 @@
         top: calc(100% - 5%);
         color: #343434;
     }
+
     .foryou-swiper .navigation .swiper-button-next {
         content: url('/images/svg/sw-ar-bk.svg');
         top: calc(100% - 50%);
@@ -370,6 +388,7 @@
         color: #343434;
         width: 12px;
     }
+
     .foryou-swiper .navigation .swiper-button-prev {
         display: none;
         content: url('/images/svg/sw-ar-bk.svg');
@@ -379,47 +398,79 @@
     }
 
 
-    @media (max-width: 1025px){ 
+    @media (max-width: 1025px) {
+        
         .under-line.bk::after {
             background-color: #343434;
         }
+
         .under-line.wh::after {
             background-color: #ffffff;
+        }
+        .new__project__content .cnt-box{
+            padding-left: 10px;
+        }
+        .new__project__content .season__title {
+            grid-column: 1 / 17;
+        }
+
+        .new__project__content .title {
+            grid-column: 1 / 17;
+        }
+
+        .new__project__swiper .btn__wrap {
+            grid-column: 1 / 17;
         }
         .new__project__img {
             max-height: 675px;
         }
-        .new__project__swiper .navigation{
+
+        .new__project__swiper .navigation {
             display: none;
         }
-        .recommand-wrap .navigation{
+
+        .recommand-wrap .navigation {
             display: none;
         }
-        .exhibtion__wrap{
+
+        .exhibtion__wrap {
             flex-direction: column;
         }
-        .exhibtion__wrap > div {
+
+        .exhibtion__wrap>div {
             width: 100%;
         }
-        .exhibtion__content{
+
+        .exhibtion__content {
             order: 2;
         }
+
         .exhibtion__img {
             order: 1;
             margin-top: 100px;
             min-height: 360px;
         }
-        .exhibtion__content .title{
+
+        .exhibtion__content .title {
             grid-column: 1 / 9;
             font-size: 1.2rem;
         }
+
         .exhibtion__content .season__title {
             grid-column: 1 / 9;
             font-size: 1.6rem;
         }
+
         .exhibtion__content .btn__wrap {
             grid-column: 1 / 9;
             font-size: 1.2rem;
+        }
+        .re-swiper .swiper-wrapper{
+            flex-wrap: wrap;
+        }
+        .re-swiper .swiper-slide {
+            width: 50%!important;
+            margin-right: 0px!important;
         }
         /* .styling-swiper .styling__img{
             max-height: 270px;
@@ -427,23 +478,39 @@
         .re-swiper .styling__img{
             max-height: 225px;
         } */
-        .styling-swiper .swiper-slide .t-box{
-            padding: 0;
+        .styling-swiper .swiper-slide .t-box {
+            padding-left:0px;
         }
-        .styling-swiper .swiper-slide .btn__wrap{
+
+        .styling-swiper .swiper-slide .btn__wrap {
             gap: 0;
         }
-        .styling-swiper .title{
+
+        .styling-swiper .title {
             font-size: 1.6rem;
         }
+
         .styling-swiper .btn__wrap {
-            font-size: 1.2rem; 
+            font-size: 1.2rem;
         }
+
         .styling-swiper .navigation .swiper-button-next::before {
             background-color: #ffffff;
         }
+        .styling-swiper .navigation .swiper-button-next {
+            top: auto;
+            height: 90px;
+            right: 0;
+            bottom: 0;
+            color:var(--bk);
+            background-color: var(--wh);
+        }
         .foryou-wrap {
-            padding-bottom:160px;
+            padding-bottom: 160px;
+        }
+        .foryou-wrap .foryou-text{
+            position: static;
+            
         }
     }
 </style>
@@ -505,7 +572,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_product_BLASSTB18BL_mdl_1661837024.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -513,7 +580,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_product_PRDTEST0001_mdl_1661773069.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -521,7 +588,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -529,7 +596,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -537,7 +604,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_product_BLASSTB18BL_mdl_1661837024.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -545,7 +612,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_product_PRDTEST0001_mdl_1661773069.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -553,7 +620,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -561,7 +628,7 @@
                         <a class="slide-box">
                             <div class="center-box">
                                 <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                                <div class="slide__title">tasdawasudasd</div>
+                                <div class="slide__title">Shopper bag</div>
                             </div>
                         </a>
                     </div>
@@ -699,7 +766,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="navigation">
                     <div class="swiper-button-next">
@@ -792,6 +859,9 @@
 <script>
     // http://116.124.128.246/_api/common/recommend/get
     //swiper
+    window.addEventListener('DOMContentLoaded', () => {
+        swiperResize();
+    });
     window.addEventListener('resize', () => {
         swiperResize();
     });
@@ -904,16 +974,18 @@
             });
         });
     })();
+
     function swiperResize() {
         let screenWidth = window.screen.width;
-        let nextbtn =  document.querySelector(".styling-swiper .navigation .swiper-button-next");
+        let nextbtn = document.querySelector(".styling-swiper .navigation .swiper-button-next");
         if (screenWidth >= 1024) {
-            let oneGridWidth = screenWidth / 16 ;
+            ex.init();
+            let oneGridWidth = screenWidth / 16;
             nextbtn.style.width = `${oneGridWidth}px`;
         } else {
-            let oneGridWidth = ((screenWidth / 8) * 2)-10 ;
+            ex.destroy();
+            let oneGridWidth = ((screenWidth / 8) * 2) - 10;
             nextbtn.style.width = `${oneGridWidth}px`;
         }
     }
-    
 </script>

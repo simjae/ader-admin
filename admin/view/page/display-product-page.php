@@ -1283,33 +1283,7 @@ function libraryLoad_product() {
 		});
 	}
 	
-	$.ajax({
-		type: "post",
-		data: {
-			"product_idx":product_idx
-		},
-		dataType: "json",
-		url: config.api + "display/product/grid/lib/get",
-		error: function() {
-			alert("상품 이미지 불러오기 처리에 실패했습니다.");
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				var data = d.data;
-				if(data != null){
-					var strDiv = "";
-					data.forEach(function(row) {
-						strDiv += '<img class="library" draggable="true" id="' + row.product_code + '" data-name="ader1" data-url="' + row.img_location + '" data-productcode="' + row.product_code + '" data-idx="' + row.product_idx + '" src="' + row.img_location + '" alt="">';
-					});
-					
-					let productImgWrap = document.querySelector('.product-grid');
-					productImgWrap.innerHTML = strDiv;
-					
-					libraryDragStart();
-				}
-			}
-		}
-	});
+	modal('get','product_idx=' + product_idx);
 }
 
 function libraryLoad_img() {
@@ -1347,7 +1321,7 @@ function libraryDragStart() {
 			if (ev.dataTransfer.effectAllowed === 'uninitialized') {
 				ev.dataTransfer.setData('product_idx', ev.target.dataset.idx);
 				ev.dataTransfer.setData('product_code', ev.target.id);
-				ev.dataTransfer.setData('content_url', ev.target.dataset.url);
+				ev.dataTransfer.setData('content_location', ev.target.dataset.url);
 				
 				let imgLibrarySrc = ev.target.src;
 				let imgLibraryId = ev.target.id;
@@ -1380,7 +1354,7 @@ function libraryDrop(ev) {
 	} else {
 		let product_idx = ev.dataTransfer.getData('product_idx');
 		let product_code = ev.dataTransfer.getData('product_code');
-		let content_url = ev.dataTransfer.getData('content_url');
+		let content_location = ev.dataTransfer.getData('content_location');
 		
 		let width = 0;
 		let grid_type = "";
@@ -1403,7 +1377,7 @@ function libraryDrop(ev) {
 		default_value += '    "grid_size":"' + width + '",';
 		default_value += '    "product_idx":"' + product_idx + '",';
 		default_value += '    "product_code":"' + product_code + '",';
-		default_value += '    "content_url":"' + content_url + '",';
+		default_value += '    "content_location":"' + content_location + '",';
 		default_value += '    "bg_color":"' + bg_color + '",';
 		default_value += '    "data":null';
 		default_value += '}';
@@ -1476,7 +1450,7 @@ function saveProductGridColumn() {
 	if (productWrap.dataset.productcode != null) {
 		let product_idx = $('#product_idx').val();
 		let product_code = productWrap.dataset.productcode;
-		let content_url = productWrap.dataset.src;
+		let content_location = productWrap.dataset.src;
 		let grid_type = $(productWrap).attr('grid_type');
 		let grid_size = $(productWrap).attr('grid_size');
 		let bg_color = $(productWrap).attr('bg-color');
@@ -1508,7 +1482,7 @@ function saveProductGridColumn() {
 		
 		grid_data.product_idx = product_idx;
 		grid_data.product_code = product_code;
-		grid_data.content_url = content_url;
+		grid_data.content_location = content_location;
 		grid_data.grid_type = grid_type;
 		grid_data.grid_size = grid_size;
 		grid_data.bg_color = bg_color;
@@ -1970,7 +1944,7 @@ $(document).ready(function () {
 			default_value += '    "grid_size":"' + width + '",';
 			default_value += '    "product_idx":"0",';
 			default_value += '    "product_code":null,';
-			default_value += '    "content_url":null,';
+			default_value += '    "content_location":null,';
 			default_value += '    "bg_color":"' + color_code + '",';
 			default_value += '    "data":null';
 			default_value += '}';
@@ -2017,7 +1991,7 @@ $(document).ready(function () {
 			default_value += '    "grid_size":"' + width + '",';
 			default_value += '    "product_idx":"0",';
 			default_value += '    "product_code":null,';
-			default_value += '    "content_url":null,';
+			default_value += '    "content_location":null,';
 			default_value += '    "bg_color":"#ffffff",';
 			default_value += '    "data":null';
 			default_value += '}';
@@ -2113,7 +2087,7 @@ $(document).ready(function () {
 			
 			let product_idx = $('#product_idx').val();
 			let product_code = productWrap.dataset.productcode;
-			let content_url = productWrap.dataset.src;
+			let content_location = productWrap.dataset.src;
 			
 			let default_value = "";
 			default_value += '{';
@@ -2121,7 +2095,7 @@ $(document).ready(function () {
 			default_value += '    "grid_size":"1",';
 			default_value += '    "product_idx":"' + product_idx + '",';
 			default_value += '    "product_code":"' + product_code + '",';
-			default_value += '    "content_url":"' + content_url + '",';
+			default_value += '    "content_location":"' + content_location + '",';
 			default_value += '    "bg_color":"#ffffff",';
 			default_value += '    "data":null';
 			default_value += '}';
@@ -2172,14 +2146,14 @@ function getDisplayProductInfo(param) {
 					let ret = [];
 					
 					let itemElem = document.createElement("div");
+					
 					data.forEach(function(row) {
-						
 						let id = row.display_num;
-						let bg = row.bg_color;
+						let bg = row.background_color;
 						let width = "";
 						let color = "gray";
 						
-						let grid_type = row.grid_type;
+						let grid_type = row.type;
 						if (grid_type == "PRD") {
 							width = 1;
 						} else if (grid_type == "IMG") {
@@ -2190,8 +2164,8 @@ function getDisplayProductInfo(param) {
 
 						let strDiv = "";
 						strDiv += '<div class="card_grid item h1 w' + width + ' ' + color + '" style="background-color:' + bg + '" draggable="true" data-id="' + id + '" data-color="' + color + '">';
-
-						let default_value = row.json_data;
+						
+						var default_value = JSON.stringify(row.column_info);
 						
 						let product_code = row.product_code;
 						
@@ -2214,8 +2188,8 @@ function getDisplayProductInfo(param) {
 							strDiv += '        </div>';
 						}
 						
-						if (row.content_url.length > 0) {
-							strDiv += '        <img id="' + row.product_code + '"class="library" draggable="true" id="' + row.product_code + '" data-name="ader1" data-url="' + row.content_url + '" data-productcode="' + row.product_code + '" data-idx="' + row.product_idx + '" src="' + row.content_url + '" alt="">';	
+						if (row.content_location.length > 0) {
+							strDiv += '        <img id="' + row.product_code + '"class="library" draggable="true" id="' + row.product_code + '" data-name="ader1" data-url="' + row.content_location + '" data-productcode="' + row.product_code + '" data-idx="' + row.product_idx + '" src="' + row.content_location + '" alt="">';	
 						}
 						
 						strDiv += '        </div>';

@@ -30,7 +30,7 @@ if ($action_type != null) {
 	}
 	else if ($action_type == "order_status_set") {
 		$set .= " UPDATE_DATE = NOW(), ";
-		$set .= " PERSONAL_ORDER_FLG = TRUE ";
+		$set .= " INDEPENDENCE_FLG = TRUE ";
 	}
 }
 

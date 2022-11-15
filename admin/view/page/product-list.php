@@ -1,5 +1,5 @@
 <div class="content__card">
-	<form id="frm-filter" action="product/get">
+	<form id="frm-filter" action="product/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="tab_num" name="tab_num" value="01">
@@ -66,12 +66,14 @@
 				<div class="content__title">상품 구분</div>
 				<div class="content__row">
 					<div class="rd__block">
-						<input id="product_type1" type="radio" name="product_type" value="ALL" checked>
-						<label for="product_type1">전체</label>
-						<input id="product_type2" type="radio" name="product_type" value="BASIC" >
-						<label for="product_type2">기본상품</label>
-						<input id="product_type3" type="radio" name="product_type" value="SET" >
-						<label for="product_type3">세트상품</label>
+						<input id="product_type_all" type="radio" name="product_type" value="ALL" checked>
+						<label for="product_type_all">전체</label>
+						
+						<input id="product_type_b" type="radio" name="product_type" value="B" >
+						<label for="product_type_b">기본상품</label>
+						
+						<input id="product_type_s" type="radio" name="product_type" value="S" >
+						<label for="product_type_s">세트상품</label>
 					</div>
 				</div>
 			</div>
@@ -381,8 +383,10 @@
 								</div>
 							</TH>
 							<TH style="width:5%;">No.</TH>
-							<TH style="width:8%;">상품구분</TH>
-							<TH>상품코드</TH>
+							<TH style="width:3%;">상품<br>구분</TH>
+							<TH>스타일 코드</TH>
+							<TH>컬러 코드</TH>
+							<TH>상품 코드</TH>
 							<TH>상품명</TH>
 							<TH style="width:8%;">판매가<br>(한국몰)</TH>
 							<TH style="width:8%;">판매가<br>(영문몰)</TH>
@@ -838,14 +842,24 @@ function getProdTabInfo(){
 				strDiv += '    <td>';
 				strDiv += '        <div class="cb__color">';
 				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.no + '">';
+				strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.product_idx + '">';
 				strDiv += '                <span></span>';
 				strDiv += '            </label>';
 				strDiv += '        </div>';
 				strDiv += '    </td>';
 				strDiv += '    <td>' + row.num + '</td>';
-				strDiv += '    <td>' + row.product_type + '</td>';
-				strDiv += '    <td><font product_idx="' + row.no + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.product_code + '</font></td>';
+				
+				var product_type = "";
+				if (row.product_type == "B") {
+					product_type = "일반";
+				} else if (row.product_type == "S") {
+					product_type = "세트";
+				}
+				
+				strDiv += '    <td>' + product_type + '</td>';
+				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
+				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
+				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.product_code + '</font></td>';
 				strDiv += '    <TD>';
 				strDiv += '        <div class="product__img__wrap">';
 				
@@ -859,9 +873,43 @@ function getProdTabInfo(){
 				strDiv += '            </div>';
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
-				strDiv += '    <td style="text-align: right;">' + row.price_kr.toLocaleString('ko-KR') + '</td>';
-				strDiv += '    <td style="text-align: right;">' + row.price_en.toLocaleString('ko-KR') + '</td>';
-				strDiv += '    <td style="text-align: right;">' + row.price_cn.toLocaleString('ko-KR') + '</td>';
+				
+				strDiv += '    <td style="text-align: right;">';
+				var discount_kr = row.discount_kr;
+				if (discount_kr > 0) {
+					strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
+					strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
+				} else {
+					strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
+				}
+				
+				strDiv += '    </td>';
+				
+				strDiv += '    <td style="text-align: right;">';
+				var discount_en = row.discount_en;
+				if (discount_en > 0) {
+					strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
+					strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
+				} else {
+					strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
+				}
+				
+				strDiv += '    </td>';
+				
+				strDiv += '    <td style="text-align: right;">';
+				var discount_cn = row.discount_cn;
+				if (discount_cn > 0) {
+					strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
+					strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
+				} else {
+					strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
+				}
+				
+				strDiv += '    </td>';
+				
 				strDiv += '    <td>';
 				strDiv += '        <input disabled type="text" value="" placeholder="지원하지 않는 상품입니다">';
 				strDiv += '        ';

@@ -174,17 +174,17 @@
 </div>
 
 <script>
-(function() {
-    window.addEventListener("scroll" ,() => {
-        const $wishbox = document.querySelector(".wish__box");
-        const footer = document.querySelector("footer").style.height;
-        if ((window.innerHeight + window.scrollY) == document.body.offsetHeight) {
-            $wishbox.style.bottom = "200px";
-        }else {
-            $wishbox.style.bottom = "0px";
-        }
-    });
-})();
+// function() {
+//     window.addEventListener("scroll" ,() => {
+//         const $wishbox = document.querySelector(".wish__box");
+//         const footer = document.querySelector("footer").style.height;
+//         if ((window.innerHeight + window.scrollY) == document.body.offsetHeight) {
+//             $wishbox.style.bottom = "200px";
+//         }else {
+//             $wishbox.style.bottom = "0px";
+//         }
+//     });
+// };
 (() => {
     let $btnBox = document.querySelector(".btn__box");
     let $btnBoxImg = document.querySelector(".btn__box img");

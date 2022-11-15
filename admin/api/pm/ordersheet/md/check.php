@@ -17,19 +17,15 @@ $product_code     = $_POST['product_code'];
 
 if($product_code != null){
     //검색 유형 - 디폴트
-    $where = '1=1';
-    $where .= " AND (PRODUCT_CODE = '".$product_code."')
-                AND DEL_FLG  = FALSE";
-    $table = 'dev.ORDERSHEET_MST';
-    $sql = 	'
-            SELECT
-                COUNT(IDX) AS PRODUCT_CNT
+    $sql = "SELECT
+                COUNT(OM.IDX) AS PRODUCT_CNT
             FROM 
-                '.$table.'      
-            WHERE 
-                '.$where.'
-            ';
-
+                dev.ORDERSHEET_MST OM
+            WHERE
+                OM.PRODUCT_CODE = '".$product_code."'AND
+				OM.DEL_FLG = FALSE
+            ";
+	
     $db->query($sql);
     foreach($db->fetch() as $data) {
             $json_result['data'][] = array(

@@ -1,7 +1,8 @@
 <div class="content__card">
-	<form id="frm-list_01" action="product/delete/get">
+	<form id="frm-list_01" action="product/list/get">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+		<input type="hidden" name="delete_flg" value="true">
 		<input type="hidden" name="tab_num" value="01">
 		<input type="hidden" class="rows" name="rows" value="10">
 		<input type="hidden" class="page" name="page" value="1">
@@ -343,12 +344,14 @@
 									</div>
 								</TH>
 								<TH style="width:5%;">No.</TH>
-								<TH style="width:10%;">상품구분</TH>
-								<TH style="width:10%;">상품코드</TH>
+								<TH style="width:3%;">상품<br>구분</TH>
+								<TH>스타일 코드</TH>
+								<TH>컬러 코드</TH>
+								<TH>상품 코드</TH>
 								<TH>상품명</TH>
-								<TH style="width:10%;">판매가<br>(한국몰)</TH>
-								<TH style="width:10%;">판매가<br>(영문몰)</TH>
-								<TH style="width:10%;">판매가<br>(중문몰)</TH>
+								<TH style="width:8%;">판매가<br>(한국몰)</TH>
+								<TH style="width:8%;">판매가<br>(영문몰)</TH>
+								<TH style="width:8%;">판매가<br>(중국몰)</TH>
 							</TR>
 						</THEAD>
 						
@@ -379,7 +382,7 @@ function getDeleteTabInfo_01() {
 	$("#result_table_01").html('');
 	
 	var strDiv = '';
-	strDiv += '<TD class="default_td" colspan="8">';
+	strDiv += '<TD class="default_td" colspan="10">';
 	strDiv += '    조회 결과가 없습니다';
 	strDiv += '</TD>';
 	
@@ -394,6 +397,9 @@ function getDeleteTabInfo_01() {
 			if (d.length > 0) {
 				$("#result_table_01").html('');
 			}
+			
+			console.log(d);
+			
 			d.forEach(function(row) {
 				var strDiv = "";
 				strDiv += '<TR>';
@@ -406,8 +412,17 @@ function getDeleteTabInfo_01() {
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
 				strDiv += '    <TD>' + row.num + '</TD>';
-				strDiv += '    <TD>' + row.product_type + '</TD>';
-				strDiv += '    <TD>' + row.product_code + '</TD>';
+				var product_type = "";
+				if (row.product_type == "B") {
+					product_type = "일반";
+				} else if (row.product_type == "S") {
+					product_type = "세트";
+				}
+				
+				strDiv += '    <td>' + product_type + '</td>';
+				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
+				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
+				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.product_code + '</font></td>';
 				strDiv += '    <TD>';
 				strDiv += '        <div class="product__img__wrap">';
 				
@@ -421,10 +436,43 @@ function getDeleteTabInfo_01() {
 				strDiv += '            </div>';
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
-				strDiv += '    <TD>' + row.sales_price_kr + '</TD>';
-				strDiv += '    <TD>' + row.sales_price_en + '</TD>';
-				strDiv += '    <TD>' + row.sales_price_cn + '</TD>';
-				strDiv += '</TR>'
+				
+				strDiv += '    <td style="text-align: right;">';
+				var discount_kr = row.discount_kr;
+				if (discount_kr > 0) {
+					strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
+					strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
+				} else {
+					strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
+				}
+				
+				strDiv += '    </td>';
+				
+				strDiv += '    <td style="text-align: right;">';
+				var discount_en = row.discount_en;
+				if (discount_en > 0) {
+					strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
+					strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
+				} else {
+					strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
+				}
+				
+				strDiv += '    </td>';
+				
+				strDiv += '    <td style="text-align: right;">';
+				var discount_cn = row.discount_cn;
+				if (discount_cn > 0) {
+					strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
+					strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
+				} else {
+					strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
+				}
+				
+				strDiv += '    </td>';
+				strDiv += '</tr>';
 				
 				$("#result_table_01").append(strDiv);
 			});

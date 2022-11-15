@@ -1,18 +1,26 @@
 <?PHP
 
+    $tab_num = $_POST['tab_num'];
+
     $seq = $_REQUEST['seq'];
     $depth = $_REQUEST['depth'];
     $father_id = $_REQUEST['father_id'];
     $id = $_REQUEST['id'];
     $title = $_REQUEST['title'];
 
+    if($tab_num == '01'){
+        $table = 'dev.ORDERSHEET_CATEGORY';
+    }
+    else if($tab_num == '02'){
+        $table = 'dev.MD_CATEGORY';
+    }
     $where = '';
     $where_values = array();
 
     $db_sel = new db();
     $db_sel->query(' 
 		SELECT IDX 
-			FROM dev.MD_CATEGORY
+			FROM '.$table.'
 		WHERE 
 			NODE = ?
 	',array($father_id));
@@ -28,7 +36,7 @@
         'TITLE'=>$title
     );
     $db->insert(
-            'dev.MD_CATEGORY',
+            $table,
             $values,
             $where,
             $where_values

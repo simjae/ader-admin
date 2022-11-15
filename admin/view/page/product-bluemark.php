@@ -270,7 +270,7 @@ function getBluemarkInfo(){
 				strDiv += '    <TD>' + row.num + '</TD>';
 				strDiv += '    <TD>' + row.product_code + '</TD>';
 				strDiv += '    <TD>' + row.product_name + '</TD>';
-				strDiv += '    <TD>' + row.option_code + '</TD>';
+				strDiv += '    <TD>' + row.barcode + '</TD>';
 				strDiv += '    <TD>' + row.option_name + '</TD>';
 				strDiv += '	   <TD><font style="cursor:pointer;" onClick="openBluemarkLogModal(' + row.idx + ');">' + row.serial_code + '</font></TD>';
 				strDiv += '    <TD>' + row.season + '</TD>';
@@ -413,7 +413,7 @@ function putBluemarkExcel(str, name){
 }
 function openBluemarkLogModal(idx){
 	if(idx != null){
-		modal('log', 'idx='+idx);
+		modal('log', 'idx=' + idx);
 	}
 }
 function bluemarkActionClick(obj) {

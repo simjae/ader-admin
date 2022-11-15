@@ -9,43 +9,52 @@
 	<div class="contents">
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
-			
+			<!--
 			<div class="row form-group">
 				<button type="button" style="width:120px;height:30px;border:1px solid #000000;cursor:pointer;float:right;" onClick="$('#currency_table').toggle();">환율정보 조회</button>
 				<button type="button" style="width:80px;height:30px;border:1px solid #000000;cursor:pointer;margin-right:10px;float:right;" onClick="productPriceCalc();">계산</button>
 				<input id="calc_val" type="text" style="width:163px;height:30px;margin-right:10px;float:right;" placeholder="배율" value="1.4">
 			</div>
-			
+			-->
 			<div id="currency_table" class="row form-group" style="margin-top:5px;display:none;"></div>
 			
 			<div class="row" style="margin-top:10px;">
 				<TABLE id="insert_table_price" class="list" style="font-size:0.7rem;">
 					<colgroup>
-						<col width="25%">
-						<col width="25%">
-						<col width="25%">
-						<col width="25%">
+						<col width="10%">
+						<col width="23%">
+						<col width="10%">
+						<col width="23%">
+						<col width="10%">
+						<col width="23%">
 					</colgroup>
 					<TBODY>
-						<TR>
-							<TD>ADER</TD>
-							<TD>ADER GB</TD>
-							<TD>ADER EN USD</TD>
-							<TD>ADER CN USD</TD>
+						<TR class="cal_discount">
+							<TD>한국몰 가격</TD>
+							<TD><input id="price_kr" class="price" type="number" step="0.01" name="price_kr" value="0"></TD>
+							<TD>한국몰 세일가격</TD>
+							<TD><input id="sales_price_kr" class="sales_price" type="number" step="0.01" name="sales_price_kr" value="0"></TD>
+							<TD>한국몰 할인율</TD>
+							<TD><input id="discount_kr" class="result" type="number" step="0.01" name="discount_kr" value="0" readonly></TD>
+
 						</TR>
-						<TR>
-							<TD>
-								<input id="price_kr" type="number" step="0.01"  name="price_kr" value="0">
-							</TD>
-							<TD>
-								<input id="price_kr_gb" type="number" step="0.01" name="price_kr_gb" value="0">
-							</TD>
-							<TD>
-								<input id="price_en" type="number" step="0.01"  name="price_en" value="0">
-							</TD>
-							<TD>
-								<input id="price_cn" type="number" step="0.01"  name="price_cn" value="0">
-							</TD>
+						<TR class="cal_discount">
+							<TD>영문몰 가격</TD>
+							<TD><input id="price_en" class="price" type="number" step="0.01" name="price_en" value="0"></TD>
+							<TD>영문몰 세일가격</TD>
+							<TD><input id="sales_price_en" class="sales_price" type="number" step="0.01" name="sales_price_en" value="0"></TD>
+							<TD>영문몰 할인율</TD>
+							<TD><input id="discount_en" class="result" type="number" step="0.01" name="discount_en" value="0" readonly></TD>
+
+						</TR>
+						<TR class="cal_discount"> 
+							<TD>중국몰 가격</TD>
+							<TD><input id="price_cn" class="price" type="number" step="0.01" name="price_cn" value="0"></TD>
+							<TD>중국몰 세일가격</TD>
+							<TD><input id="sales_price_cn" class="sales_price" type="number" step="0.01" name="sales_price_cn" value="0"></TD>
+							<TD>중국몰 할인율</TD>
+							<TD><input id="discount_cn" class="result" type="number" step="0.01" name="discount_cn" value="0" readonly></TD>
+
 						</TR>
 					</TBODY>
 				</TABLE>
@@ -61,6 +70,22 @@
 
 <script>
 $(document).ready(function() {
+	$('.cal_discount').keyup(function(){
+		var price = $(this).find('.price').val();
+		var sales_price = $(this).find('.sales_price').val();
+
+		if(price * sales_price > 0){
+			$(this).find('.result').val( ((price - sales_price) / price * 100 ).toFixed(2))
+		}
+	});
+	$('.cal_discount').change(function(){
+		var price = $(this).find('.price').val();
+		var sales_price = $(this).find('.sales_price').val();
+
+		if(price * sales_price > 0){
+			$(this).find('.result').val( ((price - sales_price) / price * 100 ).toFixed(2))
+		}
+	});
 	getCurrencyInfo();
 });
 
@@ -131,6 +156,10 @@ function productPriceCalc() {
 		$('#sales_price_kr').val(sales_price_kr);
 		$('#sales_price_en').val(sales_price_en);
 		$('#sales_price_cn').val(sales_price_cn);
+
+		$('#sales_price_kr').change();
+		$('#sales_price_en').change();
+		$('#sales_price_cn').change();
 	}
 }
 

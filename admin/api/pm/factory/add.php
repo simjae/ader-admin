@@ -18,6 +18,7 @@ $ordersheet_idx		= $_POST['ordersheet_idx'];
 $manufacturer		= $_POST['manufacturer'];
 $due_date			= $_POST['due_date'];
 $product_qty		= $_POST['product_qty'];
+$memo				= $_POST['memo'];
 
 if ($ordersheet_idx != null) {
 	$sql = "INSERT INTO
@@ -32,6 +33,7 @@ if ($ordersheet_idx != null) {
 				MANUFACTURER,
 				DUE_DATE,
 				PRODUCT_QTY,
+				MEMO,
 				CREATER,
 				UPDATER
 			)
@@ -45,6 +47,7 @@ if ($ordersheet_idx != null) {
 				'".$manufacturer."',
 				'".$due_date."',
 				".$product_qty.",
+				'".$memo."',
 				'Admin',
 				'Admin'
 			FROM

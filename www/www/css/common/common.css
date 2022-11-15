@@ -127,19 +127,21 @@ transform: translateY(-4px) rotate(-45deg);
     position: relative;
     width: 15px;
 }
-.size__box li[data-soldout="STCL"] {}
 .size__box li[data-soldout="STIN"] {
-    /* 재고없음(재고 증가 예정) */
+    /* 재거있음 */
     color:#343434;
-    opacity: 0.5;
 
 }
-.size__box li[data-soldout="STSC"]::after{
-    /* 품절임박 */
+.size__box li[data-soldout="STCL"] {
+     /* 품절임박 */
     content: url(/images/svg/wish-redsold.svg);
     position: relative;
     bottom: 0.8rem;
     left: 0rem;
+}
+
+.size__box li[data-soldout="STSC"]::after{
+    opacity: 0.5;
 }
 .size__box li[data-soldout="STSO"]::after {
     /* 재고없음(재고 증가 없음) */

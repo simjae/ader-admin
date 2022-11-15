@@ -48,7 +48,6 @@ if ($update_date != $last_update_date) {
 
 if($ordersheet_idx != null){
     $column_cnt     = $_POST['column_cnt'];
-    $stock_grade    = $_POST['stock_grade'];
     $size_category  = $_POST['size_category'];
     $option_name    = $_POST['option_name'];
     $size_code      = $_POST['size_code'];
@@ -59,8 +58,8 @@ if($ordersheet_idx != null){
     $option_size_5  = $_POST['option_size_5'];
     $option_size_6  = $_POST['option_size_6'];
 
-    $wkla = $_POST['wkla'];
-    $wkla_str = " WKLA = '".$wkla."',";
+    $wkla_idx = $_POST['wkla_idx'];
+    $wkla_idx_str = " WKLA_IDX = '".$wkla_idx."',";
 
     $model = $_POST['model'];
     $model_str = " MODEL = '".$model."',";
@@ -140,41 +139,66 @@ if($ordersheet_idx != null){
     $size_onesize_cn = $_POST['size_onesize_cn'];
     $size_onesize_cn = xssEncode($size_onesize_cn);
     $size_onesize_cn_str = " SIZE_ONESIZE_CN = '".$size_onesize_cn."',";
-
-    $care_kr = $_POST['care_kr'];
-    $care_kr_str = '';
-    if ($care_kr != null) {
-        $care_kr_str = " CARE_KR = '".$care_kr."',";
+    
+    $care_dsn_kr = $_POST['care_dsn_kr'];
+    $care_dsn_kr = str_replace("<p>&nbsp;</p>","",$care_dsn_kr);
+    $care_dsn_kr_str = '';
+    if ($care_dsn_kr != null) {
+        $care_dsn_kr_str = " CARE_DSN_KR = '".$care_dsn_kr."',";
+    }
+    else{
+        $care_dsn_kr_str = " CARE_DSN_KR = NULL,";
     }
 
-    $care_en = $_POST['care_en'];
-    $care_en_str = '';
-    if ($care_en != null) {
-        $care_en_str = " CARE_EN = '".$care_en."',";
+    $care_dsn_en = $_POST['care_dsn_en'];
+    $care_dsn_en = str_replace("<p>&nbsp;</p>","",$care_dsn_en);
+    $care_dsn_en_str = '';
+    if ($care_dsn_en != null) {
+        $care_dsn_en_str = " CARE_DSN_EN = '".$care_dsn_en."',";
+        
+    }
+    else{
+        $care_dsn_en_str = " CARE_DSN_EN = NULL,";
     }
 
-    $care_cn = $_POST['care_cn'];
-    $care_cn_str = '';
-    if ($care_cn != null) {
-        $care_cn_str = " CARE_CN = '".$care_cn."',";
+    $care_dsn_cn = $_POST['care_dsn_cn'];
+    $care_dsn_cn = str_replace("<p>&nbsp;</p>","",$care_dsn_cn);
+    $care_dsn_cn_str = '';
+    if ($care_dsn_cn != null) {
+        $care_dsn_cn_str = " CARE_DSN_CN = '".$care_dsn_cn."',";
+    }
+    else{
+        $care_dsn_cn_str = " CARE_DSN_CN = NULL,";
     }
 
     $detail_kr = $_POST['detail_kr'];
+    $detail_kr = str_replace("<p>&nbsp;</p>","",$detail_kr);
     $detail_kr_str = '';
     if ($detail_kr != null) {
         $detail_kr_str = " DETAIL_KR = '".$detail_kr."',";
     }
+    else{
+        $detail_kr_str = " DETAIL_KR = NULL,";
+    }
 
     $detail_en = $_POST['detail_en'];
+    $detail_en = str_replace("<p>&nbsp;</p>","",$detail_en);
     $detail_en_str = '';
     if ($detail_en != null) {
         $detail_en_str = " DETAIL_EN = '".$detail_en."',";
     }
+    else{
+        $detail_en_str = " DETAIL_EN = NULL,";
+    }
 
     $detail_cn = $_POST['detail_cn'];
+    $detail_cn = str_replace("<p>&nbsp;</p>","",$detail_cn);
     $detail_cn_str = '';
     if ($detail_cn != null) {
         $detail_cn_str = " DETAIL_CN = '".$detail_cn."',";
+    }
+    else{
+        $detail_cn_str = " DETAIL_CN = NULL,";
     }
 
     $db->begin_transaction();
@@ -184,7 +208,7 @@ if($ordersheet_idx != null){
         $sql = 	"UPDATE
                     dev.ORDERSHEET_MST
                 SET
-                    ".$wkla_str."
+                    ".$wkla_idx_str."
                     ".$model_str."
                     ".$model_wear_str."
                     ".$size_a1_kr_str."
@@ -205,9 +229,9 @@ if($ordersheet_idx != null){
                     ".$size_a4_cn_str."
                     ".$size_a5_cn_str."
                     ".$size_onesize_cn_str."
-                    ".$care_kr_str."
-                    ".$care_en_str."
-                    ".$care_cn_str."
+                    ".$care_dsn_kr_str."
+                    ".$care_dsn_en_str."
+                    ".$care_dsn_cn_str."
                     ".$detail_kr_str."
                     ".$detail_en_str."
                     ".$detail_cn_str."
@@ -225,9 +249,10 @@ if($ordersheet_idx != null){
             //ORDERSHEET_OPTION 수정 처리
             $column_sql = '';
             $value_sql  = '';
-            if($size_category != null){
-                $db->query('DELETE FROM dev.ORDERSHEET_OPTION WHERE ORDERSHEET_IDX = '.$ordersheet_idx);
-
+            
+            $db->query('DELETE FROM dev.ORDERSHEET_OPTION WHERE ORDERSHEET_IDX = '.$ordersheet_idx);
+			
+			if($size_category != null){
                 for($i=0; $i<count($option_name); $i++){
                     $option_size_1_val = strlen($option_size_1[$i]) > 0 ? $option_size_1[$i] : 'NULL';
                     $option_size_2_val = strlen($option_size_2[$i]) > 0 ? $option_size_2[$i] : 'NULL';
@@ -241,7 +266,6 @@ if($ordersheet_idx != null){
                             PRODUCT_CODE,
                             BARCODE,
                             OPTION_NAME,
-                            OPTION_STOCK_GRADE,
                             OPTION_SIZE_1,
                             OPTION_SIZE_2,
                             OPTION_SIZE_3,
@@ -260,7 +284,6 @@ if($ordersheet_idx != null){
                             '".$product_code."',
                             '".$product_code.$size_code[$i]."',
                             '".$option_name[$i]."',
-                            '".$stock_grade[$i]."',
                             ".$option_size_1_val.",
                             ".$option_size_2_val.",
                             ".$option_size_3_val.",

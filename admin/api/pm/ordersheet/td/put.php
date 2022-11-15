@@ -45,28 +45,70 @@ if ($update_date != $last_update_date) {
 }
 
 if($ordersheet_idx != null){
+	$care_td_kr = $_POST['care_td_kr'];
+	$care_td_kr = str_replace("<p>&nbsp;</p>","",$care_td_kr);
+	$care_td_kr_str = '';
+	if ($care_td_kr != null) {
+		$care_td_kr_str = " CARE_TD_KR = '".$care_td_kr."',";
+	}
+	else{
+        $care_td_kr_str = " CARE_TD_KR = NULL,";
+    }
+
+	$care_td_en = $_POST['care_td_en'];
+	$care_td_en = str_replace("<p>&nbsp;</p>","",$care_td_en);
+	$care_td_en_str = '';
+	if ($care_td_en != null) {
+		$care_td_en_str = " CARE_TD_EN = '".$care_td_en."',";
+	}
+	else{
+        $care_td_en_str = " CARE_TD_EN = NULL,";
+    }
+
+	$care_td_cn = $_POST['care_td_cn'];
+	$care_td_cn = str_replace("<p>&nbsp;</p>","",$care_td_cn);
+	$care_td_cn_str = '';
+	if ($care_td_cn != null) {
+		$care_td_cn_str = " CARE_TD_CN = '".$care_td_cn."',";
+	}
+	else{
+        $care_td_cn_str = " CARE_TD_CN = NULL,";
+    }
+
 	$material_kr = $_POST['material_kr'];
+	$material_kr = str_replace("<p>&nbsp;</p>","",$material_kr);
 	$material_kr_str = '';
 	if ($material_kr != null) {
 		$material_kr_str = " MATERIAL_KR = '".$material_kr."',";
 	}
+	else{
+        $material_kr_str = " MATERIAL_KR = NULL,";
+    }
 
 	$material_en = $_POST['material_en'];
+	$material_en = str_replace("<p>&nbsp;</p>","",$material_en);
 	$material_en_str = '';
 	if ($material_en != null) {
 		$material_en_str = " MATERIAL_EN = '".$material_en."',";
 	}
+	else{
+        $material_en_str = " MATERIAL_EN = NULL,";
+    }
 
 	$material_cn = $_POST['material_cn'];
+	$material_cn = str_replace("<p>&nbsp;</p>","",$material_cn);
 	$material_cn_str = '';
 	if ($material_cn != null) {
 		$material_cn_str = " MATERIAL_CN = '".$material_cn."',";
 	}
+	else{
+        $material_cn_str = " MATERIAL_CN = NULL,";
+    }
 
 	$manufacturer = $_POST['manufacturer'];
 	$manufacturer_str = '';
 	if ($manufacturer != null) {
-		$manufacturer_str = " manufacturer = '".$manufacturer."',";
+		$manufacturer_str = " MANUFACTURER = '".$manufacturer."',";
 	}
 	$supplier = $_POST['supplier'];
 	$supplier_str = '';
@@ -80,28 +122,40 @@ if($ordersheet_idx != null){
 		$origin_country_str = " ORIGIN_COUNTRY = '".$origin_country."',";
 	}
 
-	$brand = $_POST['brand'];
-	$brand_str = '';
-	if ($brand != null) {
-		$brand_str = " BRAND = '".$trenbrand."',";
+	$load_box_idx = $_POST['load_box_idx'];
+	$load_box_idx_str = '';
+	if ($load_box_idx != null) {
+		$load_box_idx_str = " LOAD_BOX_IDX = ".$load_box_idx.",";
 	}
 
-	$trend = $_POST['trend'];
-	$trend_str = '';
-	if ($trend != null) {
-		$trend_str = " TREND = '".$trend."',";
+	$deliver_box_idx = $_POST['deliver_box_idx'];
+	$deliver_box_idx_str = '';
+	if ($deliver_box_idx != null) {
+		$deliver_box_idx_str = " DELIVER_BOX_IDX = ".$deliver_box_idx.",";
 	}
 
-	$box_idx = $_POST['box_idx'];
-	$box_idx_str = '';
-	if ($box_idx != null) {
-		$box_idx_str = " BOX_IDX = '".$box_idx."',";
+	$load_weight = $_POST['load_weight'];
+	$load_weight_str = '';
+	if ($load_weight != null) {
+		$load_weight_str = " LOAD_WEIGHT = ".$load_weight.",";
 	}
 
-	$product_weight = $_POST['product_weight'];
-	$product_weight_str = '';
-	if ($product_weight != null) {
-		$product_weight_str = " PRODUCT_WEIGHT = '".$product_weight."',";
+	$load_qty = $_POST['load_qty'];
+	$load_qty_str = '';
+	if ($load_qty != null) {
+		$load_qty_str = " LOAD_QTY = ".$load_qty.",";
+	}
+
+	$td_sub_material_idx = $_POST['td_sub_material_idx'];
+	$td_sub_material_idx_str = '';
+	if ($td_sub_material_idx != null) {
+		$td_sub_material_idx_str = " TD_SUB_MATERIAL_IDX = '".implode(",", $td_sub_material_idx)."',";
+	}
+
+	$delivery_sub_material_idx = $_POST['delivery_sub_material_idx'];
+	$delivery_sub_material_idx_str = '';
+	if ($delivery_sub_material_idx != null) {
+		$delivery_sub_material_idx_str = " DELIVERY_SUB_MATERIAL_IDX = '".implode(",", $delivery_sub_material_idx)."',";
 	}
 
 	$db->begin_transaction();
@@ -111,6 +165,9 @@ if($ordersheet_idx != null){
 		$sql = 	"UPDATE
 					dev.ORDERSHEET_MST
 				SET
+					".$care_td_kr_str."
+					".$care_td_en_str."
+					".$care_td_cn_str."
 					".$material_kr_str."
 					".$material_en_str."
 					".$material_cn_str."
@@ -118,10 +175,12 @@ if($ordersheet_idx != null){
 					".$supplier_str."
 					".$supplier_str."
 					".$origin_country_str."
-					".$brand_str."
-					".$trend_str."
-					".$box_idx_str."
-					".$product_weight_str."
+					".$load_box_idx_str."
+					".$deliver_box_idx_str."
+					".$load_weight_str."
+					".$load_qty_str."
+					".$td_sub_material_idx_str."
+					".$delivery_sub_material_idx_str."
 					
 					UPDATE_DATE = NOW(),
 					UPDATER = 'Admin'

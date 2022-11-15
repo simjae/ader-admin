@@ -67,6 +67,30 @@
 	
 	<!-- END JAVASCRIPT -->
 </head>
+<script>
+	$(document).ready(function() {
+		$('#btn_backend').click(function() {
+			$('.header').css('background-color','#000000');
+			$('#backend').show();
+			$('#product_management').hide();
+		})
+		
+		$('#btn_product_management').click(function() {
+			$('.header').css('background-color','#0000c5');
+			$('#backend').hide();
+			$('#product_management').show();
+		})
+		
+		var url = window.location.pathname;
+		var path = url.substr(1,2);
+		
+		if (path == "pm") {
+			$('.header').css('background-color','#0000c5');
+			$('#backend').hide();
+			$('#product_management').show();
+		}
+	});
+</script>
 <body>
 <div class="logo__benner">
 	<div></div>
@@ -92,7 +116,7 @@
 </div>
 <div class="app">
 	<div class="left-side">
-		<div class="nav__wrap">
+		<div class="nav__wrap" id="backend">
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap" onclick="location.href='/analysis/dashboard'">
@@ -195,6 +219,77 @@
 						<div class="nav__child" data-url="/analysis/exel">통합엑셀 다운로드</div>
 						<div class="nav__child" data-url="/analysis/dashboard">대시보드</div>
 					</div>	
+				</div>	
+			</div>
+			
+			<div class="nav__parent__wrap" id="btn_product_management">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">독립몰 상품관리</span> 
+					</div>
+				</div>	
+			</div>
+		</div>
+		
+		<div class="nav__wrap" id="product_management" style="display:none;">
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">오더시트</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+					</div>
+					
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pm/ordersheet/classify">오더시트 분류 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/list">오더시트 리스트</div>
+						<div class="nav__child" data-url="/pm/ordersheet/history">오더시트 히스토리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/line">라인 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/wkla">W/K/L/A 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/load_box">적재박스 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/td_sub_material">생산 부자재 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/delivery_sub_material">배송 부자재 관리</div>
+					</div>	
+				</div>	
+			</div>
+			
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">샘플 정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+					</div>
+					
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pm/sample/list" >샘플 리스트 조회</div>
+					</div>	
+				</div>	
+			</div>
+			
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">홀세일 정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+					</div>
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pm/wholesale/list">홀세일 리스트 조회</div>
+					</div>	
+				</div>	
+			</div>
+			
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">공장별 수주정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+					</div>
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pm/factory/list">공장별 수주 정보 조회</div>
+					</div>	
+				</div>	
+			</div>
+			
+			<div class="nav__parent__wrap" id="btn_backend">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">ADER 독립몰 백엔드 메뉴</span> 
+					</div>
 				</div>	
 			</div>
 		</div>

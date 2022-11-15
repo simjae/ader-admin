@@ -13,14 +13,27 @@
  | 
  +=============================================================================
 */
-$sel_idx     = $_POST['sel_idx'];
+$box_type       = $_POST['box_type'];
+$sel_idx        = $_POST['sel_idx'];
 
-$sql = 	'
-        DELETE FROM
-            dev.BOX_INFO
-        WHERE
-            IDX = '.$sel_idx.'
-  ';
-  
-$db->query($sql);
+$table = '';
+
+if($box_type != null){
+    switch($box_type){
+        case 'LOAD':
+            $table = " dev.LOAD_BOX_INFO ";
+            break;
+        case 'DELIVER':
+            $table = " dev.DELIVER_BOX_INFO ";
+            break;
+    }
+    $sql = 	'
+            DELETE FROM
+                '.$table.'
+            WHERE
+                IDX = '.$sel_idx.'
+    ';
+    
+    $db->query($sql);
+}
 ?>

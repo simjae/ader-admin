@@ -60,7 +60,7 @@ $tables = "
 
 //검색 유형 - 디폴트
 $where = '1=1';
-$where .= ' AND (PRODUCT.PERSONAL_ORDER_FLG = FALSE AND PRODUCT.DEL_FLG = FALSE) ';
+$where .= ' AND (PRODUCT.INDP_FLG = FALSE AND PRODUCT.DEL_FLG = FALSE) ';
 
 $where_cnt = $where;
 //검색 유형 - 상품 IDX
@@ -528,12 +528,12 @@ if ($select_idx_flg == true) {
 						IMG.IMG_TYPE = 'PRODUCT'
 				) AS IMG_LOCATION,
 				PRODUCT.PRODUCT_TYPE									AS PRODUCT_TYPE,
-				PRODUCT.PRODUCT_STYLE_CODE								AS PRODUCT_STYLE_CODE,
+				PRODUCT.STYLE_CODE										AS STYLE_CODE,
 				PRODUCT.PRODUCT_CODE									AS PRODUCT_CODE,
-				PRODUCT.PL_LRG_CATEGORY									AS PL_LRG_CATEGORY,
-				PRODUCT.PL_MDL_CATEGORY									AS PL_MDL_CATEGORY,
-				PRODUCT.PL_SML_CATEGORY									AS PL_SML_CATEGORY,
-				PRODUCT.PL_DTL_CATEGORY									AS PL_DTL_CATEGORY,
+				PRODUCT.CATEGORY_LRG									AS CATEGORY_LRG,
+				PRODUCT.CATEGORY_MDL									AS CATEGORY_MDL,
+				PRODUCT.CATEGORY_SML									AS CATEGORY_SML,
+				PRODUCT.CATEGORY_DTL									AS CATEGORY_DTL,
 				PRODUCT.MATERIAL										AS MATERIAL,
 				PRODUCT.GRAPHIC											AS GRAPHIC,
 				PRODUCT.FIT												AS FIT,
@@ -631,7 +631,7 @@ if ($select_idx_flg == true) {
 				DATE_FORMAT(PRODUCT.DISPLAY_START_DATE,'%Y-%m-%d')		AS DISPLAY_START_DATE,
 				DATE_FORMAT(PRODUCT.DISPLAY_END_DATE,'%Y-%m-%d')		AS DISPLAY_END_DATE,
 				PRODUCT.NON_RELEASE_REASON								AS NON_RELEASE_REASON,
-				PRODUCT.PERSONAL_ORDER_FLG								AS PERSONAL_ORDER_FLG,
+				PRODUCT.INDP_FLG										AS INDP_FLG,
 				PRODUCT.DEL_FLG											AS DEL_FLG,
 				PRODUCT.CREATE_DATE										AS CREATE_DATE,
 				PRODUCT.CREATER											AS CREATER,
@@ -712,12 +712,12 @@ if ($select_idx_flg == true) {
 			'img_location'					=>$data['IMG_LOCATION'],
 			'img_result'					=>$img_result,
 			'product_type'					=>$data['PRODUCT_TYPE'],
-			'product_style_code'			=>$data['PRODUCT_CODE'],
+			'style_code'					=>$data['STYLE_CODE'],
 			'product_code'					=>$data['PRODUCT_CODE'],
-			'pl_lrg_category'				=>$data['PL_LRG_CATEGORY'],
-			'pl_mdl_category'				=>$data['PL_MDL_CATEGORY'],
-			'pl_sml_category'				=>$data['PL_SML_CATEGORY'],
-			'pl_dtl_category'				=>$data['PL_DTL_CATEGORY'],
+			'category_lrg'					=>$data['CATEGORY_LRG'],
+			'category_mdl'					=>$data['CATEGORY_MDL'],
+			'category_sml'					=>$data['CATEGORY_SML'],
+			'category_dtl'					=>$data['CATEGORY_DTL'],
 			'material'						=>$data['MATERIAL'],
 			'graphic'						=>$data['GRAPHIC'],
 			'fit'							=>$data['FIT'],

@@ -18,27 +18,27 @@
 $select_idx				= $_POST['select_idx'];
 $action_type			= $_POST['action_type'];
 
-$table = " dev.BLUEMARK_INFO ";
-
 $idx_list="";
 if ($select_idx != null) {
 	if(is_array($select_idx) == true){
 		$idx_list = implode(',',$select_idx);
-		$where .= " WHERE IDX IN (".$idx_list.")";
+		$where .= " WHERE BI.IDX IN (".$idx_list.")";
 	}
 	else{
-		$where .= " WHERE IDX = ".$select_idx;
+		$where .= " WHERE BI.IDX = ".$select_idx;
 	}	
 }
 
 $sql = "";
 if ($action_type != null) {
 	switch ($action_type) {
-		case "delete" :
+		case "DELETE" :
 			$sql = "UPDATE
-						".$table."
+						dev.BLUEMARK_INFO BI
 					SET
-						DEL_FLG = TRUE
+						BI.DEL_FLG = TRUE,
+						BI.UPDATER = 'Admin',
+						BI.UPDATE_DATE = NOW()
 					".$where;
 			break;
 	}

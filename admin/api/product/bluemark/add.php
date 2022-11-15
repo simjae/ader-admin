@@ -35,26 +35,38 @@ if($sheet_data != null){
 		*/
 		$row++;
 		if ($db->count('dev.BLUEMARK_INFO'," SERIAL_CODE = '".$val[2]."' ") == 0) {
-			if(strlen($val[0]) != 0 ){
+			if(strlen($val[0]) != null ){
 				$sql = "INSERT INTO dev.BLUEMARK_INFO(	
+							PRODUCT_IDX,
 							PRODUCT_CODE,
+							PRODUCT_NAME,
+							OPTION_IDX,
 							OPTION_CODE,
+							OPTION_NAME,
 							SERIAL_CODE,
 							SEASON,
-							CREATE_DATE,
 							CREATER,
-							UPDATE_DATE,
 							UPDATER
-						) VALUES(
-							'".$val[0]."',
-							'".$val[1]."',
-							'".$val[2]."',
-							'".$val[3]."',
-							NOW(),
-							'Admin',
-							NOW(),
-							'Admin'
-						)";
+						)
+						SELECT
+							PR.IDX			AS PRODUCT_IDX,
+							PR.PRODUCT_CODE	AS PRODUCT_CODE,
+							PR.PRODUCT_NAME	AS PRODUCT_NAME,
+							OO.IDX			AS OPTION_IDX,
+							OO.BARCODE		AS BARCODE,
+							OO.OPTION_NAME	AS OPTION_NAME,
+							'".$val[2]."'	AS SERIAL_CODE,
+							'".$val[3]."'	AS SEASON,
+							'Admin'			AS CREATER,
+							'Admin'			AS UPDATER
+						FROM
+							dev.SHOP_PRODUCT PR
+							LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+							PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
+						WHERE
+							PR.PRODUCT_CODE = '".$val[0]."' AND
+							OO.BARCODE = '".$val[1]."'";
+				
 				$db->query($sql);
 				$success_cnt++;
 			}

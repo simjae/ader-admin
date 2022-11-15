@@ -50,6 +50,7 @@ if($wholesale_idx != null){
 				BUYER			AS BUYER,
 				IFNULL(DATE_FORMAT(DUE_DATE, '%Y-%m-%d'),'')		AS DUE_DATE,
 				PRODUCT_QTY		AS PRODUCT_QTY,
+				MEMO 			AS MEMO,
 				CREATE_DATE		AS CREATE_DATE,
 				CREATER			AS CREATER,
 				UPDATE_DATE		AS UPDATE_DATE,
@@ -62,61 +63,61 @@ if($wholesale_idx != null){
 }
 else{
 	if ($ordersheet_idx != null) {
-		$where .= ' AND (ORDERSHEET_IDX = '.$ordersheet_idx.') ';
+		$where .= ' AND (WI.ORDERSHEET_IDX = '.$ordersheet_idx.') ';
 	}
 	if ($style_code != null) {
-		$where .= ' AND (STYLE_CODE LIKE "%'.$style_code.'%") ';
+		$where .= ' AND (WI.STYLE_CODE LIKE "%'.$style_code.'%") ';
 	}
 	
 	if ($color_code != null) {
-		$where .= ' AND (COLOR_CODE LIKE "%'.$color_code.'%") ';
+		$where .= ' AND (WI.COLOR_CODE LIKE "%'.$color_code.'%") ';
 	}
 	
 	if ($product_code != null) {
-		$where .= ' AND (PRODUCT_CODE LIKE "%'.$product_code.'%") ';
+		$where .= ' AND (WI.PRODUCT_CODE LIKE "%'.$product_code.'%") ';
 	}
 	
 	if ($product_name != null) {
-		$where .= ' AND (PRODUCT_NAME LIKE "%'.$product_name.'%") ';
+		$where .= ' AND (WI.PRODUCT_NAME LIKE "%'.$product_name.'%") ';
 	}
 	
 	if ($color != null) {
-		$where .= ' AND (COLOR LIKE "%'.$color.'%") ';
+		$where .= ' AND (WI.COLOR LIKE "%'.$color.'%") ';
 	}
 	
 	if ($country != null) {
-		$where .= ' AND (COUNTRY LIKE "%'.$country.'%") ';
+		$where .= ' AND (WI.COUNTRY LIKE "%'.$country.'%") ';
 	}
 	
 	if ($buyer != null) {
-		$where .= ' AND (BUYER LIKE "%'.$buyer.'%") ';
+		$where .= ' AND (WI.BUYER LIKE "%'.$buyer.'%") ';
 	}
 	
 	if ($min_due_date != null || $max_due_date != null) {
 		if ($min_due_date != null && $max_due_date == null) {
-			$where .= " AND (DUE_DATE >= '".$min_due_date."') ";
+			$where .= " AND (WI.DUE_DATE >= '".$min_due_date."') ";
 		}
 		
 		if ($min_due_date == null && $max_due_date != null) {
-			$where .= " AND (DUE_DATE <= '".$max_due_date."') ";
+			$where .= " AND (WI.DUE_DATE <= '".$max_due_date."') ";
 		}
 		
 		if ($min_due_date != null && $max_due_date != null) {
-			$where .= " AND (DUE_DATE BETWEEN '".$min_due_date."' AND '".$max_due_date."') ";
+			$where .= " AND (WI.DUE_DATE BETWEEN '".$min_due_date."' AND '".$max_due_date."') ";
 		}
 	}
 	
 	if ($min_qty != null || $max_qty != null) {
 		if ($min_qty != null && $max_qty == null) {
-			$where .= " AND (PRODUCT_QTY >= ".$min_qty.") ";
+			$where .= " AND (WI.PRODUCT_QTY >= ".$min_qty.") ";
 		}
 	
 		if ($min_qty == null && $max_qty != null) {
-			$where .= " AND (PRODUCT_QTY <= ".$max_qty.") ";
+			$where .= " AND (WI.PRODUCT_QTY <= ".$max_qty.") ";
 		}
 		
 		if ($min_qty != null && $max_qty != null) {
-			$where .= " AND (PRODUCT_QTY BETWEEN ".$min_qty." AND ".$max_qty.") ";
+			$where .= " AND (WI.PRODUCT_QTY BETWEEN ".$min_qty." AND ".$max_qty.") ";
 		}
 	}
 	
@@ -125,12 +126,12 @@ else{
 	if ($sort_value != null && $sort_type != null) {
 		$order = ' '.$sort_value." ".$sort_type." ";
 	} else {
-		$order = ' IDX DESC';
+		$order = ' WI.IDX DESC';
 	}
 	
 	$limit_start = (intval($page)-1)*$rows;
-	$total = $db->count("dev.WHOLESALE_INFO",$where);
-	$total_cnt = $db->count("dev.WHOLESALE_INFO",$where_cnt);
+	$total = $db->count("dev.WHOLESALE_INFO WI",$where);
+	$total_cnt = $db->count("dev.WHOLESALE_INFO WI",$where_cnt);
 	
 	$json_result = array(
 		'total' => $total,
@@ -139,23 +140,54 @@ else{
 	);
 	
 	$sql = "SELECT
-				IDX				AS WHOLESALE_IDX,
-				ORDERSHEET_IDX	AS ORDERSHEET_IDX,
-				STYLE_CODE		AS STYLE_CODE,
-				COLOR_CODE		AS COLOR_CODE,
-				PRODUCT_CODE	AS PRODUCT_CODE,
-				PRODUCT_NAME	AS PRODUCT_NAME,
-				COLOR			AS COLOR,
-				COUNTRY			AS COUNTRY,
-				BUYER			AS BUYER,
-				IFNULL(DATE_FORMAT(DUE_DATE, '%Y-%m-%d'),'')		AS DUE_DATE,
-				PRODUCT_QTY		AS PRODUCT_QTY,
-				CREATE_DATE		AS CREATE_DATE,
-				CREATER			AS CREATER,
-				UPDATE_DATE		AS UPDATE_DATE,
-				UPDATER			AS UPDATER
+				WI.IDX				AS WHOLESALE_IDX,
+				WI.ORDERSHEET_IDX	AS ORDERSHEET_IDX,
+				WI.STYLE_CODE		AS STYLE_CODE,
+				WI.COLOR_CODE		AS COLOR_CODE,
+				WI.PRODUCT_CODE	AS PRODUCT_CODE,
+				WI.PRODUCT_NAME	AS PRODUCT_NAME,
+				WI.COLOR			AS COLOR,
+				WI.COUNTRY			AS COUNTRY,
+				WI.BUYER			AS BUYER,
+				IFNULL(DATE_FORMAT(WI.DUE_DATE, '%Y-%m-%d'),'')		AS DUE_DATE,
+				WI.PRODUCT_QTY		AS PRODUCT_QTY,
+				WI.MEMO			AS MEMO,
+				CASE
+					WHEN
+						(
+							SELECT
+								COUNT(S_OI.IDX)
+							FROM
+								dev.ORDERSHEET_IMG S_OI
+							WHERE
+								S_OI.ORDERSHEET_IDX = WI.ORDERSHEET_IDX AND
+								IMG_TYPE = 'P' AND
+								IMG_SIZE = 'S'
+						) > 0
+						THEN
+							(
+								SELECT
+									S_OI.IMG_LOCATION
+								FROM
+									dev.ORDERSHEET_IMG S_OI
+								WHERE
+									S_OI.ORDERSHEET_IDX = WI.ORDERSHEET_IDX AND
+									S_OI.IMG_TYPE = 'P' AND
+									S_OI.IMG_SIZE = 'S'
+								ORDER BY
+									S_OI.IDX ASC
+								LIMIT
+									0,1
+							)
+					ELSE
+						'/images/default_product_img.jpg'
+				END												AS ORDERSHEET_IMG,
+				WI.CREATE_DATE		AS CREATE_DATE,
+				WI.CREATER			AS CREATER,
+				WI.UPDATE_DATE		AS UPDATE_DATE,
+				WI.UPDATER			AS UPDATER
 			FROM
-				dev.WHOLESALE_INFO
+				dev.WHOLESALE_INFO WI
 			WHERE
 				".$where."
 			ORDER BY
@@ -182,6 +214,8 @@ foreach($db->fetch() as $data) {
 		'buyer'				=>$data['BUYER'],
 		'due_date'			=>$data['DUE_DATE'],
 		'product_qty'		=>$data['PRODUCT_QTY'],
+		'memo'				=>$data['MEMO'],
+		'ordersheet_img'	=>$data['ORDERSHEET_IMG'],
 		'create_date'		=>$data['CREATE_DATE'],
 		'creater'			=>$data['CREATER'],
 		'update_date'		=>$data['UPDATE_DATE'],
