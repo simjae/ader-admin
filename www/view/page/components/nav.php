@@ -30,6 +30,7 @@
     window.addEventListener('resize', () => {
         windowResponsive()
     });
+    
 
     const getMenuListApi = () => {
         let country = "KR";
@@ -63,7 +64,7 @@
 
         menuHtml +=
             `<li class="header__logo" onClick="location.href='/'">
-                <img src="/images/landing/logo.png" alt="">
+                <img class="logo"src="/images/landing/logo.png" alt="">
         </li>`
         
         data.forEach((el, idx) => {
@@ -72,7 +73,7 @@
             let mdl = lrg.menu_mdl;
             if( el.menu_lrg.menu_type =="PR") {
                 menuHtml +=
-                `<li class="hidden lg:block drop web" data-tpye="${lrg.menu_type}" data-lrg="${idx}">
+                `<li class="drop web" data-tpye="${lrg.menu_type}" data-lrg="${idx}">
                     <a href="${lrg.menu_link}">${lrg.menu_title}</a>
                     <div class="drop__menu">
                         <ul class="cont">
@@ -146,36 +147,31 @@
             }
         });
         menuHtml +=
-            `<li class="hidden lg:block drop web" style="grid-column: 12/13; font-size: 1.2rem;" data-large="6">
-                <a href="">스토리</a>
-            </li>
-            <li class="hidden lg:block drop web" style="grid-column: 13/14; font-size: 1.2rem;">
-                <a href="">매장찾기</a>
-            </li>
-            <ul class="right__nav">
-                <li class="hidden lg:block web">
-                    <div class="flex" style="width: 37px;">
-                        <img style="width: 11px;" src="/images/svg/search.svg" alt="">
-                        <span class="pl-1" style="font-size: 1.2rem;">검색</span>
-                    </div>
+                `<li class="drop web" style="grid-column: 12/13; font-size: 1.2rem;" data-large="6">
+                    <a href="">스토리</a>
                 </li>
-                <li class="hidden lg:block web"><img style="width:17px; height:17px"  src="/images/svg/earth.svg" alt=""></li>
-                <li class="flex"><img style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count">12</span></li>
-                <li class="flex basket__btn "><img style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count">14</span></li>
-                <li class="hidden lg:block web">
-                    <div class="flex gap-1">
-                        <img src="/images/svg/blue-tag.svg" alt="">
-                        <img src="/images/landing/6554.png" alt="">
-                    </div>
+                <li class="drop web" style="grid-column: 13/14; font-size: 1.2rem;">
+                    <a href="">매장찾기</a>
                 </li>
-                <li class="hidden lg:block web"><img style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
-                <li class="flex pr-3 lg:hidden mobileMenu">
-                    <div class="hamburger" id="hamburger">
-                        <span class="line"></span>
-                        <span class="line"></span>
-                        <span class="line"></span>
-                    </div>
-                </li>
+                <ul class="right__nav">
+                    <li class="web">
+                        <div class="flex" style="width: 37px;">
+                            <img class="search-svg" style="width: 11px;" src="/images/svg/search.svg" alt="">
+                            <span class="pl-1" style="font-size: 1.2rem;">검색</span>
+                        </div>
+                    </li>
+                    <li class="web"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
+                    <li class="flex"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count">12</span></li>
+                    <li class="flex basket__btn "><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count">14</span></li>
+                    <li class="web"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
+                    <li class="web"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
+                    <li class="flex pr-3 lg:hidden mobileMenu">
+                        <div class="hamburger" id="hamburger">
+                            <span class="line"></span>
+                            <span class="line"></span>
+                            <span class="line"></span>
+                        </div>
+                    </li>
             </ul>`
         menuList.innerHTML = menuHtml;
         document.querySelector(".header__wrap").appendChild(domfrag);
@@ -375,10 +371,11 @@
         const mobileMenuBtn = document.querySelector('.mobileMenu');
         const mobileSide = document.querySelector('#mobile');
         const hamburgerBtn = document.querySelector(".hamburger");
-
+        let header = document.querySelector("header");
         mobileMenuBtn.addEventListener('click', (ev) => {
             mobileSide.classList.toggle('menu__on');
             hamburgerBtn.classList.toggle("is-active");
+            header.classList.toggle("scroll");
         });
     };
     /*디바이스 체크*/

@@ -2,7 +2,75 @@
     main {
         padding-top: 0px;
     }
+    header {
+    color: var(--wh);
+    background-color: none;
+    border-bottom: 0px;
+}
+header .logo {
+content: url("/images/svg/logo.svg");
+}
+header .search-svg {
+content: url("/images/svg/search-wh.svg");
+}
+header .earth-svg {
+    content: url("/images/svg/earth-wh.svg");
+}
+header .wishlist-svg {
+    content: url("/images/svg/wishlist-wh.svg");
+}
+header .basket-svg {
+    content: url("/images/svg/basket-wh.svg");
+}
+header .bluemark-svg {
+    content: url("/images/svg/bluemark-wh.svg");
+}
+header .user-svg {
+    content: url("/images/svg/user-wh.svg");
+}
 
+header.scroll .logo {
+content: url("/images/svg/logo-bk.svg");
+}
+header.scroll .search-svg {
+    content: url("/images/svg/search-bk.svg");
+}
+header.scroll .earth-svg {
+    content: url("/images/svg/earth-bk.svg");
+}
+header.scroll .wishlist-svg {
+    content: url("/images/svg/wishlist-bk-line.svg");
+}
+header.scroll .basket-svg {
+    content: url("/images/svg/basket-bk.svg");
+}
+header.scroll .bluemark-svg {
+    content: url("/images/svg/bluemark-bk.svg");
+}
+header.scroll .user-svg {
+    content: url("/images/svg/user-bk.svg");
+}
+header.scroll {
+background-color: #fff;
+color: var(--bk);
+border-bottom: 1px solid #eeeeee;
+}
+header.scroll .header__grid{
+    color: #343434;
+}
+header .header__grid{
+    color: #ffffff;
+}
+.header__wrap {
+    color: var(--wh);
+    background-color: transparent;
+}
+.hamburger .line{
+    background-color: var(--wh);
+}
+header.scroll .hamburger .line{
+    background-color: var(--bk);
+}
     .btn__wrap {
         font-family: Noto Sans KR;
         font-size: 1.3rem;
@@ -526,6 +594,7 @@
         }
     }
 </style>
+
 <main>
     <!-- banner -->
     <section class="new__project__wrap">
@@ -873,6 +942,7 @@
     //swiper
     window.addEventListener('DOMContentLoaded', () => {
         swiperResize();
+        headerColorChange();
     });
     window.addEventListener('resize', () => {
         swiperResize();
@@ -1006,5 +1076,16 @@
             ex.destroy();
         }
     }
-
+    const headerColorChange = () =>{
+        let header = document.querySelector("header");
+        let headerGrid = document.querySelector(".header__grid");
+        window.addEventListener('scroll', () => {
+            let height = window.scrollY;
+            if(height > 50) {
+                header.classList.add("scroll");
+            } else {
+                header.classList.remove("scroll");
+            }
+        });
+    };
 </script>

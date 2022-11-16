@@ -41,14 +41,19 @@
      /* color */
     --bk : #343434;
     --wh : #ffffff;
+    /* font */
+    --ft-no : NotoSansKR;
+    --ft-fu : FuturaLTPro;
+
 }
 
 html { font-size: 62.5%; }
-body {width:100%;overflow-x:hidden;background-color : #fff ; color : #000 ;}
+body {max-width: 2560px;width:100%;margin: 0 auto!important; ;overflow-x:hidden;background-color : #fff ; color : #000 ;}
 a { text-decoration : none ; color : #000 }
 body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
 main{padding-top: 50px;}
 img {max-width: 100%;height:  auto;}
+header{max-width: 2560px;margin:0 auto;}
 /* close 버튼 */
 .close__btn .line {
     width: 10px;
@@ -79,9 +84,9 @@ transform: translateY(0px) rotate(-45deg);
 }
 /* 상품 제거 close 버튼 */
 .prd__close__btn{
-   position: absolute;
-   right: 0;
-   padding: 10px;
+    position: absolute;
+    right: 0;
+    padding: 10px;
 }
 .prd__close__btn .line {
     width: 15px;
@@ -215,7 +220,7 @@ transform: translateY(-4px) rotate(-45deg);
         /* max-width: 1920px;
         min-width: 320px; */
         margin: 0 auto;
-        /* overflow: hidden; */
+        overflow: hidden;
     }
     footer{
         margin:0 auto;
