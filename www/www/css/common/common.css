@@ -115,10 +115,90 @@ transform: translateY(2px) rotate(45deg);
 -o-transform: translateY(-4px) rotate(-45deg);
 transform: translateY(-4px) rotate(-45deg);
 }
-
-.option__box{
+/* 상품리스트 */
+.product {
+    width: 25%;
+    position: relative;
+}
+.product .wish__btn {
+    position: absolute;
+    z-index: 2;
+    padding: 22px;
+    right: 0;
+}
+.product .product-info {
+    padding: 15px 10px;
+    font-family: var(--ft-fu);
+    font-size: 1.1rem;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+}
+.product .product-info .info-row {
     display: flex;
     justify-content: space-between;
+    color: #343434;
+}
+.product .product-info .info-row .name {
+    font-size: 1.2rem;
+    color: #343434;
+    padding-bottom: 13px;
+    position: relative;
+}
+.product .product-info .info-row .name[data-soldout="STCL"]::after {
+    content: url(/images/svg/wish-redsold.svg);
+    position: absolute;
+    right: -2px;
+    top: -10px;
+}
+.product .product-info .info-row .price{
+    position: relative;
+}
+.product .product-info .info-row .price[data-dis="true"]{
+    position: relative;
+    text-decoration: line-through #343434;
+    top: 10px;
+    color: #34343494;
+}
+.product .product-info .info-row .price[data-dis="true"]::before {
+    display: block;
+    text-decoration: none;
+    content: attr(data-discount) "%";
+    position: absolute;
+    left: -25px;
+    color: #343434;
+}
+.product .product-info .info-row .price[data-dis="true"]::after {
+    display: block;
+    text-decoration:none;
+    content: attr(data-saleprice);
+    position: absolute;
+    top: -10px;
+    color: #343434;
+}
+.product .product-info .info-row .price[data-soldout="STSO"] {
+    text-decoration: line-through #343434;
+    color: #34343494;
+}
+.product .product-info .info-row .price[data-soldout="STSO"]::before {
+    display: block;
+    position: absolute;
+    left: -42px;
+    text-decoration: none;
+    content: "Sold out";
+    font-family: FuturaLTPro;
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: #343434;
+}
+
+.product .product-info .info-row .size__box{
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    list-style: none;
 }
 /* 사이즈 상태  */
 .size__box {
@@ -130,31 +210,100 @@ transform: translateY(-4px) rotate(-45deg);
 }
 .size__box li {
     position: relative;
-    width: 15px;
 }
 .size__box li[data-soldout="STIN"] {
     /* 재거있음 */
     color:#343434;
 
 }
-.size__box li[data-soldout="STCL"] {
+.size__box li[data-soldout="STCL"]{
+    position: relative;
+}
+.size__box li[data-soldout="STCL"]::after {
      /* 품절임박 */
     content: url(/images/svg/wish-redsold.svg);
-    position: relative;
-    bottom: 0.8rem;
-    left: 0rem;
+    position: absolute;
+    bottom: 10px;
+    right: -2px;
 }
 
-.size__box li[data-soldout="STSC"]::after{
+.size__box li[data-soldout="STSC"]{
+    opacity: 0.5;
+}
+.size__box li[data-soldout="STSO"]{
     opacity: 0.5;
 }
 .size__box li[data-soldout="STSO"]::after {
     /* 재고없음(재고 증가 없음) */
     content: url(/images/svg/sold-line.svg);
     position: absolute;
+    opacity: 0.5;
     right:1px;
     top: 1px;
 }
+.size__box li[data-soldout="STSO"][data-sizetype="O"]::after {
+    /* 재고없음(재고 증가 없음)  onesize*/
+    content: url(/images/svg/sold-line.svg);
+    position: absolute;
+    opacity: 0.5;
+    text-align: center;
+    right: 14px;
+    top: 0px;
+}
+.size__box li[data-soldout="STSO"][data-sizetype="S"]::after {
+    /* 재고없음(재고 증가 없음)  shoes*/
+    content: url(/images/svg/sold-line.svg);
+    position: absolute;
+    opacity: 0.5;
+    text-align: center;
+    right: 8px;
+    top: 0px;
+}
+.product .product-info .info-row .color__box{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    font-family: FuturaLTPro;
+    font-size: 1.1rem;
+    color: #343434;
+}
+.product .product-info .info-row .color__box[data-maxcount="true"]::after{
+    content: "+" attr(data-colorcount);
+    opacity: 0.5;
+    
+}
+.product .product-info .info-row .color__box .color{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    position: relative;
+}
+.product .product-info .info-row .color__box .color[data-color="#ffffff"]{
+    background-color: #ffffff!important;
+    border: solid 1px #dcdcdc;
+}
+.product .product-info .info-row .color__box .color{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    position: relative;
+}
+.product .product-info .info-row .color__box .color[data-soldout="STSO"]::after {
+    content: url(/images/svg/sold-line.svg);
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    opacity: 0.3;
+
+}
+
+
+
+.option__box{
+    display: flex;
+    justify-content: space-between;
+}
+
 /* 컬러칩  */
 .color__chip{
     display: flex;
@@ -184,27 +333,24 @@ transform: translateY(-4px) rotate(-45deg);
     border-radius: 50%;
     position: relative;
 }
-.color__chip .color[data-soldout="STCL"] {}
+/* .color__chip .color[data-soldout="STCL"] {}
 .color__chip .color[data-soldout="STIN"] {
-    /* 재고없음(재고 증가 예정) */
     color:#343434;
     opacity: 0.5;
 
 }
 .color__chip .color[data-soldout="STSC"]::after{
-    /* 품절임박 */
     content: url(/images/svg/wish-redsold.svg);
     position: relative;
     bottom: 0.8rem;
     left: 0rem;
 }
 .color__chip .color[data-soldout="STSO"]::after {
-    /* 재고없음(재고 증가 없음) */
     content: url(/images/svg/sold-line.svg);
     position: absolute;
     left: -4px;
     top: -3px;
-}
+} */
 
 @media (min-width: 1024px){
     header{

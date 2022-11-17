@@ -178,7 +178,6 @@
     window.addEventListener("scroll" ,() => {
         const $wishbox = document.querySelector(".wish__box");
         const footer = document.querySelector("footer").offsetHeight;
-        console.log(footer);
         if ((window.innerHeight + window.scrollY) == document.body.offsetHeight) {
             $wishbox.style.bottom = `${footer}px`;
         }else {
