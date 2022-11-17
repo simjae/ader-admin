@@ -145,7 +145,7 @@
 								<TR>
 									<TD>상품 사이즈</TD>
 									<TD>
-										<input type="text" id="product_size" name="size" value="">
+										<input type="text" id="product_size" name="product_size" value="">
 									</TD>
 									<TD>상품 색상</TD>
 									<TD>
@@ -163,7 +163,7 @@
 								<TR>
 									<TD>MD 카테고리 가이드</TD>
 									<TD colspan="3">
-										<input type="text" id="md_category_guide" name="size" value="">
+										<input type="text" id="md_category_guide" name="md_category_guide" value="">
 									</TD>
 									<TD>구매 수량 제한</TD>
 									<TD>

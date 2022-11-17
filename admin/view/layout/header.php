@@ -163,6 +163,7 @@
 					<div class="nav__child__wrap">
 						<div class="nav__child" data-url="/product/classify">상품 분류 관리</div>
 						<div class="nav__child" data-url="/product/register">개별 상품 등록</div>
+						<div class="nav__child" data-url="/product/regist">독립몰 상품 등록</div>
 						<div class="nav__child" data-url="/product/set">세트 상품 등록</div>
 						<div class="nav__child" data-url="/product/excel">엑셀 등록</div>
 						<div class="nav__child" data-url="/product/list">상품 목록</div>

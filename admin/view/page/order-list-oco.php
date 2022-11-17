@@ -348,9 +348,9 @@
 									</div>
 								</TH>
 								<TH style="width:100px;">쇼핑몰</TH>
+								<TH style="width:100px;">주문 상태</TH>
 								<TH style="width:350px;">주문일</TH>
 								<TH style="width:350px;">주문 번호</TH>
-								<TH style="width:100px;">주문 상태</TH>
 								<TH style="width:350px;">주문자</TH>
 								<TH style="width:250px;">상품 총 가격</TH>
 								<TH style="width:250px;">사용 적립 포인트</TH>
@@ -362,8 +362,6 @@
 								<TH style="width:100px;">상품 타입</TH>
 								<TH style="width:350px;">상품 정보</TH>
 								<TH style="width:100px;">상품 주문 상태</TH>
-								<TH style="width:350px;">취소 요청일</TH>
-								<TH style="width:350px;">환불 요청일</TH>
 								<TH style="width:100px;">옵션 이름</TH>
 								<TH style="width:350px;">바코드</TH>
 								<TH style="width:250px;">상품 수량</TH>
@@ -451,8 +449,6 @@ function getOrderInfo_all() {
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + country + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
 					
 					let oi_status = "";
 					switch (row.oi_status) {
@@ -486,6 +482,8 @@ function getOrderInfo_all() {
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + oi_status + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.member_id + '</TD>';
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td" style="text-align:right;">' + row.price_product.toLocaleString('ko-KR') + '</TD>';
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td" style="text-align:right;">' + row.price_mileage_point.toLocaleString('ko-KR') + '</TD>';
@@ -540,8 +538,6 @@ function getOrderInfo_all() {
 						break;
 				}
 				strDiv += '    <TD>' + op_status + '</TD>';
-				strDiv += '    <TD>' + row.cancel_date + '</TD>';
-				strDiv += '    <TD>' + row.refund_date + '</TD>';
 				strDiv += '    <TD>' + row.option_name + '</TD>';
 				strDiv += '    <TD>' + row.barcode + '</TD>';
 				strDiv += '    <TD>' + row.product_qty + '</TD>';
@@ -566,22 +562,6 @@ function getOrderInfo_all() {
 				
 				let delivery_status = "";
 				switch (row.delivery_status) {
-					case "PCP" :
-						delivery_status = "결제완료";
-						break;
-					
-					case "PPR" :
-						delivery_status = "상품준비";
-						break;
-					
-					case "POP" :
-						delivery_status = "프리오더 준비";
-						break;
-					
-					case "POD" :
-						delivery_status = "프리오더 상품 생산";
-						break;
-					
 					case "DPR" :
 						delivery_status = "배송준비";
 						break;
@@ -589,7 +569,15 @@ function getOrderInfo_all() {
 					case "DPG" :
 						delivery_status = "배송중";
 						break;
-						
+					
+					case "MRD" :
+						delivery_status = "멤버 재배송";
+						break;
+					
+					case "ARD" :
+						delivery_status = "아더 재배송";
+						break;
+					
 					case "DCP" :
 						delivery_status = "배송완료";
 						break;

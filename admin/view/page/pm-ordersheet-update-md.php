@@ -143,17 +143,17 @@
                             </colgroup>
                             <TBODY>
                                 <TR>
-                                    <TD style="width:10%;">Detail 한글</TD>
+                                    <TD style="width:10%;">제품 상세정보 (한글)</TD>
                                     <TD class="smart_editer_text" id="detail_kr"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">Detail 영문</TD>
+                                    <TD style="width:10%;">제품 상세정보 (영문)</TD>
                                     <TD class="smart_editer_text" id="detail_en"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">Detail 중문</TD>
+                                    <TD style="width:10%;">제품 상세정보 (중문)</TD>
                                     <TD class="smart_editer_text" id="detail_cn"></TD>
                                 </TR>
                             </TBODY>
@@ -165,17 +165,17 @@
                             </colgroup>
                             <TBODY>
                                 <TR>
-                                    <TD style="width:10%;">유의사항 (한글)</TD>
+                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TD>
                                     <TD class="smart_editer_text" id="care_dsn_kr"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">유의사항 (영문)</TD>
+                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TD>
                                     <TD class="smart_editer_text" id="care_dsn_en"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">유의사항 (중문)</TD>
+                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TD>
                                     <TD class="smart_editer_text" id="care_dsn_cn"></TD>
                                 </TR>
                             </TBODY>
@@ -194,29 +194,29 @@
 							</colgroup>
 							<TBODY>
                                 <TR>
-									<TD>유의사항(한글) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산 (한글)</TD>
 									<TD class="smart_editer_text" id="care_td_kr"></TD>
 								</TR>
                                 <TR>
-									<TD>유의사항(영문) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산 (영문)</TD>
 									<TD class="smart_editer_text" id="care_td_en"></TD>
 								</TR>
                                 <TR>
-									<TD>유의사항(중문) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산 (중문)</TD>
 									<TD class="smart_editer_text" id="care_td_cn"></TD>
 								</TR>
 								<TR>
-									<TD>재료 (한글)</TD>
+									<TD>소재 (한글)</TD>
 									<TD class="smart_editer_text" id="material_kr"></TD>
 								</TR>
 
 								<TR>
-									<TD>재료 (영문)</TD>
+									<TD>소재 (영문)</TD>
 									<TD class="smart_editer_text" id="material_en"></TD>
 								</TR>
 
 								<TR>
-									<TD>재료 (중문)</TD>
+									<TD>소재 (중문)</TD>
 									<TD class="smart_editer_text" id="material_cn"></TD>
 								</TR>
 							</TBODY>
@@ -244,10 +244,6 @@
                                 <tr>
                                     <TD>상품 적재박스 유형</TD>
 									<TD colspan="3"  id="load_box_info_table">
-                                </tr>
-                                <tr>
-                                    <TD>상품 출고박스 유형</TD>
-									<TD colspan="3"  id="deliver_box_info_table">
                                 </tr>
                                 <tr>
                                     <TD>상품 적재중량 (kg)</TD>
@@ -626,6 +622,7 @@ function dateParamChange(obj) {
 	}
 
 	if(dateInterval != NaN && dateInterval < 0){
+		console.log('nan');
 		alert('입고 요청일을 TP작성 완료일 이후 일자로 지정해주세요');
 		$('#date_interval').text(dateInterval + '일');
 		return false;
@@ -704,7 +701,7 @@ function ordersheetMdGet(idx) {
 					$('input[name=product_code]').val(data.product_code);
 
 					//디자인
-					if(data.wkla_idx != null){
+					if(data.wkla_idx != null && data.wkla_idx > 0){
 						strTable = `
 							<table style="width:30%">
 								<thead>
@@ -840,32 +837,6 @@ function ordersheetMdGet(idx) {
 						`;
 						$('#load_box_info_table').append(strTable);
 					}
-
-					if(data.deliver_box_idx != null && data.deliver_box_idx > 0){
-						strTable = `
-							<table>
-								<thead>
-									<tr>
-										<th>상자명</th>
-										<th>너비</th>
-										<th>길이</th>
-										<th>높이</th>
-										<th>부피</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>${data.deliver_box_name}</td>
-										<td>${data.deliver_box_width} cm</td>
-										<td>${data.deliver_box_length} cm</td>
-										<td>${data.deliver_box_height} cm</td>
-										<td>${data.deliver_box_volume} cm³</td>
-									</tr>
-								</tbody>
-							</table>
-						`;
-						$('#deliver_box_info_table').append(strTable);
-					}
 					$('#load_weight').text(data.load_weight);
 					$('#load_qty').text(data.load_qty);
 					var sub_info = data.sub_material_info;
@@ -932,7 +903,9 @@ function ordersheetMdGet(idx) {
 					if(data.tp_completion_date.length != 0 && data.receive_request_date != 0){
 						var startDate = new Date(data.tp_completion_date);
 						var endDate = new Date(data.receive_request_date);
-						$('#date_interval').text(getDateInterval(startDate, endDate) + '일');
+						var intervalDate = getDateInterval(startDate, endDate);
+						if(intervalDate != NaN && intervalDate > 0)
+						$('#date_interval').text(intervalDate + '일');
 					}
 				}
 			}

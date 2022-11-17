@@ -306,17 +306,17 @@
                             </colgroup>
                             <TBODY>
                                 <TR>
-                                    <TD style="width:10%;">Detail 한글</TD>
+                                    <TD style="width:10%;">제품 상세정보 (한글)</TD>
                                     <TD class="smart_editer_text" id="detail_kr"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">Detail 영문</TD>
+                                    <TD style="width:10%;">제품 상세정보 (영문)</TD>
                                     <TD class="smart_editer_text" id="detail_en"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">Detail 중문</TD>
+                                    <TD style="width:10%;">제품 상세정보 (중문)</TD>
                                     <TD class="smart_editer_text" id="detail_cn"></TD>
                                 </TR>
                             </TBODY>
@@ -328,17 +328,17 @@
                             </colgroup>
                             <TBODY>
                                 <TR>
-                                    <TD style="width:10%;">유의사항 (한글)</TD>
+                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TD>
                                     <TD class="smart_editer_text" id="care_dsn_kr"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">유의사항 (영문)</TD>
+                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TD>
                                     <TD class="smart_editer_text" id="care_dsn_en"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">유의사항 (중문)</TD>
+                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TD>
                                     <TD class="smart_editer_text" id="care_dsn_cn"></TD>
                                 </TR>
                             </TBODY>
@@ -357,28 +357,28 @@
 							</colgroup>
 							<TBODY>
                                 <TR>
-									<TD>유의사항(한글) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산 (한글)</TD>
 									<TD>
 										<textarea class="width-100p" id="care_td_kr" name="care_td_kr"
 											style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
                                 <TR>
-									<TD>유의사항(영문) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산 (영문)</TD>
 									<TD>
 										<textarea class="width-100p" id="care_td_en" name="care_td_en"
 											style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
                                 <TR>
-									<TD>유의사항(중문) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산 (중문)</TD>
 									<TD>
 										<textarea class="width-100p" id="care_td_cn" name="care_td_cn"
 											style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
 								<TR>
-									<TD>재료 (한글)</TD>
+									<TD>소재 (한글)</TD>
 									<TD>
 										<textarea class="width-100p" id="material_kr" name="material_kr"
 											style="width:90%; height:150px;"></textarea>
@@ -386,7 +386,7 @@
 								</TR>
 
 								<TR>
-									<TD>재료 (영문)</TD>
+									<TD>소재 (영문)</TD>
 									<TD>
 										<textarea class="width-100p" id="material_en" name="material_en"
 											style="width:90%; height:150px;"></textarea>
@@ -394,7 +394,7 @@
 								</TR>
 
 								<TR>
-									<TD>재료 (중문)</TD>
+									<TD>소재 (중문)</TD>
 									<TD>
 										<textarea class="width-100p" id="material_cn" name="material_cn"
 											style="width:90%; height:150px;"></textarea>
@@ -789,7 +789,7 @@ function ordersheetTdGet(idx) {
                         $('#tp_completion_date').text(data.tp_completion_date);
 
                         //디자인
-                        if(data.wkla_idx != null){
+                        if(data.wkla_idx != null && data.wkla_idx > 0){
                             strTable = `
                                 <table style="width:30%">
                                     <thead>

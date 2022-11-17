@@ -1,5 +1,5 @@
 <div class="filter-wrap" style="margin-bottom:20px">
-	<button class="order_tab_btn tap__button" tab_status="ALL" style="background-color: #000;color: #fff;font-weight: 500;" onClick="orderTabBtnClick(this);">전체</button>
+	<button class="order_tab_btn tap__button" tab_status="ORD_ALL" style="background-color: #000;color: #fff;font-weight: 500;" onClick="orderTabBtnClick(this);">전체</button>
 	<button class="order_tab_btn tap__button" tab_status="PCP" onClick="orderTabBtnClick(this);">결제완료</button>
 	<button class="order_tab_btn tap__button" tab_status="PPR" onClick="orderTabBtnClick(this);">상품준비</button>
 	<button class="order_tab_btn tap__button" tab_status="POP" onClick="orderTabBtnClick(this);">프리오더 준비</button>
@@ -9,9 +9,9 @@
 	<button class="order_tab_btn tap__button" tab_status="DCP" onClick="orderTabBtnClick(this);">배송완료</button>
 </div>
 
-<input id="tab_status" type="hidden" value="ALL">
+<input id="tab_status" type="hidden" value="ORD_ALL">
 
-<div id="order_tab_ALL" class="order_tab">
+<div id="order_tab_ORD_ALL" class="order_tab">
 	<?php include_once("order-list-all.php"); ?>
 </div>
 

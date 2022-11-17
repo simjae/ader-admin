@@ -1,6 +1,6 @@
 <div class="content__card">
-	<form id="frm-list_ORD_ALL" action="order/list/get">
-		<input type="hidden" name="tab_status" value="ORD_ALL">
+	<form id="frm-list_OC" action="order/list/get">
+		<input type="hidden" name="tab_status" value="OC">
 		
 		<div class="card__header">
 			<div class="card__header">
@@ -17,53 +17,6 @@
 						<option value="EN">영문몰</option>
 						<option value="CN">중문몰</option>
 					</select>
-				</div>
-			</div>
-			
-			<div class="content__wrap" style="align-items: start;">
-				<div class="content__title">주문상태</div>
-				<div class="content__row" style="display:block;">
-					<div class="cb__color" style="margin-bottom:10px;">
-						<label>
-							<input type="checkbox" name="order_status[]" value="ALL">
-							<span>전체</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="PCP">
-							<span>결제완료</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="PPR">
-							<span>상품준비</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="POP">
-							<span>프리오더 준비</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="POD">
-							<span>프리오더 상품 생산</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="DPR">
-							<span>배송준비</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="DPG">
-							<span>배송중</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="DCP">
-							<span>배송완료</span>
-						</label>
-					</div>
 				</div>
 			</div>
 			
@@ -95,27 +48,28 @@
 					<select class="fSelect" name="date_type" style="width:163px;" class="fSelect disabled">
 						<option value="ALL" selected>기간정보 선택</option>
 						<option value="order_date">주문일</option>
+						<option value="cancel_date">주문 취소일</option>
 						<option value="delivery_start_date">배송 시작일</option>
 						<option value="delivery_end_date">배송 종료일</option>
 					</select>
 					
 					<div class="content__date__wrap">
 						<div class="content__date__btn">
-							<input id="date_param_ALL" type="hidden" name="date_param" value="" style="width:150px;">
+							<input id="date_param_OC" type="hidden" name="date_param" value="" style="width:150px;">
 
-							<div class="date_param_ALL date__picker" date_type="ALL" date="today"	type="button" onclick="searchDateClick(this);">오늘</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="01d"		type="button" onclick="searchDateClick(this);">어제</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="03d"		type="button" onclick="searchDateClick(this);">3일</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="07d"		type="button" onclick="searchDateClick(this);">7일</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="15d"		type="button" onclick="searchDateClick(this);">15일</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="01m"		type="button" onclick="searchDateClick(this);">1개월</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="03m"		type="button" onclick="searchDateClick(this);">3개월</div>
+							<div class="date_param_OC date__picker" date_type="OC" date="today"	type="button" onclick="searchDateClick(this);">오늘</div>
+							<div class="date_param_OC date__picker" date_type="OC" date="01d"	type="button" onclick="searchDateClick(this);">어제</div>
+							<div class="date_param_OC date__picker" date_type="OC" date="03d"	type="button" onclick="searchDateClick(this);">3일</div>
+							<div class="date_param_OC date__picker" date_type="OC" date="07d"	type="button" onclick="searchDateClick(this);">7일</div>
+							<div class="date_param_OC date__picker" date_type="OC" date="15d"	type="button" onclick="searchDateClick(this);">15일</div>
+							<div class="date_param_OC date__picker" date_type="OC" date="01m"	type="button" onclick="searchDateClick(this);">1개월</div>
+							<div class="date_param_OC date__picker" date_type="OC" date="03m"	type="button" onclick="searchDateClick(this);">3개월</div>
 						</div>
 						
 						<div class="content__date__picker">
-							<input id="date_from_all" class="date_param_ALL" type="date" name="date_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="all" onChange="dateParamChange(this);">
+							<input id="date_from_OC" class="date_param_OC" type="date" name="date_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="all" onChange="dateParamChange(this);">
 								<font>~</font>
-							<input id="date_to_all" class="date_param_ALL" type="date" name="date_to" placeholder="To" readonly style="width:150px;" date_type="all" onChange="dateParamChange(this);">
+							<input id="date_to_OC" class="date_param_OC" type="date" name="date_to" placeholder="To" readonly style="width:150px;" date_type="all" onChange="dateParamChange(this);">
 						</div>
 					</div>
 				</div>
@@ -162,14 +116,14 @@
 					<div class="content__title">배송 구분</div>
 					<div class="content__row">
 						<div class="rd__block">
-							<input type="radio" id="delivery_type_ALL_ALL" class="radio__input" value="ALL" name="delivery_type" checked>
-							<label for="delivery_type_ALL_ALL">전체</label>
+							<input type="radio" id="delivery_type_ALL_OC" class="radio__input" value="ALL" name="delivery_type" checked>
+							<label for="delivery_type_ALL_OC">전체</label>
 							
-							<input type="radio" id="delivery_type_KR_ALL" class="radio__input" value="KR" name="delivery_type">
-							<label for="delivery_type_KR_ALL">국내 배송</label>
+							<input type="radio" id="delivery_type_KR_OC" class="radio__input" value="KR" name="delivery_type">
+							<label for="delivery_type_KR_OC">국내 배송</label>
 							
-							<input type="radio" id="delivery_type_FR_ALL" class="radio__input" value="FR" name="delivery_type">
-							<label for="delivery_type_FR_ALL">해외 배송</label>
+							<input type="radio" id="delivery_type_FR_OC" class="radio__input" value="FR" name="delivery_type">
+							<label for="delivery_type_FR_OC">해외 배송</label>
 						</div>
 					</div>
 				</div>
@@ -290,7 +244,7 @@
 			<div class="footer__btn__wrap">
 				<div id="detail_toggle" toggle="hide" onclick="detailToggleClick(this)">상세 검색 열기 +</div>
 				<div class="btn__wrap--lg">
-					<div  class="blue__color__btn" onClick="getOrderInfo_all();"><span>검색</span></div>
+					<div  class="blue__color__btn" onClick="getOrderInfo_oc();"><span>검색</span></div>
 					<div class="defult__color__btn" onClick=""><span>초기화</span></div>
 				</div>
 			</div>
@@ -354,9 +308,10 @@
 									</div>
 								</TH>
 								<TH style="width:100px;">쇼핑몰</TH>
-								<TH style="width:350px;">주문일</TH>
-								<TH style="width:350px;">주문 번호</TH>
 								<TH style="width:100px;">주문 상태</TH>
+								<TH style="width:350px;">주문일</TH>
+								<TH style="width:350px;">주문 취소일</TH>
+								<TH style="width:350px;">주문 번호</TH>
 								<TH style="width:350px;">주문자</TH>
 								<TH style="width:250px;">상품 총 가격</TH>
 								<TH style="width:250px;">사용 적립 포인트</TH>
@@ -368,6 +323,7 @@
 								<TH style="width:100px;">상품 타입</TH>
 								<TH style="width:350px;">상품 정보</TH>
 								<TH style="width:100px;">상품 주문 상태</TH>
+								<TH style="width:350px;">상품 취소일</TH>
 								<TH style="width:100px;">옵션 이름</TH>
 								<TH style="width:350px;">바코드</TH>
 								<TH style="width:250px;">상품 수량</TH>
@@ -384,7 +340,7 @@
 								<TH style="width:500px;">주문 메모</TH>
 							</TR>
 						</THEAD>
-						<TBODY id="result_table_all">
+						<TBODY id="result_table_oc">
 							<TR>
 								<TD class="default_td" colspan="30" style="text-align:left;">
 									조회 결과가 없습니다.
@@ -400,31 +356,31 @@
 
 <script>
 $(document).ready(function() {
-	getOrderInfo_all();
+	getOrderInfo_oc();
 });
 
-function getOrderInfo_all() {
-	let td_length = $("#result_table_all").children().length;
+function getOrderInfo_oc() {
+	let td_length = $("#result_table_oc").children().length;
 	if (td_length > 0) {
-		$("#result_table_all").html('');
+		$("#result_table_oc").html('');
 		
 		var strDiv = '';
 		strDiv += '<TD class="default_td" colspan="30" style="text-align:left;">';
 		strDiv += '    조회 결과가 없습니다';
 		strDiv += '</TD>';
 		
-		$("#result_table_all").append(strDiv);
+		$("#result_table_oc").append(strDiv);
 	}
 	
-	var rows = $("#frm-list_ORD_ALL").find('.rows').val();
-	var page = $("#frm-list_ORD_ALL").find('.page').val(1);
+	var rows = $("#frm-list_OC").find('.rows').val();
+	var page = $("#frm-list_OC").find('.page').val(1);
 	
-	$("#result_table_all").append(strDiv);
+	$("#result_table_oc").append(strDiv);
 	
-	get_contents($("#frm-list_ORD_ALL"),{
+	get_contents($("#frm-list_OC"),{
 		pageObj : $(".paging"),
 		html : function(d) {
-			$("#result_table_all").html('');
+			$("#result_table_oc").html('');
 			
 			let rowspan = 1;
 			let prev_code = "";
@@ -466,41 +422,35 @@ function getOrderInfo_all() {
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + country + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
 					
 					let oi_status = "";
 					switch (row.oi_status) {
-						case "PCP" :
-							oi_status = "결제완료";
+						case "OCC" :
+							oi_status = "주문취소";
 							break;
 						
-						case "PPR" :
-							oi_status = "상품준비";
+						case "OEX" :
+							oi_status = "주문교환";
 							break;
 						
-						case "POP" :
-							oi_status = "프리오더 준비";
+						case "OEP" :
+							oi_status = "교환완료";
 							break;
 						
-						case "POD" :
-							oi_status = "프리오더 상품 생산";
+						case "ORF" :
+							oi_status = "주문환불";
 							break;
 						
-						case "DPR" :
-							oi_status = "배송준비";
-							break;
-						
-						case "DPG" :
-							oi_status = "배송중";
-							break;
-							
-						case "DCP" :
-							oi_status = "배송완료";
+						case "ORP" :
+							oi_status = "환불완료";
 							break;
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + oi_status + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.oi_cancel_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
+					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">';
 					strDiv += '        ' + row.member_id + '<br>';
 					strDiv += '        ' + row.member_name + '<br>';
@@ -530,35 +480,29 @@ function getOrderInfo_all() {
 				
 				let op_status = "";
 				switch (row.op_status) {
-					case "PCP" :
-						op_status = "결제완료";
+					case "OCC" :
+						op_status = "주문취소";
 						break;
 					
-					case "PPR" :
-						op_status = "상품준비";
+					case "OEX" :
+						op_status = "주문교환";
 						break;
 					
-					case "POP" :
-						op_status = "프리오더 준비";
+					case "OEP" :
+						op_status = "교환완료";
 						break;
 					
-					case "POD" :
-						op_status = "프리오더 상품 생산";
+					case "ORF" :
+						op_status = "주문환불";
 						break;
 					
-					case "DPR" :
-						op_status = "배송준비";
-						break;
-					
-					case "DPG" :
-						op_status = "배송중";
-						break;
-						
-					case "DCP" :
-						op_status = "배송완료";
+					case "ORP" :
+						op_status = "환불완료";
 						break;
 				}
+				
 				strDiv += '    <TD>' + op_status + '</TD>';
+				strDiv += '    <TD>' + row.op_cancel_date + '</TD>';
 				strDiv += '    <TD>' + row.option_name + '</TD>';
 				strDiv += '    <TD>' + row.barcode + '</TD>';
 				strDiv += '    <TD>' + row.product_qty + '</TD>';
@@ -613,7 +557,7 @@ function getOrderInfo_all() {
 				}
 				strDiv += '</TR>';
 				
-				$("#result_table_all").append(strDiv);
+				$("#result_table_oc").append(strDiv);
 				
 				$('.' + prev_code + '_rowspan_td').attr('rowspan',rowspan);
 			});

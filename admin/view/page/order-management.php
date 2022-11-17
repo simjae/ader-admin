@@ -1,59 +1,62 @@
 <div class="filter-wrap" style="margin-bottom:20px">
-	<button class="include_tab_btn tap__button" tab_num="01" style="background-color: #000;color: #fff;font-weight: 500;" onClick="includeTabBtnClick(this);">입금 전 취소</button>
-	<button class="include_tab_btn tap__button" tab_num="02" onClick="includeTabBtnClick(this);">취소</button>
-	<button class="include_tab_btn tap__button" tab_num="03" onClick="includeTabBtnClick(this);">교환</button>
-	<button class="include_tab_btn tap__button" tab_num="04" onClick="includeTabBtnClick(this);">반품</button>
-	<button class="include_tab_btn tap__button" tab_num="05" onClick="includeTabBtnClick(this);">환불</button>
-	<button class="include_tab_btn tap__button" tab_num="06" onClick="includeTabBtnClick(this);">카드 취소 조회 </button>
-	<button class="include_tab_btn tap__button" tab_num="07" onClick="includeTabBtnClick(this);">관리자 환불 관리 </button>
+	<button class="order_tab_btn tap__button" tab_status="MNG_ALL" style="background-color: #000;color: #fff;font-weight: 500;" onClick="orderTabBtnClick(this);">전체</button>
+	<button class="order_tab_btn tap__button" tab_status="OC" onClick="orderTabBtnClick(this);">주문취소</button>
+	<button class="order_tab_btn tap__button" tab_status="OE" onClick="orderTabBtnClick(this);">주문교환</button>
+	<button class="order_tab_btn tap__button" tab_status="OR" onClick="orderTabBtnClick(this);">주문환불</button>
 </div>
 
+<input id="tab_status" type="hidden" value="MNG_ALL">
 
-
-
-
-<input id="tab_num" type="hidden" value="01">
-
-<div id="include_tab_01" class="include_tab">
-<?php include_once("order-management-order_beforeDeposit.php"); ?>
-</div>
-<div id="include_tab_02" class="include_tab" style="display:none;">
-<?php include_once("order-management-order_cancel.php"); ?>
-</div>
-<div id="include_tab_03" class="include_tab" style="display:none;">
-<?php include_once("order-management-order_exchange.php"); ?>
-</div>
-<div id="include_tab_04" class="include_tab" style="display:none;">
-	<?php include_once("order-management-order_return.php"); ?>
-</div>
-<div id="include_tab_05" class="include_tab" style="display:none;">
-	<?php include_once("order-management-order_refund.php"); ?>
-</div>
-<div id="include_tab_06" class="include_tab" style="display:none;">
-	<?php include_once("order-management-order_cardCancel.php"); ?>
-</div>
-<div id="include_tab_07" class="include_tab" style="display:none;">
-	<?php include_once("order-management-order_admin.php"); ?>
+<div id="order_tab_MNG_ALL" class="order_tab">
+	<?php include_once("order-management-all.php"); ?>
 </div>
 
+<div id="order_tab_OC" class="order_tab" style="display:none;">
+	<?php include_once("order-management-oc.php"); ?>
+</div>
+
+<div id="order_tab_OE" class="order_tab" style="display:none;">
+	<?php include_once("order-management-oe.php"); ?>
+</div>
+
+<div id="order_tab_OR" class="order_tab" style="display:none;">
+	<?php include_once("order-management-or.php"); ?>
+</div>
 
 <script>
-$(function() {
-	$('.listType').click(function() {
-		var listType = $(this).attr('type');
-		
-		$('.listType').not($(this)).css('color','#000000');
-		$('.listType').not($(this)).css('font-weight','500');
-		$('.listType').not($(this)).css('border-bottom','3px solid #000000');
-		
-		$(this).css('color','#3971FF');
-		$(this).css('font-weight','800');
-		$(this).css('border-bottom','3px solid #3971FF');
-		
-		$('.listTarget').hide();
-		$('.' + listType).show();
-	});
+$(document).ready(function() {
+	$('.detail_hidden').hide();
 });
+
+function orderTabBtnClick(obj) {
+	var tabTitle = $(obj).text();
+	$('#tabTitle').text(tabTitle);
+	
+	var tab_status = $(obj).attr('tab_status');
+	$('#tab_status').val(tab_status);
+	$('.order_tab').hide();
+	$('#order_tab_' + tab_status).show();
+	
+	$(obj).css('background-color','#000000');
+	$(obj).css('color','#ffffff');
+	
+	$('.order_tab_btn').not($(obj)).css('background-color','#ffffff');
+	$('.order_tab_btn').not($(obj)).css('color','#000000');
+}
+
+function detailToggleClick(obj) {
+	let tab_status = $('#tab_status').val();
+	
+	if ($(obj).attr('toggle') == 'hide') {
+		$(obj).attr('toggle','show');
+		$('#detail_toggle').text('상세검색 닫기 -');
+	} else {
+		$(obj).attr('toggle','hide');
+		$('#detail_toggle').text('상세검색 열기 +');
+	}
+	$('#frm-list_' + tab_status).find('.detail_hidden').toggle();
+}
+
 function searchDateClick(obj) {
 	var date = $(obj).attr('date');
 	
@@ -115,21 +118,6 @@ function searchDateClick(obj) {
 		$('#admin_to').val('');
 	}
 }
-function includeTabBtnClick(obj) {
-	var tabTitle = $(obj).text();
-	$('#tabTitle').text(tabTitle);
-	
-	var tab_num = $(obj).attr('tab_num');
-	$('#tab_num').val(tab_num);
-	$('.include_tab').hide();
-	$('#include_tab_' + tab_num).show();
-	
-	$(obj).css('background-color','#000000');
-	$(obj).css('color','#ffffff');
-	
-	$('.include_tab_btn').not($(obj)).css('background-color','#ffffff');
-	$('.include_tab_btn').not($(obj)).css('color','#000000');
-}
 
 function dateParamChange(obj) {
 	var date_type = $(obj).attr('date_type');
@@ -164,6 +152,7 @@ function dateParamChange(obj) {
 		$('#search_date_admin').val('');
 	}
 }
+
 function selectAllClick(obj) {
 	var tab_num = $('#tab_num').val();
 	

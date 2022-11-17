@@ -210,29 +210,29 @@
 							</colgroup>
 							<TBODY>
                                 <TR>
-									<TD>유의사항(한글) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산(한글)</TD>
 									<TD class="smart_editer_text" id="care_td_kr"></TD>
 								</TR>
                                 <TR>
-									<TD>유의사항(영문) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산(영문)</TD>
 									<TD class="smart_editer_text" id="care_td_en"></TD>
 								</TR>
                                 <TR>
-									<TD>유의사항(중문) - 생산</TD>
+									<TD>제품 취급 유의사항<br>생산(중문)</TD>
 									<TD class="smart_editer_text" id="care_td_cn"></TD>
 								</TR>
 								<TR>
-									<TD>재료 (한글)</TD>
+									<TD>소재(한글)</TD>
 									<TD class="smart_editer_text" id="material_kr"></TD>
 								</TR>
 
 								<TR>
-									<TD>재료 (영문)</TD>
+									<TD>소재(영문)</TD>
 									<TD class="smart_editer_text" id="material_en"></TD>
 								</TR>
 
 								<TR>
-									<TD>재료 (중문)</TD>
+									<TD>소재(중문)</TD>
 									<TD class="smart_editer_text" id="material_cn"></TD>
 								</TR>
 							</TBODY>
@@ -260,10 +260,6 @@
                                 <tr>
                                     <TD>상품 적재박스 유형</TD>
 									<TD colspan="3"  id="load_box_info_table">
-                                </tr>
-                                <tr>
-                                    <TD>상품 출고박스 유형</TD>
-									<TD colspan="3"  id="deliver_box_info_table">
                                 </tr>
                                 <tr>
                                     <TD>상품 적재중량 (kg)</TD>
@@ -491,7 +487,7 @@
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TD style="width:10%;">Detail 한글</TD>
+									<TD style="width:10%;">제품 상세정보 (한글)</TD>
 									<TD>
 										<textarea class="width-100p" id="detail_kr" name="detail_kr"
 											style="width:90%; height:150px;"></textarea>
@@ -499,7 +495,7 @@
 								</TR>
 
 								<TR>
-									<TD style="width:10%;">Detail 영문</TD>
+									<TD style="width:10%;">제품 상세정보 (영문)</TD>
 									<TD>
 										<textarea class="width-100p" id="detail_en" name="detail_en"
 											style="width:90%; height:150px;"></textarea>
@@ -507,7 +503,7 @@
 								</TR>
 
 								<TR>
-									<TD style="width:10%;">Detail 중문</TD>
+									<TD style="width:10%;">제품 상세정보 (중문)</TD>
 									<TD>
 										<textarea class="width-100p" id="detail_cn" name="detail_cn"
 											style="width:90%; height:150px;"></textarea>
@@ -522,7 +518,7 @@
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TD style="width:10%;">유의사항 (한글)</TD>
+									<TD style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TD>
 									<TD>
 										<textarea class="width-100p" id="care_dsn_kr" name="care_dsn_kr"
 											style="width:90%; height:150px;"></textarea>
@@ -530,7 +526,7 @@
 								</TR>
 
 								<TR>
-									<TD style="width:10%;">유의사항 (영문)</TD>
+									<TD style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TD>
 									<TD>
 										<textarea class="width-100p" id="care_dsn_en" name="care_dsn_en"
 											style="width:90%; height:150px;"></textarea>
@@ -538,7 +534,7 @@
 								</TR>
 
 								<TR>
-									<TD style="width:10%;">유의사항 (중문)</TD>
+									<TD style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TD>
 									<TD>
 										<textarea class="width-100p" id="care_dsn_cn" name="care_dsn_cn"
 											style="width:90%; height:150px;"></textarea>
@@ -870,32 +866,6 @@ function ordersheetDsnGet(idx) {
 							</table>
 						`;
 						$('#load_box_info_table').append(strTable);
-					}
-
-					if(data.deliver_box_idx != null && data.deliver_box_idx > 0){
-						strTable = `
-							<table>
-								<thead>
-									<tr>
-										<th>상자명</th>
-										<th>너비</th>
-										<th>길이</th>
-										<th>높이</th>
-										<th>부피</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>${data.deliver_box_name}</td>
-										<td>${data.deliver_box_width} cm</td>
-										<td>${data.deliver_box_length} cm</td>
-										<td>${data.deliver_box_height} cm</td>
-										<td>${data.deliver_box_volume} cm³</td>
-									</tr>
-								</tbody>
-							</table>
-						`;
-						$('#deliver_box_info_table').append(strTable);
 					}
 					$('#load_weight').text(data.load_weight);
 					$('#load_qty').text(data.load_qty);

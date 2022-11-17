@@ -117,14 +117,14 @@
 					<div class="content__title">배송 구분</div>
 					<div class="content__row">
 						<div class="rd__block">
-							<input type="radio" id="delivery_type_ALL_DCP" class="radio__input" value="" name="delivery_type" checked>
-							<label for="delivery_type_ALL_ALL">전체</label>
+							<input type="radio" id="delivery_type_ALL_DCP" class="radio__input" value="ALL" name="delivery_type" checked>
+							<label for="delivery_type_ALL_DCP">전체</label>
 							
-							<input type="radio" id="delivery_type_KR_DCP" class="radio__input" value="" name="delivery_type">
-							<label for="delivery_type_KR_ALL">국내 배송</label>
+							<input type="radio" id="delivery_type_KR_DCP" class="radio__input" value="KR" name="delivery_type">
+							<label for="delivery_type_KR_DCP">국내 배송</label>
 							
-							<input type="radio" id="delivery_type_FR_DCP" class="radio__input" value="" name="delivery_type">
-							<label for="delivery_type_FR_ALL">해외 배송</label>
+							<input type="radio" id="delivery_type_FR_DCP" class="radio__input" value="FR" name="delivery_type">
+							<label for="delivery_type_FR_DCP">해외 배송</label>
 						</div>
 					</div>
 				</div>
@@ -136,7 +136,7 @@
 						<div class="content__title">멤버 레벨</div>
 						<div class="content__row">
 							<div class="rd__block">
-								<select class="fSelect" name="group_no" id="groupNo" style="width:163px;">
+								<select class="fSelect" name="member_level" style="width:163px;">
 									<option value="ALL">전체등급</option>
 									<?php
 										$sql = "SELECT
@@ -190,18 +190,18 @@
 								<option value="PRICE_TOTAL">총 가격</option>
 							</select>
 							
-							<input type="text" name="price_min" value="0" style="width:100px;">
+							<input type="number" step="0.01" name="price_min" value="0" style="width:100px;">
 							~
-							<input type="text" name="price_max" value="0" style="width:100px;">
+							<input type="number" step="0.01" name="price_max" value="0" style="width:100px;">
 						</div>
 					</div>
 					
 					<div class="half__box__wrap">
 						<div class="content__title">주문 상품 수량</div>
 						<div class="content__row">
-							<input type="text" name="qty_min" value="0" style="width:100px;">
+							<input type="number" name="qty_min" value="0" style="width:100px;">
 							~
-							<input type="text" name="qty_max" value="0" style="width:100px;">
+							<input type="number" name="qty_max" value="0" style="width:100px;">
 						</div>
 					</div>
 				</div>
@@ -250,7 +250,7 @@
 				</div>
 			</div>
 		</div> 
-	</div>
+	</form>
 
 	<div class="content__card">
 		<div class="card__header">
@@ -258,94 +258,99 @@
 			<div class="drive--x"></div>
 		</div>
 		<div class="card__body">
-			<div class="info__wrap " style="justify-content:flex-end; align-items: center;">
-				<div class="content__row">
-					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
-						<option value="CREATE_DATE|DESC">등록일 역순</option>
-						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
-						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
-						<option value="PRODUCT_NAME|ASC">상품명 순</option>
-						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
-						<option value="SALES_PRICE_KR|ASC">판매가(힌국몰) 순</option>
-						<option value="SALES_PRICE_EN|DESC">판매가(영문몰) 역순</option>
-						<option value="SALES_PRICE_EN|ASC">판매가(영문몰) 순</option>
-						<option value="SALES_PRICE_CN|DESC">판매가(중문몰) 역순</option>
-						<option value="SALES_PRICE_CN|ASC">판매가(중문몰) 순</option>
-					</select>
+			<form id="frm-action-DCP">
+				<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+					<div class="body__info--count">
+						<div class="drive--left"></div>
+						총 <font class="cnt_total info__count">0</font>건/검색결과 <font class="cnt_result info__count">0</font>건
+					</div>
 					
-					<select name="rows" style="width:163px;float:right;" onChange="rowsChange(this);">
-						<option value="10" selected>10개씩보기</option>
-						<option value="20">20개씩보기</option>
-						<option value="30">30개씩보기</option>
-						<option value="50">50개씩보기</option>
-						<option value="100">100개씩보기</option>
-						<option value="200">200개씩보기</option>
-						<option value="300">300개씩보기</option>
-						<option value="500">500개씩보기</option>
-					</select>
+					<div class="content__row">
+						<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
+							<option value="CREATE_DATE|DESC">등록일 역순</option>
+							<option value="CREATE_DATE|ASC">등록일 순</option>
+							<option value="UPDATE_DATE|DESC">삭제일 역순</option>
+							<option value="UPDATE_DATE|ASC">삭제일 순</option>
+							<option value="PRODUCT_NAME|DESC">상품명 역순</option>
+							<option value="PRODUCT_NAME|ASC">상품명 순</option>
+							<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
+							<option value="SALES_PRICE_KR|ASC">판매가(힌국몰) 순</option>
+							<option value="SALES_PRICE_EN|DESC">판매가(영문몰) 역순</option>
+							<option value="SALES_PRICE_EN|ASC">판매가(영문몰) 순</option>
+							<option value="SALES_PRICE_CN|DESC">판매가(중문몰) 역순</option>
+							<option value="SALES_PRICE_CN|ASC">판매가(중문몰) 순</option>
+						</select>
+						
+						<select name="rows" style="width:163px;float:right;" onChange="rowsChange(this);">
+							<option value="10" selected>10개씩보기</option>
+							<option value="20">20개씩보기</option>
+							<option value="30">30개씩보기</option>
+							<option value="50">50개씩보기</option>
+							<option value="100">100개씩보기</option>
+							<option value="200">200개씩보기</option>
+							<option value="300">300개씩보기</option>
+							<option value="500">500개씩보기</option>
+						</select>
+					</div>
 				</div>
-			</div>
 
-			<div class="table table__wrap tabNum tabNum_01">					
-				<div class="overflow-x-auto">
-					<TABLE style="width:350%;">
-						<THEAD>
-							<TR>
-								<TH style="width:15px;">
-									<div class="cb__color">
-										<label>
-											<input type="checkbox" name="selectAll1" value="">
-											<span></span>
-										</label>
-									</div>
-								</TH>
-								<TH style="width:100px;">쇼핑몰</TH>
-								<TH style="width:350px;">주문일</TH>
-								<TH style="width:350px;">주문 번호</TH>
-								<TH style="width:100px;">주문 상태</TH>
-								<TH style="width:350px;">주문자</TH>
-								<TH style="width:250px;">상품 총 가격</TH>
-								<TH style="width:250px;">사용 적립 포인트</TH>
-								<TH style="width:250px;">사용 충전 포인트</TH>
-								<TH style="width:250px;">할인금액</TH>
-								<TH style="width:250px;">배송비</TH>
-								<TH style="width:250px;">총 결제금액</TH>
-								
-								<TH style="width:100px;">상품 타입</TH>
-								<TH style="width:350px;">상품 정보</TH>
-								<TH style="width:100px;">상품 주문 상태</TH>
-								<TH style="width:350px;">취소 요청일</TH>
-								<TH style="width:350px;">환불 요청일</TH>
-								<TH style="width:100px;">옵션 이름</TH>
-								<TH style="width:350px;">바코드</TH>
-								<TH style="width:250px;">상품 수량</TH>
-								<TH style="width:250px;">상품 가격</TH>
-								<TH style="width:100px;">리뷰 작성 유무</TH>
-								
-								<TH style="width:350px;">송장 번호</TH>
-								<TH style="width:100px;">배송 유형</TH>
-								<TH style="width:350px;">배송 예정일</TH>
-								<TH style="width:100px;">배송 상태</TH>
-								<TH style="width:350px;">배송 시작일</TH>
-								<TH style="width:350px;">배송 종료일</TH>
-								<TH style="width:350px;">배송회사 명</TH>
-								<TH style="width:500px;">주문 메모</TH>
-							</TR>
-						</THEAD>
-						<TBODY id="result_table_dcp">
-							<TR>
-								<TD class="default_td" colspan="30" style="text-align:left;">
-									조회 결과가 없습니다.
-								</TD>
-							</TR>
-						</TBODY>
-					</TABLE>
+				<div class="table table__wrap tabNum tabNum_01">					
+					<div class="overflow-x-auto">
+						<TABLE style="width:350%;">
+							<THEAD>
+								<TR>
+									<TH style="width:15px;">
+										<div class="cb__color">
+											<label>
+												<input type="checkbox" name="selectAll1" value="">
+												<span></span>
+											</label>
+										</div>
+									</TH>
+									<TH style="width:100px;">쇼핑몰</TH>
+									<TH style="width:100px;">주문 상태</TH>
+									<TH style="width:350px;">주문일</TH>
+									<TH style="width:350px;">주문 번호</TH>
+									<TH style="width:350px;">주문자</TH>
+									<TH style="width:250px;">상품 총 가격</TH>
+									<TH style="width:250px;">사용 적립 포인트</TH>
+									<TH style="width:250px;">사용 충전 포인트</TH>
+									<TH style="width:250px;">할인금액</TH>
+									<TH style="width:250px;">배송비</TH>
+									<TH style="width:250px;">총 결제금액</TH>
+									
+									<TH style="width:100px;">상품 타입</TH>
+									<TH style="width:350px;">상품 정보</TH>
+									<TH style="width:100px;">상품 주문 상태</TH>
+									<TH style="width:100px;">옵션 이름</TH>
+									<TH style="width:350px;">바코드</TH>
+									<TH style="width:250px;">상품 수량</TH>
+									<TH style="width:250px;">상품 가격</TH>
+									<TH style="width:100px;">리뷰 작성 유무</TH>
+									
+									<TH style="width:350px;">송장 번호</TH>
+									<TH style="width:100px;">배송 유형</TH>
+									<TH style="width:350px;">배송 예정일</TH>
+									<TH style="width:100px;">배송 상태</TH>
+									<TH style="width:350px;">배송 시작일</TH>
+									<TH style="width:350px;">배송 종료일</TH>
+									<TH style="width:350px;">배송회사 명</TH>
+									<TH style="width:500px;">주문 메모</TH>
+								</TR>
+							</THEAD>
+							<TBODY id="result_table_dcp">
+								<TR>
+									<TD class="default_td" colspan="30" style="text-align:left;">
+										조회 결과가 없습니다.
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</div>
 				</div>
-			</div>
+			</form>
 		</div>
-	</form>
+	</div>
 </div>
 
 <script>
@@ -414,8 +419,6 @@ function getOrderInfo_dcp() {
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + country + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
 					
 					let oi_status = "";
 					switch (row.oi_status) {
@@ -449,6 +452,8 @@ function getOrderInfo_dcp() {
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + oi_status + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">';
 					strDiv += '        ' + row.member_id + '<br>';
 					strDiv += '        ' + row.member_name + '<br>';
@@ -507,8 +512,6 @@ function getOrderInfo_dcp() {
 						break;
 				}
 				strDiv += '    <TD>' + op_status + '</TD>';
-				strDiv += '    <TD>' + row.cancel_date + '</TD>';
-				strDiv += '    <TD>' + row.refund_date + '</TD>';
 				strDiv += '    <TD>' + row.option_name + '</TD>';
 				strDiv += '    <TD>' + row.barcode + '</TD>';
 				strDiv += '    <TD>' + row.product_qty + '</TD>';
@@ -533,22 +536,6 @@ function getOrderInfo_dcp() {
 				
 				let delivery_status = "";
 				switch (row.delivery_status) {
-					case "PCP" :
-						delivery_status = "결제완료";
-						break;
-					
-					case "PPR" :
-						delivery_status = "상품준비";
-						break;
-					
-					case "POP" :
-						delivery_status = "프리오더 준비";
-						break;
-					
-					case "POD" :
-						delivery_status = "프리오더 상품 생산";
-						break;
-					
 					case "DPR" :
 						delivery_status = "배송준비";
 						break;
@@ -556,7 +543,15 @@ function getOrderInfo_dcp() {
 					case "DPG" :
 						delivery_status = "배송중";
 						break;
-						
+					
+					case "MRD" :
+						delivery_status = "멤버 재배송";
+						break;
+					
+					case "ARD" :
+						delivery_status = "아더 재배송";
+						break;
+					
 					case "DCP" :
 						delivery_status = "배송완료";
 						break;

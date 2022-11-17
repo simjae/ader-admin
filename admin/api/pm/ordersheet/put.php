@@ -37,7 +37,7 @@ try {
     $sql = "UPDATE
 				dev.ORDERSHEET_MST
 			SET
-				ORDERSHEET_UPDATE_FLG = !ORDERSHEET_UPDATE_FLG,
+                UPDATE_FLG = !UPDATE_FLG,
 				UPDATER = 'Admin',
 				UPDATE_DATE = NOW()
 			WHERE 
@@ -69,9 +69,9 @@ try {
                 OM.PRODUCT_CODE,
                 OM.PRODUCT_NAME,
                 CASE 
-                    WHEN ORDERSHEET_UPDATE_FLG = TRUE 
+                    WHEN UPDATE_FLG = TRUE 
                     THEN CONCAT('[',OM.PRODUCT_CODE,'] ',IFNULL(OM.PRODUCT_NAME,''),'의 오더시트 상태가 [작성 완료]로 변경되었습니다.')
-                    WHEN ORDERSHEET_UPDATE_FLG = FALSE
+                    WHEN UPDATE_FLG = FALSE
                     THEN CONCAT('[',OM.PRODUCT_CODE,'] ',IFNULL(OM.PRODUCT_NAME,''),'의 오더시트 상태가 [작성 중]으로 변경되었습니다.') 
                 END     AS HISTORY_MSG,
                 NOW(),

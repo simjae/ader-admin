@@ -821,7 +821,7 @@ function getProdTabInfo(){
 	$("#result_table").html('');
 	
 	var strDiv = '';
-	strDiv += '<TD class="default_td" colspan="10">';
+	strDiv += '<TD class="default_td" colspan="11">';
 	strDiv += '    조회 결과가 없습니다';
 	strDiv += '</TD>';
 	
@@ -881,7 +881,9 @@ function getProdTabInfo(){
 					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
 					strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
 				} else {
-					strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
+					if(row.price_kr != null){
+						strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
+					}
 				}
 				
 				strDiv += '    </td>';
@@ -893,7 +895,9 @@ function getProdTabInfo(){
 					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
 					strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
 				} else {
-					strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
+					if(row.price_en != null){
+						strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
+					}
 				}
 				
 				strDiv += '    </td>';
@@ -905,7 +909,9 @@ function getProdTabInfo(){
 					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
 					strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
 				} else {
-					strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
+					if(row.price_cn != null){
+						strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
+					}
 				}
 				
 				strDiv += '    </td>';

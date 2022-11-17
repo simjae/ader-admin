@@ -51,14 +51,36 @@ $where = '1=1';
 $where .= " AND (OP.PRODUCT_CODE NOT LIKE 'BOU%') ";
 
 if ($tab_status != null || $order_status != null) {
-	if ($tab_status != "ALL") {
-		$where .= " AND (OI.ORDER_STATUS = '".$tab_status."' )";
+	if ($order_status != null && $order_status[0] != "ALL") {
+		for ($i=0; $i<count($order_status); $i++) {
+			$order_status[$i] = "'".$order_status[$i]."'";
+		}
+		$where .= " AND (OI.ORDER_STATUS IN (".implode(',',$order_status)."))";
 	} else {
-		if ($order_status != null) {
-			for ($i=0; $i<count($order_status); $i++) {
-				$order_status[$i] = "'".$order_status[$i]."'";
-			}
-			$where .= " AND (OI.ORDER_STATUS IN (".implode(',',$order_status)."))";
+		switch ($tab_status) {
+			case "ORD_ALL" :
+				$where .= " AND (OI.ORDER_STATUS IN ('PCP','PPR','POP','POD','DPR','DPG','DCP'))";
+				break;
+			
+			case "MNG_ALL" :
+				$where .= " AND (OI.ORDER_STATUS IN ('OCC','OEX','OEP','ORF','ORP'))";
+				break;
+			
+			case "OC" :
+				$where .= " AND (OI.ORDER_STATUS IN ('OCC'))";
+				break;
+			
+			case "OE" :
+				$where .= " AND (OI.ORDER_STATUS IN ('OEX','OEP'))";
+				break;
+			
+			case "OR" :
+				$where .= " AND (OI.ORDER_STATUS IN ('ORF','ORP'))";
+				break;
+			
+			default :
+				$where .= " AND (OI.ORDER_STATUS = '".$tab_status."' )";
+				break;
 		}
 	}
 }
@@ -232,19 +254,8 @@ if ($delivery_company != null && $delivery_company != "ALL") {
 }
 
 //배송구분
-if ($delivery_company != null && $delivery_company != "ALL") {
-	$where .= " AND (OI.DELIVERY_IDX = ".$delivery_company.") ";
-}
-
-//금액 조건 - 상품 금액, 할인 금액, 실제 결제 금액
-if ($price_type != null && $price_type != "ALL" && ($price_min != null || $price_max != null)) {
-	if ($price_min != null && $price_max == null) {
-		$where .= " AND (OI.".$price_type." >= ".$price_min.") ";
-	} else if ($price_min == null && $price_max != null) {
-		$where .= " AND (OI.".$price_type." <= ".$price_max.") ";
-	} else if ($price_min != null && $price_max != null) {
-		$where .= " AND (OI.".$price_type." BETWEEN ".$price_min." AND ".$price_max.") ";
-	}
+if ($delivery_type != null && $delivery_type != "ALL") {
+	$where .= " AND (OI.DELIVERY_TYPE = '".$delivery_type."') ";
 }
 
 //멤버 레벨
@@ -257,14 +268,19 @@ if ($member_status != null) {
 	$where .= " AND (OI.MEMBER_STATUS = '".$member_status."') ";
 }
 
-//배송구분 - 국내/해외
-if ($delivery_type != null && $delivery_type != "ALL") {
-	$where .= " AND (OI.DELIVERY_TYPE = '".$delivery_type."') ";
+//금액 조건 - 상품 금액, 할인 금액, 실제 결제 금액
+if (($price_type != null && $price_type != "ALL") && ($price_min != null || $price_max != null)) {
+	if (intval($price_min) > 0 && intval($price_max) == 0) {
+		$where .= " AND (OI.".$price_type." >= ".$price_min.") ";
+	} else if (intval($price_min) == 0 && intval($price_max) > 0) {
+		$where .= " AND (OI.".$price_type." <= ".$price_max.") ";
+	} else if (intval($price_min) > 0 && intval($price_max) > 0) {
+		$where .= " AND (OI.".$price_type." BETWEEN ".$price_min." AND ".$price_max.") ";
+	}
 }
 
 //주문 상품 수량
-if (($qty_min != null && $qty_min > 0) || ($qty_max != null && $qty_max > 0)) {
-	$where ="  AND (";
+if (($qty_min != null && intval($qty_min) > 0) || ($qty_max != null && intval($qty_max) > 0)) {
 	$tmp_where="(
 					SELECT
 						SUM(S_OP.PRODUCT_QTY)
@@ -274,15 +290,18 @@ if (($qty_min != null && $qty_min > 0) || ($qty_max != null && $qty_max > 0)) {
 						S_OP.ORDER_IDX = OI.IDX
 				) ";
 	
-	if ($qty_min != null && $qty_max == null) {
+	if (intval($qty_min) > 0 && intval($qty_max) == 0) {
 		$tmp_where .= " >= ".$qty_min." ";
-	} else if ($qty_min == null && $qty_max != null) {
+	} else if (intval($qty_min) == 0 && intval($qty_max) > 0) {
 		$tmp_where .= " <= ".$qty_max." ";
-	} else if ($qty_min != null && $qty_max != null) {
+	} else if (intval($qty_min) > 0 && intval($qty_max) > 0) {
 		$tmp_where .= " BETWEEN ".$qty_min." AND ".$qty_max." ";
 	}
 	
-	$tmp_where = " IS TRUE ";
+	$tmp_where .= " IS TRUE ";
+	
+	$where .=" AND (";
+	
 	$where .= $tmp_where;
 	
 	$where .= ") ";
@@ -335,9 +354,7 @@ $json_result = array(
 	'total_cnt' => $db->count(
 						"dev.ORDER_INFO OI
 						LEFT JOIN dev.ORDER_PRODUCT OP ON
-						OI.IDX = OP.ORDER_IDX
-						LEFT JOIN dev.DELIVERY_COMPANY DC ON
-						OI.DELIVERY_IDX = DC.IDX",
+						OI.IDX = OP.ORDER_IDX",
 						$where_cnt
 					),
 	'page' => $page
@@ -346,13 +363,24 @@ $json_result = array(
 $sql = "SELECT
 			OI.IDX					AS ORDER_IDX,
 			OI.COUNTRY				AS COUNTRY,
-			OI.ORDER_DATE			AS ORDER_DATE,
-			OI.ORDER_CODE			AS ORDER_CODE,
 			OI.ORDER_STATUS			AS OI_STATUS,
+			OI.ORDER_DATE			AS ORDER_DATE,
+			IFNULL(
+				OI.CANCEL_DATE,'-'
+			)						AS OI_CANCEL_DATE,
+			IFNULL(
+				OI.EXCHANGE_DATE,'-'
+			)						AS OI_EXCHANGE_DATE,
+			IFNULL(
+				OI.REFUND_DATE,'-'
+			)						AS OI_REFUND_DATE,
+			OI.ORDER_CODE			AS ORDER_CODE,
+			
 			OI.MEMBER_IDX			AS MEMBER_IDX,
 			ML.TITLE				AS MEMBER_LEVEL,
 			OI.MEMBER_ID			AS MEMBER_ID,
 			OI.MEMBER_NAME			AS MEMBER_NAME,
+			
 			OI.PRICE_PRODUCT		AS PRICE_PRODUCT,
 			OI.PRICE_MILEAGE_POINT	AS PRICE_MILEAGE_POINT,
 			OI.PRICE_CHARGE_POINT	AS PRICE_CHARGE_POINT,
@@ -365,11 +393,13 @@ $sql = "SELECT
 			OP.ORDER_STATUS			AS OP_STATUS,
 			IFNULL(
 				OP.CANCEL_DATE,'-'
-			)						AS CANCEL_DATE,
-			OP.ORDER_STATUS			AS OP_STATUS,
+			)						AS OP_CANCEL_DATE,
+			IFNULL(
+				OP.EXCHANGE_DATE,'-'
+			)						AS OP_EXCHANGE_DATE,
 			IFNULL(
 				OP.REFUND_DATE,'-'
-			)						AS REFUND_DATE,
+			)						AS OP_REFUND_DATE,
 			OP.PRODUCT_IDX			AS PRODUCT_IDX,
 			OP.PRODUCT_TYPE			AS PRODUCT_TYPE,
 			OP.PRODUCT_CODE			AS PRODUCT_CODE,
@@ -431,9 +461,13 @@ foreach($db->fetch() as $data) {
 		'num'						=>$total_cnt--,
 		'order_idx'					=>$data['ORDER_IDX'],
 		'country'					=>$data['COUNTRY'],
-		'order_date'				=>$data['ORDER_DATE'],
-		'order_code'				=>$data['ORDER_CODE'],
 		'oi_status'					=>$data['OI_STATUS'],
+		'order_date'				=>$data['ORDER_DATE'],
+		'oi_cancel_date'			=>$data['OI_CANCEL_DATE'],
+		'oi_exchange_date'			=>$data['OI_EXCHANGE_DATE'],
+		'oi_refund_date'			=>$data['OI_REFUND_DATE'],
+		'order_code'				=>$data['ORDER_CODE'],
+		
 		'member_idx'				=>$data['MEMBER_IDX'],
 		'member_level'				=>$data['MEMBER_LEVEL'],
 		'member_id'					=>$data['MEMBER_ID'],
@@ -449,8 +483,9 @@ foreach($db->fetch() as $data) {
 		'pg_price'					=>$data['PG_PRICE'],
 		
 		'op_status'					=>$data['OP_STATUS'],
-		'cancel_date'				=>$data['CANCEL_DATE'],
-		'refund_date'				=>$data['REFUND_DATE'],
+		'op_cancel_date'			=>$data['OP_CANCEL_DATE'],
+		'op_exchange_date'			=>$data['OP_EXCHANGE_DATE'],
+		'op_refund_date'			=>$data['OP_REFUND_DATE'],
 		'product_idx'				=>$data['PRODUCT_IDX'],
 		'product_type'				=>$data['PRODUCT_TYPE'],
 		'product_code'				=>$data['PRODUCT_CODE'],

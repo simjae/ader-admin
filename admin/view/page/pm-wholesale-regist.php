@@ -12,7 +12,8 @@
 </style>
 <div class="content__card">
 	<form id="frm-list" action="pm/wholesale/list/get">
-		<input type="hidden" name="ordersheet_idx" value="">
+		<!--<input type="hidden" name="ordersheet_idx" value="">-->
+		<input type="hidden" name="product_code" value="">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="rows" name="rows" value="5">
@@ -180,6 +181,7 @@ function urlParsing(){
 					$('#frm-regist').find('input[name=ordersheet_idx]').val(param_obj[1]);
 					break;
 				case 'product_code':
+					$('#frm-list').find('input[name=product_code]').val(param_obj[1]);
 					$('#product_code_td').text(param_obj[1]);
 					break;
 			}

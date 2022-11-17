@@ -1,6 +1,6 @@
 <div class="content__card">
-	<form id="frm-list_ORD_ALL" action="order/list/get">
-		<input type="hidden" name="tab_status" value="ORD_ALL">
+	<form id="frm-list_MNG_ALL" action="order/list/get">
+		<input type="hidden" name="tab_status" value="MNG_ALL">
 		
 		<div class="card__header">
 			<div class="card__header">
@@ -30,38 +30,28 @@
 						</label>
 						
 						<label>
-							<input type="checkbox" name="order_status[]" value="PCP">
-							<span>결제완료</span>
+							<input type="checkbox" name="order_status[]" value="OCC">
+							<span>주문취소</span>
 						</label>
 						
 						<label>
-							<input type="checkbox" name="order_status[]" value="PPR">
-							<span>상품준비</span>
+							<input type="checkbox" name="order_status[]" value="OEX">
+							<span>주문교환</span>
 						</label>
 						
 						<label>
-							<input type="checkbox" name="order_status[]" value="POP">
-							<span>프리오더 준비</span>
+							<input type="checkbox" name="order_status[]" value="OEP">
+							<span>교환완료</span>
 						</label>
 						
 						<label>
-							<input type="checkbox" name="order_status[]" value="POD">
-							<span>프리오더 상품 생산</span>
+							<input type="checkbox" name="order_status[]" value="ORF">
+							<span>주문환불</span>
 						</label>
 						
 						<label>
-							<input type="checkbox" name="order_status[]" value="DPR">
-							<span>배송준비</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="DPG">
-							<span>배송중</span>
-						</label>
-						
-						<label>
-							<input type="checkbox" name="order_status[]" value="DCP">
-							<span>배송완료</span>
+							<input type="checkbox" name="order_status[]" value="ORP">
+							<span>환불완료</span>
 						</label>
 					</div>
 				</div>
@@ -95,6 +85,9 @@
 					<select class="fSelect" name="date_type" style="width:163px;" class="fSelect disabled">
 						<option value="ALL" selected>기간정보 선택</option>
 						<option value="order_date">주문일</option>
+						<option value="cancel_date">주문 취소일</option>
+						<option value="exchange_date">조문 교환일</option>
+						<option value="refund_date">조문 환불일</option>
 						<option value="delivery_start_date">배송 시작일</option>
 						<option value="delivery_end_date">배송 종료일</option>
 					</select>
@@ -354,9 +347,12 @@
 									</div>
 								</TH>
 								<TH style="width:100px;">쇼핑몰</TH>
-								<TH style="width:350px;">주문일</TH>
-								<TH style="width:350px;">주문 번호</TH>
 								<TH style="width:100px;">주문 상태</TH>
+								<TH style="width:350px;">주문일</TH>
+								<TH style="width:350px;">주문 취소일</TH>
+								<TH style="width:350px;">주문 교환일</TH>
+								<TH style="width:350px;">주문 환불일</TH>
+								<TH style="width:350px;">주문 번호</TH>
 								<TH style="width:350px;">주문자</TH>
 								<TH style="width:250px;">상품 총 가격</TH>
 								<TH style="width:250px;">사용 적립 포인트</TH>
@@ -368,6 +364,9 @@
 								<TH style="width:100px;">상품 타입</TH>
 								<TH style="width:350px;">상품 정보</TH>
 								<TH style="width:100px;">상품 주문 상태</TH>
+								<TH style="width:350px;">상품 취소일</TH>
+								<TH style="width:350px;">상품 교환일</TH>
+								<TH style="width:350px;">상품 환불일</TH>
 								<TH style="width:100px;">옵션 이름</TH>
 								<TH style="width:350px;">바코드</TH>
 								<TH style="width:250px;">상품 수량</TH>
@@ -416,12 +415,12 @@ function getOrderInfo_all() {
 		$("#result_table_all").append(strDiv);
 	}
 	
-	var rows = $("#frm-list_ORD_ALL").find('.rows').val();
-	var page = $("#frm-list_ORD_ALL").find('.page').val(1);
+	var rows = $("#frm-list_MNG_ALL").find('.rows').val();
+	var page = $("#frm-list_MNG_ALL").find('.page').val(1);
 	
 	$("#result_table_all").append(strDiv);
 	
-	get_contents($("#frm-list_ORD_ALL"),{
+	get_contents($("#frm-list_MNG_ALL"),{
 		pageObj : $(".paging"),
 		html : function(d) {
 			$("#result_table_all").html('');
@@ -466,41 +465,37 @@ function getOrderInfo_all() {
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + country + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
-					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
 					
 					let oi_status = "";
 					switch (row.oi_status) {
-						case "PCP" :
-							oi_status = "결제완료";
+						case "OCC" :
+							oi_status = "주문취소";
 							break;
 						
-						case "PPR" :
-							oi_status = "상품준비";
+						case "OEX" :
+							oi_status = "주문교환";
 							break;
 						
-						case "POP" :
-							oi_status = "프리오더 준비";
+						case "OEP" :
+							oi_status = "교환완료";
 							break;
 						
-						case "POD" :
-							oi_status = "프리오더 상품 생산";
+						case "ORF" :
+							oi_status = "주문환불";
 							break;
 						
-						case "DPR" :
-							oi_status = "배송준비";
-							break;
-						
-						case "DPG" :
-							oi_status = "배송중";
-							break;
-							
-						case "DCP" :
-							oi_status = "배송완료";
+						case "ORP" :
+							oi_status = "환불완료";
 							break;
 					}
 					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + oi_status + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.oi_cancel_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.oi_exchange_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.oi_refund_date + '</TD>';
+					strDiv += '    <TD class="' + recent_code + '_rowspan_td">' + row.order_code + '</TD>';
+					
 					strDiv += '    <TD class="' + recent_code + '_rowspan_td">';
 					strDiv += '        ' + row.member_id + '<br>';
 					strDiv += '        ' + row.member_name + '<br>';
@@ -530,35 +525,31 @@ function getOrderInfo_all() {
 				
 				let op_status = "";
 				switch (row.op_status) {
-					case "PCP" :
-						op_status = "결제완료";
+					case "OCC" :
+						op_status = "주문취소";
 						break;
 					
-					case "PPR" :
-						op_status = "상품준비";
+					case "OEX" :
+						op_status = "주문교환";
 						break;
 					
-					case "POP" :
-						op_status = "프리오더 준비";
+					case "OEP" :
+						op_status = "교환완료";
 						break;
 					
-					case "POD" :
-						op_status = "프리오더 상품 생산";
+					case "ORF" :
+						op_status = "주문환불";
 						break;
 					
-					case "DPR" :
-						op_status = "배송준비";
-						break;
-					
-					case "DPG" :
-						op_status = "배송중";
-						break;
-						
-					case "DCP" :
-						op_status = "배송완료";
+					case "ORP" :
+						op_status = "환불완료";
 						break;
 				}
+				
 				strDiv += '    <TD>' + op_status + '</TD>';
+				strDiv += '    <TD>' + row.op_cancel_date + '</TD>';
+				strDiv += '    <TD>' + row.op_exchange_date + '</TD>';
+				strDiv += '    <TD>' + row.op_refund_date + '</TD>';
 				strDiv += '    <TD>' + row.option_name + '</TD>';
 				strDiv += '    <TD>' + row.barcode + '</TD>';
 				strDiv += '    <TD>' + row.product_qty + '</TD>';

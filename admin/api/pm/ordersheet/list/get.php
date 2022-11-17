@@ -63,7 +63,8 @@ $where .= ' AND OM.DEL_FLG = FALSE ';
 
 if($regist_flg != null && $regist_flg == 'true'){
 	$where .= ' AND OM.UPDATE_FLG = TRUE 
-				AND (SELECT COUNT(0) FROM dev.WHOLESALE_INFO WHERE ORDERSHEET_IDX = OM.IDX) > 0';
+				AND (SELECT COUNT(0) FROM dev.WHOLESALE_INFO WHERE ORDERSHEET_IDX = OM.IDX) > 0
+				AND (SELECT COUNT(0) FROM dev.SHOP_PRODUCT WHERE ORDERSHEET_IDX = OM.IDX) = 0';
 }
 $where_cnt = $where;
 

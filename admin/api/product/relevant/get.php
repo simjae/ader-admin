@@ -24,7 +24,7 @@ $tables = '
 
 //검색 유형 - 디폴트
 $where = '1=1';
-$where .= ' AND (INDEPENDENCE_FLG = FALSE AND DEL_FLG = FALSE) ';
+$where .= ' AND (INDP_FLG = FALSE AND DEL_FLG = FALSE) ';
 
 if ($product_idx != null) {
 	$where .= " AND (IDX != ".$product_idx.") ";

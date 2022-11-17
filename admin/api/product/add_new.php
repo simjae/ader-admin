@@ -30,7 +30,7 @@ if($ordersheet_idx_list != null){
                     COLOR_CODE,
                     PRODUCT_CODE,
                     PRODUCT_NAME,
-                    INDEPENDENCE_FLG,
+                    INDP_FLG,
                     CREATER,
                     UPDATER
                 )
