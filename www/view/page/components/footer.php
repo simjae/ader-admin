@@ -74,7 +74,7 @@
 <!-- 데스크탑 -->
 <div class="footer-web">
     <ul class="f__desk">
-        <li class="about" style="grid-column: 1/4;">
+        <li class="about" style="grid-column: 1/5;">
             <div class="f__title">
                 <span >About ADERERROR</span >
             </div>

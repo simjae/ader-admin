@@ -175,10 +175,14 @@
 
 <script>
 (() => {
-    window.addEventListener("scroll" ,() => {
+    window.addEventListener("scroll", function () {
+        const scrollHeight = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const docTotalHeight = document.body.offsetHeight;
+        const isBottom = windowHeight + scrollHeight === docTotalHeight;
         const $wishbox = document.querySelector(".wish__box");
         const footer = document.querySelector("footer").offsetHeight;
-        if ((window.innerHeight + window.scrollY) == document.body.offsetHeight) {
+        if (isBottom) { 
             $wishbox.style.bottom = `${footer}px`;
         }else {
             $wishbox.style.bottom = "0px";

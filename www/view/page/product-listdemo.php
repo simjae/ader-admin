@@ -369,7 +369,7 @@
         </div>
 
         <div class="product__list__body">
-            <div class="product-wrap" data-grid="4">
+            <!-- <div class="product-wrap" data-grid="4">
                 <div class="product">
                     <div class="wish__btn" whish_idx="" product_idx="1" onclick="deleteWhishList(this)">
                         <img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">
@@ -463,11 +463,9 @@
                         </div>                        
                     </div>
                 </div>
-            </div>
-
-
+            </div> -->
         </div>
-        <div class="addProductBtn" style="cursor:pointer;" onClick="getMoreProduct();" ;>
+        <div class="addProductBtn" style="cursor:pointer;" onClick="getMoreProduct();">
             <span>더보기</span>
             <img src="" alt="">
         </div>
@@ -475,7 +473,7 @@
 </main>
 <script>
     window.addEventListener('DOMContentLoaded', function() {
-        //getProductList();
+        getProductList();
         imgSwiper();
     });
 
@@ -581,76 +579,76 @@
                 let product_info = data.product_info;
                 product_length = product_info.length;
 
-                product_info.forEach(el => {
-                    let whish_img = "";
-                    let whish_function = "";
+                // product_info.forEach(el => {
+                //     let whish_img = "";
+                //     let whish_function = "";
 
-                    let whish_flg = `${el.whish_flg}`;
-                    if (whish_flg == 'true') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
-                        whish_function = "deleteWhishList(this)";
-                    } else if (whish_flg == 'false') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                        whish_function = "setWhishList(this)";
-                    }
+                //     let whish_flg = `${el.whish_flg}`;
+                //     if (whish_flg == 'true') {
+                //         whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
+                //         whish_function = "deleteWhishList(this)";
+                //     } else if (whish_flg == 'false') {
+                //         whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+                //         whish_function = "setWhishList(this)";
+                //     }
 
-                    productListHtml +=
-                        `<div class="product" style="cursor:pointer;">
-                        <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
-                            ${whish_img}
-                        </div>
-                        <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
-                            <div class="swiper-wrapper">
-                            ${
-                                el.product_img.map((img) => {
-                                    if(img.img_type="p"){
-                                        imgDiv = `<div class="swiper-slide"><div class="prd__img" cnt="${el.product_idx}" style="background-image:url('${imgUrl}${img.img_location}');"></div></div>`
-                                    }
-                                    return imgDiv;
-                                }).join("")
-                            }
-                            </div>
-                        </div>
-                        <div class="px-2 py-3">
-                            <div class="flex justify-between">
-                                <div>${el.product_name}</div>
-                                `
-                    if (el.discount == 0) {
-                        productListHtml += `<div>${el.price.toLocaleString('ko-KR')}</div>`
-                    } else {
-                        productListHtml += `<div>${el.price.toLocaleString('ko-KR')}</div>`
-                    }
-                    productListHtml +=
-                        `
-                            </div>
-                            <div class="prd__color__title">${el.color}</div>
-                            <div class="option__box">
-                                <div class="color__chip">
-                                    <div class="color__outline">
-                                    ${
-                                        el.product_color.map((color) => {
-                                            return `<div class="color" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-                                        }).join("")
-                                    }
-                                    </div>
-                                </div>
-                                <div class="size__box">
-                                ${
-                                el.product_size.map((size) => {
-                                    return`<li class="size" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-                                    }).join("")
-                                }   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                });
-
-                prdListBox.innerHTML = productListHtml;
+                //     productListHtml +=
+                //         `<div class="product" style="cursor:pointer;">
+                //         <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
+                //             ${whish_img}
+                //         </div>
+                //         <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
+                //             <div class="swiper-wrapper">
+                //             ${
+                //                 el.product_img.map((img) => {
+                //                     if(img.img_type="p"){
+                //                         imgDiv = `<div class="swiper-slide"><div class="prd__img" cnt="${el.product_idx}" style="background-image:url('${imgUrl}${img.img_location}');"></div></div>`
+                //                     }
+                //                     return imgDiv;
+                //                 }).join("")
+                //             }
+                //             </div>
+                //         </div>
+                //         <div class="px-2 py-3">
+                //             <div class="flex justify-between">
+                //                 <div>${el.product_name}</div>
+                //                 `
+                //     if (el.discount == 0) {
+                //         productListHtml += `<div>${el.price.toLocaleString('ko-KR')}</div>`
+                //     } else {
+                //         productListHtml += `<div>${el.price.toLocaleString('ko-KR')}</div>`
+                //     }
+                //     productListHtml +=
+                //         `
+                //             </div>
+                //             <div class="prd__color__title">${el.color}</div>
+                //             <div class="option__box">
+                //                 <div class="color__chip">
+                //                     <div class="color__outline">
+                //                     ${
+                //                         el.product_color.map((color) => {
+                //                             return `<div class="color" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
+                //                         }).join("")
+                //                     }
+                //                     </div>
+                //                 </div>
+                //                 <div class="size__box">
+                //                 ${
+                //                 el.product_size.map((size) => {
+                //                     return`<li class="size" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+                //                     }).join("")
+                //                 }   
+                //                 </div>
+                //             </div>
+                //         </div>
+                //     </div>
+                //     `;
+                // });
+                let productwriteData = productWriteHtml(product_info);
+                prdListBox.innerHTML = productwriteData;
                 domFrag.appendChild(prdListBox);
                 prdListBody.appendChild(domFrag);
-                //productListSelectGrid();
+                // productListSelectGrid();
                 imgSwiper();
                 productCategorySwiper();
             }
@@ -685,82 +683,91 @@
                 alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
             },
             success: function(d) {
-                let imgUrl = "http://116.124.128.246:81";
                 let pageIdx = "?page_idx=" + page_idx;
-
                 let data = d.data;
-
-                let productListHtml = "";
                 let imgDiv = "";
-
                 let product_info = data.product_info;
-
-                product_info.forEach(el => {
-                    let whish_img = "";
-                    let whish_function = "";
-
-                    let whish_flg = `${el.whish_flg}`;
-                    if (whish_flg == 'true') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
-                        whish_function = "deleteWhishList(this)";
-                    } else if (whish_flg == 'false') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                        whish_function = "setWhishList(this)";
-                    }
-
-                    productListHtml +=
-                        `<div class="product" style="cursor:pointer;">
-                        <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
-                            ${whish_img}
-                        </div>
-                        <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
-                            <div class="swiper-wrapper">
-                            ${
-                                el.product_img.map((img) => {
-                                    if(img.img_type="p"){
-                                        imgDiv = `<div class="swiper-slide"><div class="prd__img" cnt="${el.product_idx}" style="background-image:url('${imgUrl}${img.img_location}');"></div></div>`
-                                    }
-                                    return imgDiv;
-                                }).join("")
-                            }
-                            </div>
-                        </div>
-                        <div class="px-2 py-3">
-                            <div class="flex justify-between">
-                                <div>${el.product_name}</div>
-                                <div>${el.price.toLocaleString('ko-KR')}</div>
-                            </div>
-                            <div>${el.color}</div>
-                            <div class="option__box">
-                                <div class="color__chip">
-                                    <div class="color__outline">
-                                    ${
-                                        el.product_color.map((color) => {
-                                            return `<div class="color" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-                                        }).join("")
-                                    }
-                                    </div>
-                                </div>
-                                <div class="size__box">
-                                ${
-                                el.product_size.map((size) => {
-                                    return`<li class="size" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-                                    }).join("")
-                                }   
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                });
-
-                $('.product-wrap').append(productListHtml);
-                //productListSelectGrid();
-                imgSwiper();
+                let productwriteData = productWriteHtml(product_info);
+                $(".product-wrap").append(productwriteData);
+                // productListSelectGrid();
             }
         });
     }
+    function productWriteHtml(productInfo){
+        let productListHtml ="";
+        let imgUrl = "http://116.124.128.246:81";
 
+        productInfo.forEach(el => {
+            let whish_img = "";
+            let whish_function = "";
+
+            let whish_flg = `${el.whish_flg}`;
+            if (whish_flg == 'true') {
+                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
+                whish_function = "deleteWhishList(this)";
+            } else if (whish_flg == 'false') {
+                whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+                whish_function = "setWhishList(this)";
+            }
+            let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
+            let colorCtn = el.product_color.length;
+            
+            productListHtml +=
+            `<div class="product" style="cursor:pointer;">
+                <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
+                    ${whish_img}
+                </div>
+                <a href="">
+                    <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
+                        <div class="swiper-wrapper">
+                        ${
+                            el.product_img.map((img) => {
+                                if(img.img_type="p"){
+                                    imgDiv = `<div class="swiper-slide">
+                                        <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
+                                    </div>`
+                                }
+                                return imgDiv;
+                            }).join("")
+                        }
+                        </div>
+                    </div>
+                </a>
+                <div class="product-info">
+                    <div class="info-row">
+                        <div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}>${el.product_name}</div>
+                        ${el.discount == 0 ? `<div class="price" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true">${el.price.toLocaleString('ko-KR')}</div>`} 
+                    </div>
+                    <div class="info-row">
+                        <div class=""></div>
+                    </div>
+                    <div class="color-title">${el.color}</div>
+                    <div class="info-row">
+                        <div class="color__box" data-maxcount="${colorCtn < 6 ?"ture":"false"}" data-colorcount="${colorCtn}">
+                            ${
+                                el.product_color.map((color, idx) => {
+                                    let maxCnt = 5;
+                                    if(idx <= maxCnt){
+                                        return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
+                                    }
+                                }).join("")
+                            }
+                        </div>
+                        <div class="size__box">
+                            ${
+                            el.product_size.map((size) => {
+                                return`<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+                                }).join("")
+                            }   
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        imgSwiper();
+        return productListHtml;
+    }
     function setWhishList(obj) {
         let product_idx = $(obj).attr('product_idx');
 
@@ -789,7 +796,6 @@
             });
         }
     }
-
     function deleteWhishList(obj) {
         let product_idx = $(obj).attr('product_idx');
 
@@ -817,7 +823,6 @@
             });
         }
     }
-
     //모바일 & 웹 그리드별 보기 기능
     () => {
         const $$product = document.querySelectorAll('.product');
@@ -859,8 +864,6 @@
             }
         });
     }
-
-
     const imgSwiper = () => {
         let productImgSwiper = new Swiper(".product-img", {
             navigation: {
@@ -875,9 +878,9 @@
             grabCursor: true,
             slidesPerView: 1
         });
-        productImgSwiper.forEach(el => {
-            //el.disable();
-        })
+        // productImgSwiper.forEach(el => {
+        //     //el.disable();
+        // })
         return productImgSwiper;
     }
     // const productListSelectGrid = () => {

@@ -58,8 +58,6 @@
         menuHtml = "";
         let domfrag = document.createDocumentFragment(menuList);
         domfrag.appendChild(menuList)
-
-        console.log(data);
         let colaboImg = ["/sample/colabo1.png","/sample/colabo2.png","/sample/colabo3.png","/sample/colabo4.png","/sample/colabo5.png"];
 
         menuHtml +=
