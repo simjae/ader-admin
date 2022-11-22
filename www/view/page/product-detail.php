@@ -46,42 +46,12 @@
                     <div class="swiper-slide">
                         <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_2.jpeg');"></div>
                     </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_3.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_4.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_5.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_6.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_7.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_8.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_9.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_10.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_11.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_12.jpeg');"></div>
-                    </div>
                 </div>
             </div>
         </div>
         <div class="detail__img__wrap">
             <div class="main__swiper swiper">
-                <div class="swiper-wrapper">
+                <div class="swiper-wrapper main_img_wrapper">
                     <div class="swiper-slide">
                         <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_1.jpeg');"></div>
                     </div>
@@ -122,386 +92,16 @@
             </div>
         </div>
         <div class="info__wrap">
-            <div class="product__title">Twin heart hoodie</div>
-            <div class="product__price">289,000</div>
-            <div class="product__color">컬러색상</div>
-            <div class="color__chip">
-                <div class="color__outline select">
-                    <div class="color" style="background-color:pink"></div>
-                </div>
-                <div class="color__outline">
-                    <div class="color" style="background-color:slateblue"></div>
-                </div>
-                <div class="color__outline">
-                    <div class="color" style="background-color:orange"></div>
-                </div>
-                <div class="color__outline">
-                    <div class="color" style="background-color:greenyellow"></div>
-                </div>
-            </div>
-            <div class="product__size">
-                <div>Size</div>
-                <div class="size__box">
-                    <li>A1</li>
-                    <li>A2</li>
-                    <li>A3</li>
-                    <li>A4</li>
-                </div>
-            </div>
-            <div class="product__size__guide">
-                <li><img src="/images/svg/size-guide.svg" alt=""></li>
-                <li>사용자 가이즈</li>
-            </div>
-            <div class="basket__wrap">
-                <div class="basket__box">
-                    <div class="flex gap-2" style="align-items: center;padding: 10px;width: 80%;justify-content: center;border-right: 1px solid;cursor:pointer;" onClick="location.href='/order/basket/list'">
-                        <img src="/images/svg/basket.svg" alt="">
-                        <span style="">쇼핑백에 담기</span>
-                    </div>
-                    <div style="justify-content: center;display: flex;width: 20%;">
-                        <img src="/images/svg/basket-heart.svg" alt="" style="">
-                    </div>
-                </div>
-                <div class="detail__info__wrap">
-                    <div>소재</div>
-                    <div>제품 상세 정보</div>
-                    <div>제품 취급 유의 사항</div>
-                </div>
-            </div>
+          
         </div>
     </section>
+	
     <!-- styling -->
     <section class="swiper__wrapper lg:flex">
         <div class="text-left prd__left__side lg:text-right"><u>Styling with</u><span class="ml-3">></span></div>
         <div class="styling-swiper prd__list__swiper swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <div class="color__outline select">
-                                        <div class="color" style="background-color:pink"></div>
-                                    </div>
-                                    <div class="color__outline">
-                                        <div class="color" style="background-color:slateblue"></div>
-                                    </div>
-                                    <div class="color__outline">
-                                        <div class="color" style="background-color:orange"></div>
-                                    </div>
-                                    <div class="color__outline">
-                                        <div class="color" style="background-color:greenyellow"></div>
-                                    </div>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-				<div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="swiper-wrapper product_relevant_wrapper">
 				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -509,325 +109,8 @@
     <section class="swiper__wrapper lg:flex">
         <div class="text-left prd__left__side lg:text-right"><u>For you</u><span class="ml-3">></span></div>
         <div class="recommend-swiper prd__list__swiper swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-				
-                <div class="swiper-slide" style="cursor:pointer;" onClick="location.href='/product/detail?product_idx=1'">
-                    <div class="prd__list__wrap">
-                        <div class="prd__option__wrap">
-                            <div class="absolute right-0 p-5">
-                                <img src="/images/svg/wishlist.svg" alt="">
-                            </div>
-                        </div>
-                        <div class="prd__list__img" style="background-image:url('/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png') ;"></div>
-                        <div class="prd__list__content">
-                            <div class="flex justify-between">
-                                <div class="product__title">BLASSHD01KK</div>
-                                <div class="product__price">529.000</div>
-                            </div>
-                            <div class="product__color">Gray</div>
-                            <div class="flex justify-between">
-                                <div class="color__chip">
-                                    <li class="color bg-slate-500"></li>
-                                    <li class="bg-orange-600 color"></li>
-                                    <li class="color bg-emerald-400"></li>
-                                </div>
-                                <div class="flex gap-3">
-                                    <div class="product__size">A1</div>
-                                    <div class="product__size">A2</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="swiper-wrapper product_recommend_wrapper">
+                
             </div>
         </div>
     </section>
@@ -835,7 +118,6 @@
 <script>
 	window.addEventListener('DOMContentLoaded', function() {
 		getProduct();
-		getRecommendProductList();
 	});
 	
 	const getProduct = () => {
@@ -856,11 +138,163 @@
 			success: function(d) {
 				let data = d.data;
 				
+				const domFrag = document.createDocumentFragment();
+				const infoWrap= document.querySelector(".info__wrap");
+				
+				let infoWrapHtml = "";
+				data.forEach((el) => {
+					let img_thumbnail = el.img_thumbnail;
+					let img_product = el.img_product;
+					
+					let product_color = el.product_color;
+					let productColorHtml = "";
+					product_color.forEach(color => {
+						productColorHtml += `
+							<div class="color__outline select">
+								<div class="color" style="background-color:${color.color_rgb}"></div>
+							</div>
+						`;
+					});
+					
+					let product_size = el.product_size;
+					let productSizeHtml = "";
+					product_size.forEach(size => {
+						productSizeHtml += `
+							<li>${size.option_name}</li>
+						`;
+					});
+					
+					infoWrapHtml = `
+						<div class="info__wrap">
+							<div class="product__title">${el.product_name}</div>
+							<div class="product__price">${el.sales_price.toLocaleString('ko-KR')}</div>
+							<div class="product__color">${el.color}</div>
+							<div class="color__chip">
+								${productColorHtml}
+							</div>
+							<div class="product__size">
+								<div>Size</div>
+								<div class="size__box">
+									${productSizeHtml}
+								</div>
+							</div>
+							<div class="product__size__guide">
+								<li><img src="/images/svg/size-guide.svg" alt=""></li>
+								<li>사용자 가이즈</li>
+							</div>
+							<div class="basket__wrap">
+								<div class="basket__box">
+									<div class="flex gap-2" style="align-items: center;padding: 10px;width: 80%;justify-content: center;border-right: 1px solid;cursor:pointer;" onClick="location.href='/order/basket/list'">
+										<img src="/images/svg/basket.svg" alt="">
+										<span style="">쇼핑백에 담기</span>
+									</div>
+									<div style="justify-content: center;display: flex;width: 20%;">
+										<img src="/images/svg/basket-heart.svg" alt="" style="">
+									</div>
+								</div>
+								<div class="detail__info__wrap">
+									<div>소재</div>
+									<div>제품 상세 정보</div>
+									<div>제품 취급 유의 사항</div>
+								</div>
+							</div>
+						</div>
+					`;
+				});
+				
+				getProductRecommendList();
+				
 				let relevant_idx = data[0].relevant_idx;
-				console.log(relevant_idx);
 				if (relevant_idx != null) {
 					getRelevantProductList(relevant_idx,country);
 				}
+				
+				const prdInfo = document.createElement("div");
+				prdInfo.innerHTML = infoWrapHtml;
+				domFrag.appendChild(prdInfo);
+				infoWrap.appendChild(domFrag);
+				
+				//제품 소재, 상세정보, 취급유의사항 슬라이드
+				(function(){
+					let thumbSwiper = new Swiper(".thumb__swiper", {
+						navigation: {
+							nextEl: '.thumb__swiper .swiper-button-next',
+							prevEl: '.thumb__swiper .swiper-button-prev',
+						},
+						slideToClickedSlide: true,
+						slidesPerView: 10,
+						spaceBetween: 10,
+						watchSlidesProgress: true,
+						freeMode: true,
+						direction : "vertical",
+						pagination: {
+							el: '.swiper-pagination',
+							type: 'bullets',
+							clickable: true,
+
+						},
+					});
+					
+					//메인 스와이프
+					let mainSwiper = new Swiper(".main__swiper", {
+						direction:'vertical',
+						slidesPerView: 1,
+						navigation: {
+							nextEl: '.main__swiper .swiper-button-next',
+							prevEl: '.main__swiper .swiper-button-prev',
+						},
+						pagination: {
+							el: '.swiper-pagination',
+							type: 'bullets',
+							clickable: true,
+						},
+						// normalizeSlideIndex:true,
+						centeredSlides: true,
+						slideToClickedSlide: true,
+						thumbs: {
+							swiper: thumbSwiper
+						},
+					});
+
+					const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
+					const $sidebarBg= document.querySelector(".detail__sidebar__wrap .sidebar__background");
+					const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
+					const $detailInfoWrap = document.querySelector(".detail__info__wrap");
+					const $sidebarCloseBtn = document.querySelector(".sidebar__close__btn");
+					let $$contentBtn = document.querySelectorAll(".sidebar__body .content__btn__wrap .tap__btn");
+
+					$detailInfoWrap.addEventListener("click",() => {
+						$detailSidebarWrap.classList.toggle("open")
+						$sidebarBg.classList.toggle("open");
+						$sidebarWrap.classList.toggle("open");
+						$detailInfoWrap.classList.toggle("open")
+					});
+					$sidebarCloseBtn.addEventListener("click",sideBarClose);
+					//sidebar__wrap 외부 클릭 종료
+					$sidebarBg.addEventListener("mouseup",function(e) {
+						if(!$sidebarWrap.contains(e.target)) {
+							sideBarClose();
+						}
+					});
+					$$contentBtn.forEach((el) => {
+						el.addEventListener("click", function(){
+							removeTapSelect();
+							this.querySelector("span").classList.add("select");
+						});
+					});
+
+					function sideBarClose() {
+						$detailSidebarWrap.classList.remove("open")
+						$sidebarBg.classList.remove("open");
+						$sidebarWrap.classList.remove("open");
+						$detailInfoWrap.classList.remove("open");
+					}
+					function removeTapSelect() {
+						$$contentBtn.forEach((el) => {
+							el.querySelector("span").classList.remove("select");
+						});
+					}
+				})();
 			}
 		});
 	}
@@ -875,34 +309,217 @@
 			dataType: "json",
 			url: "http://116.124.128.246:80/_api/common/relevant/get",
 			error: function() {
-				alert("관련 상품 정보불러오기 처리에 실패했습니다.");
+				alert("관련상품정보 불러오기 처리에 실패했습니다.");
 			},
 			success: function(d) {
+				let imgUrl ="http://116.124.128.246:81";
+                
 				let data = d.data;
-				console.log(data);
+				
+				let productRelevantListHtml = "";
+                let imgDiv="";
+                const domFrag = document.createDocumentFragment();
+                
+                const prdListWrapper= document.querySelector(".product_relevant_wrapper");
+				
+                data.forEach(el => {
+					const prdListSlide = document.createElement("div");
+					prdListSlide.classList.add("swiper-slide");
+					
+					let product_link = "/product/detail?product_idx=" + `${el.product_idx}`;
+					
+					let whish_img = "";
+					let whish_function = "";
+					
+					let whish_flg = `${el.whish_flg}`;
+					if (whish_flg == 'true') {
+						whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
+						whish_function = "deleteWhishList(this);";
+					} else if (whish_flg == 'false') {
+						whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+						whish_function = "setWhishList(this);";
+					}
+					
+					let product_size = el.product_size;
+					
+					let productSizeHtml = "";
+					product_size.forEach(size => {
+						productSizeHtml += `
+							<div class="product__size">${size.option_name}</div>
+						`;
+					});
+					
+					productRelevantListHtml = `
+						<div class="swiper-slide relevant_product" style="cursor:pointer;">
+							<div class="prd__list__wrap">
+								<div class="prd__option__wrap">
+									<div class="absolute right-0 p-5">
+										${whish_img}
+									</div>
+								</div>
+								<div class="prd__list__img" onClick="location.href='${product_link}'" style="background-color:#fbfbfb; background-image:url('${imgUrl}${el.product_img}') ;"></div>
+								<div class="prd__list__content">
+									<div class="flex justify-between">
+										<div class="product__title">${el.product_name}</div>
+										<div class="product__price">${el.sales_price.toLocaleString('ko-KR')}</div>
+									</div>
+									<div class="product__color" style="margin-top:13px;">${el.color}</div>
+									<div class="flex justify-between">
+										<div class="color__chip">
+											<li class="color bg-slate-500"></li>
+											<li class="bg-orange-600 color"></li>
+											<li class="color bg-emerald-400"></li>
+										</div>
+										<div class="flex gap-3">
+											${productSizeHtml}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					`;
+					
+					prdListSlide.innerHTML = productRelevantListHtml;
+					domFrag.appendChild(prdListSlide);
+                });
+				
+				prdListWrapper.appendChild(domFrag);
+				
+				let stylingSwiper = new Swiper(".styling-swiper", {
+					navigation: {
+						nextEl: ".styling-swiper .swiper-button-next",
+						prevEl: ".styling-swiper .swiper-button-prev",
+					},
+					pagination: {
+						el: ".swiper-pagination",
+						clickable: true,
+					},
+					grabCursor: true,
+					breakpoints: {
+						// when window width is >= 320px
+						320: {
+							slidesPerView: 2.5
+						},
+						920: {
+							slidesPerView: 3.5
+						},
+						1400: {
+							slidesPerView: 4.5
+						}
+					}
+				});
 			}
 		});
 	}
 	
-	const getRecommendProductList = () => {
-		let country = $('#country').val();
-		
-		$.ajax({
-			type: "post",
-			data: {
-				"country": country
-			},
-			dataType: "json",
-			url: "http://116.124.128.246:80/_api/common/recommend/get",
-			error: function() {
-				alert("관련 상품 정보불러오기 처리에 실패했습니다.");
-			},
-			success: function(d) {
+	const getProductRecommendList = () => {		
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/common/recommend/get",
+            error: function() {
+                alert("추천상품정보 불러오기 처리에 실패했습니다.");
+            },
+            success: function(d) {
+                let imgUrl ="http://116.124.128.246:81";
+                
 				let data = d.data;
-				console.log(data);
-			}
-		});
-	}
+				
+				let productRecommendListHtml = "";
+                let imgDiv="";
+                const domFrag = document.createDocumentFragment();
+                
+                const prdRecommendListWrapper= document.querySelector(".product_recommend_wrapper");
+				
+                data.forEach(el => {
+					const prdRecommendListSlide = document.createElement("div");
+					prdRecommendListSlide.classList.add("swiper-slide");
+					
+					let product_link = "/product/detail?product_idx=" + `${el.product_idx}`;
+					
+					let whish_img = "";
+					let whish_function = "";
+					
+					let whish_flg = `${el.whish_flg}`;
+					if (whish_flg == 'true') {
+						whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
+						whish_function = "deleteWhishList(this);";
+					} else if (whish_flg == 'false') {
+						whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+						whish_function = "setWhishList(this);";
+					}
+					
+					let product_size = el.product_size;
+					
+					let productSizeHtml = "";
+					product_size.forEach(size => {
+						productSizeHtml += `
+							<div class="product__size">${size.option_name}</div>
+						`;
+					});
+					
+					productRecommendListHtml = `
+						<div class="swiper-slide relevant_product" style="cursor:pointer;">
+							<div class="prd__list__wrap">
+								<div class="prd__option__wrap">
+									<div class="absolute right-0 p-5">
+										${whish_img}
+									</div>
+								</div>
+								<div class="prd__list__img" onClick="location.href='${product_link}'" style="background-color:#fbfbfb; background-image:url('${imgUrl}${el.product_img}') ;"></div>
+								<div class="prd__list__content">
+									<div class="flex justify-between">
+										<div class="product__title">${el.product_name}</div>
+										<div class="product__price">${el.sales_price.toLocaleString('ko-KR')}</div>
+									</div>
+									<div class="product__color" style="margin-top:14px;">${el.color}</div>
+									<div class="flex justify-between">
+										<div class="color__chip">
+											<li class="color bg-slate-500"></li>
+											<li class="bg-orange-600 color"></li>
+											<li class="color bg-emerald-400"></li>
+										</div>
+										<div class="flex gap-3">
+											${productSizeHtml}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					`;
+					
+					prdRecommendListSlide.innerHTML = productRecommendListHtml;
+					domFrag.appendChild(prdRecommendListSlide);
+                });
+				
+				prdRecommendListWrapper.appendChild(domFrag);
+				
+				let recommendSwiper = new Swiper(".recommend-swiper", {
+					navigation: {
+						nextEl: ".recommend-swiper .swiper-button-next",
+						prevEl: ".recommend-swiper .swiper-button-prev",
+					},
+					pagination: {
+						el: ".swiper-pagination",
+						clickable: true,
+					},
+					grabCursor: true,
+					breakpoints: {
+						// when window width is >= 320px
+						320: {
+							slidesPerView: 2.5
+						},
+						920: {
+							slidesPerView: 3.5
+						},
+						1400: {
+							slidesPerView: 4.5
+						}
+					}
+				});
+            }
+        });
+    }
 	
     (function() {
         const data = {
@@ -1023,183 +640,5 @@
                 }
             ]   
         }
-		
-        data.product.forEach((el, idx)=> { 
-            console.log(`${idx} : ${el.PRODUCT_CODE}`);
-        });
-		
-		let detailPrdHtml = `
-            <div class="img__box">
-                <div class="img"
-                    style="background-image:url('/images/product/img_product_product_BLASSHD01YG_mdl_1661843858.png');">
-                </div>
-            </div>
-            <div class="info__wrap">
-                <div class="product__title">Twin heart hoodie</div>
-                <div class="product__price">289,000</div>
-                <div class="product__color">컬러색상</div>
-                <div class="color__chip">
-                    <li class="bg-slate-500"></li>
-                    <li class="bg-orange-600"></li>
-                    <li class="bg-emerald-400"></li>
-                    <li class="bg-sky-500"></li>
-                </div>
-                <div class="product__size">
-                    <div>Size</div>
-                    <div class="flex gap-4 pl-28">
-                        <li>A1</li>
-                        <li>A2</li>
-                        <li>A3</li>
-                        <li>A4</li>
-                    </div>
-                </div>
-                <div class="product__size__guide">
-                    <li><img src="/images/svg/size-guide.svg" alt=""></li>
-                    <li>사용자 가이즈</li>
-                </div>
-                <div class="basket__wrap">
-                    <div class="basket__box">
-                        <div class="flex gap-2" style="align-items: center;padding: 10px;width: 80%;justify-content: center;border-right: 1px solid;">
-                            <img src="/images/svg/basket.svg" alt="">
-                            <span style="">쇼핑백에 담기</span>
-                        </div>
-                        <div style="justify-content: center;display: flex;width: 20%;">
-                            <img src="/images/svg/basket-heart.svg" alt="" style="">
-                        </div>
-                    </div>
-                    <div class="detail__info__wrap">
-                        <div>소재</div>
-                        <div>제품 상세 정보</div>
-                        <div>제품 취급 유의 사항</div>
-                    </div>
-                </div>
-            </div>
-        `;
     }());
-    //제품 소재, 상세정보, 취급유의사항 슬라이드
-    (function(){
-        
-        let recommendSwiper = new Swiper(".recommend-swiper", {
-            navigation: {
-                nextEl: ".recommend-swiper .swiper-button-next",
-                prevEl: ".recommend-swiper .swiper-button-prev",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            grabCursor: true,
-            breakpoints: {
-                // when window width is >= 320px
-                320: {
-                    slidesPerView: 2.5
-                },
-                920: {
-                    slidesPerView: 3.5
-                },
-                1400: {
-                    slidesPerView: 4.5
-                }
-            }
-        });
-        let stylingSwiper = new Swiper(".styling-swiper", {
-            navigation: {
-                nextEl: ".styling-swiper .swiper-button-next",
-                prevEl: ".styling-swiper .swiper-button-prev",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            grabCursor: true,
-            breakpoints: {
-                // when window width is >= 320px
-                320: {
-                    slidesPerView: 2.5
-                },
-                920: {
-                    slidesPerView: 3.5
-                },
-                1400: {
-                    slidesPerView: 4.5
-                }
-            }
-        });
-        let thumbSwiper = new Swiper(".thumb__swiper", {
-            navigation: {
-                nextEl: '.thumb__swiper .swiper-button-next',
-                prevEl: '.thumb__swiper .swiper-button-prev',
-            },
-            slideToClickedSlide: true,
-            slidesPerView: 10,
-            spaceBetween: 10,
-            watchSlidesProgress: true,
-            freeMode: true,
-            direction : "vertical",
-            pagination: {
-                el: '.swiper-pagination',
-                type: 'bullets',
-                clickable: true,
-
-            },
-        });
-        //메인 스와이프
-        let mainSwiper = new Swiper(".main__swiper", {
-            slidesPerView: 1,
-            navigation: {
-                nextEl: '.main__swiper .swiper-button-next',
-                prevEl: '.main__swiper .swiper-button-prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                type: 'bullets',
-                clickable: true,
-            },
-            // normalizeSlideIndex:true,
-            centeredSlides: true,
-            slideToClickedSlide: true,
-            thumbs: {
-                swiper: thumbSwiper
-            },
-        });
-
-        const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
-        const $sidebarBg= document.querySelector(".detail__sidebar__wrap .sidebar__background");
-        const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
-        const $detailInfoWrap = document.querySelector(".detail__info__wrap");
-        const $sidebarCloseBtn = document.querySelector(".sidebar__close__btn");
-        let $$contentBtn = document.querySelectorAll(".sidebar__body .content__btn__wrap .tap__btn");
-
-        $detailInfoWrap.addEventListener("click",() => {
-            $detailSidebarWrap.classList.toggle("open")
-            $sidebarBg.classList.toggle("open");
-            $sidebarWrap.classList.toggle("open");
-            $detailInfoWrap.classList.toggle("open")
-        });
-        $sidebarCloseBtn.addEventListener("click",sideBarClose);
-        //sidebar__wrap 외부 클릭 종료
-        $sidebarBg.addEventListener("mouseup",function(e) {
-            if(!$sidebarWrap.contains(e.target)) {
-                sideBarClose();
-            }
-        });
-        $$contentBtn.forEach((el) => {
-            el.addEventListener("click", function(){
-                removeTapSelect();
-                this.querySelector("span").classList.add("select");
-            });
-        });
-
-        function sideBarClose() {
-            $detailSidebarWrap.classList.remove("open")
-            $sidebarBg.classList.remove("open");
-            $sidebarWrap.classList.remove("open");
-            $detailInfoWrap.classList.remove("open");
-        }
-        function removeTapSelect() {
-            $$contentBtn.forEach((el) => {
-                el.querySelector("span").classList.remove("select");
-            });
-        }
-    })();
 </script>

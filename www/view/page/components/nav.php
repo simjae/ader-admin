@@ -55,7 +55,7 @@
     const webWriteNavHtml = (data) => {
         let menuList = document.createElement("ul")
         menuList.classList.add("header__grid");
-        menuHtml = "";
+        menuHtml = '<li class="first__space"></li>';
         let domfrag = document.createDocumentFragment(menuList);
         domfrag.appendChild(menuList)
         let colaboImg = ["/sample/colabo1.png","/sample/colabo2.png","/sample/colabo3.png","/sample/colabo4.png","/sample/colabo5.png"];
@@ -63,16 +63,16 @@
         menuHtml +=
             `<li class="header__logo" onClick="location.href='/'">
                 <img class="logo"src="/images/landing/logo.png" alt="">
-        </li>`
-        
+			</li>`
+        let menuCount = 0;
         data.forEach((el, idx) => {
             let lrgDiv = document.createElement("div");
             let lrg = el.menu_lrg;
             let mdl = lrg.menu_mdl;
             if( el.menu_lrg.menu_type =="PR") {
                 menuHtml +=
-                `<li class="drop web" data-tpye="${lrg.menu_type}" data-lrg="${idx}">
-                    <a href="${lrg.menu_link}">${lrg.menu_title}</a>
+                `<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
+                    <a class="under-line wh" href="${lrg.menu_link}">${lrg.menu_title}</a>
                     <div class="drop__menu">
                         <ul class="cont">
                             <li class="swiper-li">
@@ -80,29 +80,30 @@
                                     <div class="swiper-wrapper">
                                         <div class="swiper-slide">
                                             <div>
-                                                <img src="https://www.adererror.com/upload/2022fw/nav-collection2.jpg" alt="">
+                                                <img src="http://116.124.128.246:80/images/sample/nav-collection0.jpg" alt="">
                                                 <span class="swiper__title">TNNN line</span>
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div>
-                                                <img src="https://www.adererror.com/upload/2022fw/nav-curve.jpg" alt="">
+                                                <img src="http://116.124.128.246:80/images/sample/nav-collection1.jpg" alt="">
                                                 <span class="swiper__title">TNNN line</span>
                                             </div>
                                         </div>
                                         <div class="swiper-slide">
                                             <div>
-                                                <img src="https://www.adererror.com/upload/2022fw/nav.jpg" alt="">
+                                                <img src="http://116.124.128.246:80/images/sample/nav-collection2.jpg" alt="">
                                                 <span class="swiper__title">TNNN line</span>
                                                 </div>
                                             </div>
                                         <div class="swiper-slide">
                                             <div>
-                                                <img src="https://www.adererror.com/upload/2022fw/nav-tenit.jpg" alt="">
+                                                <img src="http://116.124.128.246:80/images/sample/nav-collection3.jpg" alt="">
                                                 <span class="swiper__title">TNNN line</span>
                                             </div>
                                         </div>
                                     </div>
+									<div class="swiper-pagination swiper-pagination-${idx}"></div>
                                 </div>  
                             </li>
                             ${
@@ -125,63 +126,191 @@
             }
             if( el.menu_lrg.menu_type =="PO") {
                 menuHtml +=
-                `<li class="hidden lg:block drop web" data-tpye="${lrg.menu_type}" data-lrg="${idx}">
-                <a href="${lrg.menu_link}">${lrg.menu_title}</a>
-                <div class="drop__menu">
-                    <ul class="cont">
-                        ${
-                            mdl.map((el , idx)=> {
-                            return`<li class="pobox"  data-mdl="${idx}">
-                                <div class="colaboBox">
-                                    <a class="mid-a" href="${el.menu_link}">${el.menu_title}</a>
-                                    <img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
-                                </div>
-                            </li>`
-                        }).join("")
-                        }
-                    </ul>
-                </div>
-            </li>`
+                `<li class="hidden lg:block drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
+					<a class="under-line wh" href="${lrg.menu_link}">${lrg.menu_title}</a>
+					<div class="drop__menu">
+						<ul class="cont">
+							${
+								mdl.map((el , idx)=> {
+								return`<li class="pobox"  data-mdl="${idx}">
+									<div class="colaboBox">
+										<a class="mid-a en" href="${el.menu_link}">${el.menu_title}</a>
+										<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
+									</div>
+								</li>`
+							}).join("")
+							}
+						</ul>
+					</div>
+				</li>`
             }
+			menuCount++;
         });
-        menuHtml +=
-                `<li class="drop web" style="grid-column: 12/13; font-size: 1.2rem;" data-large="6">
+		let spaceCount = 8 - menuCount;
+		for(var i = 0 ; i < spaceCount; i++){
+			menuHtml +=	`<li class="mid__space" ></li>`;
+		}
+        menuHtml +=`
+				<li class="drop web fixmenu" data-type="FM" data-large="6">
                     <a href="">스토리</a>
+                    <div class="drop__menu">
+                        <ul class="cont fixsub">
+							<li class=""></li>
+							<li class="drop web" data-type="" data-lrg="">
+								<a href="">새로운 소식</a>
+								<ul class="list__grid">
+									<li class="fmbox"  data-mdl="">
+										<div class="newsBox">
+											<img src ='http://116.124.128.246:80/images/sample/news01.jpg'>
+											<div class="news-title kr" href="">시그니처 쇼퍼백 구매 신청하기</div>
+											<div class="news-m-title en" href="">Shopper bag Stand by</div>
+										</div>
+									</li>
+									<li class="fmbox"  data-mdl="">
+										<div class="newsBox">
+											<img src ='http://116.124.128.246:80/images/sample/news02.jpg'>
+											<div class="news-title kr" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
+											<div class="news-m-title en" href="">22SS Origin Line<br>Og: Diagonal</div>
+										</div>
+									</li>
+									<li class="fmbox"  data-mdl="">
+										<div class="newsBox">
+											<img src ='http://116.124.128.246:80/images/sample/news03.jpg'>
+											<div class="news-title kr" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
+											<div class="news-m-title en" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
+										</div>
+									</li>
+								</ul>
+							</li>
+							<li class=""></li>
+							<li class="drop web" data-type="" data-lrg="">
+								<a href="">아카이브</a>
+								<ul class="list__grid">
+									<li class="fmbox"  data-mdl="">
+										<div class="mid-a archiveTitle">프로젝트</div>
+										<div class="archiveBox">
+											<ul>
+												<li class="archiveList">2022 SS  'After blue'</li>
+												<li class="archiveList">2022 Origin 'Cinder'</li>
+												<li class="archiveList">2021 AW 'Un nouveau système'</li>
+												<li class="archiveList">2021 SS 'Layering time'</li>
+											</ul>
+											<ul>
+												<li class="archiveList dot"></li>
+												<li class="archiveList allBtn">+  전체보기</li>
+											</ul>
+										</div>
+									</li>
+									<li class="fmbox"  data-mdl="">
+										<div class="mid-a archiveTitle">룩북</div>
+										<div class="archiveBox">
+											<ul>
+												<li class="archiveList">2022 F/W 'Phenomenon comm...</li>
+												<li class="archiveList">2022 S/S 'After blue'</li>
+												<li class="archiveList">2022 Origin 'Cinder'</li>
+												<li class="archiveList">2021 SS 'Layering time'</li>
+											</ul>
+											<ul>
+												<li class="archiveList dot"></li>
+												<li class="archiveList allBtn">+  전체보기</li>
+											</ul>
+										</div>
+									</li>
+									<li class="fmbox"  data-mdl="">
+										<div class="mid-a archiveTitle">에디토리얼</div>
+										<div class="archiveBox">
+											<ul>
+												<li class="archiveList">Mule series 'Curve'</li>
+												<li class="archiveList">‘Self Expression'</li>
+												<li class="archiveList">Adererror x Puma 'Vaderon'</li>
+												<li class="archiveList">2022ss campaign ‘After blue'</li>
+											</ul>
+											<ul>
+												<li class="archiveList dot"></li>
+												<li class="archiveList allBtn">+  전체보기</li>
+											</ul>
+										</div>
+									</li>
+								</ul>
+							</li>
+                        </ul>
+                    </div>
                 </li>
-                <li class="drop web" style="grid-column: 13/14; font-size: 1.2rem;">
+                <li class="drop web fixmenu" >
                     <a href="">매장찾기</a>
                 </li>
-                <ul class="right__nav">
-                    <li class="web">
-                        <div class="flex" style="width: 37px;">
-                            <img class="search-svg" style="width: 11px;" src="/images/svg/search.svg" alt="">
-                            <span class="pl-1" style="font-size: 1.2rem;">검색</span>
-                        </div>
-                    </li>
-                    <li class="web"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
-                    <li class="flex"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count">12</span></li>
-                    <li class="flex basket__btn "><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count">14</span></li>
-                    <li class="web"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
-                    <li class="web"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
-                    <li class="flex pr-3 lg:hidden mobileMenu">
-                        <div class="hamburger" id="hamburger">
-                            <span class="line"></span>
-                            <span class="line"></span>
-                            <span class="line"></span>
-                        </div>
-                    </li>
-            </ul>`
+                <li class="right__nav">
+					<ul class="right__nav__ul">
+						<li class="web">
+							<div class="flex" style="width: 37px;">
+								<img class="search-svg" style="width: 11px;" src="/images/svg/search.svg" alt="">
+								<span class="pl-1" style="font-size: 1.2rem;">검색</span>
+							</div>
+						</li>
+						<li class="web alg__c"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
+						<li class="flex"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+						<li class="flex basket__btn "><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
+						<li class="web"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
+						<li class="web alg__r"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
+						<li class="web"></li>
+						<li class="flex pr-3 lg:hidden mobileMenu">
+							<div class="hamburger" id="hamburger">
+								<span class="line"></span>
+								<span class="line"></span>
+								<span class="line"></span>
+							</div>
+						</li>
+					</ul>
+				</li>`
         menuList.innerHTML = menuHtml;
         document.querySelector(".header__wrap").appendChild(domfrag);
         mobileMenu();
+		
+		
         let $$webMenu = document.querySelectorAll(".web");
         let $webMenu = document.querySelector(".web");
+		
         $$webMenu.forEach(el => {
             el.addEventListener("mouseover", function(e) {
-                dropMenuAllSwiper();
-                
+				var swiper = new Swiper(".swiper__box", {
+					pagination: {
+						el: ".swiper-pagination",
+						dynamicBullets: true
+					},
+					autoplay: {
+						delay: 2000,
+						disableOnInteraction: false,
+					}
+				}); 
             },{ once : true });
         });
+		$$webMenu.forEach(el => {
+			if(el.dataset.type=="PR" || el.dataset.type=="PO" || el.dataset.type=="FM"){
+				el.addEventListener("mouseover", function(e) {
+					let header = document.querySelector("header");
+					header.classList.add("hover");
+					header.querySelectorAll(".under-line").forEach(els => {
+						els.classList.remove("wh");
+						els.classList.add("bk");
+					});
+					console.log($(this).find("swiper__box"));
+					console.log(swiper);
+				});
+			}
+        });
+        $$webMenu.forEach(el => {
+            el.addEventListener("mouseout", function(e) {
+				if(this.dataset.type=="PR" || this.dataset.type=="PO" || el.dataset.type=="FM" ){
+					let header = document.querySelector("header");
+					header.classList.remove("hover");
+					header.querySelectorAll(".under-line").forEach(els => {
+						els.classList.remove("bk");
+						els.classList.add("wh");
+					});
+				}
+            });
+        });
+		
     }
     const mobileWriteNavHtml = (data) => {
         let mobileMenu = document.createElement("div");
@@ -234,6 +363,17 @@
                                     </div>
                                 </div>
                             </div>
+							<div class="paging_wrap">
+								<span class="page_btn paging_first">&lt;&lt;</span>
+								<span class="page_btn paging_prev">&lt;</span>
+								<div class="num">
+									<ul class="paging_list">
+									</ul>
+								</div>
+								<span class="page_btn paging_next">&gt;</span>
+								<span class="page_btn paging_last">&gt;&gt;</span>
+							</div>
+							<div class="swiper-pagination-${idx}"></div>
                         </div>  
                     </li>
                 </ul>
@@ -316,28 +456,6 @@
                 }
             });
         });
-    }
-    function dropMenuAllSwiper() {
-        const buildSwiperSlider = sliderEl => {
-            const sliderIdentifier = sliderEl.dataset.id;
-            return new Swiper(`#${sliderEl.id}`, {
-                navigation: {
-                    nextEl: `.swiper-button-next-${sliderIdentifier}`,
-                    prevEl: `.swiper-button-prev-${sliderIdentifier}`
-                },
-                pagination: {
-                    el: `.swiper-pagination-${sliderIdentifier}`,
-                    type: 'progressbar',
-                },
-                autoplay: {
-                    delay: 2000,
-                    disableOnInteraction: true,
-                }
-            });
-        }
-        const $$allSliders = document.querySelectorAll('.swiper__box');
-        $$allSliders.forEach(slider => buildSwiperSlider(slider));
-        
     }
     /*모바일 관련*/
     const menuLrgClick = () => {

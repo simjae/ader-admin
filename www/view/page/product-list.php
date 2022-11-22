@@ -36,7 +36,7 @@
     }
 
     .prd__meun__grid .prd__meun__box .prd__title {
-        font-family: Noto Sans KR;
+        font-family: var(--ft-no);
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -47,7 +47,7 @@
     }
 
     .prd__meun__grid .prd__meun__sort span {
-        font-family: Noto Sans KR;
+        font-family: var(--ft-no);
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -121,7 +121,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-family: NotoSansKR;
+        font-family: var(--ft-no);
         font-size: 13px;
         letter-spacing: normal;
         color: #000;
@@ -199,7 +199,7 @@
         }
 
         .prd__meun__grid .prd__meun__box .prd__title {
-            font-family: Noto Sans KR;
+            font-family: var(--ft-no);
             font-size: 1rem;
             font-weight: normal;
             font-stretch: normal;
@@ -210,7 +210,7 @@
         }
 
         .prd__meun__grid .prd__meun__sort span {
-            font-family: Noto Sans KR;
+            font-family: var(--ft-no);
             font-size: 12px;
             font-weight: normal;
             font-stretch: normal;
@@ -296,7 +296,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: NotoSansKR;
+            font-family: var(--ft-no);
             font-size: 1.3rem;
             letter-spacing: normal;
             color: #000;

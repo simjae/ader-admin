@@ -75,7 +75,7 @@ list-style-type: none;
     padding-bottom: 30px;
 }
 #mobile .top .lrg .lrg__title {
-    font-family: Noto Sans KR;
+    font-family: var(--ft-no);
     font-size: 1.8rem;
     font-weight: 500;
     text-align: left;
@@ -90,7 +90,7 @@ list-style-type: none;
     margin-left: -30px;
 }
 #mobile .mid li span, #mobile .bottom li {
-    font-family: Noto Sans KR;
+    font-family: var(--ft-no);
     font-size: 1.8rem;
     font-weight: normal;
     text-align: left;
@@ -101,7 +101,7 @@ list-style-type: none;
     display: flex;
     gap: 16px;
     flex-direction: column;
-    font-family: Noto Sans KR;
+    font-family: var(--ft-no);
     font-size: 17px;
     font-weight: normal;
     font-stretch: normal;
@@ -144,7 +144,7 @@ transform: translateY(-6px) rotate(-45deg);
 }
 .top .lrg .mdl .mdl__title{
     grid-column: 2 / 9;
-    font-family: NotoSansKR;
+    font-family: var(--ft-no);
     font-size: 1.3rem;
     font-weight: 500;
     text-align: left;
@@ -156,9 +156,9 @@ transform: translateY(-6px) rotate(-45deg);
     gap: 20px;
     align-items: center;
     justify-content: space-between;
-}
+}x`
 .notice__wrap{
-    font-family: "Noto Sans KR", sans-serif;
+    font-family: var(--ft-no), sans-serif;
     display: flex;
     align-items: center;
     gap: 20px;
@@ -223,7 +223,7 @@ transform: translateY(-6px) rotate(-45deg);
     padding: 10px 0;
 }
 .mobile__search .recommend__search .recommend__search__title{
-    font-family: FuturaLTPro;
+    font-family: var(--ft-fu);
     font-size: 15px;
     font-weight: 500;
     font-stretch: normal;
@@ -234,7 +234,7 @@ transform: translateY(-6px) rotate(-45deg);
     color: #343434;
 }
 .mobile__search .recommend__search .search__result{
-    font-family: Noto Sans KR;
+    font-family: var(--ft-no);
     font-size: 13px;
     font-weight: 300;
     font-stretch: normal;
@@ -271,7 +271,7 @@ transform: translateY(-6px) rotate(-45deg);
 }
 .mobile__search .prd__title{
     text-align: center;
-    font-family: FuturaLTPro;
+    font-family: var(--ft-fu);
     font-size: 15px;
     font-weight: 500;
     font-stretch: normal;
@@ -285,7 +285,7 @@ transform: translateY(-6px) rotate(-45deg);
     
 .mobile__search .prd__img__title{
     text-align: center;
-    font-family: FuturaLTPro;
+    font-family: var(--ft-fu);
     font-size: 13px;
     font-weight: 300;
     font-stretch: normal;
@@ -296,7 +296,7 @@ transform: translateY(-6px) rotate(-45deg);
     color: #343434;
 }
 .header__wrap{
-    padding: 26px 0 7px 0;
+    padding: 24px 0 7px 0;
     color: var(--bk);
     background-color: var(--wh);
 }
@@ -306,7 +306,7 @@ transform: translateY(-6px) rotate(-45deg);
     margin: 0 auto;
 }
 .header__grid li {
-    font-family: Noto Sans KR;
+    font-family: var(--ft-no);
     font-size: 1.3rem;
     font-weight: 500;
     font-stretch: normal;
@@ -348,7 +348,7 @@ transform: translateY(-6px) rotate(-45deg);
 .header__grid .cont .swiper-li .swiper__title{
     opacity: 0.7;
     padding: 14px 0 17px 45px;
-    font-family: FuturaLTPro;
+    font-family: var(--ft-fu);
     font-size: 1.2rem;
     font-weight: normal;
     font-stretch: normal;
@@ -381,11 +381,11 @@ transform: translateY(-6px) rotate(-45deg);
 .header__grid .cont li[data-mdl="5"]{
     grid-column: 14 / 16;
 }
-.header__grid .cont li .mdl-a{
-    font-family: NotoSansKR;
+.header__grid .cont li a{
+    font-family: var(--ft-no);
     font-size: 1.3rem;
     font-weight: 500;
-    color: #343434;
+    color: #343434!important;
 }
 .header__grid .cont li .sma__wrap {
     padding-top: 30px;
@@ -393,7 +393,7 @@ transform: translateY(-6px) rotate(-45deg);
     flex-direction: column;
     gap: 28px;
     opacity: 0.7;
-    font-family: NotoSansKR;
+    font-family: var(--ft-no);
     font-size: 1.2rem;
     font-weight: normal;
     color: #343434;
@@ -438,7 +438,7 @@ transform: translateY(-6px) rotate(-45deg);
     align-items: center;
 } 
 .right__nav li .count {
-    font-family: FuturaLTPro;
+    font-family: var(--ft-fu);
     font-size: 11px;
     font-weight: normal;
     font-stretch: normal;
@@ -482,7 +482,7 @@ transform: translateY(-6px) rotate(-45deg);
         display: flex;
         gap: 27px;
         align-items: center;
-        font-family: FuturaLTPro;
+        font-family: var(--ft-fu);
         font-size: 1.2rem;
         color: #343434;
     }

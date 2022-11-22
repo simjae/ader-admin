@@ -23,7 +23,7 @@
 		<link rel="stylesheet" href="/scripts/static/jquery.minicolors.css">
 		<link rel="stylesheet" href="/scripts/static/farbtastic/farbtastic.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Pathway+Gothic+One&family=Questrial&display=swap" rel="stylesheet">
+		<!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Pathway+Gothic+One&family=Questrial&display=swap" rel="stylesheet"> -->
 		<link href="//cdn.jsdelivr.net/xeicon/2/xeicon.min.css" rel="stylesheet">
 		<link href="//cdn.jsdelivr.net/xeicon/1.0.4/xeicon.min.css" rel="stylesheet">
 		<link href="/scripts/static/jquery.scrollbar.css" rel="stylesheet">
@@ -50,6 +50,7 @@
 		<script src="/scripts/static/swiper.min.js"></script>
 		<script src="/scripts/static/farbtastic/farbtastic.js"></script>
 		<script src="/scripts/static/functions.js"></script>
+		<script src="/scripts/common.js"></script>
 		<script src="/scripts/static/taggingJS/tagging.min.js"></script>
 		<script src="/scripts/functions.js?v=<?=time()?>"></script>
 		<script src="/scripts/helix.js?v=<?=time()?>"></script>

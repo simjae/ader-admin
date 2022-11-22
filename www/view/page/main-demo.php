@@ -72,53 +72,7 @@
     }
 
     header.scroll .header__grid {
-        color: var(--bk);
-    }
-
-    header.scroll .hamburger .line {
-        background-color: var(--bk);
-    }
-
-    header.hover .logo {
-        content: url("/images/svg/logo-bk.svg");
-    }
-
-    header.hover .search-svg {
-        content: url("/images/svg/search-bk.svg");
-    }
-
-    header.hover .earth-svg {
-        content: url("/images/svg/earth-bk.svg");
-    }
-
-    header.hover .wishlist-svg {
-        content: url("/images/svg/wishlist-bk-line.svg");
-    }
-
-    header.hover .basket-svg {
-        content: url("/images/svg/basket-bk.svg");
-    }
-
-    header.hover .bluemark-svg {
-        content: url("/images/svg/bluemark-bk.svg");
-    }
-
-    header.hover .user-svg {
-        content: url("/images/svg/user-bk.svg");
-    }
-
-    header.hover {
-        background-color: #fff;
-        color: var(--bk);
-        border-bottom: 1px solid #eeeeee;
-    }
-
-    header.hover .header__grid {
-        color: var(--bk);
-    }
-
-    header.hover .hamburger .line {
-        background-color: var(--bk);
+        color: #343434;
     }
 
     header .header__grid {
@@ -132,6 +86,10 @@
 
     .hamburger .line {
         background-color: var(--wh);
+    }
+
+    header.scroll .hamburger .line {
+        background-color: var(--bk);
     }
 
     .btn__wrap {
@@ -152,10 +110,6 @@
         position: relative;
     }
 
-    .new__project__wrap img {
-        width: 100%;
-    }
-
     .new__project__img {
         width: 100%;
         height: 900px;
@@ -169,14 +123,13 @@
         position: absolute;
         bottom: 0;
         width: 100%;
-        /* top: calc(100% - 24%); */
-        padding-bottom: 110px;
     }
 
     .new__project__content .cnt-box {
         position: relative;
         display: grid;
         grid-template-columns: repeat(16, 1fr);
+        padding-bottom: 120px;
     }
 
     .new__project__swiper {
@@ -200,7 +153,8 @@
 
     .new__project__content .season__title {
         grid-column: 2 / 17;
-        font-family: var(--ft-fu);
+
+        font-family:var(--ft-fu);
         font-size: 13px;
         font-weight: normal;
         line-height: 1.4;
@@ -210,7 +164,7 @@
 
     .new__project__content .title {
         grid-column: 2 / 17;
-        padding-bottom: 25px;
+
         font-family: var(--ft-fu);
         font-size: 20px;
         font-weight: normal;
@@ -221,7 +175,7 @@
 
     .new__project__swiper .btn__wrap {
         grid-column: 2 / 17;
-        gap: 65px;
+        gap: 30px;
     }
 
     /* .new__project__swiper .btn__wrap > div::after{
@@ -244,13 +198,19 @@
     .exhibtion__content {
         order: 1;
         display: flex;
+        padding: 10px;
         background-color: #ffffff;
         align-items: flex-end;
     }
 
     .exhibtion__img {
         order: 2;
-        width: 50%;
+        width: 100%;
+        height: auto;
+        min-height: 960px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
     }
 
     .ex__box {
@@ -282,8 +242,8 @@
         line-height: 1.45;
         letter-spacing: 0.6px;
         text-align: left;
-        color: var(--bk);
-        padding-bottom: 23px;
+        color: #343434;
+        padding-bottom: 30px;
     }
 
     .exhibtion__content .btn__wrap {
@@ -294,9 +254,9 @@
         line-height: 1.45;
         letter-spacing: 0.6px;
         text-align: left;
-        color: var(--bk);
-        padding-bottom: 106px;
-        gap: 65px;
+        color: #343434;
+        padding-bottom: 30px;
+        gap: 30px;
     }
 
 
@@ -309,25 +269,24 @@
     }
 
     .styling-text {
-        padding: 0 0 20px 10px;
         font-family: var(--ft-fu);
         font-size: 13px;
         font-weight: normal;
         line-height: normal;
         letter-spacing: 0.4px;
         text-align: left;
-        color: var(--bk);
+        color: #343434;
+        padding: 30px 0 20px 20px;
     }
 
     .styling-text span {
-        margin-right: 15px;
-        text-decoration: underline;
+        margin-left: 10px;
     }
 
     .styling-swiper {
+        margin-bottom: 100px;
         position: relative;
         width: 100%;
-        margin-bottom: 270px;
     }
 
     .styling-swiper .styling__img {
@@ -350,20 +309,20 @@
     }
 
     .styling-swiper .title {
-        padding: 0px 0 0px 10px;
+        padding: 0px 0 10px 10px;
         font-family: var(--ft-fu);
         font-size: 16px;
         font-weight: normal;
         line-height: 1.45;
         letter-spacing: normal;
         text-align: left;
-        color: var(--bk);
+        color: #343434;
     }
 
     .styling-swiper .t-box {
         padding-left: calc(100% - 85%);
         padding-bottom: 30px;
-        padding-top: 25px;
+        padding-top: 28px;
     }
 
     .styling-swiper .under-line {
@@ -372,12 +331,11 @@
 
     /* recommand */
     .recommand-wrap {
-        padding-bottom: 170px;
+        padding-bottom: 130px;
     }
 
     .re-swiper {
         position: relative;
-        display: block;
     }
 
     .re-swiper .swiper-slide:hover {
@@ -386,19 +344,13 @@
 
     .slide-box {
         box-sizing: border-box;
-        position: relative;
     }
 
     .slide-box .slide__title {
         text-align: center;
-        position: absolute;
         font-family: var(--ft-fu);
-        font-size: 13px;
-        color: var(--bk);
-        font-weight: 500;
-        left: 50%;
-        top: 91.5%;
-        transform: translate(-50%, -50%);
+        font-size: 13px font-weight: 500;
+        color: #343434;
     }
 
     .slide-box .center-box {
@@ -414,18 +366,12 @@
 
     .foryou-wrap .foryou-text {
         position: absolute;
-        padding: 18px 0 0 15px;
+        padding: 22px;
         z-index: 10;
         font-family: var(--ft-fu);
         font-size: 13px;
         font-weight: normal;
-        letter-spacing: 0.33px;
-        color: var(--bk);
-    }
-
-    .foryou-wrap .foryou-text span {
-        margin-right: 15px;
-        text-decoration: underline;
+        color: #343434;
     }
 
     .foryou-wrap .foryou-swiper {
@@ -463,32 +409,26 @@
         font-weight: 400;
         line-height: 1.33;
         text-align: center;
-        color: var(--bk);
+        color: #343434;
     }
 
 
     /* 스와이프 네비게이션 */
     .new__project__swiper .navigation .swiper-button-next {
-        width: 13px;
-        content: url("/images/svg/sw-ar-wh.svg");
-        right: 3%;
-        bottom: 0;
-        top: auto;
-        color: var(--bk);
-        height: 25px;
-        margin-bottom: 162px;
+        width: 1.2rem;
+        content: url('/images/svg/sw-ar-wh.svg');
+        top: calc(100% - 19%);
+        right: 2%;
+        color: #343434;
     }
 
     .new__project__swiper .navigation .swiper-button-prev {
-        width: 13px;
-        content: url("/images/svg/sw-ar-wh.svg");
+        width: 1.2rem;
+        content: url('/images/svg/sw-ar-wh.svg');
         transform: rotate(180deg);
         left: 3%;
-        bottom: 0;
-        top: auto;
-        color: var(--bk);
-        height: 25px;
-        margin-bottom: 162px;
+        top: calc(100% - 19%);
+        color: #343434;
     }
 
     .re-swiper .navigation .swiper-button-next {
@@ -496,7 +436,7 @@
         content: url('/images/svg/sw-ar-bk.svg');
         top: calc(100% - 50%);
         right: 2%;
-        color: var(--bk);
+        color: #343434;
     }
 
     .re-swiper .navigation .swiper-button-prev {
@@ -504,7 +444,7 @@
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 50%);
-        color: var(--bk);
+        color: #343434;
     }
 
     .styling-swiper .navigation .swiper-button-next {
@@ -526,14 +466,14 @@
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 5%);
-        color: var(--bk);
+        color: #343434;
     }
 
     .foryou-swiper .navigation .swiper-button-next {
         content: url('/images/svg/sw-ar-bk.svg');
         top: calc(100% - 50%);
         right: 2%;
-        color: var(--bk);
+        color: #343434;
         width: 12px;
     }
 
@@ -542,37 +482,18 @@
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 50%);
-        color: var(--bk);
+        color: #343434;
     }
 
-    .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
-        opacity: 0;
-    }
-    .recommand-mobile {
-        display: none;
-    }
-    .recommand-mobile .slide-box.half {
-        display: flex;
-        width: 100%;
-        justify-content: center;
-    }
-    .recommand-mobile .slide-box.half .center-box{
-        width: 50%;
-    }
+
     @media (max-width: 1025px) {
-        
+
         .under-line.bk::after {
-            background-color: var(--bk);
+            background-color: #343434;
         }
 
         .under-line.wh::after {
             background-color: #ffffff;
-        }
-
-        .new__project__content {
-            /* top: calc(100% - 18%); */
-            top: auto;
-            padding-bottom: 50px;
         }
 
         .new__project__content .cnt-box {
@@ -581,39 +502,14 @@
 
         .new__project__content .season__title {
             grid-column: 1 / 17;
-            font-family: var(--ft-fu);
-            font-size: 1.2rem;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.33;
-            letter-spacing: 0.3px;
-            text-align: left;
-            color: #fff;
         }
 
         .new__project__content .title {
             grid-column: 1 / 17;
-            padding-bottom: 35px;
-            font-family: var(--ft-fu);
-            font-size: 1.6rem;
-            font-weight: 500;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.38;
-            letter-spacing: 0.4px;
-            text-align: left;
-            color: #fff;
         }
 
         .new__project__swiper .btn__wrap {
             grid-column: 1 / 17;
-            gap: 35px;
-        }
-
-        .new__project__swiper img {
-            height: 180vmin;
-            object-fit: cover;
         }
 
         .new__project__img {
@@ -638,81 +534,27 @@
 
         .exhibtion__content {
             order: 2;
-            padding: 10px;
-            background-color: #fbfbfb;
         }
 
         .exhibtion__img {
             order: 1;
             margin-top: 100px;
-            width: 100%;
+            min-height: 360px;
         }
 
         .exhibtion__content .title {
             grid-column: 1 / 9;
-            font-family: var(--ft-no);
             font-size: 1.2rem;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.42;
-            letter-spacing: normal;
-            text-align: left;
-            color: #000;
         }
 
         .exhibtion__content .season__title {
             grid-column: 1 / 9;
-            font-family: var(--ft-fu);
-            padding-bottom: 35px;
-            font-weight: 500;
             font-size: 1.6rem;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.38;
-            letter-spacing: 0.4px;
-            text-align: left;
-            color: var(--bk);
         }
 
         .exhibtion__content .btn__wrap {
-            padding-bottom: 15px;
             grid-column: 1 / 9;
             font-size: 1.2rem;
-            gap: 35px;
-        }
-
-        .recommand-wrap {
-            padding-bottom: 90px;
-        }
-        .recommand-mobile {
-            display: flex;
-            flex-wrap: wrap;
-            background-color: #fbfbfb;
-            padding-bottom: 50px;
-        }
-        .recommand-mobile .title{
-            display: flex;
-            margin: 20px auto;
-            width: 50%;
-            font-family: var(--ft-fu);
-            font-size: 1.3rem;
-            font-weight: 500;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.31;
-            letter-spacing: normal;
-            text-align: center;
-            color: var(--bk);
-            justify-content: center;
-        }
-        .recommand-mobile a {
-            width: 50%;
-        }
-        .re-swiper {
-            background-color: #fbfbfb;
-            padding-bottom: 50px;
-            display: none;
         }
 
         .re-swiper .swiper-wrapper {
@@ -722,59 +564,24 @@
         .re-swiper .swiper-slide {
             width: 50% !important;
             margin-right: 0px !important;
-            height: 80vmin;
         }
 
-        .slide-box .slide__title {
-            top: 115%;
-            font-family: var(--ft-fu);
-            font-size: 1.3rem;
-            font-weight: 500;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.31;
-            letter-spacing: normal;
-            text-align: center;
-            color: var(--bk);
+        /* .styling-swiper .styling__img{
+            max-height: 270px;
         }
-
-        .styling-swiper {
-            margin-bottom: 110px;
-        }
-
+        .re-swiper .styling__img{
+            max-height: 225px;
+        } */
         .styling-swiper .swiper-slide .t-box {
             padding-left: 0px;
-            padding-top: 21px;
-            padding-bottom: 12px;
         }
 
         .styling-swiper .swiper-slide .btn__wrap {
             gap: 0;
         }
-        .styling-text span {
-            text-decoration: none;
-            font-family: var(--ft-fu);
-            font-size: 1.3rem;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.46;
-            letter-spacing: 0.33px;
-            text-align: left;
-            color: var(--bk);
-        }
 
         .styling-swiper .title {
-            padding: 0 0 0 10px;
-            font-family: var(--ft-fu);
             font-size: 1.6rem;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.38;
-            letter-spacing: 0.4px;
-            text-align: left;
-            color: var(--bk);
         }
 
         .styling-swiper .btn__wrap {
@@ -795,33 +602,12 @@
         }
 
         .foryou-wrap {
-            padding-bottom: 140px;
-            overflow-x: hidden;
+            padding-bottom: 160px;
         }
 
         .foryou-wrap .foryou-text {
             position: static;
-            padding: 0 0 20px 10px;
-        }
 
-        .foryou-wrap .foryou-text span {
-            text-decoration: none;
-        }
-
-        .foryou-wrap .wish__btn {
-            padding: 15px 12px;
-        }
-
-        .foryou-wrap .prd-title {
-            font-family: var(--ft-fu);
-            font-size: 1rem;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: 1.4;
-            letter-spacing: normal;
-            text-align: center;
-            color: var(--bk);
         }
     }
 </style>
@@ -832,36 +618,24 @@
         <div class="new__project__swiper">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <!-- <div class="new__project__img" style="background-image:url('/images/landing/bg.jpeg') ;"> -->
-                    <img class="" src="/images/sample/section1.jpg" alt="">
-                    <div class="new__project__content">
-                        <div class="cnt-box">
-                            <div class="season__title">2022 Spring Summer Collection</div>
-                            <div class="title">After blue</div>
-                            <div class="btn__wrap">
-                                <a href="" class="read__more under-line wh">자세히보기</a>
-                                <a href="" class="go__product under-line wh">제품 보러 가기</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- </div> -->
-                </div>
-                <div class="swiper-slide">
-                    <img class="" src="/images/sample/section1.jpg" alt="">
-                    <div class="new__project__content">
-                        <div class="cnt-box">
-                            <div class="season__title">2022 Spring Summer Collection</div>
-                            <div class="title">After blue</div>
-                            <div class="btn__wrap">
-                                <a href="" class="read__more under-line wh">자세히보기</a>
-                                <a href="" class="go__product under-line wh">제품 보러 가기</a>
+                    <div class="new__project__img" style="background-image:url('/images/landing/bg.jpeg') ;">
+                        <div class="new__project__content">
+                            <div class="cnt-box">
+                                <div class="season__title">2022 Spring Summer Collection</div>
+                                <div class="title">After Blue</div>
+                                <div class="btn__wrap">
+                                    <a href="" class="read__more under-line wh">자세히보기</a>
+                                    <a href="" class="go__product under-line wh">제품 보러 가기</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <!-- <div class="new__project__img" style="background-image:url('/images/landing/intro1.jpeg') ;"></div> -->
-                    <img class="" src="/images/sample/section1.jpg" alt="">
+                    <div class="new__project__img" style="background-image:url('/images/landing/intro.jpeg') ;"></div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="new__project__img" style="background-image:url('/images/landing/intro1.jpeg') ;"></div>
                 </div>
             </div>
             <div class="navigation">
@@ -874,7 +648,7 @@
     <!-- exhibtion -->
     <section>
         <div class="exhibtion__wrap">
-            <img class="exhibtion__img" src="/images/sample/section2.jpg" alt="">
+            <div class="exhibtion__img" style="background-image:url('/images/landing/main.jpeg') ;"></div>
             <div class="exhibtion__content">
                 <div class="ex__box">
                     <div class="title">아더에러 <span class="fu-font">22 SS</span> 컬렉션 2차 드롭</div>
@@ -927,6 +701,30 @@
                     <div class="swiper-slide">
                         <a class="slide-box">
                             <div class="center-box">
+                                <img src="/images/product/img_product_product_BLASSTB18BL_mdl_1661837024.png" alt="">
+                                <div class="slide__title">Shopper bag</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="slide-box">
+                            <div class="center-box">
+                                <img src="/images/product/img_product_product_PRDTEST0001_mdl_1661773069.png" alt="">
+                                <div class="slide__title">Shopper bag</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="slide-box">
+                            <div class="center-box">
+                                <img src="/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png" alt="">
+                                <div class="slide__title">Shopper bag</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a class="slide-box">
+                            <div class="center-box">
                                 <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
                                 <div class="slide__title">Shopper bag</div>
                             </div>
@@ -938,51 +736,19 @@
                     <div class="swiper-button-prev"></div>
                 </div>
             </div>
-            <div class="recommand-mobile">
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_product_BLASSTB18BL_mdl_1661837024.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_product_PRDTEST0001_mdl_1661773069.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-            </div>
         </div>
     </section>
     <!-- Styling -->
     <section>
         <div class="styling-wrap">
-            <div class="styling-text"><span>Styling</span>></div>
+            <div class="styling-text"><u>Styling</u><span>></span></div>
             <div class="styling-swiper swiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling4.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling4.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -997,7 +763,7 @@
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling2.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -1012,7 +778,7 @@
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling3.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling3.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -1027,7 +793,7 @@
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling2.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -1042,7 +808,7 @@
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling4.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling4.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -1057,7 +823,7 @@
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling2.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -1072,7 +838,7 @@
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling3.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling3.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -1087,7 +853,7 @@
                         <div class="styling__card">
                             <div class="styling-box">
                                 <a href="">
-                                    <img class="styling__img" src="/images/styling/styling1.jpg" alt="">
+                                    <img class="styling__img" src="/images/styling/styling2.jpeg" alt="">
                                     <div class="t-box">
                                         <p class="title">Metal line</p>
                                         <div class="btn__wrap">
@@ -1098,6 +864,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="navigation">
                     <div class="swiper-button-next">
@@ -1111,7 +878,7 @@
     <!-- foryou -->
     <section>
         <div class="foryou-wrap ">
-            <div class="foryou-text"><span>For you</span>></div>
+            <div class="foryou-text"><u>For you</u><span> ></span></div>
             <div class="foryou-swiper">
                 <div class="swiper-wrapper product_recommend_wrapper">
 
@@ -1133,46 +900,12 @@
         swiperResize();
         headerColorChange();
         getProductRecommendList();
-        mobileRecommandGrid();
-        swiper.extendDefaults({centeredSlides:true });
     });
 
     window.addEventListener('resize', () => {
-        document.querySelector("body").dataset
         swiperResize();
     });
-    let mobileRecommandGrid = () => {
-        let $$mobileRecommandBox = document.querySelectorAll(".recommand-mobile .slide-box");
-        $$mobileRecommandBox.forEach((el, idx, arr) => {
-            let arrLen = arr.length;
-            if(arrLen === 1 ){
-                el.classList.add("half"); 
-                console.log("1",arrLen);
-            }else if(arrLen === 2 ) {
-                el.classList.add("half"); 
-                console.log("2",arrLen);
-            }else if(arrLen === 3 ) {
-                if(idx === 0 ){
-                    el.classList.add("half"); 
-                    console.log("3",arrLen);
-                }
-            }else if(arrLen === 4){
-                el.classList.remove("half"); 
-                
-            }else {
-                if (idx === arrLen- 1){ 
-                    if(arrLen % 2 === 0 ){
-                        el.classList.remove("half"); 
-                    }else {
-                        el.classList.add("half"); 
-                    }
-                }
-                
-            }
-            
-                
-        });
-    } 
+
     let newSwiper = new Swiper(".new__project__swiper", {
         navigation: {
             nextEl: ".new__project__swiper .swiper-button-next",
@@ -1228,17 +961,6 @@
                 slidesPerView: 3.2,
                 spaceBetween: 0
             }
-        },
-        centeredSlides:false,
-        on:{
-            activeIndexChange: function() {
-                if(1 <= this.realIndex ){
-                    stylingSwiper.extendDefaults({centeredSlides:true });
-                    console.log(stylingSwiper.passedParams.centeredSlides);
-                    // stylingSwiper.passedParams.centeredSlides = true;
-                    // stylingSwiper.update();
-                }
-            }
         }
     });
 
@@ -1255,6 +977,7 @@
         breakpoints: {
             1024: {
                 slidesPerView: 4,
+                spaceBetween: 30
             }
         },
         on: {
@@ -1279,27 +1002,19 @@
     })();
 
     function swiperResize() {
-        let screenWidth = document.querySelector(".styling-wrap").offsetWidth
+        let screenWidth = window.screen.width;
         let nextbtn = document.querySelector(".styling-swiper .navigation .swiper-button-next");
-        let styleTboxHeight = stylingSwiper.el.querySelector(".t-box").offsetHeight;
-        let oneGridSize = 0;
-        let mobileOneGridSize = 0;
-
+        let styleTboxHeight = stylingSwiper.el.querySelector(".t-box").offsetHeight
         if (screenWidth >= 1024) {
-            oneGridSize = (screenWidth / 16);
-            nextbtn.style.width = `${oneGridSize}px`;
+            let oneGridWidth = screenWidth / 16;
+            nextbtn.style.width = `${oneGridWidth}px`;
             nextbtn.style.height = `${styleTboxHeight}px`;
-            ex.update();
+            let ex = new Swiper(".re-swiper", colaboSetting);
         } else {
-
-            // let screenWidth = window.screen.width;
-            let screenWidth = document.querySelector("body").offsetWidth;
-            console.log("screenWidth", screenWidth);
-            mobileOneGridSize = (screenWidth / 8) * 2 - 20;
-            nextbtn.style.width = `${mobileOneGridSize}px`;
-            nextbtn.style.height = `${styleTboxHeight}px`;
-
-
+            let oneGridWidth = ((screenWidth / 8) * 2) - 10;
+            nextbtn.style.width = `${oneGridWidth}px`;
+            nextbtn.style.width = `${styleTboxHeight}px`;
+            ex.destroy();
         }
     }
 
@@ -1444,7 +1159,7 @@
             breakpoints: {
                 // when window width is >= 320px
                 320: {
-                    slidesPerView: 2.6
+                    slidesPerView: 2.3
                 },
                 1024: {
                     slidesPerView: 5.3
