@@ -32,12 +32,10 @@ function getProductColor($db,$product_idx) {
 						SELECT
 							IFNULL(SUM(OP.PRODUCT_QTY),0)
 						FROM
-							dev.ORDER_INFO OI
-							LEFT JOIN dev.ORDER_PRODUCT OP ON
-							OI.IDX = OP.ORDER_INFO_IDX
+							dev.ORDER_PRODUCT OP
 						WHERE
-							OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
-							OP.PRODUCT_IDX = PR.IDX
+							OP.PRODUCT_IDX = PR.IDX AND
+							OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 					)	AS ORDER_QTY
 				FROM
 					dev.SHOP_PRODUCT PR
@@ -110,12 +108,10 @@ function getProductSize($db,$product_idx) {
 						SELECT
 							IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 						FROM
-							dev.ORDER_INFO S_OI
-							LEFT JOIN dev.ORDER_PRODUCT S_OP ON
-							S_OI.IDX = S_OP.ORDER_INFO_IDX
+							dev.ORDER_PRODUCT S_OP
 						WHERE
 							S_OP.OPTION_IDX = OO.IDX AND
-							S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+							S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 					) AS ORDER_QTY
 				FROM
 					dev.SHOP_PRODUCT PR
@@ -134,6 +130,15 @@ function getProductSize($db,$product_idx) {
 			$sold_out_qty = $data['SOLD_OUT_QTY'];
 			$stock_standby = $data['STOCK_STANDBY'];
 			$product_qty = intval($data['STOCK_QTY']) - intval($data['ORDER_QTY']);
+			
+			$str_size_len = strlen($data['OPTION_NAME']);
+			if ($str_size_len == 2) {
+				$size_type = "N";
+			} else if ($str_size_len == 3) {
+				$size_type = "O";
+			} else {
+				$size_type = "S";
+			}
 			
 			$stock_status = "";
 			
@@ -155,6 +160,7 @@ function getProductSize($db,$product_idx) {
 				'product_idx'		=>$data['PRODUCT_IDX'],
 				'option_idx'		=>$data['OPTION_IDX'],
 				'option_name'		=>$data['OPTION_NAME'],
+				'size_type'			=>$size_type,
 				'stock_status'		=>$stock_status
 			);
 		}

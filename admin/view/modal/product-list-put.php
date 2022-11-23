@@ -5,6 +5,15 @@
 	.btn-close{float:right;color:'#000';}
 	.size_info_text {height:150px;}
 	.smart_editer_text {height:180px;}
+	.gray_btn{
+		border:1px solid #000000;
+		background-color:#ffffff;
+		color:#000000;
+		width:80px;
+		height:30px;
+		font-size:0.5rem;
+		cursor:pointer;
+	}
 </style>
 
 <div class="content__card" style="width:1000px!important">
@@ -401,7 +410,7 @@
 							<TD id="load_qty"></TD>
 						</tr>
 						<tr>
-							<TD>생산부자재</TD>
+							<TD>포장부자재</TD>
 							<TD>
 								<table style="width:50%">
 									<tbody id="td_sub_material"></tbody>
@@ -418,7 +427,7 @@
 				</TABLE>
 			</div>
 		</div>
-		<form id="frm-update" action="product/put">
+		<form id="frm-update" action="product/put_new">
 			<input id="product_idx" type="hidden" name="product_idx" value="<?=$product_idx?>">
 			<div class="table table__wrap">
 				<button type="button" toggle_table="td"
@@ -787,6 +796,60 @@
 										style="width:90%; height:150px;"></textarea>
 								</TD>
 							</TR>
+							<TR>
+								<TD>상품 이미지 불러오기</TD>
+								<TD colspan="11">
+									<div class="content__row" style="margin-bottom:15px;">
+										<select class="fSelect imgType" style="width:20%;">
+											<option value="" selected>--이미지 타입--</option>
+											<option value="outfit" >아웃풋</option>
+											<option value="product">상품</option>
+											<option value="detail">디테일</option>
+										</select>
+										<input type="text" class="imgTypeUrl" style="width:40%">
+										<div class="imgCnt" style="width:15%"></div>
+										<div style="width:20%">
+											<input type="button" class="gray_btn" value="체크" style="margin-right:10px" onclick="imgExistChk()">
+											<input type="button" class="gray_btn" value="미리보기" onclick="previewImg()">
+										</div>
+									</div>
+									<div class="content__row" style="margin-bottom:15px;">
+										<select class="fSelect imgType" style="width:20%;">
+											<option value="" selected>--이미지 타입--</option>
+											<option value="outfit">아웃풋</option>
+											<option value="product" >상품</option>
+											<option value="detail">디테일</option>
+
+										</select>
+										<input type="text" class="imgTypeUrl" style="width:40%">
+										<div class="imgCnt" style="width:15%"></div>
+										<div style="width:20%"></div>
+									</div>
+									<div class="content__row" style="margin-bottom:15px;">
+										<select class="fSelect imgType" style="width:20%;">
+											<option value="" selected>--이미지 타입--</option>
+											<option value="outfit">아웃풋</option>
+											<option value="product">상품</option>
+											<option value="detail" >디테일</option>
+										</select>
+										<input type="text" class="imgTypeUrl" style="width:40%">
+										<div class="imgCnt" style="width:15%"></div>
+										<div style="width:20%"></div>
+									</div>
+									<div class="hidden img_param"></div>
+								</TD>
+							</TR>
+							<tr id="img_preview">
+								<td>미리보기</td>
+								<td colspan="11">
+									<div class="outfit__area">
+									</div>
+									<div class="product__area">
+									</div>
+									<div class="detail__area">
+									</div>
+								</td>
+							</tr>
 						</TBODY>
 					</TABLE>
 				</div>
@@ -822,6 +885,7 @@ var memo = [];
 var seo_description = [];
 var seo_alt_text = [];
 
+var imgData = [];
 function setSmartEditor() {
 	//care
 	nhn.husky.EZCreator.createInIFrame({
@@ -929,7 +993,7 @@ $(document).ready(function() {
 	$('#insert_table_td').toggle();
 
 	var idx = $('#product_idx').val();
-	ordersheetGet(idx);
+	shopProductGet(idx);
 	$('.cal_discount').keyup(function(){
 		var price = $(this).find('.price').val();
 		var sales_price = $(this).find('.sales_price').val();
@@ -938,6 +1002,33 @@ $(document).ready(function() {
 			$(this).find('.result').val( ((price - sales_price) / price * 100 ).toFixed(2))
 		}
 	});
+	$('.imgType').on('change', function(){
+		var sel_type = $(this).val();
+		var cnt = 0;
+		if(sel_type != ''){
+			for(var i = 0; i < 3; i++){
+				if(sel_type == $('.imgType').eq(i).val()){
+					cnt++;
+				}
+			}
+			if(cnt > 1){
+				alert('중복된 이미지타입 입니다.');
+				$(this).val('').prop("selected", true);
+			}
+		}
+	})
+
+	const url = "www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png";
+	const fileName = url.substring(url.lastIndexOf('/')+1);
+
+	fetch(url)
+	.then(response => response.blob())
+	.then(blob => new File([blob], `${fileName}`, {
+			type: blob.type
+		}))
+	.then(file => {
+			console.log(file);
+		})
 });
 function toggleTableClick(obj) {
 	var toggle_val = $(obj).attr('toggle_table');
@@ -945,269 +1036,285 @@ function toggleTableClick(obj) {
 	$('#insert_table_' + toggle_val).toggle();
 }
 
-function ordersheetGet(idx) {
-    $('input[name=ordersheet_idx]').val(idx);
+function shopProductGet(product_idx) {
+	var ordersheet_idx = 0;
+    //$('input[name=ordersheet_idx]').val(idx);
 	$.ajax({
-        type: "post",
-        data:{
-            'sel_idx':idx
-        },
-        dataType: "json",
-        url: config.api + "pm/ordersheet/get",
+		type: "post",
+		data:{
+			'sel_idx': product_idx
+		},
+		dataType: "json",
+		url: config.api + "product/get_new",
         error: function() {
             alert("오더시트 불러오기가 실패했습니다.");
         },
         success: function(d) {
-            if(d.code == 200) {
-                var data = d.data;
-				//오더시트 -> 독립몰 데이터 불러오기
-				$('#shop_style_code').val(data.style_code);
-				$('#shop_color_code').val(data.color_code);
-				$('#shop_product_code').val(data.product_code);
+			ordersheet_idx = d.data[0].ordersheet_idx;
+		}
+	}).then(function (){
+			$.ajax({
+			type: "post",
+			data:{
+				'sel_idx':ordersheet_idx
+			},
+			dataType: "json",
+			url: config.api + "pm/ordersheet/get",
+			error: function() {
+				alert("오더시트 불러오기가 실패했습니다.");
+			},
+			success: function(d) {
+				if(d.code == 200) {
+					var data = d.data;
+					//오더시트 -> 독립몰 데이터 불러오기
+					$('#shop_style_code').val(data.style_code);
+					$('#shop_color_code').val(data.color_code);
+					$('#shop_product_code').val(data.product_code);
 
-				$('#detail_kr').html(data.detail_kr);
-                $('#detail_en').html(data.detail_en);
-                $('#detail_cn').html(data.detail_cn);
-                $('#care_kr').html(data.care_dsn_kr);
-                $('#care_en').html(data.care_dsn_en);
-                $('#care_cn').html(data.care_dsn_cn);
-				$('#material_kr').html(data.material_kr);
-                $('#material_en').html(data.material_en);
-                $('#material_cn').html(data.material_cn);
+					$('#detail_kr').html(data.detail_kr);
+					$('#detail_en').html(data.detail_en);
+					$('#detail_cn').html(data.detail_cn);
+					$('#care_kr').html(data.care_dsn_kr);
+					$('#care_en').html(data.care_dsn_en);
+					$('#care_cn').html(data.care_dsn_cn);
+					$('#material_kr').html(data.material_kr);
+					$('#material_en').html(data.material_en);
+					$('#material_cn').html(data.material_cn);
 
-				//기획 MD
-				$('#style_code').text(data.style_code);
-				$('#color_code').text(data.color_code);
-				$('#product_code').text(data.product_code);
-				switch(data.preorder_flg){
-					case 0:
-						$('#preorder_flg').text('고객상품');
-						break;
-					case 1:
-						$('#preorder_flg').text('프리오더 상품');
-						break;
-				}
-				switch(data.refund_flg){
-					case 0:
-						$('#refund_flg').text('교환 불가');
-						break;
-					case 1:
-						$('#refund_flg').text('교환 가능');
-				}
-
-				if(data.line_idx != null && data.line_idx > 0){
-					var type_str = '';
-					switch(data.line_type){
-						case 'C':
-							type_str = '컬렉션 라인';
+					//기획 MD
+					$('#style_code').text(data.style_code);
+					$('#color_code').text(data.color_code);
+					$('#product_code').text(data.product_code);
+					switch(data.preorder_flg){
+						case 0:
+							$('#preorder_flg').text('고객상품');
 							break;
-						case 'O':
-							type_str = '오리진 라인';
-							break;
-						case 'T':
-							type_str = '티피컬 라인';
+						case 1:
+							$('#preorder_flg').text('프리오더 상품');
 							break;
 					}
-					strTable = `
-						<table style="width:40%">
-							<thead>
-								<tr>
-									<th>라인명</th>
-									<th>타입</th>
-									<th>색깔</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>${data.line_name}</td>
-									<td>${type_str}</td>
-									<td>${data.line_memo}</td>
-								</tr>
-							</tbody>
-						</table>
-					`;
-					$('#line_info_table').append(strTable);
-				}
-                $('#category_lrg_title').text(data.category_lrg_title);
-                $('#category_mdl_title').text(data.category_mdl_title);
-                $('#category_sml_title').text(data.category_sml_title);
-                $('#category_dtl_title').text(data.category_dtl_title);
-				
-                $('#graphic').text(data.graphic);
-                $('#fit').text(data.fit);
-                $('#material').text(data.material);
-                $('#product_name').text(data.product_name);
-                $('#product_size').text(data.product_size);
-                $('#color').text(data.color);
-                $('#color_rgb').text(data.color_rgb);
-                $('#pantone_code').text(data.pantone_code);
-                $('#md_category_guide').text(data.md_category_guide);
-                $('#limit_qty').text(data.limit_qty);
-                $('#limit_member').text(data.limit_member);
-                $('#price_cost').text(data.price_cost);
-                $('#price_kr').text(data.price_kr);
-                $('#price_kr_gb').text(data.price_kr_gb);
-                $('#price_en').text(data.price_en);
-                $('#price_cn').text(data.price_cn);
-                $('#product_qty').text(data.product_qty);
-                $('#safe_qty').text(data.safe_qty);
-                $('#launching_date').text(data.launching_date);
-                $('#receive_request_date').text(data.receive_request_date);
-                $('#tp_completion_date').text(data.tp_completion_date);
-
-                //디자인
-                if(data.wkla_idx != null && data.wkla_idx > 0){
-					strTable = `
-						<table style="width:30%">
-							<thead>
-								<tr>
-									<th>WKLA 명</th>
-									<th>비고</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>${data.wkla_name}</td>
-									<td>${data.wkla_memo}</td>
-								</tr>
-							</tbody>
-						</table>
-					`;
-					$('#wkla_info_table').append(strTable);
-				}
-                $('#model').text(data.model);
-                $('#model_wear').text(data.model_wear);
-                $('#size_a1_kr').html(data.size_a1_kr);
-                $('#size_a2_kr').html(data.size_a2_kr);
-                $('#size_a3_kr').html(data.size_a3_kr);
-                $('#size_a4_kr').html(data.size_a4_kr);
-                $('#size_a5_kr').html(data.size_a5_kr);
-                $('#size_onesize_kr').html(data.size_onesize_kr);
-                $('#size_a1_en').html(data.size_a1_en);
-                $('#size_a2_en').html(data.size_a2_en);
-                $('#size_a3_en').html(data.size_a3_en);
-                $('#size_a4_en').html(data.size_a4_en);
-                $('#size_a5_en').html(data.size_a5_en);
-                $('#size_onesize_en').html(data.size_onesize_en);
-                $('#size_a1_cn').html(data.size_a1_cn);
-                $('#size_a2_cn').html(data.size_a2_cn);
-                $('#size_a3_cn').html(data.size_a3_cn);
-                $('#size_a4_cn').html(data.size_a4_cn);
-                $('#size_a5_cn').html(data.size_a5_cn);
-                $('#size_onesize_cn').html(data.size_onesize_cn);
-                $('#size_category').text(data.size_category);
-                $('#detail_dsn_kr').html(data.detail_kr);
-                $('#detail_dsn_en').html(data.detail_en);
-                $('#detail_dsn_cn').html(data.detail_cn);
-                $('#care_dsn_kr').html(data.care_dsn_kr);
-                $('#care_dsn_en').html(data.care_dsn_en);
-                $('#care_dsn_cn').html(data.care_dsn_cn);
-
-                if(data.option_info.length != 0){
-                    colunm_name_size_1 = data.option_info[0].size_title_1;
-                    colunm_name_size_2 = data.option_info[0].size_title_2;
-                    colunm_name_size_3 = data.option_info[0].size_title_3;
-                    colunm_name_size_4 = data.option_info[0].size_title_4;
-                    colunm_name_size_5 = data.option_info[0].size_title_5;
-                    colunm_name_size_6 = data.option_info[0].size_title_6;
-                    strTh = `
-                        <tr>
-                            <th style="width:5%">옵션 이름</th>
-                    `;
-                    strTh += colunm_name_size_1 != null ? `<th>${colunm_name_size_1}</th>` : '';
-                    strTh += colunm_name_size_2 != null ? `<th>${colunm_name_size_2}</th>` : '';
-                    strTh += colunm_name_size_3 != null ? `<th>${colunm_name_size_3}</th>` : '';
-                    strTh += colunm_name_size_4 != null ? `<th>${colunm_name_size_4}</th>` : '';
-                    strTh += colunm_name_size_5 != null ? `<th>${colunm_name_size_5}</th>` : '';
-                    strTh += colunm_name_size_6 != null ? `<th>${colunm_name_size_6}</th>` : '';
-
-                    strTh += `
-                        </tr>
-                    `;
-                    $('#product_size_table_head').append(strTh);
-
-                    for(var i = 0; i < data.option_info.length; i++){
-                        var row_data = data.option_info[i];
-
-                        strTr = '';
-                        var option_size_1 = row_data.option_size_1;
-                        var option_size_2 = row_data.option_size_2;
-                        var option_size_3 = row_data.option_size_3;
-                        var option_size_4 = row_data.option_size_4;
-                        var option_size_5 = row_data.option_size_5;
-                        var option_size_6 = row_data.option_size_6;
-
-                        strTrCol = ``;
-                        strTrCol += option_size_1 != '-' ? `<td name="size_info_1[]">${option_size_1} cm</td>` : '';
-                        strTrCol += option_size_2 != '-' ? `<td name="size_info_2[]">${option_size_2} cm</td>` : '';
-                        strTrCol += option_size_3 != '-' ? `<td name="size_info_3[]">${option_size_3} cm</td>` : '';
-                        strTrCol += option_size_4 != '-' ? `<td name="size_info_4[]">${option_size_4} cm</td>` : '';
-                        strTrCol += option_size_5 != '-' ? `<td name="size_info_5[]">${option_size_5} cm</td>` : '';
-                        strTrCol += option_size_6 != '-' ? `<td name="size_info_6[]">${option_size_6} cm</td>` : '';
-                        
-                        strTr += `
-                            <tr>
-                                <td id="option_name">${row_data.option_name}</td>
-                                ${strTrCol}
-                            </tr>
-                        `;
-                        $('#product_size_regist_table').append(strTr);
-                    }
-                }
-                
-                //생산
-				$('#care_td_kr').html(data.care_td_kr);
-				$('#care_td_en').html(data.care_td_en);
-				$('#care_td_cn').html(data.care_td_cn);
-				$('#material_td_kr').html(data.material_kr);
-				$('#material_td_en').html(data.material_en);
-				$('#material_td_cn').html(data.material_cn);
-				$('#manufacturer').text(data.manufacturer);
-				$('#supplier').text(data.supplier);
-				$('#origin_country').text(data.origin_country);
-				$('#brand').text(data.brand);
-
-				if(data.load_box_idx != null && data.load_box_idx > 0){
-					strTable = `
-						<table>
-							<thead>
-								<tr>
-									<th>상자명</th>
-									<th>너비</th>
-									<th>길이</th>
-									<th>높이</th>
-									<th>부피</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>${data.load_box_name}</td>
-									<td>${data.load_box_width} cm</td>
-									<td>${data.load_box_length} cm</td>
-									<td>${data.load_box_height} cm</td>
-									<td>${data.load_box_volume} cm³</td>
-								</tr>
-							</tbody>
-						</table>
-					`;
-					$('#load_box_info_table').append(strTable);
-				}
-
-				$('#load_weight').text(data.load_weight);
-				$('#load_qty').text(data.load_qty);
-				var sub_info = data.sub_material_info;
-				sub_info.forEach(function(sub_data){
-					if(sub_data.sub_material_type == 'T'){
-						$('#td_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
-
+					switch(data.refund_flg){
+						case 0:
+							$('#refund_flg').text('교환 불가');
+							break;
+						case 1:
+							$('#refund_flg').text('교환 가능');
 					}
-					else if(sub_data.sub_material_type == 'D'){
-						$('#delivery_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
+
+					if(data.line_idx != null && data.line_idx > 0){
+						var type_str = '';
+						switch(data.line_type){
+							case 'C':
+								type_str = '컬렉션 라인';
+								break;
+							case 'O':
+								type_str = '오리진 라인';
+								break;
+							case 'T':
+								type_str = '티피컬 라인';
+								break;
+						}
+						strTable = `
+							<table style="width:40%">
+								<thead>
+									<tr>
+										<th>라인명</th>
+										<th>타입</th>
+										<th>색깔</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${data.line_name}</td>
+										<td>${type_str}</td>
+										<td>${data.line_memo}</td>
+									</tr>
+								</tbody>
+							</table>
+						`;
+						$('#line_info_table').append(strTable);
 					}
-				})
-            }
-        }
-    }).then(
+					$('#category_lrg_title').text(data.category_lrg_title);
+					$('#category_mdl_title').text(data.category_mdl_title);
+					$('#category_sml_title').text(data.category_sml_title);
+					$('#category_dtl_title').text(data.category_dtl_title);
+					
+					$('#graphic').text(data.graphic);
+					$('#fit').text(data.fit);
+					$('#material').text(data.material);
+					$('#product_name').text(data.product_name);
+					$('#product_size').text(data.product_size);
+					$('#color').text(data.color);
+					$('#color_rgb').text(data.color_rgb);
+					$('#pantone_code').text(data.pantone_code);
+					$('#md_category_guide').text(data.md_category_guide);
+					$('#limit_qty').text(data.limit_qty);
+					$('#limit_member').text(data.limit_member);
+					$('#price_cost').text(data.price_cost);
+					$('#price_kr').text(data.price_kr);
+					$('#price_kr_gb').text(data.price_kr_gb);
+					$('#price_en').text(data.price_en);
+					$('#price_cn').text(data.price_cn);
+					$('#product_qty').text(data.product_qty);
+					$('#safe_qty').text(data.safe_qty);
+					$('#launching_date').text(data.launching_date);
+					$('#receive_request_date').text(data.receive_request_date);
+					$('#tp_completion_date').text(data.tp_completion_date);
+
+					//디자인
+					if(data.wkla_idx != null && data.wkla_idx > 0){
+						strTable = `
+							<table style="width:30%">
+								<thead>
+									<tr>
+										<th>WKLA 명</th>
+										<th>비고</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${data.wkla_name}</td>
+										<td>${data.wkla_memo}</td>
+									</tr>
+								</tbody>
+							</table>
+						`;
+						$('#wkla_info_table').append(strTable);
+					}
+					$('#model').text(data.model);
+					$('#model_wear').text(data.model_wear);
+					$('#size_a1_kr').html(data.size_a1_kr);
+					$('#size_a2_kr').html(data.size_a2_kr);
+					$('#size_a3_kr').html(data.size_a3_kr);
+					$('#size_a4_kr').html(data.size_a4_kr);
+					$('#size_a5_kr').html(data.size_a5_kr);
+					$('#size_onesize_kr').html(data.size_onesize_kr);
+					$('#size_a1_en').html(data.size_a1_en);
+					$('#size_a2_en').html(data.size_a2_en);
+					$('#size_a3_en').html(data.size_a3_en);
+					$('#size_a4_en').html(data.size_a4_en);
+					$('#size_a5_en').html(data.size_a5_en);
+					$('#size_onesize_en').html(data.size_onesize_en);
+					$('#size_a1_cn').html(data.size_a1_cn);
+					$('#size_a2_cn').html(data.size_a2_cn);
+					$('#size_a3_cn').html(data.size_a3_cn);
+					$('#size_a4_cn').html(data.size_a4_cn);
+					$('#size_a5_cn').html(data.size_a5_cn);
+					$('#size_onesize_cn').html(data.size_onesize_cn);
+					$('#size_category').text(data.size_category);
+					$('#detail_dsn_kr').html(data.detail_kr);
+					$('#detail_dsn_en').html(data.detail_en);
+					$('#detail_dsn_cn').html(data.detail_cn);
+					$('#care_dsn_kr').html(data.care_dsn_kr);
+					$('#care_dsn_en').html(data.care_dsn_en);
+					$('#care_dsn_cn').html(data.care_dsn_cn);
+
+					if(data.option_info.length != 0){
+						colunm_name_size_1 = data.option_info[0].size_title_1;
+						colunm_name_size_2 = data.option_info[0].size_title_2;
+						colunm_name_size_3 = data.option_info[0].size_title_3;
+						colunm_name_size_4 = data.option_info[0].size_title_4;
+						colunm_name_size_5 = data.option_info[0].size_title_5;
+						colunm_name_size_6 = data.option_info[0].size_title_6;
+						strTh = `
+							<tr>
+								<th style="width:5%">옵션 이름</th>
+						`;
+						strTh += colunm_name_size_1 != null ? `<th>${colunm_name_size_1}</th>` : '';
+						strTh += colunm_name_size_2 != null ? `<th>${colunm_name_size_2}</th>` : '';
+						strTh += colunm_name_size_3 != null ? `<th>${colunm_name_size_3}</th>` : '';
+						strTh += colunm_name_size_4 != null ? `<th>${colunm_name_size_4}</th>` : '';
+						strTh += colunm_name_size_5 != null ? `<th>${colunm_name_size_5}</th>` : '';
+						strTh += colunm_name_size_6 != null ? `<th>${colunm_name_size_6}</th>` : '';
+
+						strTh += `
+							</tr>
+						`;
+						$('#product_size_table_head').append(strTh);
+
+						for(var i = 0; i < data.option_info.length; i++){
+							var row_data = data.option_info[i];
+
+							strTr = '';
+							var option_size_1 = row_data.option_size_1;
+							var option_size_2 = row_data.option_size_2;
+							var option_size_3 = row_data.option_size_3;
+							var option_size_4 = row_data.option_size_4;
+							var option_size_5 = row_data.option_size_5;
+							var option_size_6 = row_data.option_size_6;
+
+							strTrCol = ``;
+							strTrCol += option_size_1 != '-' ? `<td name="size_info_1[]">${option_size_1} cm</td>` : '';
+							strTrCol += option_size_2 != '-' ? `<td name="size_info_2[]">${option_size_2} cm</td>` : '';
+							strTrCol += option_size_3 != '-' ? `<td name="size_info_3[]">${option_size_3} cm</td>` : '';
+							strTrCol += option_size_4 != '-' ? `<td name="size_info_4[]">${option_size_4} cm</td>` : '';
+							strTrCol += option_size_5 != '-' ? `<td name="size_info_5[]">${option_size_5} cm</td>` : '';
+							strTrCol += option_size_6 != '-' ? `<td name="size_info_6[]">${option_size_6} cm</td>` : '';
+							
+							strTr += `
+								<tr>
+									<td id="option_name">${row_data.option_name}</td>
+									${strTrCol}
+								</tr>
+							`;
+							$('#product_size_regist_table').append(strTr);
+						}
+					}
+					
+					//생산
+					$('#care_td_kr').html(data.care_td_kr);
+					$('#care_td_en').html(data.care_td_en);
+					$('#care_td_cn').html(data.care_td_cn);
+					$('#material_td_kr').html(data.material_kr);
+					$('#material_td_en').html(data.material_en);
+					$('#material_td_cn').html(data.material_cn);
+					$('#manufacturer').text(data.manufacturer);
+					$('#supplier').text(data.supplier);
+					$('#origin_country').text(data.origin_country);
+					$('#brand').text(data.brand);
+
+					if(data.load_box_idx != null && data.load_box_idx > 0){
+						strTable = `
+							<table>
+								<thead>
+									<tr>
+										<th>상자명</th>
+										<th>너비</th>
+										<th>길이</th>
+										<th>높이</th>
+										<th>부피</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>${data.load_box_name}</td>
+										<td>${data.load_box_width} cm</td>
+										<td>${data.load_box_length} cm</td>
+										<td>${data.load_box_height} cm</td>
+										<td>${data.load_box_volume} cm³</td>
+									</tr>
+								</tbody>
+							</table>
+						`;
+						$('#load_box_info_table').append(strTable);
+					}
+
+					$('#load_weight').text(data.load_weight);
+					$('#load_qty').text(data.load_qty);
+					var sub_info = data.sub_material_info;
+					sub_info.forEach(function(sub_data){
+						if(sub_data.sub_material_type == 'T'){
+							$('#td_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
+
+						}
+						else if(sub_data.sub_material_type == 'D'){
+							$('#delivery_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
+						}
+					})
+				}
+			}
+		})
+	}).then(
         function(){
             var size_category = $('#size_category').text();
             if(size_category.length > 0){
@@ -1303,7 +1410,6 @@ function setOptionForm(size_category_info){
         var size_title_str = size_category_info['size_title_' + i];
         var size_desc_str  = size_category_info['size_desc_' + i];
 		
-		console.log(size_title_str);
 		if(size_title_str != null && size_title_str.length > 0){
 			strDiv += `			
 						<tr data-idx="${i}" style="cursor:pointer">
@@ -1619,5 +1725,131 @@ function removeRelevantProduct(obj) {
 	} else {
 		$('#relevant_idx').val(relevant_idx_arr);
 	}
+}
+function imgExistChk(){
+	var apiParam = {};
+	imgData = [];
+	$('.img_param').html('');
+	for(var i = 0; i < 3; i++){
+		var img_type = $('.imgType').eq(i).val();
+		var url 	= $('.imgTypeUrl').eq(i).val();
+
+		if(img_type.length != 0 && img_type.length != 0){
+			if( url[0] == '/' ){
+				url = url.substr(1);
+			}
+			switch(img_type){
+				case 'outfit':
+					url += '/outfit';
+					break;
+				case 'product':
+					url += '/product';
+					break;
+				case 'detail':
+					url += '/detail';
+					break;
+			}
+			apiParam = {path : url, idx: i};
+			$('.imgCnt').eq(apiParam.idx).css('color', 'red');
+			$('.imgCnt').eq(apiParam.idx).text('이미지 파일이 없습니다.');
+
+			$.ajax({
+				type: "post",
+				data: apiParam,
+				dataType: "json",
+				url: config.api + "product/image/get",
+				error: function() {
+					alert("파일열람에 실패 하였습니다.");
+				},
+				success: function(d) {
+					if(d.code == 200) {
+						if(d.data != null){
+							var data = d.data;
+							if(data.length > 0){
+								$('.imgCnt').eq(apiParam.idx).css('color', 'black');
+								$('.imgCnt').eq(apiParam.idx).text(d.data.length + '장');// 있음
+								d.data.forEach(function(val, idx, arr){
+									var type_param = $('.imgType').eq(apiParam.idx).val();
+									imgData.push({
+										type: type_param,
+										imgUrl : val
+									});	
+									$('.img_param').append(`
+										<div>
+											<input type="hidden" name="img_type[]" value="${type_param}">
+											<input type="hidden" name="img_url[]" value="${val}">
+										</div>
+									`);
+								})
+							}
+						}
+						
+					}
+				}
+			});
+		}
+	}
+}
+function previewImg(){
+	$('.outfit__area').html('');
+	$('.product__area').html('');
+	$('.detail__area').html('');
+
+	if(imgData.length == 0){
+		alert('상품 이미지 체크를 먼저 진행해주세요');
+	}
+	else{
+		imgData.forEach(function(val, idx, arr){
+
+			var typeDiv = '';
+			var typeStr = '';
+			switch(val.type){
+				case 'outfit':
+					typeDiv = $('.outfit__area');
+					typeStr = '아웃핏';
+					break;
+				case 'product':
+					typeDiv = $('.product__area');
+					typeStr = '상품';
+					break;
+				case 'detail':
+					typeDiv = $('.detail_area');
+					typeStr = '디테일';
+					break;
+			}
+
+			if(typeDiv.find('.content__title').length == 0){
+				typeDiv.append(`<div class="content__title">${typeStr}</div>`);
+			}
+			typeDiv.append(`
+								<div>
+									<a href="${val.imgUrl}" download="img_BLAFWKV01BL_09_P_S_202210210000">
+										<img src="${val.imgUrl}">
+									</a>
+								</div>
+			`);
+		});
+	}
+}
+function productUpdateCheck(){
+	var formData = new FormData();
+	formData = $("#frm-update").serializeObject();
+	
+	$.ajax({
+		type: "post",
+		data: formData,
+		dataType: "json",
+		url: config.api + "product/put_new",
+		error: function() {
+			alert("개별상품 등록 처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				alert('상품이 정상적으로 등록되었습니다.',function pageLocation() {
+					location.href = '/product/list';
+				});
+			}
+		}
+	});
 }
 </script>

@@ -14,12 +14,14 @@
  +=============================================================================
 */
 
-$member_idx = 0;
+$member_idx = 1;
+//$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = null;
+$member_id = "adertest4";
+//$member_id = null;
 if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
@@ -34,7 +36,7 @@ if ($member_idx == null || $member_id == null) {
 
 if ($product_idx != null) {
 	//찜한 상품 리스트 등록 전 동일 상품 중복체크
-	$whish_list_cnt => $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
+	$whish_list_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
 	
 	if ($whish_list_cnt > 0) {
 		$json_result['code'] = 402;

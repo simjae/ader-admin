@@ -27,9 +27,11 @@ $table = "dev.SUB_MATERIAL_INFO SMI";
 $where = '1=1';
 $having = '';
 
-if($sub_material_type != null){
+if($sub_material_type != null && $sub_material_type != 'ALL'){
 	$where .= ' AND (SMI.SUB_MATERIAL_TYPE = "'.$sub_material_type.'") ';
 }
+
+$total_where = $where;
 
 if($sub_material_name != null){
 	$where .= ' AND (SMI.SUB_MATERIAL_NAME LIKE "%'.$sub_material_name.'%") ';
@@ -45,7 +47,7 @@ if ($sort_value != null && $sort_type != null) {
 
 $limit_start = (intval($page)-1)*$rows;
 $json_result = array(
-    'total' => $db->count($table,'SUB_MATERIAL_TYPE = ?', array($sub_material_type)),
+    'total' => $db->count($table,$total_where),
     'total_cnt' => $db->count($table,$where),
     'page' => $page
 );

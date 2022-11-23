@@ -53,12 +53,11 @@ if ($basket_idx != null && $product_idx != null && $stock_status != null) {
 							SELECT
 								IFNULL(SUM(OP.PRODUCT_QTY),0)
 							FROM
-								dev.ORDER_INFO OI
-								LEFT JOIN dev.ORDER_PRODUCT OP ON
-								OI.IDX = OP.ORDER_INFO_IDX
+								dev.ORDER_PRODUCT OP
 							WHERE
-								OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
-								OP.PRODUCT_IDX = BI.PRODUCT_IDX
+								OP.PRODUCT_IDX = BI.PRODUCT_IDX AND
+								OP.OPTION_IDX = BI.OPTION_IDX AND
+								OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 						)	AS ORDER_QTY
 					FROM
 						dev.BASKET_INFO BI

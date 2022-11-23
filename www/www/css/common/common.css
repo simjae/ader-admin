@@ -152,7 +152,7 @@
 }
 
 html { font-size: 62.5%; }
-body {max-width: 2560px;width:100%;margin: 0 auto!important; ;overflow-x:hidden;background-color : #fff ; color : #000 ;}
+body {max-width: 2560px;width:100%;margin: 0 auto!important; ;overflow-x:hidden;background-color : #fff ; color : #000 ;transition: transform 5s linear;}
 a { text-decoration : none ; color : #000 }
 body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
 main{padding-top: 50px;}
@@ -456,7 +456,17 @@ transform: translateY(-4px) rotate(-45deg);
     left: -4px;
     top: -3px;
 } */
-
+#dimmer{
+	display:none;
+	position:fixed;
+	left:0;
+	top:0;
+	width: 100vw;
+	height: 100vh;
+	opacity: 0.5;
+	background-color: #000;
+	z-index:10	
+}
 @media (min-width: 1024px){
     header{
         min-width: 320px;

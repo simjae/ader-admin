@@ -16,7 +16,7 @@
 		<input type="hidden" class="page" name="page" value="1">
 
 		<div class="card__header">
-			<h3>생산부자재 목록</h3>
+			<h3>포장부자재 목록</h3>
 			<div class="drive--x"></div>
 		</div>
 		
@@ -48,14 +48,14 @@
 
 <div class="content__card">
     <div class="card__header">
-        <h3>생산부자재 리스트</h3>
+        <h3>포장부자재 리스트</h3>
         <div class="drive--x"></div>
     </div>	
     <form id="frm-list-td_sub">
         <div class="info__wrap " style="justify-content:space-between; align-items: center;">
             <div class="body__info--count">
                 <div class="drive--left"></div>
-                총 생산부자재 수 <font class="cnt_total info__count" >0</font>개
+                총 포장부자재 수 <font class="cnt_total info__count" >0</font>개
             </div>
             <div class="content__row">
                 <select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
@@ -104,7 +104,7 @@
         </div>
     </form>
     
-    <h3>생산부자재 추가하기</h3>
+    <h3>포장부자재 추가하기</h3>
     <div class="drive--x"></div>
     <div class="table table__wrap">
         <form id="frm-td_sub">
@@ -119,8 +119,8 @@
                 <thead>
                     <tr>
                         <th>생성</th>
-                        <th>생산부자재 명</th>
-                        <th>생산부자재 코드</th>
+                        <th>포장부자재 명</th>
+                        <th>포장부자재 코드</th>
                         <th>비고</th>
                     </tr>
                 </thead>
@@ -231,7 +231,7 @@ function tdSubAction(obj){
     
 	switch(action_type){
 		case 'TD_SUB_PUT':
-			action_name = '생산부자재 수정';
+			action_name = '포장부자재 수정';
             api_str = "put";
             var param_obj = {
                 'sel_idx' : sel_idx,
@@ -245,11 +245,11 @@ function tdSubAction(obj){
                 'sel_idx' : sel_idx
             }
             if(product_cnt > 0){
-                alert('이미 해당 생산부자재를 사용중인 제품이 있습니다.');
+                alert('이미 해당 포장부자재를 사용중인 제품이 있습니다.');
                 return false;
             }
             else{
-                action_name = "생산부자재 삭제";
+                action_name = "포장부자재 삭제";
                 api_str = "delete";
             }
             break;
@@ -285,11 +285,11 @@ function tdSubInsert(obj){
 		dataType: "json",
 		url: config.api + "pm/ordersheet/td/sub_material/add",
 		error: function() {
-			alert('생산부자재 등록에 실패했습니다.');
+			alert('포장부자재 등록에 실패했습니다.');
 		},
 		success: function(d) {
 			if(d.code == 200) {
-				alert('생산부자재 등록에 성공했습니다.');
+				alert('포장부자재 등록에 성공했습니다.');
 				getTdSubTabInfo();
 			}
             else{

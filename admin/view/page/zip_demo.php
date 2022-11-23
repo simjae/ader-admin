@@ -1,3 +1,4 @@
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -110,6 +111,7 @@ function convertToFile(dataUrl, name){
 </head>
 <body>
 	<div>
+		<h1><?=$body?></h1>
 		Zip파일 선택 : <input id="zipUpload" type="file" onchange="myOnChangeFile(event)" />
 	</div>
 	<form id="frm-add" action="" enctype="multipart/form-data">

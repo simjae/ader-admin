@@ -147,6 +147,10 @@
     .product {
         width: 25%;
     }
+    .product .whish_img {
+        width: 16px;
+        height: 14px;
+    }
     .product-img{
         background-color:#F8F8F8;
     }
@@ -660,7 +664,7 @@
 
             let whish_flg = `${el.whish_flg}`;
             if (whish_flg == 'true') {
-                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
+                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
                 whish_function = "deleteWhishList(this)";
             } else if (whish_flg == 'false') {
                 whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';

@@ -226,13 +226,28 @@
 			<div class="nav__parent__wrap" id="btn_product_management">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">독립몰 상품관리</span> 
+						<span class="nav__title">PCS</span> 
 					</div>
 				</div>	
 			</div>
 		</div>
 		
 		<div class="nav__wrap" id="product_management" style="display:none;">
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">항목관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+					</div>
+					
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pm/ordersheet/line">라인 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/wkla">W/K/L/A 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/load_box">적재박스 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/td_sub_material">포장 부자재 관리</div>
+						<div class="nav__child" data-url="/pm/ordersheet/delivery_sub_material">배송 부자재 관리</div>
+					</div>	
+				</div>	
+			</div>
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
@@ -243,11 +258,6 @@
 						<div class="nav__child" data-url="/pm/ordersheet/classify">오더시트 분류 관리</div>
 						<div class="nav__child" data-url="/pm/ordersheet/list">오더시트 리스트</div>
 						<div class="nav__child" data-url="/pm/ordersheet/history">오더시트 히스토리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/line">라인 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/wkla">W/K/L/A 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/load_box">적재박스 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/td_sub_material">생산 부자재 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/delivery_sub_material">배송 부자재 관리</div>
 					</div>	
 				</div>	
 			</div>
@@ -289,7 +299,7 @@
 			<div class="nav__parent__wrap" id="btn_backend">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">ADER 독립몰 백엔드 메뉴</span> 
+						<span class="nav__title">컨트롤 센터</span> 
 					</div>
 				</div>	
 			</div>

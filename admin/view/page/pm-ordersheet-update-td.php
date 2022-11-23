@@ -349,7 +349,7 @@
 					<button type="button" toggle_table="td"
 						style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
 						onClick="toggleTableClick(this);">오더시트 - 생산</button>
-					<div class="overflow-x-auto" id="insert_table_td">
+					<div class="" id="insert_table_td">
 						<TABLE>
 							<colgroup>
 								<col width="10%">
@@ -357,21 +357,30 @@
 							</colgroup>
 							<TBODY>
                                 <TR>
-									<TD>제품 취급 유의사항<br>생산 (한글)</TD>
+									<TD>
+                                        <p>제품 취급 유의사항<br>생산 (한글)<p>
+                                        <button type="button" style="background-color: #ffffff;margin-left:25%;margin-top:50px" country="kr" onclick="initCareStr(this)">초기화</button>
+                                    </TD>
 									<TD>
 										<textarea class="width-100p" id="care_td_kr" name="care_td_kr"
 											style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
                                 <TR>
-									<TD>제품 취급 유의사항<br>생산 (영문)</TD>
+                                    <TD>
+                                        <p>제품 취급 유의사항<br>생산 (영문)<p>
+                                        <button type="button" style="background-color: #ffffff;margin-left:25%;margin-top:50px" country="en" onclick="initCareStr(this)">초기화</button>
+                                    </TD>
 									<TD>
 										<textarea class="width-100p" id="care_td_en" name="care_td_en"
 											style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
                                 <TR>
-									<TD>제품 취급 유의사항<br>생산 (중문)</TD>
+                                    <TD>
+                                        <p>제품 취급 유의사항<br>생산 (중문)<p>
+                                        <button type="button" style="background-color: #ffffff;margin-left:25%;margin-top:50px" country="cn" onclick="initCareStr(this)">초기화</button>
+                                    </TD>
 									<TD>
 										<textarea class="width-100p" id="care_td_cn" name="care_td_cn"
 											style="width:90%; height:150px;"></textarea>
@@ -455,7 +464,14 @@
 									</TD>
                                 </tr>
                                 <tr>
-                                    <TD>생산부자재</TD>
+                                    <td>부자재 검색</td>
+                                    <td colspan="3">
+                                        <input type="hidden" id="sub_material_json"></button>
+                                        <button type="button" style="background-color: #ffffff;" onclick="openSubMaterialModal()">검색창 열기</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <TD>포장부자재</TD>
 									<TD colspan="3">
                                         <div class="content__row form-group td"></div>
 									</TD>
@@ -489,6 +505,10 @@ var care_td_cn = [];
 var material_kr = [];
 var material_en = [];
 var material_cn = [];
+
+var care_dsn_kr_html = '';
+var care_dsn_en_html = '';
+var care_dsn_cn_html = '';
 
 function setSmartEditor() {
 	//care_td
@@ -835,6 +855,9 @@ function ordersheetTdGet(idx) {
                         $('#care_dsn_kr').html(data.care_dsn_kr);
                         $('#care_dsn_en').html(data.care_dsn_en);
                         $('#care_dsn_cn').html(data.care_dsn_cn);
+                        care_dsn_kr_html = data.care_dsn_kr;
+                        care_dsn_en_html = data.care_dsn_en;
+                        care_dsn_cn_html = data.care_dsn_cn;
 
                         if(data.option_info.length != 0){
                             colunm_name_size_1 = data.option_info[0].size_title_1;
@@ -918,6 +941,12 @@ function ordersheetTdGet(idx) {
                         $('#brand').text(data.brand);
 
                         var sub_info = data.sub_material_info;
+                        
+                        var sub_info_json = {};
+                        sub_info_json = data.sub_material_info;
+                        var json_str = JSON.stringify(sub_info_json);
+                        $('#sub_material_json').val(json_str);
+
                         sub_info.forEach(function(sub_data){
                             $('.content__row.form-group').find('input[type="checkbox"][value="' + sub_data.sub_material_idx + '"]').prop("checked",true);
                         })
@@ -1095,5 +1124,31 @@ function openBoxInfoModal(box_type) {
             break;
     }
 	modal(modal_addr,null);
+}
+
+function initCareStr(obj){
+    var country = $(obj).attr('country');
+    if(country != null){
+        switch(country){
+            case 'kr':
+                care_td_kr.getById["care_td_kr"].exec("SET_IR", [""]);
+                care_td_kr.getById["care_td_kr"].exec("PASTE_HTML", [care_dsn_kr_html]);
+                break;
+            case 'en':
+                care_td_en.getById["care_td_en"].exec("SET_IR", [""]);
+                care_td_en.getById["care_td_en"].exec("PASTE_HTML", [care_dsn_en_html]);
+                break;
+            case 'cn':
+                care_td_cn.getById["care_td_cn"].exec("SET_IR", [""]);
+                care_td_cn.getById["care_td_cn"].exec("PASTE_HTML", [care_dsn_cn_html]);
+                break;
+        }
+    }
+}
+function openSubMaterialModal() {
+    var json_str = $('#sub_material_json').val();
+    var ordersheet_idx = $('#ordersheet_idx').val();
+    console.log(`json_str='${json_str}'`);
+    modal('/sub_material', `json_str=${json_str}`);
 }
 </script>

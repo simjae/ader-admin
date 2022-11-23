@@ -71,4 +71,5 @@
 		<header>
 			<?php include $_CONFIG['PATH']['PAGE'] . '/components/nav.php';?>
 		</header>
+		<div id="dimmer"></div>
 		<?php include $_CONFIG['PATH']['PAGE'] . '/components/basket.php';?>

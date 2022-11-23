@@ -94,7 +94,7 @@
 <!-- 데스크탑 -->
 <div class="footer-web">
     <ul class="f__desk">
-        <li class="about" style="grid-column: 1/5;">
+        <li class="about" style="grid-column: 1/6;">
             <div class="f__title">
                 <span >About ADERERROR</span >
             </div>
@@ -174,21 +174,32 @@
         dropMenuToggleBtn();
     });
         let dropMenuToggleBtn = () => {
-            const  $$dropMenuBtn = document.querySelectorAll(".footer-mobile .drop__menu .drop__btn");
-            const  $dropMenu = document.querySelector(".footer-mobile .drop__menu .drop__btn");
+            const  $$dropMenuBtn = document.querySelectorAll(".footer-mobile .drop__menu");
+            const  $footerMobile = document.querySelector(".footer-mobile");
             $$dropMenuBtn.forEach(el => {
-                el.addEventListener("click", function(){
-                    allDropMenu();
-                    this.classList.add("toggle");
-                    this.parentNode.nextElementSibling.classList.add("show");
-                    this.parentNode.parentNode.classList.add("show");
+                el.addEventListener("click", function(e){
+
+                    if(e.currentTarget.classList.contains("show")){
+                        // e.currentTarget.classList.remove("show");
+                        // e.currentTarget.children[1].classList.remove("show");
+                        // e.currentTarget.children[0].children[1].classList.remove("toggle");
+                        allDropMenu();
+                    }else {
+                        allDropMenu();
+                        e.currentTarget.classList.add("show");
+                        e.currentTarget.children[0].classList.add("show");
+                        e.currentTarget.children[1].classList.add("show");
+                        e.currentTarget.children[0].children[1].classList.add("toggle");
+                    }
+                    
+                    
                 });
             });
             function allDropMenu() {
                 $$dropMenuBtn.forEach(el => {
-                    el.classList.remove("toggle");
-                    el.parentNode.nextElementSibling.classList.remove("show");
-                    el.parentNode.parentNode.classList.remove("show");
+                    el.classList.remove("show");
+                    el.children[1].classList.remove("show");
+                    el.children[0].children[1].classList.remove("toggle");
                 })
             }
         }

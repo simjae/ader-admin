@@ -21,11 +21,15 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$country		= $_POST['country'];
+//$country		= $_POST['country'];
+$country = "KR";
+if (isset($_POST['country'])) {
+	$country = $_POST['country'];
+}
 
 if ($country != null) {
 	$sql = "SELECT
-				RP.PRODUCT_IDX		AS PRODUCT_IDX,
+				RP.PRODUCT_IDX				AS PRODUCT_IDX,
 				(
 					SELECT
 						REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
@@ -39,13 +43,19 @@ if ($country != null) {
 						S_PI.IDX ASC
 					LIMIT
 						0,1
-				)					AS PRODUCT_IMG,
-				RP.PRODUCT_NAME		AS PRODUCT_NAME,
-				OM.COLOR			AS COLOR
+				)							AS PRODUCT_IMG,
+				RP.PRODUCT_NAME				AS PRODUCT_NAME,
+				OM.COLOR					AS COLOR,
+				PR.PRICE_".$country."		AS PRICE,
+				PR.DISCOUNT_".$country."	AS DISCOUNT_PRICE,
+				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
+				OM.COLOR					AS COLOR
 			FROM
 				dev.RECOMMEND_PRODUCT RP
 				LEFT JOIN dev.ORDERSHEET_MST OM ON
 				RP.ORDERSHEET_IDX = OM.IDX
+				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				RP.PRODUCT_IDX = PR.IDX
 			WHERE
 				RP.DEL_FLG = FALSE";
 	
@@ -74,6 +84,9 @@ if ($country != null) {
 				'product_img'		=>$data['PRODUCT_IMG'],
 				'product_name'		=>$data['PRODUCT_NAME'],
 				'color'				=>$data['COLOR'],
+				'price'				=>$data['PRICE'],
+				'discount_price'	=>$data['DISCOUNT_PRICE'],
+				'sales_price'		=>$data['SALES_PRICE'],
 				'product_color'		=>$product_color,
 				'product_size'		=>$product_size,
 				'whish_flg'			=>$whish_flg

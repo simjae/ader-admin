@@ -242,6 +242,7 @@ if($sel_idx != null){
 		$sub_material_info = array();
 		foreach($db->fetch() as $sub_material_data){
 			$sub_material_info[] = array(
+				'ordersheet_idx'			=>$data['ORDERSHEET_IDX'],
 				'sub_material_idx'			=>$sub_material_data['SUB_MATERIAL_IDX'],
 				'sub_material_name'			=>$sub_material_data['SUB_MATERIAL_NAME'],
 				'sub_material_type'    		=>$sub_material_data['SUB_MATERIAL_TYPE'],

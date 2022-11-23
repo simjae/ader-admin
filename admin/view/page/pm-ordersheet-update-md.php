@@ -252,7 +252,7 @@
 									<TD id="load_qty"></TD>
                                 </tr>
                                 <tr>
-                                    <TD>생산부자재</TD>
+                                    <TD>포장부자재</TD>
 									<TD>
 										<table style="width:50%">
 											<tbody id="td_sub_material"></tbody>

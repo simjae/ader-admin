@@ -16,10 +16,11 @@
 
 include_once("/var/www/www/api/common/common.php");
 
-$member_idx = 0;
+$member_idx = 1;
+/*$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
-}
+}*/
 
 $country		= $_POST['country'];
 
@@ -71,13 +72,11 @@ if ($country != null) {
 					SELECT
 						IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 					FROM
-						dev.ORDER_INFO S_OI
-						LEFT JOIN dev.ORDER_PRODUCT S_OP ON
-						S_OI.IDX = S_OP.ORDER_INFO_IDX
+						dev.ORDER_PRODUCT S_OP
 					WHERE
 						S_OP.PRODUCT_IDX = BI.PRODUCT_IDX AND
 						S_OP.OPTION_IDX = BI.OPTION_IDX AND
-						S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 				)							AS ORDER_QTY,
 				BI.PRODUCT_QTY				AS BASKET_QTY
 			FROM

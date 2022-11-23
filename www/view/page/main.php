@@ -225,18 +225,17 @@
     }
 
     /* .new__project__swiper .btn__wrap > div::after{
-    content: "";
-    display: block;
-    width: 100%;
-    border-bottom: 2px solid #fff;
-} */
+        content: "";
+        display: block;
+        width: 100%;
+        border-bottom: 2px solid #fff;
+    } */
 
     /* exhibtion */
     .exhibtion__wrap {
         display: flex;
         width: 100%;
     }
-
     .exhibtion__wrap>div {
         width: 50%;
     }
@@ -246,6 +245,9 @@
         display: flex;
         background-color: #ffffff;
         align-items: flex-end;
+    }
+    .exhibtion__wrap:hover .exhibtion__content{
+        background-color: #fbfbfb;
     }
 
     .exhibtion__img {
@@ -292,7 +294,6 @@
         font-size: 1.2rem;
         font-weight: normal;
         line-height: 1.45;
-        letter-spacing: 0.6px;
         text-align: left;
         color: var(--bk);
         padding-bottom: 106px;
@@ -327,7 +328,7 @@
     .styling-swiper {
         position: relative;
         width: 100%;
-        margin-bottom: 270px;
+        margin-bottom: 200px;
     }
 
     .styling-swiper .styling__img {
@@ -339,7 +340,7 @@
     }
 
     .styling-swiper .btn__wrap {
-        padding-left: 10px;
+        padding-left: 0px;
     }
 
     .styling-swiper .btn__wrap>div::after {
@@ -350,7 +351,7 @@
     }
 
     .styling-swiper .title {
-        padding: 0px 0 0px 10px;
+        padding: 0px;
         font-family: var(--ft-fu);
         font-size: 16px;
         font-weight: normal;
@@ -361,7 +362,7 @@
     }
 
     .styling-swiper .t-box {
-        padding-left: calc(100% - 85%);
+        padding-left: calc(100% - 80%);
         padding-bottom: 30px;
         padding-top: 25px;
     }
@@ -408,13 +409,14 @@
     }
 
     .foryou-wrap {
-        padding-bottom: 300px;
+        padding-bottom: 200px;
         position: relative;
     }
 
     .foryou-wrap .foryou-text {
-        position: absolute;
-        padding: 18px 0 0 15px;
+        position: static;
+        /* padding: 18px 0 0 15px; */
+        padding: 0 0 20px 10px;
         z-index: 10;
         font-family: var(--ft-fu);
         font-size: 13px;
@@ -465,7 +467,10 @@
         text-align: center;
         color: var(--bk);
     }
-
+    .foryou-wrap .whish_img {
+        width: 15px;
+        height: 12.5px;
+    }
 
     /* 스와이프 네비게이션 */
     .new__project__swiper .navigation .swiper-button-next {
@@ -508,6 +513,7 @@
     }
 
     .styling-swiper .navigation .swiper-button-next {
+        
         top: auto;
         height: 110px;
         right: 0;
@@ -517,16 +523,23 @@
     }
 
     .styling-swiper .navigation .swiper-button-next::after {
+        visibility:visible;
         content: url('/images/svg/sw-ar-bk.svg');
         position: relative;
     }
 
     .styling-swiper .navigation .swiper-button-prev {
-        display: none;
-        content: url('/images/svg/sw-ar-bk.svg');
+        
         transform: rotate(180deg);
-        top: calc(100% - 5%);
+        left: 0;
+        top: auto;
+        bottom: 0;
         color: var(--bk);
+    }
+    .styling-swiper .navigation .swiper-button-prev::after {
+        visibility:visible;
+        content: url('/images/svg/sw-ar-bk.svg');
+        position: relative;
     }
 
     .foryou-swiper .navigation .swiper-button-next {
@@ -545,22 +558,34 @@
         color: var(--bk);
     }
 
-    .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled {
+    .swiper-button-prev.swiper-button-disabled {
         opacity: 0;
     }
+    /* .styling-swiper .swiper-button-prev.swiper-button-disabled {
+    } */
     .recommand-mobile {
         display: none;
     }
+
     .recommand-mobile .slide-box.half {
         display: flex;
         width: 100%;
         justify-content: center;
     }
-    .recommand-mobile .slide-box.half .center-box{
+
+    .recommand-mobile .slide-box.half .center-box {
         width: 50%;
     }
+    @media (max-width: 1441px) {
+        .new__project__content .cnt-box{
+            grid-template-columns: repeat(14, 1fr);
+        }
+        .ex__box{
+            grid-template-columns: repeat(7, 1fr);
+        }
+    }
     @media (max-width: 1025px) {
-        
+
         .under-line.bk::after {
             background-color: var(--bk);
         }
@@ -594,7 +619,7 @@
 
         .new__project__content .title {
             grid-column: 1 / 17;
-            padding-bottom: 35px;
+            padding-bottom: 30px;
             font-family: var(--ft-fu);
             font-size: 1.6rem;
             font-weight: 500;
@@ -664,7 +689,7 @@
         .exhibtion__content .season__title {
             grid-column: 1 / 9;
             font-family: var(--ft-fu);
-            padding-bottom: 35px;
+            padding-bottom: 30px;
             font-weight: 500;
             font-size: 1.6rem;
             font-stretch: normal;
@@ -683,20 +708,22 @@
         }
 
         .recommand-wrap {
-            padding-bottom: 90px;
+            padding-bottom: 120px;
         }
+
         .recommand-mobile {
             display: flex;
             flex-wrap: wrap;
             background-color: #fbfbfb;
             padding-bottom: 50px;
         }
-        .recommand-mobile .title{
+
+        .recommand-mobile .title {
             display: flex;
             margin: 20px auto;
             width: 50%;
             font-family: var(--ft-fu);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 500;
             font-stretch: normal;
             font-style: normal;
@@ -706,9 +733,11 @@
             color: var(--bk);
             justify-content: center;
         }
+
         .recommand-mobile a {
             width: 50%;
         }
+
         .re-swiper {
             background-color: #fbfbfb;
             padding-bottom: 50px;
@@ -751,6 +780,13 @@
         .styling-swiper .swiper-slide .btn__wrap {
             gap: 0;
         }
+        .styling-swiper .btn__wrap{
+            padding-left: 10px;
+        }
+        .styling-text {
+            padding: 0 0 10px 10px;
+        }
+
         .styling-text span {
             text-decoration: none;
             font-family: var(--ft-fu);
@@ -777,12 +813,18 @@
             color: var(--bk);
         }
 
-        .styling-swiper .btn__wrap {
+        .styling-swiper .btn__wrap a {
             font-size: 1.2rem;
         }
 
         .styling-swiper .navigation .swiper-button-next::before {
             background-color: #ffffff;
+        }
+        .styling-swiper .navigation .swiper-button-next::after {
+            visibility:hidden;
+        }
+        .styling-swiper .navigation .swiper-button-prev::after {
+            visibility:hidden;
         }
 
         .styling-swiper .navigation .swiper-button-next {
@@ -811,10 +853,14 @@
         .foryou-wrap .wish__btn {
             padding: 15px 12px;
         }
-
+        .foryou-wrap .whish_img{
+            width: 14.4px;
+            height: 12px;
+        }
         .foryou-wrap .prd-title {
             font-family: var(--ft-fu);
             font-size: 1rem;
+            height: 30px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
@@ -1100,6 +1146,7 @@
                     </div>
                 </div>
                 <div class="navigation">
+                    <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next">
                         <div></div>
                     </div>
@@ -1134,7 +1181,7 @@
         headerColorChange();
         getProductRecommendList();
         mobileRecommandGrid();
-        swiper.extendDefaults({centeredSlides:true });
+
     });
 
     window.addEventListener('resize', () => {
@@ -1145,34 +1192,34 @@
         let $$mobileRecommandBox = document.querySelectorAll(".recommand-mobile .slide-box");
         $$mobileRecommandBox.forEach((el, idx, arr) => {
             let arrLen = arr.length;
-            if(arrLen === 1 ){
-                el.classList.add("half"); 
-                console.log("1",arrLen);
-            }else if(arrLen === 2 ) {
-                el.classList.add("half"); 
-                console.log("2",arrLen);
-            }else if(arrLen === 3 ) {
-                if(idx === 0 ){
-                    el.classList.add("half"); 
-                    console.log("3",arrLen);
+            if (arrLen === 1) {
+                el.classList.add("half");
+                console.log("1", arrLen);
+            } else if (arrLen === 2) {
+                el.classList.add("half");
+                console.log("2", arrLen);
+            } else if (arrLen === 3) {
+                if (idx === 0) {
+                    el.classList.add("half");
+                    console.log("3", arrLen);
                 }
-            }else if(arrLen === 4){
-                el.classList.remove("half"); 
-                
-            }else {
-                if (idx === arrLen- 1){ 
-                    if(arrLen % 2 === 0 ){
-                        el.classList.remove("half"); 
-                    }else {
-                        el.classList.add("half"); 
+            } else if (arrLen === 4) {
+                el.classList.remove("half");
+
+            } else {
+                if (idx === arrLen - 1) {
+                    if (arrLen % 2 === 0) {
+                        el.classList.remove("half");
+                    } else {
+                        el.classList.add("half");
                     }
                 }
-                
+
             }
-            
-                
+
+
         });
-    } 
+    }
     let newSwiper = new Swiper(".new__project__swiper", {
         navigation: {
             nextEl: ".new__project__swiper .swiper-button-next",
@@ -1221,7 +1268,7 @@
         breakpoints: {
             // when window width is >= 320px
             320: {
-                slidesPerView: 1.3,
+                slidesPerView: 1.32,
                 spaceBetween: 10
             },
             1024: {
@@ -1229,15 +1276,25 @@
                 spaceBetween: 0
             }
         },
-        centeredSlides:false,
-        on:{
+        // centeredSlides: true,
+        on: {
             activeIndexChange: function() {
-                if(1 <= this.realIndex ){
-                    stylingSwiper.extendDefaults({centeredSlides:true });
-                    console.log(stylingSwiper.passedParams.centeredSlides);
-                    // stylingSwiper.passedParams.centeredSlides = true;
-                    // stylingSwiper.update();
+                if (1 == this.realIndex) {
+
                 }
+                if (1 <= this.realIndex) {
+                    // stylingSwiper.extendDefaults({
+                    //     centeredSlides: true
+                    // });
+                    console.log(stylingSwiper.passedParams.centeredSlides);
+                    stylingSwiper.passedParams.centeredSlides = true;
+                    console.log(stylingSwiper.passedParams.centeredSlides);
+                    this.update();
+                    this.updateSize();
+                    this.updateSlides();
+                    console.log(this)
+                }
+                console.log(this)
             }
         }
     });
@@ -1281,6 +1338,7 @@
     function swiperResize() {
         let screenWidth = document.querySelector(".styling-wrap").offsetWidth
         let nextbtn = document.querySelector(".styling-swiper .navigation .swiper-button-next");
+        let prevbtn = document.querySelector(".styling-swiper .navigation .swiper-button-prev");
         let styleTboxHeight = stylingSwiper.el.querySelector(".t-box").offsetHeight;
         let oneGridSize = 0;
         let mobileOneGridSize = 0;
@@ -1289,6 +1347,8 @@
             oneGridSize = (screenWidth / 16);
             nextbtn.style.width = `${oneGridSize}px`;
             nextbtn.style.height = `${styleTboxHeight}px`;
+            prevbtn.style.width = `${oneGridSize}px`;
+            prevbtn.style.height = `${styleTboxHeight}px`;
             ex.update();
         } else {
 
@@ -1444,10 +1504,10 @@
             breakpoints: {
                 // when window width is >= 320px
                 320: {
-                    slidesPerView: 2.6
+                    slidesPerView: 2.64
                 },
                 1024: {
-                    slidesPerView: 5.3
+                    slidesPerView: 5.318
                 }
             }
         });

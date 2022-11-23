@@ -71,8 +71,8 @@
             let mdl = lrg.menu_mdl;
             if( el.menu_lrg.menu_type =="PR") {
                 menuHtml +=
-                `<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
-                    <a class="under-line wh" href="${lrg.menu_link}">${lrg.menu_title}</a>
+                `<li class="search-hide drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
+                    <a class="menu-ul lrg" href="${lrg.menu_link}">${lrg.menu_title}</a>
                     <div class="drop__menu">
                         <ul class="cont">
                             <li class="swiper-li">
@@ -109,11 +109,11 @@
                             ${
                                 mdl.map((el , idx)=> {
                                 return`<li data-mdl="${idx}">
-                                    <a class="mid-a" href="${el.menu_link}">${el.menu_title}</a>
+                                    <a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
                                     <ul class="sma__wrap">
                                     ${
                                         el.menu_sml.map((el, idx)=> {
-                                            return`<li><a href="${el.menu_link}">${el.menu_title}</a></li>`
+                                            return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
                                         }).join("")
                                     }
                                     </ul>
@@ -126,20 +126,29 @@
             }
             if( el.menu_lrg.menu_type =="PO") {
                 menuHtml +=
-                `<li class="hidden lg:block drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
-					<a class="under-line wh" href="${lrg.menu_link}">${lrg.menu_title}</a>
+                `<li class="search-hide drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
+					<a class="search-hide menu-ul lrg" href="${lrg.menu_link}">${lrg.menu_title}</a>
 					<div class="drop__menu">
 						<ul class="cont">
 							${
 								mdl.map((el , idx)=> {
 								return`<li class="pobox"  data-mdl="${idx}">
 									<div class="colaboBox">
-										<a class="mid-a en" href="${el.menu_link}">${el.menu_title}</a>
+										<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
 										<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
 									</div>
 								</li>`
 							}).join("")
 							}
+							<li class="pobox all-view">
+								<a class="menu-ul">
+									콜라보레이션
+								</a>
+								<a class="menu-ul">
+									전체보기
+								</a>
+								
+							</li>
 						</ul>
 					</div>
 				</li>`
@@ -148,11 +157,11 @@
         });
 		let spaceCount = 8 - menuCount;
 		for(var i = 0 ; i < spaceCount; i++){
-			menuHtml +=	`<li class="mid__space" ></li>`;
+			menuHtml +=	`<li class="search-hide mid__space" ></li>`;
 		}
         menuHtml +=`
-				<li class="drop web fixmenu" data-type="FM" data-large="6">
-                    <a href="">스토리</a>
+				<li class="search-hide drop web fixmenu" data-type="FM" data-large="6">
+                    <a class="menu-ul lrg" href="">스토리</a>
                     <div class="drop__menu">
                         <ul class="cont fixsub">
 							<li class=""></li>
@@ -236,23 +245,27 @@
                         </ul>
                     </div>
                 </li>
-                <li class="drop web fixmenu" >
+                <li class="search-hide drop web fixmenu" >
                     <a href="">매장찾기</a>
                 </li>
                 <li class="right__nav">
 					<ul class="right__nav__ul">
-						<li class="web">
-							<div class="flex" style="width: 37px;">
+						<li class="web search__li" onclick="searchInit();">
+							<div class="flex search__motion__wrap">
 								<img class="search-svg" style="width: 11px;" src="/images/svg/search.svg" alt="">
-								<span class="pl-1" style="font-size: 1.2rem;">검색</span>
+								<span class="pl-1 search__text" style="font-size: 1.2rem;">검색</span>
+								<input type="text" name="search_w" class="search__input search_w" placeholder="트윈하트 로고 티셔츠" >
 							</div>
 						</li>
-						<li class="web alg__c"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
-						<li class="flex"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
-						<li class="flex basket__btn "><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
-						<li class="web"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
-						<li class="web alg__r"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
-						<li class="web"></li>
+						<li class="search__close" onclick="searchClose();">
+							<img class="search-close-svg" style="width: 15px;" src="/images/svg/close.svg" alt="search close">
+						</li>
+						<li class="search-hide web alg__c"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
+						<li class="search-hide flex wishlist__btn"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+						<li class="search-hide flex basket__btn "><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
+						<li class="search-hide web"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
+						<li class="web alg__r login__wrap"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
+						<li class="search-hide web"></li>
 						<li class="flex pr-3 lg:hidden mobileMenu">
 							<div class="hamburger" id="hamburger">
 								<span class="line"></span>
@@ -261,18 +274,79 @@
 							</div>
 						</li>
 					</ul>
+					<div class="drop__menu search__drop">
+						<ul class="cont ">
+							<li class="searchbox">
+							</li>
+							<li class="searchbox">
+								<div class="mid-a searchTitle">추천 검색어</div>
+								<div class="keywordBox">
+									<ul>
+										<li class="keywordList">쇼퍼백</li>
+										<li class="keywordList">트윈하트로고티셔츠</li>
+										<li class="keywordList">키링</li>
+										<li class="keywordList">The new is not new</li>
+										<li class="keywordList">버켄스탁 콜라보레이션</li>
+									</ul>
+								</div>
+							</li>
+							<li class="searchbox">
+							</li>
+							<li class="searchbox">
+								<div class="mid-a searchTitle">실시간 인기 제품</div>
+								<ul class="prodlist__grid">
+									<li class="fmbox">
+										<div class="prodBox">
+											<img src="http://116.124.128.246:80/images/sample/keywordProd01.png">
+											<div class="prod-title en" href="">shopper bag</div>
+										</div>
+									</li>
+									<li class="fmbox">
+										<div class="prodBox">
+											<img src="http://116.124.128.246:80/images/sample/keywordProd02.png">
+											<div class="prod-title en" href="">Product name</div>
+										</div>
+									</li>
+									<li class="fmbox">
+										<div class="prodBox">
+											<img src="http://116.124.128.246:80/images/sample/keywordProd03.png">
+											<div class="prod-title en" href="">Twin heart logo t-shirts</div>
+										</div>
+									</li>
+									<li class="fmbox">
+										<div class="prodBox">
+											<img src="http://116.124.128.246:80/images/sample/keywordProd04.png">
+											<div class="prod-title en" href="">Balboa jacket</div>
+										</div>
+									</li>
+									<li class="fmbox">
+										<div class="prodBox">
+											<img src="http://116.124.128.246:80/images/sample/keywordProd05.png">
+											<div class="prod-title en" href="">Big size standic logo cap</div>
+										</div>
+									</li>
+								</ul>
+							</li>
+							<li class="searchbox">
+							</li>
+						</ul>
+					</div>
 				</li>`
         menuList.innerHTML = menuHtml;
         document.querySelector(".header__wrap").appendChild(domfrag);
         mobileMenu();
 		
 		
+		
         let $$webMenu = document.querySelectorAll(".web");
         let $webMenu = document.querySelector(".web");
-		
+		let $lrgMenu = document.querySelectorAll(".lrg");
+				
         $$webMenu.forEach(el => {
             el.addEventListener("mouseover", function(e) {
 				var swiper = new Swiper(".swiper__box", {
+					observer:true,
+					observeParents:true,
 					pagination: {
 						el: ".swiper-pagination",
 						dynamicBullets: true
@@ -282,31 +356,21 @@
 						disableOnInteraction: false,
 					}
 				}); 
+				console.log($(this).find("swiper__box"));
+				console.log(swiper);
             },{ once : true });
         });
 		$$webMenu.forEach(el => {
 			if(el.dataset.type=="PR" || el.dataset.type=="PO" || el.dataset.type=="FM"){
 				el.addEventListener("mouseover", function(e) {
-					let header = document.querySelector("header");
-					header.classList.add("hover");
-					header.querySelectorAll(".under-line").forEach(els => {
-						els.classList.remove("wh");
-						els.classList.add("bk");
-					});
-					console.log($(this).find("swiper__box"));
-					console.log(swiper);
+					headerHover(true);
 				});
 			}
         });
         $$webMenu.forEach(el => {
             el.addEventListener("mouseout", function(e) {
 				if(this.dataset.type=="PR" || this.dataset.type=="PO" || el.dataset.type=="FM" ){
-					let header = document.querySelector("header");
-					header.classList.remove("hover");
-					header.querySelectorAll(".under-line").forEach(els => {
-						els.classList.remove("bk");
-						els.classList.add("wh");
-					});
+					headerHover(false);
 				}
             });
         });
@@ -545,4 +609,50 @@
     //         });
     //     });
     // }
+	
+	function headerHover(bl){
+		let header = document.querySelector("header");
+		if(bl){
+			header.classList.add("hover");
+			header.querySelectorAll(".under-line").forEach(els => {
+				els.classList.remove("wh");
+				els.classList.add("bk");
+			});
+			$("#dimmer").show();
+		}
+		else{
+			header.classList.remove("hover");
+			header.querySelectorAll(".under-line").forEach(els => {
+				els.classList.remove("bk");
+				els.classList.add("wh");
+			});
+			$("#dimmer").hide();
+		}
+	}
+	
+	function searchInit(){
+		headerHover(true);
+		$(".login__wrap").addClass("-search-on");
+		$(".search__motion__wrap").addClass("search-init",500,function(){
+			$(".search__close,.search__input").fadeIn(300);
+			$(".search__drop").show();
+		});
+		$(".search-hide,.search__text").fadeOut(1,function(){
+			$(".right__nav").addClass("search__style");
+		});
+		$(".mid__space").addClass("--hidden");
+	}
+	function searchClose(){
+		$(".search__drop").hide();
+		$(".search__close,.search__input").hide()
+		$(".right__nav").removeClass("search__style");
+		$(".login__wrap").removeClass("-search-on");
+		$(".search__motion__wrap").removeClass("search-init",500);
+		$(".search-hide").fadeIn(500,function(){
+			$(".search__text").fadeIn(300);
+			$(".search-hide").attr("style","");
+		});	
+		headerHover(false);
+		$(".mid__space").removeClass("--hidden");
+	}
 </script>

@@ -13,7 +13,6 @@ $callback = getUrlParamter($page_url, 'callback');
 
 $sql = "
     SELECT
-		PR.IDX				AS PRODUCT_IDX,
 		CASE
 			WHEN
 				(SELECT COUNT(*) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
@@ -62,8 +61,9 @@ $sql = "
 		OM.DELIVER_BOX_IDX = DB.IDX
 		LEFT JOIN dev.ORDERSHEET_OPTION OO ON
 		PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
-	ORDER BY 
-		PR.IDX ASC
+	WHERE
+		PR.PRODUCT_CODE IS NOT NULL AND
+		OO.BARCODE IS NOT NULL
 ";
 
 $db->query($sql);
@@ -73,7 +73,6 @@ foreach($db->fetch() as $data){
 	
     $json_result['data'][] = array(
         'img_location'			=> $img_path,
-		'product_idx'			=> $data['PRODUCT_IDX'],
 		'barcode'				=> $data['BARCODE'],
         'product_name'			=> $data['PRODUCT_NAME']."[".$data['OPTION_NAME']."]",
         'category_lrg'			=> $data['CATEGORY_LRG'],

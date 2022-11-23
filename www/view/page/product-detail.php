@@ -39,55 +39,15 @@
     <section class="detail__wrapper">
         <div class="navigation__wrap">
             <div class="thumb__swiper swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_1.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="thumb__img" style="background-image:url('/images/sample/BLASSHD03BL_2.jpeg');"></div>
-                    </div>
+                <div class="swiper-wrapper thumbnail_img_wrapper">
+					
                 </div>
             </div>
         </div>
         <div class="detail__img__wrap">
             <div class="main__swiper swiper">
                 <div class="swiper-wrapper main_img_wrapper">
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_1.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_2.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_3.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_4.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_5.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_6.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_7.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_8.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_9.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_10.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_11.jpeg');"></div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="detail__img" style="background-image:url('/images/sample/BLASSHD03BL_12.jpeg');"></div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -139,12 +99,43 @@
 				let data = d.data;
 				
 				const domFrag = document.createDocumentFragment();
-				const infoWrap= document.querySelector(".info__wrap");
+				const infoWrap = document.querySelector(".info__wrap");
+				const thumbnailImgWrap = document.querySelector(".thumbnail_img_wrapper");
+				const mainImgWrap = document.querySelector(".main_img_wrapper");
+				
+				let imgUrl ="http://116.124.128.246:81";
 				
 				let infoWrapHtml = "";
 				data.forEach((el) => {
 					let img_thumbnail = el.img_thumbnail;
-					let img_product = el.img_product;
+					let imgThumbnailHtml = "";
+					img_thumbnail.forEach((thumbnail) => {
+						imgThumbnailHtml = `
+							<div class="thumb__img" style="background-image:url('${imgUrl}${thumbnail.img_location}');"></div>
+						`;
+						
+						const thumbnailInfo = document.createElement("div");
+						thumbnailInfo.classList.add("swiper-slide");
+						thumbnailInfo.innerHTML = imgThumbnailHtml;
+						domFrag.appendChild(thumbnailInfo);
+					});
+					
+					thumbnailImgWrap.appendChild(domFrag);
+					
+					let img_main = el.img_main;
+					let imgMainHtml = "";
+					img_main.forEach((main) => {
+						imgMainHtml = `
+							<div class="detail__img" style="background-image:url('${imgUrl}${main.img_url}');"></div>
+						`;
+						
+						const mainInfo = document.createElement("div");
+						mainInfo.classList.add("swiper-slide");
+						mainInfo.innerHTML = imgMainHtml;
+						domFrag.appendChild(mainInfo);
+					});
+					
+					mainImgWrap.appendChild(domFrag);
 					
 					let product_color = el.product_color;
 					let productColorHtml = "";
@@ -216,6 +207,7 @@
 				
 				//제품 소재, 상세정보, 취급유의사항 슬라이드
 				(function(){
+					//썸네일 스와이프
 					let thumbSwiper = new Swiper(".thumb__swiper", {
 						navigation: {
 							nextEl: '.thumb__swiper .swiper-button-next',

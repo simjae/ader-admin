@@ -8,7 +8,6 @@ footer {
 
 .footer-mobile .about{
     font-family: var(--ft-fu);
-    font-size: 13px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
@@ -18,7 +17,6 @@ footer {
 }
 .footer-mobile .last{
     font-family: var(--ft-fu);
-    font-size: 13px;
     font-weight: 300;
     font-stretch: normal;
     font-style: normal;
@@ -177,7 +175,7 @@ transform: translateY(0.5px) rotate(180deg);
         opacity: 1;
     }
     .drop__menu.show .drop__down__wrap{
-        border: 1px solid #dcdcdc26;
+        border-bottom: 1px solid #dcdcdc26;
     }
     .drop__menu{
         color: var(--wh);
@@ -187,7 +185,7 @@ transform: translateY(0.5px) rotate(180deg);
         align-items: center;
         display: flex;
         justify-content: space-between;
-        padding: 16px 26px 18px 10px;
+        padding: 13px 26px 14px 10px;
         border-bottom: 1px solid #dcdcdc4d;
     }
     .footer-mobile .drop__down__content .about{
@@ -228,7 +226,7 @@ transform: translateY(0.5px) rotate(180deg);
         line-height: 2.1;
     }
     .footer-mobile .drop__down__content .info{
-        font-family: var(--ft-no);
+        font-family: var(--ft-no-fu);
         font-size: 10px;
         font-weight: 300;
         font-stretch: normal;

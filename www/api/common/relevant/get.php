@@ -45,7 +45,8 @@ if ($relevant_idx != null && $country != null) {
 				OM.COLOR					AS COLOR,
 				PR.PRICE_".$country."		AS PRICE,
 				PR.DISCOUNT_".$country."	AS DISCOUNT,
-				PR.SALES_PRICE_".$country."	AS SALES_PRICE
+				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
+				OM.COLOR					AS COLOR
 			FROM
 				dev.SHOP_PRODUCT PR
 				LEFT JOIN dev.ORDERSHEET_MST OM ON

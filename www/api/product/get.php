@@ -48,91 +48,103 @@ if ($product_idx != null && $country != null) {
 	$db->query($sql);
 	
 	foreach($db->fetch() as $data) {
-		$product_idx = $data['PRODUCT_IDX'];
-		
 		if ($product_idx != null) {
-			$product_img = array();
+			$img_thumbnail_sql = "
+						(
+							SELECT
+								REPLACE(
+									S_PI.IMG_LOCATION,'/var/www/admin/www',''
+								)	AS IMG_LOCATION
+							FROM
+								dev.PRODUCT_IMG S_PI
+							WHERE
+								S_PI.PRODUCT_IDX = ".$product_idx." AND
+								S_PI.IMG_TYPE = 'O' AND
+								S_PI.IMG_SIZE = 'S'
+							ORDER BY
+								S_PI.IDX ASC
+							LIMIT
+								0,1
+						)
+						UNION
+						(
+							SELECT
+								REPLACE(
+									S_PI.IMG_LOCATION,'/var/www/admin/www',''
+								)	AS IMG_LOCATION
+							FROM
+								dev.PRODUCT_IMG S_PI
+							WHERE
+								S_PI.PRODUCT_IDX = ".$product_idx." AND
+								S_PI.IMG_TYPE = 'P' AND
+								S_PI.IMG_SIZE = 'S'
+							ORDER BY
+								IDX ASC
+							LIMIT
+								0,1
+						)";
 			
-			$img_sql = "SELECT
-							PI.IDX			AS IMG_IDX,
-							PI.IMG_TYPE		AS IMG_TYPE,
-							PI.IMG_SIZE		AS IMG_SIZE,
-							REPLACE(
-								PI.IMG_LOCATION,'/var/www/admin/www',''
-							)				AS IMG_LOCATION,
-							REPLACE(
-								PI.IMG_URL,'/var/www/admin/www',''
-							)				AS IMG_URL
-						FROM
-							dev.PRODUCT_IMG PI
-						WHERE
-							PI.PRODUCT_IDX = ".$product_idx." AND
-							PI.IMG_SIZE IN ('L','S')
-						ORDER BY
-							PI.IDX ASC";
+			$db->query($img_thumbnail_sql);
 			
-			$db->query($img_sql);
+			$img_thumbnail = array();
+			foreach($db->fetch() as $thumbnail) {
+				$img_thumbnail[] = array(
+					'display_num'	=>0,
+					'img_location'	=>$thumbnail['IMG_LOCATION']
+				);
+			}
 			
-			$img_product_l = array();
-			$img_product_s = array();
+			$img_main_sql = "
+							SELECT
+								PI.IDX			AS IMG_IDX,
+								PI.IMG_TYPE		AS IMG_TYPE,
+								PI.IMG_SIZE		AS IMG_SIZE,
+								REPLACE(
+									PI.IMG_LOCATION,'/var/www/admin/www',''
+								)				AS IMG_LOCATION,
+								REPLACE(
+									PI.IMG_URL,'/var/www/admin/www',''
+								)				AS IMG_URL
+							FROM
+								dev.PRODUCT_IMG PI
+							WHERE
+								PI.PRODUCT_IDX = ".$product_idx." AND
+								PI.IMG_SIZE = 'L'
+							ORDER BY
+								PI.IDX ASC";
 			
-			$img_outfit_l = array();
-			$img_outfit_s = array();
+			$db->query($img_main_sql);
 			
-			$img_detail_l = array();
-			$img_detail_s = array();
-			
-			foreach($db->fetch() as $img_data) {
-				$img_size = $img_data['IMG_SIZE'];
-				$img_type = $img_data['IMG_TYPE'];
+			$display_num = 1;
+			$img_main = array();
+			foreach($db->fetch() as $main) {
+				$img_main[] = array(
+					'display_num'	=>$display_num++,
+					'img_idx'		=>$main['IMG_IDX'],
+					'img_type'		=>$main['IMG_TYPE'],
+					'img_size'		=>$main['IMG_SIZE'],
+					'img_location'	=>$main['IMG_LOCATION'],
+					'img_url'		=>$main['IMG_URL']
+				);
 				
-				if ($img_size == "L") {
-					switch ($img_type) {
-						case "P" :
-							array_push($img_product_l,$img_data['IMG_URL']);
-							break;
+				$o_cnt = false;
+				$p_cnt = false;
+				if ($img_main != null) {
+					for ($i=0; $i<count($img_main); $i++) {
+						$img_type = $img_main[$i]['img_type'];
 						
-						case "O" :
-							array_push($img_outfit_l,$img_data['IMG_URL']);
-							break;
+						if ($o_cnt == false && $img_type == "O") {
+							$o_cnt = true;
+							$img_thumbnail[0]['display_num'] = $img_main[$i]['display_num'];
+						}
 						
-						case "D" :
-							array_push($img_detail_l,$img_data['IMG_URL']);
-							break;
-					}
-				} else if ($img_size == "S") {
-					switch ($img_type) {
-						case "P" :
-							array_push($img_product_s,$img_data['IMG_LOCATION']);
-							break;
-						
-						case "O" :
-							array_push($img_outfit_s,$img_data['IMG_LOCATION']);
-							break;
-						
-						case "D" :
-							array_push($img_detail_s,$img_data['IMG_LOCATION']);
-							break;
+						if ($p_cnt == false && $img_type == "P") {
+							$p_cnt = true;
+							$img_thumbnail[1]['display_num'] = $img_main[$i]['display_num'];
+						}
 					}
 				}
 			}
-			
-			$product_img_l = array(
-				'img_product'	=>$img_product_l,
-				'img_outfit'	=>$img_outfit_l,
-				'img_detail'	=>$img_detail_l
-			);
-			
-			$product_img_s = array(
-				'img_product'	=>$img_product_s,
-				'img_outfit'	=>$img_outfit_s,
-				'img_detail'	=>$img_detail_s
-			);
-			
-			$product_img = array(
-				'product_img_l'	=>$product_img_l,
-				'product_img_s'	=>$product_img_s
-			);
 			
 			$whish_flg = false;
 			if ($member_idx > 0) {
@@ -148,7 +160,8 @@ if ($product_idx != null && $country != null) {
 			
 			$json_result['data'][] = array(
 				'product_idx'		=>$data['PRODUCT_IDX'],
-				'product_img'		=>$product_img,
+				'img_thumbnail'		=>$img_thumbnail,
+				'img_main'			=>$img_main,
 				'product_name'		=>$data['PRODUCT_NAME'],
 				'color'				=>$data['COLOR'],
 				'price'				=>$data['PRICE'],
