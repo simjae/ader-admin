@@ -231,7 +231,7 @@ transform: translateY(-4px) rotate(-45deg);
     right: 0;
 }
 .product .product-info {
-    padding: 15px 10px;
+    padding: 15px 10px 14px 10px;
     font-family: var(--ft-fu);
     font-size: 1.1rem;
     font-weight: normal;
@@ -239,6 +239,9 @@ transform: translateY(-4px) rotate(-45deg);
     font-style: normal;
     line-height: normal;
     letter-spacing: 0.3px;
+}
+.product .color-title {
+    height: 12px;
 }
 .product .product-info .info-row {
     display: flex;
@@ -248,10 +251,13 @@ transform: translateY(-4px) rotate(-45deg);
 .product .product-info .info-row .name {
     font-size: 1.2rem;
     color: #343434;
-    padding-bottom: 13px;
     position: relative;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 115px;
 }
-.product .product-info .info-row .name[data-soldout="STCL"]::after {
+.product .product-info .info-row .name[data-soldout="STCL"] span::after {
     content: url(/images/svg/wish-redsold.svg);
     position: absolute;
     right: -2px;
@@ -292,12 +298,13 @@ transform: translateY(-4px) rotate(-45deg);
     position: absolute;
     left: -45px;
     text-decoration: none;
-    content: "Sold out";
+    content: "Sold out"!important;
     font-family: FuturaLTPro;
     font-size: 1.1rem;
     font-weight: normal;
     color: #343434;
 }
+
 
 .product .product-info .info-row .size__box{
     display: flex;
@@ -372,7 +379,7 @@ transform: translateY(-4px) rotate(-45deg);
     font-size: 1.1rem;
     color: #343434;
 }
-.product .product-info .info-row .color__box[data-maxcount="true"]::after{
+.product .product-info .info-row .color__box[data-maxcount="over"]::after{
     content: "+" attr(data-colorcount);
     opacity: 0.5;
     
@@ -467,30 +474,7 @@ transform: translateY(-4px) rotate(-45deg);
 	background-color: #000;
 	z-index:10	
 }
-@media (min-width: 1024px){
-    header{
-        min-width: 320px;
-        margin: 0 auto;
-        
-    }
-    nav {
-        /* max-width: 1920px; */
-        margin: 0 auto;
-    }
-    main{
-        /* max-width: 1920px;
-        min-width: 320px; */
-        margin: 0 auto;
-        overflow: hidden;
-    }
-    footer{
-        margin:0 auto;
-    }
-    .for__you__box{
-        flex-shrink: 0;
-        padding: 20px 60px;
-    }
-}
+
 
 
 /* 언더라인 */
@@ -639,5 +623,181 @@ transform: translateY(-4px) rotate(-45deg);
     }
     .under-line.bk::after {
         content: none;
+    }
+    /* 상품관련 */
+    .product .product-info {
+        font-size: 1rem;
+        padding: 0;
+        height: 45px;
+    }
+    .product .product-info .info-row .name {
+        font-size: 1.1rem;
+        width: auto
+    }
+    .product .product-info .info-row .color__box .color{
+        width: 0.6rem;
+        height: 0.6rem;
+    }
+    .product .product-info .info-row .name[data-soldout="STCL"]::after{
+        content: url(/images/svg/wish-redsold.svg);
+        position: absolute;
+        right: 0;
+        top: -7px;
+    }
+    .product .product-info .info-row .price[data-soldout="STSO"]::before{
+        font-size: 1rem;
+    }
+    .product .product-info .info-row .price[data-soldout="STSO"]::after{
+        display: none!important;
+    }
+
+    .product-wrap[data-grid='1'] .product .product-info{
+        height: 80px;
+        padding: 15px 10px;
+    }
+    .product-wrap[data-grid='1'] .product .product-info > .info-row:nth-of-type(1){
+        padding-bottom:15px;
+    }
+    .product-wrap[data-grid='1'] .product .product-info .info-row .price[data-soldout="STSO"]{
+        top:0;
+    }
+    .product-wrap[data-grid='1'] .product .product-info{
+        font-size:1.1rem;
+    }
+    .product-wrap[data-grid='1'] .product .product-info .info-row .name{
+        font-size:1.2rem;
+        position: relative;
+        white-space: inherit;
+        text-overflow: inherit;
+        word-break: break-all;
+        width: 70%;
+    }
+
+    .product-wrap[data-grid='2'] .product .product-info .info-row .price[data-soldout="STSO"]::before{
+        display: block;
+        position: absolute;
+        text-decoration: none;
+        content: "Sold out"!important;
+        font-family: FuturaLTPro;
+        font-size: 1rem;
+        right: 0;
+        font-weight: normal;
+        color: #343434;
+        left: auto;
+        top: -12px;
+    }
+    .product-wrap[data-grid='2'] .product .product-info{
+        padding: 5px 10px;
+    }
+    .product-wrap[data-grid='2'] .product .product-info .info-row .color__box{
+        flex-grow: 1;
+        justify-content: flex-end;
+    }
+    .product-wrap[data-grid='2'] .product .product-info .info-row .size__box{
+        display: none;
+    }
+    .product-wrap[data-grid='2'] .product .product-info .color-title{
+        position: absolute;
+        bottom: 5px;
+    }
+    
+
+    .product-wrap[data-grid='2'] .product .product-info .info-row .price{
+        position: relative;
+        top: -4px;
+        line-height: 2.3;
+    }
+    .product-wrap[data-grid='2'] .product .product-info .info-row .price[data-dis="true"]{
+        top: 8px;
+    }
+    .product-wrap[data-grid='2'] .product .product-info .info-row .price[data-dis="true"]::before{
+        line-height: 2.3;
+    }
+    .product-wrap[data-grid='2'] .product .product-info .info-row .price[data-dis="true"]::after{
+        top: -12px;
+    }
+    .product-wrap[data-grid='2'] .product .product-info > .info-row:nth-of-type(3){
+        height: 15px;
+    }
+
+
+    .product-wrap[data-grid='3'] .product .color-title{
+        display: none;
+    }
+    
+    .product-wrap[data-grid='3'] .product .product-info > .info-row:nth-of-type(3){
+        display:none;
+    }
+    .product-wrap[data-grid='3'] .product .product-info .info-row .name{
+        width: auto;
+        padding: 0 5px 0 10px;
+    }
+    .product-wrap[data-grid='3'] .product .product-info > .info-row:nth-of-type(1){
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-around;
+    }
+    .product-wrap[data-grid='3'] .product .product-info .info-row .price {
+        padding: 0 10px;
+    }
+    .product-wrap[data-grid='3'] .product .product-info .info-row .price[data-dis="true"]{
+        position: relative;
+        text-decoration: line-through #343434;
+        top: 0;
+        text-align: right;
+        color: #34343494;
+        display: grid;
+        grid-template-columns: 1fr 5fr 1fr;
+        padding: 0 5px 0 10px;
+    }
+    .product-wrap[data-grid='3'] .product .product-info .info-row .price[data-dis="true"] span{
+        grid-column: 3/3;
+    }
+    .product-wrap[data-grid='3'] .product .product-info .info-row .price[data-dis="true"]::before {
+        display: block;
+        text-decoration: none;
+        content: attr(data-discount) "%";
+        position: absolute;
+        right: 0;
+        color: #343434;
+        grid-column: 2/2;
+        font-size: 1rem;
+    }
+    .product-wrap[data-grid='3'] .product .product-info .info-row .price[data-dis="true"]::after {
+        display: block;
+        text-decoration:none;
+        content: attr(data-saleprice);
+        position: absolute;
+        top: 0;
+        left: 0;
+        text-align: left;
+        color: #343434;
+        right: auto;
+        grid-column: 1/2;
+    }
+    /* 상품관련 */
+}
+@media (min-width: 1024px){
+    header{
+        min-width: 320px;
+        margin: 0 auto;
+        
+    }
+    nav {
+        /* max-width: 1920px; */
+        margin: 0 auto;
+    }
+    main{
+        /* max-width: 1920px;
+        min-width: 320px; */
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    footer{
+        margin:0 auto;
+    }
+    .for__you__box{
+        flex-shrink: 0;
+        padding: 20px 60px;
     }
 }

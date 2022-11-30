@@ -27,39 +27,62 @@
         <div class="top__banner"></div>
         <div class="prd__meun">
             <div class="prd__meun__grid"></div>
-
             <div class="prd__meun__sort">
                 <div class="sort-title">22FW 전체보기</div>
-                <li class="sort-btn">
-                    <img src="/images/svg/sort-bottom.svg" alt="">
-                    <span>정렬</span>
-                </li>
-                <li class="sort-btn">
-                    <img src="/images/svg/filter.svg" alt="">
-                    <span>필터</span>
-                </li>
-                <li class="sort-btn" onClick="changeImgType();">
-                    <img src="/images/svg/cloth.svg" alt="">
-                    <input type="hidden" id="img_param" value="P">
-                    <span id="img_type_text">착용보기</span>
-                </li>
-                <li class="sort-box web">
-                    <div class="sort-btn">
-                        <div class="rW sort__grid" data-grid="2">
+                <div class="sort-wrap">
+                    <li class="sort-btn">
+                        <img src="/images/svg/sort-bottom.svg" alt="">
+                        <span>정렬</span>
+                    </li>
+                    <li class="sort-btn">
+                        <img src="/images/svg/filter.svg" alt="">
+                        <span>필터</span>
+                    </li>
+                    <li class="sort-btn type-btn" onClick="changeImgType();">
+                        <img src="/images/svg/cloth.svg" alt="">
+                        <input type="hidden" id="img_param" value="P">
+                        <span id="img_type_text">착용보기</span>
+                    </li>
+                    <div class="sort-btn web rW sort__grid" data-grid="2">
+                            <img src="/images/svg/grid-cols-2.svg" alt="">
+                            <span>2칸보기</span>
+                    </div>
+                    <div class="sort-btn mobile rM sort__grid" data-grid="3">
                             <img src="/images/svg/grid-cols-2.svg" alt="">
                             <span>2칸보기</span>
                         </div>
-                    </div>
-                </li>
-                <li class="sort-box mobile">
-                    <div class="sort-btn">
-                        <div class="rM sort__grid" data-grid="3">
-                            <img src="/images/svg/grid-cols-2.svg" alt="">
-                            <span>2칸보기</span>
-                        </div>
-                    </div>
-                </li>
+                </div>
             </div>
+            <div class="line"></div>
+            <div class="prd__category__wrap">
+                <div class="prd__meun__category">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="title">다운</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title">자켓</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title">가죽</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title">코드</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title">블레이저</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title">조끼</div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="title">니트</div>
+                        </div>
+                    </div>
+                </div>
+            <div class="line"></div>
+            </div>
+
         </div>
 
         <div class="product__list__body"></div>
@@ -74,7 +97,6 @@
         getProductList();
         imgSwiper();
     });
-    
 
     // window.addEventListener('resize', function() {
     //         console.log("product-resize");
@@ -94,13 +116,13 @@
         const isBottom = windowHeight + scrollHeight === docTotalHeight;
         
         if (isBottom) { 
-            getMoreProduct();
+            //getMoreProduct();
         }
     });
 
     function changeImgType() {
         $('#last_idx').val(0);
-
+        let imgType = "imgType"
         let img_param = $('#img_param');
         let img_type_text = "";
 
@@ -114,11 +136,10 @@
         $('#img_type_text').text(img_type_text);
 
         $('.product__list__body').html('');
-
-        getProductList();
+        getProductList(imgType);
     }
 
-    const getProductList = () => {
+    const getProductList = (imgType) => {
         let menu_sort = $('#menu_sort').val();
         let menu_idx = $('#menu_idx').val();
         let page_idx = $('#page_idx').val();
@@ -134,7 +155,7 @@
                 "page_idx": page_idx,
                 "country": country,
                 "img_param": img_param,
-                "last_idx": last_idx
+                "last_idx": last_idx,
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/product/list/get",
@@ -188,9 +209,8 @@
                 ];
 
                 let menuHtml = `
-					<div class="swiper-button-prev"></div>
-
-					<div class="prd__meun__swiper">
+                
+                <div class="prd__meun__swiper">
 						<div class="swiper-wrapper">`
 
                     img_name.forEach((el, idx) => {
@@ -206,10 +226,14 @@
                 });
 
                 menuHtml += `
-							</div>
-						</div>
-
-						<div class="swiper-button-next"></div>`;
+                        </div>
+                    <div class="swiper-scrollbar"></div>
+                    <div class="navigation">
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                        
+                </div>`;
                 menuList.innerHTML = menuHtml;
 
                 let product_info = data.product_info;
@@ -219,9 +243,10 @@
                 prdListBox.innerHTML = productwriteData;
                 domFrag.appendChild(prdListBox);
                 prdListBody.appendChild(domFrag);
-                productListSelectGrid();
+                productListSelectGrid(imgType);
                 imgSwiper();
                 productCategorySwiper();
+                productSml();
             }
         });
     }
@@ -260,7 +285,7 @@
                 let product_info = data.product_info;
                 let productwriteData = productWriteHtml(product_info);
                 $(".product-wrap").append(productwriteData);
-                productListSelectGrid();
+                productListSelectGrid(imgType);
             }
         });
     }
@@ -284,7 +309,7 @@
             let colorCtn = el.product_color.length;
             
             productListHtml +=
-            `<div class="product" style="cursor:pointer;">
+            `<div class="product">
                 <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
                     ${whish_img}
                 </div>
@@ -306,19 +331,16 @@
                 </a>
                 <div class="product-info">
                     <div class="info-row">
-                        <div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}>${el.product_name}</div>
-                        ${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true">${el.price.toLocaleString('ko-KR')}</div>`} 
+                        <div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
+                        ${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
                     </div>
+                    <div class="color-title"><span>${el.color}</span></div>
                     <div class="info-row">
-                        <div class=""></div>
-                    </div>
-                    <div class="color-title">${el.color}</div>
-                    <div class="info-row">
-                        <div class="color__box" data-maxcount="${colorCtn < 6 ?"ture":"false"}" data-colorcount="${colorCtn}">
+                        <div class="color__box" data-maxcount="${colorCtn < 6 ?"":"over"}" data-colorcount="${colorCtn < 6 ? colorCtn: colorCtn - 5}">
                             ${
                                 el.product_color.map((color, idx) => {
                                     let maxCnt = 5;
-                                    if(idx <= maxCnt){
+                                    if(idx < maxCnt){
                                         return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
                                     }
                                 }).join("")
@@ -415,15 +437,40 @@
                 el: ".swiper-pagination",
                 clickable: true,
             },
+            scrollbar: {
+                el: '.prd__meun__swiper .swiper-scrollbar',
+                draggable: true,
+                dragSize:45
+            },
             grabCursor: true,
             breakpoints: {
                 320: {
-                slidesPerView: 6.5
+                slidesPerView: 5.5
                 },
                 1024: {
-                    slidesPerView: 10.2,
-                    spaceBetween: 5
+                    slidesPerView: 10.5,
+                    spaceBetween: 10
+                }
             }
+        });
+    }
+    const productSml = () => {
+        let productListSwiper = new Swiper(".prd__meun__category", {
+            grabCursor: true,
+            slidesPerView: 10,
+            pagination: {
+                el: ".prd__meun__category .swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                320: {
+                slidesPerView: 5.9,
+                spaceBetween: 10
+                },
+                1024: {
+                    slidesPerView: 15,
+                    spaceBetween: 10
+                }
             }
         });
     }
@@ -439,14 +486,20 @@
             },
             autoHeight: true,
             grabCursor: true,
-            slidesPerView: 1
+            slidesPerView: 1,
+            on:{
+                update:function(){
+                },
+                updateSlides:function(){
+                }
+            }
         });
         // productImgSwiper.forEach(el => {
         //     //el.disable();
         // })
         return productImgSwiper;
     }
-    const productListSelectGrid = () => {
+    const productListSelectGrid = (imgType) => {
         let $body = document.querySelector("body");
         let $prdListBox = document.querySelector(".product-wrap");
         let mql = window.matchMedia("screen and (max-width: 1024px)");
@@ -459,7 +512,8 @@
         let $mobileSortSpan = document.querySelector(".rM.sort__grid").querySelector('span');
         let $mobileSortImg = document.querySelector(".rM.sort__grid").querySelector('img');
         let resizeTimer = null;
-
+        let imgParam = document.getElementById("img_param").value;
+        
         //그리드 초기화 
         if (mql.matches) {
             mobileGridEvent();
@@ -483,9 +537,10 @@
 
 
         function productSwiperUpdate() {
+            let grid = $prdListBox.dataset.grid;
             const backgroundImg = imgSwiper();
             backgroundImg.forEach(el => {
-                console.log(el.update());      
+
             });
         }
         function webGridEvent() {
@@ -498,8 +553,15 @@
                     $websortSpan.innerText = '2칸보기';
                     $websortImg.src = '/images/svg/grid-cols-2.svg';
                     //그리드 박스 변경
-                    $prdListBox.dataset.webpre = 4;
-                    $prdListBox.dataset.grid = 4;
+
+                    if(imgType ==="imgType"){
+                        $prdListBox.dataset.webpre = 2;
+                        $prdListBox.dataset.grid = 2;
+                    }
+                    else{
+                        $prdListBox.dataset.webpre = 4;
+                        $prdListBox.dataset.grid = 4;
+                    }
                     productSwiperUpdate();
                     break;
 
@@ -509,8 +571,14 @@
                     $websortSpan.innerText = '4칸보기';
                     $websortImg.src = '/images/svg/grid-cols-4.svg';
                     //그리드 박스 변경
-                    $prdListBox.dataset.webpre = 2;
-                    $prdListBox.dataset.grid = 2;
+                    if(imgType ==="imgType"){
+                        $prdListBox.dataset.webpre = 4;
+                        $prdListBox.dataset.grid = 4;
+                    }else {
+                        $prdListBox.dataset.webpre = 2;
+                        $prdListBox.dataset.grid = 2;
+                    }
+                    
                     productSwiperUpdate();
                     break;
             }
@@ -522,31 +590,43 @@
                     $prdListBox.dataset.mobilepre = 1;
                     $prdListBox.style.gridTemplateColumns = "repeat(8, 1fr)"
                     $prdListBox.dataset.grid = 1;
+
+
+                    if(imgType ==="imgType"){
+                        $mobileSortGrid.dataset.grid = 1;
+                    }else {
+                        $mobileSortGrid.dataset.grid = 3;
+                        $mobileSortSpan.innerText = '3칸보기';
+                        $mobileSortImg.src = '/images/svg/grid-cols-3.svg';
+                    }
+                    let swiper = productSwiperUpdate();
                     
-                    $mobileSortGrid.dataset.grid = 3;
-                    $mobileSortSpan.innerText = '3칸보기';
-                    $mobileSortImg.src = '/images/svg/grid-cols-3.svg';
-                    productSwiperUpdate();
                     break;
 
                 case "2":
                     $prdListBox.dataset.mobilepre = 2;
                     $prdListBox.style.gridTemplateColumns = "repeat(8, 1fr)"
                     $prdListBox.dataset.grid = 2;
-                    
-                    $mobileSortGrid.dataset.grid = 1;
-                    $mobileSortSpan.innerText = '1칸보기';
-                    $mobileSortImg.src = '/images/svg/grid-cols-1.svg';
+                    if(imgType ==="imgType"){
+                        $mobileSortGrid.dataset.grid = 2;
+                    }else {
+                        $mobileSortGrid.dataset.grid = 1;
+                        $mobileSortSpan.innerText = '1칸보기';
+                        $mobileSortImg.src = '/images/svg/grid-cols-1.svg';
+                    }
                     productSwiperUpdate();
                     break;
                 case "3":
                     $prdListBox.dataset.mobilepre = 3;
                     $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
                     $prdListBox.dataset.grid = 3;
-
-                    $mobileSortGrid.dataset.grid = 2;
-                    $mobileSortSpan.innerText = '2칸보기';
-                    $mobileSortImg.src = '/images/svg/grid-cols-2.svg';
+                    if(imgType ==="imgType"){
+                        $mobileSortGrid.dataset.grid = 3;
+                    }else {
+                        $mobileSortGrid.dataset.grid = 2;
+                        $mobileSortSpan.innerText = '2칸보기';
+                        $mobileSortImg.src = '/images/svg/grid-cols-2.svg';
+                    }
                     productSwiperUpdate();
                     break;
             }
