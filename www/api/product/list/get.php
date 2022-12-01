@@ -140,7 +140,8 @@ if ($page_idx != null && $country != null) {
 					LEFT JOIN dev.ORDERSHEET_MST OM ON
 					PR.ORDERSHEET_IDX = OM.IDX
 				WHERE
-					PG.PAGE_IDX = ".$page_idx."
+					PG.PAGE_IDX = ".$page_idx." AND
+					PR.SALE_FLG = TRUE
 				ORDER BY
 					PG.DISPLAY_NUM";
 		
@@ -204,6 +205,10 @@ if ($page_idx != null && $country != null) {
 					}
 				}
 				
+				if (count($product_size) == $soldout_cnt) {
+					$stock_status = "STSO";
+				}
+				
 				/*for ($i=0; $i<count($product_color); $i++) {
 					if ($product_color[$i]['stock_status'] == "STSO") {
 						$soldout_cnt++;
@@ -214,10 +219,6 @@ if ($page_idx != null && $country != null) {
 				/*if ((count($product_size) + count($product_color)) == $soldout_cnt) {
 					$stock_status = "STSO";
 				}*/
-				
-				if (count($product_size) == $soldout_cnt) {
-					$stock_status = "STSO";
-				}
 				
 				$product_info[] = array(
 					'display_num'		=>$data['DISPLAY_NUM'],

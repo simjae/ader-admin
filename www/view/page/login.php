@@ -3,6 +3,10 @@
     margin-top:10px;
     margin-bottom:10px;
 }
+.font__underline.font__red{
+    color:red;
+    text-align:right;
+}
 .content__wrap .content__title{
     margin-top:10px;
     margin-bottom:10px;
@@ -240,23 +244,30 @@
     <div class="login__card">
         <div class="card__header">
             <p class="font__large">로그인</p>
+            <span class="font__underline font__red result_msg"></span>
         </div>
         <div class="card__body">
-            <div class="content__wrap">
-                <div class="content__title">이메일</div>
-                <div class="content__row">
-                    <input type="text" value="">
+            <form id="frm-login" method="post" onSubmit="login();return false;">
+                <div class="content__wrap">
+                    <div class="content__title">이메일
+                    <p class="font__underline font__red email_msg"></p>
+                    </div>
+                    <div class="content__row">
+                        <input type="text" id="email" name="email" value="">
+                    </div>
                 </div>
-            </div>
-            <div class="content__wrap">
-                <div class="content__title">비밀번호</div>
-                <div class="content__row">
-                    <input type="password" value="">
+                <div class="content__wrap">
+                    <div class="content__title">비밀번호
+                    <p class="font__underline font__red password_msg"></p>
+                    </div>
+                    <div class="content__row">
+                        <input type="password" id="password" name="password" value="">
+                    </div>
                 </div>
-            </div>
-            <div class="content__wrap login_btn">
-                <input type="button" class="black_btn" value="로그인">
-            </div>
+                <div class="content__wrap login_btn">
+                    <input type="button" class="black_btn" id="login_btn" onclick="login()" value="로그인">
+                </div>
+            </form>
             <div class="content__wrap">
                 <div class="content__row">
                     <div class="checkbox__label">
@@ -286,6 +297,64 @@
         </div>
     </div>
 </main>
+
+<script>
+$(document).ready(function() {
+});
+
+function login() {
+    var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+    var email = $('#email').val();
+    var password = $('#password').val();
+    mail_regex.test(email);
+
+    $('.font__underline.font__red').text('');
+    if(email == ''){
+        $('.email_msg').text('이메일을 입력해주세요');
+    
+        return false;
+    }
+    else{
+        if(!mail_regex.test(email)){
+            $('.email_msg').text('이메일을 올바르게 입력해주세요');
+
+            return false;
+        }
+    }
+
+    if(password == ''){
+        $('.password_msg').text('비밀번호를 입력해주세요');
+
+        return false;
+    }
+
+    
+    $.ajax(
+        {
+            url: "http://116.124.128.246:80/_api/account/login",
+            type:'POST',
+            data:$("#frm-login").serialize(),
+            error:function(data){
+                $('.result_msg').text("모듈에 문제가 발생했습니다.");
+            },
+            success:function(data){
+                if(data.code == "200") { // 로그인 성공
+                    //location.reload();
+                    location.href='main';
+                }
+                else {	// 로그인 실패
+                    $('.result_msg').text("로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.");
+                }
+            },
+            complete:function(data){
+                //$("#result1").html(data.responseText);
+            },
+            dataType:'json'
+        }
+    );
+}
+</script>
+
 
 
 

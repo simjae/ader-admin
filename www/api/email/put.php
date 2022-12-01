@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 회원 로그인
+ | 가입메일 체크
  | -------
  |
  | 최초 작성	: 박성혁
@@ -15,38 +15,29 @@
  +=============================================================================
 */
 $email		= $_POST['email'];
-$password	= $_POST['password'];
-// 값 검사
-//$id = strtolower(trim($id));
-
-//$pw = strtolower(trim($pw));
 
 if($email == null || $email == ''){
 	$result = false;
 	$code	= 401;
 }
-if($password == null || $password == ''){
-	$result = false;
-	$code	= 402;
-}
 
 if($result) {
-	$data = @$db->get($_TABLE['MEMBER'],'EMAIL=? AND PW=?',array($email,md5($password)))[0];
+	$data = @$db->get($_TABLE['MEMBER'],'EMAIL=?',array($email))[0];
 	if(is_array($data)) {
-		$member_idx = $data['IDX'];
-		// 세션 등록
-		$_SESSION['MEMBER_IDX']	= $member_idx;
-		$_SESSION['EMAIL'] = $data['EMAIL'];
+		$ran_num = mt_rand(100000, 999999);
 
 		$sql = "
 			UPDATE
 				dev.MEMBER
 			SET
-				LOGIN_CNT = LOGIN_CNT + 1,
-				LOGIN_DATE = NOW()
+				PW = '".md5($ran_num)."'
 			WHERE
-				IDX = ".$member_idx." ";
+				EMAIL = '".$email."'
+		";
 		$db->query($sql);
+		$result = true;
+		$json_result['data'] = array('temp_password' => $ran_num);
+		$code	= 200;
 
 	} else {
 		$result = false;

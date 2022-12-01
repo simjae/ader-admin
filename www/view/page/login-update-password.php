@@ -339,141 +339,46 @@ input::placeholder{
 <main>
     <div class="join__card">
         <div class="card__header">
-            <p class="font__large">회원가입</p>
+            <p class="font__large">비밀번호 변경하기</p>
         </div>
-        <form id="frm-regist" method="post">
-        <div class="card__body">
-            <div class="content__wrap">
-                <div class="content__title warm__msg__area">
-                    <p class="font__small">이메일</p>
-                    <p class="font__underline warn__msg email">이메일를 정확하게 기입해주세요</p>
-                </div>
-                <div class="contnet__row warm__msg__area">
-                    <input type="text" name="email">
-                </div> 
-            </div>
-            <div class="content__wrap">
-                <div class="content__title warm__msg__area">
-                    <p class="font__small">비밀번호</p>
-                    <p class="font__underline warn__msg password">비밀번호를 정확하게 기입해주세요</p>
-                </div>
-                <div class="contnet__row warm__msg__area">
-                    <input type="password" name="password">
-                </div>  
-            </div>
-            <div class="content__wrap">
-                <div class="content__title warm__msg__area">
-                    <p class="font__small">비밀번호 확인</p>
-                    <p class="font__underline warn__msg password_confirm">비밀번호가 일치하지 않습니다</p>
-                </div>
-                <div class="contnet__row warm__msg__area">
-                    <input type="password" name="password_confirm">
-                </div>  
-            </div>
-            <div class="content__wrap">
-                <div class="content__title warm__msg__area">
-                    <p class="font__small">이름</p>
-                    <p class="font__underline warn__msg name">이름을 기입해주세요</p>
-                </div>
-                <div class="contnet__row warm__msg__area">
-                    <input type="text" name="name">
-                </div>
-            </div>
-            <div class="content__wrap">
-                <div class="content__title">주소</div>
-                <div class="content__wrap grid__two">
-                    <div class="left__area__wrap">
-                        <input type="text" name="addr" value="" placeholder="예) 성동구 연무장길 52, 성수동2가 315-57">
+        <form id="frm-update" method="post">
+        <?php
+                function getUrlParamter($url, $sch_tag) {
+                    $parts = parse_url($url);
+                    parse_str($parts['query'], $query);
+                    return $query[$sch_tag];
+                }
+                
+                $page_url = $_SERVER['REQUEST_URI'];
+                $member_idx = getUrlParamter($page_url, 'member_idx');
+		?>
+				<input id="member_idx" type="hidden" name="member_idx" value="<?=$member_idx?>">
+            <div class="card__body">
+                <div class="content__wrap">
+                    <div class="content__title warm__msg__area">
+                        <p class="font__small">새로운 비밀번호</p>
+                        <p class="font__underline warn__msg password">비밀번호를 정확하게 기입해주세요</p>
                     </div>
-                    <div class="right__area__wrap">
-                        <input type="button" class="black__small__btn" value="검색">
+                    <div class="contnet__row warm__msg__area">
+                        <input type="password" name="password">
+                    </div>  
+                </div>
+                <div class="content__wrap">
+                    <div class="content__title warm__msg__area">
+                        <p class="font__small">비밀번호 확인</p>
+                        <p class="font__underline warn__msg password_confirm">비밀번호가 일치하지 않습니다</p>
                     </div>
+                    <div class="contnet__row warm__msg__area">
+                        <input type="password" name="password_confirm">
+                    </div>  
                 </div>
             </div>
-            <div class="content__wrap">
-                <div class="content__row">
-                    <input type="text" name="addr_detail" placeholder="상세주소">
+            <div class="card__footer">
+                <div>
+                    <input type="button" class="black__btn" onclick="updatePassword()" value="저장하기">
                 </div>
             </div>
-            <div class="content__wrap">
-                <div class="content__row">
-                    <span class="font__small" name="default_addr_flg" style="float:right">기본 배송지로 추가</span>
-                    <div style="float:right">
-                        <input type="checkbox" id="default_addr_flg">
-                        <label for="default_addr_flg"></label>
-                    </div>
-                </div>
-            </div>
-            <div class="content__wrap">
-                <div class="content__title">휴대전화</div>
-                <div class="content__wrap grid__two">
-                    <div class="left__area__wrap">
-                        <input type="text" name="phone" value="" placeholder="( - ) 없이 숫자만 입력">
-                    </div>
-                    <div class="right__area__wrap">
-                        <input type="button" class="black__small__btn" value="인증">
-                    </div>
-                </div>
-            </div>
-            <div class="content__wrap">
-                <div class="content__title warm__msg__area">
-                    <p class="font__small">생년월일</p>
-                    <p class="font__underline warn__msg birth">생년월일을 정확하게 기입해주세요</p>
-                </div>
-                <div class="contnet__row warm__msg__area">
-                    <div class="grid__three">
-                        <div class="left__area__wrap">
-                            <input class="short__input address__input" type="number" step="1" name="birth_year" value="" placeholder="년">
-                        </div>
-                        <div class="middle__area__wrap">
-                            <input class="short__input address__input" type="number" step="1"name="birth_month" value="" placeholder="월">
-                        </div>
-                        <div class="right__area__wrap">
-                            <input class="short__input address__input" type="number" step="1" name="birth_day" value="" placeholder="일">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="content__wrap checkbox__area">
-                <div class="content__row">
-                    <div style="float:left">
-                        <input type="checkbox" id="select_all" class="login__check__option select__all" onclick="selectAllClick(this)">
-                        <label for="select_all"></label>
-                    </div>
-                    <span class="font__small" name="default_addr_flg">전체동의</span>
-                </div>
-                <div class="content__row">
-                    <div style="float:left">
-                        <input type="checkbox" id="terms_of_service_flg" class="login__check__option component">
-                        <label for="terms_of_service_flg"></label>
-                    </div>
-                    <span class="font__underline">이용약관,</span>
-                    <span class="font__small"> </span> 
-                    <span class="font__underline">개인정보수집 및 이용</span>
-                    <span class="font__small">에 동의합니다. (필수)</span>
-                </div>
-                <div class="content__row">
-                    <div style="float:left">
-                        <input type="checkbox" id="sns_receive_flg" class="login__check__option component">
-                        <label for="sns_receive_flg"></label>
-                    </div>
-                    <span class="font__small" name="default_addr_flg">SMS 마케팅정보 수신을 동의합니다 (선택)</span> 
-                </div>
-                <div class="content__row">
-                    <div style="float:left">
-                        <input type="checkbox" id="mobile_receive_flg" class="login__check__option component">
-                        <label for="mobile_receive_flg"></label>
-                    </div>
-                    <span class="font__small" name="default_addr_flg">이메일 마케팅정보 수신을 동의합니다 (선택)</span> 
-                </div>
-                <p class="font__underline warn__msg essential">필수항목을 선택해주세요</p>
-            </div>
-        </div>
-        <div class="card__footer">
-            <div>
-                <input type="button" class="black__btn" onclick="joinAction()" value="가입하기">
-            </div>
-        </div>
+        </form>
     </div>
 </main>
 
@@ -487,23 +392,19 @@ $(document).ready(function() {
             $('.font__underline.warn__msg.password').css('visibility','visible');
         };
 	});
-	$('.component').click(function(){
-        var sel_cnt = $('.component:checked').length;
-        if(sel_cnt == 3){
-            $('.select__all').prop('checked',true);
-        }
-        else{
-            $('.select__all').prop('checked',false);
-        }
-    });
+    urlParsing();
 });
-function selectAllClick(obj) {
-	if ($(obj).prop('checked') == true) {
-		$(obj).prop('checked',true);
-		$(".login__check__option").prop('checked',true);
-	} else {
-		$(obj).attr('checked',false);
-		$(".login__check__option").prop('checked',false);
+function urlParsing(){
+	var url = location.href;
+	var idx = url.indexOf("?");
+	
+	if(idx >= 0){
+		var data = url.substring( idx + 1, url.length);
+		var data_arr = data.split("=");
+		if(data_arr[0] == 'member_idx'){
+			$('input [name="idx"]').val(data_arr[1]);
+            console.log($('input [name="idx"]').val());
+		}
 	}
 }
 function passwordConfirm(str){    
@@ -524,63 +425,35 @@ function passwordConfirm(str){
     }
 }
 //.css('visibility','hidden');
-function joinAction(){
-    var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-    var email = $('input[name="email"]').val();
+function updatePassword(){
+    var member_idx = $('input[name="member_idx"]').val();
     var password = $('input[name="password"]').val();
     var password_confirm = $('input[name="password_confirm"]').val();
-    var name = $('input[name="name"]').val();
-    var birth_year = $('input[name="birth_year"]').val();
-    var birth_month = $('input[name="birth_month"]').val();
-    var birth_day = $('input[name="birth_day"]').val();
-    var terms_of_service_flg = $('#terms_of_service_flg').is(':checked');
-
-    mail_regex.test(email);
 
     $('.warn__msg').css('visibility','hidden');
+    
     if(passwordConfirm(password) == false){
         $('.font__underline.warn__msg.password').css('visibility','visible');
         return false;
     }
-    if(email == '' || !mail_regex.test(email)){
-        $('.warn__msg.email').css('visibility','visible');
-        return false;
-    }
-    else if(password != password_confirm){
+    if(password != password_confirm){
         $('.warn__msg.password_confirm').css('visibility','visible');
-        return false;
-    }
-    else if(name == ''){
-        $('.warn__msg.name').css('visibility','visible');
-        return false;
-    }
-    else if(birth_year == '' || birth_month == '' || birth_day == ''){
-        $('.warn__msg.birth').css('visibility','visible');
-        return false;
-    }
-    else if(terms_of_service_flg == false){
-        $('.warn__msg.essential').css('visibility','visible');
-        $('.warn__msg.essential').text('필수항목을 선택해주세요');
         return false;
     }
 
     $.ajax(
         {
-            url: "http://116.124.128.246:80/_api/account/add",
+            url: "http://116.124.128.246:80/_api/account/put",
             type:'POST',
-            data:$("#frm-regist").serialize(),
+            data: { 'member_idx' : member_idx,
+                    'password' : password },
             error:function(data){
             },
             success:function(data){
                 if(data.code == "200") {
                     //location.reload();
-                    console.log('회원가입 성공');
-                }
-                else {
-                    if(data.code == "303"){
-                        $('.warn__msg.essential').css('visibility','visible');
-                        $('.warn__msg.essential').text(data.msg);
-                    }
+                    console.log('비밀번호 변경 성공');
+                    location.href='/login';
                 }
             },
             complete:function(data){

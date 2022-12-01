@@ -42,6 +42,7 @@ function getProductColor($db,$product_idx) {
 					LEFT JOIN dev.ORDERSHEET_MST OM ON
 					PR.ORDERSHEET_IDX = OM.IDX
 				WHERE
+					PR.SALE_FLG = TRUE AND
 					OM.STYLE_CODE = (
 						SELECT
 							S_PR.STYLE_CODE
@@ -120,7 +121,8 @@ function getProductSize($db,$product_idx) {
 					LEFT JOIN dev.ORDERSHEET_OPTION OO ON
 					OM.IDX = OO.ORDERSHEET_IDX
 				WHERE
-					PR.IDX = ".$product_idx;
+					PR.IDX = ".$product_idx." AND
+					PR.SALE_FLG = TRUE";
 		
 		$db->query($sql);
 		

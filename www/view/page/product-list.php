@@ -43,7 +43,7 @@
                         <input type="hidden" id="img_param" value="P">
                         <span id="img_type_text">착용보기</span>
                     </li>
-                    <div class="sort-btn web rW sort__grid" data-grid="2">
+                    <div class="sort-btn web rW sort__grid" data-grid="4">
                             <img src="/images/svg/grid-cols-2.svg" alt="">
                             <span>2칸보기</span>
                     </div>
@@ -545,42 +545,41 @@
         }
         function webGridEvent() {
             const $productWrapEl = document.querySelector(".product-wrap");
-            let currentGrid = document.querySelector(".product-wrap").dataset.grid;
-            switch (currentGrid) {
+            let currentWebGrid = document.querySelector(".rW.sort__grid").dataset.grid;
+            switch (currentWebGrid) {
                 case "2":
+                    $prdListBox.dataset.grid = 2;
+                    $prdListBox.dataset.webpre = 2;
+                    
                     //그리드 버튼 변경
-                    $webSortGrid.dataset.grid = 2;
-                    $websortSpan.innerText = '2칸보기';
-                    $websortImg.src = '/images/svg/grid-cols-2.svg';
                     //그리드 박스 변경
-
-                    if(imgType ==="imgType"){
-                        $prdListBox.dataset.webpre = 2;
+                    if(imgType === "imgType"){
                         $prdListBox.dataset.grid = 2;
                     }
                     else{
-                        $prdListBox.dataset.webpre = 4;
-                        $prdListBox.dataset.grid = 4;
+                        console.log("탐?")
+                        $webSortGrid.dataset.grid = 4;
+                        $websortSpan.innerText = '4칸보기';
+                        $websortImg.src = '/images/svg/grid-cols-4.svg';
+                        productSwiperUpdate();
                     }
-                    productSwiperUpdate();
-                    break;
+                break;
 
                 case "4":
                     //그리드 버튼 변경
-                    $webSortGrid.dataset.grid = 4;
-                    $websortSpan.innerText = '4칸보기';
-                    $websortImg.src = '/images/svg/grid-cols-4.svg';
+                    $prdListBox.dataset.grid = 4;
+                    $prdListBox.dataset.webpre = 4;
+
                     //그리드 박스 변경
                     if(imgType ==="imgType"){
-                        $prdListBox.dataset.webpre = 4;
                         $prdListBox.dataset.grid = 4;
                     }else {
-                        $prdListBox.dataset.webpre = 2;
-                        $prdListBox.dataset.grid = 2;
+                        $webSortGrid.dataset.grid = 2;
+                        $websortSpan.innerText = '2칸보기';
+                        $websortImg.src = '/images/svg/grid-cols-2.svg';
+                        productSwiperUpdate();
                     }
-                    
-                    productSwiperUpdate();
-                    break;
+                break;
             }
         }
         function mobileGridEvent() {
@@ -607,6 +606,7 @@
                     $prdListBox.dataset.mobilepre = 2;
                     $prdListBox.style.gridTemplateColumns = "repeat(8, 1fr)"
                     $prdListBox.dataset.grid = 2;
+
                     if(imgType ==="imgType"){
                         $mobileSortGrid.dataset.grid = 2;
                     }else {
@@ -620,6 +620,7 @@
                     $prdListBox.dataset.mobilepre = 3;
                     $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
                     $prdListBox.dataset.grid = 3;
+
                     if(imgType ==="imgType"){
                         $mobileSortGrid.dataset.grid = 3;
                     }else {
