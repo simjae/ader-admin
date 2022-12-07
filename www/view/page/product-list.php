@@ -80,9 +80,8 @@
                         </div>
                     </div>
                 </div>
-            <div class="line"></div>
             </div>
-
+            <div class="line"></div>
         </div>
 
         <div class="product__list__body"></div>
@@ -125,18 +124,38 @@
         let imgType = "imgType"
         let img_param = $('#img_param');
         let img_type_text = "";
+        let items = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='item']");
+        let outfits = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='outfit']");
 
         if (img_param.val() == "P") {
             img_param.val('O');
             img_type_text = "아이템보기";
+            items.forEach( el => {
+                el.style.display="none"
+            })
+            outfits.forEach( el => {
+                el.style.display="block"
+            })
         } else if (img_param.val() == "O") {
             img_param.val('P');
             img_type_text = "착용보기";
+            items.forEach( el => {
+                el.style.display="block"
+            })
+            outfits.forEach( el => {
+                el.style.display="none"
+            })
+
+            
+            
         }
         $('#img_type_text').text(img_type_text);
-
-        $('.product__list__body').html('');
-        getProductList(imgType);
+        let productImgSwiper = imgSwiper();
+        productImgSwiper.forEach(el =>{
+            el.update();
+            el.updateSlides();
+        })
+        
     }
 
     const getProductList = (imgType) => {
@@ -244,7 +263,6 @@
                 domFrag.appendChild(prdListBox);
                 prdListBody.appendChild(domFrag);
                 productListSelectGrid(imgType);
-                imgSwiper();
                 productCategorySwiper();
                 productSml();
             }
@@ -317,12 +335,18 @@
                     <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
                         <div class="swiper-wrapper">
                         ${
-                            el.product_img.map((img) => {
-                                if(img.img_type="p"){
-                                    imgDiv = `<div class="swiper-slide">
-                                        <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
-                                    </div>`
-                                }
+                            el.product_img.product_p_img.map((img) => {
+                                imgDiv = `<div class="swiper-slide" data-imgtype="item">
+                                    <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
+                                </div>`
+                                return imgDiv;
+                            }).join("")
+                        }
+                        ${
+                            el.product_img.product_o_img.map((img) => {
+                                imgDiv = `<div class="swiper-slide" data-imgtype="outfit" style="display:none;">
+                                    <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
+                                </div>`
                                 return imgDiv;
                             }).join("")
                         }
@@ -487,16 +511,17 @@
             autoHeight: true,
             grabCursor: true,
             slidesPerView: 1,
+            observer: true,
+            observeParents: true,
+            observeSlideChildren:true,
             on:{
                 update:function(){
+                    console.log("반응좀하셈")
                 },
                 updateSlides:function(){
                 }
             }
         });
-        // productImgSwiper.forEach(el => {
-        //     //el.disable();
-        // })
         return productImgSwiper;
     }
     const productListSelectGrid = (imgType) => {

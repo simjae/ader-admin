@@ -777,27 +777,3 @@ transform: translateY(-4px) rotate(-45deg);
     }
     /* 상품관련 */
 }
-@media (min-width: 1024px){
-    header{
-        min-width: 320px;
-        margin: 0 auto;
-        
-    }
-    nav {
-        /* max-width: 1920px; */
-        margin: 0 auto;
-    }
-    main{
-        /* max-width: 1920px;
-        min-width: 320px; */
-        margin: 0 auto;
-        overflow: hidden;
-    }
-    footer{
-        margin:0 auto;
-    }
-    .for__you__box{
-        flex-shrink: 0;
-        padding: 20px 60px;
-    }
-}

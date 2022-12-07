@@ -26,6 +26,7 @@
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         getMenuListApi();
+        windowResponsive();
     });
     window.addEventListener('resize', () => {
         windowResponsive()
