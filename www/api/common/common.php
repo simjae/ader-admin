@@ -18,6 +18,7 @@ function getProductColor($db,$product_idx) {
 	if ($product_idx != null) {
 		$sql = "SELECT
 					PR.IDX			AS PRODUCT_IDX,
+					OM.COLOR		AS COLOR,
 					OM.COLOR_RGB	AS COLOR_RGB,
 					(
 						SELECT
@@ -67,6 +68,7 @@ function getProductColor($db,$product_idx) {
 			
 			$product_color[] = array(
 				'product_idx'		=>$data['PRODUCT_IDX'],
+				'color'				=>$data['COLOR'],
 				'color_rgb'			=>$data['COLOR_RGB'],
 				'stock_status'		=>$stock_status
 			);

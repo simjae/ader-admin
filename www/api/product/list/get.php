@@ -115,20 +115,6 @@ if ($page_idx != null && $country != null) {
 					PG.BACKGROUND_COLOR			AS BACKGROUND_COLOR,
 					PG.PRODUCT_IDX				AS PRODUCT_IDX,
 					PR.PRODUCT_NAME				AS PRODUCT_NAME,
-					(
-						SELECT
-							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-						FROM
-							dev.PRODUCT_IMG S_PI
-						WHERE
-							S_PI.PRODUCT_IDX = PR.IDX AND
-							S_PI.IMG_TYPE = '".$img_param."' AND
-							S_PI.IMG_SIZE = 'M'
-						ORDER BY
-							S_PI.IDX ASC
-						LIMIT
-							0,1
-					)							AS PRODUCT_IMG,
 					PR.PRICE_".$country."		AS PRICE,
 					PR.DISCOUNT_".$country."	AS DISCOUNT,
 					PR.SALES_PRICE_".$country."	AS SALES_PRICE,
@@ -158,10 +144,9 @@ if ($page_idx != null && $country != null) {
 		foreach($db->fetch() as $data) {
 			$product_idx = $data['PRODUCT_IDX'];
 			
+			$product_img = array();
 			if ($product_idx != null) {
-				$product_img = array();
-			
-				$img_sql = "SELECT
+				$img_p_sql = "SELECT
 								PI.IMG_TYPE		AS IMG_TYPE,
 								REPLACE(
 									PI.IMG_LOCATION,'/var/www/admin/www',''
@@ -170,22 +155,51 @@ if ($page_idx != null && $country != null) {
 								dev.PRODUCT_IMG PI
 							WHERE
 								PI.PRODUCT_IDX = ".$product_idx." AND
-								PI.IMG_TYPE = '".$img_param."' AND
+								PI.IMG_TYPE = 'P' AND
 								PI.IMG_SIZE = 'M'
 							ORDER BY
 								PI.IDX ASC";
 				
-				$db->query($img_sql);
+				$db->query($img_p_sql);
 				
+				$product_p_img = array();
 				foreach($db->fetch() as $img_data) {
-					$product_img[] = array(
+					$product_p_img[] = array(
 						'img_type'		=>$img_data['IMG_TYPE'],
 						'img_location'	=>$img_data['IMG_LOCATION']
 					);
 				}
 				
-				$whish_flg = false;
+				$img_o_sql = "SELECT
+								PI.IMG_TYPE		AS IMG_TYPE,
+								REPLACE(
+									PI.IMG_LOCATION,'/var/www/admin/www',''
+								)				AS IMG_LOCATION
+							FROM
+								dev.PRODUCT_IMG PI
+							WHERE
+								PI.PRODUCT_IDX = ".$product_idx." AND
+								PI.IMG_TYPE = 'O' AND
+								PI.IMG_SIZE = 'M'
+							ORDER BY
+								PI.IDX ASC";
+								
+				$db->query($img_o_sql);
 				
+				$product_o_img = array();
+				foreach($db->fetch() as $img_data) {
+					$product_o_img[] = array(
+						'img_type'		=>$img_data['IMG_TYPE'],
+						'img_location'	=>$img_data['IMG_LOCATION']
+					);
+				}
+				
+				$product_img = array(
+					'product_p_img'		=>$product_p_img,
+					'product_o_img'		=>$product_o_img
+				);
+				
+				$whish_flg = false;
 				if ($member_idx > 0) {
 					$whish_count = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
 					if ($whish_count > 0) {
@@ -208,17 +222,6 @@ if ($page_idx != null && $country != null) {
 				if (count($product_size) == $soldout_cnt) {
 					$stock_status = "STSO";
 				}
-				
-				/*for ($i=0; $i<count($product_color); $i++) {
-					if ($product_color[$i]['stock_status'] == "STSO") {
-						$soldout_cnt++;
-					}
-				}*/
-				
-				
-				/*if ((count($product_size) + count($product_color)) == $soldout_cnt) {
-					$stock_status = "STSO";
-				}*/
 				
 				$product_info[] = array(
 					'display_num'		=>$data['DISPLAY_NUM'],

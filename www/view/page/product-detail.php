@@ -183,7 +183,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 					let productSizeHtml = "";
 					product_size.forEach(size => {
 						productSizeHtml += `
-							<li>${size.option_name}</li>
+							<li class="size" data-sizetype="${size.size_type}" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>
 						`;
 					});
 
@@ -257,6 +257,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 				
 				infoWrap.appendChild(domFrag);
 				colorNodeCheck();
+				sizeNodeCheck();
 				const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
 				const $sidebarBg = document.querySelector(".detail__sidebar__wrap .sidebar__background");
 				const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
@@ -317,13 +318,56 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 				let cloneNode = el.cloneNode(true);
 				colorBox.prepend(cloneNode);
 			}
+
 			el.addEventListener("mouseover",function(e) {
-				let target = e.currentTarget;
-				let colorArr = Array.from(colors);
-				let notTarget = colorArr.filter(el => el != target);
-			},{once:true});
+				document.querySelector(".color-line.select").classList.remove("select");
+			});
+			el.addEventListener("mouseout",function(e) {
+				document.querySelector(".color-line").classList.add("select");
+			});
 			el.addEventListener("click",function(e) {
 				let targetIdx = e.currentTarget.dataset.idx;
+			});
+		});
+	}
+	function sizeNodeCheck() {
+		let product_idx = document.querySelector("main").dataset.productidx;
+		const sizeBox =  document.querySelector(".size__box");
+		const sizes =  document.querySelectorAll(".detail__wrapper .size__box .size");
+		const basketBtns =  document.querySelectorAll(".basket-btn");;
+		let basketStatus = [...sizes].every( el => el.dataset.soldout == "STSO")
+		if(basketStatus){
+			basketBtns.forEach(el => {
+				el.parentNode.dataset.soldout="STSO";
+				el.dataset.soldout = "STSO";
+				el.querySelector("img").style.display= "none";
+				el.querySelector(".basket-title").textContent="품절";
+			});
+		}
+		sizes.forEach(el => {
+			el.addEventListener("click",function(e) {
+				let targetSold = e.currentTarget.dataset.soldout;
+				let sizeType = e.currentTarget.dataset.sizetype;
+				let optionIdx = e.currentTarget.dataset.optionidx;
+				basketBtns.forEach(el => {
+					el.parentNode.dataset.soldout=targetSold;
+					el.dataset.soldout = targetSold;
+					el.dataset.sizetype = sizeType;
+					el.dataset.optionidx = optionIdx;
+					if(targetSold === "STIN"){
+						el.querySelector("img").style.display= "block";
+						el.querySelector("img").src="/images/svg/basket-bk.svg";
+						el.querySelector(".basket-title").textContent="쇼핑백에 담기";
+					}else if(targetSold === "STSC") {
+						el.querySelector("img").style.display= "block";
+						el.querySelector("img").src="/images/svg/reflesh-bk.svg";
+						el.querySelector(".basket-title").textContent="재입고 알림 신청하기";
+					} else if(targetSold === "STSO") {
+						el.querySelector("img").style.display= "none";
+						el.querySelector(".basket-title").textContent="품절";
+					}
+				});
+				console.log(targetSold);
 			});
 		});
 	}
@@ -356,12 +400,20 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 				dynamicMainBullets: 5,
 				type: "fraction"
 			},
-			
+			zoom: {
+				maxRatio: 5,
+			},
 			navigation: {
 				nextEl: ".swiper-button-next",
 				prevEl: ".swiper-button-prev"
 			},
-			slidesPerView: 1			
+			slidesPerView: 1,
+			on: {
+				slideChangeTransitionEnd: function () {
+					console.log('clicked!')
+					this.zoom.in();
+				}			
+			}
 		});
 	}
 	function mainControllSwiper() {
