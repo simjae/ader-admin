@@ -37,6 +37,10 @@ if(is_array($_CONFIG['M']) && sizeof($_CONFIG['M']) > 1) {
 		case '_api': // API 요청일 경우
 			@error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 			@ini_set("display_errors", 1);
+			header('Access-Control-Allow-Origin: *');
+			header('P3P: CP="CAO PSA OUR"');
+			header('Access-Control-Allow-Headers: *');
+			header('Content-Type: application/json');
 			$_CONFIG['M'][0] = '';
 			$inc_path = '../api'.implode('/',$_CONFIG['M']).'.php';
 			if(!file_exists($inc_path)) {

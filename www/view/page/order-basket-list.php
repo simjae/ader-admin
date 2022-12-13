@@ -332,6 +332,7 @@
     window.addEventListener('DOMContentLoaded', function() {
         getBasketProductList();
     });
+  
      //재고상품 선택삭제 버튼
     (function stockCheckedDeleteBtn(){
         const $checkedDelete = document.querySelector(".st__checked__btn");
@@ -443,10 +444,10 @@
                 let stock = data.basket_st_info;
                 
                 writeProductListDomTree( stock, sold );
+
             }
         });
     }
-
     //쇼핑백 리스트 그려주는 함수
     function writeProductListDomTree(stock, sold) {
         let docFrag = document.createDocumentFragment();
@@ -587,6 +588,21 @@
         optionChangeBtn();
         soldCheckedDeleteBtn();
         soldAllDeleteBtn();
+        payBtnEvent();
+    }
+    function payBtnEvent() {
+        let payBtn = document.querySelector(".pay__box .pay__btn");
+        payBtn.addEventListener("click", function() {
+            let selfBox = document.querySelectorAll(".self__cb[name='stock']");
+            let selectArr =[];
+            let country = "KR";
+            selfBox.forEach(el => {
+                if(el.checked){
+                    selectArr.push(el.parentNode.parentNode.dataset.basketidx);
+                }
+            })
+            location.href="/order/confirm?country="+country+"&basket_idx=" + selectArr;
+        });
     }
     //쇼핑백 상품 수량 init,up,down 이벤트 
     function setCountBtnEvent() {
