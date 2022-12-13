@@ -1,3 +1,5 @@
+
+<!-- <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script> -->
 <style>
 	:root {
 		--order-header--height: 150px;
@@ -37,9 +39,27 @@
 	}
 
 	.tui-select-box-placeholder {
-		color: #dcdcdc;
+		color: var(--bk);
+		font-family: var(--ft-no-fu);
+		font-size: 10px;
+		font-weight: 300;
 	}
-
+	.tui-select-box-input:focus{
+		outline: 0px;
+	}
+	.tui-select-box-input {
+		border: 1px solid #808080;
+	}
+	#addrDirectBox {
+		border-top: 0px;
+		padding: 10px;
+		height: 90px;
+		outline: none;
+		resize: none;
+		border-bottom: 1px solid #808080;
+		border-left: 1px solid #808080;
+		border-right: 1px solid #808080;
+	}
 	.tui-select-box-item {
 		padding: 0 10px;
 		border-bottom: 1px solid #eeeeee;
@@ -48,6 +68,7 @@
 	.order-section {
 		display: grid;
 		grid-template-columns: repeat(16, 1fr);
+		margin-bottom: 200px;
 	}
 
 	.cn-box p {
@@ -79,7 +100,7 @@
 	.order-product .body-wrap {}
 
 	.order-product .product-wrap {
-		max-height: 393px;
+		max-height: 410px;
 		overflow-y: auto;
 	}
 
@@ -87,7 +108,7 @@
 		display: grid;
 		grid-template-columns: 3fr 1fr 1fr 1fr;
 		width: 100%;
-		max-height: 88px;
+		max-height: 96px;
 		border-bottom: 1px solid #dcdcdc;
 		padding-bottom: 10px;
 		margin-bottom: 10px;
@@ -112,7 +133,9 @@
 	}
 
 	.order-product .prd-img {
-		max-width: 3.65vw;
+		/* max-width: 3.65vw; */
+		width: 70px;
+		height: 86px;
 	}
 
 	.calculation-box {
@@ -148,6 +171,12 @@
 		/* margin-top: var(--header--content--gap); */
 		grid-column: 10/14;
 		display: grid;
+	}
+	.content.rigth li,ul {
+		list-style: disc;
+	}
+	.content.rigth input {
+		border: 1px solid #808080;
 	}
 
 
@@ -410,7 +439,7 @@
 		border: solid 1px #dcdcdc;
 	}
 
-	.address-area {
+	.to-place {
 		margin-bottom: 20px;
 	}
 
@@ -483,18 +512,6 @@
 		}
 	}
 </style>
-<?php
-    function getUrlParamter($url, $sch_tag)
-    {
-        $parts = parse_url($url);
-        parse_str($parts['query'], $query);
-        return $query[$sch_tag];
-    }
-
-    $page_url = $_SERVER['REQUEST_URI'];
-    $basket_idx = getUrlParamter($page_url, 'basket_idx');
-    $country = getUrlParamter($page_url, 'country');
-?>
 <main data-basketStr="<?=$basket_idx?>" data-country="<?=$country?>">
 	<div class="banner-wrap">
 		<div class="banner-box">
@@ -516,125 +533,35 @@
 					<div class="header-col sum-col"><span>합계</span></div>
 				</div>
 				<div class="body-wrap">
-					<div class="product-wrap">
-						<div class="body-list product">
-							<div class="product-info">
-								<a href=""><img class="prd-img" cnt="1" src="/style/images/img_BLAFWKV01BL_05_P_M_202210210000.jpeg" alt=""></a>
-								<div class="info-box">
-									<div class="info-row">
-										<div class="name" data-soldout=""><span>Sample BLAFWKV01CK</span></div>
-									</div>
-									<div class="info-row">
-										<div class="color-title"><span>Blue</span></div>
-										<div class="color__box" data-maxcount="" data-colorcount="1">
-											<div class="color" data-color="#142B71;#17B241" data-productidx="1" data-soldout="STIN" style="background-color:#142B71;#17B241"></div>
-										</div>
-									</div>
-									<div class="info-row">
-										<div class="size__box">
-											<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">A1</li>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="product-price">100,000</div>
-							<div class="product-count">1</div>
-							<div class="total-price">100,000</div>
-						</div>
-						<div class="body-list product">
-							<div class="product-info">
-								<a href=""><img class="prd-img" cnt="1" src="/style/images/img_BLAFWKV01BL_05_P_M_202210210000.jpeg" alt=""></a>
-								<div class="info-box">
-									<div class="info-row">
-										<div class="name" data-soldout=""><span>Sample BLAFWKV01CK</span></div>
-									</div>
-									<div class="info-row">
-										<div class="color-title"><span>Blue</span></div>
-										<div class="color__box" data-maxcount="" data-colorcount="1">
-											<div class="color" data-color="#142B71;#17B241" data-productidx="1" data-soldout="STIN" style="background-color:#142B71;#17B241"></div>
-										</div>
-									</div>
-									<div class="info-row">
-										<div class="size__box">
-											<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">A1</li>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="product-price">100,000</div>
-							<div class="product-count">1</div>
-							<div class="total-price">100,000</div>
-						</div>
-						<div class="body-list product">
-							<div class="product-info">
-								<a href=""><img class="prd-img" cnt="1" src="/style/images/img_BLAFWKV01BL_05_P_M_202210210000.jpeg" alt=""></a>
-								<div class="info-box">
-									<div class="info-row">
-										<div class="name" data-soldout=""><span>Sample BLAFWKV01CK</span></div>
-									</div>
-									<div class="info-row">
-										<div class="color-title"><span>Blue</span></div>
-										<div class="color__box" data-maxcount="" data-colorcount="1">
-											<div class="color" data-color="#142B71;#17B241" data-productidx="1" data-soldout="STIN" style="background-color:#142B71;#17B241"></div>
-										</div>
-									</div>
-									<div class="info-row">
-										<div class="size__box">
-											<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">A1</li>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="product-price">100,000</div>
-							<div class="product-count">1</div>
-							<div class="total-price">100,000</div>
-						</div>
-						<div class="body-list product">
-							<div class="product-info">
-								<a href=""><img class="prd-img" cnt="1" src="/style/images/img_BLAFWKV01BL_05_P_M_202210210000.jpeg" alt=""></a>
-								<div class="info-box">
-									<div class="info-row">
-										<div class="name" data-soldout=""><span>Sample BLAFWKV01CK</span></div>
-									</div>
-									<div class="info-row">
-										<div class="color-title"><span>Blue</span></div>
-										<div class="color__box" data-maxcount="" data-colorcount="1">
-											<div class="color" data-color="#142B71;#17B241" data-productidx="1" data-soldout="STIN" style="background-color:#142B71;#17B241"></div>
-										</div>
-									</div>
-									<div class="info-row">
-										<div class="size__box">
-											<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">A1</li>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="product-price">100,000</div>
-							<div class="product-count">1</div>
-							<div class="total-price">100,000</div>
-						</div>
-
-					</div>
+				
 					<div class="calculation-wrap">
 						<div class="calculation-box">
-							<div class="product-sum calculation-row"><span>제품 합계</span><span class="cal-price">2,100,300</span></div>
-							<div class="point-box hidden">
-								<div class="product-sum calculation-row"><span>바우처 사용</span>
-									<span class="cal-price">2,100,300</span>
-								</div>
-								<div class="product-sum calculation-row">
-									<span>적립 포인트 사용</span>
-									<span class="cal-price">2,100,300</span>
-								</div>
-								<div class="product-sum calculation-row"><span>충전 포인트 사용</span><span class="cal-price">2,100,300</span></div>
+							<div class="product-sum calculation-row">
+								<span>제품 합계</span>
+								<span class="cal-price">0</span>
 							</div>
-							<div class="product-sum calculation-row"><span>배송비</span><span class="cal-price">0</span>
+							<div class="point-box hidden">
+								<div class="calculation-row">
+									<span>바우처 사용</span>
+									<span class="voucher-point-use" data-voucher="0">0</span>
+								</div>
+								<div class="calculation-row">
+									<span>적립 포인트 사용</span>
+									<span class="accumulate-point-use" data-accumulate="0">0</span>
+								</div>
+								<div class="calculation-row">
+									<span>충전 포인트 사용</span>
+									<span class="charge-point-use" data-charge="0">0</span></div>
+							</div>
+							<div class="calculation-row">
+								<span>배송비</span>
+								<span data-delprice="5000" class="del-price">5,000</span>
 							</div>
 						</div>
 						<div class="total-price-wrap">
 							<div class="total-box">
-								<span>총 합계</span>
-								<span class="product-qty">(Qty:4)</span>
+								<span>총 합계(Qty:</span>
+								<span class="product-qty"></span>)
 							</div>
 							<span class="total-price">0</span>
 						</div>
@@ -670,7 +597,7 @@
 						<input type="text">
 						<div class="point-btn"><span>모두적용</span></div>
 					</div>
-					<div class="get-point reserves"><span>보유 적립 포인트</span><span>20,000</span></div>
+					<div class="get-point reserves"><span>보유 적립 포인트</span><span>0</span></div>
 					<ul class="reserves-info-list">
 						<li>주문으로 발생한 적립 포인트는 배송완료 후 7일 부터 실제 사용 가능한 적립 포인트로 전환됩니다. 배송
 							완료 시점으로부터 7일 동안은 미가용 적립 포인트로 분류됩니다.</li>
@@ -695,7 +622,7 @@
 						<input type="text">
 						<div class="point-btn"><span>모두적용</span></div>
 					</div>
-					<div class="get-point charge"><span>보유 충전 포인트</span><span>200,000</span></div>
+					<div class="get-point charge"><span>보유 충전 포인트</span><span>0</span></div>
 					<div class="charge-btn"><span>충전하기</span></div>
 				</div>
 			</div>
@@ -708,9 +635,9 @@
 				</div>
 				<div class="body-wrap">
 					<div class="cn-box">
-						<p>심재형</p>
-						<p>010-7791-6041</p>
-						<p>simjae0731@gmail.com</p>
+						<p class="order-name">심재형</p>
+						<p class="order-phone">010-7791-6041</p>
+						<p class="order-mail">simjae0731@gmail.com</p>
 					</div>
 				</div>
 			</div>
@@ -769,19 +696,22 @@
 
 					</div>
 					<div class="save-box">
-						<div class="address-area">회사</div>
+						<div class="to-place">회사</div>
 						<div class="cn-box">
-							<p>심재형</p>
-							<p>010-7791-6041</p>
-							<p>04478</p>
-							<p>서울특별시 송파구 문정동 10-5</p>
-							<p>로뎀하우스 , 1층</p>
+							<p class="to-name">심재형</p>
+							<p class="to-phone">010-7791-6041</p>
+							<p class="to-zipcode">04478</p>
+							<p class="to-addr">서울특별시 송파구 문정동 10-5</p>
+							<p class="to-detail">로뎀하우스 , 1층</p>
 						</div>
 						<div class="message-box">
 							<span class="hd-title">배송메시지</span>
-							<div class="addr-message-select-box"></div>
-							<input id="addrDirectBox" class="directBox" type="text">
-							<div>
+							<div class="edit-message-box">
+								<div class="addr-message-select-box"></div>
+								<textarea placeholder="내용을 입력해주세요.(최대 50자)" id="addrDirectBox" class="directBox" type="text"></textarea>
+							</div>
+							<div class="save-message-box hidden">
+								<p class="message-content"></p>
 							</div>
 						</div>
 					</div>
@@ -828,7 +758,6 @@
 </main>
 
 
-<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script>
 	document.addEventListener("DOMContentLoaded", function() {
 		const urlParams = new URL(location.href).searchParams;
@@ -851,21 +780,96 @@
 				let code = d.code;
 				if (code == 200) {
 					let data = d.data;
-					console.log(data);
+					productInfoWrite(data[0].product_info)
+					memberInfoWrite(data[0].member_info)
+					addrInfoWrite(data[0].to_info)
 				}
 				if (code == 403) {
 					console.log(d.msg)
 				}
 			}
 		});
-		totalSumPrice();
+
+
 		addrMsessageSelectBox.on('change', ev => {
-			console.log(`${ev.curr.getLabel()}.`);
+
+			let directTxt = document.querySelector("#addrDirectBox");
+			console.log(`${ev.curr.getLabel()}`);
+			console.log(`${ev.curr.getValue()}`);
+			document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
+			if(ev.curr.getValue() === "direct"){
+				directTxt.style.display="block";
+			}else {
+				directTxt.style.display="none";
+			}
 		});
 	});
-	function memberInfoWrite (){
-		
+	function productInfoWrite(product){
+		let domFrag = document.createDocumentFragment();
+		const orderWrapBody = document.querySelector(".order-product .body-wrap");
+		let wrap = document.createElement("div");
+		const url ="http://116.124.128.246:81"
+		wrap.classList.add("product-wrap");
+		let listHtml  = ""
+		product.forEach(el => {
+			listHtml += `
+			<div class="body-list product">
+				<div class="product-info">
+					<a href="" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
+					<div class="info-box">
+						<div class="info-row">
+							<div class="name" data-soldout=""><span>${el.product_name}</span></div>
+						</div>
+						<div class="info-row">
+							<div class="color-title"><span>${el.color}</span></div>
+							<div class="color__box" data-maxcount="" data-colorcount="1">
+								<div class="color" data-color="${el.color_rgb}" data-productidx="1" data-soldout="STIN" style="background-color:${el.color_rgb}"></div>
+							</div>
+						</div>
+						<div class="info-row">
+							<div class="size__box">
+								<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">${el.option_name}</li>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="product-price">${el.sales_price}</div>
+				<div class="product-count">${el.product_qty}</div>
+				<div class="total-price">${el.total_price}</div>
+			</div>
+			` 
+		});
+		wrap.innerHTML = listHtml;
+		domFrag.appendChild(wrap);
+		orderWrapBody.prepend(domFrag);
+		productSumPrice();
+
 	}
+	function memberInfoWrite(member) {
+		let orderName = document.querySelector(".order-info .order-name");
+		let orderPhone = document.querySelector(".order-info .order-phone");
+		let orderMail = document.querySelector(".order-info .order-mail");
+		orderName.innerHTML = member[0].member_name;
+		orderPhone.innerHTML = member[0].member_mobile;
+		orderMail.innerHTML = member[0].member_email;
+	}
+	function addrInfoWrite(addr){
+		let addressPlace = document.querySelector(".address-info .save-box .to-place");
+		let addressName = document.querySelector(".address-info .save-box .to-name");
+		let addressPhone = document.querySelector(".address-info .save-box .to-phone");
+		let addressZipcode = document.querySelector(".address-info .save-box .to-zipcode");
+		let addressMain= document.querySelector(".address-info .save-box .to-addr");
+		let addressDetail = document.querySelector(".address-info .save-box .to-detail");
+
+		addressPlace.innerHTML = addr[0].to_place;
+		addressName.innerHTML = addr[0].to_name;
+		addressPhone.innerHTML = addr[0].to_mobile;
+		addressZipcode.innerHTML = addr[0].to_zipcode;
+		addressMain.innerHTML = addr[0].to_addr;
+		addressDetail.innerHTML = addr[0].to_detail_addr;
+	}
+	
 	// 설렉트 박스 생성자
 	let addrMsessageSelectBox = new tui.SelectBox('.addr-message-select-box', {
 		placeholder: '배송시 요청사항을 선택해주세요',
@@ -894,7 +898,8 @@
 				value: 'direct'
 			},
 
-		]
+		],
+		autofocus:false
 	});
 	let voucherSelectBox = new tui.SelectBox('.voucher-select-box', {
 		placeholder: '사용가능 쿠폰 1장 / 보유 3장',
@@ -920,6 +925,8 @@
 
 	/* 다음단계, 이전단계 */
 	//버튼
+	const calculationWrap = document.querySelector(".calculation-wrap");
+
 	const nextStepBtn = document.querySelector(".step-btn.next");
 	const preStepBtn = document.querySelector(".step-btn.pre");
 	const editAddrBtn = document.querySelector(".address-info .edit-btn");
@@ -935,6 +942,8 @@
 	const calPointBox = document.querySelector(".calculation-box .point-box");
 	preStepBtn.addEventListener("click", function() {
 		nextStepBtn.dataset.step = "1";
+		calculationWrap.dataset.step = "1";
+
 		if (nextStepBtn.dataset.step === "1") {
 			nextStepBtn.querySelector("span").innerHTML = "다음 단계";
 		}
@@ -943,11 +952,19 @@
 		});
 
 		document.querySelector(".address-info.next .header-box-btn").classList.remove("hidden");
-		calPointBox.classList.add("hidden")
+		//배송메시지 박스 
+		document.querySelector(".edit-message-box").classList.remove("hidden");
+		document.querySelector(".save-message-box").classList.add("hidden");
+
+		calPointBox.classList.add("hidden");
+		totalPrice();
+
 	});
 
 	nextStepBtn.addEventListener("click", function() {
+		let directTxt = document.querySelector("#addrDirectBox");
 		nextStepBtn.dataset.step = "2";
+		calculationWrap.dataset.step = "2";
 		if (nextStepBtn.dataset.step === "2") {
 			nextStepBtn.querySelector("span").innerHTML = "결제";
 		}
@@ -959,7 +976,19 @@
 		if ($group3.classList.contains("next")) {
 			document.querySelector(".address-info.next .header-box-btn").classList.add("hidden");
 		}
-		calPointBox.classList.remove("hidden")
+		//배송메시지 박스 
+		document.querySelector(".edit-message-box").classList.add("hidden");
+		document.querySelector(".save-message-box").classList.remove("hidden");
+		calPointBox.classList.remove("hidden");
+
+
+		// 직접입력 배송메시지
+		if(directTxt.value.length > 0){
+			document.querySelector(".save-message-box .message-content").innerHTML = directTxt.value;
+		}
+
+
+		totalPrice();
 	});
 
 	editAddrBtn.addEventListener("click", function() {
@@ -986,24 +1015,22 @@
 		editBox.classList.add("hidden");
 	});
 
-	function addrRegister() {
-
-	}
-	$(function() {
-		$("#postcodify").postcodify({
-			insertPostcode: "#postcode",
-			insertAddress: "#address",
-			insertDetails: "#details",
-			insertExtraInfo: "#extra_info",
-			hideOldAddresses: false,
-			afterSelect: function(selectedEntry) {
-				$("#postcodify div.postcode_search_result").remove();
-				$("#postcodify div.postcode_search_status.summary").hide();
-				$("#entry_box").show();
-				$("#entry_details").focus();
-			}
-		});
-	});
+	
+	// $(function() {
+	// 	$("#postcodify").postcodify({
+	// 		insertPostcode: "#postcode",
+	// 		insertAddress: "#address",
+	// 		insertDetails: "#details",
+	// 		insertExtraInfo: "#extra_info",
+	// 		hideOldAddresses: false,
+	// 		afterSelect: function(selectedEntry) {
+	// 			$("#postcodify div.postcode_search_result").remove();
+	// 			$("#postcodify div.postcode_search_status.summary").hide();
+	// 			$("#entry_box").show();
+	// 			$("#entry_details").focus();
+	// 		}
+	// 	});
+	// });
 
 
 	function checkboxAll(allCheck) {
@@ -1013,20 +1040,58 @@
 		});
 	}
 
-	function totalSumPrice() {
+	function productSumPrice() {
 		let productTotalPrices = document.querySelectorAll(".product .total-price");
 		let calProductSumPrice = document.querySelector(".calculation-wrap .product-sum .cal-price");
-		const result = [...productTotalPrices].map(el => {
-			let sum = +el.innerHTML.replace(/,/g, '');
+		let	delPrice = document.querySelector(".calculation-wrap .del-price");
+		let	productQty = document.querySelector(".calculation-wrap .product-qty");
+		let productLen = productTotalPrices.length;
+		let productSum = [...productTotalPrices].map((el) => {
+			let sum =+ el.innerHTML.replace(/,/g, '');
 			return sum;
 		});
-		console.log(result);
 		//합산
-		const sum = result.reduce(function add(sum, currenValue) {
+		const sum = productSum.reduce(function add(sum, currenValue) {
 			return sum + currenValue;
 		})
-		console.log(sum);
+
 		calProductSumPrice.dataset.sum = sum;
 		calProductSumPrice.innerHTML = sum.toLocaleString("ko-KR");
+		productQty.innerHTML = productLen;
+
+
+		//배송비 처리
+		if(productSum < 50000 ) {
+			let set = 5000
+			delPrice.dataset.delprice = set;
+			delPrice.innerHTML = set.toLocaleString("ko-KR");;
+		} else {
+			delPrice.dataset.delprice = 0;	
+			delPrice.innerHTML = 0;
+		}
+		totalPrice();
+	}
+	function totalPrice() {
+		let step = calculationWrap.dataset.step;
+		let	totalPrice = document.querySelector(".calculation-wrap .total-price");
+		let	productPrice = document.querySelector(".calculation-wrap .cal-price");
+		let	delPrice = document.querySelector(".calculation-wrap .del-price");
+		let	voUse = document.querySelector(".calculation-wrap .voucher-point-use");
+		let	acUse = document.querySelector(".calculation-wrap .accumulate-point-use");
+		let	chUse = document.querySelector(".calculation-wrap .charge-point-use");
+		let result = 0;
+
+		//상품, 배송, 바우처, 적립, 충전 객체
+		let calWrap = [
+			{"title":"product","price":productPrice.dataset.sum},
+			{"title":"del","price":delPrice.dataset.delprice},
+			{"title":"voucher","price":voUse.dataset.voucher},
+			{"title":"accumulate","price":acUse.dataset.accumulate},
+			{"title":"charge","price":chUse.dataset.charge}]
+		if(step === "1") {
+		} else if(step === "2"){
+		}
+		result = calWrap.map(item => item.price).reduce((prev, curr) => parseInt(prev) + parseInt(curr));
+		totalPrice.innerHTML =result.toLocaleString("ko-KR");
 	}
 </script>
