@@ -33,6 +33,9 @@
 		<link rel=stylesheet href='/css/common/common.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/footer.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/nav.css' type='text/css'>
+
+
+
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -54,7 +57,7 @@
 		<script src="/scripts/common.js"></script>
 		<script src="/scripts/static/taggingJS/tagging.min.js"></script>
 		<script src="/scripts/static/toast-selectbox/toastui-select-box.min.js"></script>
-		
+		<script src="/scripts/static/postcodify-master/api/search.js"></script>
 		<script src="/scripts/functions.js?v=<?=time()?>"></script>
 		<script src="/scripts/helix.js?v=<?=time()?>"></script>
 		

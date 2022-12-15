@@ -1,9 +1,8 @@
 
-<!-- <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script> -->
 <style>
 	:root {
 		--order-header--height: 150px;
-		--header--content--gap: 20px;
+		--header--content--gap: 50px;
 
 		--solid-bk: #808080;
 	}
@@ -22,14 +21,19 @@
 	input:focus {
 		border: 0;
 	}
-
+	.content.rigth input:focus{
+		caret-color: #343434;
+		outline: 0;
+	}
 	body {
 		font-family: var(--ft-no-fu);
 		/* background-color: #222; */
 		/* color: #ffffff; */
 		color: var(--bk);
 	}
-
+	.mobile {
+		display: none;
+	}
 	.hidden {
 		display: none !important;
 	}
@@ -39,10 +43,13 @@
 	}
 
 	.tui-select-box-placeholder {
-		color: var(--bk);
 		font-family: var(--ft-no-fu);
-		font-size: 10px;
-		font-weight: 300;
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		letter-spacing: normal;
+		color: #dcdcdc;
 	}
 	.tui-select-box-input:focus{
 		outline: 0px;
@@ -61,6 +68,9 @@
 		border-right: 1px solid #808080;
 	}
 	.tui-select-box-item {
+		color: var(--bk);
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
 		padding: 0 10px;
 		border-bottom: 1px solid #eeeeee;
 	}
@@ -74,17 +84,38 @@
 	.cn-box p {
 		margin: 0;
 	}
-
+	.body-wrap {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
 	.content.left {
+		display: block;
 		position: sticky;
-		top: var(--order-header--height);
-		padding-top: var(--header--content--gap);
+		padding-top: var(--order-header--height);
 		align-self: start;
 		grid-column: 4/9;
+		top: 50px;
 	}
 
 	/* 주문상품내역 */
-	.order-product {}
+	.order-product .hd-title{
+		font-family: var(--ft-no-fu);
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
 
 	.order-product .header-wrap {
 		position: sticky;
@@ -97,8 +128,61 @@
 		padding-bottom: 20px;
 	}
 
-	.order-product .body-wrap {}
-
+	.order-product .header-col {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+	.product .product-info .info-row .name {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.55;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+	.product .color-title{
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: 500;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+	.product .list-row {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.55;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+	.product .size__box li {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: 500;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
 	.order-product .product-wrap {
 		max-height: 410px;
 		overflow-y: auto;
@@ -119,6 +203,19 @@
 		padding: 0px;
 		gap: 10px;
 	}
+	.order-product .product-info .info-row[data-refund="true"]::after{
+		content: "교환 반품 불가";
+		font-family: var(--ft-no-fu);
+		font-size: 10px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.7;
+		letter-spacing: normal;
+		text-decoration: underline;
+		text-align: left;
+		color: #808080;
+	}
 
 	.order-product .product-info .info-box {
 		display: flex;
@@ -131,13 +228,20 @@
 		gap: 3px;
 		justify-content: flex-start;
 	}
-
+	.order-product .product-info .info-row.mobile-saleprice {
+		display: none;
+	}
+	.order-product .web-saleprice {
+			display: block;
+	}
 	.order-product .prd-img {
 		/* max-width: 3.65vw; */
-		width: 70px;
-		height: 86px;
+		max-width: 70px;
+    	max-height: 86px;
 	}
-
+	.order-product .product-toggle-btn {
+		display: none;
+	}
 	.calculation-box {
 		display: flex;
 		flex-direction: column;
@@ -156,7 +260,9 @@
 		display: flex;
 		justify-content: space-between;
 	}
-
+	.total-price {
+		text-decoration: underline;
+	}
 	.total-price-wrap {
 		display: flex;
 		justify-content: space-between;
@@ -172,7 +278,7 @@
 		grid-column: 10/14;
 		display: grid;
 	}
-	.content.rigth li,ul {
+	.content.rigth li,.content.rigth liul {
 		list-style: disc;
 	}
 	.content.rigth input {
@@ -216,6 +322,7 @@
 	}
 
 	.header-box-btn {
+		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -224,9 +331,19 @@
 
 	.header-box {
 		padding-bottom: 10px;
+		font-family: var(--ft-no-fu);
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
 	}
 
 	.header-btn {
+		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -235,6 +352,13 @@
 		padding: 0 15px;
 		border-radius: 2px;
 		border: solid 1px #dcdcdc;
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
 
 	}
 
@@ -252,7 +376,15 @@
 		display: flex;
 		align-items: center;
 		grid-column: 4/17;
+		font-family: var(--ft-no-fu);
 		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
 
 	}
 
@@ -272,8 +404,19 @@
 	.check-row input[type="checkbox"] {
 		width: 10px;
 		height: 10px;
+		cursor: pointer;
 	}
-
+	.calculation-wrap {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.55;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
 
 	/* 바우처 */
 	.voucher-info {
@@ -285,6 +428,15 @@
 		gap: 10px;
 		flex-direction: column;
 		padding: 10px 14px;
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.64;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
 	}
 
 	/* 포인트 */
@@ -299,10 +451,12 @@
 	}
 
 	.point-row .point-btn {
+		cursor: pointer;
 		grid-column: 4/5;
 	}
 
 	.point-btn {
+		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -316,10 +470,30 @@
 		gap: 10px;
 		flex-direction: column;
 		padding: 10px 14px;
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.36;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+	.charge-info .body-wrap{
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
 	}
 
-
 	.charge-btn {
+		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -329,6 +503,15 @@
 		margin-bottom: 10px;
 		border-radius: 1px;
 		border: solid 1px #dcdcdc;
+		font-family: var(--ft-no-fu);
+		font-size: 12px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
 	}
 
 	/* 주문자정보 */
@@ -341,9 +524,7 @@
 		padding-bottom: 40px;
 	}
 
-	.address-info .header-box {
-		padding-bottom: 0;
-	}
+	
 
 	.address-info .header-box-btn {
 		padding-bottom: 10px;
@@ -358,12 +539,30 @@
 	.address-info .cn-box {
 		padding-bottom: 20px;
 	}
+	.address-info .confirm-text.check::after {
+		content: attr(data-content);
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: right;
+		position: absolute;
+		right: 0;
+		bottom: 40px;
+		color: #ff0000;
+		text-decoration: underline;
+	}
 
 	.edit-box .input-row {
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
 		margin-bottom: 10px;
+		position: relative;
 	}
 
 	.edit-box .input-row.addr-search {
@@ -386,6 +585,7 @@
 	}
 
 	.addr-search-btn {
+		cursor: pointer;
 		grid-column: 4/5;
 		display: flex;
 		justify-content: center;
@@ -429,6 +629,7 @@
 	}
 
 	.save-btn {
+		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -463,7 +664,17 @@
 		flex-direction: column;
 		padding: 10px 14px;
 	}
-
+	.terms-service {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.64;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
 	/* 스탭 버튼 */
 
 
@@ -474,11 +685,20 @@
 	}
 
 	.step-btn {
+		cursor: pointer;
 		height: 40px;
 		width: 50%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		font-family: var(--ft-no-fu);
+		font-size: 12px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
 
 	}
 
@@ -494,12 +714,55 @@
 		border: solid 1px var(--bk-dark);
 	}
 
+
+	#postcodify {
+		margin: 0;
+		max-height: 400px;
+    	overflow: auto;
+	}
+	#postcodify .keyword{
+		grid-column: 1/4;
+	}
+	#postcodify .search_button{
+		grid-column: 4/5;
+	}
+	.post-change-result{
+		width: 74.5%;
+		margin: 0!important;
+		background-color: #fff;
+		overflow: auto;
+		max-height: 300px;
+		border: 1px solid #808080;
+		border-top: 0px;
+		top: -32px;
+	}
+	.postcodify_search_controls {
+		display: grid;
+		gap: 10px;
+		grid-template-columns: repeat(4, 1fr);	
+	}
+	.postcodify_search_result .code5 {
+		color: var(--bk);
+	}
+	.postcodify_search_result .addr-row{
+		color: #dcdcdc;
+	}
+	.postcodify_search_result .old_addr-row{
+		color: #dcdcdc;
+	}
 	@media (max-width: 1025px) {
+		.mobile {
+			display: inline-block;
+		}	
 		.banner-wrap {
 			display: flex;
 			height: 37px;
+			top: 40px;
+			padding-left: 10px;
 		}
-
+		.product .product-info {
+			height: auto;
+		}
 		.order-section {
 			display: flex;
 			flex-direction: column;
@@ -509,21 +772,104 @@
 		.content.left {
 			position: static;
 			width: 100%;
+			display: none;
+		}
+		.content.rigth{
+			padding-top:47px ;
+		}
+		.content.mobile{
+			margin-bottom: 40px;
+		}
+		.content.mobile li, ul{
+			list-style: none;
+		}
+		.terms-service{
+			order: 7;
+		}
+		.step-btn-wrap{
+			order: 8;
+		}
+
+		.order-product .header-box {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-grow: 1;
+		}
+		.order-product .product-toggle-btn {
+			cursor: pointer;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: var(--bk);
+			height: 24px;
+			padding: 0 15px;
+			border-radius: 2px;
+			border: solid 1px #dcdcdc;
+			font-family: var(--ft-no-fu);
+			font-size: 11px;
+			font-weight: normal;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: normal;
+			letter-spacing: normal;
+		}
+		.order-product .body-list {
+			grid-template-columns: 4fr 1fr 1fr;
+		}
+		.order-product .product-info .info-row.mobile-saleprice {
+			display: block;
+		}
+		.order-product .web-saleprice {
+			display: none;
+		}
+		.order-product .product-wrap{
+			margin-bottom: 20px;
+		}
+		.order-product .product-count {
+			display: flex;
+			height: 100%;
+			align-items: flex-end;
+			justify-content: flex-end;
+		}
+		.order-product .total-price {
+			display: flex;
+			height: 100%;
+			align-items: flex-end;
+			justify-content: flex-end;
+		}
+		.order-product .product-count::before{
+			content: "Qty:";
+		}
+		.calculation-box {
+			padding: 0;
+			border-bottom: 0px;
+		}
+		.total-price-wrap{
+			padding-top: 10px;
+		}
+		.post-change-result{
+			width: 100%;
+		}
+		.total-price{
+			text-decoration: underline;
 		}
 	}
 </style>
+<link rel=stylesheet href='/scripts/static/postcodify-master/api/search.css' type='text/css'>
 <main data-basketStr="<?=$basket_idx?>" data-country="<?=$country?>">
 	<div class="banner-wrap">
 		<div class="banner-box">
 			<span>결제하기</span>
 		</div>
 	</div>
-	<section class="order-section">
+	<section class="order-section" >
 		<div class="content left web">
 			<div class="wrapper order-product">
 				<div class="header-wrap">
 					<div class="header-box">
 						<span class="hd-title">주문내역</span>
+						<div class="product-toggle-btn"><span>자세히보기</span></div>
 					</div>
 				</div>
 				<div class="header-list">
@@ -568,7 +914,6 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
 		<div class="content rigth">
 			<div class="wrapper voucher-info" data-group="1">
@@ -656,38 +1001,36 @@
 				<div class="body-wrap">
 					<div class="edit-box hidden">
 						<div class="input-row">
-							<span>배송지명</span>
-							<input type="text" class="addr-name">
+							<span  data-content ="필수 입력란 입니다." class="confirm-text">배송지명</span>
+							<input type="text" class="addr-name" placeholder="예)집">
 						</div>
 						<div class="input-row">
-							<span>수령자</span>
-							<input type="text" class="addr-recipient">
+							<span data-content ="필수 입력란 입니다." class="confirm-text">수령자</span>
+							<input type="text" class="addr-recipient" placeholder="이름">
 						</div>
 						<div class="input-row">
-							<span>휴대전화</span>
-							<input type="text" class="addr-phone">
+							<span data-content ="휴대전화 번호를 정확하게 기입해주세요" class="confirm-text">휴대전화</span>
+							<input oninput="phoneAutoHyphen(this);"  maxlength="13" type="text" class="addr-phone" placeholder="(-)없이 숫자만 입력">
 						</div>
 						<div class="input-row addr-search">
 							<div class="input-text">
-								<span>배송지 검색</span>
-								<input type="text">
+								<span >배송지 검색</span>
 							</div>
-							<div class="addr-search-btn">검색</div>
 						</div>
 						<div id="postcodify" class="input-row"></div>
 						<div class="input-row">
 							<div id="postcodify"></div>
-
+							<div class="post-change-result"></div>
 							<span>상세주소</span>
-							<input type="text">
+							<input name="" class="post-detail" value="" />
 						</div>
-						<input type="text" name="" id="postcode" value="" /><br />
-						<input type="text" name="" id="address" value="" /><br />
-						<input type="text" name="" id="details" value="" /><br />
-						<input type="text" name="" id="extra_info" value="" /><br />
+						<input type="hidden" name="" id="postcode" value="" />
+						<input type="hidden" name="" id="address" value="" />
+						<input type="hidden" name="" id="extra_info" value="" />
+						<input type="hidden" name="" id="details" value="" />
 						<div class="check-row">
 							<div class="check-text">
-								<input type="checkbox">
+								<input type="checkbox" class="addr-list-flg">
 								<span>배송지 목록에 추가</span>
 							</div>
 							<div class="save-btn"><span>저장</span></div>
@@ -718,21 +1061,21 @@
 				</div>
 			</div>
 
-			<div class="terms-service" data-group="4">
+			<div class="terms-service hidden" data-group="4">
 				<ul class="terms-info-list">
 					<li>최소 결제 가능 금액은 결제금액에서 배송비를 제외한 금액입니다.</li>
 					<li>소액 결제의 경우 PG사 정책에 따라 결제 금액 제한이 있을 수 있습니다.</li>
 				</ul>
 				<div class="check-row">
 					<div class="check-text">
-						<input onclick="checkboxAll(this)" type="checkbox" class="check-all">
+						<input onclick="checkboxAll(this)" type="checkbox" class="check-all ">
 						<span>전체 선택</span>
 					</div>
 				</div>
 				<div class="check-row">
 					<div class="check-text">
-						<input type="checkbox" class="check-self">
-						<span>이용약관, 개인정보처리방침에 동의합니다. (필수)</span>
+						<input onclick="essentialCheckBox(this)" type="checkbox" class="check-self essential">
+						<span style="text-decoration: underline;">이용약관</span>,<span style="text-decoration: underline;">개인정보처리방침</span><span>에 동의합니다. (필수)</span>
 					</div>
 				</div>
 				<div class="check-row">
@@ -743,11 +1086,11 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="content mobile"></div>
 			<div class="select-box"></div>
 			<div class="step-btn-wrap">
 				<div class="step-btn pre"><span>이전단계</span></div>
-				<div class="step-btn next"><span>다음단계</span></div>
+				<div class="step-btn next" data-step="1"><span>다음단계</span></div>
 			</div>
 		</div>
 	</section>
@@ -759,12 +1102,38 @@
 
 
 <script>
+
+	function resizeEvent() {
+		const chageOrderWrap= document.querySelector(".content .order-product");
+		const webContent = document.querySelector(".content.web");
+		const mobileContent = document.querySelector(".content.mobile");
+		const bodyWidth = document.querySelector("body").offsetWidth;
+        if ( 1024 <= bodyWidth) {
+			webContent.appendChild(chageOrderWrap);
+			prdToggleBtn.classList.add("hidden");
+			document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
+        } else if(1024 >= bodyWidth) {
+			document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
+			prdToggleBtn.classList.remove("hidden");
+			mobileContent.appendChild(chageOrderWrap);
+        }
+	}
+	window.addEventListener("resize" , function() {
+		resizeEvent();
+	});
 	document.addEventListener("DOMContentLoaded", function() {
+
+		
+
 		const urlParams = new URL(location.href).searchParams;
 		const basketIdx = urlParams.get('basket_idx');
-		console.log(basketIdx);
 		let basketArr = basketIdx.split(",");
-		console.log(basketArr); 
+
+		const postResult = document.createElement("div")
+		postResult.classList.add("post-result");
+		document.getElementById("postcodify").appendChild(postResult);
+
+
 		$.ajax({
 			type: "post",
 			data: {
@@ -790,85 +1159,12 @@
 			}
 		});
 
+		
 
-		addrMsessageSelectBox.on('change', ev => {
-
-			let directTxt = document.querySelector("#addrDirectBox");
-			console.log(`${ev.curr.getLabel()}`);
-			console.log(`${ev.curr.getValue()}`);
-			document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
-			if(ev.curr.getValue() === "direct"){
-				directTxt.style.display="block";
-			}else {
-				directTxt.style.display="none";
-			}
-		});
+		selectBoxChangeEvent();
+		resizeEvent();
 	});
-	function productInfoWrite(product){
-		let domFrag = document.createDocumentFragment();
-		const orderWrapBody = document.querySelector(".order-product .body-wrap");
-		let wrap = document.createElement("div");
-		const url ="http://116.124.128.246:81"
-		wrap.classList.add("product-wrap");
-		let listHtml  = ""
-		product.forEach(el => {
-			listHtml += `
-			<div class="body-list product">
-				<div class="product-info">
-					<a href="" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
-					<div class="info-box">
-						<div class="info-row">
-							<div class="name" data-soldout=""><span>${el.product_name}</span></div>
-						</div>
-						<div class="info-row">
-							<div class="color-title"><span>${el.color}</span></div>
-							<div class="color__box" data-maxcount="" data-colorcount="1">
-								<div class="color" data-color="${el.color_rgb}" data-productidx="1" data-soldout="STIN" style="background-color:${el.color_rgb}"></div>
-							</div>
-						</div>
-						<div class="info-row">
-							<div class="size__box">
-								<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">${el.option_name}</li>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="product-price">${el.sales_price}</div>
-				<div class="product-count">${el.product_qty}</div>
-				<div class="total-price">${el.total_price}</div>
-			</div>
-			` 
-		});
-		wrap.innerHTML = listHtml;
-		domFrag.appendChild(wrap);
-		orderWrapBody.prepend(domFrag);
-		productSumPrice();
-
-	}
-	function memberInfoWrite(member) {
-		let orderName = document.querySelector(".order-info .order-name");
-		let orderPhone = document.querySelector(".order-info .order-phone");
-		let orderMail = document.querySelector(".order-info .order-mail");
-		orderName.innerHTML = member[0].member_name;
-		orderPhone.innerHTML = member[0].member_mobile;
-		orderMail.innerHTML = member[0].member_email;
-	}
-	function addrInfoWrite(addr){
-		let addressPlace = document.querySelector(".address-info .save-box .to-place");
-		let addressName = document.querySelector(".address-info .save-box .to-name");
-		let addressPhone = document.querySelector(".address-info .save-box .to-phone");
-		let addressZipcode = document.querySelector(".address-info .save-box .to-zipcode");
-		let addressMain= document.querySelector(".address-info .save-box .to-addr");
-		let addressDetail = document.querySelector(".address-info .save-box .to-detail");
-
-		addressPlace.innerHTML = addr[0].to_place;
-		addressName.innerHTML = addr[0].to_name;
-		addressPhone.innerHTML = addr[0].to_mobile;
-		addressZipcode.innerHTML = addr[0].to_zipcode;
-		addressMain.innerHTML = addr[0].to_addr;
-		addressDetail.innerHTML = addr[0].to_detail_addr;
-	}
+	
 	
 	// 설렉트 박스 생성자
 	let addrMsessageSelectBox = new tui.SelectBox('.addr-message-select-box', {
@@ -926,7 +1222,7 @@
 	/* 다음단계, 이전단계 */
 	//버튼
 	const calculationWrap = document.querySelector(".calculation-wrap");
-
+	const prdToggleBtn = document.querySelector(".product-toggle-btn");
 	const nextStepBtn = document.querySelector(".step-btn.next");
 	const preStepBtn = document.querySelector(".step-btn.pre");
 	const editAddrBtn = document.querySelector(".address-info .edit-btn");
@@ -939,19 +1235,70 @@
 	const $$group1 = document.querySelectorAll(".wrapper[data-group='1']");
 	const $group2 = document.querySelector(".wrapper[data-group='2']");
 	const $group3 = document.querySelector(".wrapper[data-group='3']");
+	const $group4 = document.querySelector(".terms-service[data-group='4']");
 	const calPointBox = document.querySelector(".calculation-box .point-box");
+	// const step2Obj = {
+	// 	"voucher_info":[
+	// 		{
+	// 			"voucher_idx":1,
+	// 			"voucher_type":???,
+	// 			"voucher_code":"?????",
+	// 			"voucher_name":"뉴시즌",
+	// 			"voucher_date":202212121500,
+	// 			"min_price":???,
+	// 			"mileage_flg":true,
+	// 			"sale_type":'PER',
+	// 			"sale_price":'10',
+	// 			"use_flag":true
+	// 		},
+	// 		{
+	// 			"voucher_idx":2,
+	// 			"voucher_type":???,
+	// 			"voucher_code":"?????",
+	// 			"voucher_name":"뉴시즌",
+	// 			"voucher_date":202212121500,
+	// 			"min_price":???,
+	// 			"mileage_flg":true,
+	// 			"sale_type":'PRC',
+	// 			"sale_price":'10000',
+	// 			"use_flag":true
+	// 		},
+	// 		{
+	// 			"voucher_idx":3,
+	// 			"voucher_type":???,
+	// 			"voucher_code":"?????",
+	// 			"voucher_name":"뉴시즌",
+	// 			"voucher_date":202212121500,
+	// 			"min_price":???,
+	// 			"mileage_flg":true,
+	// 			"sale_type":'PRC',
+	// 			"sale_price":'20000',
+	// 			"use_flag":false
+	// 		}
+	// 	],
+	// 	"mileage_point":20000,
+	// 	"charge_point":20000
+	// }
+
+
 	preStepBtn.addEventListener("click", function() {
+		if (nextStepBtn.dataset.step === "1") {
+			history.back();
+		}
 		nextStepBtn.dataset.step = "1";
 		calculationWrap.dataset.step = "1";
-
-		if (nextStepBtn.dataset.step === "1") {
-			nextStepBtn.querySelector("span").innerHTML = "다음 단계";
-		}
+		orderSection.dataset.status="";
+		nextStepBtn.querySelector("span").innerHTML = "다음 단계";
+		
 		$$group1.forEach(el => {
 			el.classList.remove("next");
 		});
+		//terms-service
+		$group4.classList.add("hidden");
+
 
 		document.querySelector(".address-info.next .header-box-btn").classList.remove("hidden");
+		
 		//배송메시지 박스 
 		document.querySelector(".edit-message-box").classList.remove("hidden");
 		document.querySelector(".save-message-box").classList.add("hidden");
@@ -963,8 +1310,16 @@
 
 	nextStepBtn.addEventListener("click", function() {
 		let directTxt = document.querySelector("#addrDirectBox");
+		let checkBoxEssential = document.querySelectorAll("essential");
+		let orderSection = document.querySelector(".order-section");
+		if (orderSection.dataset.status === "F") {
+			console.log("이용약관에 동의가 필요합니다.");
+		} else if(orderSection.dataset.status === "T") {
+			location.href ="http://116.124.128.246/order/complete"
+		}
 		nextStepBtn.dataset.step = "2";
 		calculationWrap.dataset.step = "2";
+		orderSection.dataset.status="F"; 
 		if (nextStepBtn.dataset.step === "2") {
 			nextStepBtn.querySelector("span").innerHTML = "결제";
 		}
@@ -976,11 +1331,15 @@
 		if ($group3.classList.contains("next")) {
 			document.querySelector(".address-info.next .header-box-btn").classList.add("hidden");
 		}
+		//terms-service
+		$group4.classList.remove("hidden");
 		//배송메시지 박스 
 		document.querySelector(".edit-message-box").classList.add("hidden");
 		document.querySelector(".save-message-box").classList.remove("hidden");
 		calPointBox.classList.remove("hidden");
 
+		saveBox.classList.remove("hidden");
+		editBox.classList.add("hidden");
 
 		// 직접입력 배송메시지
 		if(directTxt.value.length > 0){
@@ -999,45 +1358,260 @@
 		let addrName = document.querySelector(".addr-name");
 		let addrRecipient = document.querySelector(".addr-recipient");
 		let addrPhone = document.querySelector(".addr-phone");
+		let inputAlls = document.querySelectorAll(".edit-box .input-row input");
+		let addrSerach = document.querySelector(".postcodify_search_controls .keyword");
+		
+
+		//배송지 예외처리 전체 노출	
+		// inputAlls.forEach((el,idx) => {
+		// 	if(el.value === ""){
+		// 		if(idx < 3){
+		// 			console.log("1")
+		// 			el.previousElementSibling.classList.add("check");
+		// 		}
+		// 	}
+		// });
+
 		if (addrName.value === "") {
-			console.log("배송지명을 입력해주세요.");
+			addrName.previousElementSibling.classList.add("check");
 			return false;
+		}else {
+			addrName.previousElementSibling.classList.remove("check")
 		}
 		if (addrRecipient.value === "") {
-			console.log("수령자를 입력해주세요.");
+			addrRecipient.previousElementSibling.classList.add("check");
 			return false;
+		}else {
+			addrRecipient.previousElementSibling.classList.remove("check");
 		}
 		if (addrPhone.value === "") {
-			console.log("휴대전화를 입력해주세요.");
+			addrPhone.previousElementSibling.classList.add("check");
+			return false;
+		}else {
+			addrPhone.previousElementSibling.classList.remove("check");
+		}
+
+		if(addrSerach.value.length == 0 ){
+			if(document.querySelector("#address").value === document.querySelector(".postcodify_search_controls .keyword").value){
+				console.log("배송지를 선택해주세요");
+			}
 			return false;
 		}
+
+		saveAddrFormData();
+		inputAlls.forEach((el) => {
+			el.value = "";
+		});
 		saveBox.classList.remove("hidden");
 		editBox.classList.add("hidden");
 	});
 
+	function selectBoxChangeEvent() {
+		addrMsessageSelectBox.on('change', ev => {
+		
+		let directTxt = document.querySelector("#addrDirectBox");
+		let massageValue = document.querySelector(".message-content");
+		console.log(`${ev.curr.getLabel()}`);
+		console.log(`${ev.curr.getValue()}`);
+		if(ev.curr.getValue() !== "direct"){
+			directTxt.value = "";
+		}
+		document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
+		if(ev.curr.getValue() === "direct"){
+			directTxt.style.display="block";
+		}else {
+			directTxt.style.display="none";
+		}
+		});
+	}
+
+	function productInfoWrite(product){
+		let domFrag = document.createDocumentFragment();
+		const orderWrapBody = document.querySelector(".order-product .body-wrap");
+		let wrap = document.createElement("div");
+		const url ="http://116.124.128.246:81"
+		wrap.classList.add("product-wrap");
+		let listHtml  = ""
+		product.forEach(el => {
+			listHtml += `
+			<div class="body-list product">
+				<div class="product-info">
+					<a href="" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
+					<div class="info-box">
+						<div class="info-row" data-refund="${el.refund_flg?"true":"false"}">
+							<div class="name" data-soldout=""><span>${el.product_name}</span></div>
+						</div>
+						<div class="info-row mobile-saleprice">
+							<div class="product-price">${el.sales_price}</div>
+						</div>
+						<div class="info-row">
+							<div class="color-title"><span>${el.color}</span></div>
+							<div class="color__box" data-maxcount="" data-colorcount="1">
+								<div class="color" data-color="${el.color_rgb}" data-productidx="1" data-soldout="STIN" style="background-color:${el.color_rgb}"></div>
+							</div>
+						</div>
+						<div class="info-row">
+							<div class="size__box">
+								<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">${el.option_name}</li>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="list-row web-saleprice"><span class="product-price">${el.sales_price}</span></div>
+				<div class="list-row"><span class="product-count">${el.product_qty}</span></div>
+				<div class="list-row"><span class="total-price">${el.total_price}</span></div>
+			</div>
+			` 
+		});
+		wrap.innerHTML = listHtml;
+		domFrag.appendChild(wrap);
+		orderWrapBody.prepend(domFrag);
+		productSumPrice();
+
+	}
+	function memberInfoWrite(member) {
+		let orderName = document.querySelector(".order-info .order-name");
+		let orderPhone = document.querySelector(".order-info .order-phone");
+		let orderMail = document.querySelector(".order-info .order-mail");
+		orderName.innerHTML = member[0].member_name;
+		orderPhone.innerHTML = member[0].member_mobile;
+		orderMail.innerHTML = member[0].member_email;
+	}
+	function addrInfoWrite(addr){
+		let addressPlace = document.querySelector(".address-info .save-box .to-place");
+		let addressName = document.querySelector(".address-info .save-box .to-name");
+		let addressPhone = document.querySelector(".address-info .save-box .to-phone");
+		let addressZipcode = document.querySelector(".address-info .save-box .to-zipcode");
+		let addressMain= document.querySelector(".address-info .save-box .to-addr");
+		let addressDetail = document.querySelector(".address-info .save-box .to-detail");
+
+		addressPlace.innerHTML = addr[0].to_place;
+		addressName.innerHTML = addr[0].to_name;
+		addressPhone.innerHTML = addr[0].to_mobile;
+		addressZipcode.innerHTML = addr[0].to_zipcode;
+		addressMain.innerHTML = addr[0].to_addr;
+		addressDetail.innerHTML = addr[0].to_detail_addr;
+	}
+	function saveAddrFormData () {
+		let to_placeVal = document.querySelector(".addr-name").value;
+		let to_nameVal = document.querySelector(".addr-recipient").value;
+		let to_mobileVal = document.querySelector(".addr-phone").value;
+		let to_zipcodeVal = document.querySelector("#postcode").value;
+		let to_lot_addrVal = document.querySelector("#extra_info").value;
+		let to_road_addrVal = document.querySelector(".postcodify_search_controls .keyword").value;
+		let to_detail_addr = document.querySelector(".post-detail").value;
+		let default_flg = document.querySelector(".addr-list-flg").checked;
+		
+		//변경된 주소 박스 
+		let to_placeText = document.querySelector(".save-box .to-place");
+		let to_nameText = document.querySelector(".save-box .to-name");
+		let to_mobileText = document.querySelector(".save-box .to-phone");
+		let to_zipcodeText = document.querySelector(".save-box .to-zipcode");
+		let to_road_addrText = document.querySelector(".save-box .to-addr");
+		let to_detail_addrText = document.querySelector(".save-box .to-detail");
 	
-	// $(function() {
-	// 	$("#postcodify").postcodify({
-	// 		insertPostcode: "#postcode",
-	// 		insertAddress: "#address",
-	// 		insertDetails: "#details",
-	// 		insertExtraInfo: "#extra_info",
-	// 		hideOldAddresses: false,
-	// 		afterSelect: function(selectedEntry) {
-	// 			$("#postcodify div.postcode_search_result").remove();
-	// 			$("#postcodify div.postcode_search_status.summary").hide();
-	// 			$("#entry_box").show();
-	// 			$("#entry_details").focus();
-	// 		}
-	// 	});
-	// });
+
+		const addrSaveData = new FormData();
+		addrSaveData.append("to_place",to_placeVal);
+		addrSaveData.append("to_name",to_nameVal);
+		addrSaveData.append("to_mobile",to_mobileVal);
+		addrSaveData.append("to_zipcode",to_zipcodeVal);
+		addrSaveData.append("to_lot_addr",to_lot_addrVal);
+		addrSaveData.append("to_road_addr",to_road_addrVal);
+		addrSaveData.append("to_detail_addr",to_detail_addr);
+		addrSaveData.append("default_flg",default_flg);
+	
+		
+
+
+		$.ajax({
+			url: "http://116.124.128.246/_api/order/pg/to/add", //주소
+			data: addrSaveData, 
+			type: "POST", 
+			async: true, 
+			enctype: "multipart/form-data", 
+			processData: false, 
+			contentType: false, 
+
+			/* 응답 확인 부분 */
+			success: function(response) {	
+				to_placeText.innerHTML = to_placeVal;
+				to_nameText.innerHTML = to_nameVal;
+				to_mobileText.innerHTML = to_mobileVal;
+				to_zipcodeText.innerHTML = to_zipcodeVal;
+				to_road_addrText.innerHTML = to_road_addrVal;
+				to_detail_addrText.innerHTML = to_detail_addr;
+
+			console.log("[serverUploadImage] : [response] : " + response);
+			},
+
+			/* 에러 확인 부분 */
+			error: function(xhr) {
+			console.log("[serverUploadImage] : [error] : " + xhr);
+			},
+
+			/* 완료 확인 부분 */
+			complete:function(data,textStatus) {
+			console.log("[serverUploadImage] : [complete] : " + textStatus);
+			}
+		});
+		
+	}
+	$(function() {
+		$("#postcodify").postcodify({
+			insertPostcode: "#postcode",
+			insertAddress: "#address",
+			insertDetails: "#details",
+			insertExtraInfo: "#extra_info",
+			hideOldAddresses: false,
+			results:".post-change-result",
+			hideSummary:true,
+			useFullJibeon:true,
+			onReady:function(){
+				document.querySelector(".post-change-result").style.display="none";
+				$(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
+				// $(".post-change-result").hide();
+			},
+			onSuccess:function(){
+				document.querySelector(".post-change-result").style.display="block";
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				// $(".post-change-result").hide();
+			},
+			afterSelect: function(selectedEntry) {
+
+				$("#postcodify div.postcode_search_result").remove();
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				$("#postcodify div.postcode_search_status.summary").hide();
+				document.querySelector(".post-change-result").style.display="none";
+				$("#entry_box").show();
+				$("#entry_details").focus();
+				$(".postcodify_search_controls .keyword").val($("#address").val());
+			}
+		});
+	});
 
 
 	function checkboxAll(allCheck) {
 		let selfChecks = document.querySelectorAll(".terms-service .check-self");
+		let essentialCheckBox = document.querySelector(".terms-service .check-self.essential");
+		let orderSection = document.querySelector(".order-section");
 		selfChecks.forEach(el => {
 			el.checked = allCheck.checked;
 		});
+		if(essentialCheckBox.checked){
+			orderSection.dataset.status = "T";
+		} else{
+			orderSection.dataset.status = "F";
+		}
+	}
+	function essentialCheckBox(check) {
+		let orderSection = document.querySelector(".order-section");
+		if(check.checked){
+			orderSection.dataset.status = "T";
+		} else{
+			orderSection.dataset.status = "F";
+		}
 	}
 
 	function productSumPrice() {
@@ -1062,7 +1636,7 @@
 
 		//배송비 처리
 		if(productSum < 50000 ) {
-			let set = 5000
+			let set = 5000;
 			delPrice.dataset.delprice = set;
 			delPrice.innerHTML = set.toLocaleString("ko-KR");;
 		} else {
@@ -1093,5 +1667,22 @@
 		}
 		result = calWrap.map(item => item.price).reduce((prev, curr) => parseInt(prev) + parseInt(curr));
 		totalPrice.innerHTML =result.toLocaleString("ko-KR");
+	}
+
+	
+	(function() {
+		let orderWrap = document.querySelector(".product-toggle-btn").offsetParent;
+		prdToggleBtn.addEventListener("click",function(){
+			
+			document.querySelector(".order-product").querySelector(".product-wrap").classList.toggle("hidden");
+		});
+	})();
+
+
+	//전화번호 하이푼 자동 입렵
+	const phoneAutoHyphen = (target) => {
+		target.value = target.value
+		.replace(/[^0-9]/g, '')
+		.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 	}
 </script>

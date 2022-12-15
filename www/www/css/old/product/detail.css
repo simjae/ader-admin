@@ -687,6 +687,9 @@ aside .left__title span{
         line-height: 1.3;
         letter-spacing: normal;
         color: #343434;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 60%;
     }
     .product .product-info .info-row .price{
         font-family: FuturaLTPro;

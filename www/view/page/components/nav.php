@@ -573,14 +573,16 @@
     }
 
     function windowResponsive() {
-        let width = window.screen.width;
         const $body = document.querySelector("body");
-        // console.log(width);
-        if (width >= 1200) {
-            $body.dataset.view = "rW"
-        } else {
+        const bodyWidth = document.querySelector("body").offsetWidth;
+        if ( 1024 <= bodyWidth) {
+			$body.dataset.view = "rW"
+        } else if(1024 >= bodyWidth) {
             $body.dataset.view = "rM"
         }
+
+
+
     }
     function basketBtn(){
         const basketWrap = document.querySelector("#basket__side__wrap");
