@@ -300,6 +300,28 @@
 
 <script>
 $(document).ready(function() {
+    $('#email').val('');
+    var userEmail = getCookie("userEmail");
+    $('#email').val(userEmail);
+
+    if($('#email').val() != ""){
+        $("input:checkbox[id='email_flg']").prop("checked", true);
+    }
+
+    $("input:checkbox[id='email_flg']").change(function(){
+        if($("input:checkbox[id='email_flg']").is(":checked")){
+            setCookie("userEmail", $('#email').val(), 7);
+        }
+        else{
+            deleteCookie("userEmail");
+        }
+    })
+
+    $('#email').keyup(function(){
+        if($('input:checked[id="email_flg"]').is(":checked")){
+            setCookie("userEmail", $('#email').val(), 7);
+        }
+    })
 });
 
 function login() {
@@ -353,6 +375,36 @@ function login() {
         }
     );
 }
+
+function setCookie(cookieName, value, exdays){
+    let exdate = new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    let cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+    document.cookie = cookieName + "=" + cookieValue;
+}
+
+//쿠키값 delete
+function deleteCookie(cookieName){
+    let expireDate = new Date();
+    expireDate.setDate(expireDate.getDate() -1);
+    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+}
+
+//쿠키값 get
+function getCookie(cookieName){
+    cookieName = cookieName + "=";
+    let cookieData = document.cookie;
+    let start = cookieData.indexOf(cookieName);
+    let cookieValue = '';
+    if(start != -1){
+        start += cookieName.length;
+        let end = cookieData.indexOf(';', start);
+        if(end == -1)end = cookieData.length;
+        cookieValue = cookieData.substring(start, end);
+    }
+    return unescape(cookieValue); //unescape로 디코딩 후 값 리턴
+}
+
 </script>
 
 

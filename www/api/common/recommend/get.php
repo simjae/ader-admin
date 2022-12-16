@@ -36,7 +36,7 @@ if ($country != null) {
 					FROM
 						dev.PRODUCT_IMG S_PI
 					WHERE
-						S_PI.PRODUCT_IDX = RP.PRODUCT_IDX AND
+						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
 						S_PI.IMG_SIZE = 'M'
 					ORDER BY
@@ -44,20 +44,23 @@ if ($country != null) {
 					LIMIT
 						0,1
 				)							AS PRODUCT_IMG,
-				RP.PRODUCT_NAME				AS PRODUCT_NAME,
+				PR.PRODUCT_NAME				AS PRODUCT_NAME,
 				OM.COLOR					AS COLOR,
 				PR.PRICE_".$country."		AS PRICE,
 				PR.DISCOUNT_".$country."	AS DISCOUNT_PRICE,
 				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
 				OM.COLOR					AS COLOR
 			FROM
-				dev.RECOMMEND_PRODUCT RP
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
-				RP.ORDERSHEET_IDX = OM.IDX
+				dev.PAGE_RECOMMEND PRE
+				LEFT JOIN dev.RECOMMEND_PRODUCT RP ON
+				PRE.IDX = RP.PAGE_IDX
 				LEFT JOIN dev.SHOP_PRODUCT PR ON
 				RP.PRODUCT_IDX = PR.IDX
+				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				PR.ORDERSHEET_IDX = OM.IDX
 			WHERE
-				RP.DEL_FLG = FALSE";
+				PRE.DEL_FLG = FALSE AND
+				PRE.ACTIVE_FLG = TRUE";
 	
 	$db->query($sql);
 	

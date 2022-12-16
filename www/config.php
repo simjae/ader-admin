@@ -20,7 +20,7 @@ define('PAGE_OPTION',array(
 			'main','landing','login','join','search','introduce','pay',
 			'guide','privacy-policy','terms-of-use','refund-policy','faq','notice',
 			'studio','performance','audition','store','account-search','components',
-			'product', 'order',
+			'product', 'order','story',
 			'member',
 			'posting',
 			'purchase',
@@ -59,6 +59,6 @@ define('PAGE',array(
 	// 'notice'=>array(''),
 	// 'product'=>array('classify','register','list'),
 	// 'order'=>array('list'),
-
+	'story'=>array('main'),
 ));
 ?>
