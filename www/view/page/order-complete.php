@@ -169,6 +169,14 @@
 		text-align: left;
 		color: #343434;
 	}
+
+    .number-info {
+        margin-bottom: 20px;
+    }
+    .option-info {
+        padding-bottom: 10px;
+    }
+
 	.product .size__box li {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -217,7 +225,7 @@
 	.order-product .product-info .info-box {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 5px;
 		justify-content: flex-start;
 	}
 
@@ -243,7 +251,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
-		padding: 30px 0;
+		padding: 20px 0 10px 0;
 		border-bottom: 1px solid #dcdcdc;
 	}
 
@@ -263,7 +271,7 @@
 	.total-price-wrap {
 		display: flex;
 		justify-content: space-between;
-		padding-top: 30px;
+		padding: 10px 0;
 	}
 	.content input {
 		border: 1px solid #808080;
@@ -272,6 +280,7 @@
 
 	.wrapper {
 		width: 100%;
+        border-bottom: solid 1px #dcdcdc;
 	}
 
 	.wrapper[data-group="1"] {
@@ -300,7 +309,6 @@
 	.header-wrap {
 		display: flex;
 		justify-content: space-between;
-		margin-bottom: 10px;
 		align-items: center;
 	}
 
@@ -357,6 +365,7 @@
 		display: flex;
         justify-content: center;
 		align-items: center;
+        height: 100%;
 		grid-column: 7/11;
 		font-family: var(--ft-no-fu);
 		font-size: 13px;
@@ -505,7 +514,6 @@
 	.address-info {
 		padding-bottom: 10px;
         margin-bottom: 20px;
-        border-bottom: solid 1px #dcdcdc;
 	}
 	
 
@@ -522,7 +530,7 @@
 	}
 
 	.address-info .cn-box {
-		padding-bottom: 20px;
+		padding-bottom: 15px;
 	}
 	.address-info .confirm-text.check::after {
 		content: attr(data-content);
@@ -626,7 +634,8 @@
 	}
 
 	.to-place {
-		margin-bottom: 20px;
+		margin-bottom: 10px;
+        text-decoration: underline;
 	}
 
 	.check-text {
@@ -645,7 +654,7 @@
 
 	.terms-info-list {
 		display: flex;
-		gap: 10px;
+		gap: 5px;
 		flex-direction: column;
 		padding: 10px 14px;
 	}
@@ -659,7 +668,12 @@
 		letter-spacing: normal;
 		text-align: left;
 		color: #343434;
+        padding-top: 20px;
+        margin-bottom: 40px;
 	}
+    .terms-service .header-title {
+        padding-top: 20px;
+    }
 	/* 스탭 버튼 */
 
 
@@ -735,7 +749,111 @@
 	.postcodify_search_result .old_addr-row{
 		color: #dcdcdc;
 	}
-	
+	@media (max-width: 1025px) {
+        .banner-wrap {
+            display: inline-block;
+        }
+        .order-section{
+            display: inline-block;
+            padding: 10px;
+        }
+
+        .product .product-info {
+			height: auto;
+		}
+		.order-section {
+			display: flex;
+			flex-direction: column;
+			padding: 0 10px;
+		}
+
+		.content.left {
+			position: static;
+			width: 100%;
+			display: none;
+		}
+		.content.rigth{
+			padding-top:47px ;
+		}
+		.content.mobile{
+			margin-bottom: 40px;
+		}
+		.content.mobile li, ul{
+			list-style: none;
+		}
+		.terms-service{
+			order: 7;
+		}
+		.step-btn-wrap{
+			order: 8;
+		}
+
+		.order-product .header-box {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-grow: 1;
+		}
+		.order-product .product-toggle-btn {
+			cursor: pointer;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: var(--bk);
+			height: 24px;
+			padding: 0 15px;
+			border-radius: 2px;
+			border: solid 1px #dcdcdc;
+			font-family: var(--ft-no-fu);
+			font-size: 11px;
+			font-weight: normal;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: normal;
+			letter-spacing: normal;
+		}
+		.order-product .body-list {
+			grid-template-columns: 4fr 1fr 1fr;
+		}
+		.order-product .product-info .info-row.mobile-saleprice {
+			display: block;
+		}
+		.order-product .web-saleprice {
+			display: none;
+		}
+		.order-product .product-wrap{
+			margin-bottom: 20px;
+		}
+		.order-product .product-count {
+			display: flex;
+			height: 100%;
+			align-items: flex-end;
+			justify-content: flex-end;
+		}
+		.order-product .total-price {
+			display: flex;
+			height: 100%;
+			align-items: flex-end;
+			justify-content: flex-end;
+		}
+		.order-product .product-count::before{
+			content: "Qty:";
+		}
+		.calculation-box {
+			padding: 0;
+			border-bottom: 0px;
+		}
+		.total-price-wrap{
+			padding-top: 10px;
+		}
+		.post-change-result{
+			width: 100%;
+		}
+		.total-price{
+			text-decoration: underline;
+		}
+
+    }
 </style>
 <main data-basketStr="<?=$basket_idx?>" data-country="<?=$country?>">
 	<div class="banner-wrap">
@@ -793,7 +911,7 @@
 				<div class="header-wrap">
 					<div class="header-box">
 						<span class="hd-title">주문내역</span>
-						<div class="product-toggle-btn"><span>자세히보기</span></div>
+						<!-- <div class="product-toggle-btn"><span>자세히보기</span></div> -->
 					</div>
 				</div>
 				<div class="header-list">
@@ -842,14 +960,14 @@
 		
 
 			<div class="terms-service " data-group="4">
-				<div>주문 취소 안내</div>
+				<div class="header-title">주문 취소 안내</div>
 				<ul class="terms-info-list">
 					<li>'주문 접수' 및 '결제 완료' 단계 : [회원정보>주문>주문상세] 에서 취소 가능
 						합니다.</li>
 					<li>'배송 준비중' 이후 단계 : 주문취소 불가하며, 제품 수령 후 '반품'으로 진행 
 						부탁드립니다.</li>
 				</ul>
-				<div>반품 안내</div>
+				<div class="header-title">반품 안내</div>
 				<ul class="terms-info-list">
 					
 					<li>반품 접수는 제품 수령 후 7일 이내 가능합니다.</li>
@@ -871,9 +989,20 @@
 
 </main>
 <script>
-
+    function resizeEvent() {
+		const bodyWidth = document.querySelector("body").offsetWidth;
+        if ( 1024 <= bodyWidth) {
+			document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
+        } else if(1024 >= bodyWidth) {
+			document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
+        }
+	}
+	window.addEventListener("resize" , function() {
+		resizeEvent();
+	});
 
 	document.addEventListener("DOMContentLoaded", function() {
+        resizeEvent();
 		// const urlParams = new URL(location.href).searchParams;
 		// const basketIdx = urlParams.get('basket_idx');
 		// let basketArr = basketIdx.split(",");
@@ -893,9 +1022,8 @@
 				let code = d.code;
 				if (code == 200) {
 					let data = d.data;
-					productInfoWrite(data[0].product_info)
-					memberInfoWrite(data[0].member_info)
-					addrInfoWrite(data[0].to_info)
+					productInfoWrite(data[0].product_info);
+					addrInfoWrite(data[0].to_info);
 				}
 				if (code == 403) {
 					console.log(d.msg)
@@ -914,7 +1042,7 @@
 			listHtml += `
 			<div class="body-list product">
 				<div class="product-info">
-					<a href="" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
+					<img class="prd-img" cnt="1" src="${url}${el.product_img}" alt="">
 					<div class="info-box">
 						<div class="info-row" data-refund="${el.refund_flg?"true":"false"}">
 							<div class="name" data-soldout=""><span>${el.product_name}</span></div>
@@ -948,14 +1076,7 @@
 		productSumPrice();
 
 	}
-	function memberInfoWrite(member) {
-		let orderName = document.querySelector(".order-info .order-name");
-		let orderPhone = document.querySelector(".order-info .order-phone");
-		let orderMail = document.querySelector(".order-info .order-mail");
-		orderName.innerHTML = member[0].member_name;
-		orderPhone.innerHTML = member[0].member_mobile;
-		orderMail.innerHTML = member[0].member_email;
-	}
+	
 	function addrInfoWrite(addr){
 		let addressPlace = document.querySelector(".address-info .save-box .to-place");
 		let addressName = document.querySelector(".address-info .save-box .to-name");
