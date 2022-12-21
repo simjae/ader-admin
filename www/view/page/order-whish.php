@@ -362,6 +362,31 @@
         text-align: right;
         text-decoration: underline;
     }
+    @media (max-width:1025px) {
+        .banner-wrap{
+            top: 42px;
+            height: 37px;
+        }
+        .content.left {
+            grid-column: 1/17;
+            margin-top: 0px;
+        }
+        .content.right{
+            background-color: #ffffff;
+            position: fixed;
+            bottom: 0;
+            top: auto;
+            height: 160px;
+            grid-column: 1/17;
+            width: 100%;
+        }
+        .product {
+            width: 50%;
+        }
+        .product .product-info {
+            height: auto;
+        }
+    }
 </style>
 <main data-basketStr="<?=$basket_idx?>" data-country="<?=$country?>">
 	<div class="banner-wrap">
@@ -397,7 +422,7 @@
 	window.addEventListener('DOMContentLoaded', function() {
 		getWhishProductList();
 	});
-    
+    let addListBox = []
     function wishListWrite(wishlist) {
         const bodyWrap = document.querySelector(".content .body-wrap.list");
         let productWrap = document.createElement("div");
@@ -559,12 +584,8 @@
         let $$prdAddBtn = document.querySelectorAll(".product-select-btn");
         let addBoxs = document.querySelectorAll(".add-list-wrap .add-box");
         let addList = [];
-        let addProduct = {
-            productIdx : "",
-            productQty : 0,
-            optionIdx : ""
-        }
-        $$prdAddBtn.forEach(el => {
+        let addProduct = {}
+        $$prdAddBtn.forEach((el , index)=> {
             el.addEventListener("click",function(e){
                 
                 if(e.currentTarget.dataset.optionidx === undefined){
@@ -576,25 +597,27 @@
                 let getCount = e.target.offsetParent.querySelector(".count__val").value;
                 let getSize = e.currentTarget.dataset.optionidx;
                 let getProduct = e.currentTarget.dataset.idx;
-                
+                let getWish = index;
+
                 addProduct.idx = getProduct;
                 addProduct.qty = getCount;
                 addProduct.size = getSize;
                 addProduct.img = getSrc;
                 addProduct.name = getName;
+                addProduct.wish = getWish;
                 
                 //해당 상품이 이미 추가 되어있을때 
-                if(!addList.includes(getProduct)){
+                // if(!addList.includes(getProduct)){
                     e.currentTarget.classList.add("select");
-                    addListAppend(getSrc,getName,getSize,getCount,getProduct,addProduct);
-                    addList.push(getProduct); 
+                    // addListAppend(getSrc,getName,getSize,getCount,getProduct,addProduct);
+                    addListAppend(addProduct);
                     document.querySelector(".add-list-wrap .header-box").classList.remove("hidden");
                     document.querySelector(".add-list-wrap .basket-link-btn").classList.remove("hidden");
 
                     el.childNodes[1].innerHTML = "선택해제";
-                }else {
-                    console.log("해당 상품이 이미 추가 되어있습니다.");
-                }
+                // }else {
+                //     console.log("해당 상품이 이미 추가 되어있습니다.");
+                // }
                 
 
             });
@@ -620,22 +643,61 @@
         });
     }
      //찜리스트에 추가 
-    function addListAppend(url,name,size,count,product,add) {
-        console.log(add);
+    // function addListAppend(url,name,size,count,product,add) {
+    //     console.log(add);
+    //     let addBoxEl = document.createElement("div");
+    //     let bodyWrap = document.querySelector(".add-list-wrap .body-wrap")
+    //     addBoxEl.classList.add("add-box");
+    //     addBoxEl.dataset.count = count;
+    //     addBoxEl.dataset.size = size;
+    //     addBoxEl.dataset.product = product;
+    //     addboxHtml = `
+    //         <img src="${url}" alt="">
+    //         <div class="product-title">
+    //             <span>${name}</span>
+    //         </div>
+    //     `;
+    //     addBoxEl.innerHTML = addboxHtml;
+    //     bodyWrap.appendChild(addBoxEl);
+    // }
+    function addListAppend(add) {
+        let bodyWrap = document.querySelector(".add-list-wrap .body-wrap");
+        let addBoxs = bodyWrap.querySelectorAll(".add-box");
         let addBoxEl = document.createElement("div");
-        let bodyWrap = document.querySelector(".add-list-wrap .body-wrap")
-        addBoxEl.classList.add("add-box");
-        addBoxEl.dataset.count = count;
-        addBoxEl.dataset.size = size;
-        addBoxEl.dataset.product = product;
+        
+        
         addboxHtml = `
-            <img src="${url}" alt="">
+            <img src="${add.img}" alt="">
             <div class="product-title">
-                <span>${name}</span>
+                <span>${add.name}</span>
             </div>
         `;
+        addBoxEl.classList.add("add-box");
+        addBoxEl.dataset.wish = add.wish;
+        addBoxEl.dataset.size = add.size;
+        addBoxEl.dataset.qty = add.qty;
         addBoxEl.innerHTML = addboxHtml;
-        bodyWrap.appendChild(addBoxEl);
+
+        console.log(addBoxs)
+        console.log(add)
+
+        if(addBoxs.length === 0){
+            bodyWrap.appendChild(addBoxEl);
+        } else {
+            addBoxs.forEach(el => {
+                if(el.dataset.wish == add.wish){
+                    if(el.dataset.size == add.size){
+                        console.log("idx 같고, 사이즈도 같음 ");
+                    } else {
+                        console.log("idx 같고, 사이즈만 다름 ");
+                    }
+                } else {
+                    console.log("이게왜탐?");
+                }
+            });
+        }
+
+        
 
     }
 </script>

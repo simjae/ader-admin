@@ -516,7 +516,6 @@
             observeSlideChildren:true,
             on:{
                 update:function(){
-                    console.log("반응좀하셈")
                 },
                 updateSlides:function(){
                 }
