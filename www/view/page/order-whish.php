@@ -1,11 +1,13 @@
 <style>
-    	:root {
-		--order-header--height: 150px;
-		--header--content--gap: 50px;
+    :root {
+        --order-header--height: 150px;
+        --header--content--gap: 50px;
 
-		--solid-bk: #808080;
+        --solid-bk: #808080;
 	}
-
+    html {
+    scroll-behavior: smooth;
+    }
 	input {
 		padding: 0;
 		box-sizing: border-box;
@@ -130,7 +132,6 @@
 	}
 	.info-box .option-box{
 		display: flex;
-		height: 80px;
         padding: 0 10px;
 		flex-direction: column;
 		justify-content: space-between;
@@ -166,7 +167,19 @@
 		pointer-events: none;
 		opacity: 0.4;
 	}
+    /* 상품 삭제 버튼 */
+    .remove-btn {
+        display: flex;
+        position: absolute;
+        right: 0;
+        margin: 10px;
+    }
 
+    .remove-btn svg:nth-of-type(2){
+        position: absolute;
+        transform: rotate(90deg);
+    }
+    
     .product {
         border-right:1px solid #dcdcdc;
         border-bottom:1px solid #dcdcdc;
@@ -291,9 +304,16 @@
         width: 100%;
         text-align: center;
 	}	
+
 	.add-list-wrap .body-wrap .add-box img{
         background-color: #fbfbfb;
 	}
+    .add-list-wrap .body-wrap .add-box .size-list{
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        column-gap: 5px;
+	}	
 	.add-list-wrap .basket-link-btn{
 		background-color: #000000;
 		color: #ffffff;
@@ -362,6 +382,9 @@
         text-align: right;
         text-decoration: underline;
     }
+    .quick-menu-wrap{
+        display: none;
+    }
     @media (max-width:1025px) {
         .banner-wrap{
             top: 42px;
@@ -380,13 +403,64 @@
             grid-column: 1/17;
             width: 100%;
         }
+        .content.right .header-wrap {
+            margin-bottom: 10px;
+        }
+        .add-list-wrap{
+            overflow-x: hidden;
+            padding: 10px 0 10px 10px;
+            position: relative;
+            z-index: 20;
+        }
+        .add-list-wrap .body-wrap {
+            display: none;
+        }
+        .add-list-wrap .quick-menu-wrap {
+            width: calc(100% - 45px);
+        }
         .product {
             width: 50%;
         }
         .product .product-info {
             height: auto;
         }
+        .quick-menu-wrap{
+            display: block;
+        }
+        .add-list-wrap .basket-link-btn {
+            height: 30px;
+            position: absolute;
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            bottom: 0;
+        }
+        .swiper {
+            height: 100%;
+        }
+       
+        .quick-menu-wrap .swiper-button-next::after {
+            position: relative;
+            content: url('/images/svg/sort-bottom.svg');
+            transform: rotate(270deg);
+        }
+        .quick-menu-wrap .swiper-button-prev::after {
+            content: url('/images/svg/sort-bottom.svg');
+            transform: rotate(90deg); 
+        }
+        .quick-swiper .quick-img {
+            max-width: 60px;
+        }
+        .quick-menu-wrap .swiper-button-next {
+            right: 20px;
+            height: 100%;
+            top: -5px;
+            margin: 0;
+        }
+        .quick-menu-wrap .swiper-button-prev {
+            display: none;
+        }
     }
+   
 </style>
 <main data-basketStr="<?=$basket_idx?>" data-country="<?=$country?>">
 	<div class="banner-wrap">
@@ -400,16 +474,22 @@
 	<section class="wishlist-section">
 		<div class="content left">
 			<div class="body-wrap list"></div>
-
 		</div>
 		<div class="content right">
 			<div class="add-list-wrap">
 				<div class="header-wrap">
-					<div class="header-box hidden">
-						<span class="hd-title">모두 선택해제</span>
+					<div class="header-box ">
+						<span class="hd-title hidden">모두 선택해제</span>
 					</div>
 				</div>
 				<div class="body-wrap"></div>
+                <div class="quick-menu-wrap">
+                    <div class="swiper mySwiper quick-swiper">
+                        <div class="swiper-wrapper"></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
 				<div class="basket-link-btn hidden">
 					<span>선택 제품 쇼핑백으로 이동하기</span>
 				</div>
@@ -422,7 +502,41 @@
 	window.addEventListener('DOMContentLoaded', function() {
 		getWhishProductList();
 	});
-    let addListBox = []
+    let addListBox = [];
+    const quickSwiper = new Swiper(".quick-swiper",{
+        observeParents:true,
+        observeSlideChildren:true,
+        slidesPerView: "auto",
+        breakpoints: {
+            320: {
+                spaceBetween: 10,
+                slidesPerView: 4.6
+            },
+            420: {
+                spaceBetween: 10,
+                slidesPerView: 6
+            },
+            520: {
+                spaceBetween: 10,
+                slidesPerView: 7
+            },
+            620: {
+                spaceBetween: 10,
+                slidesPerView: 8
+            },
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev"
+            
+        }
+        
+    });
+    quickSwiper.on('click', function() {
+        let idx = quickSwiper.clickedIndex;
+        let wishIdx = quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
+        elementScroll("body-list",wishIdx);
+    });
     function wishListWrite(wishlist) {
         const bodyWrap = document.querySelector(".content .body-wrap.list");
         let productWrap = document.createElement("div");
@@ -465,7 +579,16 @@
                 <div class="body-list product">
                     <div class="product-info">
                         <div class="remove-btn">
-                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15.414" height="15.414" viewBox="0 0 15.414 15.414">
+                                <g id="Line" transform="translate(0.207 0.207)">
+                                    <path id="Line-2" data-name="Line" d="M0,14,14,0" transform="translate(0.5 0.5)" fill="none" stroke="#000" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1"/>
+                                </g>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15.414" height="15.414" viewBox="0 0 15.414 15.414">
+                                <g id="Line" transform="translate(0.207 0.207)">
+                                    <path id="Line-2" data-name="Line" d="M0,14,14,0" transform="translate(0.5 0.5)" fill="none" stroke="#000" stroke-linecap="square" stroke-miterlimit="10" stroke-width="1"/>
+                                </g>
+                            </svg>
                         </div>
                         <a href="" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
                         <div class="info-box">
@@ -485,15 +608,6 @@
                                         <div class="size__box">
                                             ${productSizeHtml}
                                         </div>
-                                    </div>
-                                    <div class="info-row" style="position:relative;">
-                                        <div class="count__btn__box">
-                                            <div>Qty</div>
-                                            <div class="minus__btn">-</div>
-                                            <input class="count__val" type="text" value="1">
-                                            <div class="plus__btn">+</div>
-                                        </div>
-                                        <div class="option-noti hidden"><div class="noti-text">옵션을 선택해주세요</div></div>
                                     </div>
                                 </div>
                                 <div data-idx="${el.product_idx}" class="product-select-btn">
@@ -527,7 +641,7 @@
             success: function(d) {
                 let data = d.data;
                 wishListWrite(data);
-                productAddHandler();
+                productAddBtnClickHandler();
                 countHandler();
                 sizeSelectHandler();
             }
@@ -579,50 +693,7 @@
         }
     }
 
-    //상품 선택 버튼
-    function productAddHandler() {
-        let $$prdAddBtn = document.querySelectorAll(".product-select-btn");
-        let addBoxs = document.querySelectorAll(".add-list-wrap .add-box");
-        let addList = [];
-        let addProduct = {}
-        $$prdAddBtn.forEach((el , index)=> {
-            el.addEventListener("click",function(e){
-                
-                if(e.currentTarget.dataset.optionidx === undefined){
-                    e.target.offsetParent.querySelector(".option-noti").classList.remove("hidden");
-                    return false;
-                }
-                let getSrc = e.target.offsetParent.querySelector(".prd-img").getAttribute("src");
-                let getName = e.target.offsetParent.querySelector(".name span").innerHTML;
-                let getCount = e.target.offsetParent.querySelector(".count__val").value;
-                let getSize = e.currentTarget.dataset.optionidx;
-                let getProduct = e.currentTarget.dataset.idx;
-                let getWish = index;
-
-                addProduct.idx = getProduct;
-                addProduct.qty = getCount;
-                addProduct.size = getSize;
-                addProduct.img = getSrc;
-                addProduct.name = getName;
-                addProduct.wish = getWish;
-                
-                //해당 상품이 이미 추가 되어있을때 
-                // if(!addList.includes(getProduct)){
-                    e.currentTarget.classList.add("select");
-                    // addListAppend(getSrc,getName,getSize,getCount,getProduct,addProduct);
-                    addListAppend(addProduct);
-                    document.querySelector(".add-list-wrap .header-box").classList.remove("hidden");
-                    document.querySelector(".add-list-wrap .basket-link-btn").classList.remove("hidden");
-
-                    el.childNodes[1].innerHTML = "선택해제";
-                // }else {
-                //     console.log("해당 상품이 이미 추가 되어있습니다.");
-                // }
-                
-
-            });
-        })
-    }
+    
     // 상품 사이즈 선택 
     function sizeSelectHandler() {
         let sizes = document.querySelectorAll(".size__box .size");
@@ -630,74 +701,198 @@
         
         sizes.forEach(el => {
             el.addEventListener("click", function(e){
-                e.target.offsetParent.querySelector(".option-noti").classList.add("hidden");
+                let sizeLen = sizeIsSelectEl(e).length;
                 let sizeEl = e.target.offsetParent.querySelectorAll(".size__box .size");
-                let szieTarget  = e.target;
-                szieTarget.parentNode.querySelectorAll(".size__box .size").forEach(el => {
-                    el.classList.remove("select");
-                });
-                szieTarget.classList.add("select");
-                let getSize = [...sizeEl].filter(el => el.classList.contains("select"));
-                console.log(e.target.offsetParent.querySelector(".product-select-btn").dataset.optionidx = getSize[0].dataset.optionidx)
+                let szieTarget = e.target;
+
+                //상품 재고 상태 반영
+                if(szieTarget.dataset.soldout == "STIN" || szieTarget.dataset.soldout == "STSH" || szieTarget.dataset.soldout == "STCL" ){
+                    szieTarget.classList.toggle("select");
+                } 
+
+                e.currentTarget.offsetParent.querySelector(".product-select-btn").classList.remove("select");
+                e.currentTarget.offsetParent.querySelector(".product-select-btn span").innerHTML="선택하기";
+
             });
         });
     }
-     //찜리스트에 추가 
-    // function addListAppend(url,name,size,count,product,add) {
-    //     console.log(add);
-    //     let addBoxEl = document.createElement("div");
-    //     let bodyWrap = document.querySelector(".add-list-wrap .body-wrap")
-    //     addBoxEl.classList.add("add-box");
-    //     addBoxEl.dataset.count = count;
-    //     addBoxEl.dataset.size = size;
-    //     addBoxEl.dataset.product = product;
-    //     addboxHtml = `
-    //         <img src="${url}" alt="">
-    //         <div class="product-title">
-    //             <span>${name}</span>
-    //         </div>
-    //     `;
-    //     addBoxEl.innerHTML = addboxHtml;
-    //     bodyWrap.appendChild(addBoxEl);
-    // }
+
+    //사이즈 선택 체크 
+    const sizeIsSelectEl  = (e) => {
+        let sizeEl = e.target.offsetParent.querySelectorAll(".size__box .size");
+        let result = [...sizeEl].filter(el => el.classList.contains("select"));
+        
+        return result
+    }
+    //
+    const addIsProductEl  = (wishIdx) => {
+        let addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
+        let result = [...addboxEl].filter(el => el.dataset.wish == wishIdx);
+        return result
+    }
+    const showAddWrapBtns = () => {
+        let addListWrap = document.querySelector(".add-list-wrap");
+        let allRemoveBtn  = addListWrap.querySelector(".hd-title");
+        let basketLinkBtn  = addListWrap.querySelector(".basket-link-btn");
+        addListWrap.classList.remove("hidden");
+        allRemoveBtn.classList.remove("hidden");
+    }
+        
+    //상품 선택 버튼
+    function productAddBtnClickHandler() {
+        let $$prdAddBtn = document.querySelectorAll(".product-select-btn");
+        let addBoxs = document.querySelectorAll(".add-list-wrap .add-box");
+        let addList = [];
+        let addProduct = {}
+        $$prdAddBtn.forEach((el , index)=> {
+            el.addEventListener("click",function(e){
+                let sizeEl = sizeIsSelectEl(e);
+                let szieTextArr = sizeEl.map(el => el.innerHTML);
+                let szieIdxArr = sizeEl.map(el => el.dataset.optionidx);
+
+                let getSrc = e.target.offsetParent.querySelector(".prd-img").getAttribute("src");
+                let getName = e.target.offsetParent.querySelector(".name span").innerHTML;
+                let getSizeText = szieTextArr;
+                let getSizeIdx = szieIdxArr;
+                let getProduct = e.currentTarget.dataset.idx;
+                let getWish = index;
+
+                //사이즈가 선택이 아무것도 안되어있을때 ~~~~
+                //1. 예외처리 
+                if(!sizeEl.length){
+                    e.currentTarget.classList.remove("select");
+                    e.currentTarget.children[0].innerHTML = "옵션을 선택해주세요";
+                    return false;
+                }  
+
+                addProduct.idx = getProduct;
+                addProduct.sizeidx = getSizeIdx;
+                addProduct.sizeText = getSizeText;
+                addProduct.img = getSrc;
+                addProduct.name = getName;
+                addProduct.wish = getWish;
+                
+            
+                e.currentTarget.classList.add("select");
+                
+                addListAppend(addProduct);
+
+
+                document.querySelector(".add-list-wrap .header-box").classList.remove("hidden");
+                document.querySelector(".add-list-wrap .basket-link-btn").classList.remove("hidden");
+
+                el.childNodes[1].innerHTML = "선택해제";
+                
+
+            });
+        })
+    }
     function addListAppend(add) {
         let bodyWrap = document.querySelector(".add-list-wrap .body-wrap");
+        let swiperWrap = document.querySelector(".add-list-wrap .quick-swiper .swiper-wrapper");
         let addBoxs = bodyWrap.querySelectorAll(".add-box");
+        
         let addBoxEl = document.createElement("div");
-        
-        
+        let slideEl = document.createElement("div");
+        let sizeIdxArr = add.sizeidx.toString();
+        let sizeHtml = "";
+        addBoxEl.dataset.wish = add.wish;
+        addBoxEl.dataset.size =  sizeIdxArr;
+        //사이즈 선택이 1개이상일떄 
+        if(sizeIdxArr.length > 0){
+            let sizeResult =  add.sizeText.map(el => {
+                let sizeSpan = `<span>${el}</span>`
+                return sizeSpan;
+            }).join("");
+            sizeHtml = sizeResult;
+        }
+
+        //동일한 위시리스트 idx가 찜리시트에 있을경우 
+        let wishStatus = addIsProductEl(add.wish);
+        if(wishStatus.length){
+            let thisSizeList = wishStatus[0].querySelector(".size-list");
+            wishStatus[0].dataset.size = sizeIdxArr;
+
+            while(thisSizeList.hasChildNodes()){ //자식 요소가 있는지 확인-false가 될때까지 반복
+                thisSizeList.removeChild(thisSizeList.firstChild); // 첫번째 자식 요소를 삭제
+            }
+            add.sizeText.forEach(el => {
+                let sizeSpan = document.createElement("span");
+                sizeSpan.innerHTML = el;
+                thisSizeList.appendChild(sizeSpan);
+            });
+            return
+        } 
+
         addboxHtml = `
             <img src="${add.img}" alt="">
             <div class="product-title">
                 <span>${add.name}</span>
+                <div class="size-list">
+                ${sizeHtml}
+                </div>
             </div>
         `;
-        addBoxEl.classList.add("add-box");
-        addBoxEl.dataset.wish = add.wish;
-        addBoxEl.dataset.size = add.size;
-        addBoxEl.dataset.qty = add.qty;
-        addBoxEl.innerHTML = addboxHtml;
 
-        console.log(addBoxs)
-        console.log(add)
-
-        if(addBoxs.length === 0){
-            bodyWrap.appendChild(addBoxEl);
-        } else {
-            addBoxs.forEach(el => {
-                if(el.dataset.wish == add.wish){
-                    if(el.dataset.size == add.size){
-                        console.log("idx 같고, 사이즈도 같음 ");
-                    } else {
-                        console.log("idx 같고, 사이즈만 다름 ");
-                    }
-                } else {
-                    console.log("이게왜탐?");
-                }
-            });
-        }
+        quickHtml =`<img class="quick-img" data-no="${add.wish}" src="${add.img}" alt="">`;
 
         
 
+        addBoxEl.innerHTML = addboxHtml;
+        slideEl.innerHTML = quickHtml;
+        addBoxEl.classList.add("add-box");
+        slideEl.classList.add("swiper-slide");
+        
+        bodyWrap.appendChild(addBoxEl);
+        swiperWrap.appendChild(slideEl);
+        quickSwiper.update();
+        console.log("🏂 ~ file: order-whish.php:846 ~ addListAppend ~ addBoxs.length", bodyWrap.querySelectorAll(".add-box").length)
+        if(bodyWrap.querySelectorAll(".add-box").length !== 0){
+            showAddWrapBtns();
+        }
+    }
+        console.log("🏂 ~ file: order-whish.php:853 ~ addListAppend ~ add.sizeidx", add.sizeidx)
+        console.log("🏂 ~ file: order-whish.php:853 ~ addListAppend ~ add.sizeidx", add.sizeidx)
+        console.log("🏂 ~ file: order-whish.php:853 ~ addListAppend ~ add.sizeidx", add.sizeidx)
+        console.log("🏂 ~ file: order-whish.php:853 ~ addListAppend ~ add.sizeidx", add.sizeidx)
+        console.log("🏂 ~ file: order-whish.php:853 ~ addListAppend ~ add.sizeidx", add.sizeidx)
+        console.log("🏂 ~ file: order-whish.php:853 ~ addListAppend ~ add.sizeidx", add.sizeidx)
+        console.log("🏂 ~ file: order-whish.php:853 ~ addListAppend ~ add.sizeidx", add.sizeidx)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+        console.log("🏂 ~ file: order-whish.php:852 ~ addListAppend ~ sizeIsSelectEl.length", sizeIsSelectEl.length)
+
+    //퀵슬라이드 클릭시 스크롤 이동
+    function elementScroll(el, idx) {
+        const headerHeight = document.querySelector("header").offsetHeight;
+        const bannerHeight = document.querySelector(".banner-wrap").offsetHeight;
+        let elemTop = document.querySelectorAll(`.${el}`)[idx].offsetTop;
+        let result = elemTop - (headerHeight + bannerHeight);
+        window.scrollTo(0, result);
     }
 </script>

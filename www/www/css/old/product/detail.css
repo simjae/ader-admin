@@ -197,6 +197,7 @@ ul,li{
     position: absolute;
     top: -20px;
     left: 0px;
+    width:100px;
 }
 
 .detail__wrapper .info__wrap .color__box .color {
