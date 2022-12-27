@@ -1019,7 +1019,6 @@
 						</div>
 						<div id="postcodify" class="input-row"></div>
 						<div class="input-row">
-							<div id="postcodify"></div>
 							<div class="post-change-result"></div>
 							<span>상세주소</span>
 							<input name="" class="post-detail" value="" />
@@ -1282,12 +1281,13 @@
 
 
 	preStepBtn.addEventListener("click", function() {
-		if (nextStepBtn.dataset.step === "1") {
-			history.back();
-		}
+		// if (nextStepBtn.dataset.step === "1") {
+		// 	history.back();
+		// }
 		nextStepBtn.dataset.step = "1";
 		calculationWrap.dataset.step = "1";
-		orderSection.dataset.status="";
+		// orderSection.dataset.status="1";
+		//	
 		nextStepBtn.querySelector("span").innerHTML = "다음 단계";
 		
 		$$group1.forEach(el => {

@@ -423,7 +423,7 @@ aside .left__title span{
     text-align: left;
     color:var(--bk);
 }
-.foryoy-wrap {
+.foryou-wrap {
     grid-column: 2/17;
 }
 .style-wrap {
@@ -661,7 +661,7 @@ aside .left__title span{
         border-bottom: solid 1px #dcdcdc;
         margin-bottom: 70px;
     }
-    .foryoy-wrap {
+    .foryou-wrap {
         grid-column: 1/9;
         border-top: solid 1px #dcdcdc;
         border-bottom: solid 1px #dcdcdc;
