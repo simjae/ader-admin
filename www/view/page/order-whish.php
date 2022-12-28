@@ -115,6 +115,7 @@
 
     .content.right .header-wrap {
         margin-bottom: 80px;
+        padding:15px ;
     }
 
     .content.right .body-wrap {}
