@@ -14,7 +14,8 @@
  +=============================================================================
 */
 
-$member_idx = 0;
+$member_idx = 1;
+//$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }

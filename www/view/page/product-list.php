@@ -511,9 +511,8 @@
             autoHeight: true,
             grabCursor: true,
             slidesPerView: 1,
-            observer: true,
-            observeParents: true,
-            observeSlideChildren:true,
+            observer:true,
+	        observeParents: true,
             on:{
                 update:function(){
                 },

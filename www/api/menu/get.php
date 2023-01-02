@@ -14,20 +14,55 @@
  +=============================================================================
 */
 
+if (!isset($_POST['country'])) {
+	$country = $_POST['country'];
+}
+$country = "KR";
+
 $lrg_num = 0;
 $mdl_num = 0;
 $sml_num = 0;
 $dtl_num = 0;
 
-$menu_lrg_sql = "SELECT
-					ML.IDX				AS MENU_IDX,
-					ML.MENU_TITLE		AS MENU_TITLE,
-					ML.MENU_TYPE		AS MENU_TYPE,
-					ML.MENU_LINK		AS MENU_LINK
-				FROM
-					dev.MENU_LRG ML
-				WHERE
-					ML.DEL_FLG = FALSE";
+$menu_lrg_sql = "
+	SELECT
+		ML.IDX				AS MENU_IDX,
+		ML.MENU_TITLE		AS MENU_TITLE,
+		ML.MENU_TYPE		AS MENU_TYPE,
+		CASE
+			WHEN
+				ML.MENU_TYPE = 'PR'
+				THEN
+					(
+						SELECT
+							CONCAT(
+								S_PPR.PAGE_URL,
+								'&menu_sort=L&menu_idx=',
+								ML.IDX
+							)
+						FROM
+							dev.PAGE_PRODUCT S_PPR
+						WHERE
+							S_PPR.IDX = ML.PAGE_IDX
+					)
+			WHEN
+				ML.MENU_TYPE = 'PO'
+				THEN
+					(
+						SELECT
+							S_PPO.PAGE_URL
+						FROM
+							dev.PAGE_POSTING S_PPO
+						WHERE
+							S_PPO.IDX = ML.PAGE_IDX
+					)
+		END					AS MENU_LINK
+	FROM
+		dev.MENU_LRG ML
+	WHERE
+		ML.COUNTRY = '".$country."' AND
+		ML.DEL_FLG = FALSE
+";
 	
 $db->query($menu_lrg_sql);
 
@@ -35,140 +70,103 @@ $menu_lrg = array();
 foreach($db->fetch() as $lrg_data) {	
 	$menu_lrg_idx = $lrg_data['MENU_IDX'];
 	
-	if ($menu_lrg_idx != null) {
-		$menu_sld_sql ="SELECT
-							ME.IDX				AS SLIDE_IDX,
-							ME.SLIDE_TYPE		AS SLIDE_TYPE,
-							ME.CONTENTS_IDX		AS CONTENTS_IDX,
-							ME.POSTING_TYPE		AS POSTING_TYPE
-						FROM
-							dev.MENU_SLIDE ME
-						WHERE
-							ME.MENU_IDX = ".$menu_lrg_idx;
+	if (!empty($menu_lrg_idx)) {
+		$menu_slide_sql ="
+			SELECT
+				CASE
+					WHEN
+						ME.LINK_TYPE = 'PR'
+						THEN
+							(
+								SELECT
+									CONCAT(
+										S_PPR.PAGE_URL,
+										'&menu_sort=L&menu_idx=',
+										ME.IDX
+									)
+								FROM
+									dev.PAGE_PRODUCT S_PPR
+								WHERE
+									S_PPR.IDX = ME.PAGE_IDX
+							)
+					WHEN
+						ME.LINK_TYPE = 'PO'
+						THEN
+							(
+								SELECT
+									S_PPO.PAGE_URL
+								FROM
+									dev.PAGE_POSTING S_PPO
+								WHERE
+									S_PPO.IDX = ME.PAGE_IDX
+							)
+				END					AS SLIDE_URL,
+				ME.OBJ_TITLE		AS OBJ_TITLE,
+				ME.IMG_LOCATION		AS IMG_LOCATION
+			FROM
+				dev.MENU_SLIDE ME
+			WHERE
+				ME.MENU_IDX = ".$menu_lrg_idx." AND
+				ME.COUNTRY = '".$country."'
+			ORDER BY
+				ME.IDX ASC
+		";
 		
-		$db->query($menu_sld_sql);
+		$db->query($menu_slide_sql);
 		
 		$menu_slide = array();
-		foreach($db->fetch() as $sld_data) {
-			$slide_idx = $sld_data['SLIDE_IDX'];
-			
-			if ($slide_idx != null) {
-				$slide_type = $sld_data['SLIDE_TYPE'];
-				$contents_idx = $sld_data['CONTENTS_IDX'];
-				$posting_type = $sld_data['POSTING_TYPE'];
-				
-				$url = "";
-				
-				$slide_sql = "";
-				if ($slide_type == "PR") {
-					$url = "/product/detail?product_idx=";
-					
-					$slide_product_sql="SELECT
-											PR.IDX				AS SLIDE_IDX,
-											PR.PRODUCT_NAME		AS SLIDE_NAME,
-											(
-												SELECT
-													REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-												FROM
-													dev.PRODUCT_IMG S_PI
-												WHERE
-													S_PI.PRODUCT_IDX = ".$contents_idx." AND
-													S_PI.IMG_TYPE = 'P' AND
-													S_PI.IMG_SIZE = 'S'
-												ORDER BY
-													S_PI.IDX ASC
-												LIMIT
-													0,1
-											)					AS SLIDE_IMG
-										FROM
-											dev.SHOP_PRODUCT PR
-										WHERE
-											PR.IDX = ".$contents_idx;
-					
-					$slide_sql .= $slide_product_sql;
-				} else if ($slide_type == "PO") {
-					$path = "";
-					$img_table = "";
-					switch ($posting_type) {
-						case "CL":
-							$path = "collaboration";
-							$img_table = "COLLABORATION";
-							break;
-						
-						case "CT":
-							$path = "collection";
-							$img_table = "COLLECTION";
-							break;
-						
-						case "EX":
-							$path = "exhibition";
-							$img_table = "EXHIBITION";
-							break;
-						
-						case "ED":
-							$path = "editorial";
-							$img_table = "EDITORIAL";
-							break;
-						
-						case "LB":
-							$path = "lookbook";
-							$img_table = "LOOKBOOK";
-							break;
-					}
-					
-					$url = "/posting/".$path."?page_idx=";
-					
-					$slide_posting_sql="SELECT
-											PP.IDX			AS SLIDE_IDX,
-											PP.PAGE_TITLE	AS SLIDE_NAME,
-											(
-												SELECT
-													S_PI.IMG_LOCATION
-												FROM
-													dev.POSTING_IMG_".$img_table." S_PI
-												WHERE
-													S_PI.".$img_table."_IDX = PP.IDX AND
-													S_PI.IMG_TYPE = 'M' AND
-													S_PI.IMG_SIZE = 'S'
-												ORDER BY
-													S_PI.IDX ASC
-												LIMIT
-													0,1
-											)				AS SLIDE_IMG
-										FROM
-											dev.PAGE_POSTING PP
-										WHERE
-											PP.POSTING_TYPE = '".$posting_type."' AND
-											PP.IDX = ".$contents_idx;
-					
-					$slide_sql .= $slide_posting_sql;
-				}
-				
-				$db->query($slide_sql);
-				
-				foreach($db->fetch() as $slide_data) {
-					$menu_slide[] = array(
-						'slide_url'			=>$url.$slide_data['SLIDE_IDX'],
-						'slide_name'		=>$slide_data['SLIDE_NAME'],
-						'slide_img'			=>$slide_data['SLIDE_IMG']
-					);
-				}
-			}
+		foreach($db->fetch() as $slide_data) {
+			$menu_slide[] = array(
+				'slide_url'			=>$slide_data['SLIDE_URL'],
+				'slide_name'		=>$slide_data['OBJ_TITLE'],
+				'slide_img'			=>$slide_data['IMG_LOCATION']
+			);
 		}
 		
 		$mdl_cnt = $db->count("dev.MENU_MDL MM","MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND MM.DEL_FLG = FALSE");
 		
 		if ($mdl_cnt > 0) {
-			$menu_mdl_sql ="SELECT
-								MM.IDX			AS MENU_IDX,
-								MM.MENU_TITLE	AS MENU_TITLE,
-								MM.MENU_TYPE	AS MENU_TYPE,
-								MM.MENU_LINK	AS MENU_LINK
-							FROM
-								dev.MENU_MDL MM
-							WHERE
-								MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND
-								MM.DEL_FLG = FALSE";
+			$menu_mdl_sql ="
+				SELECT
+					MM.IDX			AS MENU_IDX,
+					MM.MENU_TITLE	AS MENU_TITLE,
+					MM.MENU_TYPE	AS MENU_TYPE,
+					CASE
+						WHEN
+							MM.MENU_TYPE = 'PR'
+							THEN
+								(
+									SELECT
+										CONCAT(
+											S_PPR.PAGE_URL,
+											'&menu_sort=M&menu_idx=',
+											MM.IDX
+										)
+									FROM
+										dev.PAGE_PRODUCT S_PPR
+									WHERE
+										S_PPR.IDX = MM.PAGE_IDX
+								)
+						
+						WHEN
+							MM.MENU_TYPE = 'PO'
+							THEN
+								(
+									SELECT
+										S_PPO.PAGE_URL
+									FROM
+										dev.PAGE_POSTING S_PPO
+									WHERE
+										S_PPO.IDX = MM.PAGE_IDX
+								)
+					END				AS MENU_LINK
+				FROM
+					dev.MENU_MDL MM
+				WHERE
+					MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND
+					MM.COUNTRY = '".$country."' AND
+					MM.DEL_FLG = FALSE
+			";
 			
 			$db->query($menu_mdl_sql);
 			
@@ -177,33 +175,42 @@ foreach($db->fetch() as $lrg_data) {
 				$menu_mdl_idx = $mdl_data['MENU_IDX'];
 				$menu_mdl_type = $mdl_data['MENU_TYPE'];
 				
-				if ($menu_mdl_idx != null) {
+				if (!empty($menu_mdl_idx)) {
 					$menu_sml = array();
 					if ($menu_mdl_type != "PO") {
 						$sml_cnt = $db->count("dev.MENU_SML MS","MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND MS.DEL_FLG = FALSE");
 						
 						if ($sml_cnt > 0) {
-							$menu_sml_sql ="SELECT
-												MS.IDX			AS MENU_IDX,
-												MS.MENU_TITLE	AS MENU_TITLE,
-												MS.MENU_LINK	AS MENU_LINK
-											FROM
-												dev.MENU_SML MS
-											WHERE
-												MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND
-												MS.DEL_FLG = FALSE";
+							$menu_sml_sql ="
+								SELECT
+									MS.MENU_TITLE	AS MENU_TITLE,
+									(
+										SELECT
+											CONCAT(
+												S_PPR.PAGE_URL,
+												'&menu_sort=S&menu_idx=',
+												MS.IDX
+											)
+										FROM
+											dev.PAGE_PRODUCT S_PPR
+										WHERE
+											S_PPR.IDX = MS.PAGE_IDX
+									)				AS MENU_LINK
+								FROM
+									dev.MENU_SML MS
+								WHERE
+									MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND
+									MS.COUNTRY = '".$country."' AND
+									MS.DEL_FLG = FALSE
+							";
 							
 							$db->query($menu_sml_sql);
 							
 							foreach($db->fetch() as $sml_data) {
-								$menu_sml_idx = $sml_data['MENU_IDX'];
-								
-								if ($menu_sml_idx != null) {
-									$menu_sml[] = array(
-										'menu_title'	=>$sml_data['MENU_TITLE'],
-										'menu_link'		=>$sml_data['MENU_LINK'],
-									);
-								}
+								$menu_sml[] = array(
+									'menu_title'	=>$sml_data['MENU_TITLE'],
+									'menu_link'		=>$sml_data['MENU_LINK'],
+								);
 							}
 						}
 					}

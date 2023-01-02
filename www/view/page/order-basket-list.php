@@ -14,6 +14,7 @@
         letter-spacing: normal;
         text-align: left;
         color: #343434;
+        margin-bottom: 200px;
     }
     .basket__box{
         display: flex;
@@ -45,9 +46,9 @@
         width: 100%;
         display: flex;
         height: 120px;
-        padding: 40px 10px 0 0;
+        padding-top: 40px;
         position: sticky;
-        top: 70px;
+        top: 50px;
         z-index: 1;
         background: #ffffff;
         flex-direction: column;
@@ -97,6 +98,7 @@
     }
     .list__body .product__box:first-child {
         border-top: 0px;
+        padding-top: 0px;
     }
     
 
@@ -111,7 +113,7 @@
     .product__box .prd__content {
         display: flex;
         flex-direction: column;
-        gap: 13px;
+        gap: 10px;
         padding: 4px 0;
         flex-grow: 1;
     }
@@ -120,12 +122,12 @@
     }
     .pay__box {
         display: flex;
-        width: 35rem;
         height: 97vh;
         position: sticky;
         top: 70px;
         flex-direction: column;
         justify-content: center;
+        grid-column: 11 / 14;
     }
     .pay__row {
         display: flex;
@@ -285,10 +287,39 @@
         background-color: #000;
         border: 1px solid #343434;
     }
+
+    @media (max-width: 1025px) {
+        .basket__wrap{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 100px;
+        }
+        .list__box {
+            width: 100%;
+            padding: 0 10px;
+        }
+        .list__header{
+            top: 42px;
+            height: 80px;
+            padding-top: 10px;
+        }
+        .pay__box{
+            height: auto;
+            padding: 20px 10px 0 10px;
+            bottom: 0;
+            background-color: #ffffff;
+        }
+        .pay__row{
+            padding-bottom: 10px;
+        }
+        .pay__row:nth-child(2) {
+            margin-bottom: 10px;
+        }
+    }
 </style>
+<link rel="stylesheet" href="/css/module/foryou.css">
 <main>
-    <div class="basket__wrap">
-        <div class="basket__box">
+    <section class="basket__wrap">
             <div class="list__box">
                 <div class="list__header">
                     <div class="icon__box">
@@ -308,7 +339,6 @@
                 </div>
                 <div class="list__body"></div>
             </div>
-            <div class="dash"></div>
             <div class="pay__box">
                 <div class="pay__row">
                     <div>제품합계</div>
@@ -325,60 +355,49 @@
                 <div class="pay__btn"><span>결제하기</span></div>
                 <p class="pay__notiy">품절제품을 삭제 후 결제를 진행해주세요.</p> 
             </div>
-        </div>
-    </div>
+    </section>
+    <section class="recommend-wrap"></section>
 </main>
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         getBasketProductList();
     });
-  
+    const selfCheckbox = (status, checked) => {
+        let $$checkedSelfBox = document.querySelectorAll(`.self__cb[name='${status}']${checked ? ":checked":""}`);
+        $$checkedSelfBox.forEach( el => {
+            let basketIdx = el.parentNode.parentNode.dataset.basketidx;
+            el.parentNode.parentNode.remove();
+            deleteBasketProduct(basketIdx);
+            let getCheckedPrice = checkedProductPrice();
+            payBoxSumPrice(getCheckedPrice);
+        });
+    }
      //재고상품 선택삭제 버튼
     (function stockCheckedDeleteBtn(){
         const $checkedDelete = document.querySelector(".st__checked__btn");
         $checkedDelete.addEventListener("click", () => {
-            const $$checkedSelfBox = document.querySelectorAll(".self__cb[name='stock']:checked");
-            $$checkedSelfBox.forEach( el => {
-                let basketIdx = el.parentElement.dataset.basketidx;
-                el.parentElement.remove();
-                deleteBasketProduct(basketIdx);
-                let getCheckedPrice = checkedProductPrice();
-                payBoxSumPrice(getCheckedPrice);
-            });
+            selfCheckbox("stock",true);
         });
     })();
     //재고상품 전체삭제 버튼
     (function stockAllDeleteBtn(){
         const $checkedDelete = document.querySelector(".st__all__btn");
         $checkedDelete.addEventListener("click", () => {
-            let $inputbox = document.querySelectorAll(".self__cb[name='stock']");
-            $inputbox.forEach(el => {
-                let basketIdx = el.parentNode.dataset.basketidx;
-                el.checked = true;
-            })
+            selfCheckbox("stock",false);
         });
     })();
      //품절상품 선택삭제 버튼
     function soldCheckedDeleteBtn(){
         const $checkedDelete = document.querySelector(".so__checked__btn");
         $checkedDelete.addEventListener("click", (e) => {
-            const $$checkedSelfBox = document.querySelectorAll(".self__cb[name='sold']:checked");
-            $$checkedSelfBox.forEach( el => {
-                let basketIdx = el.parentNode.parentNode.dataset.basketidx;
-                el.parentNode.parentNode.remove();
-                //deleteBasketProduct(basketIdx); 
-            });
+            selfCheckbox("sold",true);
         });
     };
     //품절상품 전체삭제 버튼
     function soldAllDeleteBtn(){
         const $checkedDelete = document.querySelector(".so__all__btn");
         $checkedDelete.addEventListener("click", () => {
-            let $inputbox = document.querySelectorAll(".self__cb[name='sold']");
-            $inputbox.forEach(el => {
-                let basketIdx = el.parentNode.dataset.basketidx;
-                el.checked = true;
-            })
+            selfCheckbox("sold",false);
         });
     };
     //삭제 api
@@ -462,8 +481,29 @@
         //재고상품 있는 경우 
         if(stock.length > 0 ) {
             stock.forEach( el => {
+                let saleprice = (el.sales_price).toLocaleString('ko-KR');
+
+                let product_color = el.color_rgb;
+                let productColorHtml = "";
+                let colorData = product_color;
+                let multi= colorData.split(";");
+                if(multi.length === 2){
+                    productColorHtml += `
+                    <div class="color-line" data-idx="${color.product_idx}"  style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
+                        <div class="color multi" data-title="${color.color}"></div>
+                    </div>
+                `;
+                } else {
+                    productColorHtml += `
+                        <div class="color-line" data-idx="${color.product_idx}" data-title="${color.color}" style="--background-color:${multi[0]}" >
+                            <div class="color" data-title="${color.color}"></div>
+                        </div>
+                    `;
+                }
+
+
                 stockHtml += 
-                `<div class="product__box" data-optionidx="${el.option_idx}" data-status="STIN"  data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
+                `<div class="product__box" data-optionidx="${el.option_idx}" data-status="${el.stock_status}"  data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
                     <label class="cb__custom self" for="">
                         <input class="prd__cb self__cb" type="checkbox" name="stock">
                         <div class="cb__mark"></div>
@@ -472,7 +512,12 @@
                     <div class="prd__content" data-salesprice="${el.sales_price}" >
                         <div class="prd__title">${el.product_name}</div>
                         <div class="prd__price">${el.sales_price}</div>
-                        <div class="prd__color">${el.color}</div>
+                        ${productColorHtml}
+                        <div class="color__chip">
+                            <div class="color__outline">
+                                <div class="color"style="background-color:${el.color_rgb}"></div>
+                            </div>
+                        </div>
                         <div class="prd__size">
                             <div class="size__box">
                                 <li data-soldout="${el.stock_status}">${el.option_name}</li>
@@ -483,7 +528,7 @@
                             <div class="minus__btn">-</div>
                             <input class="count__val" type="text" value="${el.basket_qty}" readonly>
                             <div class="plus__btn">+</div>
-                            <div class="totalPrice stock">${el.sales_price}</div>
+                            <div class="totalPrice data-stat="${saleprice}" stock">${saleprice}</div>
                         </div>
                     </div>
                 </div>`
@@ -521,7 +566,7 @@
 
             sold.forEach( el => {
                 productHtml += 
-                `<div class="product__box" data-optionidx="${el.option_idx} data-status="STSO" data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
+                `<div class="product__box" data-optionidx="${el.option_idx}" data-status="${el.stock_status}" data-basketidx="${el.basket_idx}" data-basketqty="${el.basket_qty}" data-productidx="${el.product_idx}" data-productqty="${el.product_qty}">
                     <label class="cb__custom self" for="">
                         <input class="prd__cb self__cb" type="checkbox" name="sold">
                         <div class="cb__mark"></div>
@@ -530,7 +575,11 @@
                     <div class="prd__content">
                         <div class="prd__title">${el.product_name}</div>
                         <div class="prd__price">${el.sales_price}</div>
-                        <div class="prd__color">${el.color}</div>
+                        <div class="color__chip">
+                            <div class="color__outline">
+                                <div class="color"style="background-color:${el.color_rgb}"></div>
+                            </div>
+                        </div>
                         <div class="prd__size">
                             <div class="size__box">
                                 <li data-soldout="${el.sold_status}">${el.option_name}</li>
@@ -579,7 +628,7 @@
                 </div>`
                 docFrag.querySelector(".list__body").innerHTML = productHtml;
             });
-            document.querySelector('.list__box .list__body .product__wrap').appendChild(docFrag);
+            document.querySelector('.list__box .list__body').appendChild(docFrag);
         }
         soldCheckBoxEvent();
         inputCheckBoxEvent();
@@ -618,7 +667,7 @@
             let getBasketQty = el.offsetParent.dataset.basketqty;
             let getprice = el.offsetParent.dataset.basketqty;
             let totalPrice = salesPrice * getBasketQty;
-            el.parentNode.querySelector(".totalPrice").textContent = totalPrice;
+            el.parentNode.querySelector(".totalPrice").textContent = totalPrice.toLocaleString('ko-KR');
 
             cntVal = el.value;
             if(cntVal == "1"){
@@ -640,7 +689,7 @@
 
                 let cntVal = this.parentNode.querySelector(".count__val").value;
                 let $plusBtn = this.parentNode.querySelector(".plus__btn");
-                let transferPrice = this.parentNode.querySelector(".totalPrice").textContent.replace(/,/g , '');
+                let transferPrice = this.parentNode.querySelector(".totalPrice").textContent.replace(/,/g ,'');
                 let getProductPrice = parseInt(transferPrice);
 
                 cntVal = parseInt(cntVal) - 1;
@@ -744,11 +793,11 @@
     }
     /************************* 공통함수 **************************/
     //선택한 상품만 가격 합산
-    function checkedProductPrice() {
+    function    checkedProductPrice() {
         let productPrice = 0;
         let $$checkedInput = document.querySelectorAll(".self__cb[name='stock']:checked");
         $$checkedInput.forEach(el => {
-            let checkedPrice = parseInt(el.parentNode.parentNode.querySelector(".totalPrice.stock").textContent.replace(/,/g , ''));
+            let checkedPrice = parseInt(el.parentNode.parentNode.querySelector(".totalPrice").innerText.replace(",", ""));
             productPrice += checkedPrice;
         });
         return productPrice;
@@ -800,4 +849,11 @@
             });
         });
     }
+</script>
+<script type="module">
+    import ForyouRender  from '/scripts/module/foryou.js';
+    const foryou = new ForyouRender();
+    foryou.makeHtml();
+    foryou.load();
+    foryou.swiper();
 </script>

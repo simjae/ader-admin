@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 찜한 상품 리스트 - 상품 정보 삭제
+ | 위시 리스트 - 위시 리스트 상품 정보 삭제
  | -------
  |
  | 최초 작성	: 손성환
@@ -26,11 +26,7 @@ if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$whish_idx		= null;
-if (isset($_POST['whish_idx'])) {
-	$whish_idx = $_POST['whish_idx'];
-};
-$product_idx	= $_POST['product_idx'];
+$whish_idx = $_POST['whish_idx'];
 
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
@@ -38,12 +34,12 @@ if ($member_idx == 0 || $member_id == null) {
 	return $json_result;
 }
 
-$whisi_sql = "";
-if ($whish_idx != null) {
-	$whish_sql = " IDX IN (".$whish_idx.") AND ";
-	
-} else if ($product_idx != null) {
-	$whish_sql=" PRODUCT_IDX = ".$product_idx." AND ";
+$cnt = $db->count("dev.WHISH_LIST","IDX = ".$whish_idx." AND MEMBER_IDX = ".$member_idx);
+
+if ($cnt == 0) {
+	$json_result['code'] = 401;
+	$json_result['msg'] = "존재하지 않는 위시리스트 상품이 선택되었습니다. 삭제하려는 상품을 다시 확인해주세요.";
+	return $json_result;
 }
 
 $sql = "UPDATE
@@ -53,7 +49,7 @@ $sql = "UPDATE
 			UPDATER = '".$member_id."',
 			UPDATE_DATE = NOW()
 		WHERE
-			".$whish_sql."
+			IDX = ".$whish_idx." AND
 			MEMBER_IDX = ".$member_idx;
 
 $db->query($sql);

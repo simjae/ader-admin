@@ -14,27 +14,25 @@
  | 
  +=============================================================================
 */
+$country		= $_POST['country'];
 $member_idx		= $_POST['member_idx'];
-$password	= $_POST['password'];
+$member_pw		= $_POST['member_pw'];
 
 if($member_idx == null){
-	$result = false;
+    $result = false;
 	$code	= 401;
 }
-if($password == null || $password == ''){
-	$result = false;
-	$code	= 402;
-}
-
-if($result) {
+else{
+    $member_count = 0;
 	$sql = "
-        UPDATE
-            dev.MEMBER
-        SET
-            PW = '".md5($password)."',
+		UPDATE 
+			dev.MEMBER_".$country." 
+		SET 
+			MEMBER_PW = '".md5($member_pw)."',
             PW_DATE = NOW()
-        WHERE
-            IDX = ".$member_idx;
-    $db->query($sql);
+		WHERE
+			MEMBER_IDX = '".$member_idx."'
+	";
+	$db->query($sql);
 }
 ?>

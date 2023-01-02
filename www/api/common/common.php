@@ -14,6 +14,69 @@
  +=============================================================================
 */
 
+function checkProduct($db,$product_idx,$country,$member_idx) {
+	$product_result = false;
+	
+	$product_cnt = $db->count(
+		"dev.SHOP_PRODUCT PR",
+		"PR.IDX = ".$product_idx." AND PR.LIMIT_MEMBER REGEXP (SELECT LEVEL_IDX FROM dev.MEMBER_".$country." S_MB WHERE S_MB.IDX = ".$member_idx.")"
+	);
+	
+	if ($product_cnt > 0) {
+		$product_result = true;
+	}
+	
+	return $product_result;
+}
+
+function checkProductStockQty($db,$product_idx,$option_idx) {
+	$stock_result = false;
+	
+	$select_stock_sql = "
+		SELECT
+			(
+				SELECT
+					IFNULL(SUM(STOCK_QTY),0)
+				FROM
+					dev.PRODUCT_STOCK S_PS
+				WHERE
+					S_PS.PRODUCT_IDX = PR.IDX AND
+					S_PS.OPTION_IDX = ".$option_idx." AND
+					S_PS.STOCK_DATE <= NOW()
+			)	AS STOCK_QTY,
+			(
+				SELECT
+					IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+				FROM
+					dev.ORDER_PRODUCT S_OP
+				WHERE
+					S_OP.PRODUCT_IDX = PR.IDX AND
+					S_OP.OPTION_IDX = ".$option_idx." AND
+					S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+			)	AS ORDER_QTY
+		FROM
+			dev.SHOP_PRODUCT PR
+		WHERE
+			PR.IDX = ".$product_idx."
+	";
+	
+	$db->query($select_stock_sql);
+	
+	$product_qty = 0;
+	foreach($db->fetch() as $stock_data) {
+		$stock_qty = $stock_data['STOCK_QTY'];
+		$order_qty = $stock_data['ORDER_QTY'];
+		
+		$product_qty = (intval($stock_qty) - intval($order_qty));
+	}
+	
+	if ($product_qty > 0) {
+		$stock_result = true;
+	}
+	
+	return $stock_result;
+}
+
 function getProductColor($db,$product_idx) {
 	if ($product_idx != null) {
 		$sql = "SELECT

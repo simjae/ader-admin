@@ -14,12 +14,14 @@
  +=============================================================================
 */
 
-$member_idx = 0;
+$member_idx = 1;
+//$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = null;
+$member_id = 'adertest4';
+//$member_id = null;
 if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
@@ -32,8 +34,15 @@ if ($member_idx == 0 || $member_id == null) {
 	exit;
 }
 
-if ($reorder_idx != null) {
-	$sql = "UPDATE
+if ($reorder_idx != null && $member_idx != null) {
+	$reorder_cnt = $db->count("dev.PRODUCT_REORDER","IDX = ".$reorder_idx." AND MEMBER_IDX = ".$member_idx);
+	
+	if ($reorder_cnt == 0) {
+		$json_result['code'] = 401;
+		$json_result['msg'] = "부적절한 리오더 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
+		return $json_result;
+	} else {
+		$sql = "UPDATE
 				dev.PRODUCT_REORDER
 			SET
 				DEL_FLG = TRUE,
@@ -42,7 +51,8 @@ if ($reorder_idx != null) {
 			WHERE
 				IDX IN (".$reorder_idx.") AND
 				MEMBER_IDX = ".$member_idx;
-	
-	$db->query($sql);
+		
+		$db->query($sql);
+	}
 }
 ?>

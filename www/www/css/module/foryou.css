@@ -195,6 +195,12 @@
         grid-template-columns: repeat(8, 1fr);
 
     }
+    .foryou-wrap .swiper-grid {
+        grid-column: 1/17;
+        border-bottom: 1px solid #dcdcdc;
+        border-top: 1px solid #dcdcdc;
+
+    }
     .foryou-wrap .left__title{
         grid-column: 1/9;
         margin: 0px 0 20px 10px;
@@ -269,4 +275,53 @@
         text-align: center;
         color: var(--bk);
     }
+
+    .product .product-info .info-row .price[data-soldout="STSO"]::before{
+        display: block;
+        position: absolute;
+        text-decoration: none;
+        content: "Sold out"!important;
+        font-family: FuturaLTPro;
+        font-size: 1rem;
+        right: 0;
+        font-weight: normal;
+        color: #343434;
+        left: auto;
+        top: -12px;
+    }
+    .product .product-info{
+        padding: 5px 10px;
+    }
+    .product .product-info .info-row .color__box{
+        flex-grow: 1;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+    .product .product-info .info-row .size__box{
+        display: none;
+    }
+    .product .product-info .color-title{
+        position: absolute;
+        bottom: 5px;
+    }
+    
+
+    .product .product-info .info-row .price{
+        position: relative;
+        top: -4px;
+        line-height: 2.3;
+    }
+    .product .product-info .info-row .price[data-dis="true"]{
+        top: 8px;
+    }
+    .product .product-info .info-row .price[data-dis="true"]::before{
+        line-height: 2.3;
+    }
+    .product .product-info .info-row .price[data-dis="true"]::after{
+        top: -12px;
+    }
+    .product .product-info > .info-row:nth-of-type(3){
+        height: 15px;
+    }
+
 }

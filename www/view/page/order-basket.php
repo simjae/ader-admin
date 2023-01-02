@@ -151,9 +151,6 @@
     </div>
 </div>
 <script>
-
-   
-   
     
     (function getProduct() {
     

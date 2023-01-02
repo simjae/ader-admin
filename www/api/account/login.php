@@ -14,43 +14,62 @@
  | 
  +=============================================================================
 */
-$email		= $_POST['email'];
-$password	= $_POST['password'];
+$country		= $_POST['country'];
+$member_id		= $_POST['member_id'];
+$member_pw		= $_POST['member_pw'];
 // 값 검사
 //$id = strtolower(trim($id));
 
 //$pw = strtolower(trim($pw));
 
-if($email == null || $email == ''){
+if($member_id == null || $member_id == ''){
 	$result = false;
 	$code	= 401;
 }
-if($password == null || $password == ''){
+if($member_pw == null || $member_pw == ''){
 	$result = false;
 	$code	= 402;
 }
 
 if($result) {
-	$data = @$db->get($_TABLE['MEMBER'],'EMAIL=? AND PW=?',array($email,md5($password)))[0];
-	if(is_array($data)) {
-		$member_idx = $data['IDX'];
-		// 세션 등록
-		$_SESSION['MEMBER_IDX']	= $member_idx;
-		$_SESSION['EMAIL'] = $data['EMAIL'];
+	$sql = "
+		SELECT 
+			COUNT(0) 	MEMBER_CNT,
+			IDX,
+			MEMBER_ID
+		FROM 
+			dev.MEMBER_".$country."
+		WHERE
+			MEMBER_ID = '".$member_id."'
+		AND
+			MEMBER_PW = '".md5($member_pw)."'
+	";
 
-		$sql = "
-			UPDATE
-				dev.MEMBER
-			SET
-				LOGIN_CNT = LOGIN_CNT + 1,
-				LOGIN_DATE = NOW()
-			WHERE
-				IDX = ".$member_idx." ";
-		$db->query($sql);
+	$db->query($sql);
+	
+	foreach($db->fetch() as $data){
+		$member_cnt = $data['MEMBER_CNT'];
 
-	} else {
-		$result = false;
-		$code	= 300;
+		if($member_cnt == 1){
+			//회원 있음
+			$_SESSION['MEMBER_IDX']	= $data['IDX'];
+			$_SESSION['MEMBER_ID'] = $data['MEMBER_ID'];	
+			
+			$sql = "
+				UPDATE
+					dev.MEMBER_".$country."
+				SET
+					LOGIN_CNT = LOGIN_CNT + 1,
+					LOGIN_DATE = NOW()
+				WHERE
+					IDX = ".$data['IDX']." ";
+			$db->query($sql);	
+		}
+		else{
+			$result = false;
+			$code	= 300;
+			$msp 	= "가입된 회원이 아닙니다.";
+		}
 	}
 }
 ?>

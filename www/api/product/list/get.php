@@ -43,65 +43,20 @@ if (isset($_POST['last_idx'])) {
 }
 
 $page_idx		= $_POST['page_idx'];
-$country		= $_POST['country'];
+if (isset($_POST['country'])) {
+	$country		= $_POST['country'];
+}
+$country = "KR";
 
 $menu_info = array();
-if ($menu_sort != null && $menu_sort != null) {
-	$menu_table = "";
-	$menu_as = "";
-	switch ($menu_sort) {
-		case "L" :
-			$menu_table = "dev.MENU_MDL";
-			$menu_where = "MENU_LRG_IDX = ".$menu_idx;
-			break;
-		
-		case "M" :
-			$menu_table = "dev.MENU_SML";
-			$menu_where = "MENU_MDL_IDX = ".$menu_idx;
-			break;
-		
-		case "S" :
-			$menu_cnt = $db->count("dev.MENU_DTL","MENU_IDX = ".$menu_idx);
-			if ($menu_cnt > 0) {
-				$menu_table = "dev.MENU_DTL";
-				$menu_where = "MENU_IDX = ".$menu_idx;
-			} else {
-				$menu_table = "dev.MENU_SML";
-				$menu_where = "MENU_MDL_IDX = (SELECT S_MS.MENU_MDL_IDX FROM dev.MENU_SML S_MS WHERE IDX = ".$menu_idx.")";
-			}
-			break;
-		
-		case "D" :
-			$menu_table = "dev.MENU_DTL";
-			$menu_where = "MENU_IDX = ".$menu_idx;
-			break;
-	}
+if ($menu_sort != null && $menu_idx != null) {
+	$upper_filter = getMenuFilter($db,$country,$menu_sort,$menu_idx,"UP");
+	$lower_filter = getMenuFilter($db,$country,$menu_sort,$menu_idx,"LW");
 	
-	$menu_sql = "SELECT
-					MENU_TITLE		AS MENU_TITLE,
-					MENU_LINK		AS MENU_LINK,
-					(
-						SELECT
-							REPLACE(S_MI.IMG_LOCATION,'/var/www/www/','')
-						FROM
-							dev.MENU_IMG S_MI
-						WHERE
-							S_MI.MENU_SORT = '".$menu_sort."' AND
-							S_MI.MENU_IDX = ".$menu_idx."
-					)				AS MENU_IMG
-				FROM
-					".$menu_table."
-				WHERE
-					".$menu_where;
-	
-	$db->query($menu_sql);
-	foreach($db->fetch() as $menu_data) {
-		$menu_info[] = array(
-			'menu_title'	=>$menu_data['MENU_TITLE'],
-			'menu_link'		=>$menu_data['MENU_LINK'],
-			'menu_img'		=>$menu_data['MENU_IMG']
-		);
-	}
+	$menu_info = array(
+		'upper_filter'	=>$upper_filter,
+		'lower_filter'	=>$lower_filter,
+	);
 }
 
 if ($page_idx != null && $country != null) {
@@ -253,5 +208,96 @@ if ($page_idx != null && $country != null) {
 		$msg = "해당 페이지의 정보가 존재하지 않습니다. 올바른 페이지로 이동해주세요.";
 		exit;
 	}
+}
+
+function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
+	$filter_table = "";
+	$img_sql = "";
+	$link_sql = "";
+	
+	switch ($filter_type) {
+		case "UP" :
+			$filter_table = " dev.MENU_UPPER_FILTER MF ";
+			$img_sql = " MF.IMG_LOCATION, ";
+			$link_sql = "
+				CASE
+					WHEN
+						MF.LINK_TYPE = 'PR'
+						THEN
+							(
+								SELECT
+									CONCAT(
+										S_PPR.PAGE_URL,
+										'&menu_sort=".$menu_sort."&menu_idx=".$menu_idx."'
+									)
+								FROM
+									dev.PAGE_PRODUCT S_PPR
+								WHERE
+									S_PPR.IDX = MF.PAGE_IDX
+							)
+					WHEN
+						MF.LINK_TYPE = 'PO'
+						THEN
+							(
+								SELECT
+									PAGE_URL
+								FROM
+									dev.PAGE_POSTING S_PPO
+								WHERE
+									S_PPO.IDX = MF.PAGE_IDX
+							)
+				END			AS MENU_LINK
+			";
+			break;
+		
+		case "LW" :
+			$filter_table = " dev.MENU_LOWER_FILTER MF ";
+			$link_sql = "
+				(
+					SELECT
+						PAGE_URL
+					FROM
+						dev.PAGE_PRODUCT S_PPR
+					WHERE
+						S_PPR.IDX = MF.PAGE_IDX
+				)			AS MENU_LINK
+			";
+			break;
+	}
+	
+	
+	$filter_sql = "
+		SELECT
+			MF.OBJ_TITLE,
+			".$img_sql."
+			".$link_sql."
+		FROM
+			".$filter_table."
+		WHERE
+			MF.MENU_SORT = '".$menu_sort."' AND
+			MF.MENU_IDX = ".$menu_idx." AND
+			MF.COUNTRY = '".$country."'
+		ORDER BY
+			MF.DISPLAY_NUM ASC
+			
+	";
+	
+	$db->query($filter_sql);
+	
+	$filter_info = array();
+	foreach($db->fetch() as $data) {
+		$img_location = null;
+		if (!empty($data['IMG_LOCATION'])) {
+			$img_location = $data['IMG_LOCATION'];
+		}
+		
+		$filter_info[] = array(
+			'filter_title'	=>$data['OBJ_TITLE'],
+			'img_location'	=>$img_location,
+			'menu_link'		=>$data['MENU_LINK']
+		);
+	}
+	
+	return $filter_info;
 }
 ?>
