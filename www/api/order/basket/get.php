@@ -14,6 +14,8 @@
  +=============================================================================
 */
 
+include_once("/var/www/www/api/common/common.php");
+
 $country = null;
 if (isset($_POST['country'])) {
 	$country = $_POST['country'];
@@ -58,7 +60,25 @@ if ($basket_idx != null) {
 		SELECT
 			PR.IDX			AS PRODUCT_IDX,
 			OM.COLOR		AS COLOR,
-			OM.COLOR_RGB	AS COLOR_RGB
+			OM.COLOR_RGB	AS COLOR_RGB,
+			(
+				SELECT
+					IFNULL(SUM(STOCK_QTY),0)
+				FROM
+					dev.PRODUCT_STOCK S_PS
+				WHERE
+					S_PS.PRODUCT_IDX = PR.IDX AND
+					S_PS.STOCK_DATE <= NOW()
+			)	AS STOCK_QTY,
+			(
+				SELECT
+					IFNULL(SUM(OP.PRODUCT_QTY),0)
+				FROM
+					dev.ORDER_PRODUCT OP
+				WHERE
+					OP.PRODUCT_IDX = PR.IDX AND
+					OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+			)	AS ORDER_QTY
 		FROM
 			dev.ORDERSHEET_MST OM
 			LEFT JOIN dev.SHOP_PRODUCT PR ON
@@ -97,56 +117,39 @@ if ($basket_idx != null) {
 	
 	$db->query($select_product_sql);
 	
-	$option_info = array();
+	$product_size = array();
 	foreach($db->fetch() as $product_data) {
 		$product_idx = $product_data['PRODUCT_IDX'];
 		
+		$stock_status = "";
+		$product_qty = intval($product_data['STOCK_QTY']) - intval($product_data['ORDER_QTY']);
+		
+		if ($product_qty > 0) {
+			$stock_status = "STIN";	//재고 있음 (Stock in)
+		} else {
+			$stock_status = "STSO";	//재고 없음(사선)		→ 증가 예정 재고 없음 (Stock sold out)
+		}
+		
+		$product_size = array();
 		if (!empty($product_idx)) {
-			$option_info = getOptionInfo($db,$product_idx);
+			$product_size = getProductSize($db,$product_idx);
 		}
 		
 		$json_result['data'][] = array(
 			'product_idx'	=>$product_data['PRODUCT_IDX'],
 			'color'			=>$product_data['COLOR'],
 			'color_rgb'		=>$product_data['COLOR_RGB'],
-			'option_info'	=>$option_info
+			'product_size'	=>$product_size
 		);
 	}
 }
 
 if ($product_idx != null) {
-	$option_info = array();
-	$option_info = getOptionInfo($db,$option_idx);
+	$product_size = array();
+	$product_size = getProductSize($db,$product_idx);
 	
-	$json_result['data'][] = array(
-		'option_info'	=>$option_info
+	$json_result['data'] = array(
+		'product_size'	=>$product_size
 	);
-}
-
-function getOptionInfo($db,$product_idx) {
-	$option_info = array();
-	
-	$select_option_sql = "
-		SELECT
-			OO.IDX			AS OPTION_IDX,
-			OO.OPTION_NAME	AS OPTION_NAME
-		FROM
-			dev.ORDERSHEET_OPTION OO
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
-			OO.ORDERSHEET_IDX = PR.ORDERSHEET_IDX
-		WHERE
-			PR.IDX = ".$product_idx."
-	";
-	
-	$db->query($select_option_sql);
-			
-	foreach($db->fetch() as $option_data) {
-		$option_info[] = array(
-			'option_idx'	=>$option_data['OPTION_IDX'],
-			'option_name'	=>$option_data['OPTION_NAME']
-		);
-	}
-	
-	return $option_info;
 }
 ?>

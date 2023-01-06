@@ -49,7 +49,6 @@
                 let data = d.data;
                 webWriteNavHtml(data);
                 mobileWriteNavHtml(data);
-                basketBtn();
             }
         });
     }
@@ -583,17 +582,6 @@
 
 
 
-    }
-    function basketBtn(){
-        const basketWrap = document.querySelector("#basket__side__wrap");
-        const basketBtn = document.querySelector(".basket__btn");
-        const modalBg= document.querySelector(".modal__background");
-        const modalWrap = document.querySelector(".modal__wrap");
-        basketBtn.addEventListener("click",() => {
-            basketWrap.classList.toggle("open")
-            modalBg.classList.toggle("open");
-            modalWrap.classList.toggle("open");
-        });
     }
     // const webMenu = () => {
     //     const navBtn = document.querySelectorAll('.webMenu');

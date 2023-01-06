@@ -1,4 +1,6 @@
 <style>
+input{outline: none;}
+
 input::placeholder{
     font-size:11px;
     color: #dcdcdc;
@@ -73,7 +75,7 @@ input::placeholder{
         float: right;
         color: #343434;
     }
-    .password__search__card .email__check{
+    .password__search__card .member_id__check{
         margin-top:21px;
         width:470px;
         height:58px
@@ -217,10 +219,11 @@ input::placeholder{
                 <div class="content__title" style="margin-bottom:0px!important">비밀번호 재설정 링크를 등록된 메일 주소로 보내드립니다.</div>
             </div>
             <form id="frm-find" method="post" onSubmit="password_find();return false;">
+                <input type="hidden" name="country" value="KR">
                 <div class="content__wrap grid__two">
                     <div class="left__area__wrap">
-                        <p class="font__underline font__red email_msg" style="visibility:hidden;">존재하지 않는 이메일입니다</p>
-                        <input style="margin-top:2px;" type="text" value="" id="email" name="email" placeholder="이메일을 입력해주세요">
+                        <p class="font__underline font__red member_id_msg" style="visibility:hidden;">존재하지 않는 이메일입니다</p>
+                        <input style="margin-top:2px;" type="text" value="" id="member_id" name="member_id" placeholder="이메일을 입력해주세요">
                     </div>
                     <div class="right__area__wrap">
                         <input type="button" class="black__small__btn" id="link_btn" onclick="password_find()" value="링크 받기" style="cursor:pointer;">
@@ -248,46 +251,62 @@ $(document).ready(function() {
 
 function password_find() {
     var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-    var email = $('#email').val();
-    mail_regex.test(email);
+    var member_id = $('#member_id').val();
+    mail_regex.test(member_id);
 
     $('.font__underline.font__red').css('visibility','hidden');
-    if(email == ''){
+    if(member_id == ''){
         
-        $('.email_msg').css('visibility','visible');
-        $('.email_msg').text('이메일을 입력해주세요');
+        $('.member_id_msg').css('visibility','visible');
+        $('.member_id_msg').text('이메일을 입력해주세요');
     
         return false;
     }
     else{
-        if(!mail_regex.test(email)){
+        if(!mail_regex.test(member_id)){
             
-            $('.email_msg').css('visibility','visible');
-            $('.email_msg').text('이메일을 올바르게 입력해주세요');
+            $('.member_id_msg').css('visibility','visible');
+            $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
 
             return false;
         }
     }
 
+    //Test용 STMP APP Password : wnaqvncvlugpjdvl
+    /*
+    Email.send({
+        Host: "smtp@gmail.com",
+        Username : "dhpark3610@gmail.com",
+        Password : "psh1300411!",
+        To: "shpark@bvdev.co.kr",
+        From: "dhpark3610@gmail.com",
+        Subject: "SMTP Test",
+        Body : "SMTP Test context",
+
+    }).then(
+        message => alert(message)
+    );
+    */
+    
     $.ajax(
         {
-            url: "http://116.124.128.246:80/_api/email/put",
+            url: "http://116.124.128.246:80/_api/account/search/get",
             type:'POST',
             data:$("#frm-find").serialize(),
             error:function(data){
-                $('.email_msg').css('visibility','hidden');
+                $('.member_id_msg').css('visibility','hidden');
                 $('.result_msg').css('visibility','visible');
                 $('.result_msg').text("모듈에 문제가 발생했습니다.");
             },
             success:function(data){
                 if(data.code == "200") { // 이메일검사 성공
-                    $('.email_msg').css('visibility','hidden');
+                    $('.member_id_msg').css('visibility','hidden');
                     $('.result_msg').css('visibility','visible');
                     $('.result_msg').text(data.data.temp_password);
                 }
                 else {	// 이메일검사 실패
-                    $('.email_msg').css('visibility','visible');
-                    $('.email_msg').text('존재하지 않는 이메일입니다');
+                    $('.member_id_msg').css('visibility','visible');
+                    $('.member_id_msg').text('존재하지 않는 이메일입니다');
                 }
             },
             complete:function(data){
@@ -296,6 +315,7 @@ function password_find() {
             dataType:'json'
         }
     );
+    
 }
 </script>
 

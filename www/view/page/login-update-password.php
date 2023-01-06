@@ -45,9 +45,6 @@ input::-webkit-inner-spin-button {
     visibility:hidden;
     margin-bottom:2px;
 }
-input[name="email"]{
-    font-family: var(--ft-fu)!important;
-}
 input[type="checkbox"] + label{
     display: inline-block;
     width: 10px;
@@ -357,25 +354,25 @@ input::placeholder{
                 <div class="content__wrap">
                     <div class="content__title warm__msg__area">
                         <p class="font__small">새로운 비밀번호</p>
-                        <p class="font__underline warn__msg password">비밀번호를 정확하게 기입해주세요</p>
+                        <p class="font__underline warn__msg member_pw">비밀번호를 정확하게 기입해주세요</p>
                     </div>
                     <div class="contnet__row warm__msg__area">
-                        <input type="password" name="password">
+                        <input type="password" name="member_pw">
                     </div>  
                 </div>
                 <div class="content__wrap">
                     <div class="content__title warm__msg__area">
                         <p class="font__small">비밀번호 확인</p>
-                        <p class="font__underline warn__msg password_confirm">비밀번호가 일치하지 않습니다</p>
+                        <p class="font__underline warn__msg member_pw_confirm">비밀번호가 일치하지 않습니다</p>
                     </div>
                     <div class="contnet__row warm__msg__area">
-                        <input type="password" name="password_confirm">
+                        <input type="password" name="member_pw_confirm">
                     </div>  
                 </div>
             </div>
             <div class="card__footer">
                 <div>
-                    <input type="button" class="black__btn" onclick="updatePassword()" value="저장하기">
+                    <input type="button" class="black__btn" onclick="updateMemberPw()" value="저장하기">
                 </div>
             </div>
         </form>
@@ -385,11 +382,11 @@ input::placeholder{
 <script>
 $(document).ready(function() {
     $('input[name="password"]').keyup(function(){
-		if(passwordConfirm($(this).val()) || $(this).val().length == 0){
-            $('.font__underline.warn__msg.password').css('visibility','hidden');
+		if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
+            $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
         }
         else{
-            $('.font__underline.warn__msg.password').css('visibility','visible');
+            $('.font__underline.warn__msg.member_pw').css('visibility','visible');
         };
 	});
     urlParsing();
@@ -407,7 +404,7 @@ function urlParsing(){
 		}
 	}
 }
-function passwordConfirm(str){    
+function memberPwConfirm(str){    
     //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
     //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
     var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
@@ -425,19 +422,19 @@ function passwordConfirm(str){
     }
 }
 //.css('visibility','hidden');
-function updatePassword(){
+function updateMemberPw(){
     var member_idx = $('input[name="member_idx"]').val();
-    var password = $('input[name="password"]').val();
-    var password_confirm = $('input[name="password_confirm"]').val();
+    var member_pw = $('input[name="member_pw"]').val();
+    var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
 
     $('.warn__msg').css('visibility','hidden');
     
-    if(passwordConfirm(password) == false){
-        $('.font__underline.warn__msg.password').css('visibility','visible');
+    if(memberPwConfirm(member_pw) == false){
+        $('.font__underline.warn__msg.member_pw').css('visibility','visible');
         return false;
     }
-    if(password != password_confirm){
-        $('.warn__msg.password_confirm').css('visibility','visible');
+    if(member_pw != member_pw_confirm){
+        $('.warn__msg.member_pw_confirm').css('visibility','visible');
         return false;
     }
 
@@ -446,7 +443,7 @@ function updatePassword(){
             url: "http://116.124.128.246:80/_api/account/put",
             type:'POST',
             data: { 'member_idx' : member_idx,
-                    'password' : password },
+                    'member_pw' : member_pw },
             error:function(data){
             },
             success:function(data){

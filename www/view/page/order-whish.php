@@ -128,7 +128,7 @@
     }
 
     .product .product-info {
-        padding: 0px;
+        padding: 0px!important;
     }
 
     .product-info .prd-img {
@@ -162,6 +162,7 @@
     }
 
     .info-box .option-box .size__box {
+        display: flex!important;
         min-height: 40px;
         align-items: center;
     }
@@ -316,6 +317,7 @@
     }
 
     .product .color-title {
+        position: static!important;
         font-family: var(--ft-no-fu);
         font-size: 11px;
         font-weight: normal;
@@ -519,6 +521,7 @@
 
         .content.right .header-wrap {
             margin-bottom: 10px;
+            padding: 0px 10px;
         }
 
         .add-list-wrap {

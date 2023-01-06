@@ -14,6 +14,8 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/admin/api/voucher/issue/add.php");
+
 $country		= $_POST['country'];
 $member_id		= $_POST['member_id'];
 $member_pw		= $_POST['member_pw'];
@@ -36,7 +38,10 @@ if($result) {
 		SELECT 
 			COUNT(0) 	MEMBER_CNT,
 			IDX,
-			MEMBER_ID
+			MEMBER_ID,
+			COUNTRY,
+			MONTH(MEMBER_BIRTH) 	AS BIRTH_MONTH,
+			MONTH(NOW()) 			AS NOW_MONTH
 		FROM 
 			dev.MEMBER_".$country."
 		WHERE
@@ -49,9 +54,12 @@ if($result) {
 	
 	foreach($db->fetch() as $data){
 		$member_cnt = $data['MEMBER_CNT'];
+		$birth_month = $data['BIRTH_MONTH'];
+		$now_month = $data['NOW_MONTH'];
 
 		if($member_cnt == 1){
 			//회원 있음
+			$_SESSION['COUNTRY'] = $country;
 			$_SESSION['MEMBER_IDX']	= $data['IDX'];
 			$_SESSION['MEMBER_ID'] = $data['MEMBER_ID'];	
 			
@@ -64,11 +72,17 @@ if($result) {
 				WHERE
 					IDX = ".$data['IDX']." ";
 			$db->query($sql);	
+
+			if($birth_month == $now_month){
+				if(brithVoucherIssue($db,$country, $data['IDX'])){
+					$json_result['data'] = 'issue_birth_voucher';
+				}
+			}
 		}
 		else{
 			$result = false;
 			$code	= 300;
-			$msp 	= "가입된 회원이 아닙니다.";
+			$msg 	= "가입된 회원이 아닙니다.";
 		}
 	}
 }

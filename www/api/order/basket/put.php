@@ -17,23 +17,31 @@
 include_once("/var/www/www/api/common/common.php");
 
 $country = null;
-if (isset[$_POST['country']]) {
+if (isset($_POST['country'])) {
 	$country = $_POST['country'];
 }
 
-$member_idx = 0;
+$member_idx = 1;
+//$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = null;
+$member_id = 'adertest4';
+//$member_id = null;
 if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$stock_status	= $_POST['stock_status'];
+$stock_status = null;
+if (isset($_POST['stock_status'])) {
+	$stock_status	= $_POST['stock_status'];
+}
 
-$basket_idx		= $_POST['basket_idx'];
+$basket_idx = 0;
+if (isset($_POST['basket_idx'])) {
+	$basket_idx		= $_POST['basket_idx'];
+}
 
 $basket_qty = 0;
 if (isset($_POST['basket_qty'])) {
@@ -120,10 +128,12 @@ if ($basket_idx != null && $stock_status != null) {
 	} else if ($stock_status == "STSO" && $product_idx > 0 && $option_idx > 0) {
 		//선택한 상품/옵션이 구매 가능한 상태인지 체크
 		$product_result = checkProduct($db,$product_idx,$country,$member_idx);
+		print_r($product_result);
 		
 		if ($product_result == true) {
 			//선택 한 상품의 재고가 남아있는지 확인 => 선택한 상품/옵션의 재고 = 전체 상품 재고 - 주문 상품 재고
 			$stock_result = checkProductStockQty($db,$product_idx,$option_idx);
+			print_r($stock_result);
 			
 			if ($stock_result == true) {
 				$db->begin_transaction();
@@ -183,6 +193,8 @@ if ($basket_idx != null && $stock_status != null) {
 								OO.IDX = ".$option_idx."
 						";
 						
+						print_r($insert_basket_sql);
+						
 						$db->query($insert_basket_sql);
 						
 						$db->commit();
@@ -190,7 +202,7 @@ if ($basket_idx != null && $stock_status != null) {
 					
 					$json_result['code'] = 200;
 					return $json_result;
-				} catch {
+				} catch(mysqli_sql_exception $exception){
 					$db->rollback();
 					
 					$json_result['code'] = 301;

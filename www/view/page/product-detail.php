@@ -73,7 +73,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 	</aside>
 	<aside class="foryou__wrapper">
 		<div class="left__title"><span>For you   ></span></div>
-		<div class="foryou-wrap">
+		<div class="foryoy-wrap">
 			<div class="foryou-swiper swiper">
 
 			</div>

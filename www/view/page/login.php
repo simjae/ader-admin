@@ -1,4 +1,6 @@
 <style>
+input{outline: none;}
+
 .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
@@ -87,6 +89,17 @@
     margin-top:20px;
 }
 @media (min-width: 1024px){
+    input[type="password"], input[type="text"]{
+        width: 470px;
+        height: 40px;
+        font-size: 11px;
+        padding-left: 12px;
+        object-fit: contain;
+        border-top: none;
+        border-bottom: solid 1px #808080;
+        border-left: none;
+        border-right: none;
+    }
     input[type="button"]{
         object-fit: contain;
         font-family: var(--ft-no);
@@ -122,34 +135,10 @@
         margin-bottom:50px;
     }
     .login__card input[type="text"]{
-        width: 470px;
-        height: 40px;
-        font-size: 11px;
         font-family: var(--ft-fu);
-        padding-left: 12px;
-        object-fit: contain;
-        border-radius: 1px;
-        border: solid 1px #808080;
-    }
-    .login__card input[type="number"]{
-        width: 470px;
-        height: 40px;
-        font-size: 11px;
-        font-family: var(--ft-no);
-        padding-left: 12px;
-        object-fit: contain;
-        border-radius: 1px;
-        border: solid 1px #808080;
     }
     .login__card input[type="password"]{
-        width: 470px;
-        height: 40px;
-        font-size: 11px;
         font-family: var(--ft-no);
-        padding-left: 12px;
-        object-fit: contain;
-        border-radius: 1px;
-        border: solid 1px #808080;
     }
     .contour__line{
         width: 470px;
@@ -164,6 +153,16 @@
     }
 }
 @media (max-width: 1024px){
+    input[type="password"], input[type="text"]{
+        width: 340px;
+        height: 40px;
+        font-size: 1.1rem;
+        padding-left: 12px;
+        object-fit: contain;
+        border-radius: 1px;
+        border: solid 1px #808080;
+    }
+
     input[type="button"]{
         object-fit: contain;
         font-family: var(--ft-no);
@@ -198,34 +197,10 @@
         margin-bottom:60px;
     }
     .login__card input[type="text"]{
-        width: 340px;
-        height: 40px;
-        font-size: 11px;
         font-family: var(--ft-fu);
-        padding-left: 12px;
-        object-fit: contain;
-        border-radius: 1px;
-        border: solid 1px #808080;
-    }
-    .login__card input[type="number"]{
-        width: 340px;
-        height: 40px;
-        font-size: 1.1rem;
-        font-family: var(--ft-no);
-        padding-left: 12px;
-        object-fit: contain;
-        border-radius: 1px;
-        border: solid 1px #808080;
     }
     .login__card input[type="password"]{
-        width: 340px;
-        height: 40px;
-        font-size: 1.1rem;
         font-family: var(--ft-no);
-        padding-left: 12px;
-        object-fit: contain;
-        border-radius: 1px;
-        border: solid 1px #808080;
     }
     .contour__line{
         width: 340px;
@@ -248,20 +223,21 @@
         </div>
         <div class="card__body">
             <form id="frm-login" method="post" onSubmit="login();return false;">
+                <input type="hidden" name="country" value="KR">
                 <div class="content__wrap">
                     <div class="content__title">이메일
-                    <p class="font__underline font__red email_msg"></p>
+                    <p class="font__underline font__red member_id_msg"></p>
                     </div>
                     <div class="content__row">
-                        <input type="text" id="email" name="email" value="">
+                        <input type="text" id="member_id" name="member_id" value="">
                     </div>
                 </div>
                 <div class="content__wrap">
                     <div class="content__title">비밀번호
-                    <p class="font__underline font__red password_msg"></p>
+                    <p class="font__underline font__red member_pw_msg"></p>
                     </div>
                     <div class="content__row">
-                        <input type="password" id="password" name="password" value="">
+                        <input type="password" id="member_pw" name="member_pw" value="">
                     </div>
                 </div>
                 <div class="content__wrap login_btn">
@@ -271,8 +247,8 @@
             <div class="content__wrap">
                 <div class="content__row">
                     <div class="checkbox__label">
-                        <input type="checkbox" id="email_flg">
-                        <label for="email_flg"></label>
+                        <input type="checkbox" id="member_id_flg">
+                        <label for="member_id_flg"></label>
                     </div>
                     <span class="font__small">이메일 저장</span>
                     <span class="font__underline" style="cursor:pointer;" onclick="location.href='/login/search'">비밀번호 찾기</span>
@@ -300,52 +276,52 @@
 
 <script>
 $(document).ready(function() {
-    $('#email').val('');
-    var userEmail = getCookie("userEmail");
-    $('#email').val(userEmail);
+    $('#member_id').val('');
+    var usermember_id = getCookie("usermember_id");
+    $('#member_id').val(usermember_id);
 
-    if($('#email').val() != ""){
-        $("input:checkbox[id='email_flg']").prop("checked", true);
+    if($('#member_id').val() != ""){
+        $("input:checkbox[id='member_id_flg']").prop("checked", true);
     }
 
-    $("input:checkbox[id='email_flg']").change(function(){
-        if($("input:checkbox[id='email_flg']").is(":checked")){
-            setCookie("userEmail", $('#email').val(), 7);
+    $("input:checkbox[id='member_id_flg']").change(function(){
+        if($("input:checkbox[id='member_id_flg']").is(":checked")){
+            setCookie("usermember_id", $('#member_id').val(), 7);
         }
         else{
-            deleteCookie("userEmail");
+            deleteCookie("usermember_id");
         }
     })
 
-    $('#email').keyup(function(){
-        if($('input:checked[id="email_flg"]').is(":checked")){
-            setCookie("userEmail", $('#email').val(), 7);
+    $('#member_id').keyup(function(){
+        if($('input:checked[id="member_id_flg"]').is(":checked")){
+            setCookie("usermember_id", $('#member_id').val(), 7);
         }
     })
 });
 
 function login() {
     var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-    var email = $('#email').val();
-    var password = $('#password').val();
-    mail_regex.test(email);
+    var member_id = $('#member_id').val();
+    var member_pw = $('#member_pw').val();
+    mail_regex.test(member_id);
 
     $('.font__underline.font__red').text('');
-    if(email == ''){
-        $('.email_msg').text('이메일을 입력해주세요');
+    if(member_id == ''){
+        $('.member_id_msg').text('이메일을 입력해주세요');
     
         return false;
     }
     else{
-        if(!mail_regex.test(email)){
-            $('.email_msg').text('이메일을 올바르게 입력해주세요');
+        if(!mail_regex.test(member_id)){
+            $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
 
             return false;
         }
     }
 
-    if(password == ''){
-        $('.password_msg').text('비밀번호를 입력해주세요');
+    if(member_pw == ''){
+        $('.member_pw_msg').text('비밀번호를 입력해주세요');
 
         return false;
     }
@@ -354,15 +330,16 @@ function login() {
     $.ajax(
         {
             url: "http://116.124.128.246:80/_api/account/login",
-            type:'POST',
-            data:$("#frm-login").serialize(),
-            error:function(data){
+            type: 'POST',
+            data: $("#frm-login").serialize(),
+            error:function(jqxhr){
+                console.warn(jqxhr.responseText)
                 $('.result_msg').text("모듈에 문제가 발생했습니다.");
             },
             success:function(data){
                 if(data.code == "200") { // 로그인 성공
-                    //location.reload();
                     location.href='main';
+                    //location.href='main';
                 }
                 else {	// 로그인 실패
                     $('.result_msg').text("로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.");
@@ -370,8 +347,7 @@ function login() {
             },
             complete:function(data){
                 //$("#result1").html(data.responseText);
-            },
-            dataType:'json'
+            }
         }
     );
 }

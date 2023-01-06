@@ -19,7 +19,6 @@ export default function ForyouRender() {
                 </div>
             `
         wrap.innerHTML = dom;
-        console.log(wrap)
         sectionWrap.appendChild(wrap);
     } 
     

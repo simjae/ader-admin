@@ -78,7 +78,8 @@ if ($country != null) {
 						S_OP.OPTION_IDX = BI.OPTION_IDX AND
 						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 				)							AS ORDER_QTY,
-				BI.PRODUCT_QTY				AS BASKET_QTY
+				BI.PRODUCT_QTY				AS BASKET_QTY,
+				BI.REORDER_FLG				AS REORDER_FLG
 			FROM
 				dev.BASKET_INFO BI
 				LEFT JOIN dev.SHOP_PRODUCT PR ON
@@ -86,7 +87,8 @@ if ($country != null) {
 				LEFT JOIN dev.ORDERSHEET_MST OM ON
 				PR.ORDERSHEET_IDX = OM.IDX
 			WHERE
-				BI.MEMBER_IDX = ".$member_idx."
+				BI.MEMBER_IDX = ".$member_idx." AND
+				BI.DEL_FLG = FALSE
 			ORDER BY
 				BI.IDX DESC";
 	
@@ -135,7 +137,8 @@ if ($country != null) {
 					'sales_price'		=>$data['SALES_PRICE'],
 					'product_qty'		=>$product_qty,
 					'basket_qty'		=>$data['BASKET_QTY'],
-					'stock_status'		=>$stock_status
+					'stock_status'		=>$stock_status,
+					'reorder_flg'		=>$data['REORDER_FLG']
 				);
 			} else if ($stock_status == "STSO") {
 				$product_color = getProductColor($db,$product_idx);
@@ -159,7 +162,8 @@ if ($country != null) {
 					'basket_qty'		=>$data['BASKET_QTY'],
 					'stock_status'		=>$stock_status,
 					'product_color'		=>$product_color,
-					'product_size'		=>$product_size
+					'product_size'		=>$product_size,
+					'reorder_flg'		=>$data['REORDER_FLG']
 				);
 			}
 		}

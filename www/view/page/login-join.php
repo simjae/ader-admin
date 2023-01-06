@@ -1,10 +1,40 @@
 <style> 
+input{outline: none;}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.code6{display: none;}
+.code5{font-size: 11px;font-family: var(--ft-fu);width:34px;}
+.keyword_label{display:none}
+.search_button{
+    width: 110px;
+    height: 40px;
+    object-fit: contain;
+    font-family: var(--ft-no);
+    font-size: 11px;
+    text-align: center;
+    color: #fff;
+    cursor:pointer;
+    border-radius: 1px;
+    background-color: #191919;
+    float:right;
+}
 
+.postcode_search_status{
+    font-family: var(--ft-no);
+    font-size: 11px;
+    border: solid 1px #dcdcdc;
+    padding: 23px 19px;
+}
+.postcodify_search_result{
+    font-family: var(--ft-no);
+    font-size: 11px;
+    height:95px;
+    border-bottom: solid 1px #dcdcdc;
+    padding: 23px 19px;
+}
 .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
@@ -45,7 +75,7 @@ input::-webkit-inner-spin-button {
     visibility:hidden;
     margin-bottom:2px;
 }
-input[name="email"]{
+input[name="member_id"]{
     font-family: var(--ft-fu)!important;
 }
 input[type="checkbox"] + label{
@@ -98,6 +128,21 @@ input::placeholder{
     float:right;
 }
 @media (min-width: 1024px){
+    .post-change-result{
+        width: 74.5%;
+        margin: 0!important;
+        background-color: #fff;
+        overflow: auto;
+        max-height: 285px;
+        border: 1px solid #808080;
+        border-top: 0px;
+        top: -32px;
+    }
+    .keyword{
+        height:40px;
+        width:350px!important;
+        float:left;
+    }
     .join__card .card__header{
         margin-bottom:50px;
     }
@@ -209,6 +254,21 @@ input::placeholder{
     }
 }
 @media (max-width: 1024px){
+    .post-change-result{
+        width: 340px;
+        margin: 0!important;
+        background-color: #fff;
+        overflow: auto;
+        max-height: 285px;
+        border: 1px solid #808080;
+        border-top: 0px;
+        top: -32px;
+    }
+    .keyword{
+        height:40px;
+        width:215px!important;
+        float:left;
+    }
     .join__card .card__header{
         margin-bottom:40px;
     }
@@ -342,57 +402,90 @@ input::placeholder{
             <p class="font__large">회원가입</p>
         </div>
         <form id="frm-regist" method="post">
+        <input type="hidden" name="country" value="KR">
         <div class="card__body">
             <div class="content__wrap">
                 <div class="content__title warm__msg__area">
                     <p class="font__small">이메일</p>
-                    <p class="font__underline warn__msg email">이메일를 정확하게 기입해주세요</p>
+                    <p class="font__underline warn__msg member_id">이메일를 정확하게 기입해주세요</p>
                 </div>
                 <div class="contnet__row warm__msg__area">
-                    <input type="text" name="email">
+                    <input type="text" name="member_id">
                 </div> 
             </div>
             <div class="content__wrap">
                 <div class="content__title warm__msg__area">
                     <p class="font__small">비밀번호</p>
-                    <p class="font__underline warn__msg password">비밀번호를 정확하게 기입해주세요</p>
+                    <p class="font__underline warn__msg member_pw">비밀번호를 정확하게 기입해주세요</p>
                 </div>
-                <div class="contnet__row warm__msg__area">
-                    <input type="password" name="password">
+                <div class="contnet__row">
+                    <input type="password" name="member_pw">
+                    <div id="pw_desciption" style="height:154px;border: solid 1px #808080;font-size: 11px;padding-top:10px;padding-left:10px">
+                        <div class="pw__desc__title" style="margin-bottom:10px;">
+                            <img src="/images/login/point_icon.svg" style="padding-top:9px;padding-right:7px;margin-bottom:8px;float:left">
+                            <span>비밀번호 입력 조건</span>
+                        </div>
+                        <div class="pw__desc__content" style="margin-bottom:10px;">
+                            <img src="/images/login/point_icon.svg" style="padding-top:9px;padding-right:7px;margin-bottom:8px;float:left">
+                            <span>대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자</span>
+                        </div>
+                        <div class="pw__desc__content" style="margin-bottom:10px;">
+                            <img src="/images/login/point_icon.svg" style="padding-top:9px;padding-right:7px;margin-bottom:8px;float:left">
+                            <span>입력 가능 특수문자</span>
+                            <p>!@#$%^()_-={}[]|;:<>,.?/</p>
+                        </div>
+                        <div class="pw__desc__content" style="margin-bottom:10px;">
+                            <img src="/images/login/point_icon.svg" style="padding-top:9px;padding-right:7px;margin-bottom:8px;float:left">
+                            <span>공백 입력 불가능</span>
+                        </div>
+                    </div>
                 </div>  
             </div>
-            <div class="content__wrap">
-                <div class="content__title warm__msg__area">
-                    <p class="font__small">비밀번호 확인</p>
-                    <p class="font__underline warn__msg password_confirm">비밀번호가 일치하지 않습니다</p>
+            <div id="hide_area">
+                <div class="content__wrap">
+                    <div class="content__title warm__msg__area">
+                        <p class="font__small">비밀번호 확인</p>
+                        <p class="font__underline warn__msg member_pw_confirm">비밀번호가 일치하지 않습니다</p>
+                    </div>
+                    <div class="contnet__row warm__msg__area">
+                        <input type="password" name="member_pw_confirm">
+                    </div>  
                 </div>
-                <div class="contnet__row warm__msg__area">
-                    <input type="password" name="password_confirm">
-                </div>  
+                <div class="content__wrap">
+                    <div class="content__title warm__msg__area">
+                        <p class="font__small">이름</p>
+                        <p class="font__underline warn__msg member_name">이름을 기입해주세요</p>
+                    </div>
+                    <div class="contnet__row warm__msg__area">
+                        <input type="text" name="member_name">
+                    </div>
+                </div>
             </div>
-            <div class="content__wrap">
-                <div class="content__title warm__msg__area">
-                    <p class="font__small">이름</p>
-                    <p class="font__underline warn__msg name">이름을 기입해주세요</p>
-                </div>
-                <div class="contnet__row warm__msg__area">
-                    <input type="text" name="name">
-                </div>
-            </div>
+            
             <div class="content__wrap">
                 <div class="content__title">주소</div>
+                <div id="postcodify" class="input-row"></div>
+                <div class="input-row" style="clear:both;">
+                    <div class="post-change-result"></div>
+                </div>
+                <!--
                 <div class="content__wrap grid__two">
+                    
                     <div class="left__area__wrap">
-                        <input type="text" name="addr" value="" placeholder="예) 성동구 연무장길 52, 성수동2가 315-57">
+                        <input type="text" id="addr_str" value="" placeholder="예) 성동구 연무장길 52, 성수동2가 315-57">
                     </div>
                     <div class="right__area__wrap">
-                        <input type="button" class="black__small__btn" value="검색">
+                        <input type="button" id="addr_search_button" class="black__small__btn" value="검색">
                     </div>
                 </div>
+-->
             </div>
             <div class="content__wrap">
                 <div class="content__row">
-                    <input type="text" name="addr_detail" placeholder="상세주소">
+                    <input type="hidden" id="zipcode" name="zipcode">
+                    <input type="hidden" id="lot_addr" name="lot_addr">
+                    <input type="hidden" id="road_addr" name="road_addr">
+                    <input type="text" id="addr_detail" name="addr_detail" placeholder="상세주소">
                 </div>
             </div>
             <div class="content__wrap">
@@ -408,7 +501,7 @@ input::placeholder{
                 <div class="content__title">휴대전화</div>
                 <div class="content__wrap grid__two">
                     <div class="left__area__wrap">
-                        <input type="text" name="phone" value="" placeholder="( - ) 없이 숫자만 입력">
+                        <input type="text" name="tel_mobile" value="" placeholder="( - ) 없이 숫자만 입력">
                     </div>
                     <div class="right__area__wrap">
                         <input type="button" class="black__small__btn" value="인증">
@@ -479,12 +572,15 @@ input::placeholder{
 
 <script>
 $(document).ready(function() {
-    $('input[name="password"]').keyup(function(){
-		if(passwordConfirm($(this).val()) || $(this).val().length == 0){
-            $('.font__underline.warn__msg.password').css('visibility','hidden');
+    $('#pw_desciption').hide();
+    $('input[name="member_pw"]').keyup(function(){
+		if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
+            $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
+            hidePwDescription();
         }
         else{
-            $('.font__underline.warn__msg.password').css('visibility','visible');
+            $('.font__underline.warn__msg.member_pw').css('visibility','visible');
+            showPwDescription();
         };
 	});
 	$('.component').click(function(){
@@ -497,6 +593,38 @@ $(document).ready(function() {
         }
     });
 });
+$(function() {
+		$("#postcodify").postcodify({
+			insertPostcode5 : "#zipcode",
+            insertAddress : "#road_addr",
+            insertDetails : "#detail_ddr",
+            insertJibeonAddress : "#lot_addr",
+			hideOldAddresses: false,
+			results:".post-change-result",
+			hideSummary:true,
+			useFullJibeon:true,
+			onReady:function(){
+				document.querySelector(".post-change-result").style.display="none";
+				$(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
+				// $(".post-change-result").hide();
+			},
+			onSuccess:function(){
+				document.querySelector(".post-change-result").style.display="block";
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				// $(".post-change-result").hide();
+			},
+			afterSelect: function(selectedEntry) {
+
+				$("#postcodify div.postcode_search_result").remove();
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				$("#postcodify div.postcode_search_status.summary").hide();
+				document.querySelector(".post-change-result").style.display="none";
+				$("#entry_box").show();
+				$("#entry_details").focus();
+				$(".postcodify_search_controls .keyword").val($("#road_addr").val());
+			}
+		});
+	});
 function selectAllClick(obj) {
 	if ($(obj).prop('checked') == true) {
 		$(obj).prop('checked',true);
@@ -506,7 +634,7 @@ function selectAllClick(obj) {
 		$(".login__check__option").prop('checked',false);
 	}
 }
-function passwordConfirm(str){    
+function memberPwConfirm(str){    
     //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
     //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
     var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
@@ -526,32 +654,33 @@ function passwordConfirm(str){
 //.css('visibility','hidden');
 function joinAction(){
     var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-    var email = $('input[name="email"]').val();
-    var password = $('input[name="password"]').val();
-    var password_confirm = $('input[name="password_confirm"]').val();
-    var name = $('input[name="name"]').val();
+    var member_id = $('input[name="member_id"]').val();
+    var member_pw = $('input[name="member_pw"]').val();
+    var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
+    var member_name = $('input[name="member_name"]').val();
     var birth_year = $('input[name="birth_year"]').val();
     var birth_month = $('input[name="birth_month"]').val();
     var birth_day = $('input[name="birth_day"]').val();
     var terms_of_service_flg = $('#terms_of_service_flg').is(':checked');
 
-    mail_regex.test(email);
+    mail_regex.test(member_id);
 
     $('.warn__msg').css('visibility','hidden');
-    if(passwordConfirm(password) == false){
-        $('.font__underline.warn__msg.password').css('visibility','visible');
+    if(memberPwConfirm(member_pw) == false){
+        $('.font__underline.warn__msg.member_pw').css('visibility','visible');
+        showPwDescription();
         return false;
     }
-    if(email == '' || !mail_regex.test(email)){
-        $('.warn__msg.email').css('visibility','visible');
+    if(member_id == '' || !mail_regex.test(member_id)){
+        $('.warn__msg.member_id').css('visibility','visible');
         return false;
     }
-    else if(password != password_confirm){
-        $('.warn__msg.password_confirm').css('visibility','visible');
+    else if(member_pw != member_pw_confirm){
+        $('.warn__msg.member_pw_confirm').css('visibility','visible');
         return false;
     }
-    else if(name == ''){
-        $('.warn__msg.name').css('visibility','visible');
+    else if(member_name == ''){
+        $('.warn__msg.member_name').css('visibility','visible');
         return false;
     }
     else if(birth_year == '' || birth_month == '' || birth_day == ''){
@@ -574,6 +703,7 @@ function joinAction(){
             success:function(data){
                 if(data.code == "200") {
                     //location.reload();
+                    location.href='/login';
                     console.log('회원가입 성공');
                 }
                 else {
@@ -589,6 +719,15 @@ function joinAction(){
             dataType:'json'
         }
     );
+}
+
+function showPwDescription(){
+    $('#pw_desciption').show();
+    $('#hide_area').hide();
+}
+function hidePwDescription(){
+    $('#pw_desciption').hide();
+    $('#hide_area').show();
 }
 </script>
 

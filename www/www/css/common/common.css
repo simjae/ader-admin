@@ -158,6 +158,7 @@ body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
 main{padding-top: 50px;}
 img {max-width: 100%;height:  auto;}
 header{max-width: 2560px;margin:0 auto;}
+input[type="checkbox"]{cursor: pointer;}
 /* close 버튼 */
 .close__btn .line {
     width: 10px;
@@ -407,6 +408,36 @@ transform: translateY(-4px) rotate(-45deg);
     top: -4px;
     opacity: 0.3;
 
+} 
+.color__box{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    font-family: FuturaLTPro;
+    font-size: 1.1rem;
+    color: #343434;
+}
+.color__box[data-maxcount="over"]::after{
+    content: "+" attr(data-colorcount);
+    opacity: 0.5;
+    
+}
+.color__box .color{
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    position: relative;
+}
+.color__box .color[data-color="#ffffff"]{
+    background-color: #ffffff!important;
+    border: solid 1px #dcdcdc;
+}
+.color__box .color[data-soldout="STSO"]::after {
+    content: url(/images/svg/sold-line.svg);
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    opacity: 0.3;
 }
 
 
@@ -605,6 +636,9 @@ transform: translateY(-4px) rotate(-45deg);
     0% {left: 10px; width: calc(100% - 10px);}
     100% {left: 100%; width: 0;}
 } */
+
+
+
 
 @media (max-width: 1025px){
     body {

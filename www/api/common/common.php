@@ -19,7 +19,7 @@ function checkProduct($db,$product_idx,$country,$member_idx) {
 	
 	$product_cnt = $db->count(
 		"dev.SHOP_PRODUCT PR",
-		"PR.IDX = ".$product_idx." AND PR.LIMIT_MEMBER REGEXP (SELECT LEVEL_IDX FROM dev.MEMBER_".$country." S_MB WHERE S_MB.IDX = ".$member_idx.")"
+		"PR.IDX = ".$product_idx." AND (PR.LIMIT_MEMBER = 0 OR PR.LIMIT_MEMBER REGEXP (SELECT LEVEL_IDX FROM dev.MEMBER_".$country." S_MB WHERE S_MB.IDX = ".$member_idx."))"
 	);
 	
 	if ($product_cnt > 0) {
@@ -150,6 +150,7 @@ function getProductSize($db,$product_idx) {
 		$sql = "SELECT
 					PR.IDX				AS PRODUCT_IDX,
 					PR.SOLD_OUT_QTY		AS SOLD_OUT_QTY,
+					OM.COLOR			AS COLOR,
 					OO.IDX				AS OPTION_IDX,
 					OO.OPTION_NAME		AS OPTION_NAME,
 					(
@@ -225,6 +226,7 @@ function getProductSize($db,$product_idx) {
 			
 			$product_size[] = array(
 				'product_idx'		=>$data['PRODUCT_IDX'],
+				'color'				=>$data['COLOR'],
 				'option_idx'		=>$data['OPTION_IDX'],
 				'option_name'		=>$data['OPTION_NAME'],
 				'size_type'			=>$size_type,
