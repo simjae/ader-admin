@@ -127,7 +127,7 @@
         width: 100%;
     }
 
-    .product .product-info {
+    .whishlist-section .product .product-info {
         padding: 0px!important;
     }
 
@@ -1153,7 +1153,4 @@
 <script type="module">
     import ForyouRender  from '/scripts/module/foryou.js';
     const foryou = new ForyouRender();
-    foryou.makeHtml();
-    foryou.load();
-    foryou.swiper();
 </script>

@@ -1,10 +1,6 @@
-
-import SideBar from '../scripts/module/side-bar.js';
-
-function sidebarOpen() {
-    const sideBar = new SideBar(basket);
-    sideBar.makeSidebar();
+import {Sidebar, Basket} from '/scripts/module/sidebar.js';
+window.onload = function (){
+    const sidebar = new Sidebar();
 }
 
-
-
+ßßßß

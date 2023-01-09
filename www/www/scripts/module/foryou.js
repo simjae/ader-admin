@@ -1,9 +1,6 @@
 
 export default function ForyouRender() {
-    // this.section = section;
-
-
-    this.makeHtml = () => {
+    this.makeHtml = (() => {
         const sectionWrap = document.querySelector(".recommend-wrap")
         const wrap = document.createElement("aside");
         wrap.classList.add("foryou-wrap");
@@ -20,9 +17,9 @@ export default function ForyouRender() {
             `
         wrap.innerHTML = dom;
         sectionWrap.appendChild(wrap);
-    } 
+    })();
     
-    this.load = () =>{
+    this.load = (() =>{
         $.ajax({
             type: "post",
             dataType: "json",
@@ -102,8 +99,8 @@ export default function ForyouRender() {
                 swiperWrap.appendChild(domFrag);
             }
         });
-    }
-    this.swiper = () => {
+    })();
+    this.swiper = (() => {
         return new Swiper(".foryou-swiper", {
             navigation: {
                 nextEl: ".foryou-swiper .swiper-button-next",
@@ -127,5 +124,5 @@ export default function ForyouRender() {
                 }
             }
             });
-    }
+    })();
 }
