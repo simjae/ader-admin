@@ -8,7 +8,6 @@ import {Basket} from '/scripts/module/basket.js';
     window.addEventListener('resize', () => {
         windowResponsive()
     });
-    
 
     const getMenuListApi = () => {
         let country = "KR";
@@ -26,6 +25,8 @@ import {Basket} from '/scripts/module/basket.js';
                 let data = d.data;
                 webWriteNavHtml(data);
                 mobileWriteNavHtml(data);
+                disableUrlBtn();
+
                 const sidebar = new Sidebar();
                 let basketBtn = document.querySelector(".basket__btn");
                 basketBtn.addEventListener("click",function(e){
@@ -236,21 +237,21 @@ import {Basket} from '/scripts/module/basket.js';
                 </li>
                 <li class="right__nav">
 					<ul class="right__nav__ul">
-						<li class="web search__li" onclick="searchInit();">
+						<li class="web search__li side-bar" data-type="S" onclick="searchInit();">
 							<div class="flex search__motion__wrap">
 								<img class="search-svg" style="width: 11px;" src="/images/svg/search.svg" alt="">
 								<span class="pl-1 search__text" style="font-size: 1.2rem;">검색</span>
 								<input type="text" name="search_w" class="search__input search_w" placeholder="트윈하트 로고 티셔츠" >
 							</div>
 						</li>
-						<li class="search__close" onclick="searchClose();">
+						<li class="search__close"  onclick="searchClose();">
 							<img class="search-close-svg" style="width: 15px;" src="/images/svg/close.svg" alt="search close">
 						</li>
-						<li class="search-hide web alg__c"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
-						<li class="search-hide flex wishlist__btn"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
-						<li class="search-hide flex basket__btn "><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
-						<li class="search-hide web"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
-						<li class="web alg__r login__wrap"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
+						<li class="search-hide web alg__c side-bar" data-type="E"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
+						<li class="search-hide flex wishlist__btn side-bar" data-type="W"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+						<li class="search-hide flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
+						<li class="search-hide web bluemark__btn side-bar" data-type="M"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
+						<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
 						<li class="search-hide web"></li>
 						<li class="flex pr-3 lg:hidden mobileMenu">
 							<div class="hamburger" id="hamburger">
@@ -360,7 +361,6 @@ import {Basket} from '/scripts/module/basket.js';
 				}
             });
         });
-		
     }
     const mobileWriteNavHtml = (data) => {
         let mobileMenu = document.createElement("div");
@@ -563,10 +563,9 @@ import {Basket} from '/scripts/module/basket.js';
         } else if(1024 >= bodyWidth) {
             $body.dataset.view = "rM"
         }
-
-
-
     }
+
+
     // const webMenu = () => {
     //     const navBtn = document.querySelectorAll('.webMenu');
     //     const web = document.querySelector('#web');
@@ -584,7 +583,6 @@ import {Basket} from '/scripts/module/basket.js';
     //         });
     //     });
     // }
-	
 	function headerHover(bl){
 		let header = document.querySelector("header");
 		if(bl){
@@ -604,7 +602,6 @@ import {Basket} from '/scripts/module/basket.js';
 			$("#dimmer").hide();
 		}
 	}
-	
 	function searchInit(){
 		headerHover(true);
 		$(".login__wrap").addClass("-search-on");
@@ -630,3 +627,83 @@ import {Basket} from '/scripts/module/basket.js';
 		headerHover(false);
 		$(".mid__space").removeClass("--hidden");
 	}
+
+    function disableUrlBtn() {
+        const pageUrl = new URL(document.location);
+        let path = pageUrl.pathname; 
+        let whishBtn = document.querySelector('.wishlist__btn');
+        let basketBtn = document.querySelector('.basket__btn');
+        let bluemarkBtn = document.querySelector('.bluemark__btn');
+        let mypageBtn = document.querySelector('.mypage__icon');
+        let quickBox = document.querySelector('.wish__btn__wrap');
+        let sideBarBtn = document.querySelectorAll('.side-bar');
+        sideBarBtn.forEach(el => {
+            el.addEventListener("click", function() {
+                let typeTarget  = this.dataset.type;
+                console.log("🏂 ~ file: nav.js:645 ~ el.addEventListener ~ typeTarget", typeTarget)
+                if(typeTarget === "S"){
+                    console.log("서치");
+                } else if(typeTarget === "E"){
+                    console.log("언어변경");
+                    let text = getLanguage();
+                    console.log("🏂 ~ file: nav.js:656 ~ el.addEventListener ~ 현재 언어:", text)
+                    function getLanguage() {
+                    return navigator.language || navigator.userLanguage;
+                    }
+                } else if(typeTarget === "W"){
+                    if(path.includes("whish")){
+                        e.stopImmediatePropagation();
+                    }
+                    console.log("위시리스트");
+                } else if(typeTarget === "B"){
+                    if(path.includes("basket")){
+                        e.stopImmediatePropagation();
+                    }
+                    console.log("베스킷");
+                } else if(typeTarget === "M"){
+                    console.log("블루마켓");
+                    if(path.includes("mypage")){
+                        e.stopImmediatePropagation();
+                    }
+                } else if(typeTarget === "L"){
+                    if(path.includes("mypage")){
+                        e.stopImmediatePropagation();
+                    }
+                    console.log("마이페이지");
+                }
+                sideBarToggleEvent();
+            });
+        })
+
+        function sideBarToggleEvent(){
+            layoutClick();
+            let sideContainer = document.querySelector("#sidebar");
+            let sideBg = document.querySelector(".side__background");
+            let sideWrap = document.querySelector(".side__wrap");
+            let sideBox = document.querySelector(".side__box");
+
+
+            if(sideContainer.classList.contains("open")){
+                sideContainer.classList.remove("open");
+                sideBg.classList.remove("open");
+                sideWrap.classList.remove("open");
+            } else {
+                sideBox.innerHTML = ""
+                sideContainer.classList.add("open");
+                sideBg.classList.add("open");
+                sideWrap.classList.add("open");
+            }
+        }
+        function layoutClick () {
+            let sideWrap = document.querySelector(".side__wrap");
+            let sideBg = document.querySelector(".side__background");
+            sideBg.addEventListener("click" ,(e) =>{
+                if(e.target == sideBg){
+                    document.querySelector("#sidebar").classList.remove("open")
+                    document.querySelector(".side__background").classList.remove("open")
+                    document.querySelector(".side__wrap").classList.remove("open")
+                }
+            } )
+
+        }
+    }

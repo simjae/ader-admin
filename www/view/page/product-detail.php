@@ -84,22 +84,18 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 	window.addEventListener('DOMContentLoaded', function() {
 		let product_idx = document.querySelector("main").dataset.productidx;
 		getProduct(product_idx);
-		
+		responsiveSwiper();
 	});
 	let timer = null;
 	window.addEventListener("resize" , function() {
-		mainSwiperDirectionCheck();
-		// clearTimeout( timer );  
-
-		// timer = setTimeout( changeDirection(dir), 150 );  
+		responsiveSwiper();
+		
 	});
 
 	const getProduct = (product_idx) => {
 		const main = document.querySelector("main");
 		// let product_idx = main.dataset.productidx;
 		let country = main.dataset.country;
-
-
 		$.ajax({
 			type: "post",
 			data: {
@@ -131,6 +127,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 						imgThumbnailHtml = `<img src="${imgUrl}${thumbnail.img_location}"/><span>착용 이미지</span>`;
 						const thumbnailBox = document.createElement("div");
 						thumbnailBox.classList.add("thumb__box");
+						thumbnailBox.dataset.type = thumbnail.display_num;
 						thumbnailBox.innerHTML= imgThumbnailHtml;
 						domFrag.appendChild(thumbnailBox);
 					});
@@ -239,7 +236,6 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 						
 					`;
 				});
-				mainSwiperDirectionCheck();
 
 
 				let relevant_idx = data[0].relevant_idx;
@@ -298,6 +294,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 					});
 				}
 				// 컬러 표기
+			followScrollBtn();
 				
 				
 				
@@ -373,23 +370,18 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 	}
 	// 메인스와이퍼 ////
 	
-
-	let isVertical = undefined;
-	let direction = 'vertical';
-	let mainControll = mainControllSwiper();
-	let mainDetailSwiper = initMainSwiper();
-
-	function mainSwiperDirectionCheck() {
-		const body = document.querySelector("body");
-		let view = body.dataset.view;
-		let dir = "";
-
-		if(view === "rW") {
-			mainDetailSwiper.destroy(true,true);
-		} else if(view === "rM") {
-			changeDirection();
+	let mainSwiper = initMainSwiper();
+	
+	
+	const responsiveSwiper = () => {
+		let breakpoint = window.matchMedia( 'screen and (min-width:1025px)' );
+		if ( breakpoint.matches === true ) {
+			return mainSwiper.destroy();
+		} else if ( breakpoint.matches === false ) {
+			if (typeof(mainSwiper) == 'object') mainSwiper.destroy();
+    		return mainSwiper = initMainSwiper();
 		}
-	}
+	};
 	function initMainSwiper() {
 		return new Swiper('.main__swiper', {
 			observer:true,
@@ -400,42 +392,12 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 				dynamicMainBullets: 5,
 				type: "fraction"
 			},
-			zoom: {
-				maxRatio: 5,
-			},
 			navigation: {
 				nextEl: ".swiper-button-next",
 				prevEl: ".swiper-button-prev"
 			},
-			slidesPerView: 1,
-			on: {
-				slideChangeTransitionEnd: function () {
-					console.log('clicked!')
-					this.zoom.in();
-				}			
-			}
+			slidesPerView: 1
 		});
-	}
-	function mainControllSwiper() {
-		return new Swiper(".main__swiper", {
-			pagination: {
-				el: ".pagination_bullet",
-				dynamicBullets: true,
-				dynamicMainBullets: 5,
-				type: "bullets"
-			},
-		});
-	}
-	function changeDirection() {
-		let slideIndex = mainDetailSwiper.activeIndex;
-		mainDetailSwiper.destroy(true, true);
-		mainDetailSwiper = initMainSwiper();
-		
-		mainDetailSwiper.slideTo(slideIndex,0);
-
-		mainControll.destroy(true, true);
-		mainControll = mainControllSwiper();
-		mainDetailSwiper.controller.control = mainControll;
 	}
 	const getRelevantProductList = (relevant_idx,country) => {
 		$.ajax({
@@ -681,4 +643,29 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 		}
 		});
 	} 
+	//스크롤 버튼 
+	function followScrollBtn() {
+		const detailProduct = document.querySelectorAll(".main__swiper .swiper-slide");
+		const thumbBtns = document.querySelectorAll(".thumb__box");
+		thumbBtns.forEach(el => el.addEventListener("click", function(){
+			let thumbIdx = (this.dataset.type) - 1;
+			let result = [...detailProduct].find((el,idx) => idx === thumbIdx)
+			let scrollTo = result.offsetTop
+			toScroll(scrollTo)
+			if(mainSwiper.__swiper__ == true){
+				mainSwiper.slideTo(thumbIdx)
+			}
+		}));
+		
+		// let typeO = [...detailProduct].filter(el => el.dataset.imgtype==="O")
+		// let typeP = [...detailProduct].filter(el => el.dataset.imgtype==="P")
+		// let typeD = [...detailProduct].filter(el => el.dataset.imgtype==="D")
+		function toScroll(targetValue){
+			window.scrollTo({
+				top: targetValue,
+				left: 0,
+				behavior: 'smooth'}
+			);
+		};
+	}
 </script>

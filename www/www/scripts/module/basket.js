@@ -265,6 +265,7 @@ export function Basket(el, useSidebar) {
             optionColorSelect();
             payBtnEvent();
             reorderHandler();
+            layoutClick();
             
         }
         const selfCheckbox = (status, checked) => {
@@ -716,6 +717,18 @@ export function Basket(el, useSidebar) {
             const productBox = [...document.querySelectorAll(".sold__list__box .product__box")].find(el => el.dataset.productidx == productIdx);
             productBox.dataset.reflg = 1;
             productBox.querySelector(".reorder__btn u").innerHTML ="재입고 알림 신청완료";
+        }
+        function layoutClick () {
+            let sideWrap = document.querySelector(".side__wrap");
+            let sideBg = document.querySelector(".side__background");
+            sideBg.addEventListener("click" ,(e) =>{
+                if(e.target == sideBg){
+                    document.querySelector("#sidebar").classList.remove("open")
+                    document.querySelector(".side__background").classList.remove("open")
+                    document.querySelector(".side__wrap").classList.remove("open")
+                }
+            } )
+
         }
     })();
 }

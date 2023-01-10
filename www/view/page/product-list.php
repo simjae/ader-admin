@@ -38,7 +38,7 @@
                         <img src="/images/svg/filter.svg" alt="">
                         <span>필터</span>
                     </li>
-                    <li class="sort-btn type-btn" onClick="changeImgType();">
+                    <li class="sort-btn type-btn" onClick="changeImgTypeBtn();">
                         <img src="/images/svg/cloth.svg" alt="">
                         <input type="hidden" id="img_param" value="P">
                         <span id="img_type_text">착용보기</span>
@@ -92,22 +92,10 @@
     </section>
 </main>
 <script>
+    let productListSwipe;
     window.addEventListener('DOMContentLoaded', function() {
         getProductList();
-        imgSwiper();
     });
-
-    // window.addEventListener('resize', function() {
-    //         console.log("product-resize");
-    //         let screenWidth = document.querySelector("body").offsetWidth;
-    //         if (1024 <= screenWidth ) {
-    //             console.log("web");
-
-    //         }else {
-    //             console.log("mobile");
-    //         }
-    //      
-    //     });
     window.addEventListener("scroll", function () {
         const scrollHeight = window.scrollY;
         const windowHeight = window.innerHeight;
@@ -118,46 +106,7 @@
             //getMoreProduct();
         }
     });
-
-    function changeImgType() {
-        $('#last_idx').val(0);
-        let imgType = "imgType"
-        let img_param = $('#img_param');
-        let img_type_text = "";
-        let items = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='item']");
-        let outfits = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='outfit']");
-
-        if (img_param.val() == "P") {
-            img_param.val('O');
-            img_type_text = "아이템보기";
-            items.forEach( el => {
-                el.style.display="none"
-            })
-            outfits.forEach( el => {
-                el.style.display="block"
-            })
-        } else if (img_param.val() == "O") {
-            img_param.val('P');
-            img_type_text = "착용보기";
-            items.forEach( el => {
-                el.style.display="block"
-            })
-            outfits.forEach( el => {
-                el.style.display="none"
-            })
-
-            
-            
-        }
-        $('#img_type_text').text(img_type_text);
-        let productImgSwiper = imgSwiper();
-        productImgSwiper.forEach(el =>{
-            el.update();
-            el.updateSlides();
-        })
-        
-    }
-
+    //상품 불러오는 api
     const getProductList = (imgType) => {
         let menu_sort = $('#menu_sort').val();
         let menu_idx = $('#menu_idx').val();
@@ -265,52 +214,15 @@
                 productListSelectGrid(imgType);
                 productCategorySwiper();
                 productSml();
+                swiperStateCheck();
+                changeHandler();
             }
         });
     }
-
-    function getMoreProduct() {
-        let last_idx = parseInt($('#last_idx').val());
-        last_idx++;
-
-        $('#last_idx').val(last_idx);
-
-        let menu_sort = $('#menu_sort').val();
-        let menu_idx = $('#menu_idx').val();
-        let page_idx = $('#page_idx').val();
-        let country = $('#country').val();
-        let img_param = $('#img_param').val();
-
-        $.ajax({
-            type: "post",
-            data: {
-                "menu_sort": menu_sort,
-                "menu_idx": menu_idx,
-                "page_idx": page_idx,
-                "country": country,
-                "img_param": img_param,
-                "last_idx": last_idx
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/product/list/get",
-            error: function() {
-                alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
-            },
-            success: function(d) {
-                let pageIdx = "?page_idx=" + page_idx;
-                let data = d.data;
-                let imgDiv = "";
-                let product_info = data.product_info;
-                let productwriteData = productWriteHtml(product_info);
-                $(".product-wrap").append(productwriteData);
-                productListSelectGrid(imgType);
-            }
-        });
-    }
+    //상품 그리는 함수  
     function productWriteHtml(productInfo){
         let productListHtml ="";
         let imgUrl = "http://116.124.128.246:81";
-
         productInfo.forEach(el => {
             let whish_img = "";
             let whish_function = "";
@@ -318,10 +230,10 @@
             let whish_flg = `${el.whish_flg}`;
             if (whish_flg == 'true') {
                 whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                whish_function = "deleteWhishList(this)";
+                whish_function = "deleteWhishListBtn(this)";
             } else if (whish_flg == 'false') {
                 whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                whish_function = "setWhishList(this)";
+                whish_function = "setWhishListBtn(this)";
             }
             let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
             let colorCtn = el.product_color.length;
@@ -382,74 +294,8 @@
             </div>
             `;
         });
-        imgSwiper();
         return productListHtml;
     }
-    function setWhishList(obj) {
-        let product_idx = $(obj).attr('product_idx');
-
-        if (product_idx != null) {
-            $.ajax({
-                type: "post",
-                data: {
-                    "product_idx": product_idx
-                },
-                dataType: "json",
-                url: "http://116.124.128.246:80/_api/order/whish/add",
-                error: function() {
-                    alert("위시리스트 등록/해제 처리에 실패했습니다.");
-                },
-                success: function(d) {
-                    let code = d.code;
-                    let msg = d.msg;
-
-                    if (code == "200") {
-                        let whish_img = $(obj).find('.whish_img');
-                        whish_img.attr('src', '/images/svg/wishlist-bk.svg');
-                        whish_img.attr('style', 'width:19px');
-                        $(obj).attr('onClick', 'deleteWhishList(this)');
-                    }
-                }
-            });
-        }
-    }
-    function deleteWhishList(obj) {
-        let product_idx = $(obj).attr('product_idx');
-
-        if (product_idx != null) {
-            $.ajax({
-                type: "post",
-                data: {
-                    "product_idx": product_idx
-                },
-                dataType: "json",
-                url: "http://116.124.128.246:80/_api/order/whish/delete",
-                error: function() {
-                    alert("위시리스트 등록/해제 처리에 실패했습니다.");
-                },
-                success: function(d) {
-                    let code = d.code;
-                    let msg = d.msg;
-
-                    if (code == "200") {
-                        let whish_img = $(obj).find('.whish_img');
-                        whish_img.attr('src', '/images/svg/wishlist.svg');
-                        $(obj).attr('onClick', 'setWhishList(this)');
-                    }
-                }
-            });
-        }
-    }
-    //모바일 & 웹 그리드별 보기 기능
-    () => {
-        const $$product = document.querySelectorAll('.product');
-        $$product.forEach((el) => {
-            el.addEventListener("click", () => {
-                location.href = "http://116.124.128.246:80/product/detail"
-            });
-        })
-    }
-
     /* 모바일 & 웹 상품 카테고리 스와이프 */
     const productCategorySwiper = () => {
         let productListSwiper = new Swiper(".prd__meun__swiper", {
@@ -478,6 +324,7 @@
             }
         });
     }
+    
     const productSml = () => {
         let productListSwiper = new Swiper(".prd__meun__category", {
             grabCursor: true,
@@ -498,30 +345,34 @@
             }
         });
     }
-    const imgSwiper = () => {
-        let productImgSwiper = new Swiper(".product-img", {
-            navigation: {
-                nextEl: ".product-img .swiper-button-next",
-                prevEl: ".product-img .swiper-button-prev",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            autoHeight: true,
+    //상품 스와이프
+    function swiperStateCheck() {
+        let rp = window.matchMedia( 'screen and (min-width:1025px)' ).matches;
+        let {grid, webpre, mobilepre}  = document.querySelector(".product-wrap").dataset;
+
+        if(rp == true && webpre === "2"){
+            imgSwiper(true);
+            return
+        } else if(rp == false && mobilepre === "1") {
+            imgSwiper(true);
+            return
+        } else {
+            imgSwiper(false);
+        }
+    }
+    const imgSwiper = (move) => {
+        let productImg = document.querySelectorAll('.product-img');
+        if (typeof(productListSwipe) == 'object') [...productListSwipe].map(el=> el.destroy());
+        return productListSwipe = new Swiper('.product-img', {
+            // autoHeight: true,
             grabCursor: true,
             slidesPerView: 1,
             observer:true,
-	        observeParents: true,
-            on:{
-                update:function(){
-                },
-                updateSlides:function(){
-                }
-            }
+            observeParents: true,
+            allowTouchMove:move
         });
-        return productImgSwiper;
     }
+    //그리드 설정
     const productListSelectGrid = (imgType) => {
         let $body = document.querySelector("body");
         let $prdListBox = document.querySelector(".product-wrap");
@@ -547,25 +398,20 @@
         //웹 sort 버튼 클릭
         $webSortGrid.addEventListener("click", () => {
             webGridEvent();
+            swiperStateCheck()
         });
         //모바일 sort 버튼 클릭
         $mobileSortGrid.addEventListener("click", () => {
             mobileGridEvent();
+            swiperStateCheck()
         });
         window.addEventListener('resize', function() {
-            
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(gridResize);
+            swiperStateCheck()
         }, false);
 
 
-        function productSwiperUpdate() {
-            let grid = $prdListBox.dataset.grid;
-            const backgroundImg = imgSwiper();
-            backgroundImg.forEach(el => {
-
-            });
-        }
         function webGridEvent() {
             const $productWrapEl = document.querySelector(".product-wrap");
             let currentWebGrid = document.querySelector(".rW.sort__grid").dataset.grid;
@@ -580,15 +426,14 @@
                         $prdListBox.dataset.grid = 2;
                     }
                     else{
-                        console.log("탐?")
                         $webSortGrid.dataset.grid = 4;
                         $websortSpan.innerText = '4칸보기';
                         $websortImg.src = '/images/svg/grid-cols-4.svg';
-                        productSwiperUpdate();
                     }
                 break;
 
                 case "4":
+
                     //그리드 버튼 변경
                     $prdListBox.dataset.grid = 4;
                     $prdListBox.dataset.webpre = 4;
@@ -600,7 +445,6 @@
                         $webSortGrid.dataset.grid = 2;
                         $websortSpan.innerText = '2칸보기';
                         $websortImg.src = '/images/svg/grid-cols-2.svg';
-                        productSwiperUpdate();
                     }
                 break;
             }
@@ -621,8 +465,8 @@
                         $mobileSortSpan.innerText = '3칸보기';
                         $mobileSortImg.src = '/images/svg/grid-cols-3.svg';
                     }
-                    let swiper = productSwiperUpdate();
-                    
+
+                    //let swiper = productSwiperUpdate();
                     break;
 
                 case "2":
@@ -637,7 +481,6 @@
                         $mobileSortSpan.innerText = '1칸보기';
                         $mobileSortImg.src = '/images/svg/grid-cols-1.svg';
                     }
-                    productSwiperUpdate();
                     break;
                 case "3":
                     $prdListBox.dataset.mobilepre = 3;
@@ -651,7 +494,6 @@
                         $mobileSortSpan.innerText = '2칸보기';
                         $mobileSortImg.src = '/images/svg/grid-cols-2.svg';
                     }
-                    productSwiperUpdate();
                     break;
             }
             return currentGrid;
@@ -661,11 +503,9 @@
             let webBeforeGrid = $prdListBox.dataset.webpre;
             let mobileBeforeGrid = $prdListBox.dataset.mobilepre; 
             let screenWidth = document.querySelector("body").offsetWidth;
-            
             if (1024 <= screenWidth ) {
                 $prdListBox.style.gridTemplateColumns = "repeat(16, 1fr)"
                 $prdListBox.dataset.grid = webBeforeGrid;
-                
             } else {
                 if(mobileBeforeGrid === 1){
                     $mobileSortSpan.innerText = '2칸보기';
@@ -682,7 +522,136 @@
             }
         }
     }
-    const imgResize = (ratioX, ratioY, width) => {
-        return (ratioY * width) / ratioX;
+    //버튼 핸들러 
+    function setWhishListBtn(obj) {
+        let product_idx = $(obj).attr('product_idx');
+
+        if (product_idx != null) {
+            $.ajax({
+                type: "post",
+                data: {
+                    "product_idx": product_idx
+                },
+                dataType: "json",
+                url: "http://116.124.128.246:80/_api/order/whish/add",
+                error: function() {
+                    alert("위시리스트 등록/해제 처리에 실패했습니다.");
+                },
+                success: function(d) {
+                    let code = d.code;
+                    let msg = d.msg;
+
+                    if (code == "200") {
+                        let whish_img = $(obj).find('.whish_img');
+                        whish_img.attr('src', '/images/svg/wishlist-bk.svg');
+                        whish_img.attr('style', 'width:19px');
+                        $(obj).attr('onClick', 'deleteWhishListBtn(this)');
+                    }
+                }
+            });
+        }
+    }
+    function deleteWhishListBtn(obj) {
+        let product_idx = $(obj).attr('product_idx');
+
+        if (product_idx != null) {
+            $.ajax({
+                type: "post",
+                data: {
+                    "product_idx": product_idx
+                },
+                dataType: "json",
+                url: "http://116.124.128.246:80/_api/order/whish/delete",
+                error: function() {
+                    alert("위시리스트 등록/해제 처리에 실패했습니다.");
+                },
+                success: function(d) {
+                    let code = d.code;
+                    let msg = d.msg;
+
+                    if (code == "200") {
+                        let whish_img = $(obj).find('.whish_img');
+                        whish_img.attr('src', '/images/svg/wishlist.svg');
+                        $(obj).attr('onClick', 'setWhishListBtn(this)');
+                    }
+                }
+            });
+        }
+    }
+    function changeImgTypeBtn() {
+        $('#last_idx').val(0);
+        let imgType = "imgType"
+        let img_param = $('#img_param');
+        let img_type_text = "";
+        let items = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='item']");
+        let outfits = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='outfit']");
+
+        if (img_param.val() == "P") {
+            document.querySelector(".product-wrap").dataset.item ="O";
+            img_param.val('O');
+            img_type_text = "아이템보기";
+            items.forEach(el => el.style.display = "block"); 
+            outfits.forEach(el => el.style.display = "none");
+        } else if (img_param.val() == "O") {
+            document.querySelector(".product-wrap").dataset.item ="P";
+            img_param.val('P');
+            img_type_text = "착용보기";
+            items.forEach(el => el.style.display = "none");
+            outfits.forEach(el => el.style.display = "block");
+        $('#img_type_text').text(img_type_text);
+        }
+    }
+    //상품 더 불러오기
+    function getMoreProduct() {
+        let last_idx = parseInt($('#last_idx').val());
+        last_idx++;
+
+        $('#last_idx').val(last_idx);
+
+        let menu_sort = $('#menu_sort').val();
+        let menu_idx = $('#menu_idx').val();
+        let page_idx = $('#page_idx').val();
+        let country = $('#country').val();
+        let img_param = $('#img_param').val();
+
+        $.ajax({
+            type: "post",
+            data: {
+                "menu_sort": menu_sort,
+                "menu_idx": menu_idx,
+                "page_idx": page_idx,
+                "country": country,
+                "img_param": img_param,
+                "last_idx": last_idx
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/product/list/get",
+            error: function() {
+                alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
+            },
+            success: function(d) {
+                let pageIdx = "?page_idx=" + page_idx;
+                let data = d.data;
+                let imgDiv = "";
+                let product_info = data.product_info;
+                let productwriteData = productWriteHtml(product_info);
+                $(".product-wrap").append(productwriteData);
+                productListSelectGrid(imgType);
+            }
+        });
+    }
+    function changeHandler() {
+        let productWrap =  document.querySelector(".product-wrap");
+        let productWrapData =  productWrap.dataset.item;
+        let items = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='item']");
+        let outfits = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='outfit']");
+        if(productWrapData == "P"){
+            items.forEach(el => el.style.display = "block"); 
+            outfits.forEach(el => el.style.display = "none");
+        } else if(productWrapData == "O") {
+            items.forEach(el => el.style.display = "none");
+            outfits.forEach(el => el.style.display = "block");
+
+        }
     }
 </script>

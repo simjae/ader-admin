@@ -409,6 +409,7 @@
     }
 
     .foryou-wrap {
+        display:block;
         padding-bottom: 200px;
         position: relative;
     }
@@ -453,7 +454,7 @@
         width: 100%;
         background-color: #fbfbfb;
     }
-
+    
     .foryou-wrap .prd-title {
         height: 40px;
         background-color: #ffffff;
