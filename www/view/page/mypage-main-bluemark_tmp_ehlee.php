@@ -141,7 +141,6 @@
         font-family: var(--ft-no-fu);
         color: #343434;
         margin-top: 20px;
-        margin-bottom: 49.5px;
     }
 
     .verify__list__wrap .description p {
@@ -160,26 +159,11 @@
         margin-bottom: 100px;
     }
 
-    .voucher__handover__wrap {
-        display: grid;
-        place-items: center;
-        width: 480px;
-    }
-
     .vertical__top {
         padding-left: 10px;
-        padding-top: 9.5px;
     }
 
-    .vertical__top p {
-        margin-bottom: 10px;
-    }
-
-    .bluemark_list_tr {
-        height: 156px;
-    }
-
-    .title p {
+    .title_name {
         color: #0000c5;
     }
 
@@ -194,20 +178,98 @@
         object-fit: contain;
         border-radius: 3px;
     }
+
+    .voucher__handover__wrap {
+        height: 389px;
+        width: 490px;
+        border: 1px solid #808080;
+        padding: 20px;
+        margin: 0 auto;
+    }
+
+    .voucher__handover__wrap__container {
+        margin: 0 auto;
+    }
+
+    .certified__wrap {
+        height: 86px;
+        width: 450px;
+        border: 1px solid #808080;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .certified_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 69px;
+        height: 23px;
+        border-radius: 1px;
+        background-color: #0000c5;
+        font-size: 11px;
+        font-family: var(--ft-no-fu);
+        color: #fff;
+        line-height: 40px;
+    }
+
+    .certified_table {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .certified_row {
+        width: 225px;
+    }
+
+    .black_transfer_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 450px;
+        height: 40px;
+        border-radius: 1px;
+        background-color: #191919;
+        font-size: 11px;
+        font-family: var(--ft-no-fu);
+        color: #fff;
+        margin: 10px 0 20px 0;
+    }
+
+    .title_transfer p {
+        color: #343434;
+    }
+
+    .description_transfer {
+        margin-top: 20px;
+        font-size: 11px;
+    }
+
+    .description_transfer p {
+        margin-bottom: 10px;
+    }
+
+    .form input {
+        height: 40px;
+        width: 450px;
+        border: 1px solid #808080;
+        padding: 10px;
+        margin-top: 10px;
+    }
 </style>
 <div class="bluemark__wrap">
     <div class="bluemark__tab__btn__container">
-        <div class="tab__btn__item" form-id="verify__form__wrap">
+        <div class="tab__btn__item" form-id="verify__form__wrap" onclick="tabClickTmp(this);">
             <img src="/images/mypage/tab/select_verify_btn.svg">
         </div>
-        <div class="tab__btn__item" form-id="verify__list__wrap" onClick="getBluemarkList()">
+        <div class="tab__btn__item" form-id="verify__list__wrap" onclick="getBluemarkList();">
             <img src="/images/mypage/tab/default_list_btn.svg">
         </div>
     </div>
     <div class="bluemark__tab__wrap">
-        <div class="bluemark__tab verify__form__wrap">
+        <!-- <div class="bluemark__tab verify__form__wrap">
             <div class="title">
-                <p class="title_name">Bluemark</p>
+                <p>Bluemark</p>
             </div>
             <div class="description">
                 <p>BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.</p>
@@ -268,73 +330,86 @@
                     </tbody>
                 </table>
             </div>
-            <div class="footer"></div>
-        </div>
+        </div> -->
         <div class="bluemark__tab voucher__handover__wrap">
-            <div class="bluemark__tab verify__form__wrap">
-                <div class="title">
-                    <p>제품 양도하기</p>
+            <div class="voucher__handover__wrap_container">
+                <div class="title_trasfer">
+                    <p style="font-size: 13px;">제품 양도하기</p>
                 </div>
-                <div class="description">
-                    <p>·하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 양도신청이 접수됩니다.</p>
-                    <p>·정보는 향후 변경이 불가능하니 신청 전에 반드시 확인해 주시길 바랍니다.</p>
+                <div class="description_transfer">
+                    <p>·&nbsp;하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 양도신청이 접수됩니다.</p>
+                    <p>·&nbsp;정보는 향후 변경이 불가능하니 신청 전에 반드시 확인해 주시길 바랍니다.</p>
                 </div>
                 <div class="form">
-                    <p>양도 받을 아이디</p>
-                    <input type="text" name="member_id" placeholder="아이디">
+                    <p style="margin-bottom: 10px;">양도 받을 아이디</p>
+                    <input type="text" name="member_id" class="bluemark_member_id">
                 </div>
-                <div class="black__btn">
+                <div class="black_transfer_btn">
                     <button>양도하기</button>
                 </div>
                 <p>인증내역</p>
                 <div class="certified__wrap">
-                    <div id="handover__info"></div>
+                    <div id="handover__info">
+                        <div class="certified_table">
+                            <div class="certified_row">
+                                <span>${data.product_name}</span>
+                                <span>${data.member_id}</span>
+                            </div>
+                            <div class="certified_row">
+                                <span>${data.color}</span>
+                                <span>${data.update_date}</span>
+                            </div>
+                            <div class="certified_row">
+                                <span class="certified_btn">
+                                    CERTIFIED</span>
+                                <span>${data.serial_code}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="contents__table">
-                <table class="border__bottom">
-                    <colsgroup>
-                        <col style="width:110px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:130px;">
-                    </colsgroup>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img src="/images/mypage/sample_product/BLAFWLK15BL_8.png">
-                            </td>
-                            <td class="vertical__top">
-                                <p>Product name</p>
-                                <p>000,000</p>
-                                <p>Color</p>
-                                <p>A2</p>
-                            </td>
-                            <td>
-                                <p>2022.11.44</p>
-                            </td>
-                            <td onclick="getBluemarkInfo(param)">
-                                <img src="/images/mypage/mypage_product_transfer_btn.svg">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="footer"></div>
-            </div>
         </div>
+        <!-- <div class="contents__table" style="display: grid; justify-content: center;">
+            <table class="border__bottom">
+                <colsgroup>
+                    <col style="width:110px;">
+                    <col style="width:120px;">
+                    <col style="width:120px;">
+                    <col style="width:130px;">
+                </colsgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="/images/mypage/sample_product/BLAFWLK15BL_8.png">
+                        </td>
+                        <td class="vertical__top">
+                            <p>Product name</p>
+                            <p>000,000</p>
+                            <p>Color</p>
+                            <p>A2</p>
+                        </td>
+                        <td>
+                            <p>2022.11.44</p>
+                        </td>
+                        <td onclick="getBluemarkInfo(param)">
+                            <img src="/images/mypage/mypage_product_transfer_btn.svg">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="footer"></div>
+        </div> -->
+
     </div>
 </div>
-
-</div>
 <script>
-    $('.bluemark__tab').hide();
     $('.verify__form__wrap').show();
 
     $('.handover__btn').on('click', function () {
         $('.bluemark__tab').hide();
         $('.voucher__handover__wrap').show();
     })
-    
+
     function getBluemarkInfo(obj) {
         var idx = $(obj).attr('idx');
         var country = 'KR';
@@ -356,21 +431,21 @@
                     console.log(data);
 
                     var strDiv = `
-                   <div class="certified_table">
-                        <div class="certified_row">
-                            <span>${data.product_name}</span>
-                            <span>${data.member_id}</span>
-                        </div>
-                        <div class="certified_row">
-                            <span>${data.color}</span>
-                            <span>${data.update_date}</span>
-                        </div>
-                        <div class="certified_row">
-                        <span class="certified_btn">
-                            CERTIFIED</span>
-                        <span>${data.serial_code}</span>
-                        </div>
-                    </div>
+                //    <div class="certified_table">
+                //         <div class="certified_row">
+                //             <span>${data.product_name}</span>
+                //             <span>${data.member_id}</span>
+                //         </div>
+                //         <div class="certified_row">
+                //             <span>${data.color}</span>
+                //             <span>${data.update_date}</span>
+                //         </div>
+                //         <div class="certified_row">
+                //         <span class="certified_btn">
+                //             CERTIFIED</span>
+                //         <span>${data.serial_code}</span>
+                //         </div>
+                //     </div>
                    `;
 
 

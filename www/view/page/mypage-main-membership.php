@@ -4,15 +4,18 @@
     width:100%;
 }
 .member__level__container{
-    color: #fff;
-    font-size: 11px;
-    font-family:var(--ft-no-fu);
     text-align: center;
     margin: 0 auto;
     width:830px;
     display:grid;
     place-items: center;
     grid-template-columns: 120px 120px 120px 120px 120px 120px 120px 
+}
+.member__level__container p{
+    color: #fff;
+    text-align:center;
+    margin-top:0px;
+    margin-bottom:0px;
 }
 .level__box{
     height:108px;
@@ -66,83 +69,111 @@
         <div class="member__level__item">
             <div class="level__box one">
                 <div class="level__title">
-                    <p>ADER</p>
-                    <p>WHITE MEMBER</p>
+                    <p>
+                        ADER<br>
+                        WHITE MEMBER
+                    </p>
                 </div>
                 <div class="level__info">
-                    <p>3개월 이내</p>
-                    <p>신규 회원</p>
+                    <p>
+                        3개월 이내<br>
+                        신규 회원  
+                    </p>
                 </div>
             </div>
         </div>
         <div class="member__level__item">
             <div class="level__box two">
                 <div class="level__title">
-                    <p>ADER</p>
-                    <p>BLUE MEMBER</p>
+                    <p>
+                        ADER<br>
+                        BLUE MEMBER
+                    </p>
                 </div>
                 <div class="level__info">
-                    <p>구매금액</p>
-                    <p>20만원 이상</p>
+                    <p>
+                        구매금액<br>
+                        20만원 이상
+                    </p>
                 </div>
             </div>
         </div>
         <div class="member__level__item">
             <div class="level__box three">
                 <div class="level__title"></div>
-                    <p>ADER</p>
-                    <p>BLUE MEMBER</p>
+                    <p>
+                        ADER<br>
+                        BLUE MEMBER
+                    </p>
                 <div class="level__info">
-                    <p>구매금액</p>
-                    <p>50만원 이상</p>
+                    <p>
+                        구매금액<br>
+                        50만원 이상
+                    </p>
                 </div>
             </div>
         </div>
         <div class="member__level__item">
             <div class="level__box four">
                 <div class="level__title">
-                    <p>ADER</p>
-                    <p>BLUE MEMBER</p>
+                    <p>
+                        ADER<br>
+                        BLUE MEMBER
+                    </p>
                 </div>
                 <div class="level__info">
-                    <p>구매금액</p>
-                    <p>100만원 이상</p>
+                    <p>
+                        구매금액<br>
+                        100만원 이상
+                    </p>
                 </div>
             </div>
         </div>
         <div class="member__level__item">
             <div class="level__box five">
                 <div class="level__title">
-                    <p>ADER</p>
-                    <p>BLUE MEMBER</p>
+                    <p>
+                        ADER<br>
+                        BLUE MEMBER
+                    </p>
                 </div>
                 <div class="level__info">
-                    <p>구매금액</p>
-                    <p>200만원 이상</p>
+                    <p>
+                        구매금액<br>
+                        200만원 이상
+                    </p>
                 </div>
             </div>
         </div>
         <div class="member__level__item">
             <div class="level__box six">
                 <div class="level__title">
-                    <p>ADER</p>
-                    <p>VIP MEMBER</p>
+                    <p>
+                        ADER<br>
+                        VIP MEMBER
+                    </p>
                 </div>
                 <div class="level__info">
-                    <p>구매금액</p>
-                    <p>800만원 이상</p>
+                    <p>
+                        구매금액<br>
+                        800만원 이상
+                    </p>
                 </div>
             </div>
         </div>
         <div class="member__level__item">
             <div class="level__box seven">
                 <div class="level__title">
-                    <p>ADER</p>
-                    <p>VIPP MEMBER</p>
+                    <p>
+                        ADER<br>
+                        VIPP MEMBER
+                    </p>
                 </div>
                 <div class="level__info">
-                    <p>구매금액</p>
-                    <p>1,200만원 이상</p>
+                    <p>
+                        구매금액<br>
+                        1,200만원 이상
+                    </p>
                 </div>
             </div>
         </div>

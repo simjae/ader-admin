@@ -84,10 +84,10 @@
         <div class="tab__btn__item" form-id="voucher__regist__form__wrap">
             <img src="/images/mypage/tab/select_voucher_regist_btn.svg">
         </div>
-        <div class="tab__btn__item"  form-id="voucher__amount__form__wrap">
+        <div class="tab__btn__item"  form-id="voucher__amount__form__wrap" onclick="voucherListGet('possession')">
             <img src="/images/mypage/tab/default_voucher_amount_btn.svg">
         </div>
-        <div class="tab__btn__item" form-id="use__voucher__form__wrap">
+        <div class="tab__btn__item" form-id="use__voucher__form__wrap" onclick="voucherListGet('use')">
             <img src="/images/mypage/tab/default_use_voucher_btn.svg">
         </div>
         <div class="tab__btn__item" form-id="voucher__notice__form__wrap">
@@ -99,8 +99,8 @@
             <div class='title'><p>바우처 등록</p></div>
             <div class='description'><p>발급받은 바우처 번호를 입력하세요</p></div>
             <div class='form'>
-                <input type="text" class="mdl__size__input">
-                <button class="mdl__size__btn">받기</button>
+                <input type="text" class="mdl__size__input" id="voucher_issue_code">
+                <button class="mdl__size__btn" onclick="voucherIssue()">받기</button>
             </div>
             <div class="footer">
                 <p>· 바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p>
@@ -109,7 +109,7 @@
         </div>
         <div class="voucher__tab voucher__amount__form__wrap">
             <div class='title'>사용 가능 바우처</div>
-            <div class="info__wrap">
+            <div class="info__wrap possession">
                 <div class="info">
                     <table>
                         <colsgroup>
@@ -159,7 +159,7 @@
         </div>
         <div class="voucher__tab use__voucher__form__wrap">
             <div class='title'>바우처 사용 내역</div>
-            <div class="info__wrap">
+            <div class="info__wrap use">
                 <div class="info">
                     <div class="info__title__container">
                         <div class="info__title__item">바우처번호 CP2022072823560004</div>
@@ -249,7 +249,117 @@
 </div>
 
 <script>
-    $('.voucher__amount__form__wrap').hide();
-    $('.use__voucher__form__wrap').hide();
-    $('.voucher__notice__form__wrap').hide();
+    $('.voucher__tab').hide();
+    $('.voucher__regist__form__wrap').show();
+
+function voucherIssue(){
+    var country = 'KR';
+    var voucher_issue_code = $('#voucher_issue_code').val()
+    $.ajax({
+        type: "post",
+        data: {'country': country, 'voucher_issue_code': voucher_issue_code},
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/mypage/voucher/issue/add",
+        error: function(d) {
+        },
+        success: function(d) {
+            if(d.code == 200){
+                console.log('바우처 등록 성공');
+            }
+            
+        }
+    });
+}
+
+function voucherListGet(str){
+    //info__wrap possession
+    var country = 'KR';
+    $.ajax({
+        type: "post",
+        data: {'country': country, 'list_type': str},
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/mypage/voucher/list/get",
+        error: function(d) {
+        },
+        success: function(d) {
+            if(d.code == 200){
+                if(d.data != null && d.data.length > 0){
+                    $('.info__wrap.' + str).html('');
+                    for(var i = 0; i < d.data.length; i++){
+                        var data = d.data[i];
+
+                        if(str == 'possession'){
+                            var strDiv = `
+                                    <div class="info">
+                                        <table>
+                                            <colsgroup>
+                                                <col style="width:330px;">
+                                                <col style="width:140px;">
+                                            </colsgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p>${data.voucher_issue_code}</p>
+                                                        <p>${data.voucher_name}</p>
+                                                        <p>${data.sale_price_type}</p>
+                                                        <p>· 바우처 대상 제품 ${parseInt(data.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
+                                                    </td>
+                                                    <td class="date__info">
+                                                        <p>${data.usable_start_date}-${data.usable_end_date}</p>
+                                                        <p class="gray__font">${data.date_interval}일 남음</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                `;
+                            $('.info__wrap.' + str).append(strDiv);
+                        }
+                        else if(str == 'use'){
+                            var divClass = '';
+                            var useDate = '';
+                            console.log(data.date_interval);
+                            console.log(data.used_flg);
+                            if(data.date_interval < 0 && data.used_flg == 0){
+                                divClass = 'info non__usable__info';
+                                useDate = '사용기간 만료';
+                            }
+                            else{
+                                divClass = 'info';
+                                useDate = `사용일 ${data.update_date}`;
+                            }
+                            var strDiv = `
+                                <div class="${divClass}">
+                                    <div class="info__title__container">
+                                        <div class="info__title__item">바우처번호 ${data.voucher_issue_code}</div>
+                                        <div class="info__title__item">${useDate}</div>
+                                    </div>
+                                    <div class="table__wrap">
+                                        <table>
+                                            <colsgroup>
+                                                <col style="width:345px;">
+                                                <col style="width:125px;">
+                                            </colsgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <p>${data.voucher_name}</p>
+                                                        <p>${data.sale_price_type}</p>
+                                                        <p>· 바우처 대상 제품 ${parseInt(data.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="20px__blank" style="height:20px"></div>
+                                </div>
+                            `;
+                            $('.info__wrap.' + str).append(strDiv);
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
 </script>

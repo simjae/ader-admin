@@ -1,10 +1,70 @@
 <style>
+select:focus {outline:none;}
 input:focus {outline:none;}
+textarea:focus {outline:none;}
 input{ 
     padding-left:10px;
     font-size: 11px;
     font-family:var(--ft-no-fu); 
-    width:470px;
+    width:100%;
+    height:40px;
+    margin-top:10px;
+    border-radius: 1px;
+    border: solid 1px #808080;
+}
+[type="radio"] {
+  vertical-align: middle;
+  appearance: none;
+  border: 1px solid gray;
+  width: 10px;
+  height: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+[type="radio"]:checked {
+    background-color: #000000;
+}
+[type="checkbox"] {
+  vertical-align: middle;
+  appearance: none;
+  border: 1px solid gray;
+  width: 10px;
+  height: 10px;
+  margin: 0px;
+  padding: 0px;
+}
+[type="checkbox"]:checked {
+    background-color: #000000;
+}
+label{
+    padding-right: 30px;
+    vertical-align: middle;
+}
+label p,label span{
+    font-size: 11px;
+    font-family:var(--ft-no-fu);
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #343434;
+}
+textarea{ 
+    padding-left:10px;
+    font-size: 11px;
+    font-family:var(--ft-no-fu); 
+    width:100%;
+    margin-top:10px;
+    border-radius: 1px;
+    border: solid 1px #808080;
+}
+select{ 
+    width:100%;
+    padding-left:10px;
+    font-size: 11px;
+    font-family:var(--ft-no-fu); 
     height:40px;
     margin-top:10px;
     border-radius: 1px;
@@ -13,35 +73,32 @@ input{
 input::placeholder {
   color: #dcdcdc;
 }
-.title{
-    text-align:left;
-    font-size: 13px;
-    font-family:var(--ft-no-fu);
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.15;
-    letter-spacing: normal;
-    color: #343434;
+.tab__btn__item img{
+    height:24px;
 }
-.description{
+.mypage__wrap p,.mypage__wrap span {
+    font-family:var(--ft-no-fu); 
     font-size: 11px;
-    font-family:var(--ft-no-fu);
-    margin-top:10px;
     font-weight: normal;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.36;
+    line-height: normal;
     letter-spacing: normal;
+    text-align: left;
     color: #343434;
-}
-.description p{
     margin-bottom:10px;
+}
+.title p,.title span{
+    font-size: 13px;
+    line-height: 1.15;
 }
 .mypage__wrap{
     width:100%;
 }
-
+.icon__title p{
+    font-size: 13px;
+    text-align: center;
+}
 .icon__item .icon{
     margin: 0 auto;
     background-image: url("data:image/svg+xml,%3Csvg id='구성_요소_152_1' data-name='구성 요소 152 – 1' xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E .cls-1, .cls-3 %7B fill: none; %7D .cls-1 %7B stroke: %23dcdcdc; %7D .cls-2 %7B stroke: none; %7D %3C/style%3E%3C/defs%3E%3Cg id='타원_85' data-name='타원 85' class='cls-1'%3E%3Ccircle class='cls-2' cx='25' cy='25' r='25'/%3E%3Ccircle class='cls-3' cx='25' cy='25' r='24.5'/%3E%3C/g%3E%3C/svg%3E%0A");
@@ -61,14 +118,8 @@ input::placeholder {
 }
 .icon__title{
     margin-top:10px;
-}
-.icon__title p{
     height: 19px;
-    font-family:var(--ft-no-fu);
-    font-size: 13px;
-    text-align: center;
 }
-
 .click__icon__item .icon{
     margin: 0 auto;
     background-image: url("data:image/svg+xml,%3Csvg id='구성_요소_156_1' data-name='구성 요소 156 – 1' xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E .cls-1, .cls-3 %7B fill: none; %7D .cls-1 %7B stroke: %23343434; %7D .cls-2 %7B stroke: none; %7D %3C/style%3E%3C/defs%3E%3Cg id='타원_82' data-name='타원 82' class='cls-1'%3E%3Ccircle class='cls-2' cx='25' cy='25' r='25'/%3E%3Ccircle class='cls-3' cx='25' cy='25' r='24.5'/%3E%3C/g%3E%3C/svg%3E%0A");
@@ -80,7 +131,6 @@ input::placeholder {
     text-underline-position:under;
     text-decoration-color:#343434;
 }
-
 .member__contents{
     margin: 0 auto;
     background-image: url("data:image/svg+xml,%3Csvg id='구성_요소_156_1' data-name='구성 요소 156 – 1' xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E .cls-1, .cls-3 %7B fill: none; %7D .cls-1 %7B stroke: %23343434; %7D .cls-2 %7B stroke: none; %7D %3C/style%3E%3C/defs%3E%3Cg id='타원_82' data-name='타원 82' class='cls-1'%3E%3Ccircle class='cls-2' cx='25' cy='25' r='25'/%3E%3Ccircle class='cls-3' cx='25' cy='25' r='24.5'/%3E%3C/g%3E%3C/svg%3E%0A");
@@ -88,25 +138,48 @@ input::placeholder {
     height:50px;
     margin: 0 auto;
 }
-.icon__container{
+
+.mypage__container{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(16,1fr);
+}
+.mypage__items:nth-child(1){
+    grid-column: 8/10;
+    padding-top:40px;
+    width:100%;
+    display:block;
     margin: 0 auto;
-    width:1200px;
+}
+.mypage__items:nth-child(2){
+    grid-column: 8/10;
+    padding-top:30px;
+    width:100%;
     display:grid;
     place-items: center;
-    grid-template-columns: 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px 80px;
+    grid-template-columns:repeat(3,1fr);
 }
 
-.profile__container{
-    margin: 0 auto;
-    width:250px;
-    margin-top:40px;
+.point__item{
+    width:100%;
 }
+
+.mypage__items:nth-child(3){
+    padding-top:50px;
+    width:100%;
+    grid-column: 4/14;
+    display:grid;
+    place-items: center;
+    grid-template-columns:repeat(15,1fr);
+}
+
 .profile__member__name{
     margin-top: 9px;
     height: 16px;
     font-family:var(--ft-no-fu);
     font-size: 11px;
 }
+
 .profile__member__name p{
     text-align: center;
 }
@@ -131,6 +204,7 @@ input::placeholder {
     font-family:var(--ft-no-fu);
 }
 .point__title p{
+    text-align:center;
     font-size: 11px;
     font-family:var(--ft-no-fu);
 }
@@ -147,18 +221,12 @@ input::placeholder {
     font-family:var(--ft-no-fu);
 }
 .point__item.left__contents{
-    padding-right:29px;
     border-right:1px solid;
     border-color:#dcdcdc;
 }
 .point__item.center__contents{
-    padding-right:29px;
-    padding-left:28px;
     border-right:1px solid;
     border-color:#dcdcdc;
-}
-.point__item.right__contents{
-    padding-left:29px;
 }
 .non__display__tab{
     display:none;
@@ -238,22 +306,99 @@ td p{
     font-family:var(--ft-no-fu);
     text-decoration: underline;
 }
+.toggle__list{
+    width:710px;
+    float:right;
+}
+.float__none{
+    float:none!important;
+}
+.toggle__list span{
+    font-family: var(--ft-no-fu);
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #343434;
+}
+.toggle__list .category__title{
+    margin-bottom:10px;
+}
+.toggle__list .question{
+    margin-bottom:20px;
+}
+.toggle__list .request{
+    margin-bottom:20px;
+}
+.toggle__item{
+    border-bottom:1px solid #dcdcdc;
+    margin-bottom:20px;
+}
+
+@media (max-width: 1024px){
+    .mypage__container{
+        width:100%;
+        display:grid;
+        grid-template-columns:repeat(8,1fr);
+    }
+    .mypage__items:nth-child(1){
+        grid-column: 3/7;
+        padding-top:40px;
+        width:100%;
+        display:block;
+        margin: 0 auto;
+    }
+    .mypage__items:nth-child(2){
+        grid-column: 3/7;
+        padding-top:30px;
+        width:100%;
+        display:grid;
+        place-items: center;
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .point__item{
+        width:100%;
+    }
+
+    .mypage__items:nth-child(3){
+        grid-column: 1/9;
+        padding-top:50px;
+        width:100%;
+        display:grid;
+        place-items: center;
+        grid-template-columns:repeat(15,1fr);
+    }
+}
 </style>
+<?php
+    if(!isset($_SESSION['MEMBER_IDX'])){
+        echo "
+                <script>
+                    location.href = '/login';
+                </script>";
+    }
+?>
 <main>
     <div class="mypage__wrap">
-        <div class="profile__container">
-            <div class="member__contents">
-                <img src="/images/mypage/mypage_member_icon.svg" style="padding-top:8px;padding-left:6px;">
+        <div class="mypage__container">
+            <div class="mypage__items profile">
+                <div class="member__contents">
+                    <img src="/images/mypage/mypage_member_icon.svg" style="padding-top:8px;padding-left:6px;">
+                </div>
+                <div class="profile__member__name"><p id="mypage_member_name"></p></div>
+                <div class="profile__member__id"><p id="mypage_member_id"></p></div>
             </div>
-            <div class="profile__member__name"><p>문혜린</p></div>
-            <div class="profile__member__id"><p>adererror@gmail.com</p></div>
-            <div class="profile__member__point">
-                <div class="point__item left__contents" style="cursor:pointer" info-type="mileage" onclick="memberInfoClick(this)">
+            <div class="mypage__items profile_info">
+                 <div class="point__item left__contents" style="cursor:pointer" info-type="mileage" onclick="memberInfoClick(this)">
                     <div class="point__title">
                         <p>적립포인트</p>
                     </div>
                     <div class="point__value">
-                        <p>3,000P</p>
+                        <p id="mileage_value"></p>
                     </div>
                 </div>
                 <div class="point__item center__contents" style="cursor:pointer" info-type="charging" onclick="memberInfoClick(this)">
@@ -261,7 +406,7 @@ td p{
                         <p>충전포인트</p>
                     </div>
                     <div class="point__value">
-                        <p>200,000</p>
+                        <p id="charging_value"></p>
                     </div>
                 </div>
                 <div class="point__item right__contents" style="cursor:pointer" info-type="voucher" onclick="memberInfoClick(this)">
@@ -269,133 +414,115 @@ td p{
                         <p>바우처</p>
                     </div>
                     <div class="point__value">
-                        <p>3</p>
+                        <p id="voucher_cnt"></p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="icon__container">
-            <div class="click__icon__item" btn-type="home" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_home_icon.svg" style="padding-top:17.5px;padding-left:16.5px;">
+            <div class="mypage__items">
+                <div class="click__icon__item" btn-type="home" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_home_icon.svg" style="padding-top:17.5px;padding-left:16.5px;">
+                    </div>
+                    <div class="icon__title"><p>마이페이지 홈</p></div>
                 </div>
-                <div class="icon__title"><p>마이페이지 홈</p></div>
-            </div>
-            <div class="icon__item" btn-type="orderlist" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_orderlist_icon.svg" style="padding-top:15px;padding-left:17px;">
+                <div class="icon__item" btn-type="orderlist" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_orderlist_icon.svg" style="padding-top:15px;padding-left:17px;">
+                    </div>
+                    <div class="icon__title"><p>주문조회</p></div>
                 </div>
-                <div class="icon__title"><p>주문조회</p></div>
-            </div>
-            <div id="mileage_icon" class="icon__item" btn-type="mileage" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
+                <div id="mileage_icon" class="icon__item" btn-type="mileage" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
+                    </div>
+                    <div class="icon__title"><p>적립포인트</p></div>
                 </div>
-                <div class="icon__title"><p>적립포인트</p></div>
-            </div>
-            <div id="charging_icon" class="icon__item" btn-type="charging" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_charging_point_icon.png" style="width:18px;height:34px;padding-top:16px;margin-left:16px;">
+                <div id="charging_icon" class="icon__item" btn-type="charging" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_charging_point_icon.png" style="width:18px;height:34px;padding-top:16px;margin-left:16px;">
+                    </div>
+                    <div class="icon__title"><p>충전포인트</p></div>
                 </div>
-                <div class="icon__title"><p>충전포인트</p></div>
-            </div>
-            <div id="voucher_icon" class="icon__item" btn-type="voucher" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_voucher_icon.svg" style="padding-top:19px;padding-left:14px;">
+                <div id="voucher_icon" class="icon__item" btn-type="voucher" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_voucher_icon.svg" style="padding-top:19px;padding-left:14px;">
+                    </div>
+                    <div class="icon__title"><p>바우처</p></div>
                 </div>
-                <div class="icon__title"><p>바우처</p></div>
-            </div>
-            <div class="icon__item" btn-type="bluemark" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_bluemark_icon.svg" style="padding-top:21px;padding-left:21px;">
+                <div class="icon__item" btn-type="bluemark" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_bluemark_icon.svg" style="padding-top:21px;padding-left:21px;">
+                    </div>
+                    <div class="icon__title"><p>블루마크</p></div>
                 </div>
-                <div class="icon__title"><p>블루마크</p></div>
-            </div>
-            <div class="icon__item" btn-type="stanby" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_stanby_icon.svg" style="padding-top:13px;padding-left:11px;">
+                <div class="icon__item" btn-type="stanby" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_stanby_icon.svg" style="padding-top:13px;padding-left:11px;">
+                    </div>
+                    <div class="icon__title"><p>스탠바이</p></div>
                 </div>
-                <div class="icon__title"><p>스탠바이</p></div>
-            </div>
-            <div class="icon__item" btn-type="preorder" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_preorder_icon.svg" style="padding-top:14px;padding-left:16px;">
+                <div class="icon__item" btn-type="preorder" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_preorder_icon.svg" style="padding-top:14px;padding-left:16px;">
+                    </div>
+                    <div class="icon__title"><p>프리오더</p></div>
                 </div>
-                <div class="icon__title"><p>프리오더</p></div>
-            </div>
-            <div class="icon__item" btn-type="restock" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_restock_icon.svg" style="padding-top:14px;padding-left:17px;">
+                <div class="icon__item" btn-type="reorder" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_reorder_icon.svg" style="padding-top:14px;padding-left:17px;">
+                    </div>
+                    <div class="icon__title"><p>재입고알림</p></div>
                 </div>
-                <div class="icon__title"><p>재입고알림</p></div>
-            </div>
-            <div class="icon__item" btn-type="draw" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_draw_icon.svg" style="padding-top:12px;padding-left:16px;">
+                <div class="icon__item" btn-type="draw" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_draw_icon.svg" style="padding-top:12px;padding-left:16px;">
+                    </div>
+                    <div class="icon__title"><p>드로우</p></div>
                 </div>
-                <div class="icon__title"><p>드로우</p></div>
-            </div>
-            <div class="icon__item" btn-type="membership" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_membership_icon.svg" style="padding-top:18px;padding-left:15px;">
+                <div class="icon__item" btn-type="membership" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_membership_icon.svg" style="padding-top:18px;padding-left:15px;">
+                    </div>
+                    <div class="icon__title"><p>멤버쉽</p></div>
                 </div>
-                <div class="icon__title"><p>멤버쉽</p></div>
-            </div>
-            <div class="icon__item" btn-type="inquiry" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_inquiry_icon.svg" style="padding-top:18px;padding-left:15px;">
+                <div class="icon__item" btn-type="inquiry" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_inquiry_icon.svg" style="padding-top:18px;padding-left:15px;">
+                    </div>
+                    <div class="icon__title"><p>문의</p></div>
                 </div>
-                <div class="icon__title"><p>문의</p></div>
-            </div>
-            <div class="icon__item" btn-type="as" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_as_icon.svg" style="padding-top:13px;padding-left:15px;">
+                <div class="icon__item" btn-type="as" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_as_icon.svg" style="padding-top:13px;padding-left:15px;">
+                    </div>
+                    <div class="icon__title"><p>A/S</p></div>
                 </div>
-                <div class="icon__title"><p>A/S</p></div>
-            </div>
-            <div class="icon__item" btn-type="service" onclick="mypageTabBtnClick(this)">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_service_icon.svg" style="padding-top:12px;padding-left:12px;">
+                <div class="icon__item" btn-type="service" onclick="mypageTabBtnClick(this)">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_service_icon.svg" style="padding-top:12px;padding-left:12px;">
+                    </div>
+                    <div class="icon__title"><p>고객서비스</p></div>
                 </div>
-                <div class="icon__title"><p>고객서비스</p></div>
-            </div>
-            <div class="icon__item" btn-type="profile" onclick="mypageTabBtnClick(this)">
-                <div class="icon" style="width:50px;height:50px;">
-                    <img src="/images/mypage/mypage_profile_icon.svg" style="padding-top:15px;padding-left:13px;">
+                <div class="icon__item" btn-type="profile" onclick="mypageTabBtnClick(this)">
+                    <div class="icon" style="width:50px;height:50px;">
+                        <img src="/images/mypage/mypage_profile_icon.svg" style="padding-top:15px;padding-left:13px;">
+                    </div>
+                    <div class="icon__title"><p>회원정보</p></div>
                 </div>
-                <div class="icon__title"><p>회원정보</p></div>
             </div>
         </div>
     </div>
 
     <input id="btn_type" type="hidden" value="home">
 
-    <div id="mypage_tab_home" class="menu__tab">
-        <?php include_once("mypage-main-home.php"); ?>
-    </div>
-    <div id="mypage_tab_orderlist" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-orderlist.php"); ?>
-    </div>
-    <div id="mypage_tab_mileage" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-mileage.php"); ?>
-    </div>
-    <div id="mypage_tab_charging" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-charging.php"); ?>
-    </div>
-    <div id="mypage_tab_voucher" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-voucher.php"); ?>
-    </div>
-    <div id="mypage_tab_bluemark" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-bluemark.php"); ?>
-    </div>
     <div id="mypage_tab_stanby" class="menu__tab non__display__tab">
         <?php include_once("mypage-main-stanby.php"); ?>
     </div>
     <div id="mypage_tab_preorder" class="menu__tab non__display__tab">
         <?php include_once("mypage-main-preorder.php"); ?>
     </div>
-    <div id="mypage_tab_restock" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-restock.php"); ?>
+    <div id="mypage_tab_reorder" class="menu__tab non__display__tab">
+        <?php include_once("mypage-main-reorder.php"); ?>
     </div>
     <div id="mypage_tab_draw" class="menu__tab non__display__tab">
         <?php include_once("mypage-main-draw.php"); ?>
@@ -412,8 +539,26 @@ td p{
     <div id="mypage_tab_service" class="menu__tab non__display__tab">
         <?php include_once("mypage-main-service.php"); ?>
     </div>
+    <div id="mypage_tab_home" class="menu__tab">
+        <?php include_once("mypage-main-home.php"); ?>
+    </div>
+    <div id="mypage_tab_orderlist" class="menu__tab non__display__tab">
+        <?php include_once("mypage-main-orderlist.php"); ?>
+    </div>
+    <div id="mypage_tab_mileage" class="menu__tab non__display__tab">
+        <?php include_once("mypage-main-mileage.php"); ?>
+    </div>
+    <div id="mypage_tab_charging" class="menu__tab non__display__tab">
+        <?php include_once("mypage-main-charging.php"); ?>
+    </div>
+    <div id="mypage_tab_voucher" class="menu__tab non__display__tab">
+        <?php include_once("mypage-main-voucher.php"); ?>
+    </div>
     <div id="mypage_tab_profile" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-profile.php"); ?>
+        <?php include_once("mypage-main-profile_tmp.php"); ?>
+    </div>
+    <div id="mypage_tab_bluemark" class="menu__tab non__display__tab">
+        <?php include_once("mypage-main-bluemark.php"); ?>
     </div>
 </main>
 <script>
@@ -442,8 +587,52 @@ $(document).ready(function() {
         if(form_id != ''){
             $('.' + tab_class).hide();
             $('.' + form_id).show();
+            
         }
     })
+    $('.question').on('click', function(){
+        if($(this).next().css('display') == 'none'){
+            console.log($(this).find('img.top__down__icon'));
+            $(this).find('img.down__up__icon').attr('src','/images/mypage/mypage_up_tab_btn.svg');
+        }
+        else{
+            $(this).find('img.down__up__icon').attr('src','/images/mypage/mypage_down_tab_btn.svg');
+        }
+        $(this).next().toggle();
+    })
+    
+    let country = "KR";
+    $.ajax({
+        type: "post",
+        data: {
+            "country": country
+        },
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/mypage/get",
+        error: function(d) {
+        },
+        success: function(d) {
+            if(d.code == 302){
+                window.location.replace("/login");
+            }
+            else{
+                var data = d.data[0];
+                var balance = data.mileage_balance_total;
+                if(balance == null){
+                    balance = 0;
+                }
+                else{
+                    balance = parseInt(balance).toLocaleString('ko-KR');
+                }
+                
+                $('#mileage_value').text(`${balance}P`);
+                $('#charging_value').text(`0`);
+                $('#voucher_cnt').text(`${data.voucher_cnt}`);
+                $('#mypage_member_name').text(`${data.member_name}`);
+                $('#mypage_member_id').text(`${data.member_id}`);
+            }
+        }
+    });
 });
 
 function mypageTabBtnClick(obj) {
@@ -455,6 +644,8 @@ function mypageTabBtnClick(obj) {
 
     $('.click__icon__item').attr('class', 'icon__item');
     $(obj).attr('class', 'click__icon__item');
+
+    $('#mypage_tab_' + btn_type).find('.tab__btn__item').eq(0).click();
 }
 
 function memberInfoClick(obj){

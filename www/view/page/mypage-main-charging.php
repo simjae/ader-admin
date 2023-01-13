@@ -1,47 +1,9 @@
 <style>
-label{
-    font-size: 11px;
-    font-family:var(--ft-no-fu);
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #343434;
-    padding-right: 30px;
-}
-[type="radio"] {
-  vertical-align: middle;
-  appearance: none;
-  border: 1px solid gray;
-  width: 10px;
-  height: 10px;
-  margin: 0px;
-  padding: 0px;
-}
-[type="radio"]:checked {
-    border: 0.4em solid;
-}
-label span {
-  vertical-align: middle;
-}
+
 .paying__form .info__wrap{
     padding-bottom:20px;
     border-bottom:1px solid #dcdcdc;
     margin-top:10px;
-}
-.paying__form p{
-    font-family:var(--ft-no-fu);
-    font-size: 11px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #343434;
-    margin-bottom:10px;
 }
 .charging__wrap{
     margin-top:40px;
@@ -51,8 +13,9 @@ label span {
     margin: 0 auto;
     width:230px;
     display:grid;
+    gap:10px;
     place-items: center;
-    grid-template-columns: 80px 80px 70px;
+    grid-template-columns: 70px 70px 70px;
 }
 .charging__tab__wrap{
     width:710px;
@@ -67,11 +30,11 @@ label span {
     width:470px;
     margin:0 auto;
 }
-.charging__complate__wrap{
+.charging__complete__wrap{
     width:470px;
     margin:0 auto;
 }
-.charging__complate__title{
+.charging__complete__title{
     font-size: 13px;
     font-weight: normal;
     font-stretch: normal;
@@ -81,22 +44,6 @@ label span {
     text-align: center;
     color: #343434;
     margin-bottom:30px
-}
-.charging__complate__description{
-    font-size: 11px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #343434;
-}
-.charging__complate__description p{
-    margin-bottom:10px;
-}
-.charging__detail__wrap .description{
-    margin-top:10px!important;
 }
 .charging__notice__wrap{
     width:470px;
@@ -110,12 +57,8 @@ label span {
     border-bottom:none;
     margin-top:40px!important;
 }
-.charging__tab__wrap .description{
-    margin-top:40px;
-    margin-bottom:60px;
-}
-.charging__paying__wrap .description{
-    margin-top:10px!important;
+.contents__table.tab_charging_detail{
+    margin-top:20px!important;
 }
 table.border__bottom td{
     border-bottom: 1px solid #dcdcdc;
@@ -140,6 +83,26 @@ table.border__bottom__th th{
 }
 .paying__form{
     margin-top:30px;
+}
+.description.tab__charging__total{
+    margin-top:20px;
+    margin-bottom:50px;
+}
+.description.tab__charging{
+    margin-top:10px;
+    margin-bottom:50px;
+}
+.title.tab__charging__complete{
+    margin-top:100px;
+}
+.title.tab__charging__complete p{
+    text-align:center;
+}
+.description.tab__charging__complete{
+    margin-top:30px;
+}
+.description.tab__charging__complete p{
+    text-align:center;
 }
 </style>
 <div class="charging__wrap">
@@ -181,7 +144,7 @@ table.border__bottom__th th{
                     </tbody>
                 </table>
             </div>
-            <div class="description">
+            <div class="description tab__charging__total">
                 <p>·&nbsp;충전 포인트는 현금과 동일하게 사용 가능합니다.</p>
                 <p>·&nbsp;충전 포인트 사용 시 적립 포인트 3% 추가 적립이 적용됩니다.</p>
             </div>
@@ -254,7 +217,7 @@ table.border__bottom__th th{
                 </div>
                 
             </div>
-            <div class="description">
+            <div class="description tab__charging">
                 <p>사용처 및 용도</p>
                 <p>·&nbsp;충전 포인트는 현금과 동일하게 사용 가능합니다.</p>
                 <p>·&nbsp;ADER 온라인 공식몰, 오프라인 플래그쉽</p>
@@ -274,11 +237,11 @@ table.border__bottom__th th{
             <div class="footer"></div>
         </div>
 
-        <div class="charging__tab charging__complate__wrap">
-            <div class="charging__complate__title">
+        <div class="charging__tab charging__complete__wrap">
+            <div class="title tab__charging__complete">
                 <p>포인트 충전이 완료되었습니다.</p>
             </div>
-            <div class="charging__complate__description">
+            <div class="description tab__charging__complete">
                 <p>·&nbsp;상단의 충전내역 탭에서 충전 내역을 열람하실 수 있습니다.</p>
                 <p>·&nbsp;조건없이 현금으로 환불 가능하며 5~7일 소요됩니다.</p>
             </div>
@@ -289,12 +252,12 @@ table.border__bottom__th th{
             <div class="title">
                 <p>충전포인트 내역</p>
             </div>
-            <div class="description">
+            <div class="description tab_charging_detail">
                 <p>·&nbsp;충전 포인트는 현금과 동일하게 사용 가능합니다.</p>
                 <p>·&nbsp;충전 포인트 사용 시 적립 포인트 3% 추가 적립이 적용됩니다.</p>
             </div>
             
-            <div class="contents__table">
+            <div class="contents__table tab_charging_detail">
                 <table class="border__bottom border__bottom__th mileage__table">
                     <colsgroup>
                         <col style="width:120px;">
@@ -498,7 +461,7 @@ table.border__bottom__th th{
         </div>
         <div class="charging__tab charging__notice__wrap">
             <div class='title'><p>충전포인트 유의사항</p></div>
-            <div class='description'>
+            <div class='description tab__charing__notice'>
                 <p>·&nbsp;충전 포인트는 현금과 동일하게 사용 가능합니다.</p>
                 <p>·&nbsp;ADER 온라인 공식몰, 오프라인 플래그쉽</p>
                 <p>·&nbsp;상품구매, 프리오더, 리오더 예약, 드로우 예약, 익스클루시브 할인</p>
@@ -521,6 +484,6 @@ function movePaymentPage(){
 }
 function paymentAction(){
     $('.charging__tab').hide();
-    $('.charging__complate__wrap').show();
+    $('.charging__complete__wrap').show();
 }
 </script>

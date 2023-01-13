@@ -26,7 +26,7 @@
 <div class="orderlist__wrap">
     <div class="orderlist__tab__btn__container">
         <div class="tab__btn__item">
-            <img src="/images/mypage/tab/select_exchange_btn.svg">
+            <img src="/images/mypage/tab/select_order_btn.svg">
         </div>
         <div class="tab__btn__item">
             <img src="/images/mypage/tab/default_cancel_btn.svg">

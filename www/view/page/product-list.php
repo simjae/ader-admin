@@ -1,21 +1,17 @@
-<?php include $_CONFIG['PATH']['PAGE'] . '/components/wishlist.php';?>
 <link rel=stylesheet href='/css/product/list.css' type='text/css'>
 <main>
     <?php
-    function getUrlParamter($url, $sch_tag)
-    {
-        $parts = parse_url($url);
-        parse_str($parts['query'], $query);
-        return $query[$sch_tag];
-    }
+		function getUrlParamter($url, $sch_tag)
+		{
+			$parts = parse_url($url);
+			parse_str($parts['query'], $query);
+			return $query[$sch_tag];
+		}
 
-    $page_url = $_SERVER['REQUEST_URI'];
-    $page_idx = getUrlParamter($page_url, 'menu_sort');
-    $page_idx = getUrlParamter($page_url, 'menu_idx');
-    $page_idx = getUrlParamter($page_url, 'page_idx');
-    if ($page_idx == null) {
-        $page_idx = 1;
-    }
+		$page_url = $_SERVER['REQUEST_URI'];
+		$menu_sort = getUrlParamter($page_url, 'menu_sort');
+		$menu_idx = getUrlParamter($page_url, 'menu_idx');
+		$page_idx = getUrlParamter($page_url, 'page_idx');
     ?>
     <input id="menu_sort" type="hidden" value="<?= $menu_sort ?>">
     <input id="menu_idx" type="hidden" value="<?= $menu_idx ?>">
@@ -204,10 +200,10 @@
                 </div>`;
                 menuList.innerHTML = menuHtml;
 
-                let product_info = data.product_info;
-                product_length = product_info.length;
+                let grid_info = data.grid_info;
+                grid_info_length = grid_info.length;
 
-                let productwriteData = productWriteHtml(product_info);
+                let productwriteData = productWriteHtml(grid_info);
                 prdListBox.innerHTML = productwriteData;
                 domFrag.appendChild(prdListBox);
                 prdListBody.appendChild(domFrag);
@@ -216,83 +212,87 @@
                 productSml();
                 swiperStateCheck();
                 changeHandler();
+                document.getElementById("quick-menu").classList.remove("hidden");
+
             }
         });
     }
     //상품 그리는 함수  
-    function productWriteHtml(productInfo){
+    function productWriteHtml(grid_info){
         let productListHtml ="";
         let imgUrl = "http://116.124.128.246:81";
-        productInfo.forEach(el => {
-            let whish_img = "";
-            let whish_function = "";
+        grid_info.forEach(el => {
+			if (el.grid_type == "PRD") {
+				let whish_img = "";
+				let whish_function = "";
 
-            let whish_flg = `${el.whish_flg}`;
-            if (whish_flg == 'true') {
-                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                whish_function = "deleteWhishListBtn(this)";
-            } else if (whish_flg == 'false') {
-                whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                whish_function = "setWhishListBtn(this)";
-            }
-            let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
-            let colorCtn = el.product_color.length;
-            
-            productListHtml +=
-            `<div class="product">
-                <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
-                    ${whish_img}
-                </div>
-                <a href="http://116.124.128.246:80/${el.link_url}">
-                    <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
-                        <div class="swiper-wrapper">
-                        ${
-                            el.product_img.product_p_img.map((img) => {
-                                imgDiv = `<div class="swiper-slide" data-imgtype="item">
-                                    <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
-                                </div>`
-                                return imgDiv;
-                            }).join("")
-                        }
-                        ${
-                            el.product_img.product_o_img.map((img) => {
-                                imgDiv = `<div class="swiper-slide" data-imgtype="outfit" style="display:none;">
-                                    <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
-                                </div>`
-                                return imgDiv;
-                            }).join("")
-                        }
-                        </div>
-                    </div>
-                </a>
-                <div class="product-info">
-                    <div class="info-row">
-                        <div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
-                        ${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
-                    </div>
-                    <div class="color-title"><span>${el.color}</span></div>
-                    <div class="info-row">
-                        <div class="color__box" data-maxcount="${colorCtn < 6 ?"":"over"}" data-colorcount="${colorCtn < 6 ? colorCtn: colorCtn - 5}">
-                            ${
-                                el.product_color.map((color, idx) => {
-                                    let maxCnt = 5;
-                                    if(idx < maxCnt){
-                                        return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-                                    }
-                                }).join("")
-                            }
-                        </div>
-                        <div class="size__box">
-                            ${
-                            el.product_size.map((size) => {
-                                return`<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-                                }).join("")
-                            }   
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `;
+				let whish_flg = `${el.whish_flg}`;
+				if (whish_flg == 'true') {
+					whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
+					whish_function = "deleteWhishListBtn(this)";
+				} else if (whish_flg == 'false') {
+					whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+					whish_function = "setWhishListBtn(this)";
+				}
+				let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
+				let colorCtn = el.product_color.length;
+				
+				productListHtml +=
+				`<div class="product">
+					<div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
+						${whish_img}
+					</div>
+					<a href="http://116.124.128.246:80/${el.link_url}">
+						<div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
+							<div class="swiper-wrapper">
+							${
+								el.product_img.product_p_img.map((img) => {
+									imgDiv = `<div class="swiper-slide" data-imgtype="item">
+										<img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
+									</div>`
+									return imgDiv;
+								}).join("")
+							}
+							${
+								el.product_img.product_o_img.map((img) => {
+									imgDiv = `<div class="swiper-slide" data-imgtype="outfit" style="display:none;">
+										<img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${img.img_location}" alt="">
+									</div>`
+									return imgDiv;
+								}).join("")
+							}
+							</div>
+						</div>
+					</a>
+					<div class="product-info">
+						<div class="info-row">
+							<div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
+							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
+						</div>
+						<div class="color-title"><span>${el.color}</span></div>
+						<div class="info-row">
+							<div class="color__box" data-maxcount="${colorCtn < 6 ?"":"over"}" data-colorcount="${colorCtn < 6 ? colorCtn: colorCtn - 5}">
+								${
+									el.product_color.map((color, idx) => {
+										let maxCnt = 5;
+										if(idx < maxCnt){
+											return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
+										}
+									}).join("")
+								}
+							</div>
+							<div class="size__box">
+								${
+								el.product_size.map((size) => {
+									return`<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+									}).join("")
+								}   
+							</div>
+						</div>
+					</div>
+				</div>
+				`;
+			}
         });
         return productListHtml;
     }
@@ -324,7 +324,6 @@
             }
         });
     }
-    
     const productSml = () => {
         let productListSwiper = new Swiper(".prd__meun__category", {
             grabCursor: true,
@@ -579,6 +578,7 @@
         }
     }
     function changeImgTypeBtn() {
+        console.log("asd")
         $('#last_idx').val(0);
         let imgType = "imgType"
         let img_param = $('#img_param');
