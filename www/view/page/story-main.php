@@ -60,30 +60,41 @@
 <main>
     <div class="story__container">
         <div class="story__item" seq="1">
-            <img src="/images/story/Editorial.jpg" alt="editorial" class="blur">
-            <p>Editorial</p>
+            <a href="http://116.124.128.246/posting/editorial">
+                <img src="/images/story/Editorial.jpg" alt="editorial" class="blur">
+                <p>Editorial</p>
+            </a>
         </div>
         <div class="story__item" seq="2">
-            <img src="/images/story/Runway.jpg" alt="runway" class="blur">
-            <p>Runway</p>
+            <a href="http://116.124.128.246/posting/runway">
+                <img src="/images/story/Runway.jpg" alt="runway" class="blur">
+                <p>Runway</p>
+            </a>
         </div>
         <div class="story__item" seq="3">
-            <img src="/images/story/Collection.jpg" alt="collection" class="blur">
-            <p>Collection</p>
+            <a href="http://116.124.128.246/posting/lookbook">
+                <img src="/images/story/Collection.jpg" alt="collection" class="blur">
+                <p>Collection</p>
+            </a>
         </div>
         <div class="story__item" seq="4">
-            <img src="/images/story/Collaboration.jpg" alt="collaboration" class="blur">
-            <p>Collaboration</p>
+            <a href="http://116.124.128.246/posting/collaboration">
+                <img src="/images/story/Collaboration.jpg" alt="collaboration" class="blur">
+                <p>Collaboration</p>
+            </a>
         </div>
     </div>
 
     <div class="story__moblie__container">
         <div class="story__moblie__item">
-            <img src="/images/story/moblie_editorial_story.png" alt="editorial">
-            
+            <a href="http://116.124.128.246/posting/editorial">
+                <img src="/images/story/moblie_editorial_story.png" alt="editorial">
+            </a>
         </div>
         <div class="story__moblie__item">
+        <a href="http://116.124.128.246/posting/runway">
             <img src="/images/story/moblie_runway_story.png" alt="runway">
+        </a>
         </div>
         <div class="story__moblie__item left_area">
             <div>Editorial</div>
@@ -92,10 +103,14 @@
             <div>Runway</div>
         </div>
         <div class="story__moblie__item">
-            <img src="/images/story/moblie_collection_story.png" alt="collection">
+            <a href="http://116.124.128.246/posting/lookbook">
+                <img src="/images/story/moblie_collection_story.png" alt="collection">
+            </a>
         </div>
         <div class="story__moblie__item">
-            <img src="/images/story/moblie_collaboration_story.png" alt="collaboration">
+            <a href="http://116.124.128.246/posting/collaboration">
+                <img src="/images/story/moblie_collaboration_story.png" alt="collaboration">
+            </a>
         </div>
         <div class="story__moblie__item left_area">
             <div>Collection</div>

@@ -14,76 +14,189 @@
  | 
  +=============================================================================
 */
+
 include_once("/var/www/admin/api/voucher/issue/add.php");
 
-$country		= $_POST['country'];
-$member_id		= $_POST['member_id'];
-$member_pw		= $_POST['member_pw'];
+$country = null;
+if (isset($_POST['country'])) {
+	$country = $_POST['country'];
+}
+
+$member_id = null;
+if (isset($_POST['member_id'])) {
+	$member_id = $_POST['member_id'];
+}
+
+$member_pw = null;
+if (isset($_POST['member_pw'])) {
+	$member_pw = $_POST['member_pw'];
+}
+
 // 값 검사
 //$id = strtolower(trim($id));
-
 //$pw = strtolower(trim($pw));
 
-if($member_id == null || $member_id == ''){
-	$result = false;
-	$code	= 401;
-}
-if($member_pw == null || $member_pw == ''){
-	$result = false;
-	$code	= 402;
+if($member_id == '' || $member_id == null) {
+	$json_result['code'] = 401;
+	return $json_result;
 }
 
-if($result) {
-	$sql = "
+if($member_pw == '' || $member_pw == null) {
+	$json_result['code'] = 402;
+	return $json_result;
+}
+
+$member_cnt = $db->count("dev.MEMBER_".$country,"MEMBER_ID = '".$member_id."'");
+
+if ($member_cnt > 0) {
+	$select_member_sql = "
 		SELECT 
-			COUNT(0) 	MEMBER_CNT,
-			IDX,
-			MEMBER_ID,
-			COUNTRY,
-			MONTH(MEMBER_BIRTH) 	AS BIRTH_MONTH,
-			MONTH(NOW()) 			AS NOW_MONTH
+			MB.IDX					AS MEMBER_IDX,
+			MB.MEMBER_PW			AS MEMBER_PW,
+			MB.MEMBER_ID			AS MEMBER_ID,
+			MB.COUNTRY				AS COUNTRY,
+			MB.MEMBER_NAME			AS MEMBER_NAME,
+			MB.TEL_MOBILE			AS TEL_MOBILE,
+			MB.MEMBER_STATUS		AS MEMBER_STATUS,
+			DATE_FORMAT(
+				MB.MEMBER_BIRTH,
+				'%Y%m%d'
+			)						AS MEMBER_BIRTH_NUM,
+			DATE_FORMAT(
+				MB.MEMBER_BIRTH - INTERVAL VM.DATE_AGO_PARAM DAY,
+				'%Y'
+			)						AS AGO_YEAR_PARAM,
+			DATE_FORMAT(
+				MB.MEMBER_BIRTH - INTERVAL VM.DATE_AGO_PARAM DAY,
+				'-%m-%d'
+			)						AS AGO_DATE_PARAM,
+			DATE_FORMAT(
+				MB.MEMBER_BIRTH + INTERVAL VM.DATE_LATER_PARAM DAY,
+				'%Y'
+			)						AS LATER_YEAR_PARAM,
+			DATE_FORMAT(
+				MB.MEMBER_BIRTH + INTERVAL VM.DATE_LATER_PARAM DAY,
+				'-%m-%d'
+			)						AS LATER_DATE_PARAM,
+			DATE_FORMAT(
+				MB.MEMBER_BIRTH,
+				'-%m-%d'
+			)						AS MEMBER_BIRTH,
+			DATE_FORMAT(
+				NOW(),
+				'%Y'
+			)						AS NOW_YEAR,
+			DATE_FORMAT(
+				NOW(),
+				'%m'
+			)						AS NOW_MONTH,
+			DATE_FORMAT(
+				NOW(),
+				'%Y-%m-%d'
+			)						AS NOW,
+			VM.DATE_AGO_PARAM		AS DATE_AGO_PARAM,
+			VM.DATE_LATER_PARAM		AS DATE_LATER_PARAM
 		FROM 
-			dev.MEMBER_".$country."
+			dev.MEMBER_".$country." MB
+			LEFT JOIN
+			(
+				SELECT
+					DATE_AGO_PARAM,
+					DATE_LATER_PARAM
+				FROM
+					dev.VOUCHER_MST
+				WHERE
+					COUNTRY = 'KR' AND VOUCHER_TYPE = 'BR'
+				LIMIT 1
+			) AS VM ON
+			1=1
 		WHERE
 			MEMBER_ID = '".$member_id."'
-		AND
-			MEMBER_PW = '".md5($member_pw)."'
 	";
-
-	$db->query($sql);
+	
+	$db->query($select_member_sql);
 	
 	foreach($db->fetch() as $data){
-		$member_cnt = $data['MEMBER_CNT'];
-		$birth_month = $data['BIRTH_MONTH'];
-		$now_month = $data['NOW_MONTH'];
-
-		if($member_cnt == 1){
-			//회원 있음
-			$_SESSION['COUNTRY'] = $country;
-			$_SESSION['MEMBER_IDX']	= $data['IDX'];
-			$_SESSION['MEMBER_ID'] = $data['MEMBER_ID'];	
+		$member_birth = $data['MEMBER_BIRTH'];
+		
+		if($data['MEMBER_PW'] == md5($member_pw)) {
+			$status = $data['MEMBER_STATUS'];
 			
-			$sql = "
+			if($status == 'DRP') {
+				$json_result['result'] = false;
+				$json_result['code'] = 305;
+				$json_result['msg'] = "탈퇴처리된 회원입니다.";
+				
+				return $json_result;
+			} else if ($status == 'SLP') {
+				$update_SLP_member_sql = "
+					UPDATE 
+						dev.MEMBER_".$country." 
+					SET 
+						SLEEP_OFF_DATE = NOW(), 
+						MEMBER_STATUS = 'NML'
+					WHERE
+						IDX = ".$data['MEMBER_IDX']."
+				";
+				
+				$db->query($update_SLP_member_sql);
+			}
+			
+			//회원 상태 = '일반'
+			$_SESSION['COUNTRY'] = $country;
+			$_SESSION['MEMBER_IDX']	= $data['MEMBER_IDX'];
+			$_SESSION['MEMBER_ID'] = $data['MEMBER_ID'];
+			$_SESSION['MEMBER_NAME'] = $data['MEMBER_NAME'];
+			$_SESSION['TEL_MOBILE'] = $data['TEL_MOBILE'];
+			$_SESSION['MEMBER_EMAIL'] = $data['MEMBER_ID'];
+			$_SESSION['MEMBER_BIRTH'] = $data['MEMBER_BIRTH_NUM'];
+			
+			$update_NML_member_sql = "
 				UPDATE
 					dev.MEMBER_".$country."
 				SET
 					LOGIN_CNT = LOGIN_CNT + 1,
 					LOGIN_DATE = NOW()
 				WHERE
-					IDX = ".$data['IDX']." ";
-			$db->query($sql);	
-
-			if($birth_month == $now_month){
-				if(brithVoucherIssue($db,$country, $data['IDX'])){
-					$json_result['data'] = 'issue_birth_voucher';
+					IDX = ".$data['MEMBER_IDX']."
+			";
+			
+			$db->query($update_NML_member_sql);
+			
+			if ($data['AGO_YEAR_PARAM'] != $data['LATER_YEAR_PARAM']) {
+				if ($data['NOW_MONTH'] == '01') {
+					$ago_year = (string) ((int) $data['NOW_YEAR'] - 1);
+					$later_year = $data['NOW_YEAR'];
+				} else if ($data['NOW_MONTH'] == '12') {
+					$ago_year = $data['NOW_YEAR'];
+					$later_year = (string) ((int) $data['NOW_YEAR'] + 1);
 				}
+			} else {
+				$ago_year = $data['NOW_YEAR'];
+				$later_year = $data['NOW_YEAR'];
 			}
-		}
-		else{
-			$result = false;
-			$code	= 300;
-			$msg 	= "가입된 회원이 아닙니다.";
+
+			$start_date_param = $ago_year.$data['AGO_DATE_PARAM'];
+			$end_date_param = $later_year.$data['LATER_DATE_PARAM'];
+			$now_param = strtotime(date("Y-m-d"));
+
+			if(strtotime($start_date_param) < $now_param && strtotime($end_date_param) > $now_param){
+				brithVoucherIssue($db, $country, $data['IDX'], $start_date_param, $end_date_param);
+			}
+		} else {
+			$json_result['result'] = false;
+			$json_result['code'] = 301;
+			$json_result['msg'] = "비밀번호가 일치하지 않습니다.";
+			
+			return $json_result;
 		}
 	}
+} else {
+	$json_result['result'] 	= false;
+	$json_result['code'] = 300;
+	$json_result['msg'] = "가입된 회원이 아닙니다.";
+	
+	return $json_result;
 }
+
 ?>

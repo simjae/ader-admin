@@ -12,7 +12,6 @@
     grid-template-columns: 50px 50px 50px 70px;
 }
 .mileage__tab__wrap{
-    width:710px;
     margin:0 auto;
     margin-top:50px;
 }   
@@ -22,7 +21,7 @@
 .mileage__tab__wrap .contents__table{
     border-top:none;
     border-bottom:none;
-    margin-top:20px!important;
+    margin-top:30px!important;
 }
 .description.tab__total{
     margin-top:20px;
@@ -53,6 +52,17 @@ table.border__bottom__th th{
 .mileage__table thead p{
     margin-bottom:0px;
 }
+#mileage_summary_table td{
+    padding: none;
+}
+
+@media (min-width: 1024px){
+    .mileage__tab__wrap{width:720px;}
+}
+@media (max-width: 1024px){
+    .mileage__tab__wrap{width:100%;}
+}
+
 </style>
 <div class="mileage__wrap">
     <div class="mileage__tab__btn__container">
@@ -74,12 +84,12 @@ table.border__bottom__th th{
             <div class="title">
                 <p>적립포인트 현황</p>
             </div>
-            <div class="contents__table">
-                <table class="border__bottom__th">
+            <div class="contents__table bluemark total">
+                <table class="border__bottom__th" style="width:100%">
                     <colsgroup>
-                        <col style="width:240px;">
-                        <col style="width:240px;">
-                        <col style="width:230px;">
+                        <col style="width:33%;">
+                        <col style="width:33%;">
+                        <col style="width:33%;">
                     </colsgroup>
                     <thead>
                         <th><p>현재 적립포인트</p></th>
@@ -99,39 +109,67 @@ table.border__bottom__th th{
                 <p>·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
                 <p>·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
             </div>
-            <div class="contents__table">
-                <table class="border__bottom border__bottom__th mileage__table">
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                    </colsgroup>
-                    <thead>
-                        <th>
-                            <p>일자</p>
-                        </th>
-                        <th>
-                            <p>주문번호</p>
-                        </th>
-                        <th>
-                            <p>내용</p>
-                        </th>
-                        <th>
-                            <p>구매금액</p>
-                        </th>
-                        <th>
-                            <p>적립</p>
-                        </th>
-                        <th>
-                            <p>사용</p>
-                        </th>
-                    </thead>
-                    <tbody id="mileage_total_result">
-                    </tbody>
-                </table>
+            <div class="contents__table bluemark all_list">
+                <div class="pc__view">
+                    <table class="border__bottom border__bottom__th">
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                        </colsgroup>
+                        <thead>
+                            <th>
+                                <p>일자</p>
+                            </th>
+                            <th>
+                                <p>주문번호</p>
+                            </th>
+                            <th>
+                                <p>내용</p>
+                            </th>
+                            <th>
+                                <p>구매금액</p>
+                            </th>
+                            <th>
+                                <p>적립</p>
+                            </th>
+                            <th>
+                                <p>사용</p>
+                            </th>
+                        </thead>
+                        <tbody id="mileage_total_result">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mobile__view">
+                    <table class="border__bottom border__bottom__th">
+                        <colsgroup>
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                        </colsgroup>
+                        <thead>
+                            <th>
+                                <p>주문번호</p>
+                            </th>
+                            <th>
+                                <p>일자</p>
+                            </th>
+                            <th>
+                                <p>내용</p>
+                            </th>
+                            <th>
+                                <p>포인트</p>
+                            </th>
+                        </thead>
+                        <tbody id="mileage_total_result_mobile">
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="footer"></div>
         </div>
@@ -141,38 +179,66 @@ table.border__bottom__th th{
             </div>
             
             <div class="contents__table">
-                <table class="border__bottom border__bottom__th mileage__table">
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                    </colsgroup>
-                    <thead>
-                        <th>
-                            <p>일자</p>
-                        </th>
-                        <th>
-                            <p>주문번호</p>
-                        </th>
-                        <th>
-                            <p>내용</p>
-                        </th>
-                        <th>
-                            <p>구매금액</p>
-                        </th>
-                        <th>
-                            <p>적립</p>
-                        </th>
-                        <th>
-                            <p>사용</p>
-                        </th>
-                    </thead>
-                    <tbody id="mileage_save_result">
-                    </tbody>
-                </table>
+                <div class="pc__view">
+                    <table class="border__bottom border__bottom__th">
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                        </colsgroup>
+                        <thead>
+                            <th>
+                                <p>일자</p>
+                            </th>
+                            <th>
+                                <p>주문번호</p>
+                            </th>
+                            <th>
+                                <p>내용</p>
+                            </th>
+                            <th>
+                                <p>구매금액</p>
+                            </th>
+                            <th>
+                                <p>적립</p>
+                            </th>
+                            <th>
+                                <p>사용</p>
+                            </th>
+                        </thead>
+                        <tbody id="mileage_save_result">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mobile__view">
+                    <table class="border__bottom border__bottom__th">
+                        <colsgroup>
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                        </colsgroup>
+                        <thead>
+                            <th>
+                                <p>주문번호</p>
+                            </th>
+                            <th>
+                                <p>일자</p>
+                            </th>
+                            <th>
+                                <p>내용</p>
+                            </th>
+                            <th>
+                                <p>포인트</p>
+                            </th>
+                        </thead>
+                        <tbody id="mileage_save_result_mobile">
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="footer"></div>
         </div>
@@ -182,45 +248,73 @@ table.border__bottom__th th{
             </div>
             
             <div class="contents__table">
-                <table class="border__bottom border__bottom__th mileage__table">
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                    </colsgroup>
-                    <thead>
-                        <th>
-                            <p>일자</p>
-                        </th>
-                        <th>
-                            <p>주문번호</p>
-                        </th>
-                        <th>
-                            <p>내용</p>
-                        </th>
-                        <th>
-                            <p>구매금액</p>
-                        </th>
-                        <th>
-                            <p>적립</p>
-                        </th>
-                        <th>
-                            <p>사용</p>
-                        </th>
-                    </thead>
-                    <tbody id="mileage_use_result">
-                    </tbody>
-                </table>
+                <div class="pc__view">
+                    <table class="border__bottom border__bottom__th">
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                        </colsgroup>
+                        <thead>
+                            <th>
+                                <p>일자</p>
+                            </th>
+                            <th>
+                                <p>주문번호</p>
+                            </th>
+                            <th>
+                                <p>내용</p>
+                            </th>
+                            <th>
+                                <p>구매금액</p>
+                            </th>
+                            <th>
+                                <p>적립</p>
+                            </th>
+                            <th>
+                                <p>사용</p>
+                            </th>
+                        </thead>
+                        <tbody id="mileage_use_result">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mobile__view">
+                    <table class="border__bottom border__bottom__th">
+                        <colsgroup>
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                            <col style="width:25%;">
+                        </colsgroup>
+                        <thead>
+                            <th>
+                                <p>주문번호</p>
+                            </th>
+                            <th>
+                                <p>일자</p>
+                            </th>
+                            <th>
+                                <p>내용</p>
+                            </th>
+                            <th>
+                                <p>포인트</p>
+                            </th>
+                        </thead>
+                        <tbody id="mileage_use_result_mobile">
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="footer"></div>
         </div>
         <div class="mileage__tab mileage__notice__wrap">
             <div class='title'><p>적립포인트 유의사항</p></div>
             <div class='description tab__notice'>
-                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 적립금으로 전환됩니다.</p>
+                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 적립금으로 전환됩니다 부터 실제 사용 가능한 적립금으로 전환됩니다.</p>
                 <p>·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
                 <p>·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
                 <p>·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
@@ -242,6 +336,23 @@ function mileageGetInfo(str){
         mileageGetSummary();
     }
     
+    $('#mileage_' + list_type + '_result').html('');
+    $('#mileage_' + list_type + '_result_mobile').html('');
+    $('#mileage_' + list_type + '_result').html(`
+        <tr>
+            <td colspan="6" style="text-align:center">
+                <p>조회결과가 없습니다.</p>
+            </td>
+        </tr>
+    `);
+    $('#mileage_' + list_type + '_result_mobile').html(`
+        <tr>
+            <td colspan="4" style="text-align:center">
+                <p>조회결과가 없습니다.</p>
+            </td>
+        </tr>
+    `);
+
     $.ajax({
         type: "post",
         data: {'country': 'KR', 'list_type': str},
@@ -250,39 +361,74 @@ function mileageGetInfo(str){
         error: function(d) {
         },
         success: function(d) {
-            if(d.data != null && d.data.length > 0){
-                $('#mileage_' + list_type + '_result').html('');
-                for(var i = 0; i < d.data.length; i++){
-                    var data = d.data[i];
-                    var price_str = '';
+            if(d.code == 200){
+                if(d.data != null && d.data.length > 0){
+                    $('#mileage_' + list_type + '_result').html('');
+                    $('#mileage_' + list_type + '_result_mobile').html('');
 
-                    if(data.price_total != ""){
-                        data.price_total = parseInt(data.price_total).toLocaleString('ko-KR');
-                    }
-                    var strDiv = 
-                            `
-                            <tr>
-                                <td>
-                                    <p>${data.update_date}</p>
-                                </td>
-                                <td>
-                                    <p class="underline">${data.ordernum}</p>
-                                </td>
-                                <td>
-                                    <p>${data.mileage_type}</p>
-                                </td>
-                                <td>
-                                    <p>${data.price_total}</p>
-                                </td>
-                                <td>
-                                    <p>+ ${parseInt(data.mileage_usable_inc).toLocaleString('ko-KR')}</p>
-                                </td>
-                                <td>
-                                    <p>${parseInt(data.mileage_usable_dec).toLocaleString('ko-KR')}</p>
-                                </td>
-                            </tr> 
-                    `;
-                    $('#mileage_' + list_type + '_result').append(strDiv);
+                    d.data.forEach(function(row){
+                        var price_str = '';
+
+                        var mileage_usable_inc = parseInt(row.mileage_usable_inc);
+                        var mileage_usable_dec = parseInt(row.mileage_usable_dec);
+
+                        var mileage_usable_val = mileage_usable_inc - mileage_usable_dec;
+                        var mileage_usable_str = mileage_usable_val.toLocaleString('ko-KR');
+                        if(mileage_usable_val > 0){
+                            mileage_usable_str  = '+ ' + mileage_usable_str;
+                        }
+                        else if(mileage_usable_val < 0){
+                            mileage_usable_str  = '- ' + mileage_usable_str;
+                        }
+
+                        if(row.price_total != ""){
+                            row.price_total = parseInt(row.price_total).toLocaleString('ko-KR');
+                        }
+
+                        var strDiv = 
+                                `
+                                <tr>
+                                    <td>
+                                        <p>${row.update_date}</p>
+                                    </td>
+                                    <td>
+                                        <p class="underline">${row.ordernum}</p>
+                                    </td>
+                                    <td>
+                                        <p>${row.mileage_type}</p>
+                                    </td>
+                                    <td>
+                                        <p>${row.price_total}</p>
+                                    </td>
+                                    <td>
+                                        <p>+ ${parseInt(row.mileage_usable_inc).toLocaleString('ko-KR')}</p>
+                                    </td>
+                                    <td>
+                                        <p>${parseInt(row.mileage_usable_dec).toLocaleString('ko-KR')}</p>
+                                    </td>
+                                </tr> 
+                        `;
+                        $('#mileage_' + list_type + '_result').append(strDiv);
+
+                        var strMobileDiv = 
+                                `
+                                <tr>
+                                    <td>
+                                        <p class="underline">${row.ordernum}</p>
+                                    </td>
+                                    <td>
+                                        <p>${row.update_date}</p>
+                                    </td>
+                                    <td>
+                                        <p>${row.mileage_type}</p>
+                                    </td>
+                                    <td>
+                                        <p>${mileage_usable_str}</p>
+                                    </td>
+                                </tr> 
+                        `;
+                        $('#mileage_' + list_type + '_result_mobile').append(strMobileDiv);
+                    })
                 }
             }
         }
@@ -297,11 +443,17 @@ function mileageGetSummary(){
         error: function(d) {
         },
         success: function(d) {
-            if(d.data != null){
-                var data = d.data;
-                $('#mileage_point').find('p').text(parseInt(data.mileage_balance).toLocaleString('ko-KR'));
-                $('#uesd_mileage').find('p').text(parseInt(data.refund_scheduled).toLocaleString('ko-KR'));
-                $('#refund_scheduled').find('p').text(parseInt(data.used_mileage).toLocaleString('ko-KR'));
+            if(d.code == 200){
+                if(d.data != null){
+                    var data = d.data;
+
+                    var mileage_point
+                    var uesd_mileage
+                    var refund_scheduled
+                    $('#mileage_point').find('p').text(parseInt(data.mileage_balance).toLocaleString('ko-KR'));
+                    $('#uesd_mileage').find('p').text(parseInt(data.refund_scheduled).toLocaleString('ko-KR'));
+                    $('#refund_scheduled').find('p').text(parseInt(data.used_mileage).toLocaleString('ko-KR'));
+                }
             }
         }
     });

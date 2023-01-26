@@ -153,9 +153,8 @@
 }
 
 html { font-size: 62.5%; }
-body {max-width: 2560px;width:100%;margin: 0 auto!important; ;overflow-x:hidden;background-color : #fff ; color : #000 ;transition: transform 5s linear;}
+body {max-width: 2560px;width:100%;margin: 0 auto!important; ;overflow-x:hidden;background-color : #fff ; color : #000 ;transition: transform 5s linear;font-family: var(--ft-no-fu);}
 a { text-decoration : none ; color : #000 }
-body,button,input {font-family: /* 'campton', */'Noto Sans KR', sans-serif }
 main{padding-top: 50px;}
 img {max-width: 100%;height:  auto;}
 header{max-width: 2560px;margin:0 auto;}

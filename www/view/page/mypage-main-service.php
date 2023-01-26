@@ -7,8 +7,9 @@
     margin: 0 auto;
     width:405px;
     display:grid;
+    gap:10px;
     place-items: center;
-    grid-template-columns: 80px 144px 80px 100px;
+    grid-template-columns: 70px 134px 70px 100px;
 }
 .service__tab__wrap{
     width:710px;
@@ -88,6 +89,20 @@
 }
 .service__wrap .footer{
     margin-bottom:100px;
+}
+
+@media (min-width: 1024px){
+}
+@media (max-width: 1024px){
+    .service__tab__wrap{width:100%;}
+    .service__wrap .description{width:100%}
+    .toggle__list{width:100%}
+    .service__tab__btn__container{
+        margin: 0 auto;
+        width:340px;
+        gap:3px;
+        grid-template-columns: 56px 124px 56px 94px;
+    }
 }
 </style>
 <div class="service__wrap">
@@ -766,19 +781,14 @@ $(document).ready(function(){
         error: function(d) {
         },
         success: function(d) {
-            if(d.code == 302){
-                //window.location.replace("/login");
-            }
-            else{
+            if(d.code == 200){
                 if(d.data != null && d.data.length > 0){
                     $('.toggle__list__tab.01').html('');
-                    for(var i = 0; i < d.data.length; i++){
-                        var data = d.data[i];
-
+                    d.data.forEach(function(row){
                         var fix_btn = '';
                         strDiv = '';
 
-                        if(data.fix_flg == 1){
+                        if(row.fix_flg == 1){
                             fix_btn = `<img src="/images/mypage/mypage_fixed_icon.svg" style="float:left;margin-right:5px;">`;
                         }
                         else{
@@ -788,16 +798,16 @@ $(document).ready(function(){
                             <div class="toggle__item">
                                 <div class="question">
                                     ${fix_btn}
-                                    <span>${data.title}</span>
+                                    <span>${row.title}</span>
                                     <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
                                 </div>
                                 <div class="request" style="display:none">
-                                    ${data.contents}
+                                    ${row.contents}
                                 </div>
                             </div>
                         `;
                         $('.toggle__list__tab.01').append(strDiv);
-                    }
+                    })
                 }
             }
             

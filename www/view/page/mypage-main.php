@@ -76,6 +76,18 @@ input::placeholder {
 .tab__btn__item img{
     height:24px;
 }
+.description p{
+    margin-bottom:10px;
+    font-size: 11px;
+    font-family:var(--ft-no-fu);
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: left;
+    color: #343434;
+}
 .mypage__wrap p,.mypage__wrap span {
     font-family:var(--ft-no-fu); 
     font-size: 11px;
@@ -91,6 +103,7 @@ input::placeholder {
 .title p,.title span{
     font-size: 13px;
     line-height: 1.15;
+    margin-bottom:10px;
 }
 .mypage__wrap{
     width:100%;
@@ -160,6 +173,17 @@ input::placeholder {
     grid-template-columns:repeat(3,1fr);
 }
 
+.mypage__tab__container{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(16,1fr);
+}
+.menu__tab{
+    grid-column: 1/17;
+    width:100%;
+    display:block;
+    margin: 0 auto;
+}
 .point__item{
     width:100%;
 }
@@ -337,8 +361,50 @@ td p{
     border-bottom:1px solid #dcdcdc;
     margin-bottom:20px;
 }
-
+.foryou-wrap .swiper-grid {
+    grid-column: 1/17;
+}    
+.foryou__wrapper .title{
+    font-family: var(--ft-no-fu);
+    font-size: 13px;
+    margin-left:10px;
+    margin-bottom:20px;
+}
+@media (min-width: 1024px){
+    .swiper.icon{
+        display:none;
+    }
+    .pc__view{display:block}
+    .mobile__view{display:none}
+}
+@media (max-width: 1860px){
+    .mypage__items:nth-child(3){
+        grid-column: 3/15;
+    }
+}
+@media (max-width: 1560px){
+    .mypage__items:nth-child(1){
+        grid-column: 7/11;
+    }
+    .mypage__items:nth-child(2){
+        grid-column: 7/11;
+    }
+    .mypage__items:nth-child(3){
+        grid-column: 2/16;
+    }
+}
+@media (max-width: 1340px){
+    .mypage__items:nth-child(3){
+        grid-column: 1/17;
+    }
+    .icon__title p{
+        font-size:11px;
+    }
+}
 @media (max-width: 1024px){
+    .mypage__items.btn__items{
+        display:none;
+    }
     .mypage__container{
         width:100%;
         display:grid;
@@ -363,23 +429,46 @@ td p{
     .point__item{
         width:100%;
     }
-
-    .mypage__items:nth-child(3){
-        grid-column: 1/9;
-        padding-top:50px;
+    .mypage__tab__container{
         width:100%;
         display:grid;
-        place-items: center;
-        grid-template-columns:repeat(15,1fr);
+        grid-template-columns:repeat(8,1fr);
     }
+    .menu__tab{
+        grid-column: 1/9;
+        width:calc(100% - 20px);
+        display:block;
+        margin: 0 auto;
+        margin-left:10px;
+        margin-right:10px;
+    }
+    .non__display__tab{
+        display:none;
+    }
+    .pc__view{display:none}
+    .mobile__view{display:block} 
+    .mobile__view table{width:100%;}
+}
+.swiper.icon{
+    margin-top:30px;
+    margin-right:15px;
+}
+.swiper.icon .swiper-slide{
+    width:80px!important;
+}
+.swiper.icon{
+    width:calc(100% - 20px);
+    overflow: hidden;
 }
 </style>
 <?php
-    if(!isset($_SESSION['MEMBER_IDX'])){
-        echo "
+    print_r($_SESSION);
+	if(!isset($_SESSION['MEMBER_IDX'])){
+        /*echo "
                 <script>
                     location.href = '/login';
-                </script>";
+                </script>
+		";*/
     }
 ?>
 <main>
@@ -418,8 +507,8 @@ td p{
                     </div>
                 </div>
             </div>
-            <div class="mypage__items">
-                <div class="click__icon__item" btn-type="home" onclick="mypageTabBtnClick(this)">
+            <div class="mypage__items btn__items">
+                <div class="click__icon__item icon__item" btn-type="home" onclick="mypageTabBtnClick(this)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_home_icon.svg" style="padding-top:17.5px;padding-left:16.5px;">
                     </div>
@@ -437,7 +526,7 @@ td p{
                     </div>
                     <div class="icon__title"><p>적립포인트</p></div>
                 </div>
-                <div id="charging_icon" class="icon__item" btn-type="charging" onclick="mypageTabBtnClick(this)">
+                <div id="charging_icon" class="icon__item" btn-type="charging" onclick="">
                     <div class="icon">
                         <img src="/images/mypage/mypage_charging_point_icon.png" style="width:18px;height:34px;padding-top:16px;margin-left:16px;">
                     </div>
@@ -512,57 +601,174 @@ td p{
             </div>
         </div>
     </div>
-
+    <div class="swiper icon">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide icon__item click__icon__item" btn-type="home" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_home_icon.svg" style="padding-top:17.5px;padding-left:16.5px;">
+                </div>
+                <div class="icon__title"><p>마이페이지 홈</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="orderlist" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_orderlist_icon.svg" style="padding-top:15px;padding-left:17px;">
+                </div>
+                <div class="icon__title"><p>주문조회</p></div>
+            </div>
+            <div id="mileage_icon" class="swiper-slide icon__item" btn-type="mileage" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
+                </div>
+                <div class="icon__title"><p>적립포인트</p></div>
+            </div>
+            <div id="charging_icon" class="swiper-slide icon__item" btn-type="charging" onclick="">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_charging_point_icon.png" style="width:18px;height:34px;padding-top:16px;margin-left:16px;">
+                </div>
+                <div class="icon__title"><p>충전포인트</p></div>
+            </div>
+            <div id="voucher_icon" class="swiper-slide icon__item" btn-type="voucher" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_voucher_icon.svg" style="padding-top:19px;padding-left:14px;">
+                </div>
+                <div class="icon__title"><p>바우처</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="bluemark" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_bluemark_icon.svg" style="padding-top:21px;padding-left:21px;">
+                </div>
+                <div class="icon__title"><p>블루마크</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="stanby" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_stanby_icon.svg" style="padding-top:13px;padding-left:11px;">
+                </div>
+                <div class="icon__title"><p>스탠바이</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="preorder" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_preorder_icon.svg" style="padding-top:14px;padding-left:16px;">
+                </div>
+                <div class="icon__title"><p>프리오더</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="reorder" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_reorder_icon.svg" style="padding-top:14px;padding-left:17px;">
+                </div>
+                <div class="icon__title"><p>재입고알림</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="draw" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_draw_icon.svg" style="padding-top:12px;padding-left:16px;">
+                </div>
+                <div class="icon__title"><p>드로우</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="membership" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_membership_icon.svg" style="padding-top:18px;padding-left:15px;">
+                </div>
+                <div class="icon__title"><p>멤버쉽</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="inquiry" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_inquiry_icon.svg" style="padding-top:18px;padding-left:15px;">
+                </div>
+                <div class="icon__title"><p>문의</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="as" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_as_icon.svg" style="padding-top:13px;padding-left:15px;">
+                </div>
+                <div class="icon__title"><p>A/S</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="service" onclick="mypageTabBtnClick(this)">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_service_icon.svg" style="padding-top:12px;padding-left:12px;">
+                </div>
+                <div class="icon__title"><p>고객서비스</p></div>
+            </div>
+            <div class="swiper-slide icon__item" btn-type="profile" onclick="mypageTabBtnClick(this)">
+                <div class="icon" style="width:50px;height:50px;">
+                    <img src="/images/mypage/mypage_profile_icon.svg" style="padding-top:15px;padding-left:13px;">
+                </div>
+                <div class="icon__title"><p>회원정보</p></div>
+            </div>
+        </div>
+    </div>
     <input id="btn_type" type="hidden" value="home">
 
-    <div id="mypage_tab_stanby" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-stanby.php"); ?>
+    <div class="mypage__tab__container">
+        <div id="mypage_tab_stanby" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-stanby.php"); ?>
+        </div>
+        <div id="mypage_tab_preorder" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-preorder.php"); ?>
+        </div>
+        <div id="mypage_tab_reorder" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-reorder.php"); ?>
+        </div>
+        <div id="mypage_tab_draw" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-draw.php"); ?>
+        </div>
+        <div id="mypage_tab_membership" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-membership.php"); ?>
+        </div>
+        <div id="mypage_tab_inquiry" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-inquiry.php"); ?>
+        </div>
+        <div id="mypage_tab_as" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-as.php"); ?>
+        </div>
+        <div id="mypage_tab_service" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-service.php"); ?>
+        </div>
+        <div id="mypage_tab_home" class="menu__tab">
+            <?php include_once("mypage-main-home.php"); ?>
+        </div>
+        <div id="mypage_tab_orderlist" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-orderlist.php"); ?>
+        </div>
+        <div id="mypage_tab_mileage" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-mileage.php"); ?>
+        </div>
+        <div id="mypage_tab_charging" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-charging.php"); ?>
+        </div>
+        <div id="mypage_tab_voucher" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-voucher.php"); ?>
+        </div>
+        <div id="mypage_tab_profile" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-profile.php"); ?>
+        </div>
+        <div id="mypage_tab_bluemark" class="menu__tab non__display__tab">
+            <?php include_once("mypage-main-bluemark.php"); ?>
+        </div>
     </div>
-    <div id="mypage_tab_preorder" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-preorder.php"); ?>
-    </div>
-    <div id="mypage_tab_reorder" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-reorder.php"); ?>
-    </div>
-    <div id="mypage_tab_draw" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-draw.php"); ?>
-    </div>
-    <div id="mypage_tab_membership" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-membership.php"); ?>
-    </div>
-    <div id="mypage_tab_inquiry" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-inquiry.php"); ?>
-    </div>
-    <div id="mypage_tab_as" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-as.php"); ?>
-    </div>
-    <div id="mypage_tab_service" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-service.php"); ?>
-    </div>
-    <div id="mypage_tab_home" class="menu__tab">
-        <?php include_once("mypage-main-home.php"); ?>
-    </div>
-    <div id="mypage_tab_orderlist" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-orderlist.php"); ?>
-    </div>
-    <div id="mypage_tab_mileage" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-mileage.php"); ?>
-    </div>
-    <div id="mypage_tab_charging" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-charging.php"); ?>
-    </div>
-    <div id="mypage_tab_voucher" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-voucher.php"); ?>
-    </div>
-    <div id="mypage_tab_profile" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-profile_tmp.php"); ?>
-    </div>
-    <div id="mypage_tab_bluemark" class="menu__tab non__display__tab">
-        <?php include_once("mypage-main-bluemark.php"); ?>
-    </div>
+    
+    <div style="margin-bottom:100px;"></div>
+    <aside class="foryou__wrapper">
+        <div class="title"><p>For you   ></p></div>
+        <div class="recommend-wrap"></div>
+    </aside>
 </main>
 <script>
 $(document).ready(function() {
+    const swiperExample = new Swiper(".swiper.icon" , {
+		//옵션은 유동적으로 필요한부분만 추가해서 사용가능,
+		navigation: {
+		    nextEl: ".swiper .swiper-button-next",
+		    prevEl: ".swiper .swiper-button-prev",
+		},
+		pagination: {
+		    el: ".swiper-pagination",
+		    clickable: true,
+		},
+		autoHeight: true,
+		grabCursor: true,
+        slidesPerView:'auto',
+        loop:false,
+        loopAdditionalSlides:1
+	});
     $(".tab__btn__item").on('click', function(){
         var parent_class = $(this).parent().attr('class');
         var btn_group = $('.'+parent_class+' .tab__btn__item');
@@ -642,8 +848,11 @@ function mypageTabBtnClick(obj) {
 	$('.menu__tab').addClass('non__display__tab');
 	$('#mypage_tab_' + btn_type).removeClass('non__display__tab');
 
-    $('.click__icon__item').attr('class', 'icon__item');
-    $(obj).attr('class', 'click__icon__item');
+    
+    $('.click__icon__item').removeClass('click__icon__item');
+    $('.click__icon__item').addClass('icon__item');
+    
+    $(obj).addClass('click__icon__item');
 
     $('#mypage_tab_' + btn_type).find('.tab__btn__item').eq(0).click();
 }
@@ -652,4 +861,42 @@ function memberInfoClick(obj){
     var info_type = $(obj).attr('info-type');
     $("#" + info_type + "_icon").trigger("click");
 }
+function makeSelect(divId){
+    var selectDiv = $('.' + divId);
+    selectDiv.css('position','relative');
+    var SelLen = selectDiv.find('select option').length;
+
+    var selectedDiv = ` <div class="select-selected">${selectDiv.find('select option:selected').text()}</div>`;
+    selectDiv.append(selectedDiv);
+
+    var selectHideDiv = `<div class="select-items select-hide">`;
+    for(var i = 0; i < SelLen; i++){
+        selectHideDiv += `  
+                            <div>${selectDiv.find(`select option:eq(${i})`).text()}</div>
+                        `;
+    }
+    selectHideDiv += `  </div>`;
+    selectDiv.append(selectHideDiv);
+
+    selectDiv.find('.select-items').find('div').on('click', function(){
+        var clickCountryText = $(this).text();
+
+        var sameCountryOption = selectDiv.find(`select option:contains("${clickCountryText}")`);
+        sameCountryOption.prop('selected',true);
+
+        selectDiv.find('.select-selected').text(clickCountryText);
+
+        selectDiv.find('.select-items').toggle();
+    })
+
+    selectDiv.find('.select-selected').on('click', function(){
+        selectDiv.find('.select-items').toggle();
+    });
+}
+</script>
+<script type="module">
+    import ForyouRender  from '/scripts/module/foryou.js';
+    const foryou = new ForyouRender();
+
+    $('.left__title').hide();
 </script>

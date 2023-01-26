@@ -1,4 +1,49 @@
 <style>
+.service__wrap .description::-webkit-scrollbar{
+    width:5px;
+}
+.service__wrap .description::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.service__wrap .description::-webkit-scrollbar-thumb {
+    background-color: #dcdcdc;
+}
+.select-selected {
+    color: #343434;
+    border-radius: 1px;
+    border: solid 1px #808080
+}
+
+.select-items div,
+.select-selected {
+    color: #343434;
+    background-color: #fff;
+    padding: 12px 0 12px 10px;
+    border: solid 1px #808080;
+    cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+    display: none;
+}
+
+.select-items div:hover {
+    background-color: #f5f5f5;
+    border: solid 1px #808080;
+}
+
+.mobile__view select{
+    display:none;
+}
 .inquiry__wrap{
     margin-top:40px;
     width:100%;
@@ -190,6 +235,14 @@
     width:110px;
     margin-left: 600px;
 }
+@media (max-width: 1024px){
+    .search__small{width:100%;}
+    .inquiry__faq__detail__container{width:100%}
+    .inquiry__faq__detail__wrap{width:100%}
+    .inquiry__faq__detail__container{display:block;}
+    .category__small__mobile{margin-top:20px;margin-bottom:30px;display:flex;gap:10px;}
+}
+
 </style>
 <div class="inquiry__wrap">
     <div class="inquiry__tab__btn__container">
@@ -207,31 +260,9 @@
         <div class="inquiry__tab inquiry__faq__wrap">
             <div class="search">
                 <input class="search__keyword" type="text">
-                <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchFaq(this)">
+                <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchAction(this)">
             </div>
-            <div class="category">
-                <div class="btn__row">
-                    <div class="faq__category__btn">회원</div>
-                </div>
-                <div class="btn__row">
-                    <div class="faq__category__btn">주문 / 결제</div>
-                </div>
-                <div class="btn__row">
-                    <div class="faq__category__btn">제품</div>
-                </div>
-                <div class="btn__row">
-                    <div class="faq__category__btn">배송</div>
-                </div>
-                <div class="btn__row">
-                    <div class="faq__category__btn">교환 / 반품</div>
-                </div>
-                <div class="btn__row">
-                    <div class="faq__category__btn">환불 / 품절</div>
-                </div>
-                <div class="btn__row">
-                    <div class="faq__category__btn">A/S</div>
-                </div>
-            </div>
+            <div class="category"></div>
             <div class="footer"></div>
         </div>
         <div class="inquiry__tab inquiry__faq__detail__wrap">
@@ -239,124 +270,27 @@
                 <div class="inquiry__faq__detail__area">
                     <div class="search__small">
                         <input class="search__keyword" type="text">
-                        <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchFaq(this)">
+                        <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchAction(this)">
                     </div>
-                    <div class="category__small">
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn">회원</div>
+                    <div class="pc__view">
+                        <div class="category__small"></div>
+                    </div>
+                    <div class="mobile__view">
+                        <div class="category__small__mobile">
+                            <div class="inquiry__category" style="width:32%;position:relative">
+                                <select id="inq_cate">
+                                </select>
                             </div>
-                            <div class="children__category">
-                                <div class="child__category__btn click__btn">회원 가입 및 이용</div>
-                                <div class="child__category__btn">국가 별 로그인</div>
-                                <div class="child__category__btn">ADER 정보</div>
-                                <div class="child__category__btn">본인인증</div>
-                            </div>
-                        </div>
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn">주문 / 결제</div>
-                            </div>
-                            <div class="children__category">
-                                <div class="child__category__btn click__btn">회원 가입 및 이용</div>
-                                <div class="child__category__btn">국가 별 로그인</div>
-                                <div class="child__category__btn">ADER 정보</div>
-                                <div class="child__category__btn">본인인증</div>
-                            </div>
-                        </div>
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn">제품</div>
-                            </div>
-                            <div class="children__category">
-                                <div class="child__category__btn click__btn">회원 가입 및 이용</div>
-                                <div class="child__category__btn">국가 별 로그인</div>
-                                <div class="child__category__btn">ADER 정보</div>
-                                <div class="child__category__btn">본인인증</div>
-                            </div>
-                        </div>
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn">배송</div>
-                            </div>
-                            <div class="children__category">
-                                <div class="child__category__btn click__btn">회원 가입 및 이용</div>
-                                <div class="child__category__btn">국가 별 로그인</div>
-                                <div class="child__category__btn">ADER 정보</div>
-                                <div class="child__category__btn">본인인증</div>
-                            </div>
-                        </div>
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn">교환 / 반품</div>
-                            </div>
-                            <div class="children__category">
-                                <div class="child__category__btn click__btn">회원 가입 및 이용</div>
-                                <div class="child__category__btn">국가 별 로그인</div>
-                                <div class="child__category__btn">ADER 정보</div>
-                                <div class="child__category__btn">본인인증</div>
-                            </div>
-                        </div>
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn">환불 / 품절</div>
-                            </div>
-                            <div class="children__category">
-                                <div class="child__category__btn click__btn">회원 가입 및 이용</div>
-                                <div class="child__category__btn">국가 별 로그인</div>
-                                <div class="child__category__btn">ADER 정보</div>
-                                <div class="child__category__btn">본인인증</div>
-                            </div>
-                        </div>
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn">A/S</div>
-                            </div>
-                            <div class="children__category">
-                                <div class="child__category__btn click__btn">회원 가입 및 이용</div>
-                                <div class="child__category__btn">국가 별 로그인</div>
-                                <div class="child__category__btn">ADER 정보</div>
-                                <div class="child__category__btn">본인인증</div>
-                            </div>
+                            <div class="inquiry__subcategory" style="width:65%;position:relative">
+                                <select id="inq_subcate">
+                                </select>
+                            </div> 
                         </div>
                     </div>
                 </div>
                 <div class="inquiry__faq__detail__area">
                     <div class="toggle__list">
-                        <div class="toggle__list__tab 02">
-                            <div class="toggle__item">
-                                <div class="category__title"><span>가입 방법 및 혜택</span></div>
-                                <div class="question">
-                                    <span>회원 가입은 어떻게 하나요?</span>
-                                    <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                                </div>
-                                <div class="request" style="display:none"><span>공식 홈페이지의 오른쪽 위 로그인 메뉴 방문 이후 화면 중앙에 있는 회원가입 버튼을 통해 가입할 수 있습니다.</span></div>
-                            </div>
-                            <div class="toggle__item">
-                                <div class="category__title"><span>마이페이지 이용</span></div>
-                                <div class="question">
-                                    <span>마이페이지에서는 무엇을 확인할 수 있나요?</span>
-                                    <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                                </div>
-                                <div class="request" style="display:none"><span>답변 미정</span></div>
-                            </div>
-                            <div class="toggle__item">
-                                <div class="category__title"><span>등급 체계 및 혜택</span></div>
-                                <div class="question">
-                                    <span>회원 탈퇴를 하고 싶어요.</span>
-                                    <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                                </div>
-                                <div class="request" style="display:none"><span>답변 미정</span></div>
-                            </div>
-                            <div class="toggle__item">
-                                <div class="category__title"><span>간편 로그인</span></div>
-                                <div class="question">
-                                    <span>소셜 계정을 통한 로그인이 가능한가요?</span>
-                                    <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                                </div>
-                                <div class="request" style="display:none"><span>답변 미정</span></div>
-                            </div>
-                        </div>
+                        <div class="toggle__list__tab 02"></div>
                     </div>
                 </div>
             </div>
@@ -465,47 +399,110 @@ $(document).ready(function(){
         error: function(d) {
         },
         success: function(d) {
-            if(d.data != null && d.data.length > 0 ){
-                $('.category').html('');
-                $('.category__small').html('');
-                var data = d.data;
-                var data_len = data.length;
+            if(d.code == 200){
+                if(d.data != null && d.data.length > 0 ){
+                    $('.category').html('');
+                    $('.category__small').html('');
 
-                for(var i = 0; i < data_len; i++){
-                    var cateDiv = `
-                        <div class="btn__row">
-                            <div class="faq__category__btn" category-no="${data[i].no}" onclick="cateBtnAction(this)">${data[i].title}</div>
-                        </div>
-                    `;
-                    $('.category').append(cateDiv);
-
-                    var smallCateDiv = `
-                        <div class="btn__row">
-                            <div class="parents__category">
-                                <div class="faq__category__btn" category-no="${data[i].no}" onclick="smallCateBtnAction(this)">${data[i].title}</div>
+                    d.data.forEach(function (row, index){
+                        $('#inq_cate').append(`<option value="${row.no}">${row.title}</option>`);
+                        
+                        var cateDiv = `
+                            <div class="btn__row">
+                                <div class="faq__category__btn" category-no="${row.no}" onclick="cateBtnAction(this)">${row.title}</div>
                             </div>
-                            <div class="children__category">
-                    `;
-                    if(data[i].children != null && data[i].children.length > 0 ){
-                        var child_data = data[i].children;
-                        var child_data_len = child_data.length;
+                        `;
+                        $('.category').append(cateDiv);
 
-                        for(var j = 0; j < child_data_len; j++){
-                            var cateChildDiv = `<div class="child__category__btn" category-no="${child_data[j].no}" onclick="childCateBtnAction(this)">${child_data[j].title}</div>`;
-                            smallCateDiv += cateChildDiv;
+                        var smallCateDiv = `
+                            <div class="btn__row">
+                                <div class="parents__category">
+                                    <div class="faq__category__btn" category-no="${row.no}" onclick="smallCateBtnAction(this)">${row.title}</div>
+                                </div>
+                                <div class="children__category">
+                        `;
+                        if(row.children != null && row.children.length > 0 ){
+                            var child_data = row.children;
+                            var child_data_len = child_data.length;
+
+                            child_data.forEach(function(child_row){
+                                var cateChildDiv = `<div class="child__category__btn" category-no="${child_row.no}" onclick="childCateBtnAction(this)">${child_row.title}</div>`;
+                                smallCateDiv += cateChildDiv;
+
+                                if(index == 0){
+                                    $('#inq_subcate').append(`<option value="${child_row.no}">${child_row.title}</option>`);
+                                }
+                            })
+                            
                         }
-                    }
-                    smallCateDiv += `
+                        smallCateDiv += `
+                                </div>
                             </div>
-                        </div>
-                    `;
-                    $('.category__small').append(smallCateDiv);
+                        `;
+                        $('.category__small').append(smallCateDiv);
+                    })
+                    $('.children__category').hide();
                 }
+                makeSelect('inquiry__category');
+                makeSelect('inquiry__subcategory');
             }
-            $('.children__category').hide();
         }
     });
 })
+
+function getFaqList(type, param){
+    var country = 'KR';
+    var param_json = {};
+
+    if(type == 'click'){
+        param_json = {'country': country, 'category_no' : param};
+    }
+    else if(type == 'search'){
+        param_json = {'country': country, 'keyword' : param};
+    }
+    $.ajax({
+        type: "post",
+        data: param_json,
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/mypage/faq/get",
+        error: function(d) {
+        },
+        success: function(d) {
+            if(d.code == 200){
+                if(d.data != null && d.data.length > 0){
+                    $('.toggle__list__tab.02').html('');
+                    d.data.forEach(function(row){
+                        strDiv = `
+                            <div class="toggle__item">
+                                <div class="category__title"><span>${row.title}</span></div>
+                                <div class="question" style="cursor:pointer;" onclick="faqQuestionClick(this)">
+                                    <span>${row.question}</span>
+                                    <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
+                                </div>
+                                <div class="request" style="display:none">${row.answer}</div>
+                            </div>
+                        `;
+                        $('.toggle__list__tab.02').append(strDiv);
+                    })
+                }
+            }
+        }
+    });
+}
+
+function searchAction(obj){
+    $('.inquiry__tab').hide();
+    $('.inquiry__faq__detail__wrap').show();
+
+    $('.category__small').find('.children__category').hide();
+    $('.category__small .click__btn').removeClass('click__btn');
+
+    var keyword = $(obj).parent().find('input').eq(0).val();
+    $('.search__keyword').val(keyword);
+
+    getFaqList('search', keyword);
+}
+
 function cateBtnAction(obj){
     $('.inquiry__tab').hide();
     $('.inquiry__faq__detail__wrap').show();
@@ -526,7 +523,7 @@ function smallCateBtnAction(obj){
         $('.category__small').find('.faq__category__btn').removeClass('click__btn');
         $(obj).addClass('click__btn');
 
-        printFaqList(cate_no);
+        getFaqList('click', cate_no);
     }
     $('.search__keyword').val('');
 }
@@ -536,41 +533,12 @@ function childCateBtnAction(obj){
     $(obj).parent().find('.child__category__btn').removeClass('click__btn');
     $(obj).addClass('click__btn');
 
-    printFaqList(cate_no);
+    getFaqList('click', cate_no);
     $('.search__keyword').val('');
 } 
-function printFaqList(cate_no){
-    $.ajax({
-        type: "post",
-        data: {'category_no': cate_no},
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/mypage/faq/get",
-        error: function(d) {
-        },
-        success: function(d) {
-            if(d.data != null && d.data.length > 0){
-                var data = d.data
-                $('.toggle__list__tab.02').html('');
-                for(var i = 0; i < data.length; i++){
-                    strDiv = `
-                        <div class="toggle__item">
-                            <div class="category__title"><span>${data[i].title}</span></div>
-                            <div class="question" style="cursor:pointer;" onclick="faqQuestionClick(this)">
-                                <span>${data[i].question}</span>
-                                <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                            </div>
-                            <div class="request" style="display:none">${data[i].answer}</div>
-                        </div>
-                    `;
-                    $('.toggle__list__tab.02').append(strDiv);
-                }
-            }
-        }
-    });
-}
+
 function faqQuestionClick(obj){
     if($(obj).next().css('display') == 'none'){
-        console.log($(this).find('img.top__down__icon'));
         $(obj).find('img.down__up__icon').attr('src','/images/mypage/mypage_up_tab_btn.svg');
     }
     else{
@@ -578,42 +546,37 @@ function faqQuestionClick(obj){
     }
     $(obj).next().toggle();
 }
-function searchFaq(obj){
-    $('.inquiry__tab').hide();
-    $('.inquiry__faq__detail__wrap').show();
 
-    $('.category__small').find('.children__category').hide();
-    $('.category__small .click__btn').removeClass('click__btn');
+function makeSelect(divId){
+    var selectDiv = $('.' + divId);
+    selectDiv.css('position','relative');
+    var SelLen = selectDiv.find('select option').length;
 
-    var keyword = $(obj).parent().find('input').eq(0).val();
-    $('.search__keyword').val(keyword);
+    var selectedDiv = ` <div class="select-selected">${selectDiv.find('select option:selected').text()}</div>`;
+    selectDiv.append(selectedDiv);
 
-    $.ajax({
-        type: "post",
-        data: {'keyword': keyword},
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/mypage/faq/get",
-        error: function(d) {
-        },
-        success: function(d) {
-            if(d.data != null && d.data.length > 0){
-                var data = d.data
-                $('.toggle__list__tab.02').html('');
-                for(var i = 0; i < data.length; i++){
-                    strDiv = `
-                        <div class="toggle__item">
-                            <div class="category__title"><span>${data[i].title}</span></div>
-                            <div class="question" style="cursor:pointer;" onclick="faqQuestionClick(this)">
-                                <span>${data[i].question}</span>
-                                <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                            </div>
-                            <div class="request" style="display:none">${data[i].answer}</div>
-                        </div>
-                    `;
-                    $('.toggle__list__tab.02').append(strDiv);
-                }
-            }
-        }
+    var selectHideDiv = `<div class="select-items select-hide">`;
+    for(var i = 0; i < SelLen; i++){
+        selectHideDiv += `  
+                            <div>${selectDiv.find(`select option:eq(${i})`).text()}</div>
+                        `;
+    }
+    selectHideDiv += `  </div>`;
+    selectDiv.append(selectHideDiv);
+
+    selectDiv.find('.select-items').find('div').on('click', function(){
+        var clickCountryText = $(this).text();
+
+        var sameCountryOption = selectDiv.find(`select option:contains("${clickCountryText}")`);
+        sameCountryOption.prop('selected',true);
+
+        selectDiv.find('.select-selected').text(clickCountryText);
+
+        selectDiv.find('.select-items').toggle();
+    })
+
+    selectDiv.find('.select-selected').on('click', function(){
+        selectDiv.find('.select-items').toggle();
     });
 }
 </script>

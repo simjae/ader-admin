@@ -1,1 +1,5 @@
-<h1 style = "margin:150px;">posting-collaboration</h1>
+<link rel="stylesheet" href="/css/story/collaboration.css">
+<main>
+    <section class="collaboration-wrap"></section>
+</main>
+<script src="/scripts/story/collaboration.js"></script>

@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 회원 가입
+ | 회원 가입 - 신규 회원 가입
  | -------
  |
  | 최초 작성	: 박성혁
@@ -15,111 +15,208 @@
  +=============================================================================
 */
 
-// 값 검사
-$country		= $_POST['country'];
-$member_id		= $_POST['member_id'];
-// 값 검사
-$verify_member_cnt = $db->count('dev.MEMBER_'.$country, 'MEMBER_ID = "'.$member_id.'" ');
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+$country = null;
+if (isset($_POST['country'])) {
+	$country = $_POST['country'];
+}
 
-if($verify_member_cnt > 0){
+$member_id = null;
+if (isset($_POST['member_id'])) {
+	$member_id = $_POST['member_id'];
+}
+
+$member_pw = null;
+if (isset($_POST['member_pw'])) {
+	$member_pw = $_POST['member_pw'];
+}
+
+$member_name = null;
+if (isset($_POST['member_name'])) {
+	$member_name = $_POST['member_name'];
+}
+
+$zipcode = null;
+if (isset($_POST['zipcode'])) {
+	$zipcode = $_POST['zipcode'];
+}
+
+$lot_addr = null;
+if (isset($_POST['lot_addr'])) {
+	$lot_addr = $_POST['lot_addr'];
+}
+
+$road_addr = null;
+if (isset($_POST['road_addr'])) {
+	$road_addr = $_POST['road_addr'];
+}
+
+$detail_addr = null;
+if (isset($_POST['detail_addr'])) {
+	$detail_addr = $_POST['detail_addr'];
+}
+
+$tel_mobile = null;
+if (isset($_POST['tel_mobile'])) {
+	$tel_mobile = $_POST['tel_mobile'];
+}
+
+$birth_year = null;
+if (isset($_POST['birth_year'])) {
+	$birth_year = $_POST['birth_year'];
+}
+
+$birth_month = null;
+if (isset($_POST['birth_month'])) {
+	$birth_month = $_POST['birth_month'];
+}
+
+$birth_day = null;
+if (isset($_POST['birth_day'])) {
+	$birth_day = $_POST['birth_day'];
+}
+
+//동일 ID 중복체크
+$member_cnt = $db->count('dev.MEMBER_'.$country, 'MEMBER_ID = "'.$member_id.'" ');
+
+if($member_cnt > 0){
 	$json_result['code'] = 303;
 	$json_result['msg'] = "이미 동일한 이메일의 계정이 있습니다.";
 	return $json_result;
 }
-else{
-	$member_id		        = $_POST['member_id'];
-	$member_id_arr = array();
-	if ($member_id != null) {
-		$member_id_arr[0] = ' MEMBER_ID, ';
-		$member_id_arr[1] = "'".$member_id."',";
-	}
 
-	$member_pw		    = $_POST['member_pw'];
-	$member_pw_arr = array();
-	if ($member_pw != null) {
-		$member_pw_arr[0] = ' MEMBER_PW, ';
-		$member_pw_arr[1] = "'".md5($member_pw)."',";
-	}
-	$member_name		        = $_POST['member_name'];
-	$member_name_arr = array();
-	if ($member_name != null) {
-		$member_name_arr[0] = ' MEMBER_NAME, ';
-		$member_name_arr[1] = "'".$member_name."',";
-	}
-
-	$zipcode        = $_POST['zipcode'];
-	$zipcode_arr = array();
-	if ($zipcode != null) {
-		$zipcode_arr[0] = ' ZIPCODE, ';
-		$zipcode_arr[1] = "'".$zipcode."',";
-	}
-
-	$lot_addr        = $_POST['lot_addr'];
-	$lot_addr_arr = array();
-	if ($lot_addr != null) {
-		$lot_addr_arr[0] = ' LOT_ADDR, ';
-		$lot_addr_arr[1] = "'".$lot_addr."',";
-	}
-
-	$road_addr        = $_POST['road_addr'];
-	$road_addr_arr = array();
-	if ($road_addr != null) {
-		$road_addr_arr[0] = ' ROAD_ADDR, ';
-		$road_addr_arr[1] = "'".$road_addr."',";
-	}
-
-	$detail_addr        = $_POST['detail_addr'];
-	$detail_addr_arr = array();
-	if ($detail_addr != null) {
-		$detail_addr_arr[0] = ' LOT_ADDR, ';
-		$detail_addr_arr[1] = "'".$detail_addr."',";
-	}
-
-	$tel_mobile		        = $_POST['tel_mobile'];
-	$tel_mobile_arr = array();
-	if ($tel_mobile != null) {
-		$tel_mobile_arr[0] = ' TEL_MOBILE, ';
-		$tel_mobile_arr[1] = "'".$tel_mobile."',";
-	}
-
-	$birth_year		    = $_POST['birth_year'];
-	$birth_month	    = $_POST['birth_month'];
-	$birth_day		    = $_POST['birth_day'];
-	$birth_arr = array();
-	if($birth_year != null && $birth_month != null && $birth_day != null){
-		$birth_arr[0] = ' MEMBER_BIRTH ';
-		$birth_arr[1] = "DATE('".$birth_year."-".$birth_month."-".$birth_day."')";
-	}
-
-	$sql = 	"INSERT INTO
-						dev.MEMBER_".$country."
-					(   
-						".$member_id_arr[0]."
-						".$member_pw_arr[0]."
-						".$member_name_arr[0]."
-						".$zipcode_arr[0]."
-						".$lot_addr_arr[0]."
-						".$road_addr_arr[0]."
-						".$detail_addr_arr[0]."
-						".$tel_mobile_arr[0]."
-						".$birth_arr[0].",
-						JOIN_DATE
-					)
-					VALUES
-					(
-						".$member_id_arr[1]."
-						".$member_pw_arr[1]."
-						".$member_name_arr[1]."
-						".$zipcode_arr[1]."
-						".$lot_addr_arr[1]."
-						".$road_addr_arr[1]."
-						".$detail_addr_arr[1]."
-						".$tel_mobile_arr[1]."
-						".$birth_arr[1].",
-						NOW()
-					)
-			";
-	$db->query($sql);
+$member_id_arr = array();
+if ($member_id != null) {
+	$member_id_arr[0] = ' MEMBER_ID, ';
+	$member_id_arr[1] = "'".$member_id."',";
 }
+
+$member_pw_arr = array();
+if ($member_pw != null) {
+	$member_pw_arr[0] = ' MEMBER_PW, ';
+	$member_pw_arr[1] = "'".md5($member_pw)."',";
+}
+
+$member_name_arr = array();
+if ($member_name != null) {
+	$member_name_arr[0] = ' MEMBER_NAME, ';
+	$member_name_arr[1] = "'".$member_name."',";
+}
+
+$zipcode_arr = array();
+if ($zipcode != null) {
+	$zipcode_arr[0] = ' ZIPCODE, ';
+	$zipcode_arr[1] = "'".$zipcode."',";
+}
+
+$lot_addr_arr = array();
+if ($lot_addr != null) {
+	$lot_addr_arr[0] = ' LOT_ADDR, ';
+	$lot_addr_arr[1] = "'".$lot_addr."',";
+}
+
+$road_addr_arr = array();
+if ($road_addr != null) {
+	$road_addr_arr[0] = ' ROAD_ADDR, ';
+	$road_addr_arr[1] = "'".$road_addr."',";
+}
+
+$detail_addr_arr = array();
+if ($detail_addr != null) {
+	$detail_addr_arr[0] = ' LOT_ADDR, ';
+	$detail_addr_arr[1] = "'".$detail_addr."',";
+}
+
+$tel_mobile_arr = array();
+if ($tel_mobile != null) {
+	$tel_mobile_arr[0] = ' TEL_MOBILE, ';
+	$tel_mobile_arr[1] = "'".$tel_mobile."',";
+}
+
+$birth_arr = array();
+if($birth_year != null && $birth_month != null && $birth_day != null){
+	$birth_arr[0] = ' MEMBER_BIRTH ';
+	$birth_arr[1] = "DATE('".$birth_year."-".$birth_month."-".$birth_day."')";
+}
+
+$db->begin_transaction();
+
+try {
+	$insert_member_sql = "
+		INSERT INTO
+			dev.MEMBER_".$country."
+		(   
+			".$member_id_arr[0]."
+			".$member_pw_arr[0]."
+			".$member_name_arr[0]."
+			".$zipcode_arr[0]."
+			".$lot_addr_arr[0]."
+			".$road_addr_arr[0]."
+			".$detail_addr_arr[0]."
+			".$tel_mobile_arr[0]."
+			".$birth_arr[0].",
+			JOIN_DATE
+		)
+		VALUES
+		(
+			".$member_id_arr[1]."
+			".$member_pw_arr[1]."
+			".$member_name_arr[1]."
+			".$zipcode_arr[1]."
+			".$lot_addr_arr[1]."
+			".$road_addr_arr[1]."
+			".$detail_addr_arr[1]."
+			".$tel_mobile_arr[1]."
+			".$birth_arr[1].",
+			NOW()
+		)
+	";
+
+	$db->query($insert_member_sql);
+
+	$member_idx = $db->last_id();
+
+	if (!empty($member_idx)) {
+		$insert_order_to_sql = "
+			INSERT INTO
+				dev.ORDER_TO
+			(
+				COUNTRY,
+				MEMBER_IDX,
+				TO_PLACE,
+				TO_NAME,
+				TO_MOBILE,
+				TO_ZIPCODE,
+				TO_LOT_ADDR,
+				TO_ROAD_ADDR,
+				TO_DETAIL_ADDR,
+				DEFAULT_FLG
+			) VALUES (
+				'',
+				".$member_idx.",
+				'기본 배송지',
+				'".$member_name."',
+				'".$tel_mobile."',
+				'".$zipcode."',
+				'".$lot_addr."',
+				'".$road_addr."',
+				'".$detail_addr."',
+				TRUE
+			);
+		";
+		
+		$db->query($insert_order_to_sql);
+	}
+	
+	$db->commit();
+} catch (mysqli_sql_exception $exception) {
+	$db->rollback();
+
+	$json_result['code'] = 401;
+	$json_result['msg'] = '회원가입에 실패했습니다. 회원정보를 다시 입력해주세요.';
+	
+	return $json_result;
+}
+
 ?>

@@ -251,7 +251,7 @@ input{outline: none;}
                         <label for="member_id_flg"></label>
                     </div>
                     <span class="font__small">이메일 저장</span>
-                    <span class="font__underline" style="cursor:pointer;" onclick="location.href='/login/search'">비밀번호 찾기</span>
+                    <span class="font__underline" style="cursor:pointer;" onclick="location.href='/login/check'">비밀번호 찾기</span>
                 </div>
             </div>
             <div class="content__wrap">
@@ -342,7 +342,11 @@ function login() {
                     //location.href='main';
                 }
                 else {	// 로그인 실패
-                    $('.result_msg').text("로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.");
+                    var err_msg = '로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.';
+                    if(data.msg != null){
+                        err_msg = data.msg;
+                    }
+                    $('.result_msg').text(err_msg);
                 }
             },
             complete:function(data){
