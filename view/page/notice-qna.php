@@ -1,1 +1,0 @@
-<h1 style = "margin:150px;">notice-qna</h1>
