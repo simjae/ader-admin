@@ -372,6 +372,12 @@ transform: translateY(-4px) rotate(-45deg);
     right: 8px;
     top: 0px;
 }
+.product .product-info{
+    max-height:80px;
+}
+.product .product-info .color-title{
+    margin-top: 13px;
+}
 .product .product-info .info-row .color__box{
     display: flex;
     gap: 7px;
@@ -763,7 +769,10 @@ transform: translateY(-4px) rotate(-45deg);
         padding: 15px 10px;
     }
     .product-wrap[data-grid='1'] .product .product-info > .info-row:nth-of-type(1){
-        padding-bottom:15px;
+        padding-bottom:13px;
+    }
+    .product-wrap[data-grid='1'] .product .product-info .color-title{
+        margin-top: 0px;
     }
     .product-wrap[data-grid='1'] .product .product-info .info-row .price[data-soldout="STSO"]{
         top:0;

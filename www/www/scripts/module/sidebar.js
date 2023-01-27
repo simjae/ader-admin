@@ -33,7 +33,7 @@ export function Sidebar() {
             sideBg.classList.add("open");
             sideWrap.classList.add("open");
         }else {
-            document.body.style["overflow"] =""
+            document.body.style["overflow"] ="inherit"
             document.querySelector("header").classList.remove("hover")
             sideContainner.classList.remove("open");
             sideBg.classList.remove("open");

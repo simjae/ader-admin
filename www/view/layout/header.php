@@ -34,7 +34,7 @@
 		<link rel=stylesheet href='/css/common/sidebar.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/footer.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/nav.css' type='text/css'>
-		<!-- <script src="/scripts/common.js" type="module"></script> -->
+		<script src="/scripts/common.js" ></script>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
