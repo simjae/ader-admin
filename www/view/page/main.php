@@ -5,8 +5,9 @@
 
     header {
         color: var(--wh);
-        background-color: none;
+        background-color: RGBA(255,255,255,0);
         border-bottom: 0px;
+		transition: all 0.3s;
     }
 
     header .logo {
@@ -20,6 +21,10 @@
     header .earth-svg {
         content: url("/images/svg/earth-wh.svg");
     }
+	
+	header .alg__c {
+		color: #FFF;
+	}
 
     header .wishlist-svg {
         content: url("/images/svg/wishlist-wh.svg");
@@ -37,31 +42,44 @@
         content: url("/images/svg/user-wh.svg");
     }
 
-    header.scroll .logo {
+    header .header__grid {
+        color: var(--wh);
+    }
+	
+    header.hover, header.scroll {
+        background-color: #fff;
+        color: var(--bk);
+        border-bottom: 1px solid #eeeeee;
+		transition: all 0.3s;
+    }
+    header.hover .logo, header.scroll .logo {
         content: url("/images/svg/logo-bk.svg");
     }
 
-    header.scroll .search-svg {
+    header.hover .search-svg, header.scroll .search-svg {
         content: url("/images/svg/search-bk.svg");
     }
 
-    header.scroll .earth-svg {
+    header.hover .earth-svg, header.scroll .earth-svg {
         content: url("/images/svg/earth-bk.svg");
     }
 
-    header.scroll .wishlist-svg {
+	header.hover .alg__c, header.scroll .alg__c {
+		color: #000;
+	}
+    header.hover .wishlist-svg, header.scroll .wishlist-svg {
         content: url("/images/svg/wishlist-bk-line.svg");
     }
 
-    header.scroll .basket-svg {
+    header.hover .basket-svg, header.scroll .basket-svg {
         content: url("/images/svg/basket-bk.svg");
     }
 
-    header.scroll .bluemark-svg {
+    header.hover .bluemark-svg, header.scroll .bluemark-svg {
         content: url("/images/svg/bluemark-bk.svg");
     }
 
-    header.scroll .user-svg {
+    header.hover .user-svg, header.scroll .user-svg {
         content: url("/images/svg/user-bk.svg");
     }
 
@@ -71,58 +89,12 @@
         border-bottom: 1px solid #eeeeee;
     }
 
-    header.scroll .header__grid {
+    header.hover .header__grid, header.scroll .header__grid {
         color: var(--bk);
     }
 
-    header.scroll .hamburger .line {
+    header.hover .hamburger .line, header.scroll .hamburger .line {
         background-color: var(--bk);
-    }
-
-    header.hover .logo {
-        content: url("/images/svg/logo-bk.svg");
-    }
-
-    header.hover .search-svg {
-        content: url("/images/svg/search-bk.svg");
-    }
-
-    header.hover .earth-svg {
-        content: url("/images/svg/earth-bk.svg");
-    }
-
-    header.hover .wishlist-svg {
-        content: url("/images/svg/wishlist-bk-line.svg");
-    }
-
-    header.hover .basket-svg {
-        content: url("/images/svg/basket-bk.svg");
-    }
-
-    header.hover .bluemark-svg {
-        content: url("/images/svg/bluemark-bk.svg");
-    }
-
-    header.hover .user-svg {
-        content: url("/images/svg/user-bk.svg");
-    }
-
-    header.hover {
-        background-color: #fff;
-        color: var(--bk);
-        border-bottom: 1px solid #eeeeee;
-    }
-
-    header.hover .header__grid {
-        color: var(--bk);
-    }
-
-    header.hover .hamburger .line {
-        background-color: var(--bk);
-    }
-
-    header .header__grid {
-        color: #ffffff;
     }
 
     .header__wrap {

@@ -8,17 +8,13 @@
     .bluemark__wrap .title {
         color: #0000c5;
     }
-    .bluemark__tab__wrap{
-        grid-column:7/11;
-        width:100%;
-        margin: 0 auto;
-    }
     .bluemark__tab__btn__container {
-        grid-column: 8/10;
+        grid-column: 1/17;
         margin: 0 auto;
         display: grid;
         place-items: center;
-        grid-template-columns: 60px 50px;
+        gap:10px;
+        grid-template-columns: 50px 50px;
     }
 
     .verify__form__wrap {
@@ -79,6 +75,7 @@
         color: #343434;
         margin-top: 60px;
         padding-bottom: 40px;
+        padding-left:6px;
     }
 
     .verify__success__wrap .button {
@@ -199,29 +196,22 @@
     }
 
     .voucher__handover__wrap {
-        height: 389px;
+        position:absolute;
         width: 490px;
         border: 1px solid #808080;
         padding: 20px;
         margin: 0 auto;
         background-color: #fff;
         display: none;
-        position: fixed;
         z-index: 1;
-        left: 50%;
-        top: 60%;
-        transform: translate(-50%, -50%);
+        left: 0;
+        top: 0;
         overflow: auto;
 
     }
-
-    .voucher__handover__wrap__container {
-        margin: 0 auto;
-    }
-
     .certified__wrap {
         height: 86px;
-        width: 450px;
+        width: 100%;
         border: 1px solid #808080;
         padding: 10px;
         margin-top: 10px;
@@ -261,7 +251,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 450px;
+        width: 100%;
         height: 40px;
         border-radius: 1px;
         background-color: #191919;
@@ -284,7 +274,14 @@
     }
 
     .description_transfer p {
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.36;
+        letter-spacing: normal;
         margin-bottom: 10px;
+        text-indent: -6px;
+        word-break: break-all;
     }
 
     .form {
@@ -347,21 +344,29 @@
     .form input{
         margin-top:0px;
     }
+    .flex__row{
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:10px;
+    }
+    .flex__row p{
+        height: 11px;
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.36;
+    }
     .handover__btn{text-align:center;}
-     
     .description.fail_pc p{ width:100%; text-align: center;margin-bottom:0px;}
     .description.fail_mobile p{ width:100%; text-align: center;margin-bottom:0px;}
+    .description.verify_pc{padding-left:6px;}
     .description.verify_pc p{ margin-bottom:0px; }
     .description.verify_mobile p{ margin-bottom:0px; }
-@media (min-width: 1024px){
-    .description.fail_pc{ display:block; }
-    .description.fail_mobile{ display:none; }
-    .description.verify_pc{ display:block; width:100%;}
-    .description.verify_mobile{ display:none; }
-}
+    .bluemark_country{width: 140px;position: relative;}
+    #handover_id{width:300px;}
 @media (max-width: 1024px){
     .bluemark__tab__wrap{grid-column:1/17;width:100%}
-    .bluemark__tab__btn__container{grid-column:1/17;width:100%}
     .verify__form__wrap .description{
         width:100%; 
     }
@@ -369,9 +374,29 @@
     .description.fail_mobile{ display:block;}
     .description.verify_pc{ display:none; }
     .description.verify_mobile{ display:block;}
-
+    .voucher__handover__wrap {width:100%}
+    .form {display: block;}
+    #handover_id{width:100%}
+    .bluemark_country{width:100%;position:none;margin-bottom:10px;}
 }
-
+@media (min-width: 600px) {
+    .bluemark__tab__wrap {
+        grid-column: 1/17;
+        width:580px;
+        margin:0 auto;
+    }
+}
+@media (min-width: 1024px){
+    .bluemark__tab__wrap{
+        grid-column:1/17;
+        width:470px;
+        margin: 0 auto;
+    }
+    .description.fail_pc{ display:block; }
+    .description.fail_mobile{ display:none; }
+    .description.verify_pc{ display:block; width:100%;}
+    .description.verify_mobile{ display:none; }
+}
 </style>
 <div class="bluemark__wrap">
     <div class="bluemark__tab__btn__container">
@@ -388,7 +413,7 @@
                 <p class="title_name">Bluemark</p>
             </div>
             <div class="description">
-                <p>BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.
+                <p>&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.
                 ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여 적극적으로 대응중입니다.</p>
                 <div class="bluemark__err__msg" style="width:100%;height:16.5px;">
                     <p style="color:red;text-align:right;"></p>
@@ -435,79 +460,86 @@
                 <p>customer_care@adererror.com</p>
             </div>
         </div>
-        <div class="bluemark__tab verify__list__wrap">
-            <div class="title">
-                <p>Bluemark</p>
+        <div class="bluemark__tab verify__list__wrap" accesskey=""style="position:relative">
+            <div class="position__area" >
+                <div class="title">
+                    <p>Bluemark</p>
+                </div>
             </div>
+            
             <div class="description verify_pc">
-                <p>·인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
-                <p>·블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여 정보 등록을 완료해 주시길 바랍니다.</p>
+                <p>·&nbsp;인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
+                <p>·&nbsp;블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여 정보 등록을 완료해 주시길 바랍니다.</p>
             </div>
             <div class="description verify_mobile">
-                <p>·인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
-                <p>·블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여<br>정보 등록을 완료해 주시길 바랍니다.</p>
+                <p>·&nbsp;인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
+                <p>·&nbsp;블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여<br>정보 등록을 완료해 주시길 바랍니다.</p>
             </div>
-            <div class="contents__table">
-                <div class="pc__view">
-                    <table class="border__bottom">
-                        <colsgroup>
-                            <col style="width:110px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:130px;">
-                        </colsgroup>
-                        <tbody class="bluemark_list_table">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="mobile__view">
-                    <table class="border__bottom">
-                        <colsgroup>
-                            <col style="width:27%;">
-                            <col style="width:39%;">
-                            <col style="width:34%;">
-                        </colsgroup>
-                        <tbody class="bluemark_list_table_mobile">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="footer"></div>
-        </div>
-        <div class="bluemark__tab voucher__handover__wrap">
-            <div class="voucher__handover__wrap_container">
-                <div class="title_transfer">
-                    <p style="font-size: 13px;">제품 양도하기</p>
-                    <div class="close" onclick="close()"><img src='/images/mypage/tmp_img/X-12.svg' /></div>
-                </div>
-                <div class="description_transfer">
-                    <p>·&nbsp;하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 양도신청이 접수됩니다.</p>
-                    <p>·&nbsp;정보는 향후 변경이 불가능하니 신청 전에 반드시 확인해 주시길 바랍니다.</p>
-                </div>
-                <div>
-                    <p style="margin-bottom: 10px;">양도 받을 아이디</p>
-                </div>
-                <div class="form">
-                    <div class="bluemark_country" style="width:140px;">
-                        <select id="handover_country" name="bluemark_country">
-                            <option name="bluemark_country" value="KR" selected>한국몰</option>
-                            <option name="bluemark_country" value="EN">영문몰</option>
-                            <option name="bluemark_country" value="CN">중문몰</option>
-                        </select>
-                    </div>
-                    <input id="handover_id" type="text" name="bluemark_handover_id" class="bluemark_handover_id"
-                        placeholder="한/영/중 몰을 선택 후 이곳에 아이디를 입려해주세요.">
-                </div>
-                <div class="black_transfer_btn">
-                    <button class="bluemark_idx" onclick="handoverBluemark(this)">양도하기</button>
-                </div>
-                <p>인증내역</p>
-                <div class="certified__wrap">
-                    <div class="handover__info">
-                        <table>
-                            <tbody id="handover__info__table">
+            <form id="frm-bluemark-list">
+                <input type="hidden" name="rows" value="10">
+                <input type="hidden" name="page" value="1">
+                <div class="contents__table">
+                    <div class="pc__view">
+                        <table class="border__bottom">
+                            <colsgroup>
+                                <col style="width:110px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:130px;">
+                            </colsgroup>
+                            <tbody class="bluemark_list_table">
                             </tbody>
                         </table>
+                        <div class="mypage__paging"></div>
+                    </div>
+                    <div class="mobile__view">
+                        <table class="border__bottom">
+                            <colsgroup>
+                                <col style="width:27%;">
+                                <col style="width:39%;">
+                                <col style="width:34%;">
+                            </colsgroup>
+                            <tbody class="bluemark_list_table_mobile">
+                            </tbody>
+                        </table>
+                        <div class="mypage__paging"></div>
+                    </div>
+                </div>
+            </form>
+            <div class="footer"></div>
+            <div class="bluemark__tab voucher__handover__wrap">
+                <div class="voucher__handover__wrap_container">
+                    <div class="title_transfer">
+                        <p style="font-size: 13px;">제품 양도하기</p>
+                        <div class="close" onclick="close()"><img src='/images/mypage/tmp_img/X-12.svg' /></div>
+                    </div>
+                    <div class="description_transfer">
+                        <p>·&nbsp;하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 양도신청이 접수됩니다.</p>
+                        <p>·&nbsp;정보는 향후 변경이 불가능하니 신청 전에 반드시 확인해 주시길 바랍니다.</p>
+                    </div>
+                    <div>
+                        <p style="margin-bottom: 10px;">양도 받을 아이디</p>
+                    </div>
+                    <div class="form">
+                        <div class="bluemark_country">
+                            <select id="handover_country" name="bluemark_country">
+                                <option name="bluemark_country" value="KR" selected>한국몰</option>
+                                <option name="bluemark_country" value="EN">영문몰</option>
+                                <option name="bluemark_country" value="CN">중문몰</option>
+                            </select>
+                            <img src="/images/mypage/mypage_down_tab_btn.svg" style="width:10px;height:5px;position: absolute;right:10px;top:18px;">
+                        </div>
+                        <input id="handover_id" type="text" name="bluemark_handover_id" class="bluemark_handover_id"
+                            placeholder="한/영/중 몰을 선택 후 이곳에 아이디를 입려해주세요.">
+                    </div>
+                    <div class="black_transfer_btn">
+                        <button class="bluemark_idx" onclick="handoverBluemark(this)">양도하기</button>
+                    </div>
+                    <p>인증내역</p>
+                    <div class="certified__wrap">
+                        <div class="handover__info">
+                            <div id="handover__info__area"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -548,26 +580,24 @@ function getBluemarkInfo(obj) {
 
             let code = d.code;
             if (code == 200) {
-                $('#handover__info__table').html('');
+                $('#handover__info__area').html('');
                 let data = d.data[0];
                 $('.bluemark_idx').attr('bluemark_idx', data.bluemark_idx);
                 var strDiv = `
-                    <div class="certified_table">
-                    <tr>
-                        <td><p>${data.product_name}</p>
-                        <p>${data.member_id}</p></td>
-                    </tr>
-                    <tr>
-                        <td><p>${data.color}</p>
-                        <p>${data.update_date}</p></td>
-                    </tr>
-                    <tr>
-                        <td><p><span class="certified_btn">CERTIFIED</span></p>
-                    <p>${data.serial_code}</p></td>
-                    </tr>
-                    </div>
+                        <div class="flex__row">
+                            <p>${data.product_name}</p>
+                            <p>${data.member_id}</p>
+                        </div>
+                        <div class="flex__row">
+                            <p>${data.color}</p>
+                            <p>${data.update_date}</p>
+                        </div>
+                        <div class="flex__row">
+                            <p><span class="certified_btn">CERTIFIED</span>
+                            <p>${data.serial_code}</p>
+                        </div>
                 `;
-                $('#handover__info__table').append(strDiv);
+                $('#handover__info__area').append(strDiv);
             }
         }
     });
@@ -609,6 +639,7 @@ function verifyBluemark() {
 }
 
 function getBluemarkList() {
+    var use_form = $('#frm-bluemark-list');
     let listTable = $('.bluemark_list_table');
     let listTableMobile = $('.bluemark_list_table_mobile');
 
@@ -633,11 +664,15 @@ function getBluemarkList() {
             </td>
         </tr>
     `);
+    var rows = use_form.find('input[name="rows"]').val();
+	var page = use_form.find('input[name="page"]').val();
 
     $.ajax({
         type: "post",
         data: {
-            "country": "KR"
+            "country": "KR",
+            'rows': rows,
+            'page': page 
         },
         dataType: "json",
         url: "http://116.124.128.246:80/_api/product/bluemark/list/get",
@@ -701,6 +736,15 @@ function getBluemarkList() {
                     })
                     listTable.append(strDiv);
                     listTableMobile.append(strMobileDiv);
+                    var showing_page = Math.ceil(d.total/rows);
+                    bluemarkPaging({
+                        total : d.total,
+                        el : use_form.find(".mypage__paging"),
+                        page : page,
+                        row : rows,
+                        show_paging : showing_page,
+                        use_form : use_form
+                    });
                 }
             }
         }
@@ -776,4 +820,57 @@ $('.close').on("click", function () {
     $('.voucher__handover__wrap').hide();
 });
 
+function bluemarkPaging(obj) {
+	if(typeof obj != 'object' || 'total' in obj == false || 'el' in obj == false) {
+		return;
+	}
+	if('page' in obj == false) obj.page = 1;
+	if('row' in obj == false) obj.row = 10;
+	if('show_paging' in obj == false) obj.show_paging = 9;
+	
+	let total_page = Math.ceil(obj.total/obj.row);
+
+	// 이전 페이징
+	let prev = obj.page - obj.show_paging;
+	if(prev < 1) prev = 1;
+
+	// 다음 페이징
+	let next = obj.page + obj.show_paging;
+	if(next > total_page) next = total_page;
+
+	// 페이지 시작 번호
+	let start = obj.page - Math.ceil(obj.show_paging / 2 ) + 1;
+	if(start < 1) start = 1;
+
+	// 페이지 끝 번호
+	let end = start + obj.show_paging - 1;
+	if(end > total_page) {
+		end = total_page;
+		start = end - obj.show_paging + 1;
+		if(start < 1) start = 1;
+	}
+	if(end < 1) {
+		total_page = 1;
+		end = 1;
+		next = 1;
+		prev = 1;
+		start = 1;
+	}
+	let paging = [];
+	for(var i = start ; i <= end ; i++) {
+		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}">${i}</div>`);
+	}
+	$(obj.el).html(`
+            <div class="mypage--paging">
+                <div class="page prev" data-page="${prev}"><</div>
+				${paging.join("")}
+				<div class="page next" data-page="${next}">></div>
+			</div>
+		`);
+    $(obj.el).find(".mypage--paging .page").click(function() {
+        var new_page = $(this).data("page");
+        $(obj.use_form).find('input[name="page"]').val(new_page);
+        getBluemarkList();
+    });
+}
 </script>

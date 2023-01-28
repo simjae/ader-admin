@@ -11,29 +11,25 @@
 .stanby__tab__btn__container{
     grid-column: 1/17;
     margin: 0 auto;
-    width:230px;
     display:grid;
     place-items: center;
-    grid-template-columns: 80px 80px 70px;
-}
-.stanby__tab__wrap{
-    grid-column:6/12;
-    width:100%;
-    margin:0 auto;
-    margin-top:50px;
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
+    gap:10px;
+    grid-template-columns: 70px 70px 70px;
 }
 .stanby__apply__form__wrap, .stanby__result__form__wrap{
-    grid-column:1/7;
     width:100%;
+    margin: 0;
+}
+.stanby__wrap .title{
+    margin-bottom: 10px;
+    margin-top: 0 !important;
 }
 .stanby__notice__wrap{
-    grid-column:2/6;
-    width:100%;
+    width:470px;
+    margin:0 auto;
 }
 .stanby__container{
-    margin: 0 auto;
+    margin-top: 40px;
     width:100%;
     display:grid;
     place-items: center;
@@ -41,11 +37,13 @@
 }
 .stanby__item{
     width:100%;
-    padding-top:30px;
+    padding: 95px 10px 0 0;
 }
 .stanby__wrap img{
     width:100%;
+    min-width:80px;
 }
+
 .stanby__item .item__title{
     margin-top:15px;
     font-size: 13px;
@@ -60,7 +58,6 @@
     margin-top:20px;
     font-size: 11px;
     font-family:var(--ft-no-fu);
-    margin-bottom:30px;
 }
 .stanby__wrap img{
     max-width: 100%;
@@ -68,7 +65,6 @@
 .stanby__tab__contents{
     width:100%;
     margin: 0 auto;
-    padding-top:50px;
     padding-bottom:50px;
 }
 .stanby__wrap .contents__table{
@@ -86,15 +82,28 @@
 .stanby__notice__wrap{
     margin:0 auto;
 }
-@media (min-width: 1024px){
-    .orderlist__tab__contents{width:950px;}
+.stanby__wrap .description{padding-left:6px;}
+.stanby__wrap .description_no_margin{padding-left:6px;}
+.description_no_margin p{
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-family: var(--ft-no-fu);
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.65;
+    letter-spacing: normal;
+    text-align: left;
+    color: #343434;
+    text-indent: -6px;
+    word-break: break-all;
 }
 @media (max-width: 1024px){
     .stanby__notice__wrap{
         grid-column:1/7;
         width:100%;
     }
-    .stanby__tab__wrap{grid-column:1/17;width:100%}
+    .stanby__tab__wrap{grid-column:1/17;width:100%;margin-top:40px;}
     .stanby__tab__contents{width:100%}
     .stanby__container{
         margin: 0 auto;
@@ -108,6 +117,23 @@
         font-size:11px;
     }
     .stanby__notice__wrap{width:100%;}
+}
+@media (min-width: 600px) {
+    .stanby__tab__wrap {
+        grid-column: 1/17;
+        width:580px;
+        margin:0 auto;
+        margin-top:40px;
+    }
+}
+@media (min-width: 1024px){
+    .stanby__tab__wrap{
+        grid-column:1/17;
+        width:710px;
+        margin:0 auto;
+        margin-top:50px;
+    }
+    .orderlist__tab__contents{width:950px;}
 }
 </style>
 <div class="stanby__wrap">
@@ -127,7 +153,7 @@
             <div class="title">
                 <p>스탠바이 응모하기</p>
             </div>
-            <div class="description">
+            <div class="description_no_margin">
                 <div class="pc__view">
                     <p>·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
                     <p>&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
@@ -137,7 +163,7 @@
                 <div class="mobile__view">
                     <p>·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
                     <p>&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
-                    <p>&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br>&nbsp;&nbsp;시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
+                    <p>&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br>시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
                 </div>
             </div>
             <div class="info__wrap">
@@ -165,7 +191,7 @@
                 <p>·&nbsp;STAND BY 는 ‘아더 공식 온라인 스토어 회원가입 대상자’만 신청 가능합니다.</p>
                 <p>·&nbsp;STAND BY 는 선착순으로 진행되며, 한정 수량 종료 시, 구매가 어려울 수 있는 점 참고 바랍니다.</p>
                 <p class="next__line__exist">·&nbsp;회원 정보의 전화번호로 구매 링크가 발송되오니 참여 전</p>
-                <p>&nbsp;&nbsp;고객님의 회원정보의 전화번호가 현재의 번호와 동일한지 확인 바랍니다.</p>
+                <p>&nbsp;고객님의 회원정보의 전화번호가 현재의 번호와 동일한지 확인 바랍니다.</p>
                 <p>·&nbsp;정보 오기입으로 인해 발생되는 불이익에 대해서는 책임지지 않으니 정보 입력 후 재확인 부탁드립니다.</p>
                 <p>·&nbsp;STANDBY 참여자는 개별 문자(LMS)로 구매 링크가 전송됩니다.</p>
                 <p>·&nbsp;STANDBY 참여자라 하더라도 재고 소진 시 구매 기회는 보장되지 않습니다.</p>
@@ -296,10 +322,10 @@ function getEntryStandby(){
                                     <div class="contents__table">
                                         <table>
                                             <colsgroup>
-                                                <col style="width:17%;">
-                                                <col style="width:17%;">
-                                                <col style="width:33%;">
-                                                <col style="width:32%;">
+                                                <col style="width:120px;">
+                                                <col style="width:120px;">
+                                                <col style="width:240px;">
+                                                <col style="width:230px;">
                                             </colsgroup>
                                             <tbody>
                                                 <tr>

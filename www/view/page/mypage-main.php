@@ -87,6 +87,8 @@ input::placeholder {
     letter-spacing: normal;
     text-align: left;
     color: #343434;
+    text-indent: -6px;
+    word-break: break-all;
 }
 .mypage__wrap p,.mypage__wrap span {
     font-family:var(--ft-no-fu); 
@@ -112,6 +114,7 @@ input::placeholder {
     font-size: 13px;
     text-align: center;
 }
+.icon__item{cursor:pointer}
 .icon__item .icon{
     margin: 0 auto;
     background-image: url("data:image/svg+xml,%3Csvg id='구성_요소_152_1' data-name='구성 요소 152 – 1' xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E .cls-1, .cls-3 %7B fill: none; %7D .cls-1 %7B stroke: %23dcdcdc; %7D .cls-2 %7B stroke: none; %7D %3C/style%3E%3C/defs%3E%3Cg id='타원_85' data-name='타원 85' class='cls-1'%3E%3Ccircle class='cls-2' cx='25' cy='25' r='25'/%3E%3Ccircle class='cls-3' cx='25' cy='25' r='24.5'/%3E%3C/g%3E%3C/svg%3E%0A");
@@ -151,28 +154,33 @@ input::placeholder {
     height:50px;
     margin: 0 auto;
 }
-
 .mypage__container{
     width:100%;
     display:grid;
     grid-template-columns:repeat(16,1fr);
 }
-.mypage__items:nth-child(1){
-    grid-column: 8/10;
-    padding-top:40px;
+.mypage__items.profile{
+    grid-column: 1/17;
     width:100%;
-    display:block;
-    margin: 0 auto;
+    margin:0 auto;
+    margin-top:40px;
 }
-.mypage__items:nth-child(2){
-    grid-column: 8/10;
-    padding-top:30px;
-    width:100%;
+.btn__items{
+    grid-column: 1/17;
+    padding-top:40px;
     display:grid;
     place-items: center;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(15,80px);
+    margin:0 auto;
 }
-
+.profile_info{
+    grid-column: 1/17;
+    display:grid;
+    place-items: center;
+    grid-template-columns:repeat(3,110px);
+    margin:0 auto;
+    margin-top:30px;
+}
 .mypage__tab__container{
     width:100%;
     display:grid;
@@ -187,16 +195,6 @@ input::placeholder {
 .point__item{
     width:100%;
 }
-
-.mypage__items:nth-child(3){
-    padding-top:50px;
-    width:100%;
-    grid-column: 4/14;
-    display:grid;
-    place-items: center;
-    grid-template-columns:repeat(15,1fr);
-}
-
 .profile__member__name{
     margin-top: 9px;
     height: 16px;
@@ -319,6 +317,15 @@ td p{
     border-radius: 1px;
     border: solid 1px #dcdcdc;
 }
+.gray__mypage__btn{
+    width:100%;
+    height:40px;
+    background-color: #dcdcdc;
+    color:black;
+    text-align: center;
+    border-radius: 1px;
+    border: solid 1px #dcdcdc;
+}
 .next__line__exist{
     margin-bottom:0px!important;
 }
@@ -370,60 +377,78 @@ td p{
     margin-left:10px;
     margin-bottom:20px;
 }
-@media (min-width: 1024px){
+.swiper.tab__btn{
+    width:calc(100% - 20px);
+    overflow: hidden;
+}
+.swiper.tab__btn .swiper-slide{
+    width:auto;
+}
+.swiper.icon{
+    margin-top:30px;
+    margin-right:15px;
+}
+.swiper.icon .swiper-slide{
+    width:70px!important;
+}
+.swiper.icon{
+    width:calc(100% - 20px);
+    overflow: hidden;
+}
+.mypage__paging{
+    margin-top:30px;
+}
+.mypage--paging{
+    margin:0 auto;
+    display:flex;
+    width:110px;
+    justify-content:center;
+}
+.tab__btn__item{cursor:pointer}
+.mypage--paging .page{width:30px;text-align: center;}
+.mypage--paging .page.prev{width:10px;}
+.mypage--paging .page.next{width:10px;}
+@media (min-width: 1250px){
     .swiper.icon{
         display:none;
     }
+}
+@media (max-width: 1250px){
+    .mypage__items.btn__items{
+        display:none;
+    }
+    .swiper.icon .swiper-slide{
+        width:80px!important;
+    }
+}
+@media (min-width: 1024px){
     .pc__view{display:block}
     .mobile__view{display:none}
 }
-@media (max-width: 1860px){
-    .mypage__items:nth-child(3){
-        grid-column: 3/15;
-    }
-}
-@media (max-width: 1560px){
-    .mypage__items:nth-child(1){
-        grid-column: 7/11;
-    }
-    .mypage__items:nth-child(2){
-        grid-column: 7/11;
-    }
-    .mypage__items:nth-child(3){
-        grid-column: 2/16;
-    }
-}
-@media (max-width: 1340px){
-    .mypage__items:nth-child(3){
-        grid-column: 1/17;
-    }
-    .icon__title p{
-        font-size:11px;
-    }
-}
+
 @media (max-width: 1024px){
-    .mypage__items.btn__items{
-        display:none;
+    .mypage .product .wish__btn{padding-top:15px;padding:right:10px;}
+    .mypage .product .wish__btn img{width:14px!important;height:12.2px;}
+    .mypage .product .product-info .info-row .price[data-dis="true"]::before{margin-top:3px;}
+    .swiper.icon .swiper-slide{
+        width:70px!important;
+    }
+    .mypage__items.profile{
+        grid-column: 1/9;
+        margin-top:20px;
     }
     .mypage__container{
         width:100%;
         display:grid;
         grid-template-columns:repeat(8,1fr);
     }
-    .mypage__items:nth-child(1){
-        grid-column: 3/7;
-        padding-top:40px;
-        width:100%;
-        display:block;
-        margin: 0 auto;
-    }
-    .mypage__items:nth-child(2){
-        grid-column: 3/7;
-        padding-top:30px;
-        width:100%;
+    .profile_info{
+        grid-column: 1/9;
         display:grid;
         place-items: center;
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:repeat(3,90px);
+        margin:0 auto;
+        margin-top:20px;
     }
 
     .point__item{
@@ -448,27 +473,19 @@ td p{
     .pc__view{display:none}
     .mobile__view{display:block} 
     .mobile__view table{width:100%;}
+    .mypage .foryou-wrap .foryou-swiper .product .product-info .color__box{
+        margin-bottom:6px;
+    }
 }
-.swiper.icon{
-    margin-top:30px;
-    margin-right:15px;
-}
-.swiper.icon .swiper-slide{
-    width:80px!important;
-}
-.swiper.icon{
-    width:calc(100% - 20px);
-    overflow: hidden;
-}
+
 </style>
 <?php
-    print_r($_SESSION);
 	if(!isset($_SESSION['MEMBER_IDX'])){
-        /*echo "
+        echo "
                 <script>
                     location.href = '/login';
                 </script>
-		";*/
+		";
     }
 ?>
 <main>
@@ -746,14 +763,15 @@ td p{
     </div>
     
     <div style="margin-bottom:100px;"></div>
-    <aside class="foryou__wrapper">
+    <aside class="foryou__wrapper mypage">
         <div class="title"><p>For you   ></p></div>
         <div class="recommend-wrap"></div>
     </aside>
 </main>
 <script>
+var swiperMypage = '';
 $(document).ready(function() {
-    const swiperExample = new Swiper(".swiper.icon" , {
+    swiperMypage = new Swiper(".swiper.icon" , {
 		//옵션은 유동적으로 필요한부분만 추가해서 사용가능,
 		navigation: {
 		    nextEl: ".swiper .swiper-button-next",
@@ -769,9 +787,30 @@ $(document).ready(function() {
         loop:false,
         loopAdditionalSlides:1
 	});
+    swiperTabBtn = new Swiper(".swiper.tab__btn" , {
+		//옵션은 유동적으로 필요한부분만 추가해서 사용가능,
+		navigation: {
+		    nextEl: ".swiper .swiper-button-next",
+		    prevEl: ".swiper .swiper-button-prev",
+		},
+		pagination: {
+		    el: ".swiper-pagination",
+		    clickable: true,
+		},
+		autoHeight: true,
+		grabCursor: true,
+        slidesPerView:'auto',
+        loop:false,
+        loopAdditionalSlides:1,
+        spaceBetween:10
+	});
     $(".tab__btn__item").on('click', function(){
-        var parent_class = $(this).parent().attr('class');
-        var btn_group = $('.'+parent_class+' .tab__btn__item');
+        var ancestorObj = $(this).parents('.menu__tab');
+        var btn_parents = ancestorObj.children().eq(1).children().eq(0);
+        var swiper_btn_parents = ancestorObj.children().eq(1).children().eq(1);
+
+        var btn_group = btn_parents.find('.tab__btn__item');
+        var swiper_btn_group = swiper_btn_parents.find('.tab__btn__item');
         var btn_length = btn_group.length;
         var old_src = '';
         var sel_old_src = '';
@@ -781,11 +820,14 @@ $(document).ready(function() {
             old_src = btn_group.eq(i).children().attr('src');
             default_src = old_src.replace('select','default');
             btn_group.eq(i).children().attr('src', default_src);
+            swiper_btn_group.eq(i).children().attr('src', default_src);
         }
         var select_src = '';
         sel_old_src = $(this).children().attr('src');
         select_src = sel_old_src.replace('default','select');
-        $(this).children().attr('src', select_src);
+
+        btn_group.eq($(this).index()).children().attr('src', select_src);
+        swiper_btn_group.eq($(this).index()).children().attr('src', select_src);
 
         var tab_class = $('#btn_type').val() + '__tab';
         var form_id = $(this).attr('form-id');
@@ -795,6 +837,11 @@ $(document).ready(function() {
             $('.' + form_id).show();
             
         }
+        ancestorObj.find('input[type="password"]').val('');
+        ancestorObj.find('input[type="text"]').val('');
+        ancestorObj.find('.select-items.select-hide').hide();
+        ancestorObj.find('.toggle__item .question .down__up__icon').attr('src','http://116.124.128.246/images/mypage/mypage_down_tab_btn.svg');
+        $('.request').hide();
     })
     $('.question').on('click', function(){
         if($(this).next().css('display') == 'none'){
@@ -806,7 +853,10 @@ $(document).ready(function() {
         }
         $(this).next().toggle();
     })
-    
+    $('.swiper-slide.icon__item').on('click', function(){
+        swiperMypage.slideTo($(this).index()-1);
+    });
+
     let country = "KR";
     $.ajax({
         type: "post",
@@ -836,6 +886,7 @@ $(document).ready(function() {
                 $('#voucher_cnt').text(`${data.voucher_cnt}`);
                 $('#mypage_member_name').text(`${data.member_name}`);
                 $('#mypage_member_id').text(`${data.member_id}`);
+                $('html').scrollTop(0);
             }
         }
     });
@@ -851,9 +902,11 @@ function mypageTabBtnClick(obj) {
     
     $('.click__icon__item').removeClass('click__icon__item');
     $('.click__icon__item').addClass('icon__item');
-    
+    //console.log($(obj).index());
+    $('.swiper-slide.icon__item').eq($(obj).index()).addClass('click__icon__item');
+    $('.mypage__items.btn__items .icon__item').eq($(obj).index()).addClass('click__icon__item');
     $(obj).addClass('click__icon__item');
-
+    swiperMypage.slideTo($(obj).index()-1);
     $('#mypage_tab_' + btn_type).find('.tab__btn__item').eq(0).click();
 }
 

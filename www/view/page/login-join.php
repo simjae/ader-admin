@@ -75,32 +75,38 @@ input::-webkit-inner-spin-button {
     visibility:hidden;
     margin-bottom:2px;
 }
-input[name="member_id"]{
+.join__card input[name="member_id"]{
     font-family: var(--ft-fu)!important;
 }
-input[type="checkbox"] + label{
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin-top:3px;
-    margin-right:4px;
-    border-radius: 1px;
-    border: solid 1px #808080;
-    cursor:pointer;
+
+.join__card [type="checkbox"] {
+  vertical-align: middle;
+  appearance: none;
+  border: 1px solid gray;
+  width: 10px;
+  height: 10px;
+  margin: 0px;
+  padding: 0px;
 }
-input[type="checkbox"]:checked + label{
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin-top:3px;
-    margin-right:4px;
-    border-radius: 1px;
-    border: solid 1px #000000;
-    cursor:pointer;
+.join__card [type="checkbox"]:checked {
+    background-color: #000000;
 }
-.join__card input[type="checkbox"]{
-    display:none;
+.join__card label{
+    padding-right: 10px;
+    vertical-align: middle;
 }
+.join__card label p,label span{
+    font-size: 11px;
+    font-family:var(--ft-no-fu);
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #343434;
+}
+
 input[type="button"]{
     object-fit: contain;
     font-family: var(--ft-no);
@@ -703,7 +709,7 @@ function joinAction(){
             success:function(data){
                 if(data.code == "200") {
                     //location.reload();
-                    location.href='/login';
+                    location.href='/main';
                     console.log('회원가입 성공');
                 }
                 else {

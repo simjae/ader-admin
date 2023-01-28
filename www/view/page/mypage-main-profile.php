@@ -11,13 +11,6 @@
         place-items: center;
         grid-template-columns: 80px 80px 80px 90px 80px;
     }
-
-    .profile__tab__wrap {
-        width: 490px;
-        margin: 0 auto;
-        margin-top: 80px;
-    }
-
     .profile__wrap .contents__table {
         border: none;
         width: 470px;
@@ -184,8 +177,7 @@
         flex-direction: column;
     }
     .default_destination {
-        height: 290px;
-        width: 470px;
+        width:100%;
         display: flex;
         flex-direction: column;
     }
@@ -265,6 +257,56 @@
     .addr-row > span {
         color: #dcdcdc;
     }
+    .black__full__width__btn.new__delivery{width:100%}
+    .profile__tab {width:100%;height:100%;padding-top:20px;}
+    @media (max-width: 1024px){
+        
+        .profile__tab__wrap {
+            width: 100%;
+            margin: 0 auto;
+            margin-top: 60px;
+        }
+        .profile__wrap .contents__table{
+            width: 100%;
+        }
+        .profile__tab__wrap table{width:100%;}
+        .btn__area.profile{
+            width: 100%;
+        }
+        .profile__pw__update__wrap{
+            width: 100%;
+        }
+        .pw_form input{width:100%;}
+        .profile__tel__update__wrap{width:100%;}
+        .profile__tel__update__wrap .black__btn{width:100%;}
+        .profile__delivery__wrap{width:100%}
+        .profile__account__delete__wrap{width:100%;height:100%;}
+        .profile__tab.profile__set__wrap .contents__table{margin-top:0px;padding-top:0px}
+    }
+    @media (min-width: 600px) {
+        .profile__tab__wrap {
+            width:580px;
+            margin:0 auto;
+            margin-top: 60px;
+        }
+    }
+    @media (min-width: 1024px) {
+        .profile__tab__wrap {
+            width: 490px;
+            margin: 0 auto;
+            margin-top: 60px;
+        }
+    }
+    @media (max-width: 445px) {
+        .profile__tab__btn__container {
+            display:none;
+        }
+    }
+    @media (min-width: 445px) {
+        .profile__wrap .swiper.tab__btn {
+            display:none;
+        }
+    }
     /* .address_info {
         color: #191919;
     } */
@@ -287,6 +329,25 @@
             <img src="/images/mypage/tab/default_marketing_btn.svg">
         </div>
     </div>
+    <div class="swiper tab__btn">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide tab__btn__item" form-id="profile__set__wrap">
+                <img src="/images/mypage/tab/select_profile_set_btn.svg">
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="profile__credit__update__wrap">
+                <img src="/images/mypage/tab/default_credit_btn.svg">
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="profile__customize__purchase__wrap">
+                <img src="/images/mypage/tab/default_customize_purchase_btn.svg">
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="profile__delivery__wrap" onclick="getOrderToList()">
+                <img src="/images/mypage/tab/default_delivery_btn.svg">
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
+                <img src="/images/mypage/tab/default_marketing_btn.svg">
+            </div>
+        </div>
+    </div>
     <div class="profile__tab__wrap">
         <div class="profile__tab profile__set__wrap">
             <div class="contents__table">
@@ -298,8 +359,8 @@
                     </colsgroup>
                     <tbody>
                         <tr>
-                            <td>이름</td>
-                            <td>
+                            <td style="padding-top:0px;">이름</td>
+                            <td style="padding-top:0px;">
                                 <?= $_SESSION['MEMBER_NAME'] ?>
                             </td>
                         </tr>
@@ -333,7 +394,7 @@
                     </tbody>
                 </table>
             </div>
-            <div style="width: 470px;">
+            <div class="btn__area profile">
                 <div style="padding:30px 0 20px 0;border-bottom:1px solid #dcdcdc">
                     <button class="black__btn" action-type="to_main" onclick="putMemberPwAndTel()">저장</button>
                 </div>
@@ -405,10 +466,8 @@
                         style="color:red;text-align:right;"></span>
                 </label>
             </div>
-            <div style="width: 450px;">
-                <button class="black__btn" style="margin: 20px 0;" action-type="send_code"
-                    onclick="buttonAction(this)">코드전송</button>
-            </div>
+            <button class="black__btn" style="margin: 20px 0;" action-type="send_code"
+                onclick="buttonAction(this)">코드전송</button>
         </div>
         <div class="profile__tab profile__tel__update__confirm__wrap">
             <div class="title" style="margin-bottom: 14px;">
@@ -439,7 +498,7 @@
         <div class="profile__tab profile__account__delete__wrap">
             <div class="title" style="height:19px;">
                 <p style="font-size: 13px;">계정삭제</p>
-                <div class="close" onclick="closeTab(this)" actiom-type="close_account_delete">
+                <div class="close" onclick="closeTab(this)" action-type="close_account_delete">
                     <img src="/images/mypage/tmp_img/X-12.svg"/>
                 </div>
             </div>
@@ -543,27 +602,23 @@
         </div>
         <div class="profile__tab profile__delivery__wrap">
             <div class="list__delivery__wrap" style="display: block;">
-                <div>
-                    <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
-                        <p style="font-size: 13px; padding-bottom: 9.5px">기본 배송지</p>
-                    </div>
-                    <table>
-                        <tbody class="default__list delivery_table_wrap">
-                        </tbody>
-                    </table>
+                <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
+                    <p style="font-size: 13px; padding-bottom: 9.5px">기본 배송지</p>
                 </div>
+                <table style="width:100%">
+                    <tbody class="default__list delivery_table_wrap">
+                    </tbody>
+                </table style="width:100%">
                 <div class="other_list_wrap">
                     <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
                         <p style="font-size: 13px; padding-bottom: 9.5px">다른 배송지</p>
                     </div>
-                    <table>
+                    <table style="width:100%">
                         <tbody class="other__list delivery_table_wrap">
                         </tbody>
                     </table>
                 </div>
-                <div style="padding-top: 19.5px" action-type="update_order_to" onclick="buttonAction(this)">
-                    <img src="/images/mypage/tab/select_delivery_add_btn.svg">
-                </div>
+                <button class="black__full__width__btn new__delivery" action-type="update_order_to" onclick="buttonAction(this)">저장</button>
             </div>
         </div>
 
@@ -722,7 +777,7 @@
             case 'send_code':
                 if($('input[name="tel_certificate"]').val() == ''){
                     $('.profile__tel__update__wrap').show();
-                    tel_err_str = '휴대전화를 입력해주세요';
+                    tel_err_str = '휴대전화 번호를 입력해주세요';
                 }
                 else{
                     if($('#ck_sendcode_phone').is(':checked') == true) {
@@ -928,12 +983,10 @@
                         let detailAddr = headData.to_detail_addr ? (' ' + headData.to_detail_addr) : '';
                         strDiv +=     '<td>' + addr + detailAddr + '</td>';
                         strDiv +=     '<td>' + headData.to_zipcode + '</td>';
-                        strDiv +=     '<td style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
-                        strDiv +=         '<div class="order_to_idx" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">';
-                        strDiv +=             '<img src="/images/mypage/tab/select_delivery_change_btn.svg">';
-                        strDiv +=         '</div>';
-                        strDiv +=         '<div class="order_to_idx" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">';
-                        strDiv +=             '<img src="/images/mypage/tab/select_delivery_cancel_btn.svg">';
+                        strDiv +=     '<td>';
+                        strDiv +=     '     <div style="width:100%;display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
+                        strDiv +=         '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
+                        strDiv +=         '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
                         strDiv +=         '</div>';
                         strDiv +=    '</td>';
                         strDiv += '</tr>';
@@ -1303,6 +1356,7 @@
     // 닫기버튼
     function closeTab(obj) {
         let actionType = $(obj).attr('action-type');
+        console.log(actionType);
         switch (actionType) {
             case 'close_pw_update':
                 $('.current_pw').val('');

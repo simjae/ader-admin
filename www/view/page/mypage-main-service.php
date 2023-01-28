@@ -11,11 +11,6 @@
     place-items: center;
     grid-template-columns: 70px 134px 70px 100px;
 }
-.service__tab__wrap{
-    width:710px;
-    margin:0 auto;
-    margin-top:50px;
-}
 .service__tab__wrap .title{
     margin-bottom:30px;
 }
@@ -91,17 +86,33 @@
     margin-bottom:100px;
 }
 
-@media (min-width: 1024px){
-}
 @media (max-width: 1024px){
-    .service__tab__wrap{width:100%;}
+    .service__tab__wrap{width:100%;margin-top:37px;}
     .service__wrap .description{width:100%}
     .toggle__list{width:100%}
-    .service__tab__btn__container{
-        margin: 0 auto;
-        width:340px;
-        gap:3px;
-        grid-template-columns: 56px 124px 56px 94px;
+}
+@media (min-width: 600px) {
+    .service__tab__wrap {
+        width:580px;
+        margin:0 auto;
+        margin-top:37px;
+    }
+}
+@media (min-width: 1024px) {
+    .service__tab__wrap{
+        width:710px;
+        margin:0 auto;
+        margin-top:50px;
+    }
+}
+@media (max-width: 445px) {
+    .service__tab__btn__container {
+        display:none;
+    }
+}
+@media (min-width: 445px) {
+    .service__wrap .swiper.tab__btn {
+        display:none;
     }
 }
 </style>
@@ -120,127 +131,26 @@
             <img src="/images/mypage/tab/default_personal_policy_btn.svg">
         </div>
     </div>
+    <div class="swiper tab__btn">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide tab__btn__item" form-id="service__notice__wrap">
+                <img src="/images/mypage/tab/select_notice_list_btn.svg">
+            </div>
+            <div class="swiper-slide tab__btn__item"  form-id="service__guide__wrap">
+                <img src="/images/mypage/tab/default_store_guide_btn.svg">
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="service__terms__wrap">
+                <img src="/images/mypage/tab/default_terms_btn.svg">
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="service__policy__wrap">
+                <img src="/images/mypage/tab/default_personal_policy_btn.svg">
+            </div>
+        </div>
+    </div>
     <div class="service__tab__wrap">
         <div class="service__tab service__notice__wrap">
             <div class="toggle__list float__none">
                 <div class="toggle__list__tab 01">
-                    <div class="toggle__item">
-                        <div class="question">
-                            <img src="/images/mypage/mypage_fixed_icon.svg" style="float:left;margin-right:5px;">
-                            <span>본인 인증 방법 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none">
-                            <p>
-                                2022년 1월부터 본인 인증 기능이 활성화되어, 기존 가입 고객의 경우,<br>
-                                로그인-마이페이지-회원정보 내 휴대폰 인증이 가능합니다.
-                            </p>
-                            <p>
-                                휴대폰 인증 완료하신 후 페이지 하단의 정보 수정 버튼을 클릭해주셔야 정상 인증 완료 및 정보 수정 처리됩니다.
-                            </p>
-                            <p>
-                                추후 경험 가능하신 헤택과 이벤트의 경우 본인 인증이 완료된 고객 대상 기준으로 선정이 되어,<br>
-                                꼭 본인 인증 완료하신 후 온라인 스토어 이용하시기를 권장드립니다.
-                            </p>
-                            <p>
-                                감사합니다.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <img src="/images/mypage/mypage_fixed_icon.svg" style="float:left;margin-right:5px;">
-                            <span>ADER 생일 기프트 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none">
-                            <img src="/images/mypage/sample_notice/notice_birth_contents.png" style="width:100%">
-                        </div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>A/S PROCESS</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>반품 및 환불 PROCESS</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>교환 PROCESS</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>특정 제품의 교환 및 환불 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>적립금 변동 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>가먼트(Garment) 워싱 제품 케어 공지</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>CS 및 배송 점검일 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>교환/반품 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>ADER CONTACT</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>Bluemark Guide</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>카카오톡 플러스 친구 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
-                    <div class="toggle__item">
-                        <div class="question">
-                            <span>세탁시 주의사항 안내</span>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
-                        </div>
-                        <div class="request" style="display:none"><span>답변 미정</span></div>
-                    </div>
                 </div>
             </div>
             <div class="footer"></div>
@@ -799,7 +709,7 @@ $(document).ready(function(){
                                 <div class="question">
                                     ${fix_btn}
                                     <span>${row.title}</span>
-                                    <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right">
+                                    <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right;margin-top:10px;">
                                 </div>
                                 <div class="request" style="display:none">
                                     ${row.contents}
@@ -809,9 +719,13 @@ $(document).ready(function(){
                         $('.toggle__list__tab.01').append(strDiv);
                     })
                 }
+                $('.service__tab__wrap .request p').css('text-align','left');
+                $('.service__tab__wrap .request img').css('width','670px');
             }
             
             $('.question').on('click', function(){
+                $('.request').hide();
+                $('.question').find('img.down__up__icon').attr('src','/images/mypage/mypage_down_tab_btn.svg');
                 if($(this).next().css('display') == 'none'){
                     $(this).find('img.down__up__icon').attr('src','/images/mypage/mypage_up_tab_btn.svg');
                 }

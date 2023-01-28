@@ -5,30 +5,22 @@
     display:grid;
     grid-template-columns:repeat(16,1fr);
 }
+.draw__wrap .title{
+    margin-top:0px;
+    margin-bottom:10px;
+}
 .draw__wrap td p{
     height:auto;
 }
 .draw__tab__btn__container{
     grid-column: 1/17;
     margin: 0 auto;
-    width:330px;
     display:grid;
     place-items: center;
-    grid-template-columns: 80px 60px 70px 60px 60px;
+    gap:10px;
+    grid-template-columns: 70px 50px 60px 50px 60px;
 }
-.draw__tab__wrap{
-    grid-column:5/13;
-    width:100%;
-    margin:0 auto;
-    margin-top:50px;
-    display:grid;
-    grid-template-columns:repeat(8,1fr);
-}
-.draw__apply__form__wrap{grid-column:2/8;width:100%}
-.draw__result__wrap{grid-column:1/9;width:100%}
-.draw__ongoing__wrap{grid-column:1/9;width:100%}
-.draw__win__wrap{grid-column:1/9;width:100%}
-.draw__not__win__wrap{grid-column:1/9;width:100%}
+.draw__tab.draw__apply__form__wrap{width:710px;}
 .draw__apply__form__wrap{
     margin:0 auto;
 }
@@ -85,25 +77,24 @@
     width:485px;
     margin:0 auto;
 }
-@media (min-width: 1024px){
+.draw__tab.draw__ongoing__wrap .footer p{
+    font-family: var(--ft-no-fu);
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
 }
 @media (max-width: 1024px){
     .draw__tab__wrap{
         grid-column:1/17;
         width:100%;
         margin:0 auto;
-        margin-top:50px;
-        display:grid;
-        grid-template-columns:repeat(8,1fr);
+        margin-top:40px;
     }
-    .draw__apply__form__wrap{grid-column:1/9;width:100%}
-    .draw__result__wrap{grid-column:1/9;width:100%}
-    .draw__ongoing__wrap{grid-column:1/9;width:100%}
-    .draw__win__wrap{grid-column:1/9;width:100%}
-    .draw__not__win__wrap{grid-column:1/9;width:100%}
-    .draw__tab__contents{width:100%}
-    .draw__tab__wrap{width:100%;}
-    .draw__apply__form__wrap{width:100%;}
+    .draw__tab.draw__apply__form__wrap{width:100%;}
     .draw__container{
         margin: 0 auto;
         width:100%;
@@ -114,6 +105,28 @@
     }
     .contents__info .info span{
         font-size:11px;
+    }
+    .draw__item .item__title{margin-top:10px;}
+    .draw__item .item__description{margin-top:5px;}
+    .draw__item .item__status{    margin-top:10px;margin-bottom:40px;}
+    .draw__tab__contents{padding-top: 30px;padding-bottom: 30px}
+    .draw__tab__contents table td{padding-top:0px;padding-bottom:0px;}
+    .draw__tab__contents table img{margin-bottom:10px;}
+}
+@media (min-width: 600px) {
+    .draw__tab__wrap {
+        grid-column: 1/17;
+        width:580px;
+        margin:0 auto;
+        margin-top:40px;
+    }
+}
+@media (min-width: 1024px) {
+    .draw__tab__wrap{
+        grid-column:1/17;
+        width:950px;
+        margin:0 auto;
+        margin-top:50px;
     }
 }
 </style>
@@ -143,16 +156,16 @@
             <div class="description">
                 <div class="pc__view">
                     <p>·&nbsp;새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,<br>
-                        &nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.<br>
-                        &nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된 시스템으로,<br> 
-                        &nbsp;&nbsp;과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
+                        정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.<br>
+                        해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된 시스템으로,<br> 
+                        과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
                 </div>
                 <div class="mobile__view">
                     <p>·&nbsp;새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,<br>
-                        &nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및<br>
-                        &nbsp;&nbsp;구매할 수 있는 권한을 부여하는 시스템입니다.<br>
-                        &nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br> 
-                        &nbsp;&nbsp;시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
+                        정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및<br>
+                        구매할 수 있는 권한을 부여하는 시스템입니다.<br>
+                        해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br> 
+                        시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
                 </div>
                 
             </div>
@@ -329,12 +342,12 @@ function getEntryDraw(type){
                                     <div class="contents__table">
                                         <table>
                                             <colsgroup>
-                                                <col style="width:12.5%">
-                                                <col style="width:12.5%">
-                                                <col style="width:23%">
-                                                <col style="width:23%;">
-                                                <col style="width:23%;">
-                                                <col style="width:6%;">
+                                                <col style="width:120px">
+                                                <col style="width:120px">
+                                                <col style="width:240px">
+                                                <col style="width:240px">
+                                                <col style="width:190px">
+                                                <col style="width:40px;">
                                             </colsgroup>
                                             <tbody>
                                                 <tr>
@@ -373,7 +386,7 @@ function getEntryDraw(type){
                                                             <p>- ${row.purchase_end_date}</p>
                                                         </div>
                                                     </td>
-                                                    <td style="text-align:right">
+                                                    <td style="text-align:right;padding-right:0px;">
                                                         <p>${row.draw_status}</p>
                                                     </td>
                                                 </tr>

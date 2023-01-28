@@ -64,3 +64,9 @@
         margin-bottom: 10px!important;
     }
 }
+
+@media (max-width: 1024px){
+	#sidebar .side__background.open{
+		display:block;
+	}
+}

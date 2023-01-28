@@ -3,21 +3,18 @@
     margin-top:40px;
     width:100%;
 }
+.reorder__wrap .title{margin-bottom:10px;}
 .reorder__tab__btn__container{
     margin: 0 auto;
     width:230px;
     display:grid;
     place-items: center;
-    grid-template-columns: 80px 80px 70px;
+    gap:10px;
+    grid-template-columns: 70px 70px 70px;
 }
-.reorder__tab__wrap{
-    width:710px;
-    margin:0 auto;
-    margin-top:50px;
-}   
 .reorder__tab__wrap .contents__table{
     border-bottom:none;
-    margin-top:40px!important;
+    margin-top:30px!important;
 }
 .reorder__tab__wrap .contents__table p{
     margin-bottom:0px;
@@ -50,30 +47,49 @@ table.border__bottom td{
 }
 .text__btn__area.mobile{
     display:block;
+    width: 56px;
+    text-align: center;
 }
-@media (min-width: 1024px){
-    .description.reorder__apply_pc{ display:block; }
-    .description.reorder__apply_mobile{ display:none; }
+.text__btn__area.mobile.cancel{
+    display:block;
+    width: 48px;
+    text-align: center;
 }
+.reorder__apply__wrap .description{padding-left:6px;}
 @media (max-width: 1024px){
     .reorder__wrap{width:100%;}
-    .reorder__tab__wrap{width:100%;}
+    .reorder__tab__wrap{width:100%;margin-top:40px;}
     .description.reorder__apply_pc{ display:none; }
     .description.reorder__apply_mobile{ display:block;}
     .reorder__tab__wrap .contents__table p{margin-bottom:6px}
-    .text__btn__area.mobile p{margin-left:5px}
+}
+@media (min-width: 600px) {
+    .reorder__tab__wrap {
+        width:580px;
+        margin:0 auto;
+        margin-top:40px;
+    }
+}
+@media (min-width: 1024px){
+    .reorder__tab__wrap{
+        width:710px;
+        margin:0 auto;
+        margin-top:50px;
+    }   
+    .description.reorder__apply_pc{ display:block; }
+    .description.reorder__apply_mobile{ display:none; }
 }
 </style>
 
 <div class="reorder__wrap">
     <div class="reorder__tab__btn__container">
-        <div class="tab__btn__item"  form-id="reorder__apply__wrap" list-type="apply" onclick="getreorderList(this)">
+        <div class="tab__btn__item"  form-id="reorder__apply__wrap" onclick="getreorderList('apply')">
             <img src="/images/mypage/tab/select_reorder_apply_btn.svg">
         </div>
-        <div class="tab__btn__item"  form-id="reorder__alarm__wrap" list-type="alarm" onclick="getreorderList(this)">
+        <div class="tab__btn__item"  form-id="reorder__alarm__wrap" onclick="getreorderList('alarm')">
             <img src="/images/mypage/tab/default_reorder_alarm_btn.svg">
         </div>
-        <div class="tab__btn__item"  form-id="reorder__cancel__wrap" list-type="cancel" onclick="getreorderList(this)">
+        <div class="tab__btn__item"  form-id="reorder__cancel__wrap" onclick="getreorderList('cancel')">
             <img src="/images/mypage/tab/default_reorder_cancel_btn.svg">
         </div>
     </div>
@@ -92,34 +108,40 @@ table.border__bottom td{
                 <p>·&nbsp;스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
                 <p>·&nbsp;재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와<br> 관계없이 발송됩니다.</p>
             </div>
-            <div class="contents__table">
-                <div class="pc__view">
-                    <table class="border__bottom">
-                        <colsgroup>
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:110px;">
-                        </colsgroup>
-                        <tbody id="apply_reorder_result_table" class="reorder__result__table">
-                        </tbody>
-                    </table>
+            <form id="frm-reorder-list">
+                <input type="hidden" name="rows" value="10">
+                <input type="hidden" name="page" value="1">
+                <div class="contents__table">
+                    <div class="pc__view">
+                        <table class="border__bottom">
+                            <colsgroup>
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:110px;">
+                            </colsgroup>
+                            <tbody id="apply_reorder_result_table" class="reorder__result__table">
+                            </tbody>
+                        </table>
+                        <div class="mypage__paging"></div>
+                    </div>
+                    <div class="mobile__view">
+                        <table class="border__bottom">
+                            <colsgroup>
+                                <col style="width:27%;">
+                                <col style="width:27%;">
+                                <col style="width:20%;">
+                                <col style="width:26%;">
+                            </colsgroup>
+                            <tbody id="apply_reorder_result_table_mobile" class="reorder__result__table">
+                            </tbody>
+                        </table>
+                        <div class="mypage__paging"></div>
+                    </div>
                 </div>
-                <div class="mobile__view">
-                    <table class="border__bottom">
-                        <colsgroup>
-                            <col style="width:27%;">
-                            <col style="width:27%;">
-                            <col style="width:20%;">
-                            <col style="width:26%;">
-                        </colsgroup>
-                        <tbody id="apply_reorder_result_table_mobile" class="reorder__result__table">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            </form>
             <div class="footer"></div>
         </div>
         <div class="reorder__tab reorder__alarm__wrap">
@@ -196,9 +218,10 @@ table.border__bottom td{
 $('.reorder__alarm__wrap').hide();
 $('.reorder__cancel__wrap').hide();
 
-function getreorderList(obj){
+function getreorderList(str){
     var country = 'KR';
-    var list_type = $(obj).attr('list-type');
+    var use_form = $('#frm-reorder-list');
+    var list_type = str
     var table_id = list_type + '_reorder_result_table';
     var mobile_table_id = list_type + '_reorder_result_table_mobile';
     
@@ -219,11 +242,22 @@ function getreorderList(obj){
             </td>
         </tr>
     `);
+    var rows = use_form.find('input[name="rows"]').val();
+	var page = use_form.find('input[name="page"]').val();
+
+    var param = {};
+    param = {
+        'country': country,
+        'list_type' : list_type
+    };
+    if(list_type == 'apply'){
+        param.rows = rows;
+        param.page = page;
+    }
+
     $.ajax({
         type: "post",
-        data: {
-            'country': country, 
-            'list_type' : list_type},
+        data: param,
         dataType: "json",
         url: "http://116.124.128.246:80/_api/mypage/reorder/get",
         error: function(d) {
@@ -234,7 +268,7 @@ function getreorderList(obj){
                     $('.reorder__result__table').html('');
                     d.data.forEach(function(row){
                         var text_btn_area = '<div class="text__btn__area"> ';
-                        var text_btn_area_mobile = '<div class="text__btn__area mobile"> ';
+                        var text_btn_area_mobile = '<div class="text__btn__area mobile cancel"> ';
                         var strBtn = '';
                         switch(list_type){
                             case 'apply':
@@ -304,7 +338,7 @@ function getreorderList(obj){
                                     <p>${row.option_name}</p>
                                 </td>
                                 <td>
-                                    <p>QTY: 1</p>
+                                    <p>Qty: 1</p>
                                 </td>
                                 <td>
                                     ${text_btn_area_mobile}
@@ -314,6 +348,18 @@ function getreorderList(obj){
                         `;
                         $('#' + mobile_table_id).append(strDivMobile);
 
+                        if(list_type == 'apply'){
+                            var showing_page = Math.ceil(d.total/rows);
+                            reorderPaging({
+                                total : d.total,
+                                el : use_form.find(".mypage__paging"),
+                                page : page,
+                                row : rows,
+                                show_paging : showing_page,
+                                use_form : use_form,
+                                list_type : list_type
+                            });
+                        }
                     })
                 }
             }
@@ -350,5 +396,58 @@ function reorderBtnAction(obj){
             break;
     }
     $('.reorder__wrap').find('.tab__btn__item').eq(seq).click();
+}
+function reorderPaging(obj) {
+	if(typeof obj != 'object' || 'total' in obj == false || 'el' in obj == false) {
+		return;
+	}
+	if('page' in obj == false) obj.page = 1;
+	if('row' in obj == false) obj.row = 10;
+	if('show_paging' in obj == false) obj.show_paging = 9;
+	
+	let total_page = Math.ceil(obj.total/obj.row);
+
+	// 이전 페이징
+	let prev = obj.page - obj.show_paging;
+	if(prev < 1) prev = 1;
+
+	// 다음 페이징
+	let next = obj.page + obj.show_paging;
+	if(next > total_page) next = total_page;
+
+	// 페이지 시작 번호
+	let start = obj.page - Math.ceil(obj.show_paging / 2 ) + 1;
+	if(start < 1) start = 1;
+
+	// 페이지 끝 번호
+	let end = start + obj.show_paging - 1;
+	if(end > total_page) {
+		end = total_page;
+		start = end - obj.show_paging + 1;
+		if(start < 1) start = 1;
+	}
+	if(end < 1) {
+		total_page = 1;
+		end = 1;
+		next = 1;
+		prev = 1;
+		start = 1;
+	}
+	let paging = [];
+	for(var i = start ; i <= end ; i++) {
+		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}">${i}</div>`);
+	}
+	$(obj.el).html(`
+            <div class="mypage--paging">
+                <div class="page prev" data-page="${prev}"><</div>
+				${paging.join("")}
+				<div class="page next" data-page="${next}">></div>
+			</div>
+		`);
+    $(obj.el).find(".mypage--paging .page").click(function() {
+        var new_page = $(this).data("page");
+        $(obj.use_form).find('input[name="page"]').val(new_page);
+        getreorderList(obj.list_type);
+    });
 }
 </script>

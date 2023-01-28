@@ -50,15 +50,17 @@ import {Basket} from '/scripts/module/basket.js';
 		menuHtml +=
 			`<li class="header__logo" onClick="location.href='/'">
 				<img class="logo"src="/images/landing/logo.png" alt="">
-			</li>`
-		let menuCount = 0;
+			</li>
+			<li class="header__menu">
+				<ul class="menu__wrap left">`;
 		data.forEach((el, idx) => {
 			let lrgDiv = document.createElement("div");
 			let lrg = el.menu_lrg;
 			let mdl = lrg.menu_mdl;
 			if( el.menu_lrg.menu_type =="PR") {
 				menuHtml +=
-				`<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
+				`
+				<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
 					<a class="menu-ul lrg" href="${lrg.menu_link}">${lrg.menu_title}</a>
 					<div class="drop__menu">
 						<ul class="cont">
@@ -126,14 +128,12 @@ import {Basket} from '/scripts/module/basket.js';
 					</div>
 				</li>`
 			}
-			menuCount++;
 		});
-		let spaceCount = 8 - menuCount;
-		for(var i = 0 ; i < spaceCount; i++){
-			menuHtml +=	`<li class="mid__space" ></li>`;
-		}
 		menuHtml +=`
-				<li class="drop web fixmenu" data-type="FM" data-large="6">
+				</ul>
+				<ul class="menu__wrap right">`
+		menuHtml +=`
+				<li class="drop web" data-type="FM" data-large="6">
 					<a class="menu-ul lrg" href="">스토리</a>
 					<div class="drop__menu">
 						<ul class="cont fixsub">
@@ -218,91 +218,30 @@ import {Basket} from '/scripts/module/basket.js';
 						</ul>
 					</div>
 				</li>
-				<li class="drop web fixmenu" >
-					<a href="">매장찾기</a>
+				<li class="drop web" >
+					<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
 				</li>
-				<li class="right__nav">
-					<ul class="right__nav__ul">
-						<li class="web search__li side-bar" data-type="S" onclick="searchInit();">
-							<div class="flex">
-								<img class="search-svg" style="width: 14px;" src="/images/svg/search.svg" alt="">
-							</div>
-						</li>
-						<li class="search__close"  onclick="searchClose();">
-							<img class="search-close-svg" style="width: 15px;" src="/images/svg/close.svg" alt="search close">
-						</li>
-						<li class="web alg__c side-bar" data-type="E"><img class="earth-svg" style="width:17px; height:17px" src="/images/svg/earth.svg" alt=""></li>
-						<li class="flex wishlist__btn side-bar" data-type="W"><img class="wishlist-svg" style="width:18px; height:15px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
-						<li class="flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="width:12px; height:18px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
-						<li class="web bluemark__btn side-bar" data-type="M"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
-						<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L"><img class="user-svg" style="width:20px; height:20px" src="/images/svg/user-bk.svg" alt=""></li>
-						<li class="web"></li>
-						<li class="flex pr-3 lg:hidden mobileMenu">
-							<div class="hamburger" id="hamburger">
-								<span class="line"></span>
-								<span class="line"></span>
-								<span class="line"></span>
-							</div>
-						</li>
-					</ul>
-					<div class="drop__menu search__drop">
-						<ul class="cont ">
-							<li class="searchbox">
-							</li>
-							<li class="searchbox">
-								<div class="mid-a searchTitle">추천 검색어</div>
-								<div class="keywordBox">
-									<ul>
-										<li class="keywordList">쇼퍼백</li>
-										<li class="keywordList">트윈하트로고티셔츠</li>
-										<li class="keywordList">키링</li>
-										<li class="keywordList">The new is not new</li>
-										<li class="keywordList">버켄스탁 콜라보레이션</li>
-									</ul>
-								</div>
-							</li>
-							<li class="searchbox">
-							</li>
-							<li class="searchbox">
-								<div class="mid-a searchTitle">실시간 인기 제품</div>
-								<ul class="prodlist__grid">
-									<li class="fmbox">
-										<div class="prodBox">
-											<img src="http://116.124.128.246:80/images/sample/keywordProd01.png">
-											<div class="prod-title en" href="">shopper bag</div>
-										</div>
-									</li>
-									<li class="fmbox">
-										<div class="prodBox">
-											<img src="http://116.124.128.246:80/images/sample/keywordProd02.png">
-											<div class="prod-title en" href="">Product name</div>
-										</div>
-									</li>
-									<li class="fmbox">
-										<div class="prodBox">
-											<img src="http://116.124.128.246:80/images/sample/keywordProd03.png">
-											<div class="prod-title en" href="">Twin heart logo t-shirts</div>
-										</div>
-									</li>
-									<li class="fmbox">
-										<div class="prodBox">
-											<img src="http://116.124.128.246:80/images/sample/keywordProd04.png">
-											<div class="prod-title en" href="">Balboa jacket</div>
-										</div>
-									</li>
-									<li class="fmbox">
-										<div class="prodBox">
-											<img src="http://116.124.128.246:80/images/sample/keywordProd05.png">
-											<div class="prod-title en" href="">Big size standic logo cap</div>
-										</div>
-									</li>
-								</ul>
-							</li>
-							<li class="searchbox">
-							</li>
-						</ul>
+				<li class="web bluemark__btn side-bar" data-type="M"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
+				<li class="web alg__c side-bar" data-type="E">KR</li>
+				<li class="web search__li side-bar" data-type="S">					
+					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
+				</li>
+				<li class="flex wishlist__btn side-bar" data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+				<li class="flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
+				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
+					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
+					<span>MY</span>
+				</li>
+				<li class="web"></li>
+				<li class="flex pr-3 lg:hidden mobileMenu">
+					<div class="hamburger" id="hamburger">
+						<span class="line"></span>
+						<span class="line"></span>
+						<span class="line"></span>
 					</div>
-				</li>`
+				</li>`;
+		menuHtml +=`</ul>
+				</li>`;
 		menuList.innerHTML = menuHtml;
 		document.querySelector(".header__wrap").appendChild(domfrag);
 		mobileMenu();
@@ -327,8 +266,6 @@ import {Basket} from '/scripts/module/basket.js';
 						disableOnInteraction: false,
 					}
 				}); 
-				console.log($(this).find("swiper__box"));
-				console.log(swiper);
 			},{ once : true });
 		});
 		
@@ -366,68 +303,67 @@ import {Basket} from '/scripts/module/basket.js';
 		mobileMenu.classList.add("mobile__menu");
 		let domfrag = document.createDocumentFragment(mobileMenu);
 		domfrag.appendChild(mobileMenu);
+		let colaboImg = ["/sample/colabo1.png","/sample/colabo2.png","/sample/colabo3.png","/sample/colabo4.png","/sample/colabo5.png"];
 		let menuHtml = 
 		`<ul class="top">`
 		
 		data.forEach((el, idx) => {
-		let lrg = el.menu_lrg;
-		let mdl = lrg.menu_mdl;
-		menuHtml += 
-		
-		`<li class="lrg">
-			<div class="lrg__title">${lrg.menu_title}</div>
-			<div class="mdlBox">
-				<ul class="mdl">
-					<a class="mdl__title" href="${lrg.menu_link}">전체보기</a>
-					${
-					mdl.map((el,idx) => {
-							return `<a class="mdl__title"  href="${el.menu_link}">${el.menu_title}</a>`
-					}).join("")
-					}
-					<li class="swiper-li">
-						<div class="swiper m__swiper__box" data-id="${idx}" id="mobileMenuSwiper${idx}">
-							<div class="swiper-wrapper">
-								<div class="swiper-slide">
-									<div class="slide-box">
-										<img src="https://www.adererror.com/upload/2022fw/nav-collection2.jpg" alt="">
-										<span class="swiper__title">TNNN line</span>
+			let lrg = el.menu_lrg;
+			let mdl = lrg.menu_mdl;
+			
+			if( el.menu_lrg.menu_type =="PR") {
+				menuHtml += 
+				`<li class="lrg" data-lrg="${idx}">
+					<div class="lrg__back__btn"></div>
+					<div class="lrg__title">${lrg.menu_title}</div>
+					<div class="mdlBox">
+						<ul class="mdl">
+							<a class="mdl__title" href="${lrg.menu_link}">전체보기</a>
+							${
+							mdl.map((el,idx) => {
+									return `<a class="mdl__title"  href="${el.menu_link}">${el.menu_title}</a>`
+							}).join("")
+							}
+							<li class="swiper-li">
+								<div class="swiper m__swiper__box" data-id="${idx}" id="mobileMenuSwiper${idx}">
+									<div class="swiper-wrapper">
+										${
+											lrg.menu_slide.map((el, idx) => {
+											return`<div class="swiper-slide">
+														<div class="slide__wrap" style="display:flex">
+															<img src="${img_root}${el.slide_img}" alt="" style="width:110px">
+															<div class="swiper__title" style="margin-left:10px;margin-top:auto;margin-bottom:auto;margin-left:10px;font-size:13px;color:#343434">${el.slide_name}</div>
+														</div>
+													</div>`
+											}).join("")
+										}
 									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="slide-box">
-										<img src="https://www.adererror.com/upload/2022fw/nav-curve.jpg" alt="">
-										<span class="swiper__title">TNNN line</span>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="slide-box">
-										<img src="https://www.adererror.com/upload/2022fw/nav.jpg" alt="">
-										<span class="swiper__title">TNNN line</span>
-										</div>
-									</div>
-								<div class="swiper-slide">
-									<div class="slide-box">
-										<img src="https://www.adererror.com/upload/2022fw/nav-tenit.jpg" alt="">
-										<span class="swiper__title">TNNN line</span>
-									</div>
-								</div>
-							</div>
-							<div class="paging_wrap">
-								<span class="page_btn paging_first">&lt;&lt;</span>
-								<span class="page_btn paging_prev">&lt;</span>
-								<div class="num">
-									<ul class="paging_list">
-									</ul>
-								</div>
-								<span class="page_btn paging_next">&gt;</span>
-								<span class="page_btn paging_last">&gt;&gt;</span>
-							</div>
-							<div class="swiper-pagination-${idx}"></div>
-						</div>  
-					</li>
-				</ul>
-			</div>
-		</li>`
+								</div>  
+							</li>
+						</ul>
+					</div>
+				</li>`
+			}
+			if( el.menu_lrg.menu_type =="PO") {
+				menuHtml += 
+				`<li class="lrg" data-lrg="${idx}">
+					<div class="lrg__back__btn"></div>
+					<div class="lrg__title">${lrg.menu_title}</div>
+					<div class="mdlBox">
+						<ul class="mdl">
+							${
+							mdl.map((el,idx) => {
+									return `<a class="mdl__title po__wrap"  href="${el.menu_link}">
+												<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}' class="po__image">
+												<div class="po__title">${el.menu_title}</div>
+											</a>`
+							}).join("")
+							}
+							<a class="mdl__title" href="${lrg.menu_link}">콜라보레이션 전체보기</a>
+						</ul>
+					</div>
+				</li>`
+			}
 		});
 		menuHtml +=
 		`
@@ -437,10 +373,12 @@ import {Basket} from '/scripts/module/basket.js';
 				<li><span>매장찾기</span></li>
 			</ul>
 			<ul class="bottom">
+				<li class="flex gap-2"><img src="/images/svg/user-bk.svg" style="width:18px" alt=""><span>로그인</span></li>
 				<li class="flex gap-2 w-7 mobile__search__btn"><img src="/images/svg/search.svg" style="width:18px" alt=""><span>검색</span></li>
-				<li class="flex gap-2"><img src="/images/svg/earth.svg" style="width:18px" alt=""><span>한국어</span></li>
-				<li class="flex gap-2"><img src="/images/svg/blue-tag.svg" alt=""><img src="/images/svg/mobile-bluemark.svg" style="width:85px; margin-left: 7px; " alt=""></li>
-				<li class="flex gap-2"><img src="/images/svg/user.svg" style="width:18px" alt=""><span>사용자</span></li>
+				<li class="flex gap-2"><img src="/images/svg/earth.svg" style="width:18px" alt=""><span>고객서비스</span></li>
+				<li class="flex gap-2"><img src="/images/svg/blue-tag.svg" alt=""><img src="/images/svg/bluemark-bk.svg" style="width:85px; margin-left: 7px; " alt=""></li>
+				<li class="flex gap-2"><img src="/images/svg/earth.svg" style="width:18px" alt=""><span>Language</span></li>
+				
 			</ul>
 			<div class="mobile__search">
 				<div class="seach__input">
@@ -506,18 +444,38 @@ import {Basket} from '/scripts/module/basket.js';
 	}
 	/*모바일 관련*/
 	const menuLrgClick = () => {
-		let $$lrgBtn = document.querySelectorAll(".lrg__title");
-		$$lrgBtn.forEach(el => {
-			el.addEventListener("click", (e) => {
-				e.target.classList.toggle("open");
-				if (e.target.classList.contains("open")) {
-					e.target.nextElementSibling.style.display = "block"
-					mobileMdlSwipe();
-				} else {
-					e.target.nextElementSibling.style.display = "none"
-				}
-			});
+		$(".mobile__menu .lrg__title").click(function(){
+			let mdlBox_obj = $(this).siblings(".mdlBox");
+			let lrg__back__btn_obj = $(this).siblings(".lrg__back__btn");
+			
+			if($(mdlBox_obj).css("display") != "block"){
+				$(this).closest(".side__menu").addClass("lrg__on");
+				let lrg_idx = $(this).parent().attr("data-lrg") - 1;
+				$(".mobile__menu .lrg").each(function(idx,el){
+					if($(el).attr("data-lrg") < lrg_idx){
+						$(el).hide();
+					}
+					else{
+						$(el).show();
+					}
+				});
+				$(".mdlBox").slideUp(150);
+				$(".mobile__menu .lrg__title").removeClass("open");
+				$(".mobile__menu .lrg__back__btn").removeClass("open");
+				$(this).addClass("open");
+				$(lrg__back__btn_obj).addClass("open");
+				$(mdlBox_obj).slideDown(300);
+				mobileMdlSwipe();
+			}
 		});
+		$(".mobile__menu .lrg__back__btn").click(function(){
+			$(".mdlBox").slideUp(150);
+			$(".mobile__menu .lrg__title").removeClass("open");
+			$(".mobile__menu .lrg__back__btn").removeClass("open");
+			$(this).closest(".side__menu").removeClass("lrg__on");
+			$(".mobile__menu .lrg").slideDown(200);
+		});
+		
 	}
 	const mobileSearch = () => {
 		let mobile = document.querySelector("#mobile");
@@ -548,6 +506,7 @@ import {Basket} from '/scripts/module/basket.js';
 			headerHover(false);
 		});
 	})
+	
 	
 	/*디바이스 체크*/
 	function checkMobileDevice() {

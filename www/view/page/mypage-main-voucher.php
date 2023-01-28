@@ -9,12 +9,11 @@
 .voucher__tab__btn__container{
     grid-column: 1/17;
     margin: 0 auto;
-    width:382px;
     display:grid;
     place-items: center;
-    grid-template-columns: 94px 94px 94px 70px;
+    gap:10px;
+    grid-template-columns: 84px 84px 84px 70px;
 }
-.voucher__tab__wrap{grid-column:7/11;width:100%}
 .voucher__tab{
     width:100%;
     margin:0 auto;
@@ -23,7 +22,8 @@
     font-size: 11px;
 }
 .voucher__tab__wrap .description{
-    margin-top:30px;
+    
+    margin-top: 0px;
 }
 .voucher__tab__wrap .footer{
     margin-bottom:100px
@@ -35,7 +35,7 @@
     padding-top:10px;
     padding-bottom:10px;
     margin-top:20px;
-    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
 }
 .voucher__tab__wrap p{
     margin-bottom:10px;
@@ -63,9 +63,8 @@
     color:#808080;
 }
 .use__voucher__form__wrap .table__wrap{
-    padding-top:10px;
     padding-bottom:0px;
-    margin-top:10px;
+    margin-top:5px;
     border-top: 1px solid #dcdcdc;
     border-bottom: 1px solid #dcdcdc;
 }
@@ -81,22 +80,20 @@
     grid-template-columns: 215px 255px; 
     margin-top:40px;
 }
-@media (min-width: 1024px){
-    .info__wrap.possession table td:nth-child(1){
-        width:330px; 
-    }
-    .info__wrap.possession table td:nth-child(2){
-        width:140px;
-    }
-}
+.voucher__notice__form__wrap .non__border{padding-left:6px}
+.voucher__notice__form__wrap .non__border p{text-indent: -6px;word-break: break-all;}
+
 @media (max-width: 1024px){
-    .voucher__tab__btn__container, .voucher__tab__wrap{grid-column: 1/17;width:100%}
+    .voucher__tab__wrap{grid-column: 1/17;width:100%}
     .info__title__container{
         width:100%; 
         grid-template-columns: 57% 43%; 
         margin-top:30px;
     }
-    .voucher__tab{width:100%;}
+    .voucher__tab{
+        width:100%;
+        margin-top: 40px;
+    }
     .info__wrap table{width:100%;}
     .info__wrap.possession table td:nth-child(1){
         width:63%; 
@@ -114,6 +111,72 @@
     .voucher__regist__form__wrap .form input, .voucher__regist__form__wrap .form button{
         width:100%;
     }
+    .use__voucher__form__wrap .info {
+        margin-top: 0; 
+        padding-bottom: 20px;
+    }
+}
+@media (min-width: 600px) {
+    .voucher__tab__wrap {
+        grid-column: 1/17;
+        width:580px;
+        margin:0 auto;
+    }
+}
+@media (min-width: 1024px){
+    .voucher__tab__wrap{
+        grid-column:1/17;
+        width:470px;
+        margin:0 auto;
+    }
+    .info__wrap.possession table td:nth-child(1){
+        width:330px; 
+    }
+    .info__wrap.possession table td:nth-child(2){
+        width:140px;
+    }
+    .use__voucher__form__wrap .info {
+        margin-top: 0;
+        padding-bottom: 30px;
+    }
+}
+.voucher__regist__form__wrap .title {
+    margin-bottom: 30px;
+    height: 19px;
+}
+.voucher__amount__form__wrap .title {
+    font-size: 13px;
+    padding-bottom: 23.5px;
+    margin-bottom: 0;
+    border-bottom: 1px solid #dcdcdc;
+}
+.voucher__amount__form__wrap .info {
+    margin-top: 0;
+    padding-bottom: 20px;
+}
+.use__voucher__form__wrap .title {
+    font-size: 13px;
+    padding-bottom: 23.5px;
+    margin-bottom: 0;
+}
+
+.use__voucher__form__wrap .info__title__container {
+    margin-top: 10px;
+    margin-left: 0;
+}
+.use__voucher__form__wrap td {
+    padding-bottom: 0;
+}
+.info .non__usable__info {
+    margin-top: 22px;
+}
+.voucher__notice__form__wrap .title {
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+.voucher__notice__form__wrap .non__border {
+    padding-top: 0;
+    margin-top: 0;
 }
 </style>
 <div class="voucher__wrap">
@@ -143,8 +206,8 @@
                 <button class="mdl__size__btn" onclick="voucherIssue()" style="width:23%;margin-top:0px;">받기</button>
             </div>
             <div class="footer">
-                <p>· 바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p>
-                <p>· 대소문자 구분하여 입력해주세요.</p>
+                <p style="margin-bottom: 4.5px">· 바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p> 
+                <p style="margin-top: 0px">· 대소문자 구분하여 입력해주세요.</p>
             </div>
         </div>
         <div class="voucher__tab voucher__amount__form__wrap">
@@ -158,7 +221,7 @@
             <div class="footer"></div>
         </div>
         <div class="voucher__tab voucher__notice__form__wrap">
-            <div class='title'><p>유의사항</p></div>
+            <div class='title'><p>바우처 유의사항</p></div>
             <div class='info non__border'>
                 <p>· 1개의 바우처를 여러 제품에 중복 적용할 수 없습니다.</p>
                 <p>· 사용기간에 표시되는 종료 시간의 기준은 주문 완료 시점입니다.</p>
@@ -244,21 +307,19 @@ function voucherListGet(str){
                                             </colsgroup>
                                             <tbody>
                                                 <tr>
-                                                    <td style="width:100%">
-                                                        <div style="display:flex;justify-content: space-between;">
+                                                    <td style="width:100%; padding-top: 0; padding-right: 0;">
+                                                        <div style="display:flex;justify-content: space-between; margin-bottom: -1px">
                                                             <p>${row.voucher_issue_code}</p>
                                                             <p>${row.usable_start_date}-${row.usable_end_date}</p>
                                                         </div>
-                                                        <div style="display:flex;justify-content: space-between;">
+                                                        <div style="display:flex;justify-content: space-between; margin-bottom: -1px">
                                                             <p>${row.voucher_name}</p>
                                                             <p class="gray__font">${row.date_interval}일 남음</p>
                                                         </div>
                                                         <p>${row.sale_price_type}</p>
                                                         <p>· 바우처 대상 제품 ${parseInt(row.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
                                                     </td>
-                                                    <td class="date__info">
-                                                        
-                                                    </td>
+                                                    
                                                 </tr>
                                             </tbody>
                                         </table>

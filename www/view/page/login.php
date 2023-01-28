@@ -30,23 +30,34 @@ input{outline: none;}
 .content__row .checkbox__label{
     float:left;
 }
-.login__card input[type="checkbox"] + label{
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin-top:3px;
-    margin-right:4px;
-    border-radius: 1px;
-    border: solid 1px #dcdcdc;
-    position: relative;
-    cursor:pointer;
+.login__card [type="checkbox"] {
+  vertical-align: middle;
+  appearance: none;
+  border: 1px solid gray;
+  width: 10px;
+  height: 10px;
+  margin: 0px;
+  padding: 0px;
 }
-.login__card input[type="checkbox"]:checked + label{
-    border: solid 1px #000000;
+.login__card [type="checkbox"]:checked {
+    background-color: #000000;
 }
-.login__card input[type="checkbox"]{
-    display:none;
+.login__card label{
+    padding-right: 10px;
+    vertical-align: middle;
 }
+.login__card label p,label span{
+    font-size: 11px;
+    font-family:var(--ft-no-fu);
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #343434;
+}
+
 .text__align__center{
     text-align:center;
 }

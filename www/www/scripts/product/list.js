@@ -236,14 +236,15 @@ const productCategorySwiper = () => {
 const productSml = () => {
     let productListSwiper = new Swiper(".prd__meun__category", {
         grabCursor: true,
-        slidesPerView: 10,
+        slidesPerView: "auto",
+        spaceBetween: 10,
         pagination: {
             el: ".prd__meun__category .swiper-pagination",
             clickable: true,
         },
         breakpoints: {
             320: {
-            slidesPerView: 5.9,
+            slidesPerView: 5,
             spaceBetween: 10
             },
             1024: {
@@ -259,7 +260,7 @@ function makeLowerFilterHtml(data) {
     data.forEach(el => {
         let slide = document.createElement("div");
         slide.className = "swiper-slide";
-        slide.innerHTML = `<a href="http://116.124.128.246:80${el.menu_link}"><div class="title">${el.filter_title}</div></a>`
+        slide.innerHTML = `<a href="http://116.124.128.246:80${el.menu_link}"><div class="title"><span>${el.filter_title}</span></div></a>`
         swiperWrapper.appendChild(slide);
     })
     document.querySelector(".prd__meun__category").appendChild(swiperWrapper);

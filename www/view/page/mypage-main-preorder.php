@@ -8,36 +8,32 @@
 .preorder__tab__btn__container{
     grid-column: 1/17;
     margin: 0 auto;
-    width:230px;
     display:grid;
     place-items: center;
-    grid-template-columns: 80px 80px 70px;
+    gap:10px;
+    grid-template-columns: 70px 70px 70px;
 }
 .preorder__tab__wrap{
-    grid-column:5/13;
-    width:100%;
-    display:grid;
-    grid-template-columns:repeat(8,1fr);
+    grid-column:1/17;
+    width:950px;
+    margin:0 auto;
 }
 .preorder__apply__form__wrap{
-    grid-column:2/8;
-    width:100%;
+    width:710px;
     margin:0 auto;
     margin-top:50px;
 }
 .preorder__result__form__wrap{
-    grid-column:1/9;
-    width:100%;
+    width:950px;
     margin:0 auto;
 }
 .preorder__notice__wrap{
-    grid-column:3/7;
-    width:100%;
+    width:470px;
     margin:0 auto;
     margin-top:50px;
 }
 .preorder__notice__wrap .title{
-    margin-bottom:30px;
+    margin-bottom:10px;
 }
 .preorder__container{
     margin: 0 auto;
@@ -45,7 +41,8 @@
     display:grid;
     gap:10px;
     place-items: center;
-    grid-template-columns: 1fr 1fr 1fr
+    align-items: start;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 .preorder__item{
     width:100%;
@@ -60,24 +57,20 @@
     font-family:var(--ft-no-fu);
 }
 .preorder__item .item__description{
-    margin-top:10px;
+    margin-top:3.5px;
     font-size: 11px;
     font-family:var(--ft-no-fu);
 }
 .preorder__item .item__status{
-    margin-top:20px;
+    margin-top:14.5px;
     font-size: 11px;
     font-family:var(--ft-no-fu);
-    margin-bottom:30px;
+    margin-bottom:20px;
 }
-.preorder__item img{
-}
-.preorder__tab__contents{
-    padding-top:50px;
-    padding-bottom:50px;
-}
+
 .preorder__wrap .contents__table{
-    margin-bottom:10px;
+    margin-top: 6px;
+    padding-top: 0;
 }
 .preorder__wrap .footer{
     margin-bottom:100px;
@@ -88,13 +81,17 @@
 .date__cols__info{
     margin-top:40px;
 }
-
-@media (min-width: 1024px){
+.preorder__tab__contents img{
+    width:100%;
+    min-width:80px;
 }
 @media (max-width: 1024px){
     .preorder__tab__wrap{
         grid-column:1/17;
         width:100%;
+    }
+    .preorder__tab__wrap .contents__info .info span{
+        font-size:11px;
     }
     .preorder__apply__form__wrap{
         grid-column:1/9;
@@ -109,7 +106,8 @@
         width:100%;
     }
     .preorder__result__form__wrap{width:100%}
-    .preorder__apply__form__wrap{width:100%;}
+    .preorder__apply__form__wrap{width:100%;margin-top:40px;}
+    .preorder__notice__wrap{width:100%;margin-top:40px;}
     .preorder__container{
         margin: 0 auto;
         width:100%;
@@ -120,6 +118,52 @@
     }
     .preorder__notice__wrap{width:100%}
     .detail__info{font-size: 10px;}
+    .preorder__tab__contents{
+        padding-top:40px;
+        padding-bottom:10px;
+    }
+    .preorder__tab__contents .contents__info {
+        height: 16px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+    .preorder__tab__contents .info__title {
+        margin-right: 10px;
+    }
+    .preorder__tab__contents .info__value {
+        margin-right: 20px;
+    }
+}
+@media (min-width: 600px) {
+    .preorder__tab__wrap {
+        grid-column: 1/17;
+        width:580px;
+        margin:0 auto;
+    }
+}
+@media (min-width: 1024px) {
+    .preorder__tab__wrap{
+        grid-column:1/17;
+        width:950px;
+        margin:0 auto;
+    }
+    .preorder__tab__contents{
+        padding-top:50px;
+        padding-bottom:50px;
+    }
+}
+.preorder__apply__form__wrap .title {
+    margin-bottom: 10px;
+}
+.preorder_product_name {
+    width: 68px;
+    height: 11px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.preorder_info_mob p{
+    margin-bottom: 6px;
 }
 </style>
 <div class="preorder__wrap">
@@ -143,16 +187,16 @@
                 <div class="pc__view">
                     <p>·&nbsp;프리오더 제품은 정해진 기간에만 주문 가능합니다. 제품별 주문 가능 기간을 확인해주세요.</p>
                     <p>·&nbsp;주문 취소 및 사이즈 교환은 프리오더 기간 내에만 가능합니다.<br>
-                        &nbsp;&nbsp;단, 사이즈 교환은 재고가 있는 제품에 한하여 처리 가능합니다.</p>
+                        단, 사이즈 교환은 재고가 있는 제품에 한하여 처리 가능합니다.</p>
                     <p>·&nbsp;주문과 동시에 배송되는 제품이 아니니 유의해주세요.</p>
                     <p>·&nbsp;재고 소진 시, 프리오더 신청이 조기 종료될 수 있습니다.</p>
                     <p>·&nbsp;프리오더 제품은 충전 포인트로 결제 가능합니다.</p>
                 </div>
                 <div class="mobile__view">
                     <p>·&nbsp;프리오더 제품은 정해진 기간에만 주문 가능합니다.<br>
-                        &nbsp;&nbsp;제품별 주문 가능 기간을 확인해주세요.</p>
+                        제품별 주문 가능 기간을 확인해주세요.</p>
                     <p>·&nbsp;주문 취소 및 사이즈 교환은 프리오더 기간 내에만 가능합니다.<br>
-                        &nbsp;&nbsp;단, 사이즈 교환은 재고가 있는 제품에 한하여 처리 가능합니다.</p>
+                        단, 사이즈 교환은 재고가 있는 제품에 한하여 처리 가능합니다.</p>
                     <p>·&nbsp;주문과 동시에 배송되는 제품이 아니니 유의해주세요.</p>
                     <p>·&nbsp;재고 소진 시, 프리오더 신청이 조기 종료될 수 있습니다.</p>
                     <p>·&nbsp;프리오더 제품은 충전 포인트로 결제 가능합니다.</p>
@@ -334,20 +378,20 @@ function getEntryPreorder(){
                                         </div>
                                         <div class="info">
                                             <span class="info__title">주문일</span>
-                                            <span class="info__value">${row.order_date == null?'':row.order_date}</span>
+                                            <span class="info__value">${row.order_date == null?'':row.order_date.split(' ')[0]}</span>
                                         </div>
                                         <div class="detail__btn"><span>자세히보기</span></div>
                                     </div>
                                     <div class="contents__table">
                                         <table>
                                             <colsgroup>
-                                                <col style="width:12.5%;">
-                                                <col style="width:25%;">
-                                                <col style="width:12.5%;">
-                                                <col style="width:12.5%;">
-                                                <col style="width:12.5%;">
-                                                <col style="width:12.5%;">
-                                                <col style="width:11%;">
+                                                <col style="width:120px">
+                                                <col style="width:240px">
+                                                <col style="width:120px">
+                                                <col style="width:120px">
+                                                <col style="width:120px">
+                                                <col style="width:120px">
+                                                <col style="width:110px">
                                             </colsgroup>
                                             <tbody>
                                                 <tr>
@@ -418,11 +462,11 @@ function getEntryPreorder(){
                                         </div>
                                         <div class="info">
                                             <span class="info__title">주문일</span>
-                                            <span class="info__value">${row.order_date == null?'':row.order_date}</span>
+                                            <span class="info__value">${row.order_date == null?'':row.order_date.split(' ')[0]}</span>
                                         </div>
                                         <div class="detail__btn"><span>자세히보기</span></div>
                                     </div>
-                                    <div class="contents__table">
+                                    <div class="contents__table" style="margin-top: 10px;">
                                         <table>
                                             <colsgroup>
                                                 <col style="width:27%;">
@@ -435,8 +479,8 @@ function getEntryPreorder(){
                                                     <td>
                                                         <img src="http://116.124.128.246:81${row.img_location}">
                                                     </td>
-                                                    <td>
-                                                        <p>${row.product_name}</p>
+                                                    <td class="preorder_info_mob">
+                                                        <p class="preorder_product_name">${row.product_name}</p>
                                                         <p>${parseInt(row.sales_price).toLocaleString('ko-KR')}</p>
                                                         <p>${row.color}</p>
                                                         <p>${row.option_name}</p>
