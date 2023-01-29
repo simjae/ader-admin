@@ -1,11 +1,14 @@
+var delay = 300;
+var timer = null;
+const urlParams = new URL(location.href).searchParams;
+const productIdx = urlParams.get('product_idx');
+
 
 window.addEventListener('DOMContentLoaded', function () {
     let product_idx = document.querySelector("main").dataset.productidx;
     getProduct(product_idx);
     responsiveSwiper();
 });
-var delay = 300;
-var timer = null;
 
 window.addEventListener('resize', function () {
     clearTimeout(timer);
@@ -103,6 +106,19 @@ const getProduct = (product_idx) => {
 						`;
                 });
 
+                let whish_img = "";
+                let whish_function = "";
+
+                let whish_flg = `${el.whish_flg}`;
+                if (whish_flg == 'true') {
+                    whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
+                    whish_function = "deleteWhishListBtn(this);";
+                } else if (whish_flg == 'false') {
+                    whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+                    whish_function = "setWhishListBtn(this);";
+                }
+
+
                 infoBoxHtml = `
 						<div class="product__title">${el.product_name}</div>
 						<div class="product__price">${el.sales_price.toLocaleString('ko-KR')}</div>
@@ -121,9 +137,9 @@ const getProduct = (product_idx) => {
 								<div class="basket-btn" >
 									<span class="basket-title">쇼핑백에 담기</span>
 								</div>
-								<div class="whish-btn">
-									<img src="/images/svg/wishlist-bk.svg" alt="" style="">
-								</div>
+                                <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
+                                    ${whish_img}
+                                </div>
 							</div>
 							
 						</div>
@@ -260,10 +276,10 @@ const getRelevantProductList = (relevant_idx, country) => {
                 let whish_flg = `${el.whish_flg}`;
                 if (whish_flg == 'true') {
                     whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
-                    whish_function = "deleteWhishList(this);";
+                    whish_function = "deleteWhishListBtn(this);";
                 } else if (whish_flg == 'false') {
                     whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                    whish_function = "setWhishList(this);";
+                    whish_function = "setWhishListBtn(this);";
                 }
 
                 let product_size = el.product_size;
@@ -282,11 +298,11 @@ const getRelevantProductList = (relevant_idx, country) => {
                 productRelevantListHtml +=
                     `<div class="swiper-slide">
 						<div class="product">
-							<div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="">
+							<div class="wish__btn" product_idx="${el.product_idx}" onClick="${whish_function}">
 								${whish_img}
 							</div>
-							<a href="http://116.124.128.246:80/">
-								<div class="product-img swiper" onClick="location.href=''">
+							<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
+								<div class="product-img swiper">
 									<img class="prd-img" cnt="${el.product_idx}" src="${img_root}${el.product_img}" alt="">
 								</div>
 							</a>
@@ -404,8 +420,7 @@ function basketStatusBtn() {
     const sizeResult = sizeStatusCheck();
     const $$productBtn = document.querySelectorAll(".basket-btn");
     const $$size = document.querySelectorAll(".detail__wrapper .size");
-    const urlParams = new URL(location.href).searchParams;
-    const productIdx = urlParams.get('product_idx');
+    
     $$productBtn.forEach(el => el.addEventListener("click", (e) => {
         let { status } = e.currentTarget.dataset;
         if (status == 2) {
@@ -448,6 +463,64 @@ function basketBtnStatusChange(el, idx) {
     })
 
 }
+//위시리스트 함수 
+function setWhishListBtn(obj) {
+    let product_idx = $(obj).attr('product_idx');
+    if (product_idx != null) {
+        $.ajax({
+            type: "post",
+            data: {
+                "product_idx": product_idx
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/order/whish/add",
+            error: function() {
+                alert("위시리스트 등록/해제 처리에 실패했습니다.");
+            },
+            success: function(d) {
+                let code = d.code;
+                let msg = d.msg;
+
+                if (code == "200") {
+                    let whish_img = $(obj).find('.whish_img');
+                    whish_img.attr('src', '/images/svg/wishlist-bk.svg');
+                    whish_img.attr('style', 'width:19px');
+                    $(obj).attr('onClick', 'deleteWhishListBtn(this);');
+                }
+            }
+        });
+    }
+}
+function deleteWhishListBtn(obj) {
+    let product_idx = $(obj).attr('product_idx');
+
+    if (product_idx != null) {
+        $.ajax({
+            type: "post",
+            data: {
+                "product_idx": product_idx
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/order/whish/delete",
+            error: function() {
+                alert("위시리스트 등록/해제 처리에 실패했습니다.");
+            },
+            success: function(d) {
+                let code = d.code;
+                let msg = d.msg;
+
+                if (code == "200") {
+                    let whish_img = $(obj).find('.whish_img');
+                    whish_img.attr('src', '/images/svg/wishlist.svg');
+                    $(obj).attr('onClick', 'setWhishListBtn(this);');
+                }
+            }
+        });
+    }
+}
+
+
+
 //사이즈 상태 체크 함수
 function sizeBtnHandler() {
     const $$productBtn = document.querySelectorAll(".basket-btn");
