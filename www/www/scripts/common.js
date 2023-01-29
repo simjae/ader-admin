@@ -9,8 +9,6 @@ function layoutOutSideClick(elem) {
 }
 
 //basket add 
-
-
 function addBasketApi(productIdx, optionIdx) {
     const main = document.querySelector("main");
     let country = main.dataset.country;
