@@ -61,8 +61,8 @@ export default function ForyouRender() {
                             <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="">
                                 ${whish_img}
                             </div>
-                            <a href="http://116.124.128.246:80/">
-                                <div class="product-img swiper" onClick="location.href=''">
+                            <a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
+                                <div class="product-img swiper">
                                     <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${el.product_img}" alt="">
                                 </div>
                             </a>
