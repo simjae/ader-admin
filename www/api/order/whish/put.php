@@ -24,10 +24,25 @@ if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$whish_idx		= $_POST['whish_idx'];
-$product_idx	= $_POST['product_idx'];
-$option_idx		= $_POST['option_idx'];
-$product_qty	= $_POST['product_qty'];
+$whish_idx = 0;
+if (isset($_POST['whish_idx'])) {
+	$whish_idx = $_POST['whish_idx'];
+}
+
+$product_idx = 0;
+if (isset($_POST['product_idx'])) {
+	$product_idx = $_POST['product_idx'];
+}
+
+$option_idx = 0;
+if (isset($_POST['option_idx'])) {
+	$option_idx = $_POST['option_idx'];
+}
+
+$product_qty = 0;
+if (isset($_POST['product_qty'])) {
+	$product_qty = $_POST['product_qty'];
+}
 
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
@@ -35,31 +50,33 @@ if ($member_idx == 0 || $member_id == null) {
 	exit;
 }
 
-if ($whish_idx != null && $product_idx != null && $option_idx != null && $product_qty != null) {
-	$sql = "UPDATE
-				dev.WHISH_LIST WL,
-				(
-					SELECT
-						IDX					AS OPTION_IDX,
-						BARCODE				AS BARCODE,
-						OPTION_NAME			AS OPTION_NAME
-					FROM
-						dev.ORDERSHEET_OPTION
-					WHERE
-						IDX =".$option_idx."
-				) OO
-			SET
-				WL.OPTION_IDX = OO.OPTION_IDX,
-				WL.BARCODE = OO.BARCODE,
-				WL.OPTION_NAME = OO.OPTION_NAME,
-				WL.PRODUCT_QTY = ".$product_qty.",
-				WL.UPDATER = '".$member_id."',
-				WL.UPDATE_DATE = NOW()
-			WHERE
-				WL.IDX = ".$whish_idx." AND
-				WL.MEMBER_IDX = ".$member_idx." AND
-				WL.PRODUCT_IDX = ".$product_idx." AND
-				WL.OPTION_IDX = ".$option_idx;
+if ($whish_idx > 0 && $product_idx > 0 && $option_idx > 0 && $product_qty > 0) {
+	$update_whish_sql = "
+		UPDATE
+			dev.WHISH_LIST WL,
+			(
+				SELECT
+					IDX				AS OPTION_IDX,
+					BARCODE			AS BARCODE,
+					OPTION_NAME		AS OPTION_NAME
+				FROM
+					dev.ORDERSHEET_OPTION
+				WHERE
+					S_OO.IDX =".$option_idx."
+			) AS OO
+		SET
+			WL.OPTION_IDX = OO.OPTION_IDX,
+			WL.BARCODE = OO.BARCODE,
+			WL.OPTION_NAME = OO.OPTION_NAME,
+			WL.PRODUCT_QTY = ".$product_qty.",
+			WL.UPDATE_DATE = NOW(),
+			WL.UPDATER = '".$member_id."'
+		WHERE
+			WL.IDX = ".$whish_idx." AND
+			WL.MEMBER_IDX = ".$member_idx." AND
+			WL.PRODUCT_IDX = ".$product_idx." AND
+			WL.OPTION_IDX = ".$option_idx."
+	";
 	
 	$db->query($sql);
 }

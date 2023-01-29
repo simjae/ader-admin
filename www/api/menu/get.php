@@ -14,10 +14,86 @@
  +=============================================================================
 */
 
-if (!isset($_POST['country'])) {
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+} else if (isset($_POST['country'])){
 	$country = $_POST['country'];
 }
-$country = "KR";
+
+$member_id = null;
+if (isset($_SESSION['MEMBER_ID'])) {
+	$member_id = $_SESSION['MEMBER_ID'];
+}
+
+$member_name = null;
+if (isset($_SESSION['MEMBER_NAME'])) {
+	$member_name = $_SESSION['MEMBER_NAME'];
+}
+
+$login_flg = false;
+$member_info = array();
+
+if ($member_idx > 0) {
+	$login_flg = true;
+	
+	$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	$basket_cnt = $db->count("dev.BASKET_INFO","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+	
+	$select_member_sql = "
+		SELECT
+			MB.MEMBER_ID		AS MEMBER_ID,
+			MB.MEMBER_NAME		AS MEMBER_NAME,
+			(
+				SELECT 
+					S_MI.MILEAGE_BALANCE
+				FROM 
+					dev.MILEAGE_INFO S_MI
+				WHERE 
+					S_MI.MEMBER_IDX = MB.IDX
+				ORDER BY 
+					S_MI.IDX DESC 
+				LIMIT
+					0,1
+			)					AS MEMBER_MILEAGE,
+			(
+				SELECT
+					COUNT(S_VI.IDX)
+				FROM 
+					dev.VOUCHER_ISSUE S_VI
+				WHERE
+					S_VI.MEMBER_IDX = MB.IDX AND
+					S_VI.DEL_FLG = FALSE AND
+					S_VI.VOUCHER_ADD_DATE IS NOT NULL AND
+					S_VI.USED_FLG = FALSE AND
+					S_VI.USABLE_END_DATE > NOW()
+			)					AS MEMBER_VOUCHER
+		FROM
+			MEMBER_".$country." MB
+		WHERE
+			MB.IDX = ".$member_idx."
+	";
+	
+	$db->query($select_member_sql);
+	
+	foreach($db->fetch() as $member_data) {
+		$member_info = array(
+			'member_id'			=>$member_data['MEMBER_ID'],
+			'member_name'		=>$member_data['MEMBER_NAME'],
+			'member_mileage'	=>number_format($member_data['MEMBER_MILEAGE']),
+			'member_voucher'	=>$member_data['MEMBER_VOUCHER'],
+			'whish_cnt'			=>$whish_cnt,
+			'basket_cnt'		=>$basket_cnt
+		);
+	}
+	
+	$json_result['member_info'] = $member_info;
+}
 
 $lrg_num = 0;
 $mdl_num = 0;
@@ -233,7 +309,7 @@ foreach($db->fetch() as $lrg_data) {
 			);
 		}
 	}
-	
+		
 	$json_result['data'][] = array(
 		'menu_lrg'		=>$menu_lrg
 	);

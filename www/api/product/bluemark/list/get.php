@@ -27,7 +27,40 @@ if ($member_idx == 0) {
 
 $country		= $_POST['country'];
 
+$rows = NULL;
+if(isset($_POST['rows'])){
+	$rows = $_POST['rows'];
+}
+
+$page = NULL;
+if(isset($_POST['page'])){
+	$page = $_POST['page'];
+}
+
 if ($member_idx != 0 && $country != null) {
+	$where = "
+			WHERE
+				BI.DEL_FLG = FALSE AND
+				BI.MEMBER_IDX = ".$member_idx."
+	";
+	$where_cnt = "
+				BI.DEL_FLG = FALSE AND
+				BI.MEMBER_IDX = ".$member_idx."
+	";
+	
+	$json_result = array(
+		'total' => $db->count("	dev.BLUEMARK_INFO BI
+								LEFT JOIN dev.SHOP_PRODUCT PR ON
+								PR.IDX = BI.PRODUCT_IDX
+								LEFT JOIN dev.ORDERSHEET_MST OM ON
+								OM.IDX = PR.ORDERSHEET_IDX
+								LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+								BI.OPTION_IDX = OO.IDX",$where_cnt),
+		'page' => $page
+	);
+
+	$limit_start = (intval($page)-1)*$rows;
+	
 	$select_bluemark_sql = "
 		SELECT 
 			BI.IDX						AS BLUEMARK_IDX,
@@ -60,12 +93,10 @@ if ($member_idx != 0 && $country != null) {
 			OM.IDX = PR.ORDERSHEET_IDX
 			LEFT JOIN dev.ORDERSHEET_OPTION OO ON
 			BI.OPTION_IDX = OO.IDX
-		WHERE
-			BI.DEL_FLG = FALSE AND
-			BI.MEMBER_IDX = ".$member_idx."
+		".$where."
 		ORDER BY
 			BI.UPDATE_DATE DESC
-	";
+		LIMIT ".$limit_start.",".$rows;
 	
 	$db->query($select_bluemark_sql);
 

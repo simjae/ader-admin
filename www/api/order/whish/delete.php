@@ -14,19 +14,20 @@
  +=============================================================================
 */
 
-$member_idx = 1;
-//$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = "adertest4";
-//$member_id = null;
+$member_id = null;
 if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$whish_idx = $_POST['whish_idx'];
+$whish_idx = 0;
+if (isset($_POST['whish_idx'])) {
+	$whish_idx = $_POST['whish_idx'];
+}
 
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
@@ -34,23 +35,27 @@ if ($member_idx == 0 || $member_id == null) {
 	return $json_result;
 }
 
-$cnt = $db->count("dev.WHISH_LIST","IDX = ".$whish_idx." AND MEMBER_IDX = ".$member_idx);
+if ($member_idx > 0 && $whish_idx > 0) {
+	$cnt = $db->count("dev.WHISH_LIST","IDX = ".$whish_idx." AND MEMBER_IDX = ".$member_idx);
 
-if ($cnt == 0) {
-	$json_result['code'] = 401;
-	$json_result['msg'] = "존재하지 않는 위시리스트 상품이 선택되었습니다. 삭제하려는 상품을 다시 확인해주세요.";
-	return $json_result;
-}
+	if ($cnt == 0) {
+		$json_result['code'] = 401;
+		$json_result['msg'] = "존재하지 않는 위시리스트 상품이 선택되었습니다. 삭제하려는 상품을 다시 확인해주세요.";
+		return $json_result;
+	}
 
-$sql = "UPDATE
+	$delete_whish_sql = "
+		UPDATE
 			dev.WHISH_LIST
 		SET
 			DEL_FLG = TRUE,
-			UPDATER = '".$member_id."',
-			UPDATE_DATE = NOW()
+			UPDATE_DATE = NOW(),
+			UPDATER = '".$member_id."'
 		WHERE
 			IDX = ".$whish_idx." AND
-			MEMBER_IDX = ".$member_idx;
+			MEMBER_IDX = ".$member_idx."
+	";
 
-$db->query($sql);
+	$db->query($delete_whish_sql);
+}
 ?>

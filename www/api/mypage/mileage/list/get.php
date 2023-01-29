@@ -35,19 +35,50 @@ if($member_idx == 0) {
 	return $json_result;
 }
 
+$rows = NULL;
+if(isset($_POST['rows'])){
+	$rows = $_POST['rows'];
+}
+
+$page = NULL;
+if(isset($_POST['page'])){
+	$page = $_POST['page'];
+}
+
 if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 	$where = "";
+	$where_cnt = "";
 	
 	switch($list_type){
 		case 'save':
 			$where .= " WHERE MI.MILEAGE_USABLE_INC > 0";
+			$where_cnt = "MI.MILEAGE_USABLE_INC > 0";
 			break;
 			
 		case 'use':
 			$where .= " WHERE MI.MILEAGE_USABLE_DEC > 0";
+			$where_cnt = "MI.MILEAGE_USABLE_DEC > 0";
 			break;
 	}
-	
+
+	$json_result = array(
+		'total' => $db->count("(
+									SELECT 
+										*
+									FROM
+										dev.MILEAGE_INFO
+									WHERE
+										MEMBER_IDX = ".$member_idx."
+								) MI
+								LEFT JOIN dev.MILEAGE_CODE MC ON
+								MI.MILEAGE_CODE = MC.MILEAGE_CODE
+								LEFT JOIN dev.ORDER_INFO OI ON
+								MI.ORDERNUM = OI.ORDER_CODE",$where_cnt),
+		'page' => $page
+	);
+
+	$limit_start = (intval($page)-1)*$rows;
+
 	$select_mileage_sql = "
 		SELECT
 			DATE_FORMAT(
@@ -76,10 +107,10 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 			MI.MILEAGE_CODE = MC.MILEAGE_CODE
 			LEFT JOIN dev.ORDER_INFO OI ON
 			MI.ORDERNUM = OI.ORDER_CODE
-			".$where."
+		".$where."
 		ORDER BY
 			MI.IDX DESC
-	";
+		LIMIT ".$limit_start.",".$rows;
 
 	$db->query($select_mileage_sql);
 

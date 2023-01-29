@@ -14,26 +14,29 @@
  +=============================================================================
 */
 
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 include_once("/var/www/www/api/common/common.php");
 
 $country = null;
-if (isset[$_POST['country']]) {
-	$country = $_POST['country'];
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
 }
 
-$member_idx = 1;
-//$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = 'adertest4';
-//$member_id = null;
-if (isset($_SESSION['MEMBER_IDX'])) {
+$member_id = null;
+if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$add_type		= $_POST['add_type'];
+$add_type = null;
+if (isset($_POST['add_type'])) {
+	$add_type = $_POST['add_type'];
+}
 
 $product_idx = 0;
 if (isset($_POST['product_idx'])) {
@@ -62,66 +65,81 @@ if ($member_idx == 0 || $member_id == null) {
 	return $json_result;
 }
 
-if ($add_type == "product" && $product_idx != null && $option_idx != null) {
-	//선택한 상품/옵션이 구매 가능한 상태인지 체크
-	$product_result = checkProduct($db,$product_idx,$country,$member_idx);
+if ($add_type == "product" && $member_idx > 0 && $country != null && $product_idx != null && $option_idx != null) {
+	$db->begin_transaction();
 	
-	if ($product_result == true) {
-		//선택 한 상품의 재고가 남아있는지 확인 => 선택한 상품/옵션의 재고 = 전체 상품 재고 - 주문 상품 재고
-		$stock_result = checkProductStockQty($db,$product_idx,$option_idx);
+	try {
+		//선택한 상품/옵션이 구매 가능한 상태인지 체크
+		$product_result = checkProduct($db,$product_idx,$country,$member_idx);
 		
-		if ($stock_result == true) {
-			$insert_basket_sql = "
-				INSERT INTO
-					dev.BASKET_INFO
-				(
-					MEMBER_IDX,
-					MEMBER_ID,
-					PRODUCT_IDX,
-					PRODUCT_CODE,
-					PRODUCT_NAME,
-					OPTION_IDX,
-					BARCODE,
-					OPTION_NAME,
-					PRODUCT_QTY,
-					CREATER,
-					UPDATER
-				)
-				SELECT
-					".$member_idx."		AS MEMBER_IDX,
-					'".$member_id."'	AS MEMBER_ID,
-					PR.IDX				AS PRODUCT_IDX,
-					PR.PRODUCT_CODE		AS PRODUCT_CODE,
-					PR.PRODUCT_NAME		AS PRODUCT_NAME,
-					OO.IDX				AS OPTION_IDX,
-					OO.BARCODE			AS BARCODE,
-					OO.OPTION_NAME		AS OPTION_NAME,
-					1					AS PRODUCT_QTY,
-					'".$member_id."'	AS CREATER,
-					'".$member_id."'	AS UPDATER
-				FROM
-					dev.SHOP_PRODUCT PR ON
-					LEFT JOIN dev.ORDERSHEET_OPTION OO ON
-					PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
-				WHERE
-					PR.IDX = ".$product_idx." AND
-					OO.IDX = ".$option_idx."
-			";
-			
-			$db->query($insert_basket_sql);
+		if ($product_result == true) {
+			for ($i=0; $i<count($option_idx); $i++) {
+				//선택 한 상품의 재고가 남아있는지 확인 => 선택한 상품/옵션의 재고 = 전체 상품 재고 - 주문 상품 재고
+				$stock_result = checkProductStockQty($db,$product_idx,$option_idx[$i]);
+				
+				if ($stock_result == true) {
+					$insert_basket_sql = "
+						INSERT INTO
+							dev.BASKET_INFO
+						(
+							MEMBER_IDX,
+							MEMBER_ID,
+							PRODUCT_IDX,
+							PRODUCT_CODE,
+							PRODUCT_NAME,
+							OPTION_IDX,
+							BARCODE,
+							OPTION_NAME,
+							PRODUCT_QTY,
+							CREATER,
+							UPDATER
+						)
+						SELECT
+							".$member_idx."		AS MEMBER_IDX,
+							'".$member_id."'	AS MEMBER_ID,
+							PR.IDX				AS PRODUCT_IDX,
+							PR.PRODUCT_CODE		AS PRODUCT_CODE,
+							PR.PRODUCT_NAME		AS PRODUCT_NAME,
+							OO.IDX				AS OPTION_IDX,
+							OO.BARCODE			AS BARCODE,
+							OO.OPTION_NAME		AS OPTION_NAME,
+							1					AS PRODUCT_QTY,
+							'".$member_id."'	AS CREATER,
+							'".$member_id."'	AS UPDATER
+						FROM
+							dev.SHOP_PRODUCT PR
+							LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+							PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
+						WHERE
+							PR.IDX = ".$product_idx." AND
+							OO.IDX = ".$option_idx[$i]."
+					";
+					
+					$db->query($insert_basket_sql);
+				} else {
+					$json_result['code'] = 401;
+					$json_result['msg'] = "선택한 상품 중 재고가 모두 소진된 상품이 폼함되어있습니다. 구매하려는 상품의 사이즈를 확인해주세요.";
+					return $json_result;
+				}
+			}
 		} else {
 			$json_result['code'] = 401;
-			$json_result['msg'] = "선택한 상품의 재고가 모두 소진되었습니다. 동일한 상품의 다른 사이즈를 확인해주세요.";
+			$json_result['msg'] = "부적절한 상품이 선택되었습니다. 쇼핑백에 담으려는 상품의 옵션을 확인해주세요.";
 			return $json_result;
 		}
-	} else {
-		$json_result['code'] = 401;
-		$json_result['msg'] = "부적절한 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
-		return $json_result;
+		
+		$db->commit();
+		
+		$json_result['code'] = 200;
+	} catch(mysqli_sql_exception $exception){
+		print_r($exception);
+		
+		$db->rollback();
+		$json_result['code'] = 301;
 	}
 }
 
-if ($add_type == "whish" && count($whish_info) > 0) {
+if ($add_type == "whish" && $member_idx > 0 && $country != null && count($whish_info) > 0) {
 	//해당 멤버의 위시리스트중 선택 한 상품이 존재하는지 확인
 	$whish_result = checkWhishList($db,$whish_info);
 	

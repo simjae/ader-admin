@@ -22,9 +22,8 @@ import {Basket} from '/scripts/module/basket.js';
 				alert("메뉴 리스트를 불러오는데 실패 하였습니다.");
 			},
 			success: function(d) {
-				let data = d.data;
-				webWriteNavHtml(data);
-				mobileWriteNavHtml(data);
+				webWriteNavHtml(d);
+				mobileWriteNavHtml(d);
 				disableUrlBtn();
 
 				const sidebar = new Sidebar();
@@ -38,7 +37,9 @@ import {Basket} from '/scripts/module/basket.js';
 			}
 		});
 	}
-	const webWriteNavHtml = (data) => {
+	const webWriteNavHtml = (d) => {
+		let data = d.data
+		let member_info = d.member_info
 		let menuList = document.createElement("ul")
 		menuList.classList.add("header__grid");
 		let menuHtml="";
@@ -46,7 +47,8 @@ import {Basket} from '/scripts/module/basket.js';
 		let domfrag = document.createDocumentFragment(menuList);
 		domfrag.appendChild(menuList)
 		let colaboImg = ["/sample/colabo1.png","/sample/colabo2.png","/sample/colabo3.png","/sample/colabo4.png","/sample/colabo5.png"];
-
+		
+		let userName = member_info != null ? member_info.member_name : "MY";
 		menuHtml +=
 			`<li class="header__logo" onClick="location.href='/'">
 				<img class="logo"src="/images/landing/logo.png" alt="">
@@ -63,38 +65,38 @@ import {Basket} from '/scripts/module/basket.js';
 				<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
 					<a class="menu-ul lrg" href="${lrg.menu_link}">${lrg.menu_title}</a>
 					<div class="drop__menu">
-						<ul class="cont">
-							<li class="swiper-li">
-								<div class="swiper swiper__box" data-id="${idx}" id="menuSwiper${idx}">
-									<div class="swiper-wrapper">
+						<ul class="cont pr__menu">
+									<li class="swiper-li">
+										<div class="swiper swiper__box" data-id="${idx}" id="menuSwiper${idx}">
+											<div class="swiper-wrapper">
+												${
+													lrg.menu_slide.map((el, idx) => {
+													return`<div class="swiper-slide">
+																<div>
+																	<img src="${img_root}${el.slide_img}" alt="">
+																	<span class="swiper__title">${el.slide_name}</span>
+																</div>
+															</div>`
+													}).join("")
+												}
+											</div>
+											<div class="swiper-pagination swiper-pagination-${idx}"></div>
+										</div>  
+									</li>
 									${
-										lrg.menu_slide.map((el, idx) => {
-										return`<div class="swiper-slide">
-													<div>
-														<img src="${img_root}${el.slide_img}" alt="">
-														<span class="swiper__title">${el.slide_name}</span>
-													</div>
-												</div>`
+										mdl.map((el , idx)=> {
+										return`<li data-mdl="${idx}">
+													<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
+													<ul class="sma__wrap">
+													${
+														el.menu_sml.map((el, idx)=> {
+															return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
+														}).join("")
+													}
+													</ul>
+												</li>`
 										}).join("")
 									}
-								</div>
-								<div class="swiper-pagination swiper-pagination-${idx}"></div>
-								</div>  
-							</li>
-							${
-								mdl.map((el , idx)=> {
-								return`<li data-mdl="${idx}">
-										<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
-										<ul class="sma__wrap">
-										${
-											el.menu_sml.map((el, idx)=> {
-												return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
-											}).join("")
-										}
-										</ul>
-									</li>`
-								}).join("")
-							}
 						</ul>
 					</div>
 				</li>`
@@ -104,26 +106,31 @@ import {Basket} from '/scripts/module/basket.js';
 				`<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
 					<a class="menu-ul lrg" href="${lrg.menu_link}">${lrg.menu_title}</a>
 					<div class="drop__menu">
-						<ul class="cont">
-							${
-								mdl.map((el , idx)=> {
-								return`<li class="pobox"  data-mdl="${idx}">
-									<div class="colaboBox">
-										<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
-										<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
-									</div>
-								</li>`
-							}).join("")
-							}
-							<li class="pobox all-view">
-								<a class="menu-ul">
-									콜라보레이션
-								</a>
-								<a class="menu-ul">
-									전체보기
-								</a>
-								
+						<ul class="cont po__menu">
+							<li></li>
+							<li>
+								<ul class="po__cont">
+									${
+										mdl.map((el , idx)=> {
+										return`<li class="pobox"  data-mdl="${idx}">
+											<div class="colaboBox">
+												<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
+												<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
+											</div>
+										</li>`
+									}).join("")
+									}
+									<li class="pobox all-view" onclick="location.href="/posting/collaboration">
+										<a class="menu-ul">
+											콜라보레이션
+										</a>
+										<a class="menu-ul">
+											전체보기
+										</a>
+									</li>
+								</ul>
 							</li>
+							<li></li>
 						</ul>
 					</div>
 				</li>`
@@ -133,92 +140,96 @@ import {Basket} from '/scripts/module/basket.js';
 				</ul>
 				<ul class="menu__wrap right">`
 		menuHtml +=`
-				<li class="drop web" data-type="FM" data-large="6">
+				<li class="drop web story" data-type="ST" data-large="6">
 					<a class="menu-ul lrg" href="">스토리</a>
 					<div class="drop__menu">
-						<ul class="cont fixsub">
-							<li class=""></li>
-							<li class="drop web" data-type="" data-lrg="">
-								<a href="">새로운 소식</a>
-								<ul class="list__grid">
-									<li class="fmbox"  data-mdl="">
-										<div class="newsBox">
-											<img src ='http://116.124.128.246:80/images/sample/news01.jpg'>
-											<div class="news-title kr" href="">시그니처 쇼퍼백 구매 신청하기</div>
-											<div class="news-m-title en" href="">Shopper bag Stand by</div>
-										</div>
+						<ul class="cont st__menu">
+							<li></li>
+							<li>
+								<ul class="st__cont">
+									<li>
+										<a href="">새로운 소식</a>
+										<ul class="list__grid">
+											<li class="st__box">
+												<div class="newsBox">
+													<img src ='http://116.124.128.246:80/images/sample/news01.jpg'>
+													<div class="news-title kr" href="">시그니처 쇼퍼백 구매 신청하기</div>
+													<div class="news-m-title en" href="">Shopper bag Stand by</div>
+												</div>
+											</li>
+											<li class="st__box">
+												<div class="newsBox">
+													<img src ='http://116.124.128.246:80/images/sample/news02.jpg'>
+													<div class="news-title kr" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
+													<div class="news-m-title en" href="">22SS Origin Line<br>Og: Diagonal</div>
+												</div>
+											</li>
+											<li class="st__box">
+												<div class="newsBox">
+													<img src ='http://116.124.128.246:80/images/sample/news03.jpg'>
+													<div class="news-title kr" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
+													<div class="news-m-title en" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
+												</div>
+											</li>
+										</ul>
 									</li>
-									<li class="fmbox"  data-mdl="">
-										<div class="newsBox">
-											<img src ='http://116.124.128.246:80/images/sample/news02.jpg'>
-											<div class="news-title kr" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
-											<div class="news-m-title en" href="">22SS Origin Line<br>Og: Diagonal</div>
-										</div>
-									</li>
-									<li class="fmbox"  data-mdl="">
-										<div class="newsBox">
-											<img src ='http://116.124.128.246:80/images/sample/news03.jpg'>
-											<div class="news-title kr" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
-											<div class="news-m-title en" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
-										</div>
+									<li>
+										<a href="">아카이브</a>
+										<ul class="list__grid">
+											<li class="st__box">
+												<div class="mid-a archiveTitle">프로젝트</div>
+												<div class="archiveBox">
+													<ul>
+														<li class="archiveList">2022 SS  'After blue'</li>
+														<li class="archiveList">2022 Origin 'Cinder'</li>
+														<li class="archiveList">2021 AW 'Un nouveau système'</li>
+														<li class="archiveList">2021 SS 'Layering time'</li>
+													</ul>
+													<ul>
+														<li class="archiveList dot"></li>
+														<li class="archiveList allBtn">+  전체보기</li>
+													</ul>
+												</div>
+											</li>
+											<li class="st__box"  data-mdl="">
+												<div class="mid-a archiveTitle">룩북</div>
+												<div class="archiveBox">
+													<ul>
+														<li class="archiveList">2022 F/W 'Phenomenon comm...</li>
+														<li class="archiveList">2022 S/S 'After blue'</li>
+														<li class="archiveList">2022 Origin 'Cinder'</li>
+														<li class="archiveList">2021 SS 'Layering time'</li>
+													</ul>
+													<ul>
+														<li class="archiveList dot"></li>
+														<li class="archiveList allBtn">+  전체보기</li>
+													</ul>
+												</div>
+											</li>
+											<li class="st__box"  data-mdl="">
+												<div class="mid-a archiveTitle">에디토리얼</div>
+												<div class="archiveBox">
+													<ul>
+														<li class="archiveList">Mule series 'Curve'</li>
+														<li class="archiveList">‘Self Expression'</li>
+														<li class="archiveList">Adererror x Puma 'Vaderon'</li>
+														<li class="archiveList">2022ss campaign ‘After blue'</li>
+													</ul>
+													<ul>
+														<li class="archiveList dot"></li>
+														<li class="archiveList allBtn">+  전체보기</li>
+													</ul>
+												</div>
+											</li>
+										</ul>
 									</li>
 								</ul>
 							</li>
-							<li class=""></li>
-							<li class="drop web" data-type="" data-lrg="">
-								<a href="">아카이브</a>
-								<ul class="list__grid">
-									<li class="fmbox"  data-mdl="">
-										<div class="mid-a archiveTitle">프로젝트</div>
-										<div class="archiveBox">
-											<ul>
-												<li class="archiveList">2022 SS  'After blue'</li>
-												<li class="archiveList">2022 Origin 'Cinder'</li>
-												<li class="archiveList">2021 AW 'Un nouveau système'</li>
-												<li class="archiveList">2021 SS 'Layering time'</li>
-											</ul>
-											<ul>
-												<li class="archiveList dot"></li>
-												<li class="archiveList allBtn">+  전체보기</li>
-											</ul>
-										</div>
-									</li>
-									<li class="fmbox"  data-mdl="">
-										<div class="mid-a archiveTitle">룩북</div>
-										<div class="archiveBox">
-											<ul>
-												<li class="archiveList">2022 F/W 'Phenomenon comm...</li>
-												<li class="archiveList">2022 S/S 'After blue'</li>
-												<li class="archiveList">2022 Origin 'Cinder'</li>
-												<li class="archiveList">2021 SS 'Layering time'</li>
-											</ul>
-											<ul>
-												<li class="archiveList dot"></li>
-												<li class="archiveList allBtn">+  전체보기</li>
-											</ul>
-										</div>
-									</li>
-									<li class="fmbox"  data-mdl="">
-										<div class="mid-a archiveTitle">에디토리얼</div>
-										<div class="archiveBox">
-											<ul>
-												<li class="archiveList">Mule series 'Curve'</li>
-												<li class="archiveList">‘Self Expression'</li>
-												<li class="archiveList">Adererror x Puma 'Vaderon'</li>
-												<li class="archiveList">2022ss campaign ‘After blue'</li>
-											</ul>
-											<ul>
-												<li class="archiveList dot"></li>
-												<li class="archiveList allBtn">+  전체보기</li>
-											</ul>
-										</div>
-									</li>
-								</ul>
-							</li>
+							<li></li>
 						</ul>
 					</div>
 				</li>
-				<li class="drop web" >
+				<li class="drop web search_shop" >
 					<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
 				</li>
 				<li class="web bluemark__btn side-bar" data-type="M"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
@@ -230,7 +241,7 @@ import {Basket} from '/scripts/module/basket.js';
 				<li class="flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
 				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
 					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
-					<span>MY</span>
+					<span>` + userName + `</span>
 				</li>
 				<li class="web"></li>
 				<li class="flex pr-3 lg:hidden mobileMenu">
@@ -276,9 +287,9 @@ import {Basket} from '/scripts/module/basket.js';
 					showRate = 0;
 				}
 			});
-			$(this).find(".drop__menu").show(showRate);
+			$(this).find(".drop__menu").fadeIn(showRate);
 		},function(){
-			$(this).find(".drop__menu").hide(100);
+			$(this).find(".drop__menu").fadeOut(100);
 		});
 		/*
 		$$webMenu.forEach(el => {
@@ -298,7 +309,11 @@ import {Basket} from '/scripts/module/basket.js';
 		*/
 	}
 	
-	const mobileWriteNavHtml = (data) => {
+	const mobileWriteNavHtml = (d) => {
+		let data = d.data
+		let member_info = d.member_info
+		let userName = member_info != null ? member_info.member_name : "로그인";
+		
 		let mobileMenu = document.createElement("div");
 		mobileMenu.classList.add("mobile__menu");
 		let domfrag = document.createDocumentFragment(mobileMenu);
@@ -359,7 +374,12 @@ import {Basket} from '/scripts/module/basket.js';
 											</a>`
 							}).join("")
 							}
-							<a class="mdl__title" href="${lrg.menu_link}">콜라보레이션 전체보기</a>
+							<a class="mdl__title po__wrap" href="/posting/collaboration">
+								<div style="width:50px">
+									<img src="/images/svg/plus-bk.svg" style="width:12px;margin:4px auto;" alt="">
+								</div>
+								<div class="po__title__all">콜라보레이션 전체보기</div>
+							</a>
 						</ul>
 					</div>
 				</li>`
@@ -373,11 +393,11 @@ import {Basket} from '/scripts/module/basket.js';
 				<li><span>매장찾기</span></li>
 			</ul>
 			<ul class="bottom">
-				<li class="flex gap-2"><img src="/images/svg/user-bk.svg" style="width:18px" alt=""><span>로그인</span></li>
-				<li class="flex gap-2 w-7 mobile__search__btn"><img src="/images/svg/search.svg" style="width:18px" alt=""><span>검색</span></li>
-				<li class="flex gap-2"><img src="/images/svg/earth.svg" style="width:18px" alt=""><span>고객서비스</span></li>
-				<li class="flex gap-2"><img src="/images/svg/blue-tag.svg" alt=""><img src="/images/svg/bluemark-bk.svg" style="width:85px; margin-left: 7px; " alt=""></li>
-				<li class="flex gap-2"><img src="/images/svg/earth.svg" style="width:18px" alt=""><span>Language</span></li>
+				<li class="flex" onclick="location.href='/mypage'"><img src="/images/svg/user-bk.svg" style="width:18px" alt=""><span>` + userName + `</span></li>
+				<li class="flex w-7 mobile__search__btn"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></li>
+				<li class="flex"><img src="/images/svg/customer-bk.svg" style="width:18px" alt=""><span>고객서비스</span></li>
+				<li class="flex bluemark"><div class="bluemark-icon"></div><span>Bluemark</span></li>
+				<li class="flex language"><span>KR</span><span>Language</span></li>
 				
 			</ul>
 			<div class="mobile__search">
@@ -557,7 +577,7 @@ import {Basket} from '/scripts/module/basket.js';
 				els.classList.remove("wh");
 				els.classList.add("bk");
 			});
-			$("#dimmer").fadeIn(200);
+			$("#dimmer").fadeIn(100);
 		}
 		else{
 			header.classList.remove("hover");
@@ -565,7 +585,7 @@ import {Basket} from '/scripts/module/basket.js';
 				els.classList.remove("bk");
 				els.classList.add("wh");
 			});
-			$("#dimmer").fadeOut(200);
+			$("#dimmer").fadeOut(100);
 		}
 	}
 	function searchInit(){

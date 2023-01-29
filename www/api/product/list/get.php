@@ -24,14 +24,29 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$menu_sort		= null;
+$member_level = 0;
+if (isset($_SESSION['MEMBER_LEVEL'])) {
+	$member_level = $_SESSION['MEMBER_LEVEL'];
+}
+
+$menu_sort = null;
 if (isset($_POST['menu_sort'])) {
 	$menu_sort = $_POST['menu_sort'];
 }
 
-$menu_idx		= null;
+$menu_idx = 0;
 if (isset($_POST['menu_idx'])) {
 	$menu_idx = $_POST['menu_idx'];
+}
+
+$country = null;
+if (isset($_POST['country'])) {
+	$country = $_POST['country'];
+}
+
+$page_idx = 0;
+if (isset($_POST['page_idx'])) {
+	$page_idx = $_POST['page_idx'];
 }
 
 $last_idx = 0;
@@ -39,14 +54,8 @@ if (isset($_POST['last_idx'])) {
 	$last_idx = intval($_POST['last_idx']);
 }
 
-$page_idx		= $_POST['page_idx'];
-
-if (isset($_POST['country'])) {
-	$country		= $_POST['country'];
-}
-
 $menu_info = array();
-if ($menu_sort != null && $menu_idx != null) {
+if ($menu_sort != null && $menu_idx > 0) {
 	$upper_filter = getMenuFilter($db,$country,$menu_sort,$menu_idx,"UP");
 	$lower_filter = getMenuFilter($db,$country,$menu_sort,$menu_idx,"LW");
 	
@@ -56,7 +65,6 @@ if ($menu_sort != null && $menu_idx != null) {
 	);
 }
 
-$filter_info = array();
 $filter_info = getProductFilter($db,$country,$page_idx);
 
 $filter_param = null;
@@ -68,7 +76,7 @@ $grid_filter_sql = "";
 if ($filter_param != null) {
 	$filter_cl = $filter_param['filter_cl'];
 	if ($filter_cl != null) {
-		$grid_filter_sql = "
+		$grid_filter_sql .= "
 			AND (
 				PR.FILTER_CL REGEXP '".implode("|",$filter_cl)."'
 			)
@@ -77,7 +85,7 @@ if ($filter_param != null) {
 	
 	$filter_ft = $filter_param['filter_ft'];
 	if ($filter_ft != null) {
-		$grid_filter_sql = "
+		$grid_filter_sql .= "
 			AND (
 				OM.FIT REGEXP '".implode("|",$filter_ft)."'
 			)
@@ -86,16 +94,25 @@ if ($filter_param != null) {
 	
 	$filter_gp = $filter_param['filter_gp'];
 	if ($filter_gp != null) {
-		$grid_filter_sql = "
+		$grid_filter_sql .= "
 			AND (
 				OM.GRAPHIC REGEXP '".implode("|",$filter_gp)."'
 			)
 		";
 	}
 	
+	$filter_ln = $filter_param['filter_ln'];
+	if ($filter_ln != null) {
+		$grid_filter_sql .= "
+			AND (
+				OM.LINE_IDX REGEXP '".implode("|",$filter_gp)."'
+			)
+		";
+	}
+	
 	$filter_sz = $filter_param['filter_sz'];
 	if ($filter_sz != null) {
-		$grid_filter_sql = "
+		$grid_filter_sql .= "
 			AND (
 				PR.FILTER_SZ REGEXP '".implode("|",$filter_sz)."'
 			)
@@ -144,7 +161,14 @@ if ($order_param != null) {
 }
 
 if ($page_idx != null && $country != null) {
-	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
+	$member_level_sql = "";
+	if ($member_level > 0) {
+		$member_level_sql = " AND (DISPLAY_MEMBER_LEVEL = 'ALL' OR DISPLAY_MEMBER_LEVEL REGEXP '".$member_level."') ";
+	} else {
+		$member_level_sql = " AND DISPLAY_MEMBER_LEVEL = 'ALL' ";
+	}
+	
+	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE ".$member_level_sql);
 	if ($page_count > 0) {
 		$select_grid_sql = "
 			SELECT
@@ -456,7 +480,10 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 			$link_sql = "
 				(
 					SELECT
-						PAGE_URL
+						CONCAT(
+							S_PPR.PAGE_URL,
+							'&menu_sort=".$menu_sort."&menu_idx=".$menu_idx."'
+						)
 					FROM
 						dev.PAGE_PRODUCT S_PPR
 					WHERE

@@ -123,17 +123,32 @@ function getProductColor($db,$product_idx) {
 			$stock_status = "";
 			$product_qty = intval($data['STOCK_QTY']) - intval($data['ORDER_QTY']);
 			
+			$reorder_flg = false;
 			if ($product_qty > 0) {
 				$stock_status = "STIN";	//재고 있음 (Stock in)
 			} else {
 				$stock_status = "STSO";	//재고 없음(사선)		→ 증가 예정 재고 없음 (Stock sold out)
+				
+				$member_idx = 0;
+				if (isset($_SESSION['MEMBER_IDX'])) {
+					$member_idx = $_SESSION['MEMBER_IDX'];
+				}
+				
+				if ($member_idx > 0) {
+					$reorder_cnt = $db->count("dev.PRODUCT_REORDER","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
+					
+					if ($reorder_cnt > 0) {
+						$reorder_flg = true;
+					}
+				}
 			}
 			
 			$product_color[] = array(
 				'product_idx'		=>$data['PRODUCT_IDX'],
 				'color'				=>$data['COLOR'],
 				'color_rgb'			=>$data['COLOR_RGB'],
-				'stock_status'		=>$stock_status
+				'stock_status'		=>$stock_status,
+				'reorder_flg'		=>$reorder_flg
 			);
 		}
 		

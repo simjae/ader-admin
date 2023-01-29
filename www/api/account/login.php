@@ -52,9 +52,10 @@ if ($member_cnt > 0) {
 	$select_member_sql = "
 		SELECT 
 			MB.IDX					AS MEMBER_IDX,
-			MB.MEMBER_PW			AS MEMBER_PW,
-			MB.MEMBER_ID			AS MEMBER_ID,
 			MB.COUNTRY				AS COUNTRY,
+			MB.MEMBER_ID			AS MEMBER_ID,
+			MB.MEMBER_PW			AS MEMBER_PW,
+			MB.LEVEL_IDX			AS MEMBER_LEVEL,
 			MB.MEMBER_NAME			AS MEMBER_NAME,
 			MB.TEL_MOBILE			AS TEL_MOBILE,
 			MB.MEMBER_STATUS		AS MEMBER_STATUS,
@@ -143,13 +144,14 @@ if ($member_cnt > 0) {
 			}
 			
 			//회원 상태 = '일반'
-			$_SESSION['COUNTRY'] = $country;
-			$_SESSION['MEMBER_IDX']	= $data['MEMBER_IDX'];
-			$_SESSION['MEMBER_ID'] = $data['MEMBER_ID'];
-			$_SESSION['MEMBER_NAME'] = $data['MEMBER_NAME'];
-			$_SESSION['TEL_MOBILE'] = $data['TEL_MOBILE'];
-			$_SESSION['MEMBER_EMAIL'] = $data['MEMBER_ID'];
-			$_SESSION['MEMBER_BIRTH'] = $data['MEMBER_BIRTH_NUM'];
+			$_SESSION['MEMBER_IDX']		= $data['MEMBER_IDX'];
+			$_SESSION['COUNTRY']		= $data['COUNTRY'];
+			$_SESSION['MEMBER_ID']		= $data['MEMBER_ID'];
+			$_SESSION['LEVEL_IDX']		= $data['MEMBER_LEVEL'];
+			$_SESSION['MEMBER_NAME']	= $data['MEMBER_NAME'];
+			$_SESSION['TEL_MOBILE']		= $data['TEL_MOBILE'];
+			$_SESSION['MEMBER_EMAIL']	= $data['MEMBER_ID'];
+			$_SESSION['MEMBER_BIRTH']	= $data['MEMBER_BIRTH_NUM'];
 			
 			$update_NML_member_sql = "
 				UPDATE

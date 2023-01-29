@@ -29,6 +29,16 @@ if (isset($_POST['list_type'])) {
 	$list_type = $_POST['list_type'];
 }
 
+$rows = NULL;
+if(isset($_POST['rows'])){
+	$rows = $_POST['rows'];
+}
+
+$page = NULL;
+if(isset($_POST['page'])){
+	$page = $_POST['page'];
+}
+
 if($member_idx == 0){
     $json_result['code'] = 304;
     $json_result['msg'] = '비로그인 상태입니다.';
@@ -37,18 +47,41 @@ if($member_idx == 0){
 }
 
 if($country != null && $member_idx > 0 && $list_type != null){
-	$where = "";
+	$where = "
+			WHERE
+				REO.MEMBER_IDX = ".$member_idx."
+	";
+	$where_cnt = "
+				REO.MEMBER_IDX = ".$member_idx."
+	";
 	
 	switch ($list_type) {
 		case 'apply':
 			$where .= ' AND (REO.DEL_FLG = FALSE AND REO.REORDER_STATUS = FALSE) ';
+			$where_cnt .= ' AND (REO.DEL_FLG = FALSE AND REO.REORDER_STATUS = FALSE) ';
 			break;
 		case 'alarm':
 			$where .= ' AND (REO.DEL_FLG = FALSE AND REO.REORDER_STATUS = TRUE) ';
+			$where_cnt .= ' AND (REO.DEL_FLG = FALSE AND REO.REORDER_STATUS = TRUE) ';
 			break;
 		case 'cancel':
 			$where .= ' AND (REO.DEL_FLG = TRUE) ';
+			$where_cnt .= ' AND (REO.DEL_FLG = TRUE) ';	
 			break;
+	}
+	$json_result = array(
+		'total' => $db->count("	dev.PRODUCT_REORDER REO
+								LEFT OUTER JOIN  dev.SHOP_PRODUCT PR ON
+								REO.PRODUCT_IDX = PR.IDX
+								LEFT JOIN dev.ORDERSHEET_MST OM ON
+								PR.ORDERSHEET_IDX = OM.IDX",$where_cnt),
+		'page' => $page
+	);
+
+	$limit = '';
+	if($rows != NULL && $page != NULL){
+		$limit_start = (intval($page)-1)*$rows;
+		$limit = "LIMIT ".$limit_start.",".$rows;
 	}
 	
 	$select_reorder_sql = "
@@ -84,12 +117,10 @@ if($country != null && $member_idx > 0 && $list_type != null){
 			REO.PRODUCT_IDX = PR.IDX
 			LEFT JOIN dev.ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
-		WHERE
-			REO.MEMBER_IDX = ".$member_idx."
-			".$where."
+		".$where."
 		ORDER BY
 			REO.IDX DESC
-	";
+		".$limit;
 
 	$db->query($select_reorder_sql);
 

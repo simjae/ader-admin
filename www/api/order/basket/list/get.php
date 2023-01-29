@@ -16,83 +16,87 @@
 
 include_once("/var/www/www/api/common/common.php");
 
-$member_idx = 1;
-/*$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
-}*/
+}
 
-$country		= $_POST['country'];
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+}
 
-if ($member_idx == 0) {
+if ($member_idx == 0 || $country == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
 	exit;
 }
 
 if ($country != null) {
-	$sql = "SELECT
-				BI.IDX						AS BASKET_IDX,
-				BI.PRODUCT_IDX				AS PRODUCT_IDX,
-				(
-					SELECT
-						REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-					FROM
-						dev.PRODUCT_IMG S_PI
-					WHERE
-						S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
-						S_PI.IMG_TYPE = 'P' AND
-						S_PI.IMG_SIZE = 'S'
-					ORDER BY
-						S_PI.IDX ASC
-					LIMIT
-						0,1
-				)							AS PRODUCT_IMG,
-				BI.PRODUCT_NAME				AS PRODUCT_NAME,
-				OM.COLOR					AS COLOR,
-				OM.COLOR_RGB				AS COLOR_RGB,
-				BI.OPTION_IDX				AS OPTION_IDX,
-				BI.OPTION_NAME				AS OPTION_NAME,
-				PR.PRICE_".$country."		AS PRICE,
-				PR.DISCOUNT_".$country."	AS DISCOUNT,
-				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
-				PR.SOLD_OUT_QTY				AS SOLD_OUT_QTY,
-				(
-					SELECT
-						IFNULL(SUM(STOCK_QTY),0)
-					FROM
-						dev.PRODUCT_STOCK S_PS
-					WHERE
-						S_PS.PRODUCT_IDX = BI.PRODUCT_IDX AND
-						S_PS.OPTION_IDX = BI.OPTION_IDX AND
-						S_PS.STOCK_DATE <= NOW()
-						
-				)							AS STOCK_QTY,
-				(
-					SELECT
-						IFNULL(SUM(S_OP.PRODUCT_QTY),0)
-					FROM
-						dev.ORDER_PRODUCT S_OP
-					WHERE
-						S_OP.PRODUCT_IDX = BI.PRODUCT_IDX AND
-						S_OP.OPTION_IDX = BI.OPTION_IDX AND
-						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
-				)							AS ORDER_QTY,
-				BI.PRODUCT_QTY				AS BASKET_QTY,
-				BI.REORDER_FLG				AS REORDER_FLG
-			FROM
-				dev.BASKET_INFO BI
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
-				BI.PRODUCT_IDX = PR.IDX
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
-				PR.ORDERSHEET_IDX = OM.IDX
-			WHERE
-				BI.MEMBER_IDX = ".$member_idx." AND
-				BI.DEL_FLG = FALSE
-			ORDER BY
-				BI.IDX DESC";
+	$select_basket_sql = "
+		SELECT
+			BI.IDX						AS BASKET_IDX,
+			BI.PRODUCT_IDX				AS PRODUCT_IDX,
+			(
+				SELECT
+					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+				FROM
+					dev.PRODUCT_IMG S_PI
+				WHERE
+					S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
+					S_PI.IMG_TYPE = 'P' AND
+					S_PI.IMG_SIZE = 'S'
+				ORDER BY
+					S_PI.IDX ASC
+				LIMIT
+					0,1
+			)							AS PRODUCT_IMG,
+			BI.PRODUCT_NAME				AS PRODUCT_NAME,
+			OM.COLOR					AS COLOR,
+			OM.COLOR_RGB				AS COLOR_RGB,
+			BI.OPTION_IDX				AS OPTION_IDX,
+			BI.OPTION_NAME				AS OPTION_NAME,
+			PR.PRICE_".$country."		AS PRICE,
+			PR.DISCOUNT_".$country."	AS DISCOUNT,
+			PR.SALES_PRICE_".$country."	AS SALES_PRICE,
+			PR.SOLD_OUT_QTY				AS SOLD_OUT_QTY,
+			(
+				SELECT
+					IFNULL(SUM(STOCK_QTY),0)
+				FROM
+					dev.PRODUCT_STOCK S_PS
+				WHERE
+					S_PS.PRODUCT_IDX = BI.PRODUCT_IDX AND
+					S_PS.OPTION_IDX = BI.OPTION_IDX AND
+					S_PS.STOCK_DATE <= NOW()
+					
+			)							AS STOCK_QTY,
+			(
+				SELECT
+					IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+				FROM
+					dev.ORDER_PRODUCT S_OP
+				WHERE
+					S_OP.PRODUCT_IDX = BI.PRODUCT_IDX AND
+					S_OP.OPTION_IDX = BI.OPTION_IDX AND
+					S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+			)							AS ORDER_QTY,
+			BI.PRODUCT_QTY				AS BASKET_QTY,
+			BI.REORDER_FLG				AS REORDER_FLG
+		FROM
+			dev.BASKET_INFO BI
+			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			BI.PRODUCT_IDX = PR.IDX
+			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			PR.ORDERSHEET_IDX = OM.IDX
+		WHERE
+			BI.MEMBER_IDX = ".$member_idx." AND
+			BI.DEL_FLG = FALSE
+		ORDER BY
+			BI.IDX DESC
+	";
 	
-	$db->query($sql);
+	$db->query($select_basket_sql);
 	
 	$basket_st_info = array();	//재고 있음 | 품절 임박 상품 정보
 	$basket_so_info = array();	//재고 없음 상품 정보

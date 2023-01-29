@@ -21,68 +21,77 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$product_idx	= $_POST['product_idx'];
-$country		= $_POST['country'];
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+} else if (isset($_POST['country'])) {
+	$country = $_POST['country'];
+}
 
-if ($product_idx != null && $country != null) {
-	$sql = "SELECT
-				PR.IDX						AS PRODUCT_IDX,
-				PR.PRODUCT_NAME				AS PRODUCT_NAME,
-				OM.COLOR					AS COLOR,
-				PR.PRICE_".$country."		AS PRICE,
-				PR.DISCOUNT_".$country."	AS DISCOUNT,
-				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
-				PR.DETAIL_".$country."		AS DETAIL,
-				PR.CARE_".$country."		AS CARE,
-				PR.MATERIAL_".$country."	AS MATERIAL,
-				PR.REFUND_MSG_FLG			AS REFUND_MSG_FLG,
-				PR.REFUND_".$country."		AS REFUND_MSG,
-				PR.RELEVANT_IDX				AS RELEVANT_IDX
-			FROM
-				dev.SHOP_PRODUCT PR
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
-				PR.ORDERSHEET_IDX = OM.IDX
-			WHERE
-				PR.IDX = ".$product_idx;
+$product_idx = 0;
+if (isset($_POST['product_idx'])) {
+	$product_idx = $_POST['product_idx'];
+}
+
+if ($product_idx > 0 && $country != null) {
+	$select_product_sql = "
+		SELECT
+			PR.IDX						AS PRODUCT_IDX,
+			PR.PRODUCT_NAME				AS PRODUCT_NAME,
+			OM.COLOR					AS COLOR,
+			PR.PRICE_".$country."		AS PRICE,
+			PR.DISCOUNT_".$country."	AS DISCOUNT,
+			PR.SALES_PRICE_".$country."	AS SALES_PRICE,
+			PR.DETAIL_".$country."		AS DETAIL,
+			PR.CARE_".$country."		AS CARE,
+			PR.MATERIAL_".$country."	AS MATERIAL,
+			PR.REFUND_MSG_FLG			AS REFUND_MSG_FLG,
+			PR.REFUND_".$country."		AS REFUND_MSG,
+			PR.RELEVANT_IDX				AS RELEVANT_IDX
+		FROM
+			dev.SHOP_PRODUCT PR
+			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			PR.ORDERSHEET_IDX = OM.IDX
+		WHERE
+			PR.IDX = ".$product_idx;
 	
-	$db->query($sql);
+	$db->query($select_product_sql);
 	
 	foreach($db->fetch() as $data) {
 		if ($product_idx != null) {
 			$img_thumbnail_sql = "
-						(
-							SELECT
-								REPLACE(
-									S_PI.IMG_LOCATION,'/var/www/admin/www',''
-								)	AS IMG_LOCATION
-							FROM
-								dev.PRODUCT_IMG S_PI
-							WHERE
-								S_PI.PRODUCT_IDX = ".$product_idx." AND
-								S_PI.IMG_TYPE = 'O' AND
-								S_PI.IMG_SIZE = 'S'
-							ORDER BY
-								S_PI.IDX ASC
-							LIMIT
-								0,1
-						)
-						UNION
-						(
-							SELECT
-								REPLACE(
-									S_PI.IMG_LOCATION,'/var/www/admin/www',''
-								)	AS IMG_LOCATION
-							FROM
-								dev.PRODUCT_IMG S_PI
-							WHERE
-								S_PI.PRODUCT_IDX = ".$product_idx." AND
-								S_PI.IMG_TYPE = 'P' AND
-								S_PI.IMG_SIZE = 'S'
-							ORDER BY
-								IDX ASC
-							LIMIT
-								0,1
-						)";
+				(
+					SELECT
+						REPLACE(
+							S_PI.IMG_LOCATION,'/var/www/admin/www',''
+						)	AS IMG_LOCATION
+					FROM
+						dev.PRODUCT_IMG S_PI
+					WHERE
+						S_PI.PRODUCT_IDX = ".$product_idx." AND
+						S_PI.IMG_TYPE = 'O' AND
+						S_PI.IMG_SIZE = 'S'
+					ORDER BY
+						S_PI.IDX ASC
+					LIMIT
+						0,1
+				) UNION (
+					SELECT
+						REPLACE(
+							S_PI.IMG_LOCATION,'/var/www/admin/www',''
+						)	AS IMG_LOCATION
+					FROM
+						dev.PRODUCT_IMG S_PI
+					WHERE
+						S_PI.PRODUCT_IDX = ".$product_idx." AND
+						S_PI.IMG_TYPE = 'P' AND
+						S_PI.IMG_SIZE = 'S'
+					ORDER BY
+						IDX ASC
+					LIMIT
+						0,1
+				)
+			";
 			
 			$db->query($img_thumbnail_sql);
 			
@@ -95,23 +104,24 @@ if ($product_idx != null && $country != null) {
 			}
 			
 			$img_main_sql = "
-							SELECT
-								PI.IDX			AS IMG_IDX,
-								PI.IMG_TYPE		AS IMG_TYPE,
-								PI.IMG_SIZE		AS IMG_SIZE,
-								REPLACE(
-									PI.IMG_LOCATION,'/var/www/admin/www',''
-								)				AS IMG_LOCATION,
-								REPLACE(
-									PI.IMG_URL,'/var/www/admin/www',''
-								)				AS IMG_URL
-							FROM
-								dev.PRODUCT_IMG PI
-							WHERE
-								PI.PRODUCT_IDX = ".$product_idx." AND
-								PI.IMG_SIZE = 'L'
-							ORDER BY
-								PI.IDX ASC";
+				SELECT
+					PI.IDX			AS IMG_IDX,
+					PI.IMG_TYPE		AS IMG_TYPE,
+					PI.IMG_SIZE		AS IMG_SIZE,
+					REPLACE(
+						PI.IMG_LOCATION,'/var/www/admin/www',''
+					)				AS IMG_LOCATION,
+					REPLACE(
+						PI.IMG_URL,'/var/www/admin/www',''
+					)				AS IMG_URL
+				FROM
+					dev.PRODUCT_IMG PI
+				WHERE
+					PI.PRODUCT_IDX = ".$product_idx." AND
+					PI.IMG_SIZE = 'L'
+				ORDER BY
+					PI.IDX ASC
+			";
 			
 			$db->query($img_main_sql);
 			
