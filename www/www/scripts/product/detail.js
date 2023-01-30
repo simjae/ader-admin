@@ -420,7 +420,7 @@ function basketStatusBtn() {
     const sizeResult = sizeStatusCheck();
     const $$productBtn = document.querySelectorAll(".basket-btn");
     const $$size = document.querySelectorAll(".detail__wrapper .size");
-    
+    const addType = "product";
     $$productBtn.forEach(el => el.addEventListener("click", (e) => {
         let { status } = e.currentTarget.dataset;
         if (status == 2) {
@@ -429,7 +429,7 @@ function basketStatusBtn() {
                     return size.dataset.optionidx
                 }
             });
-            addBasketApi(productIdx, selectResult)
+            addBasketApi(addType, productIdx, selectResult)
             console.log("🏂 ~ file: product-detail.php:736 ~ $$productBtn.forEach ~ selectResult", selectResult)
         }
     }))
