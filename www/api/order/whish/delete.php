@@ -24,9 +24,9 @@ if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$whish_idx = 0;
-if (isset($_POST['whish_idx'])) {
-	$whish_idx = $_POST['whish_idx'];
+$product_idx = 0;
+if (isset($_POST['product_idx'])) {
+	$product_idx = $_POST['product_idx'];
 }
 
 if ($member_idx == 0 || $member_id == null) {
@@ -35,8 +35,8 @@ if ($member_idx == 0 || $member_id == null) {
 	return $json_result;
 }
 
-if ($member_idx > 0 && $whish_idx > 0) {
-	$cnt = $db->count("dev.WHISH_LIST","IDX = ".$whish_idx." AND MEMBER_IDX = ".$member_idx);
+if ($member_idx > 0 && $product_idx > 0) {
+	$cnt = $db->count("dev.WHISH_LIST","PRODUCT_IDX = ".$product_idx." AND MEMBER_IDX = ".$member_idx);
 
 	if ($cnt == 0) {
 		$json_result['code'] = 401;
@@ -52,7 +52,7 @@ if ($member_idx > 0 && $whish_idx > 0) {
 			UPDATE_DATE = NOW(),
 			UPDATER = '".$member_id."'
 		WHERE
-			IDX = ".$whish_idx." AND
+			PRODUCT_IDX = ".$product_idx." AND
 			MEMBER_IDX = ".$member_idx."
 	";
 

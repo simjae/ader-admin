@@ -37,6 +37,7 @@ if ($product_idx > 0 && $country != null) {
 	$select_product_sql = "
 		SELECT
 			PR.IDX						AS PRODUCT_IDX,
+			PR.ORDERSHEET_IDX			AS ORDERSHEET_IDX,
 			PR.PRODUCT_NAME				AS PRODUCT_NAME,
 			OM.COLOR					AS COLOR,
 			PR.PRICE_".$country."		AS PRICE,
@@ -57,7 +58,16 @@ if ($product_idx > 0 && $country != null) {
 	
 	$db->query($select_product_sql);
 	
-	foreach($db->fetch() as $data) {
+	foreach($db->fetch() as $product_data) {
+		$product_idx = $product_data['PRODUCT_IDX'];
+		$ordersheet_idx = $product_data['ORDERSHEET_IDX'];
+		
+		$img_thumbnail = array();
+		$img_main = array();
+		
+		$product_color = array();
+		$product_size = array();
+		
 		if ($product_idx != null) {
 			$img_thumbnail_sql = "
 				(
@@ -95,7 +105,6 @@ if ($product_idx > 0 && $country != null) {
 			
 			$db->query($img_thumbnail_sql);
 			
-			$img_thumbnail = array();
 			foreach($db->fetch() as $thumbnail) {
 				$img_thumbnail[] = array(
 					'display_num'	=>0,
@@ -126,7 +135,7 @@ if ($product_idx > 0 && $country != null) {
 			$db->query($img_main_sql);
 			
 			$display_num = 1;
-			$img_main = array();
+			
 			foreach($db->fetch() as $main) {
 				$img_main[] = array(
 					'display_num'	=>$display_num++,
@@ -167,27 +176,64 @@ if ($product_idx > 0 && $country != null) {
 			$product_color = getProductColor($db,$product_idx);
 			
 			$product_size = getProductSize($db,$product_idx);
-			
-			$json_result['data'][] = array(
-				'product_idx'		=>$data['PRODUCT_IDX'],
-				'img_thumbnail'		=>$img_thumbnail,
-				'img_main'			=>$img_main,
-				'product_name'		=>$data['PRODUCT_NAME'],
-				'color'				=>$data['COLOR'],
-				'price'				=>$data['PRICE'],
-				'discount'			=>$data['DISCOUNT'],
-				'sales_price'		=>$data['SALES_PRICE'],
-				'material'			=>$data['MATERIAL'],
-				'detail'			=>$data['DETAIL'],
-				'care'				=>$data['CARE'],
-				'refund_msg_flg'	=>$data['REFUND_MSG_FLG'],
-				'refund_msg'		=>$data['REFUND_MSG'],
-				'relevant_idx'		=>$data['RELEVANT_IDX'],
-				'product_color'		=>$product_color,
-				'product_size'		=>$product_size,
-				'whish_flg'			=>$whish_flg
-			);
 		}
+		
+		$option_info = array();
+		if (!empty($ordersheet_idx)) {
+			$select_option_sql = "
+				SELECT
+					OO.OPTION_NAME		AS OPTION_NAME,
+					OO.SIZE_CATEGORY	AS SIZE_CATEGORY,
+					OO.OPTION_SIZE_1	AS OPTION_SIZE_1,
+					OO.OPTION_SIZE_2	AS OPTION_SIZE_2,
+					OO.OPTION_SIZE_3	AS OPTION_SIZE_3,
+					OO.OPTION_SIZE_4	AS OPTION_SIZE_4,
+					OO.OPTION_SIZE_5	AS OPTION_SIZE_5,
+					OO.OPTION_SIZE_6	AS OPTION_SIZE_6
+				FROM
+					dev.ORDERSHEET_OPTION OO
+				WHERE
+					OO.ORDERSHEET_IDX = ".$ordersheet_idx."
+			";
+			
+			$db->query($select_option_sql);
+			
+			foreach($db->fetch() as $option_data) {
+				$option_name = $option_data['OPTION_NAME'];
+				
+				$option_info[$option_name][] = array(
+					'size_category'		=>$option_data['SIZE_CATEGORY'],
+					'option_size_1'		=>$option_data['OPTION_SIZE_1'],
+					'option_size_2'		=>$option_data['OPTION_SIZE_2'],
+					'option_size_3'		=>$option_data['OPTION_SIZE_3'],
+					'option_size_4'		=>$option_data['OPTION_SIZE_4'],
+					'option_size_5'		=>$option_data['OPTION_SIZE_5'],
+					'option_size_6'		=>$option_data['OPTION_SIZE_6']
+				);
+			}
+		}
+		
+		$json_result['data'][] = array(
+			'product_idx'		=>$product_data['PRODUCT_IDX'],
+			'img_thumbnail'		=>$img_thumbnail,
+			'img_main'			=>$img_main,
+			'product_name'		=>$product_data['PRODUCT_NAME'],
+			'color'				=>$product_data['COLOR'],
+			'price'				=>$product_data['PRICE'],
+			'discount'			=>$product_data['DISCOUNT'],
+			'sales_price'		=>$product_data['SALES_PRICE'],
+			'material'			=>$product_data['MATERIAL'],
+			'detail'			=>$product_data['DETAIL'],
+			'care'				=>$product_data['CARE'],
+			'refund_msg_flg'	=>$product_data['REFUND_MSG_FLG'],
+			'refund_msg'		=>$product_data['REFUND_MSG'],
+			'relevant_idx'		=>$product_data['RELEVANT_IDX'],
+			'product_color'		=>$product_color,
+			'product_size'		=>$product_size,
+			'whish_flg'			=>$whish_flg,
+			
+			'option_info'		=>$option_info
+		);
 	}
 }
 ?>

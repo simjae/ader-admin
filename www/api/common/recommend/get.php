@@ -71,7 +71,7 @@ if ($country != null) {
 			$whish_flg = false;
 			
 			if ($member_idx > 0) {
-				$whish_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
+				$whish_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE ");
 				
 				if ($whish_cnt > 0) {
 					$whish_flg = true;

@@ -500,7 +500,6 @@ function deleteWhishListBtn(obj) {
     }
 }
 function changeImgTypeBtn() {
-    console.log("asd")
     $('#last_idx').val(0);
     let imgType = "imgType"
     let img_param = $('#img_param');

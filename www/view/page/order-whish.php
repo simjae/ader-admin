@@ -105,14 +105,23 @@
     }
 
     .content.right {
+        display: none;
         position: sticky;
         height: 100vh;
         top: 200px;
         grid-column: 14/17;
-        display: grid;
+        min-width: 36rem;
         /* border-left: 1px solid #dcdcdc; */
     }
-
+    .add-list-wrap{
+        display: none;
+    }
+    .content.right.open {
+        display: grid;
+    }
+    .content.right.open .add-list-wrap{
+        display: block;
+    }
     .content.right .header-wrap {
         margin-bottom: 80px;
         padding:15px ;
@@ -392,8 +401,8 @@
 
     .add-list-wrap .body-wrap {
         width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        display: flex;
+        flex-wrap: wrap;
         padding: 0 40px;
         column-gap: 20px;
         flex-wrap: wrap;
@@ -402,7 +411,8 @@
     }
 
     .add-list-wrap .body-wrap .add-box {
-        width: 100%;
+        max-width: 80px;
+        width: 33%;
         text-align: center;
     }
 
@@ -518,7 +528,6 @@
             z-index: 20;
 
         }
-
         .content.right .header-wrap {
             margin-bottom: 10px;
             padding: 0px 10px;
@@ -609,7 +618,7 @@
             <div class="add-list-wrap">
                 <div class="header-wrap">
                     <div class="header-box" onclick="removeAddListAll()">
-                        <span class="hd-title hidden">모두 선택해제</span>
+                        <span class="hd-title">모두 선택해제</span>
                     </div>
                 </div>
                 <div class="body-wrap"></div>
@@ -620,7 +629,7 @@
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                 </div>
-                <div class="basket-link-btn hidden">
+                <div class="basket-link-btn" onclick="basketAddBtnHandler();">
                     <span>선택 제품 쇼핑백으로 이동하기</span>
                 </div>
             </div>
@@ -632,6 +641,7 @@
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         getWhishProductList();
+        
     });
     let addListBox = [];
     const quickSwiper = new Swiper(".quick-swiper", {
@@ -769,7 +779,7 @@
         });
         productWrap.innerHTML = productHtml;
         bodyWrap.appendChild(productWrap);
-
+        basketAddBtnHandler();
 
     }
     function writeAddBoxHtml(add) {
@@ -949,8 +959,8 @@
                         e.currentTarget.classList.add("select");
                         writeAddBoxHtml(addProduct);
 
-                        document.querySelector(".add-list-wrap .header-box").classList.remove("hidden");
-                        document.querySelector(".add-list-wrap .basket-link-btn").classList.remove("hidden");
+                        // document.querySelector(".add-list-wrap .header-box").classList.remove("hidden");
+                        // document.querySelector(".add-list-wrap .basket-link-btn").classList.remove("hidden");
 
                         el.offsetParent.querySelector(".size__box").classList.add("disable");
                         el.querySelector("span").innerHTML = "선택해제";
@@ -960,6 +970,19 @@
                 showAddWrapBtns();
             });
         })
+    }
+    //쇼핑백에 담기 버튼
+    function basketAddBtnHandler(){
+        let basketBtn = document.querySelector(".add-list-wrap .basket-link-btn");
+        const addType = "whish";
+        let addBox = document.querySelectorAll(".add-list-wrap .add-box");
+
+        addBox.forEach(el => {
+            let {whish, size} = el.dataset;
+            let sizeArr = size.split(",");
+            addBasketApi(addType, whish, sizeArr);
+        })
+
     }
     /*------------------------- 삭제 & 초기화 -------------------------- */
     //찜리스트에 추가된 상품 제거 
@@ -1013,14 +1036,15 @@
     }
     //개별 위시리스트 상품 사이즈 버튼 초기화 
     const resetSizeBox = (whishIdx) => {
-        let sizeBoxs = document.querySelectorAll(".size__box");
+        let sizeBoxs = document.querySelectorAll(".whishlist-section .size__box");
         let $$addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
         let $$slideEl = document.querySelectorAll(".quick-swiper .swiper-slide");
 
-        let allRemoveBtn = document.querySelector(".add-list-wrap .header-wrap")
+        // let allRemoveBtn = document.querySelector(".add-list-wrap .header-wrap")
         let basketBtn = document.querySelector(".add-list-wrap .basket-link-btn")
 
         sizeBoxs.forEach((el, index) => {
+            console.log(el.offsetParent)
             let targetWhishIdx = el.offsetParent.dataset.whish;
             if (targetWhishIdx == whishIdx) {
                 el.classList.remove("disable");
@@ -1029,21 +1053,28 @@
         });
 
         if($$addboxEl.length == 0 ||  $$slideEl.length == 0){
-            allRemoveBtn.classList.add("hidden");
-            allRemoveBtn.classList.add("hidden");
+            // allRemoveBtn.classList.add("hidden");
+            // allRemoveBtn.classList.add("hidden");
         }
     }
       //찜리스트에 추가된상품 모두 제거 
     const removeAddListAll = ()=>{
         let $$addBox = document.querySelectorAll(".body-wrap .add-box");
-
+        let $$productSelectBtn = document.querySelectorAll(".product-select-btn.select");
         $$addBox.forEach(el => {
             let whishIdx = el.dataset.whish;
             el.remove();
             resetSizeBox(whishIdx);
             quickSwiper.removeAllSlides();
             quickSwiper.update();
+            showAddWrapBtns();
         })
+        $$productSelectBtn.forEach(el => {
+            el.classList.remove("select");
+            el.querySelector("span").innerHTML = "선택하기";
+        });
+
+
     }
     //매개변수가 없을시에 위시리시트 전체 상품 상태 체크 
     const productBtnStatus = (whishIdx, status) => {
@@ -1121,20 +1152,22 @@
         let contentRight = document.querySelector(".content.right");
         let addListWrap = document.querySelector(".add-list-wrap");
         let addbox = addListWrap.querySelectorAll(".body-wrap .add-box");
-        let allRemoveBtn = addListWrap.querySelector(".hd-title");
-        let basketLinkBtn = addListWrap.querySelector(".basket-link-btn");
-        addListWrap.classList.remove("hidden");
-        allRemoveBtn.classList.remove("hidden");
+        // let allRemoveBtn = addListWrap.querySelector(".hd-title");
+        // let basketLinkBtn = addListWrap.querySelector(".basket-link-btn");
+        // addListWrap.classList.remove("hidden");
+        // allRemoveBtn.classList.remove("hidden");
 
 
         if(addbox.length > 0){
-            addListWrap.classList.remove("hidden");
-            allRemoveBtn.classList.remove("hidden");
-            contentRight.classList.remove("hidden");
+            contentRight.classList.add("open");
+            // addListWrap.classList.remove("hidden");
+            // allRemoveBtn.classList.remove("hidden");
+            // contentRight.classList.remove("hidden");
         } else {
-            addListWrap.classList.add("hidden");
-            allRemoveBtn.classList.add("hidden");
-            contentRight.classList.add("hidden");
+            contentRight.classList.remove("open");
+            // addListWrap.classList.add("hidden");
+            // allRemoveBtn.classList.add("hidden");
+            // contentRight.classList.add("hidden");
         }
     }
     //퀵슬라이드 클릭시 스크롤 이동

@@ -155,7 +155,9 @@
         overflow-x: hidden;
         position: relative;
     }
-
+    .swiper-button-next,.swiper-button-prev{
+        z-index: 9;
+    }
     .new__project__swiper .swiper-button-next,
     .swiper-button-prev {
         top: 82%;
@@ -498,6 +500,7 @@
     .styling-swiper .navigation .swiper-button-next::after {
         visibility:visible;
         content: url('/images/svg/sw-ar-bk.svg');
+        transform: rotate(0deg);
         position: relative;
     }
 
@@ -844,7 +847,7 @@
         }
     }
 </style>
-
+<?php include $_CONFIG['PATH']['PAGE'] . '/components/quickview.php';?>
 <main>
     <!-- banner -->
     <section class="new__project__wrap">

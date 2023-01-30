@@ -14,22 +14,29 @@
  +=============================================================================
 */
 
-$member_idx = 1;
-/*$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
-}*/
+}
 
-if ($member_idx == 0) {
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+}
+
+if ($member_idx == 0 || $country == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
 	exit;
 }
 
-$country		= $_POST['country'];
-$basket_idx		= $_POST['basket_idx'];
+$basket_idx = null;
+if (isset($_POST['basket_idx'])) {
+	$basket_idx = $_POST['basket_idx'];
+}
 
-$basket_cnt = $db->count("dev.BASKET_INFO","IDX IN (".implode(",",$basket_idx).") AND MEMBER_IDX = ".$member_idx);
+if ($member_idx > 0 && $basket_idx != null) {
+	$basket_cnt = $db->count("dev.BASKET_INFO","IDX IN (".implode(",",$basket_idx).") AND MEMBER_IDX = ".$member_idx);
 
 if (count($basket_idx) != $basket_cnt) {
 	$json_result['code'] = 402;
@@ -37,7 +44,7 @@ if (count($basket_idx) != $basket_cnt) {
 	exit;
 }
 
-if ($member_idx != 0 && $basket_idx != null && $country != null) {
+if ($member_idx != 0 && $basket_idx != null) {
 	$product_sql = "
 		SELECT
 			BI.IDX							AS BASKET_IDX,
@@ -149,5 +156,6 @@ if ($member_idx != 0 && $basket_idx != null && $country != null) {
 		'member_info'	=>$member_info,
 		'to_info'		=>$to_info
 	);
+}
 }
 ?>
