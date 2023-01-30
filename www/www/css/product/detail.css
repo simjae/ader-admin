@@ -464,7 +464,7 @@ ul,li{
 
 .style__wrapper .product {
     width: 100%;
-    border-left: solid 1px #dcdcdc;
+    border-right: solid 1px #dcdcdc;
 }
 .style__wrapper .product .product-info {
     border-top: solid 1px #dcdcdc;
@@ -488,7 +488,7 @@ ul,li{
     width: 70%;
 }
 .style__wrapper:last-of-type {
-    border-bottom: solid 1px #dcdcdc;
+    border-bottom: 0px
 }
 .style__wrapper{
     display: grid;
@@ -498,17 +498,14 @@ ul,li{
 .style__wrapper .left__title {
     grid-column: 1/2;
     padding: 20px 0 0 10px;
+    border-right: 1px solid #dcdcdc;
 }
 .style__wrapper .left__title span{
-    font-family: var(--ft-no-fu);
-    font-size: 13px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.46;
+    font-size: 10px;
+    text-decoration: underline;
     letter-spacing: 0.33px;
     text-align: left;
-    color:var(--bk);
+    color: var(--bk);
 }
 .foryou-wrap {
     grid-column: 2/17;

@@ -69,8 +69,8 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 					<!-- <img src="/images/svg/basket.svg" alt=""> -->
 					<span class="basket-title">쇼핑백에 담기</span>
 				</div>
-				<div class="whish-btn">
-					<img src="/images/svg/wishlist-bk.svg" alt="" style="">
+				<div class="whish-btn" onclick="setWhishListBtn(this)">
+					<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="">
 				</div>
 			</div>
 		</div>
