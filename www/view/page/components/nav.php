@@ -1,3 +1,4 @@
+<?php $session = "false";if (isset($_SESSION['MEMBER_IDX'])) {$session = "true";}?>
 <!-- <div class="notice__wrap">
     <Marquee width="90%">
         <div class="notice__marquee">
@@ -24,3 +25,5 @@
     <div class="lg:hidden side__menu"></div>
 </nav>
 <script type="module" src="/scripts/nav.js"></script>
+
+<script>sessionStorage.setItem('login_session', <?php echo $session ?>);</script>

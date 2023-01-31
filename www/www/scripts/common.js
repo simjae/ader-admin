@@ -69,4 +69,10 @@ const elemScrollFooterUpEvent = (elem) => {
         }
     });
 };
-
+/**
+ * @description 로그인 세션값 
+ * @returns true,false
+ */
+function getLoginStatus() {
+    return sessionStorage.getItem("login_session");
+}

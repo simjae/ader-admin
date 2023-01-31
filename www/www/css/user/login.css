@@ -1,15 +1,15 @@
 /* login */
-input{outline: none;}
+#sidebar input{outline: none;}
 
-.content__wrap{
+#sidebar .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
 }
-.font__underline.font__red{
+#sidebar .font__underline.font__red{
     color:red;
     text-align:right;
 }
-.content__wrap .content__title{
+#sidebar .content__wrap .content__title{
     margin-top:10px;
     margin-bottom:10px;
     height: 16px;
@@ -23,14 +23,14 @@ input{outline: none;}
     letter-spacing: normal;
     color: #343434;
 }
-.content__wrap.login_btn{
+#sidebar .content__wrap.login_btn{
     margin-top:20px;
     margin-bottom:10px;
 }
-.content__row .checkbox__label{
+#sidebar .content__row .checkbox__label{
     float:left;
 }
-.login__card [type="checkbox"] {
+#sidebar .login__card [type="checkbox"] {
   vertical-align: middle;
   appearance: none;
   border: 1px solid gray;
@@ -39,14 +39,14 @@ input{outline: none;}
   margin: 0px;
   padding: 0px;
 }
-.login__card [type="checkbox"]:checked {
+#sidebar .login__card [type="checkbox"]:checked {
     background-color: #000000;
 }
-.login__card label{
+#sidebar .login__card label{
     padding-right: 10px;
     vertical-align: middle;
 }
-.login__card label p,label span{
+#sidebar .login__card label p, #sidebar label span{
     font-size: 11px;
     font-family:var(--ft-no-fu);
     font-weight: normal;
@@ -58,10 +58,10 @@ input{outline: none;}
     color: #343434;
 }
 
-.text__align__center{
+#sidebar .text__align__center{
     text-align:center;
 }
-.font__small{
+#sidebar .font__small{
     height: 16px;
     object-fit: contain;
     font-family: var(--ft-no);
@@ -73,7 +73,7 @@ input{outline: none;}
     letter-spacing: normal;
     color: #343434;
 }
-.font__underline{
+#sidebar .font__underline{
     text-decoration: underline;
     height: 16px;
     object-fit: contain;
@@ -87,20 +87,20 @@ input{outline: none;}
     float: right;
     color: #343434;
 }
-.card__footer{
+#sidebar .card__footer{
     margin-top:20px;
 }
-.kakao__btn{
+#sidebar .kakao__btn{
     float:left;
     margin-right:10px;
 }
-.content__row.sns__account__login{
+#sidebar .content__row.sns__account__login{
     width:70px;
     margin:auto;
     margin-top:20px;
 }
 @media (min-width: 1024px){
-    input[type="password"], input[type="text"]{
+    #sidebar input[type="password"], #sidebar input[type="text"]{
         width: 470px;
         height: 40px;
         font-size: 11px;
@@ -111,7 +111,7 @@ input{outline: none;}
         border-left: none;
         border-right: none;
     }
-    input[type="button"]{
+    #sidebar input[type="button"]{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
@@ -123,7 +123,7 @@ input{outline: none;}
         border-radius: 1px;
         background-color: #191919;
     }
-    .font__large{
+    #sidebar .font__large{
         height:19px;
         object-fit: contain;
         font-family: var(--ft-no);
@@ -135,23 +135,23 @@ input{outline: none;}
         letter-spacing: normal;
         color: #343434;
     }
-    .login__card{
+    #sidebar .login__card{
         width:470px;
         margin: 0 auto;
         height:575px;
         margin-top:229.5px;
         margin-bottom:231px;
     }
-    .login__card .card__header{
+    #sidebar .login__card .card__header{
         margin-bottom:50px;
     }
-    .login__card input[type="text"]{
+    #sidebar .login__card input[type="text"]{
         font-family: var(--ft-fu);
     }
-    .login__card input[type="password"]{
+    #sidebar .login__card input[type="password"]{
         font-family: var(--ft-no);
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
@@ -159,12 +159,12 @@ input{outline: none;}
         object-fit: contain;
         background-color: #eee;
     }
-    .content__title.sns__account__login{
+    #sidebar .content__title.sns__account__login{
         margin-top:40px;
     }
 }
 @media (max-width: 1024px){
-    input[type="password"], input[type="text"]{
+    #sidebar input[type="password"],#sidebar input[type="text"]{
         width: 340px;
         height: 40px;
         font-size: 1.1rem;
@@ -174,7 +174,7 @@ input{outline: none;}
         border: solid 1px #808080;
     }
 
-    input[type="button"]{
+    #sidebar input[type="button"]{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.1rem;
@@ -186,7 +186,7 @@ input{outline: none;}
         border-radius: 1px;
         background-color: #191919;
     }
-    .font__large{
+    #sidebar .font__large{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.2rem;
@@ -197,23 +197,23 @@ input{outline: none;}
         letter-spacing: normal;
         color: #343434;
     }
-    .login__card{
+    #sidebar .login__card{
         width:340px;
         margin: 0 auto;
         height:581px;
         margin-top:10px;
         margin-bottom:100px;
     }
-    .login__card .card__header{
+    #sidebar .login__card .card__header{
         margin-bottom:60px;
     }
-    .login__card input[type="text"]{
+    #sidebar .login__card input[type="text"]{
         font-family: var(--ft-fu);
     }
-    .login__card input[type="password"]{
+    #sidebar .login__card input[type="password"]{
         font-family: var(--ft-no);
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 340px;
         height: 1px;
         margin-top: 40.5px;
@@ -221,22 +221,22 @@ input{outline: none;}
         object-fit: contain;
         background-color: #eee;
     }
-    .content__title.sns__account__login{
+    #sidebar .content__title.sns__account__login{
         margin-top:41px;
     }
 }
 /* check */
-input{outline: none;}
+#sidebar input{outline: none;}
 
-input::placeholder{
+#sidebar input::placeholder{
     font-size:11px;
     color: #dcdcdc;
 }
-.content__wrap{
+#sidebar .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
 }
-.content__wrap .content__title{
+#sidebar .content__wrap .content__title{
     margin-top:10px;
     margin-bottom:10px;
     height: 16px;
@@ -245,55 +245,55 @@ input::placeholder{
     font-size: 11px;
     color: #343434;
 }
-.font__underline.font__red{
+#sidebar .font__underline.font__red{
     color:red;
     text-align:right;
 }
-.right__area__wrap{
+#sidebar .right__area__wrap{
     float:right;
 }
-.other__platform__btn{
+#sidebar .other__platform__btn{
     width:70px;
     margin:auto;
     margin-top:20px;
 }
-.kakao__btn{
+#sidebar .kakao__btn{
     float:left;
     margin-right:10px;
 }
 @media (min-width: 1024px){
-    .password__search__card{
+    #sidebar .password__search__card{
         width:470px;
         margin: 0 auto;
         height:324px;
         margin-top:229.5px;
         margin-bottom:554px;
     }
-    .password__search__card .card__header{
+    #sidebar .password__search__card .card__header{
        margin-bottom:50px; 
     }
-    .pc__sns__msg{
+    #sidebar .pc__sns__msg{
         height:19px!important;
         text-align:center;
     }
-    .moblie__sns__msg{
+    #sidebar .moblie__sns__msg{
         display:none;
     }
-    .font__large{
+    #sidebar .font__large{
         height:19px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 13px;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -302,22 +302,22 @@ input::placeholder{
         float: right;
         color: #343434;
     }
-    .password__search__card .member_id__check{
+    #sidebar .password__search__card .member_id__check{
         margin-top:21px;
         width:470px;
         height:58px
     }
-    .content__wrap.grid__two{
+    #sidebar .content__wrap.grid__two{
         margin-top:21px;
         width:470px;
         height:58px
     }
-    .password__search__card .grid__two .left__area__wrap{
+    #sidebar .password__search__card .grid__two .left__area__wrap{
         height:58px;
         width:350px;
         float:left;
     }
-    .password__search__card input[type="text"]{
+    #sidebar .password__search__card input[type="text"]{
         width: 350px;
         height: 40px;
         font-family: var(--ft-fu);
@@ -327,7 +327,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .right__area__wrap .black__small__btn{
+    #sidebar .right__area__wrap .black__small__btn{
         width: 110px;
         height: 40px;
         border-radius: 1px;
@@ -340,7 +340,7 @@ input::placeholder{
         text-align: center;
         color: #fff;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
@@ -351,38 +351,38 @@ input::placeholder{
     }
 }
 @media (max-width: 1024px){
-    .password__search__card{
+    #sidebar .password__search__card{
         width:341px;
         margin: 0 auto;
         height:413px;
         margin-top:10px;
         margin-bottom:207px;
     }
-    .password__search__card .card__header{
+    #sidebar .password__search__card .card__header{
         margin-bottom:143px;
     }
-    .pc__sns__msg{
+    #sidebar .pc__sns__msg{
         display:none;
     }
-    .moblie__sns__msg{
+    #sidebar .moblie__sns__msg{
         height:33px!important;
         text-align:center;
     }
-    .font__large{
+    #sidebar .font__large{
         height:17px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.2rem;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.1rem;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -391,17 +391,17 @@ input::placeholder{
         float: right;
         color: #343434;
     }
-    .content__wrap.grid__two{
+    #sidebar .content__wrap.grid__two{
         margin-top:6px;
         width:341px;
         height:58px;
     }
-    .password__search__card .grid__two .left__area__wrap{
+    #sidebar .password__search__card .grid__two .left__area__wrap{
         height:58px;
         width:216px;
         float:left;
     }
-    .password__search__card input[type="text"]{
+    #sidebar .password__search__card input[type="text"]{
         width: 216px;
         height: 40px;
         font-family: var(--ft-fu);
@@ -411,7 +411,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .right__area__wrap .black__small__btn{
+    #sidebar .right__area__wrap .black__small__btn{
         width: 115px;
         height: 40px;
         border-radius: 1px;
@@ -424,7 +424,7 @@ input::placeholder{
         text-align: center;
         color: #fff;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 340px;
         height: 1px;
         margin-top: 39.5px;
@@ -435,16 +435,16 @@ input::placeholder{
     }
 }
 /* join */
-input{outline: none;}
+#sidebar input{outline: none;}
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+#sidebar input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.code6{display: none;}
-.code5{font-size: 11px;font-family: var(--ft-fu);width:34px;}
-.keyword_label{display:none}
-.search_button{
+#sidebar .code6{display: none;}
+#sidebar .code5{font-size: 11px;font-family: var(--ft-fu);width:34px;}
+#sidebar .keyword_label{display:none}
+#sidebar .search_button{
     width: 110px;
     height: 40px;
     object-fit: contain;
@@ -458,29 +458,29 @@ input::-webkit-inner-spin-button {
     float:right;
 }
 
-.postcode_search_status{
+#sidebar .postcode_search_status{
     font-family: var(--ft-no);
     font-size: 11px;
     border: solid 1px #dcdcdc;
     padding: 23px 19px;
 }
-.postcodify_search_result{
+#sidebar .postcodify_search_result{
     font-family: var(--ft-no);
     font-size: 11px;
     height:95px;
     border-bottom: solid 1px #dcdcdc;
     padding: 23px 19px;
 }
-.content__wrap{
+#sidebar .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
 }
-.content__wrap.checkbox__area{
+#sidebar .content__wrap.checkbox__area{
     margin-top:20px;
     margin-bottom:50px;
     clear:both;
 }
-.content__wrap .content__title{
+#sidebar .content__wrap .content__title{
     margin-bottom:10px;
     height: 16px;
     object-fit: contain;
@@ -488,34 +488,34 @@ input::-webkit-inner-spin-button {
     font-size: 11px;
     color: #343434;
 }
-.content__wrap .content__row{
+#sidebar .content__wrap .content__row{
     margin-bottom:10px;
 }
-.content__title.warm__msg__area{
+#sidebar .content__title.warm__msg__area{
     margin-top:10px;
     margin-bottom:0px!important;
     height:26px;
 }
-.warm__msg__area .font__small{
+#sidebar .warm__msg__area .font__small{
     float:left;
 }
-.warm__msg__area .font__underline{
+#sidebar .warm__msg__area .font__underline{
     margin-top:8px;
 }
-.contnet__row.warm__msg__area{
+#sidebar .contnet__row.warm__msg__area{
     clear:both;
 } 
-.warn__msg{
+#sidebar .warn__msg{
     float:right;
     color:#ff0000!important;
     visibility:hidden;
     margin-bottom:2px;
 }
-.join__card input[name="member_id"]{
+#sidebar .join__card input[name="member_id"]{
     font-family: var(--ft-fu)!important;
 }
 
-.join__card [type="checkbox"] {
+#sidebar .join__card [type="checkbox"] {
   vertical-align: middle;
   appearance: none;
   border: 1px solid gray;
@@ -524,14 +524,14 @@ input::-webkit-inner-spin-button {
   margin: 0px;
   padding: 0px;
 }
-.join__card [type="checkbox"]:checked {
+#sidebar .join__card [type="checkbox"]:checked {
     background-color: #000000;
 }
-.join__card label{
+#sidebar .join__card label{
     padding-right: 10px;
     vertical-align: middle;
 }
-.join__card label p,label span{
+#sidebar .join__card label p ,#sidebar label span{
     font-size: 11px;
     font-family:var(--ft-no-fu);
     font-weight: normal;
@@ -543,7 +543,7 @@ input::-webkit-inner-spin-button {
     color: #343434;
 }
 
-input[type="button"]{
+#sidebar input[type="button"]{
     object-fit: contain;
     font-family: var(--ft-no);
     font-size: 11px;
@@ -551,26 +551,27 @@ input[type="button"]{
     color: #fff;
     cursor:pointer;
 }
-input::placeholder{
+#sidebar input::placeholder{
     font-size:11px;
     color: #dcdcdc;
 }
-.short__input.address__input{
+#sidebar .short__input.address__input{
     text-align:right;
     padding-right:10px;
 }
-.grid__three .left__area__wrap input{
+#sidebar .grid__three .left__area__wrap input{
     float:left;
 }
-.grid__three .middle__area__wrap input{
+#sidebar .grid__three .middle__area__wrap input{
     float:left;
     margin-left:10px;
 }
-.grid__three .right__area__wrap input{
+#sidebar .grid__three .right__area__wrap input{
     float:right;
 }
+
 @media (min-width: 1024px){
-    .post-change-result{
+    #sidebar .post-change-result{
         width: 74.5%;
         margin: 0!important;
         background-color: #fff;
@@ -580,31 +581,31 @@ input::placeholder{
         border-top: 0px;
         top: -32px;
     }
-    .keyword{
+    #sidebar .keyword{
         height:40px;
         width:350px!important;
         float:left;
     }
-    .join__card .card__header{
+    #sidebar .join__card .card__header{
         margin-bottom:50px;
     }
-    .text__align__center{
+    #sidebar .text__align__center{
         text-align:center;
     }
-    .font__large{
+    #sidebar .font__large{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 13px;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -612,14 +613,14 @@ input::placeholder{
         font-size: 11px;
         color: #343434;
     }
-    .join__card{
+    #sidebar .join__card{
         width:470px;
         margin: 0 auto;
         height:869px;
         margin-top:200px;
         margin-bottom:290px;
     }
-    .join__card input[type="text"]{
+    #sidebar .join__card input[type="text"]{
         width: 470px;
         height: 40px;
         font-size: 11px;
@@ -629,7 +630,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="number"]{
+    #sidebar .join__card input[type="number"]{
         width: 470px;
         height: 40px;
         font-size: 11px;
@@ -639,7 +640,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="password"]{
+    #sidebar .join__card input[type="password"]{
         width: 470px;
         height: 40px;
         font-size: 11px;
@@ -649,44 +650,44 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card .grid__two{
+    #sidebar .join__card .grid__two{
         width:470px;
         height:40px
     }
-    .join__card .grid__two .left__area__wrap{
+    #sidebar .join__card .grid__two .left__area__wrap{
         height:40px;
         width:350px;
         float:left;
     }
-    .join__card .grid__two .right__area__wrap{
+    #sidebar .join__card .grid__two .right__area__wrap{
         height:40px;
         width:110px;
         float:right;
     }
-    .grid__two input[type="text"]{
+    #sidebar .grid__two input[type="text"]{
         width: 350px!important;
     }
-    .grid__three{
+    #sidebar .grid__three{
         width:470px;
         height:40px
     }
-    .short__input{
+    #sidebar .short__input{
         width: 150px!important;
     }
-    .black__small__btn{
+    #sidebar .black__small__btn{
         width: 110px;
         height: 40px;
         border-radius: 1px;
         background-color: #191919;
         float:right;
     }
-    .black__btn{
+    #sidebar .black__btn{
         width: 470px;
         height: 40px;
         border-radius: 1px;
         background-color: #191919;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
@@ -695,8 +696,9 @@ input::placeholder{
         background-color: #eee;
     }
 }
+
 @media (max-width: 1024px){
-    .post-change-result{
+    #sidebar .post-change-result{
         width: 340px;
         margin: 0!important;
         background-color: #fff;
@@ -706,31 +708,31 @@ input::placeholder{
         border-top: 0px;
         top: -32px;
     }
-    .keyword{
+    #sidebar .keyword{
         height:40px;
         width:215px!important;
         float:left;
     }
-    .join__card .card__header{
+    #sidebar .join__card .card__header{
         margin-bottom:40px;
     }
-    .text__align__center{
+    #sidebar .text__align__center{
         text-align:center;
     }
-    .font__large{
+    #sidebar .font__large{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 12px;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -738,26 +740,26 @@ input::placeholder{
         font-size: 11px;
         color: #343434;
     }
-    .join__card{
+    #sidebar .join__card{
         width:340px;
         margin: 0 auto;
         height:857px;
         margin-top:10px;
         margin-bottom:100px;
     }
-    .join__card .margin__top__50px{
+    #sidebar .join__card .margin__top__50px{
         margin-top:50px;
     }
-    .join__card .margin__top__40px{
+    #sidebar .join__card .margin__top__40px{
         margin-top:40px;
     }
-    .join__card .margin__top__20px{
+    #sidebar .join__card .margin__top__20px{
         margin-top:20px;
     }
-    .join__card .margin__top__10px{
+    #sidebar .join__card .margin__top__10px{
         margin-top:10px;
     }
-    .join__card input[type="text"]{
+    #sidebar .join__card input[type="text"]{
         width: 340px;
         height: 40px;
         font-size: 11px;
@@ -767,7 +769,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="number"]{
+    #sidebar .join__card input[type="number"]{
         width: 340px;
         height: 40px;
         font-size: 11px;
@@ -777,7 +779,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="password"]{
+    #sidebar .join__card input[type="password"]{
         width: 340px;
         height: 40px;
         font-size: 11px;
@@ -788,47 +790,47 @@ input::placeholder{
         border: solid 1px #808080;
     }
 
-    .join__card .grid__two{
+    #sidebar .join__card .grid__two{
         width:340px;
         height:40px
     }
-    .join__card .grid__two .left__area__wrap{
+    #sidebar .join__card .grid__two .left__area__wrap{
         height:40px;
         width:215px;
         float:left;
     }
-    .join__card .grid__two .right__area__wrap{
+    #sidebar .join__card .grid__two .right__area__wrap{
         height:40px;
         width:115px;
         float:right;
     }
-    .grid__two input[type="text"]{
+    #sidebar .grid__two input[type="text"]{
         width: 215px!important;
     }
-    .grid__three{
+    #sidebar .grid__three{
         width:340px;
         height:40px
     }
-    .grid__two input[type="text"]{
+    #sidebar .grid__two input[type="text"]{
         width: 215px!important;
     }
-    .short__input{
+    #sidebar .short__input{
         width: 106px!important;
     }
-    .black__small__btn{
+    #sidebar .black__small__btn{
         width: 115px;
         height: 39px;
         border-radius: 1px;
         background-color: #191919;
         float:right;
     }
-    .black__btn{
+    #sidebar .black__btn{
         width: 340px;
         height: 40px;
         border-radius: 1px;
         background-color: #191919;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
@@ -838,17 +840,17 @@ input::placeholder{
     }
 }
 /* password-put */
-input{outline: none;}
+#sidebar input{outline: none;}
 
-input::placeholder{
+#sidebar input::placeholder{
     font-size:11px;
     color: #dcdcdc;
 }
-.content__wrap{
+#sidebar .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
 }
-.content__wrap .content__title{
+#sidebar .content__wrap .content__title{
     margin-top:10px;
     margin-bottom:10px;
     height: 16px;
@@ -857,35 +859,36 @@ input::placeholder{
     font-size: 11px;
     color: #343434;
 }
-.content__title.warm__msg__area{
+#sidebar .content__title.warm__msg__area{
     margin-top:10px;
     margin-bottom:0px!important;
     height:26px;
 }
-.warn__msg{
+#sidebar .warn__msg{
     float:right;
     color:#ff0000!important;
     visibility:hidden;
     margin-bottom:2px;
 }
-.font__underline.font__red{
+#sidebar .font__underline.font__red{
     color:red;
     text-align:right;
 }
-.right__area__wrap{
+#sidebar .right__area__wrap{
     float:right;
 }
-.other__platform__btn{
+#sidebar .other__platform__btn{
     width:70px;
     margin:auto;
     margin-top:20px;
 }
-.kakao__btn{
+#sidebar .kakao__btn{
     float:left;
     margin-right:10px;
 }
+
 @media (min-width: 1024px){
-    input[type="button"]{
+    #sidebar input[type="button"]{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
@@ -897,38 +900,38 @@ input::placeholder{
         border-radius: 1px;
         background-color: #191919;
     }
-    .password__update__card{
+    #sidebar .password__update__card{
         width:470px;
         margin: 0 auto;
         height:324px;
         margin-top:229.5px;
         margin-bottom:554px;
     }
-    .password__update__card .card__header{
+    #sidebar .password__update__card .card__header{
        margin-bottom:50px; 
     }
-    .pc__sns__msg{
+    #sidebar .pc__sns__msg{
         height:19px!important;
         text-align:center;
     }
-    .moblie__sns__msg{
+    #sidebar .moblie__sns__msg{
         display:none;
     }
-    .font__large{
+    #sidebar .font__large{
         height:19px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 13px;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -937,17 +940,17 @@ input::placeholder{
         float: right;
         color: #343434;
     }
-    .password__update__card .member_id__check{
+    #sidebar .password__update__card .member_id__check{
         margin-top:21px;
         width:470px;
         height:58px
     }
-    .content__wrap.grid__two{
+    #sidebar .content__wrap.grid__two{
         margin-top:21px;
         width:470px;
         height:58px
     }
-    .password__update__card input[type="password"]{
+    #sidebar .password__update__card input[type="password"]{
         width: 470px;
         height: 40px;
         font-family: var(--ft-fu);
@@ -957,7 +960,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
@@ -967,8 +970,9 @@ input::placeholder{
         clear:both;
     }
 }
+
 @media (max-width: 1024px){
-    input[type="button"]{
+    #sidebar input[type="button"]{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
@@ -980,38 +984,38 @@ input::placeholder{
         border-radius: 1px;
         background-color: #191919;
     }
-    .password__update__card{
+    #sidebar .password__update__card{
         width:341px;
         margin: 0 auto;
         height:413px;
         margin-top:10px;
         margin-bottom:207px;
     }
-    .password__update__card .card__header{
+    #sidebar .password__update__card .card__header{
         margin-bottom:143px;
     }
-    .pc__sns__msg{
+    #sidebar .pc__sns__msg{
         display:none;
     }
-    .moblie__sns__msg{
+    #sidebar .moblie__sns__msg{
         height:33px!important;
         text-align:center;
     }
-    .font__large{
+    #sidebar .font__large{
         height:17px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.2rem;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.1rem;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -1020,12 +1024,12 @@ input::placeholder{
         float: right;
         color: #343434;
     }
-    .content__wrap.grid__two{
+    #sidebar .content__wrap.grid__two{
         margin-top:6px;
         width:341px;
         height:58px;
     }
-    .password__update__card input[type="password"]{
+    #sidebar .password__update__card input[type="password"]{
         width: 340px;
         height: 40px;
         font-family: var(--ft-fu);
@@ -1035,7 +1039,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 340px;
         height: 1px;
         margin-top: 39.5px;
@@ -1046,17 +1050,17 @@ input::placeholder{
     }
 }
 /* search */
-input{outline: none;}
+#sidebar input{outline: none;}
 
-input::placeholder{
+#sidebar input::placeholder{
     font-size:11px;
     color: #dcdcdc;
 }
-.content__wrap{
+#sidebar .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
 }
-.content__wrap .content__title{
+#sidebar .content__wrap .content__title{
     margin-top:10px;
     margin-bottom:10px;
     height: 16px;
@@ -1065,55 +1069,56 @@ input::placeholder{
     font-size: 11px;
     color: #343434;
 }
-.font__underline.font__red{
+#sidebar .font__underline.font__red{
     color:red;
     text-align:right;
 }
-.right__area__wrap{
+#sidebar .right__area__wrap{
     float:right;
 }
-.other__platform__btn{
+#sidebar .other__platform__btn{
     width:70px;
     margin:auto;
     margin-top:20px;
 }
-.kakao__btn{
+#sidebar .kakao__btn{
     float:left;
     margin-right:10px;
 }
+
 @media (min-width: 1024px){
-    .password__search__card{
+    #sidebar .password__search__card{
         width:470px;
         margin: 0 auto;
         height:324px;
         margin-top:229.5px;
         margin-bottom:554px;
     }
-    .password__search__card .card__header{
+    #sidebar .password__search__card .card__header{
        margin-bottom:50px; 
     }
-    .pc__sns__msg{
+    #sidebar .pc__sns__msg{
         height:19px!important;
         text-align:center;
     }
-    .moblie__sns__msg{
+    #sidebar .moblie__sns__msg{
         display:none;
     }
-    .font__large{
+    #sidebar .font__large{
         height:19px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 13px;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -1122,22 +1127,22 @@ input::placeholder{
         float: right;
         color: #343434;
     }
-    .password__search__card .member_id__check{
+    #sidebar .password__search__card .member_id__check{
         margin-top:21px;
         width:470px;
         height:58px
     }
-    .content__wrap.grid__two{
+    #sidebar .content__wrap.grid__two{
         margin-top:21px;
         width:470px;
         height:58px
     }
-    .password__search__card .grid__two .left__area__wrap{
+    #sidebar .password__search__card .grid__two .left__area__wrap{
         height:58px;
         width:350px;
         float:left;
     }
-    .password__search__card input[type="text"]{
+    #sidebar .password__search__card input[type="text"]{
         width: 350px;
         height: 40px;
         font-family: var(--ft-fu);
@@ -1147,7 +1152,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .right__area__wrap .black__small__btn{
+    #sidebar .right__area__wrap .black__small__btn{
         width: 110px;
         height: 40px;
         border-radius: 1px;
@@ -1160,7 +1165,7 @@ input::placeholder{
         text-align: center;
         color: #fff;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
@@ -1170,39 +1175,40 @@ input::placeholder{
         clear:both;
     }
 }
+
 @media (max-width: 1024px){
-    .password__search__card{
+    #sidebar .password__search__card{
         width:341px;
         margin: 0 auto;
         height:413px;
         margin-top:10px;
         margin-bottom:207px;
     }
-    .password__search__card .card__header{
+    #sidebar .password__search__card .card__header{
         margin-bottom:143px;
     }
-    .pc__sns__msg{
+    #sidebar .pc__sns__msg{
         display:none;
     }
-    .moblie__sns__msg{
+    #sidebar .moblie__sns__msg{
         height:33px!important;
         text-align:center;
     }
-    .font__large{
+    #sidebar .font__large{
         height:17px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.2rem;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 1.1rem;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -1211,17 +1217,17 @@ input::placeholder{
         float: right;
         color: #343434;
     }
-    .content__wrap.grid__two{
+    #sidebar .content__wrap.grid__two{
         margin-top:6px;
         width:341px;
         height:58px;
     }
-    .password__search__card .grid__two .left__area__wrap{
+    #sidebar .password__search__card .grid__two .left__area__wrap{
         height:58px;
         width:216px;
         float:left;
     }
-    .password__search__card input[type="text"]{
+    #sidebar .password__search__card input[type="text"]{
         width: 216px;
         height: 40px;
         font-family: var(--ft-fu);
@@ -1231,7 +1237,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .right__area__wrap .black__small__btn{
+    #sidebar .right__area__wrap .black__small__btn{
         width: 115px;
         height: 40px;
         border-radius: 1px;
@@ -1244,7 +1250,7 @@ input::placeholder{
         text-align: center;
         color: #fff;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 340px;
         height: 1px;
         margin-top: 39.5px;
@@ -1256,21 +1262,21 @@ input::placeholder{
 }
 /* login-update */
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+#sidebar input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.content__wrap{
+#sidebar .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
 }
-.content__wrap.checkbox__area{
+#sidebar .content__wrap.checkbox__area{
     margin-top:20px;
     margin-bottom:50px;
     clear:both;
 }
-.content__wrap .content__title{
+#sidebar .content__wrap .content__title{
     margin-bottom:10px;
     height: 16px;
     object-fit: contain;
@@ -1278,30 +1284,30 @@ input::-webkit-inner-spin-button {
     font-size: 11px;
     color: #343434;
 }
-.content__wrap .content__row{
+#sidebar .content__wrap .content__row{
     margin-bottom:10px;
 }
-.content__title.warm__msg__area{
+#sidebar .content__title.warm__msg__area{
     margin-top:10px;
     margin-bottom:0px!important;
     height:26px;
 }
-.warm__msg__area .font__small{
+#sidebar .warm__msg__area .font__small{
     float:left;
 }
-.warm__msg__area .font__underline{
+#sidebar .warm__msg__area .font__underline{
     margin-top:8px;
 }
-.contnet__row.warm__msg__area{
+#sidebar .contnet__row.warm__msg__area{
     clear:both;
 } 
-.warn__msg{
+#sidebar .warn__msg{
     float:right;
     color:#ff0000!important;
     visibility:hidden;
     margin-bottom:2px;
 }
-input[type="checkbox"] + label{
+#sidebar input[type="checkbox"] + label{
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -1311,7 +1317,7 @@ input[type="checkbox"] + label{
     border: solid 1px #808080;
     cursor:pointer;
 }
-input[type="checkbox"]:checked + label{
+#sidebar input[type="checkbox"]:checked + label{
     display: inline-block;
     width: 10px;
     height: 10px;
@@ -1321,10 +1327,10 @@ input[type="checkbox"]:checked + label{
     border: solid 1px #000000;
     cursor:pointer;
 }
-.join__card input[type="checkbox"]{
+#sidebar .join__card input[type="checkbox"]{
     display:none;
 }
-input[type="button"]{
+#sidebar input[type="button"]{
     object-fit: contain;
     font-family: var(--ft-no);
     font-size: 11px;
@@ -1332,45 +1338,46 @@ input[type="button"]{
     color: #fff;
     cursor:pointer;
 }
-input::placeholder{
+#sidebar input::placeholder{
     font-size:11px;
     color: #dcdcdc;
 }
-.short__input.address__input{
+#sidebar .short__input.address__input{
     text-align:right;
     padding-right:10px;
 }
-.grid__three .left__area__wrap input{
+#sidebar .grid__three .left__area__wrap input{
     float:left;
 }
-.grid__three .middle__area__wrap input{
+#sidebar .grid__three .middle__area__wrap input{
     float:left;
     margin-left:10px;
 }
-.grid__three .right__area__wrap input{
+#sidebar .grid__three .right__area__wrap input{
     float:right;
 }
+
 @media (min-width: 1024px){
-    .join__card .card__header{
+    #sidebar .join__card .card__header{
         margin-bottom:50px;
     }
-    .text__align__center{
+    #sidebar .text__align__center{
         text-align:center;
     }
-    .font__large{
+    #sidebar .font__large{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 13px;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -1378,14 +1385,14 @@ input::placeholder{
         font-size: 11px;
         color: #343434;
     }
-    .join__card{
+    #sidebar .join__card{
         width:470px;
         margin: 0 auto;
         height:869px;
         margin-top:200px;
         margin-bottom:290px;
     }
-    .join__card input[type="text"]{
+    #sidebar .join__card input[type="text"]{
         width: 470px;
         height: 40px;
         font-size: 11px;
@@ -1395,7 +1402,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="number"]{
+    #sidebar .join__card input[type="number"]{
         width: 470px;
         height: 40px;
         font-size: 11px;
@@ -1405,7 +1412,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="password"]{
+    #sidebar .join__card input[type="password"]{
         width: 470px;
         height: 40px;
         font-size: 11px;
@@ -1415,44 +1422,44 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card .grid__two{
+    #sidebar .join__card .grid__two{
         width:470px;
         height:40px
     }
-    .join__card .grid__two .left__area__wrap{
+    #sidebar .join__card .grid__two .left__area__wrap{
         height:40px;
         width:350px;
         float:left;
     }
-    .join__card .grid__two .right__area__wrap{
+    #sidebar .join__card .grid__two .right__area__wrap{
         height:40px;
         width:110px;
         float:right;
     }
-    .grid__two input[type="text"]{
+    #sidebar .grid__two input[type="text"]{
         width: 350px!important;
     }
-    .grid__three{
+    #sidebar .grid__three{
         width:470px;
         height:40px
     }
-    .short__input{
+    #sidebar .short__input{
         width: 150px!important;
     }
-    .black__small__btn{
+    #sidebar .black__small__btn{
         width: 110px;
         height: 40px;
         border-radius: 1px;
         background-color: #191919;
         float:right;
     }
-    .black__btn{
+    #sidebar .black__btn{
         width: 470px;
         height: 40px;
         border-radius: 1px;
         background-color: #191919;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
@@ -1461,27 +1468,28 @@ input::placeholder{
         background-color: #eee;
     }
 }
+
 @media (max-width: 1024px){
-    .join__card .card__header{
+    #sidebar .join__card .card__header{
         margin-bottom:40px;
     }
-    .text__align__center{
+    #sidebar .text__align__center{
         text-align:center;
     }
-    .font__large{
+    #sidebar .font__large{
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 12px;
         color: #343434;
     }
-    .font__small{
+    #sidebar .font__small{
         height: 16px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
         color: #343434;
     }
-    .font__underline{
+    #sidebar .font__underline{
         text-decoration: underline;
         height: 16px;
         object-fit: contain;
@@ -1489,26 +1497,26 @@ input::placeholder{
         font-size: 11px;
         color: #343434;
     }
-    .join__card{
+    #sidebar .join__card{
         width:340px;
         margin: 0 auto;
         height:857px;
         margin-top:10px;
         margin-bottom:100px;
     }
-    .join__card .margin__top__50px{
+    #sidebar .join__card .margin__top__50px{
         margin-top:50px;
     }
-    .join__card .margin__top__40px{
+    #sidebar .join__card .margin__top__40px{
         margin-top:40px;
     }
-    .join__card .margin__top__20px{
+    #sidebar .join__card .margin__top__20px{
         margin-top:20px;
     }
-    .join__card .margin__top__10px{
+    #sidebar .join__card .margin__top__10px{
         margin-top:10px;
     }
-    .join__card input[type="text"]{
+    #sidebar .join__card input[type="text"]{
         width: 340px;
         height: 40px;
         font-size: 11px;
@@ -1518,7 +1526,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="number"]{
+    #sidebar .join__card input[type="number"]{
         width: 340px;
         height: 40px;
         font-size: 11px;
@@ -1528,7 +1536,7 @@ input::placeholder{
         border-radius: 1px;
         border: solid 1px #808080;
     }
-    .join__card input[type="password"]{
+    #sidebar .join__card input[type="password"]{
         width: 340px;
         height: 40px;
         font-size: 11px;
@@ -1539,47 +1547,47 @@ input::placeholder{
         border: solid 1px #808080;
     }
 
-    .join__card .grid__two{
+    #sidebar .join__card .grid__two{
         width:340px;
         height:40px
     }
-    .join__card .grid__two .left__area__wrap{
+    #sidebar .join__card .grid__two .left__area__wrap{
         height:40px;
         width:215px;
         float:left;
     }
-    .join__card .grid__two .right__area__wrap{
+    #sidebar .join__card .grid__two .right__area__wrap{
         height:40px;
         width:115px;
         float:right;
     }
-    .grid__two input[type="text"]{
+    #sidebar .grid__two input[type="text"]{
         width: 215px!important;
     }
-    .grid__three{
+    #sidebar .grid__three{
         width:340px;
         height:40px
     }
-    .grid__two input[type="text"]{
+    #sidebar .grid__two input[type="text"]{
         width: 215px!important;
     }
-    .short__input{
+    #sidebar .short__input{
         width: 106px!important;
     }
-    .black__small__btn{
+    #sidebar .black__small__btn{
         width: 115px;
         height: 39px;
         border-radius: 1px;
         background-color: #191919;
         float:right;
     }
-    .black__btn{
+    #sidebar .black__btn{
         width: 340px;
         height: 40px;
         border-radius: 1px;
         background-color: #191919;
     }
-    .contour__line{
+    #sidebar .contour__line{
         width: 470px;
         height: 1px;
         margin-top: 39.5px;
