@@ -103,13 +103,13 @@ if ($member_idx > 0 && $basket_idx != null) {
 		
 		$select_member_sql = "
 			SELECT
-				MI.NAME			AS MEMBER_NAME,
-				MI.TEL_MOBILE	AS MEMBER_MOBILE,
-				MI.EMAIL		AS MEMBER_EMAIL
+				MB.MEMBER_NAME		AS MEMBER_NAME,
+				MB.TEL_MOBILE		AS MEMBER_MOBILE,
+				MB.MEMBER_ID		AS MEMBER_EMAIL
 			FROM
-				dev.MEMBER MI
+				dev.MEMBER_".$country." MB
 			WHERE
-				MI.IDX = ".$member_idx."
+				MB.IDX = ".$member_idx."
 		";
 		
 		$db->query($select_member_sql);

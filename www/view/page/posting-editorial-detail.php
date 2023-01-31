@@ -10,9 +10,9 @@
 
 <?php
 function getUrlParamter($url, $sch_tag) {
-$parts = parse_url($url);
-parse_str($parts['query'], $query);
-return $query[$sch_tag];
+    $parts = parse_url($url);
+    parse_str($parts['query'], $query);
+    return $query[$sch_tag];
 }
 $page_url = $_SERVER['REQUEST_URI'];
 $page_idx = getUrlParamter($page_url, 'page_idx');
@@ -37,7 +37,7 @@ if ($page_idx > 0 && $size_type != null) {
                 ET.DEL_FLG = FALSE
             ORDER BY
                 ET.DISPLAY_NUM ASC
-        ";
+    ";
 
     $db->query($select_thumb_sql);
 
@@ -80,16 +80,16 @@ if ($page_idx > 0 && $size_type != null) {
             'img_location' => $thumb_data['IMG_LOCATION'],
             'contents_info' => $contents_info
         );
-
-        $result_arr[] = $thumb_info;
-
-        foreach ($result_arr as $result_data) {
+    }
+    $result_arr = $thumb_info;
+    foreach ($result_arr as $result_data) {
+        
 ?>
                     <div class="swiper-slide">
-                        <img src="http://116.124.128.246:81/<?= $result_data['img_location'] ?>" alt="">
+                        <img src="http://116.124.128.246:81/<?=$result_data['img_location'] ?>" alt="">
                     </div>
 <?php
-        }
+    }
 ?>  
                 </div>
             </div>
@@ -100,23 +100,22 @@ if ($page_idx > 0 && $size_type != null) {
                 <div class="editorial-preview-swiper swiper">
                     <div class="swiper-wrapper">
 <?php
-        foreach ($result_arr as $result_data) {
+    foreach ($result_arr as $result_data) {
 ?>            
                         <div class="swiper-slide">       
 <?php
-            if ($result_data['contents_info']['contents_type'] == 'VID') {
+        if ($result_data['contents_info'][0]['contents_type'] == 'VID') {
 ?>
-                            <video controls="" autoplay="" muted="" loop="" src="http://116.124.128.246:81/<?= $result_data['contents_info']['contents_url'] ?>"></video>
+                            <video controls="" autoplay="" muted="" loop="" src="http://116.124.128.246:81/<?= $result_data['contents_info'][0]['contents_url'] ?>"></video>
 <?php
-            } else {
+        } else {
 ?>
-                            <img src="http://116.124.128.246:81/<?= $result_data['contents_info']['contents_url'] ?>" alt="">
+                            <img src="http://116.124.128.246:81/<?= $result_data['contents_info'][0]['contents_url'] ?>" alt="">
 <?php
-            }
+        }
 ?>  
                         </div>
 <?php
-        }
     }
 }
 ?>    

@@ -39,7 +39,9 @@ function loadEditorialData() {
         }
     });
 }
+
 function loadEditorialDetailData(page_idx,size_type) {
+    /*
     $.ajax({
         type: "post",
         data: {
@@ -59,7 +61,10 @@ function loadEditorialDetailData(page_idx,size_type) {
             }
         }
     });
+    */
+    appendSlide();
 }
+
 function appendThumbnailTitle(title) {
     let titleUl = document.querySelector(".thumbnail-side nav ul");
     let titleLi = document.createElement("li");
@@ -68,7 +73,7 @@ function appendThumbnailTitle(title) {
     titleUl.appendChild(titleLi);
 }
 
-function appendSlide(data) {
+function appendSlide() {
     /*
     let controllerWrap = document.querySelector(".editorial-controller-swiper .swiper-wrapper");
     let previewWrap = document.querySelector(".editorial-preview-swiper .swiper-wrapper");

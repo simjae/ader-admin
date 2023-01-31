@@ -1690,7 +1690,7 @@ function orderMemoChangeEvent() {
 		
 		console.log(select_label);
 		
-		if (select_value !== "direct") {
+		if (select_value != "direct") {
 			$('#order_memo').val(select_label);
 			tmp_order_memo.value = "";
 		} else {
@@ -1698,6 +1698,7 @@ function orderMemoChangeEvent() {
 		}
 		
 		document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
+		
 		if (ev.curr.getValue() === "direct") {
 			tmp_order_memo.style.display = "block";
 		} else {
@@ -1858,7 +1859,12 @@ prev_step_btn.addEventListener("click", function () {
 	next_step_btn.dataset.step = "1";
 	calculationWrap.dataset.step = "1";
 	next_step_btn.querySelector("span").innerHTML = "다음 단계";
-
+	
+	header_box_btn = document.querySelector('.header-box-btn');
+	header_box_btn.classList.remove("hidden");
+	update_addr_btn.classList.remove("hidden");
+	list_addr_btn.classList.remove("hidden");
+	
 	$$group1.forEach(el => {
 		el.classList.remove("next");
 	});
@@ -1921,9 +1927,10 @@ next_step_btn.addEventListener("click", function () {
 		put_addr_wrap.classList.add("hidden");
 
 		// 직접입력 배송메시지
-		let tmp_order_memo = document.querySelector("#tmp_order_memo");
-		if (tmp_order_memo.value.length > 0) {
-			document.querySelector(".save-message-box .message-content").innerHTML = tmp_order_memo.value;
+		let tmp_order_memo = document.querySelector("#tmp_order_memo").value;
+		if (tmp_order_memo.length > 0) {
+			document.querySelector(".save-message-box .message-content").innerHTML = tmp_order_memo;
+			$('#order_memo').val(tmp_order_memo);
 		}
 
 		calcPriceTotal();

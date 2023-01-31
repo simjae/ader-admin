@@ -299,10 +299,96 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="as_buying_wrap apply" style="display: none;">
+                    <div style="margin-bottom: 30px; font-size: 11px;">·&nbsp;A/S 접수할 내용을 입력해주세요.</div>
+                    <div class="as__table__container">
+                        <div class="contents__table">
+                            <table>
+                                <colsgroup>
+                                    <col style="width:120px;">
+                                    <col style="width:120px;">
+                                    <col style="width:120px;">
+                                    <col style="width:110px;">
+                                    <col style="width:120px;">
+                                    <col style="width:120px;">
+                                </colsgroup>
+                                <tbody>
+                                    <tr style="border-top: 1px solid #dcdcdc;">
+                                        <td>
+                                            <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                        </td>
+                                        <td>
+                                            <p>Product name</p>
+                                        </td>
+                                        <td>
+                                            <p>Color</p>
+                                        </td>
+                                        <td>
+                                            <p>A2</p>
+                                        </td>
+                                        <td>
+                                            <p>000,000</p>
+                                        </td>
+                                        <td>
+                                            <p>A/S 요금 00.000</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="as__contents">
+                        <form id="as_apply">
+                            <div>
+                                <textarea placeholder="내용을 입력하세요. (최대 1,000자)" id="asTextBox" class="asTextBox"
+                                    type="text"></textarea>
+                            </div>
+                            <div class="as__info as__photo">
+                                <p class="description">사진첨부</p>
+                                <div class="as__photo__container">
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
+                                </div>
+                                <p class="description">
+                                    ·&nbsp;A/S 필요한 해당 제품 사진을 등록 부탁드립니다.</p>
+                                <p style="margin-top: 10px;">
+                                    ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
+                            </div>
+                            <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
+                            <button class="black__btn" onclick="asApplyComplete()">A/S 신청</button>
+                            <button class="white__btn">취소</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="as_bluemark_wrap apply_complete">
+                    <div>A/S 서비스 신청이 완료되었습니다.</div>
+                    <div>
+                        <p class="description">
+                            ·&nbsp;상단의 A/S 현황 탭에서 해당 제품의 A/S 진행 과정을 열람하실 수 있습니다.</p>
+                        <p style="margin-top: 10px;">
+                            ·&nbsp;제품 회수 후에는 A/S 신청을 취소하실 수 없습니다.</p>
+                    </div>
+                </div>
             </div>
-            <div class="as_buying_wrap apply">
-                <div style="margin-bottom: 30px; font-size: 11px;">·&nbsp;A/S 접수할 내용을 입력해주세요.</div>
+            <div class="as_buying_wrap one_two">
+                <div class='title'>
+                    <ul>Bluemark 입력하기</ul>
+                </div>
+                <div>·&nbsp;Bluemark 시리얼 코드를 입력하여 A/S를 접수해주세요.</div>
+                <div style="display: flex;">
+                    <input type="text" class="bluemark_serialcode" placeholder="BLUE MARK 시리얼 코드">
+                    <button class="black__btn" onclick="bludemarkSeorch()" style="width: 230px !important;">검색</button>
+                </div>
+                <div class='title'>
+                    <ul>Bluemark 인증 내역</ul>
+                </div>
                 <div class="as__table__container">
+                    <div style="font-size: 11px;">·&nbsp;회원님의 Bluemark 인증 목록에서 A/S 접수할 제품을 선택해주세요.</div>
                     <div class="contents__table">
                         <table>
                             <colsgroup>
@@ -330,260 +416,118 @@
                                     <td>
                                         <p>000,000</p>
                                     </td>
+                                    <td style="padding-bottom: 10px;">
+                                        <button class="order_status_box" onclick="asApply()">A/S 신청</button>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>
-                                        <p>A/S 요금 00.000</p>
+                                        <img src="/images/mypage/sample_product/BLAFWS203BR_1.png">
+                                    </td>
+                                    <td>
+                                        <p>Product name</p>
+                                    </td>
+                                    <td>
+                                        <p>Color</p>
+                                    </td>
+                                    <td>
+                                        <p>UK35</p>
+                                    </td>
+                                    <td>
+                                        <p>000,000</p>
+                                    </td>
+                                    <td style="padding-bottom: 10px;">
+                                        <button class="order_status_box" onclick="asApply()">A/S 신청</button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="as__contents">
-                    <form id="as_apply">
-                        <div>
+            </div>
+            <div class="as_buying_wrap one_three">
+                <div>·&nbsp;확인 불가 제품은 상황에 따라 A/S가 불가할 수도 있습니다.</div>
+                <div class="as__tab as__action__wrap">
+                    <form id="frm-as">
+                        <div class="title">
+                            <p>문의하기</p>
+                        </div>
+                        <div class="as__info as__title">
+                            <span>
+                                <select class="category__select">
+                                    <option class="inquiry_select_placeholder">취소/환불</option>
+                                    <option>주문/결제</option>
+                                    <option>출고/배송</option>
+                                    <option>반품/교환</option>
+                                    <option>환불/품절</option>
+                                    <option>A/S</option>
+                                </select>
+                            </span>
+                            <span>
+                                <select class="category__select">
+                                    <option class="as_select_placeholder">취소/환불</option>
+                                    <option>주문/결제</option>
+                                    <option>출고/배송</option>
+                                    <option>반품/교환</option>
+                                    <option>환불/품절</option>
+                                    <option>A/S</option>
+                                </select>
+                            </span>
+                        </div>
+
+                        <div class="as__info as__contents">
                             <textarea placeholder="내용을 입력하세요. (최대 1,000자)" id="asTextBox" class="asTextBox"
                                 type="text"></textarea>
                         </div>
-                        <div class="as__info as__photo">
-                            <p class="description">사진첨부</p>
-                            <div class="as__photo__container">
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
+                        <div class="as__info as__photo__unconfirm">
+                            <div>
+                                <p class="description">사진첨부</p>
+                                <div class="as__photo__container">
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                </div>
                             </div>
-                            <p class="description">
-                                ·&nbsp;A/S 필요한 해당 제품 사진을 등록 부탁드립니다.</p>
-                            <p style="margin-top: 10px;">
-                                ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
+                            <div>
+                                <p class="description">구매 이력, 증빙 이미지 첨부</p>
+                                <div class="as__photo__container">
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                    <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="description">
+                            ·&nbsp;상품 불량 및 오배송의 경우, 해당 제품 사진을 등록 부탁드립니다.</div>
+                        <div style="margin-top: 10px;">
+                            ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</div>
+
                         <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
-                        <button class="black__btn" onclick="asApplyComplete()">A/S 신청</button>
+                        <button class="black__btn">A/S 신청</button>
                         <button class="white__btn">취소</button>
                     </form>
+                    <div class="footer"></div>
                 </div>
-            </div>
-
-            <div class="as_bluemark_wrap apply_complete">
-                <div>A/S 서비스 신청이 완료되었습니다.</div>
-                <div>
-                    <p class="description">
-                        ·&nbsp;상단의 A/S 현황 탭에서 해당 제품의 A/S 진행 과정을 열람하실 수 있습니다.</p>
-                    <p style="margin-top: 10px;">
-                        ·&nbsp;제품 회수 후에는 A/S 신청을 취소하실 수 없습니다.</p>
-                </div>
-            </div>
-        </div>
-        <div class="as_buying_wrap one_two">
-            <div class='title'>
-                <ul>Bluemark 입력하기</ul>
-            </div>
-            <div>·&nbsp;Bluemark 시리얼 코드를 입력하여 A/S를 접수해주세요.</div>
-            <div style="display: flex;">
-                <input type="text" class="bluemark_serialcode" placeholder="BLUE MARK 시리얼 코드">
-                <button class="black__btn" onclick="bludemarkSeorch()" style="width: 230px !important;">검색</button>
-            </div>
-            <div style="font-size: 11px;">·&nbsp;회원님의 Bluemark 인증 목록에서 A/S 접수할 제품을 선택해주세요.</div>
-            <div class="contents__table">
-                <table>
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                    </colsgroup>
-                    <tbody>
-                        <tr style="border-top: 1px solid #dcdcdc;">
-                            <td>
-                                <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                            </td>
-                            <td>
-                                <p>Product name</p>
-                            </td>
-                            <td>
-                                <p>Color</p>
-                            </td>
-                            <td>
-                                <p>A2</p>
-                            </td>
-                            <td>
-                                <p>000,000</p>
-                            </td>
-                            <td style="padding-bottom: 10px;">
-                                <button class="order_status_box" onclick="asApply()">A/S 신청</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="/images/mypage/sample_product/BLAFWS203BR_1.png">
-                            </td>
-                            <td>
-                                <p>Product name</p>
-                            </td>
-                            <td>
-                                <p>Color</p>
-                            </td>
-                            <td>
-                                <p>UK35</p>
-                            </td>
-                            <td>
-                                <p>000,000</p>
-                            </td>
-                            <td style="padding-bottom: 10px;">
-                                <button class="order_status_box" onclick="asApply()">A/S 신청</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="as_buying_wrap one_three">
-            <div>·&nbsp;확인 불가 제품은 상황에 따라 A/S가 불가할 수도 있습니다.</div>
-            <div class="as__tab as__action__wrap">
-                <form id="frm-as">
-                    <div class="title">
-                        <p>문의하기</p>
-                    </div>
-                    <div class="as__info as__title">
-                        <span>
-                            <select class="category__select">
-                                <option class="inquiry_select_placeholder">취소/환불</option>
-                                <option>주문/결제</option>
-                                <option>출고/배송</option>
-                                <option>반품/교환</option>
-                                <option>환불/품절</option>
-                                <option>A/S</option>
-                            </select>
-                        </span>
-                        <span>
-                            <select class="category__select">
-                                <option class="as_select_placeholder">취소/환불</option>
-                                <option>주문/결제</option>
-                                <option>출고/배송</option>
-                                <option>반품/교환</option>
-                                <option>환불/품절</option>
-                                <option>A/S</option>
-                            </select>
-                        </span>
-                    </div>
-
-                    <div class="as__info as__contents">
-                        <textarea placeholder="내용을 입력하세요. (최대 1,000자)" id="asTextBox" class="asTextBox"
-                            type="text"></textarea>
-                    </div>
-                    <div class="as__info as__photo__unconfirm">
-                        <div>
-                            <p class="description">사진첨부</p>
-                            <div class="as__photo__container">
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <p class="description">구매 이력, 증빙 이미지 첨부</p>
-                            <div class="as__photo__container">
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                                <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="description">
-                        ·&nbsp;상품 불량 및 오배송의 경우, 해당 제품 사진을 등록 부탁드립니다.</div>
-                    <div style="margin-top: 10px;">
-                        ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</div>
-
-                    <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
-                    <button class="black__btn">A/S 신청</button>
-                    <button class="white__btn">취소</button>
-                </form>
-                <div class="footer"></div>
             </div>
         </div>
     </div>
-</div>
-<div class="as__tab__wrap">
-    <div class="tab two">
-        접수 진행중
-        <div class="contents__table">
-            <table>
-                <colsgroup>
-                    <col style="width:120px;">
-                    <col style="width:120px;">
-                    <col style="width:120px;">
-                    <col style="width:110px;">
-                    <col style="width:120px;">
-                    <col style="width:120px;">
-                </colsgroup>
-                <tbody>
-                    <tr style="border-top: 1px solid #dcdcdc;">
-                        <td>
-                            <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                        </td>
-                        <td>
-                            <p>Product name</p>
-                        </td>
-                        <td>
-                            <p>Color</p>
-                        </td>
-                        <td>
-                            <p>A2</p>
-                        </td>
-                        <td>
-                            <p>000,000</p>
-                        </td>
-                        <td>
-                            <p>A/S 요금 00.000</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <button class="btn_step" style="margin-top: 20px; background-color:black; color: #ffffff;">STEP 01.
-            접수</button>
-
-        <div class="as_step_contents">
-            <p>A/S 서비스를 위해 접수가 진행중입니다.</p>
-            <p>요일일 2022.12.08</p>
-            요청내용 수선요청</p>
-            <div class="order_status_box as_cancel">A/S 신청 취소하기</div>
-        </div>
-
-        <button class="btn_step">STEP 02. 회수</button>
-        <button class="btn_step">STEP 03. 진행</button>
-        <button class="btn_step">STEP 04. 요금</button>
-        <button class="btn_step">STEP 05. 제품 출고</button>
-        <button class="btn_step">STEP 06. 완료</button>
-    </div>
-</div>
-<div class="as__tab__wrap">
-    <div class="tab three" style="margin-top:50px;">
-        <div class="as_contents_list_wrap">
-            <div class="contents__info">
-                <div class="info">
-                    <span class="info__title">접수일</span>
-                    <span class="info__value">2022.12.14</span>
-                </div>
-                <div class="detail__btn" onclick=""><span>자세히보기</span></div>
-            </div>
+    <div class="as__tab__wrap">
+        <div class="tab two">
+            접수 진행중
             <div class="contents__table">
                 <table>
                     <colsgroup>
@@ -618,239 +562,300 @@
                     </tbody>
                 </table>
             </div>
+            <button class="btn_step" style="margin-top: 20px; background-color:black; color: #ffffff;">STEP 01.
+                접수</button>
+
+            <div class="as_step_contents">
+                <p>A/S 서비스를 위해 접수가 진행중입니다.</p>
+                <p>요일일 2022.12.08</p>
+                요청내용 수선요청</p>
+                <div class="order_status_box as_cancel">A/S 신청 취소하기</div>
+            </div>
+
+            <button class="btn_step">STEP 02. 회수</button>
+            <button class="btn_step">STEP 03. 진행</button>
+            <button class="btn_step">STEP 04. 요금</button>
+            <button class="btn_step">STEP 05. 제품 출고</button>
+            <button class="btn_step">STEP 06. 완료</button>
         </div>
-        <div class="as_contents_list_wrap">
-            <div class="contents__info">
-                <div class="info">
-                    <span class="info__title">접수일</span>
-                    <span class="info__value">2022.12.14</span>
+    </div>
+    <div class="as__tab__wrap">
+        <div class="tab three" style="margin-top:50px;">
+            <div class="as_contents_list_wrap">
+                <div class="contents__info">
+                    <div class="info">
+                        <span class="info__title">접수일</span>
+                        <span class="info__value">2022.12.14</span>
+                    </div>
+                    <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                 </div>
-                <div class="detail__btn" onclick=""><span>자세히보기</span></div>
-            </div>
-            <div class="contents__table">
-                <table>
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                    </colsgroup>
-                    <tbody>
-                        <tr style="border-top: 1px solid #dcdcdc;">
-                            <td>
-                                <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                            </td>
-                            <td>
-                                <p>Product name</p>
-                            </td>
-                            <td>
-                                <p>Color</p>
-                            </td>
-                            <td>
-                                <p>A2</p>
-                            </td>
-                            <td>
-                                <p>000,000</p>
-                            </td>
-                            <td>
-                                <p>A/S 요금 00.000</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="as_contents_list_wrap">
-            <div class="contents__info">
-                <div class="info">
-                    <span class="info__title">접수일</span>
-                    <span class="info__value">2022.12.14</span>
+                <div class="contents__table">
+                    <table>
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                        </colsgroup>
+                        <tbody>
+                            <tr style="border-top: 1px solid #dcdcdc;">
+                                <td>
+                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                </td>
+                                <td>
+                                    <p>Product name</p>
+                                </td>
+                                <td>
+                                    <p>Color</p>
+                                </td>
+                                <td>
+                                    <p>A2</p>
+                                </td>
+                                <td>
+                                    <p>000,000</p>
+                                </td>
+                                <td>
+                                    <p>A/S 요금 00.000</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="detail__btn" onclick=""><span>자세히보기</span></div>
             </div>
-            <div class="contents__table">
-                <table>
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                    </colsgroup>
-                    <tbody>
-                        <tr style="border-top: 1px solid #dcdcdc;">
-                            <td>
-                                <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                            </td>
-                            <td>
-                                <p>Product name</p>
-                            </td>
-                            <td>
-                                <p>Color</p>
-                            </td>
-                            <td>
-                                <p>A2</p>
-                            </td>
-                            <td>
-                                <p>000,000</p>
-                            </td>
-                            <td>
-                                <p>A/S 요금 00.000</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="as_contents_list_wrap">
-            <div class="contents__info">
-                <div class="info">
-                    <span class="info__title">접수일</span>
-                    <span class="info__value">2022.12.14</span>
+            <div class="as_contents_list_wrap">
+                <div class="contents__info">
+                    <div class="info">
+                        <span class="info__title">접수일</span>
+                        <span class="info__value">2022.12.14</span>
+                    </div>
+                    <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                 </div>
-                <div class="detail__btn" onclick=""><span>자세히보기</span></div>
+                <div class="contents__table">
+                    <table>
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                        </colsgroup>
+                        <tbody>
+                            <tr style="border-top: 1px solid #dcdcdc;">
+                                <td>
+                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                </td>
+                                <td>
+                                    <p>Product name</p>
+                                </td>
+                                <td>
+                                    <p>Color</p>
+                                </td>
+                                <td>
+                                    <p>A2</p>
+                                </td>
+                                <td>
+                                    <p>000,000</p>
+                                </td>
+                                <td>
+                                    <p>A/S 요금 00.000</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="contents__table">
-                <table>
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                    </colsgroup>
-                    <tbody>
-                        <tr style="border-top: 1px solid #dcdcdc;">
-                            <td>
-                                <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                            </td>
-                            <td>
-                                <p>Product name</p>
-                            </td>
-                            <td>
-                                <p>Color</p>
-                            </td>
-                            <td>
-                                <p>A2</p>
-                            </td>
-                            <td>
-                                <p>000,000</p>
-                            </td>
-                            <td>
-                                <p>A/S 요금 00.000</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="as_contents_list_wrap">
+                <div class="contents__info">
+                    <div class="info">
+                        <span class="info__title">접수일</span>
+                        <span class="info__value">2022.12.14</span>
+                    </div>
+                    <div class="detail__btn" onclick=""><span>자세히보기</span></div>
+                </div>
+                <div class="contents__table">
+                    <table>
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                        </colsgroup>
+                        <tbody>
+                            <tr style="border-top: 1px solid #dcdcdc;">
+                                <td>
+                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                </td>
+                                <td>
+                                    <p>Product name</p>
+                                </td>
+                                <td>
+                                    <p>Color</p>
+                                </td>
+                                <td>
+                                    <p>A2</p>
+                                </td>
+                                <td>
+                                    <p>000,000</p>
+                                </td>
+                                <td>
+                                    <p>A/S 요금 00.000</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="as_contents_list_wrap">
+                <div class="contents__info">
+                    <div class="info">
+                        <span class="info__title">접수일</span>
+                        <span class="info__value">2022.12.14</span>
+                    </div>
+                    <div class="detail__btn" onclick=""><span>자세히보기</span></div>
+                </div>
+                <div class="contents__table">
+                    <table>
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                        </colsgroup>
+                        <tbody>
+                            <tr style="border-top: 1px solid #dcdcdc;">
+                                <td>
+                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                </td>
+                                <td>
+                                    <p>Product name</p>
+                                </td>
+                                <td>
+                                    <p>Color</p>
+                                </td>
+                                <td>
+                                    <p>A2</p>
+                                </td>
+                                <td>
+                                    <p>000,000</p>
+                                </td>
+                                <td>
+                                    <p>A/S 요금 00.000</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="as__tab__wrap">
-    <div class="tab four">
-        <div style="margin: 50px 0;">
-            <div class="title">A/S 유의사항</div>
-            <div class="description">
-                <p>· ADER 제품의 품질보증기간은 제품이 속한 컬렉션의 발매일로부터 1년입니다.​</p>
-                <p>· A/S는 ADER의 공식 판매처에서 구매한 정품에 한 해 서비스 제공이 가능합니다.</p>
-                <p>· 제품 사용 전/후 상황에 따라 발생할 수 있는 요금이 다를 수 있습니다.</p>
-                <p>· 제품에 사용된 원자재의 상황에 따라 A/S 가능 여부가 달라질 수 있습니다.</p>
-                <p>· 제품의 디자인 및 디테일의 변경을 요청하는 AS는 접수가 불가합니다.</p>
-                <p>· 제품 상태에 따라 유선상 안내가 어려울 수 있습니다.</p>
-                <p>· 실 제품 입고 이후 제품 상태에 따라 금액 변동이 있을 수 있습니다.</p>
-                <p>· 정품 인증이 어려운 제품의 경우, AS 비용이 상이할 수 있습니다.</p>
+    <div class="as__tab__wrap">
+        <div class="tab four">
+            <div style="margin: 50px 0;">
+                <div class="title">A/S 유의사항</div>
+                <div class="description">
+                    <p>· ADER 제품의 품질보증기간은 제품이 속한 컬렉션의 발매일로부터 1년입니다.​</p>
+                    <p>· A/S는 ADER의 공식 판매처에서 구매한 정품에 한 해 서비스 제공이 가능합니다.</p>
+                    <p>· 제품 사용 전/후 상황에 따라 발생할 수 있는 요금이 다를 수 있습니다.</p>
+                    <p>· 제품에 사용된 원자재의 상황에 따라 A/S 가능 여부가 달라질 수 있습니다.</p>
+                    <p>· 제품의 디자인 및 디테일의 변경을 요청하는 AS는 접수가 불가합니다.</p>
+                    <p>· 제품 상태에 따라 유선상 안내가 어려울 수 있습니다.</p>
+                    <p>· 실 제품 입고 이후 제품 상태에 따라 금액 변동이 있을 수 있습니다.</p>
+                    <p>· 정품 인증이 어려운 제품의 경우, AS 비용이 상이할 수 있습니다.</p>
+                </div>
             </div>
-        </div>
-        <div>
-            <div class="title">A/S 요금표</div>
-            <div class="contents__table_as_payment">
-                <table>
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:112px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                    </colsgroup>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p>분류</p>
-                            </td>
-                            <td>
-                                <p>항목</p>
-                            </td>
-                            <td>
-                                <p>Blue mark 포함</p>
-                            </td>
-                            <td>
-                                <p>Blue mark 미포함</p>
-                            </td>
-                        <tr>
-                            <td>
-                                <p>의류</p>
-                            </td>
-                            <td>
-                                <p>봉제,부자재 등</p>
-                            </td>
-                            <td>
-                                <p>30,000~</p>
-                            </td>
-                            <td>
-                                <p>60,000~</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>신발</p>
-                            </td>
-                            <td>
-                                <p>원단, 봉제 등</p>
-                            </td>
-                            <td>
-                                <p>40,000~</p>
-                            </td>
-                            <td>
-                                <p>80,000~</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>가방</p>
-                            </td>
-                            <td>
-                                <p>봉제,부자재 등</p>
-                            </td>
-                            <td>
-                                <p>40,000~</p>
-                            </td>
-                            <td>
-                                <p>80,000~</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>주얼리</p>
-                            </td>
-                            <td>
-                                <p>소재 등</p>
-                            </td>
-                            <td>
-                                <p>40,000~</p>
-                            </td>
-                            <td>
-                                <p>80,000~</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div>
+                <div class="title">A/S 요금표</div>
+                <div class="contents__table_as_payment">
+                    <table>
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:112px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                        </colsgroup>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p>분류</p>
+                                </td>
+                                <td>
+                                    <p>항목</p>
+                                </td>
+                                <td>
+                                    <p>Blue mark 포함</p>
+                                </td>
+                                <td>
+                                    <p>Blue mark 미포함</p>
+                                </td>
+                            <tr>
+                                <td>
+                                    <p>의류</p>
+                                </td>
+                                <td>
+                                    <p>봉제,부자재 등</p>
+                                </td>
+                                <td>
+                                    <p>30,000~</p>
+                                </td>
+                                <td>
+                                    <p>60,000~</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>신발</p>
+                                </td>
+                                <td>
+                                    <p>원단, 봉제 등</p>
+                                </td>
+                                <td>
+                                    <p>40,000~</p>
+                                </td>
+                                <td>
+                                    <p>80,000~</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>가방</p>
+                                </td>
+                                <td>
+                                    <p>봉제,부자재 등</p>
+                                </td>
+                                <td>
+                                    <p>40,000~</p>
+                                </td>
+                                <td>
+                                    <p>80,000~</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>주얼리</p>
+                                </td>
+                                <td>
+                                    <p>소재 등</p>
+                                </td>
+                                <td>
+                                    <p>40,000~</p>
+                                </td>
+                                <td>
+                                    <p>80,000~</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
 
@@ -858,7 +863,7 @@
 <script>
     $(document).ready(function () {
         $('.tab').hide();
-        $('.tab.one').show();
+        $(`.as_buying_wrap.one_one`).show();
 
     })
 

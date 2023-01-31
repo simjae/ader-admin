@@ -195,7 +195,7 @@ try {
 				TO_DETAIL_ADDR,
 				DEFAULT_FLG
 			) VALUES (
-				'',
+				'".$country."',
 				".$member_idx.",
 				'기본 배송지',
 				'".$member_name."',
