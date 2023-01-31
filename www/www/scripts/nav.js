@@ -1,5 +1,9 @@
 import {Sidebar} from '/scripts/module/sidebar.js';
 import {Basket} from '/scripts/module/basket.js';
+import {Bluemark} from '/scripts/module/bluemark.js';
+import {Language} from '/scripts/module/language.js';
+import {Search} from '/scripts/module/search-popular.js';
+import {User} from '/scripts/module/user.js';
 	
 	window.addEventListener('DOMContentLoaded', function() {
 		getMenuListApi();
@@ -237,7 +241,7 @@ import {Basket} from '/scripts/module/basket.js';
 				<li class="web search__li side-bar" data-type="S">					
 					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
 				</li>
-				<li class="flex wishlist__btn side-bar" data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+				<li class="flex wishlist__btn" onclick="getWhishlistProductList()" data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
 				<li class="flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
 				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
 					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
@@ -389,62 +393,145 @@ import {Basket} from '/scripts/module/basket.js';
 		`
 		</ul>
 		<ul class="mid">
-				<li><span>스토리</span></li>
-				<li><span>매장찾기</span></li>
-			</ul>
-			<ul class="bottom">
-				<li class="flex" onclick="location.href='/mypage'"><img src="/images/svg/user-bk.svg" style="width:18px" alt=""><span>` + userName + `</span></li>
-				<li class="flex w-7 mobile__search__btn"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></li>
-				<li class="flex"><img src="/images/svg/customer-bk.svg" style="width:18px" alt=""><span>고객서비스</span></li>
-				<li class="flex bluemark"><div class="bluemark-icon"></div><span>Bluemark</span></li>
-				<li class="flex language"><span>KR</span><span>Language</span></li>
-				
-			</ul>
-			<div class="mobile__search">
-				<div class="seach__input">
-					<img src="/images/svg/mobile-search.svg" alt="">
-					<input type="text" placeholder="검색어를 입력하세요">
-				</div>
-				<div class="recommend__search">
-					<ul>
-						<li class="recommend__search__title">추천 검색어</li>
-						<li class="search__result">쇼퍼백</li>
-						<li class="search__result">트윈하트로고 티셔츠</li>
-						<li class="search__result">키링</li>
-						<li class="search__result">The new is not new</li>
-						<li class="search__result">버켄스탁 콜라보레이션</li>
+			<li class="lrg" data-lrg="6">
+				<div class="lrg__back__btn"></div>
+				<div class="lrg__title"><span>스토리</span></div>
+				<div class="mdlBox">
+					<ul class="mdl">
+						<li>
+							<a href="">새로운 소식</a>
+							<ul class="list__grid">
+								<li class="st__box">
+									<div class="newsBox">
+										<img src ='http://116.124.128.246:80/images/sample/news01.jpg'>
+										<div class="news-title kr" href="">시그니처 쇼퍼백 구매 신청하기</div>
+										<div class="news-m-title en" href="">Shopper bag Stand by</div>
+									</div>
+								</li>
+								<li class="st__box">
+									<div class="newsBox">
+										<img src ='http://116.124.128.246:80/images/sample/news02.jpg'>
+										<div class="news-title kr" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
+										<div class="news-m-title en" href="">22SS Origin Line<br>Og: Diagonal</div>
+									</div>
+								</li>
+								<li class="st__box">
+									<div class="newsBox">
+										<img src ='http://116.124.128.246:80/images/sample/news03.jpg'>
+										<div class="news-title kr" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
+										<div class="news-m-title en" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="">아카이브</a>
+							<ul class="list__grid">
+								<li class="st__box">
+									<div class="mid-a archiveTitle">프로젝트</div>
+									<div class="archiveBox">
+										<ul>
+											<li class="archiveList">2022 SS  'After blue'</li>
+											<li class="archiveList">2022 Origin 'Cinder'</li>
+											<li class="archiveList">2021 AW 'Un nouveau système'</li>
+											<li class="archiveList">2021 SS 'Layering time'</li>
+										</ul>
+										<ul>
+											<li class="archiveList dot"></li>
+											<li class="archiveList allBtn">+  전체보기</li>
+										</ul>
+									</div>
+								</li>
+								<li class="st__box"  data-mdl="">
+									<div class="mid-a archiveTitle">룩북</div>
+									<div class="archiveBox">
+										<ul>
+											<li class="archiveList">2022 F/W 'Phenomenon comm...</li>
+											<li class="archiveList">2022 S/S 'After blue'</li>
+											<li class="archiveList">2022 Origin 'Cinder'</li>
+											<li class="archiveList">2021 SS 'Layering time'</li>
+										</ul>
+										<ul>
+											<li class="archiveList dot"></li>
+											<li class="archiveList allBtn">+  전체보기</li>
+										</ul>
+									</div>
+								</li>
+								<li class="st__box"  data-mdl="">
+									<div class="mid-a archiveTitle">에디토리얼</div>
+									<div class="archiveBox">
+										<ul>
+											<li class="archiveList">Mule series 'Curve'</li>
+											<li class="archiveList">‘Self Expression'</li>
+											<li class="archiveList">Adererror x Puma 'Vaderon'</li>
+											<li class="archiveList">2022ss campaign ‘After blue'</li>
+										</ul>
+										<ul>
+											<li class="archiveList dot"></li>
+											<li class="archiveList allBtn">+  전체보기</li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</div>
-				<div class="recommend__prd">
-					<div class="prd__title">추천 상품</div>
-					<div class="prd__content">
-						<div class="prd__card">
-							<div class="prd__img__wrap">
-								<div class="prd__img" style="background-image: url('/images/product/prd2.png');"></div>
-							</div>
-							<p class="prd__img__title">shopper bag</p>
+			</li>
+			<li><span>매장찾기</span></li>
+		</ul>
+		<ul class="bottom">
+			<li class="flex" onclick="location.href='/mypage'"><img src="/images/svg/user-bk.svg" style="width:18px" alt=""><span>` + userName + `</span></li>
+			<li class="flex w-7 mobile__search__btn"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></li>
+			<li class="flex"><img src="/images/svg/customer-bk.svg" style="width:18px" alt=""><span>고객서비스</span></li>
+			<li class="flex bluemark"><div class="bluemark-icon"></div><span>Bluemark</span></li>
+			<li class="flex language"><span>KR</span><span>Language</span></li>
+			
+		</ul>
+		<div class="mobile__search">
+			<div class="seach__input">
+				<img src="/images/svg/mobile-search.svg" alt="">
+				<input type="text" placeholder="검색어를 입력하세요">
+			</div>
+			<div class="recommend__search">
+				<ul>
+					<li class="recommend__search__title">추천 검색어</li>
+					<li class="search__result">쇼퍼백</li>
+					<li class="search__result">트윈하트로고 티셔츠</li>
+					<li class="search__result">키링</li>
+					<li class="search__result">The new is not new</li>
+					<li class="search__result">버켄스탁 콜라보레이션</li>
+				</ul>
+			</div>
+			<div class="recommend__prd">
+				<div class="prd__title">추천 상품</div>
+				<div class="prd__content">
+					<div class="prd__card">
+						<div class="prd__img__wrap">
+							<div class="prd__img" style="background-image: url('/images/product/prd2.png');"></div>
 						</div>
-						<div class="prd__card">
-							<div class="prd__img__wrap">
-								<div class="prd__img" style="background-image: url('/images/product/prd4.png');"></div>
-							</div>
-							<p class="prd__img__title">shopper bag</p>
+						<p class="prd__img__title">shopper bag</p>
+					</div>
+					<div class="prd__card">
+						<div class="prd__img__wrap">
+							<div class="prd__img" style="background-image: url('/images/product/prd4.png');"></div>
 						</div>
-						<div class="prd__card">
-							<div class="prd__img__wrap">
-								<div class="prd__img" style="background-image: url('/images/product/prd1.png');"></div>
-							</div>
-							<p class="prd__img__title">shopper bag</p>
+						<p class="prd__img__title">shopper bag</p>
+					</div>
+					<div class="prd__card">
+						<div class="prd__img__wrap">
+							<div class="prd__img" style="background-image: url('/images/product/prd1.png');"></div>
 						</div>
-						<div class="prd__card">
-							<div class="prd__img__wrap">
-								<div class="prd__img" style="background-image: url('/images/product/prd3.png');"></div>
-							</div>
-							<p class="prd__img__title">shopper bag</p>
+						<p class="prd__img__title">shopper bag</p>
+					</div>
+					<div class="prd__card">
+						<div class="prd__img__wrap">
+							<div class="prd__img" style="background-image: url('/images/product/prd3.png');"></div>
 						</div>
+						<p class="prd__img__title">shopper bag</p>
 					</div>
 				</div>
-			</div>`
+			</div>
+		</div>`
 		mobileMenu.innerHTML = menuHtml;
 		document.querySelector(".side__menu").appendChild(domfrag);
 		menuLrgClick();
@@ -479,11 +566,11 @@ import {Basket} from '/scripts/module/basket.js';
 						$(el).show();
 					}
 				});
-				$(".mdlBox").slideUp(150);
 				$(".mobile__menu .lrg__title").removeClass("open");
 				$(".mobile__menu .lrg__back__btn").removeClass("open");
 				$(this).addClass("open");
 				$(lrg__back__btn_obj).addClass("open");
+				$(".mdlBox").slideUp(150);
 				$(mdlBox_obj).slideDown(300);
 				mobileMdlSwipe();
 			}
@@ -623,18 +710,28 @@ import {Basket} from '/scripts/module/basket.js';
 		let mypageBtn = document.querySelector('.mypage__icon');
 		let quickBox = document.querySelector('.wish__btn__wrap');
 		let sideBarBtn = document.querySelectorAll('.side-bar');
+
 		sideBarBtn.forEach(el => {
 			el.addEventListener("click", function() {
+				let sideBox = document.querySelector(".side__box");
 				let typeTarget  = this.dataset.type;
 				console.log("🏂 ~ file: nav.js:645 ~ el.addEventListener ~ typeTarget", typeTarget)
+				sideBox.innerHTML ="";
 				if(typeTarget === "S"){
 					console.log("서치");
+					let search = new Search();
+					search.writeHtml();
+					search.addSearchEvent();
 				} else if(typeTarget === "E"){
 					console.log("언어변경");
+					let language = new Language();
+					language.writeHtml();
+					language.addSelectEvent();
 					let text = getLanguage();
 					console.log("🏂 ~ file: nav.js:656 ~ el.addEventListener ~ 현재 언어:", text)
+					
 					function getLanguage() {
-					return navigator.language || navigator.userLanguage;
+						return navigator.language || navigator.userLanguage;
 					}
 				} else if(typeTarget === "W"){
 					if(path.includes("whish")){
@@ -648,10 +745,14 @@ import {Basket} from '/scripts/module/basket.js';
 					console.log("베스킷");
 				} else if(typeTarget === "M"){
 					console.log("블루마켓");
+					let bluemark = new Bluemark();
+					console.log("🏂 ~ file: nav.js:736 ~ el.addEventListener ~ bluemark", bluemark.writeHtml())
 					if(path.includes("mypage")){
 						e.stopImmediatePropagation();
 					}
 				} else if(typeTarget === "L"){
+					let user = new User();
+					user.userLoad();
 					if(path.includes("mypage")){
 						e.stopImmediatePropagation();
 					}
@@ -666,17 +767,15 @@ import {Basket} from '/scripts/module/basket.js';
 			let sideContainer = document.querySelector("#sidebar");
 			let sideBg = document.querySelector(".side__background");
 			let sideWrap = document.querySelector(".side__wrap");
-			let sideBox = document.querySelector(".side__box");
-
 
 			if(sideContainer.classList.contains("open")){
 				$("header").removeClass("scroll");
 				sideContainer.classList.remove("open");
 				sideBg.classList.remove("open");
 				sideWrap.classList.remove("open");
+				document.querySelector(".side__box").innerHTML = "";
 			} else {
 				$("header").addClass("scroll");
-				sideBox.innerHTML = ""
 				sideContainer.classList.add("open");
 				sideBg.classList.add("open");
 				sideWrap.classList.add("open");
@@ -691,6 +790,7 @@ import {Basket} from '/scripts/module/basket.js';
 					document.querySelector("#sidebar").classList.remove("open")
 					document.querySelector(".side__background").classList.remove("open")
 					document.querySelector(".side__wrap").classList.remove("open")
+					document.querySelector(".side__box").innerHTML = "";
 				}
 			} )
 

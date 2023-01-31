@@ -7,8 +7,6 @@ export function Basket(el, useSidebar) {
     if(parm.useSidebar === true){
         this.makeContent = (() => {
             let sideBox = document.querySelector(`.side__box`);
-            let sideWrap = document.querySelector(`#sidebar .side__wrap`);
-            sideWrap.dataset.module = "basket";
             console.log("🏂 ~ file: sidebar.js:73 ~ Basket ~ sideBox", sideBox)
 
             let contentHtml = `<section class="basket__wrap">
@@ -267,8 +265,6 @@ export function Basket(el, useSidebar) {
             optionColorSelect();
             payBtnEvent();
             reorderHandler();
-            layoutClick();
-            
         }
         const selfCheckbox = (status, checked) => {
             let $$checkedSelfBox = document.querySelectorAll(`.self__cb[name='${status}']${checked ? ":checked":""}`);
@@ -387,7 +383,10 @@ export function Basket(el, useSidebar) {
                         selectArr.push(el.parentNode.parentNode.dataset.basketidx);
                     }
                 })
-                location.href="/order/confirm?country="+country+"&basket_idx=" + selectArr;
+				
+				if (selectArr.length > 0) {
+					location.href="/order/confirm?&basket_idx=" + selectArr;
+				}
             });
         }
         //쇼핑백 상품 수량 init,up,down 이벤트 
@@ -497,7 +496,9 @@ export function Basket(el, useSidebar) {
                 el.addEventListener("click", (e) => {
                     let getInputName = e.currentTarget.getAttribute("name");
                     if(getInputName == "stock"){
-                        let currentPrice = parseInt(e.path[2].querySelector(".totalPrice").innerText.replace(/,/g , ''));
+						let product__box = $(el).parent().parent();
+						
+                        let currentPrice = parseInt(product__box.find(".totalPrice").text().replace(/,/g , ''));
                         if(e.target.checked){
                             //체크시
                             if(getCheckboxName == "stock") {
@@ -719,18 +720,6 @@ export function Basket(el, useSidebar) {
             const productBox = [...document.querySelectorAll(".sold__list__box .product__box")].find(el => el.dataset.productidx == productIdx);
             productBox.dataset.reflg = 1;
             productBox.querySelector(".reorder__btn u").innerHTML ="재입고 알림 신청완료";
-        }
-        function layoutClick () {
-            let sideWrap = document.querySelector(".side__wrap");
-            let sideBg = document.querySelector(".side__background");
-            sideBg.addEventListener("click" ,(e) =>{
-                if(e.target == sideBg){
-                    document.querySelector("#sidebar").classList.remove("open")
-                    document.querySelector(".side__background").classList.remove("open")
-                    document.querySelector(".side__wrap").classList.remove("open")
-                }
-            } )
-
         }
     })();
 }

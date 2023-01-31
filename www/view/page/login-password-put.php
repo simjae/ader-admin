@@ -258,49 +258,7 @@ input::placeholder{
         </div>
     </div>
 </main>
-
-
-<script>
-$(document).ready(function() {
-    $('#pw_desciption').hide();
-    $('input[name="member_pw"]').keyup(function(){
-		if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
-            $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
-            hidePwDescription();
-        }
-        else{
-            $('.font__underline.warn__msg.member_pw').css('visibility','visible');
-            showPwDescription();
-        };
-	});
-});
-function memberPwConfirm(str){    
-    //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
-    //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
-    var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
-    //  공백 입력 불가능
-    var space_reg = /\s/g;
-    //var password_str = $('input[name="password"]').eq(0).val();
-
-    if(space_reg.test(str) == false){
-        return password_reg.test(str)
-            return true;
-    }
-    else{
-        return false;
-        //공백 포함 예외처리
-    }
-}
-function showPwDescription(){
-    $('#pw_desciption').show();
-    $('#hide_area').hide();
-}
-function hidePwDescription(){
-    $('#pw_desciption').hide();
-    $('#hide_area').show();
-}
-</script>
-
+<script src="/scripts/member/login.js"></script>
 
 
 

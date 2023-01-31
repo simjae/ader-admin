@@ -392,14 +392,14 @@
         if (typeof(quickSwiper) == 'object') quickSwiper.destroy();
         return quickSwiper = new Swiper(el, option);
     }
-    const responsiveSwiper = (el) => {
+    function responsiveSwiper(el){
         if ( breakpoint.matches === true ) {
             return initSwiper(el, webSwiperOption);
         } else if ( breakpoint.matches === false ) {
             return initSwiper(el, mobileSwiperOption);
         }
     };
-    const quickClickHandler = () => {
+    function quickClickHandler(){
         let $btnBox = document.querySelector(".btn__box");
         let $btnBoxImg = document.querySelector(".btn__box img");
         let $btnBoxP = document.querySelector(".btn__box p");
@@ -464,11 +464,10 @@
         }
 
     };
-    const getPopularProductList = () => {
+    function getPopularProductList() {
         let country = "KR"
         $.ajax({
             type: "post",
-           
             dataType: "json",
             url: "http://116.124.128.246:80/_api/quickview/popular/get",
             error: function() {
@@ -480,7 +479,7 @@
             }
         });
     }
-    const getWhishlistProductList = () => {
+    function getWhishlistProductList(){
         let country = "KR"
         $.ajax({
             type: "post",
@@ -495,7 +494,7 @@
             }
         });
     }
-    const resizeWidth = (dataCnt) => {
+    function resizeWidth(dataCnt){
         const el = document.querySelector(".quickview-swiper .swiper-wrapper");
         let arrowWidth = 30;
         if(dataCnt > 6) {
@@ -511,7 +510,7 @@
             el.style.width = (200 - arrowWidth)+"px";
         } 
     }
-    const writeSwiperHtml = (data) => {
+    function writeSwiperHtml(data){
         let dataCnt = data.length;
         const whishDomFlag = document.createDocumentFragment();
         const swiperWrapper = document.createElement("div");
@@ -540,7 +539,7 @@
         let el = ".quickview-swiper";
         responsiveSwiper(el);
     }
-    const writeWishlistSwiperHtml = (data) => {
+    function writeWishlistSwiperHtml(data){
         let dataCnt = data.length;
         const whishDomFlag = document.createDocumentFragment();
         const swiperWrapper = document.createElement("div");
@@ -568,6 +567,7 @@
         resizeWidth(dataCnt);
         let el = ".quickview-swiper";
         responsiveSwiper(el);
+        
     }
     
     
@@ -586,6 +586,29 @@
         elemScrollFooterUpEvent(".quickview__box");
         quickClickHandler();
     });
+    
+    function navWhishlistBtn(whishlen){
+        let whishSwiperWrap = document.querySelector(".quickview-swiper");
+        let $titleBox = document.querySelector(".title__box");
+        let $titleBoxSpan = document.querySelector(".title__box span");
+        let $titleBoxImg = document.querySelector(".title__box img");
+        let $contentWrap = document.querySelector(".quickview__content__wrap");
+        let $listBtn = document.querySelector(".btn__box.list__btn");
+        let $allBtn = document.querySelector(".quickview__content__wrap .all-btn");
+        // whishSwiperWrap.innerHTML="";
+        
+        
+        
+        
+        $titleBoxSpan.innerText = "위시리스트";
+        $titleBoxImg.src = "/images/svg/wish-list-bk.svg";
+        $contentWrap.classList.add("open");
+        $listBtn.classList.add("select");
+        console.log("🏂 ~ file: quickview.php:612 ~ navWhishlistBtn ~ whishlen", whishlen)
+        // resizeWidth(whishlen);
+        // let el = ".quickview-swiper";
+        // responsiveSwiper(el);
+    }
 
 
 

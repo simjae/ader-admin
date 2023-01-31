@@ -30,11 +30,11 @@
 		<link rel="stylesheet" href="https://d13fzx7h5ezopb.cloudfront.net/fonts/font.css" />
 		<link rel="stylesheet" href="/scripts/static/taggingJS/example/tag-basic-style.css" />
 		<link rel="stylesheet" href="/scripts/static/toast-selectbox/toastui-select-box.min.css"/>
+		<link rel=stylesheet href='/css/user/login.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/common.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/sidebar.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/footer.css' type='text/css'>
 		<link rel=stylesheet href='/css/common/nav.css' type='text/css'>
-		<script src="/scripts/common.js" ></script>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -53,6 +53,8 @@
 		<!-- <script src="/scripts/static/swiper.min.js"></script> -->
 		<script src="/scripts/static/farbtastic/farbtastic.js"></script>
 		<script src="/scripts/static/functions.js"></script>
+		<script src="/scripts/member/login.js"></script>
+		
 		<script src="/scripts/static/taggingJS/tagging.min.js"></script>
 		<script src="/scripts/static/toast-selectbox/toastui-select-box.min.js"></script>
 		<script src="/scripts/static/postcodify-master/api/search.js"></script>
@@ -62,6 +64,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+		<script src="/scripts/common.js" ></script>
 		<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
 
 		<!-- Apple id -->
