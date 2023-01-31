@@ -77,7 +77,7 @@ import {User} from '/scripts/module/user.js';
 													lrg.menu_slide.map((el, idx) => {
 													return`<div class="swiper-slide">
 																<div>
-																	<img src="${img_root}${el.slide_img}" alt="">
+																	<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
 																	<span class="swiper__title">${el.slide_name}</span>
 																</div>
 															</div>`
@@ -395,37 +395,45 @@ import {User} from '/scripts/module/user.js';
 		<ul class="mid">
 			<li class="lrg" data-lrg="6">
 				<div class="lrg__back__btn"></div>
-				<div class="lrg__title"><span>스토리</span></div>
+				<div class="lrg__title non_underline"><span>스토리</span></div>
 				<div class="mdlBox">
 					<ul class="mdl">
 						<li>
-							<a href="">새로운 소식</a>
+							<div class="sub__title">새로운 소식</div>
 							<ul class="list__grid">
 								<li class="st__box">
 									<div class="newsBox">
 										<img src ='http://116.124.128.246:80/images/sample/news01.jpg'>
-										<div class="news-title kr" href="">시그니처 쇼퍼백 구매 신청하기</div>
-										<div class="news-m-title en" href="">Shopper bag Stand by</div>
+										<div class="news-title-wrap">
+											<div class="news-title" href="">시그니처 쇼퍼백 구매 신청하기</div>
+											<div class="news-m-title" href="">Shopper bag Stand by</div>
+										</div>
 									</div>
 								</li>
 								<li class="st__box">
 									<div class="newsBox">
 										<img src ='http://116.124.128.246:80/images/sample/news02.jpg'>
-										<div class="news-title kr" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
-										<div class="news-m-title en" href="">22SS Origin Line<br>Og: Diagonal</div>
+										<div class="news-title-wrap">
+											<div class="news-title" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
+											<div class="news-m-title" href="">22SS Origin Line<br>Og: Diagonal</div>
+									</div>
 									</div>
 								</li>
 								<li class="st__box">
 									<div class="newsBox">
 										<img src ='http://116.124.128.246:80/images/sample/news03.jpg'>
-										<div class="news-title kr" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
-										<div class="news-m-title en" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
+										<div class="news-title-wrap">
+											<div class="news-title" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
+											<div class="news-m-title" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
+										</div>
 									</div>
 								</li>
 							</ul>
 						</li>
+						<li class="div__line">
+						</li>
 						<li>
-							<a href="">아카이브</a>
+							<div class="sub__title">아카이브</div>
 							<ul class="list__grid">
 								<li class="st__box">
 									<div class="mid-a archiveTitle">프로젝트</div>
@@ -435,14 +443,13 @@ import {User} from '/scripts/module/user.js';
 											<li class="archiveList">2022 Origin 'Cinder'</li>
 											<li class="archiveList">2021 AW 'Un nouveau système'</li>
 											<li class="archiveList">2021 SS 'Layering time'</li>
-										</ul>
-										<ul>
-											<li class="archiveList dot"></li>
 											<li class="archiveList allBtn">+  전체보기</li>
 										</ul>
 									</div>
 								</li>
-								<li class="st__box"  data-mdl="">
+								<li class="div__line">
+								</li>
+								<li class="st__box">
 									<div class="mid-a archiveTitle">룩북</div>
 									<div class="archiveBox">
 										<ul>
@@ -450,14 +457,13 @@ import {User} from '/scripts/module/user.js';
 											<li class="archiveList">2022 S/S 'After blue'</li>
 											<li class="archiveList">2022 Origin 'Cinder'</li>
 											<li class="archiveList">2021 SS 'Layering time'</li>
-										</ul>
-										<ul>
-											<li class="archiveList dot"></li>
 											<li class="archiveList allBtn">+  전체보기</li>
 										</ul>
 									</div>
 								</li>
-								<li class="st__box"  data-mdl="">
+								<li class="div__line">
+								</li>
+								<li class="st__box">
 									<div class="mid-a archiveTitle">에디토리얼</div>
 									<div class="archiveBox">
 										<ul>
@@ -465,14 +471,13 @@ import {User} from '/scripts/module/user.js';
 											<li class="archiveList">‘Self Expression'</li>
 											<li class="archiveList">Adererror x Puma 'Vaderon'</li>
 											<li class="archiveList">2022ss campaign ‘After blue'</li>
-										</ul>
-										<ul>
-											<li class="archiveList dot"></li>
 											<li class="archiveList allBtn">+  전체보기</li>
 										</ul>
 									</div>
 								</li>
 							</ul>
+						</li>
+						<li class="div__line last">
 						</li>
 					</ul>
 				</div>

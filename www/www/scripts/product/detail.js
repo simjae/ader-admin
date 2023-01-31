@@ -110,13 +110,21 @@ const getProduct = (product_idx) => {
                 let whish_function = "";
 
                 let whish_flg = `${el.whish_flg}`;
-                if (whish_flg == 'true') {
-                    whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                    whish_function = "deleteWhishListBtn(this);";
-                } else if (whish_flg == 'false') {
-                    whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                    whish_function = "setWhishListBtn(this);";
-                }
+				let login_status = getLoginStatus();
+				
+				if (login_status == "true") {
+					if (whish_flg == 'true') {
+						whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
+						whish_function = "deleteWhishListBtn(this);";
+					} else if (whish_flg == 'false') {
+						whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+						whish_function = "setWhishListBtn(this);";
+					}
+				} else {
+					whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+					whish_function = "return false;";
+				}
+                
 
 
                 infoBoxHtml = `
@@ -424,15 +432,38 @@ function basketStatusBtn() {
     $$productBtn.forEach(el => el.addEventListener("click", (e) => {
         let { status } = e.currentTarget.dataset;
         if (status == 2) {
+			let option_idx = [];
             let selectResult = [...$$size].map(size => {
-                if(size.classList.contains("select")){
-                    return size.dataset.optionidx
+                if(size.classList.contains("select") == true){
+                    option_idx.push(size.dataset.optionidx);
                 }
             });
-            addBasketApi(productIdx, selectResult)
-            console.log("🏂 ~ file: product-detail.php:736 ~ $$productBtn.forEach ~ selectResult", selectResult)
+            
+			if (option_idx.length > 0) {
+				$.ajax({
+					type: "post",
+					url: "http://116.124.128.246:80/_api/order/basket/add",
+					data: {
+						'add_type' : 'product',
+						'product_idx' : productIdx,
+						'option_idx' : option_idx
+					},
+					dataType: "json",
+					error: function () {
+						alert("쇼핑백 추가처리에 실패했습니다.");
+					},
+					success: function (d) {
+						if (d.code == 200){
+							location.href='/order/basket/list';
+						} else {
+							exceptionHandling("[ 디자인 필요 ]",d.msg);
+						}
+					}
+				});
+			}
         }
-    }))
+    }));
+	
     basketBtnStatusChange($$productBtn, sizeResult);
 }
 function basketBtnStatusChange(el, idx) {
@@ -463,63 +494,6 @@ function basketBtnStatusChange(el, idx) {
     })
 
 }
-//위시리스트 함수 
-function setWhishListBtn(obj) {
-    let product_idx = $(obj).attr('product_idx');
-    if (product_idx != null) {
-        $.ajax({
-            type: "post",
-            data: {
-                "product_idx": product_idx
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/order/whish/add",
-            error: function() {
-                alert("위시리스트 등록/해제 처리에 실패했습니다.");
-            },
-            success: function(d) {
-                let code = d.code;
-                let msg = d.msg;
-
-                if (code == "200") {
-                    let whish_img = $(obj).find('.whish_img');
-                    whish_img.attr('src', '/images/svg/wishlist-bk.svg');
-                    whish_img.attr('style', 'width:19px');
-                    $(obj).attr('onClick', 'deleteWhishListBtn(this);');
-                }
-            }
-        });
-    }
-}
-function deleteWhishListBtn(obj) {
-    let product_idx = $(obj).attr('product_idx');
-
-    if (product_idx != null) {
-        $.ajax({
-            type: "post",
-            data: {
-                "product_idx": product_idx
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/order/whish/delete",
-            error: function() {
-                alert("위시리스트 등록/해제 처리에 실패했습니다.");
-            },
-            success: function(d) {
-                let code = d.code;
-                let msg = d.msg;
-
-                if (code == "200") {
-                    let whish_img = $(obj).find('.whish_img');
-                    whish_img.attr('src', '/images/svg/wishlist.svg');
-                    $(obj).attr('onClick', 'setWhishListBtn(this);');
-                }
-            }
-        });
-    }
-}
-
-
 
 //사이즈 상태 체크 함수
 function sizeBtnHandler() {

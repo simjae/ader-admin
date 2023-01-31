@@ -124,6 +124,12 @@ export function User() {
             <div class="card__footer">
                 <input type="button" class="black_btn" onclick="location.href='/login/join'" value="회원가입">
             </div>
+            <div class="customer-title">고객서비스</div>
+            <div class="customer-btn-box">
+                <div class="customer-btn"><span>공지사항</span></div>
+                <div class="customer-btn"><span>자주 묻는 질문</span></div>
+                <div class="customer-btn"><span>문의하기</span></div>
+            </div>
         </div>
         
         

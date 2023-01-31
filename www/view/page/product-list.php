@@ -1,25 +1,27 @@
-<link rel=stylesheet href='/css/product/list.css' type='text/css'>
-<main>
-    <?php
-		function getUrlParamter($url, $sch_tag)
-		{
-			$parts = parse_url($url);
-			parse_str($parts['query'], $query);
-			return $query[$sch_tag];
-		}
 
-		$page_url = $_SERVER['REQUEST_URI'];
-		$menu_sort = getUrlParamter($page_url, 'menu_sort');
-		$menu_idx = getUrlParamter($page_url, 'menu_idx');
-		$page_idx = getUrlParamter($page_url, 'page_idx');
-    ?>
+<link rel=stylesheet href='/css/product/list.css' type='text/css'>
+
+<?php
+    function getUrlParamter($url, $sch_tag)
+    {
+        $parts = parse_url($url);
+        parse_str($parts['query'], $query);
+        return $query[$sch_tag];
+    }
+
+    $page_url = $_SERVER['REQUEST_URI'];
+    $menu_sort = getUrlParamter($page_url, 'menu_sort');
+    $menu_idx = getUrlParamter($page_url, 'menu_idx');
+    $page_idx = getUrlParamter($page_url, 'page_idx');
+?>
+<main>
     <input id="menu_sort" type="hidden" value="<?= $menu_sort ?>">
     <input id="menu_idx" type="hidden" value="<?= $menu_idx ?>">
     <input id="page_idx" type="hidden" value="<?= $page_idx ?>">
     <input id="country" type="hidden" value="KR">
     <input id="last_idx" type="hidden" value="0">
 
-    <section class="product__list__wrap" data-country="KR" data-last-idx="0" data-menu-idx ="<?= $menu_idx ?>" data-page-idx="<?= $page_idx ?>"  data-menu-sort ="<?= $menu_sort ?>"   >
+    <section class="product__list__wrap" data-session="<?=$session?>" data-country="KR" data-last-idx="0" data-menu-idx ="<?= $menu_idx ?>" data-page-idx="<?= $page_idx ?>"  data-menu-sort ="<?= $menu_sort ?>"   >
         <div class="top__banner"></div>
         <div class="prd__meun">
             <div class="prd__meun__grid"></div>

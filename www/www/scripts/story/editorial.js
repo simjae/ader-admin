@@ -1,43 +1,64 @@
-document.addEventListener("DOMContentLoaded", function () {
-    loadEditorialData();
-    loadEditorialDetailData();
-});
+window.addEventListener('DOMContentLoaded', function(){
+    var page_idx = $('#page_idx').val();
+    var size_type = $('#size_type').val();
+    if(page_idx != null){
+        loadEditorialDetailData(page_idx,size_type);
+    }
+    else{
+        loadEditorialData();  
+    }
+})
 
-function getApiEditorial() {
-    const url = "/scripts/story/json/editorial.json";
-    return fetch(url)
-        .then((response) => response.json())
-        .then((json) => json.editorial);
-}
-function getApiEditorialDetail() {
-    const url = "/scripts/story/json/editorial-detail.json";
-    return fetch(url)
-        .then((response) => response.json())
-        .then((json) => json.data);
-}
 function loadEditorialData() {
-    getApiEditorial()
-    .then((editorial) => {
-        editorial.forEach((el, idx) => {
-            let { thumbnail_background, title, content, detail_img } = el;
-            appendThumbnailTitle(title);
-            appendThumbnailBackground(thumbnail_background, title, idx)
-            asideClickEvent();
-            bannerClickEvent();
-            backBtn();
-            responsive();
-        });
-    })
+    $.ajax({
+        type: "post",
+        data: {
+            "size_type" : "W"
+        },
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/posting/editorial/list/get",
+        error: function() {
+            alert("블루마크 내역 조회처리에 실패했습니다.");
+        },
+        success: function(d) {
+            if(d.code == 200){
+                let cnt = 0;
+                if(d.data != null){
+                    d.data.forEach(function(row){
+                        console.log(row);
+                        appendThumbnailTitle(row.page_title);
+                        appendThumbnailBackground(row.contents_location, row.page_title, row.page_idx, cnt++, row.size_type)
+                        asideClickEvent();
+                        $(".editorial-wrap .banner").on('click',function(){
+                            location.href = `editorial/detail?page_idx=${page_idx}&size_type="${size_type}"`;
+                        })
+                        responsive();
+                    })
+                }
+            }
+        }
+    });
 }
-function loadEditorialDetailData() {
-    getApiEditorialDetail().then((data) => {
-        let { thumbnail_background, title, content, detail_img } = data;
-        let detailTitle = document.querySelector(".editorial-contet-title");
-        let detailSubitle = document.querySelector(".editorial-contet-subtitle");
-        appendSlide(detail_img);
-        detailTitle.innerHTML = title
-        detailSubitle.innerHTML = content
-    })
+function loadEditorialDetailData(page_idx,size_type) {
+    $.ajax({
+        type: "post",
+        data: {
+            'page_idx' : page_idx,
+            "size_type" : size_type
+        },
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/posting/editorial/get",
+        error: function() {
+            alert("블루마크 내역 조회처리에 실패했습니다.");
+        },
+        success: function(d) {
+            if(d.code == 200){
+                if(d.data != null){
+                    appendSlide(d.data);
+                }
+            }
+        }
+    });
 }
 function appendThumbnailTitle(title) {
     let titleUl = document.querySelector(".thumbnail-side nav ul");
@@ -46,36 +67,57 @@ function appendThumbnailTitle(title) {
     titleLi.innerHTML = title;
     titleUl.appendChild(titleLi);
 }
-function appendSlide(detail_img) {
+
+function appendSlide(data) {
+    /*
     let controllerWrap = document.querySelector(".editorial-controller-swiper .swiper-wrapper");
     let previewWrap = document.querySelector(".editorial-preview-swiper .swiper-wrapper");
     let docFrag = document.createDocumentFragment("div");
-    let url = "http://116.124.128.246:80";
-    detail_img.forEach(el => {
+    let docDetailFrag = document.createDocumentFragment("div");
+    let url = "http://116.124.128.246:81";
+
+    data.forEach(function (row){
+        var contents_type = row.contents_info[0].contents_type;
+
+        if (contents_type === "VID") {
+            contentsHtml = `<video controls="" autoplay="" muted="" loop="" src="${url}/${row.contents_info[0].contents_url}"></video>`;
+        } else {
+            contentsHtml = `<img src="${url}/${row.contents_info[0].contents_url}" alt="">`;
+        }
+
         let slide = document.createElement("div");
         slide.className = "swiper-slide";
         slide.innerHTML = `
-            <img  src="${url}${el}" alt="">
-        `
+            <img  src="${url}/${row.img_location}" alt="">
+        `;
+
+        let detailSlide = document.createElement("div");
+        detailSlide.className = "swiper-slide";
+        detailSlide.innerHTML = contentsHtml;
+
         docFrag.appendChild(slide);
+        docDetailFrag.appendChild(detailSlide);
     })
-    let cloneNode = docFrag.cloneNode(true);
-    controllerWrap.appendChild(docFrag)
-    previewWrap.appendChild(cloneNode)
+
+    controllerWrap.appendChild(docFrag);
+    previewWrap.appendChild(docDetailFrag);
+*/
+    $('.editorial-detail-wrap').addClass('open');
 }
-function appendThumbnailBackground(thumbnail_background, title, idx) {
+
+function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, size_type) {
     let backgroundHtml;
     let backgroundType = thumbnail_background.split('.', 2)[1];
     let editorialWrap = document.querySelector(".editorial-wrap");
     let article = document.createElement("article");
-    let url = "http://116.124.128.246:80";
+    let url = "http://116.124.128.246:81";
     article.className = "banner";
     if (idx > 0) article.classList.add("hidden")
 
     if (backgroundType === "mp4") {
-        backgroundHtml = `<video controls autoplay muted loop src="${url}${thumbnail_background}"></video>`
+        backgroundHtml = `<video controls autoplay muted loop src="${url}${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')"></video>`
     } else {
-        backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:80${thumbnail_background}" alt="">`
+        backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" alt="">`
     }
 
 
@@ -102,38 +144,15 @@ function asideClickEvent() {
     }
 }
 
-function backBtn() {
-    let backBtn = document.querySelectorAll(".back-btn");
-    let aside = document.querySelector(".thumbnail-side");
-    let editorialWrap = document.querySelector(".editorial-wrap");
-    let editorialDetailWrap = document.querySelector(".editorial-detail-wrap");
+function bannerClickEvent(page_idx, size_type) {
 
-    backBtn.forEach(el => {
-        el.addEventListener("click", function () {
-            editorialWrap.classList.add("open");
-            aside.classList.add("open");
-            editorialDetailWrap.classList.remove("open");
-        })
-    })
-}
-
-function bannerClickEvent() {
-    let aside = document.querySelector(".thumbnail-side");
-    let editorialWrap = document.querySelector(".editorial-wrap");
-    let editorialDetailWrap = document.querySelector(".editorial-detail-wrap");
-    let banners = document.querySelectorAll(".editorial-wrap .banner");
-    banners.forEach((el, idx) => el.addEventListener("click", function () {
-        console.log(idx)
-        aside.classList.remove("open");
-        editorialWrap.classList.remove("open");
-        editorialDetailWrap.classList.add("open");
-    }))
 }
 var editorialControllerSwiper = new Swiper(".editorial-controller-swiper", {
     spaceBetween: 10,
     slidesPerView: 16.5,
     freeMode: true,
     watchSlidesProgress: true,
+    autoHeight: true,
     breakpoints: {
         // when window width is >= 320px
         320: {
@@ -167,7 +186,6 @@ var editorialControllerSwiper = new Swiper(".editorial-controller-swiper", {
 });
 var editorialPreviewSwiper = new Swiper(".editorial-preview-swiper", {
     slidesPerView: 1,
-    autoHeight: true,
     thumbs: {
         swiper: editorialControllerSwiper,
     },
@@ -192,9 +210,7 @@ function responsive(){
     } else if (breakpoint.matches === false) {
         
     }
-
-
- 
-
-
+}
+function moveEditorialDtail(page_idx, size_type){
+    location.href = `editorial/detail?page_idx=${page_idx}&size_type=${size_type}`;
 }

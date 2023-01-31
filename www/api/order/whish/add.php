@@ -28,12 +28,6 @@ if (isset($_POST['product_idx'])) {
 	$product_idx	= $_POST['product_idx'];
 }
 
-if ($member_idx == 0 || $member_id == null) {
-	$code = 401;
-	$msg = "로그인 후 다시 시도해 주세요.";
-	exit;
-}
-
 if ($member_idx > 0 && $product_idx != null) {
 	//찜한 상품 리스트 등록 전 동일 상품 중복체크
 	$whish_list_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");

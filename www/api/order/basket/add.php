@@ -50,27 +50,38 @@ if (isset($_POST['option_idx'])) {
 
 $whish_info = array();
 if (isset($_POST['whish_info'])) {
-	$whish_info = $_POST['whisi_info'];
+	$whish_info = $_POST['whish_info'];
 }
 
 if ($country == "" || $country == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "부적절한 방법으로 접근하셨습니다. 사이트 내의 링크를 확인해주세요.";
+	
 	return $json_result;
 }
 
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	
 	return $json_result;
 }
 
-if ($add_type == "product" && $member_idx > 0 && $country != null && $product_idx != null && $option_idx != null) {
+if ($add_type == "product" && $member_idx > 0 && $country != null && $product_idx > 0 && $option_idx != null) {
 	$db->begin_transaction();
 	
 	try {
 		//선택한 상품/옵션이 구매 가능한 상태인지 체크
 		$product_result = checkProduct($db,$product_idx,$country,$member_idx);
+		
+		$basket_cnt = $db->count("dev.BASKET_INFO","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE ");
+		
+		if ($basket_cnt > 0) {
+			$json_result['code'] = 401;
+			$json_result['msg'] = "이미 쇼핑백에 추가된 상품입니다.";
+			
+			return $json_result;
+		}
 		
 		if ($product_result == true) {
 			for ($i=0; $i<count($option_idx); $i++) {
@@ -119,12 +130,14 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 				} else {
 					$json_result['code'] = 401;
 					$json_result['msg'] = "선택한 상품 중 재고가 모두 소진된 상품이 폼함되어있습니다. 구매하려는 상품의 사이즈를 확인해주세요.";
+					
 					return $json_result;
 				}
 			}
 		} else {
 			$json_result['code'] = 401;
 			$json_result['msg'] = "부적절한 상품이 선택되었습니다. 쇼핑백에 담으려는 상품의 옵션을 확인해주세요.";
+			
 			return $json_result;
 		}
 		
@@ -136,85 +149,96 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 		
 		$db->rollback();
 		$json_result['code'] = 301;
+		
 	}
 }
 
 if ($add_type == "whish" && $member_idx > 0 && $country != null && count($whish_info) > 0) {
 	//해당 멤버의 위시리스트중 선택 한 상품이 존재하는지 확인
-	$whish_result = checkWhishList($db,$whish_info);
-	
-	if ($whish_result == true) {
-		//선택 한 상품의 재고가 남아있는지 확인 => 선택한 상품/옵션의 재고 = 전체 상품 재고 - 주문 상품 재고
-		$stock_result = checkWhishListStockQty($db,$whish_idx,$option_idx_arr);
+	$check_whish_result = checkWhishList($db,$member_idx,$whish_info);
+	if ($check_whish_result == false) {
+		$json_result['code'] = 401;
+		$json_result['msg'] = "부적절한 위시리스트 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
 		
-		if ($stock_result == true) {
-			for ($i=0; $i<count($whish_info); $i++ ) {
-				$whish_idx = $whish_info[$i]['whish_idx'];
-				$option_idx_arr = $whish_info[$i]['option_idx'];
+		return $json_result;
+	}
+	
+	$check_basket_result = checkWhishListDuplicate($db,$member_idx,$whish_info);
+	if ($check_basket_result == false) {
+		$json_result['code'] = 401;
+		$json_result['msg'] = "이미 쇼핑백에 추가된 상품이 포함되어있습니다.";
+		
+		return $json_result;
+	}
+	
+	$stock_result = checkWhishListStockQty($db,$whish_info);
+	
+	//선택 한 상품의 재고가 남아있는지 확인 => 선택한 상품/옵션의 재고 = 전체 상품 재고 - 주문 상품 재고
+	if ($stock_result == true) {
+		for ($i=0; $i<count($whish_info); $i++ ) {
+			$whish_idx = $whish_info[$i]['whish_idx'];
+			$option_idx_arr = $whish_info[$i]['option_idx'];
+			
+			for ($j=0; $j<count($option_idx_arr); $j++) {
+				$insert_basket_sql = "
+					INSERT INTO
+						dev.BASKET_INFO
+					(
+						MEMBER_IDX,
+						MEMBER_ID,
+						PRODUCT_IDX,
+						PRODUCT_CODE,
+						PRODUCT_NAME,
+						OPTION_IDX,
+						BARCODE,
+						OPTION_NAME,
+						PRODUCT_QTY,
+						CREATER,
+						UPDATER
+					)
+					SELECT
+						".$member_idx."		AS MEMBER_IDX,
+						'".$member_id."'	AS MEMBER_ID,
+						PR.IDX				AS PRODUCT_IDX,
+						PR.PRODUCT_CODE		AS PRODUCT_CODE,
+						PR.PRODUCT_NAME		AS PRODUCT_NAME,
+						OO.IDX				AS OPTION_IDX,
+						OO.BARCODE			AS BARCODE,
+						OO.OPTION_NAME		AS OPTION_NAME,
+						1					AS PRODUCT_QTY,
+						'".$member_id."'	AS CREATER,
+						'".$member_id."'	AS UPDATER
+					FROM
+						dev.WHISH_LIST WL
+						LEFT JOIN dev.SHOP_PRODUCT PR ON
+						WL.PRODUCT_IDX = PR.IDX
+						LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+						PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
+					WHERE
+						WL.IDX = ".$whish_idx." AND
+						OO.IDX = ".$option_idx_arr[$j]."
+				";
 				
-				for ($j=0; $j<count($option_idx_arr); $j++) {
-					$insert_basket_sql = "
-						INSERT INTO
-							dev.BASKET_INFO
-						(
-							MEMBER_IDX,
-							MEMBER_ID,
-							PRODUCT_IDX,
-							PRODUCT_CODE,
-							PRODUCT_NAME,
-							OPTION_IDX,
-							BARCODE,
-							OPTION_NAME,
-							PRODUCT_QTY,
-							CREATER,
-							UPDATER
-						)
-						SELECT
-							".$member_idx."		AS MEMBER_IDX,
-							'".$member_id."'	AS MEMBER_ID,
-							PR.IDX				AS PRODUCT_IDX,
-							PR.PRODUCT_CODE		AS PRODUCT_CODE,
-							PR.PRODUCT_NAME		AS PRODUCT_NAME,
-							OO.IDX				AS OPTION_IDX,
-							OO.BARCODE			AS BARCODE,
-							OO.OPTION_NAME		AS OPTION_NAME,
-							1					AS PRODUCT_QTY,
-							'".$member_id."'	AS CREATER,
-							'".$member_id."'	AS UPDATER
-						FROM
-							dev.WHISH_LIST WL
-							LEFT JOIN dev.SHOP_PRODUCT PR ON
-							WL.PRODUCT_IDX = PR.IDX
-							LEFT JOIN dev.ORDERSHEET_OPTION OO ON
-							PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
-						WHERE
-							WL.IDX = ".$whish_idx." AND
-							OO.IDX = ".$option_idx_arr[$i]."
-					";
-					
-					$db->query($insert_basket_sql);
-				}
+				$db->query($insert_basket_sql);
 			}
-		} else {
-			$json_result['code'] = 401;
-			$json_result['msg'] = "선택한 상품의 재고가 모두 소진되었습니다. 동일한 상품의 다른 사이즈를 확인해주세요.";
-			return $json_result;
 		}
 	} else {
 		$json_result['code'] = 401;
-		$json_result['msg'] = "부적절한 위시리스트 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
+		$json_result['msg'] = "선택한 상품의 재고가 모두 소진되었습니다. 동일한 상품의 다른 사이즈를 확인해주세요.";
+		
 		return $json_result;
 	}
 }
 
-function checkWhishList($db,$whish_info) {
-	$whish_result = false;
+function checkWhishList($db,$member_idx,$whish_info) {
+	$check_result = false;
 	
 	$err_cnt = 0;
+	
 	for ($i=0; $i<count($whish_info); $i++) {
 		$whish_idx = $whish_info[$i]['whish_idx'];
 		
-		$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND WHISH_IDX = ".$whish_idx);
+		$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND IDX = ".$whish_idx);
 		
 		if ($whish_cnt == 0) {
 			$err_cnt++;
@@ -222,8 +246,32 @@ function checkWhishList($db,$whish_info) {
 	}
 	
 	if ($err_cnt == 0) {
-		$whish_result = true;
+		$check_result = true;
 	}
+	
+	return $check_result;
+}
+
+function checkWhishListDuplicate($db,$member_idx,$whish_info) {
+	$check_result = false;
+	
+	$err_cnt = 0;
+	
+	for ($i=0; $i<count($whish_info); $i++) {
+		$whish_idx = $whish_info[$i]['whish_idx'];
+		
+		$check_basket_cnt = $db->count("dev.BASKET_INFO BI","BI.MEMBER_IDX = ".$member_idx." AND BI.PRODUCT_IDX = (SELECT PRODUCT_IDX FROM dev.WHISH_LIST WHERE IDX = ".$whish_idx.")");
+		
+		if ($check_basket_cnt > 0) {
+			$err_cnt++;
+		}
+	}
+	
+	if ($err_cnt == 0) {
+		$check_result = true;
+	}
+	
+	return $check_result;
 }
 
 function checkWhishListStockQty($db,$whish_info) {

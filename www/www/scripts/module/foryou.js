@@ -42,13 +42,21 @@ export default function ForyouRender() {
                     prdListSlide.classList.add("swiper-slide");
 					let whish_img = "";
 					let whish_function = "";
+
 					let whish_flg = `${el.whish_flg}`;
-					if (whish_flg == 'true') {
-						whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
-						whish_function = "deleteWhishList(this);";
-					} else if (whish_flg == 'false') {
+					let login_status = getLoginStatus();
+					
+					if (login_status == "true") {
+						if (whish_flg == 'true') {
+							whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
+							whish_function = "deleteWhishListBtn(this);";
+						} else if (whish_flg == 'false') {
+							whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+							whish_function = "setWhishListBtn(this);";
+						}
+					} else {
 						whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-						whish_function = "setWhishList(this);";
+						whish_function = "return false;";
 					}
 
 					let product_size = el.product_size;
@@ -58,9 +66,10 @@ export default function ForyouRender() {
 
 					productRecommendListHtml =
                         `<div class="product">
-                            <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="">
-                                ${whish_img}
-                            </div>
+							<div class="wish__btn" product_idx="${el.product_idx}" onClick="${whish_function}">
+								${whish_img}
+							</div>
+							
                             <a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
                                 <div class="product-img swiper">
                                     <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${el.product_img}" alt="">

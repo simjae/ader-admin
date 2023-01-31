@@ -100,7 +100,7 @@
 		grid-column: 7/11;
 		top: 50px;
 	}
-
+	
 	/* 주문상품내역 */
 	.order-product .hd-title{
 		font-family: var(--ft-no-fu);
@@ -115,6 +115,7 @@
 	}
 
 	.order-product .header-wrap {
+		margin-top:20px;
 		position: sticky;
 	}
 
@@ -515,9 +516,6 @@
 		padding-bottom: 10px;
         margin-bottom: 20px;
 	}
-	
-
-	
 
 	.address-info .header-box-btn {
 		padding-bottom: 10px;
@@ -855,7 +853,145 @@
 
     }
 </style>
-<main data-basketStr="<?=$basket_idx?>" data-country="<?=$country?>">
+<main data-order_idx="<?=$order_idx?>">
+	<?php
+		$member_idx = 0;
+		if (isset($_SESSION['MEMBER_IDX'])) {
+			$member_idx = $_SESSION['MEMBER_IDX'];
+		}
+		
+		if ($member_idx == 0 || $order_idx == null) {
+			echo "
+				<script>
+					location.href='/main';
+				</script>
+			";
+		}
+		
+		if ($member_idx > 0) {
+			$order_cnt = $db->count("dev.ORDER_INFO","IDX = ".$order_idx." AND MEMBER_IDX = ".$member_idx);
+			
+			if ($order_cnt > 0) {
+				$select_order_sql = "
+					SELECT
+						OI.IDX						ORDER_IDX,
+						OI.ORDER_CODE				ORDER_CODE,
+						OI.TO_PLACE					TO_PLACE,
+						OI.TO_NAME					TO_NAME,
+						OI.TO_MOBILE				TO_MOBILE,
+						OI.TO_ZIPCODE				TO_ZIPCODE,
+						IFNULL(
+							OI.TO_ROAD_ADDR,
+							OI.TO_LOT_ADDR
+						)							TO_ADDR,
+						OI.TO_DETAIL_ADDR			TO_DETAIL_ADDR,
+						OI.ORDER_MEMO				AS ORDER_MEMO,
+						OI.PG_PAYMENT				AS PG_PAYMENT,
+						OI.PG_PRICE					AS PG_PRICE,
+						OI.PRICE_PRODUCT			AS PRICE_PRODUCT,
+						OI.PRICE_DISCOUNT			AS PRICE_DISCOUNT,
+						OI.PRICE_MILEAGE_POINT		AS PRICE_MILEAGE_POINT,
+						OI.PRICE_CHARGE_POINT		AS PRICE_CHARGE_POINT,
+						OI.PRICE_DELIVERY			AS PRICE_DELIVERY,
+						OI.PRICE_TOTAL				AS PRICE_TOTAL
+					FROM
+						dev.ORDER_INFO OI
+					WHERE
+						OI.IDX = ".$order_idx.";
+				";
+				
+				$db->query($select_order_sql);
+				
+				$order_info = array();
+				$order_product = array();
+				foreach($db->fetch() as $order_data) {
+					$order_idx = $order_data['ORDER_IDX'];
+					
+					if (!empty($order_idx)) {
+						$select_order_product_sql = "
+							SELECT
+								(
+									SELECT
+										REPLACE(
+											S_PI.IMG_LOCATION,
+											'/var/www/admin/www/',
+											''
+										)
+									FROM
+										dev.PRODUCT_IMG S_PI
+									WHERE
+										S_PI.PRODUCT_IDX = OP.PRODUCT_IDX AND
+										S_PI.IMG_TYPE = 'P' AND
+										S_PI.IMG_SIZE = 'S'
+									ORDER BY
+										S_PI.IDX ASC
+									LIMIT
+										0,1
+								)					AS IMG_LOCATION,
+								OP.PRODUCT_NAME		AS PRODUCT_NAME,
+								OM.COLOR			AS COLOR,
+								OM.COLOR_RGB		AS COLOR_RGB,
+								OP.OPTION_NAME		AS OPTION_NAME,
+								OP.PRODUCT_QTY		AS PRODUCT_QTY,
+								OP.PRODUCT_PRICE	AS PRICE_PRODUCT,
+								(
+									OP.PRODUCT_QTY * OP.PRODUCT_PRICE
+								)					AS PRICE_TOTAL
+							FROM
+								dev.ORDER_PRODUCT OP
+								LEFT JOIN dev.SHOP_PRODUCT PR ON
+								OP.PRODUCT_IDX = PR.IDX
+								LEFT JOIN dev.ORDERSHEET_MST OM ON
+								PR.ORDERSHEET_IDX = OM.IDX
+							WHERE
+								OP.ORDER_IDX = ".$order_idx."
+						";
+						
+						$db->query($select_order_product_sql);
+						
+						foreach($db->fetch() as $product_data) {
+							$order_product[] = array(
+								'img_location'		=>$product_data['IMG_LOCATION'],
+								'product_name'		=>$product_data['PRODUCT_NAME'],
+								'color'				=>$product_data['COLOR'],
+								'color_rgb'			=>$product_data['COLOR_RGB'],
+								'option_name'		=>$product_data['OPTION_NAME'],
+								'product_qty'		=>$product_data['PRODUCT_QTY'],
+								'price_product'		=>number_format($product_data['PRICE_PRODUCT']),
+								'price_total'		=>number_format($product_data['PRICE_TOTAL'])
+							);
+						}
+						
+						$order_info = array(
+							'order_code'			=>$order_data['ORDER_CODE'],
+							'to_place'				=>$order_data['TO_PLACE'],
+							'to_name'				=>$order_data['TO_NAME'],
+							'to_mobile'				=>$order_data['TO_MOBILE'],
+							'to_zipcode'			=>$order_data['TO_ZIPCODE'],
+							'to_addr'				=>$order_data['TO_ADDR'],
+							'to_detail_addr'		=>$order_data['TO_DETAIL_ADDR'],
+							'order_memo'			=>$order_data['ORDER_MEMO'],
+							'pg_payment'			=>$order_data['PG_PAYMENT'],
+							'pg_date'				=>$order_data['PG_DATA'],
+							'pg_price'				=>$order_data['PG_PRICE'],
+							'price_product'			=>number_format($order_data['PRICE_PRODUCT']),
+							'price_discount'		=>number_format($order_data['PRICE_DISCOUNT']),
+							'price_mileage_point'	=>number_format($order_data['PRICE_MILEAGE_POINT']),
+							'price_charge_point'	=>number_format($order_data['PRICE_CHARGE_POINT']),
+							'price_delivery'		=>number_format($order_data['PRICE_DELIVERY']),
+							'price_total'			=>number_format($order_data['PRICE_TOTAL'])
+						);
+					}
+				}
+			} else {
+				echo "
+					<script>
+						location.href='/main';
+					</script>
+				";
+			}
+		}
+	?>
 	<div class="banner-wrap">
 		<div class="banner-box">
 			<span>주문이 완료되었습니다.</span>
@@ -867,7 +1003,7 @@
 				<div class="header-wrap">
 					<div class="header-box">
 						<span class="hd-title">주문번호</span>
-						<span>123134234</span>
+						<span><?=$order_info['order_code']?></span>
 					</div>
 				</div>
 			</div>
@@ -879,17 +1015,17 @@
 				</div>
 				<div class="body-wrap">
 					<div class="save-box">
-						<div class="to-place">회사</div>
+						<div class="to-place"><?=$order_info['to_place']?></div>
 						<div class="cn-box">
-							<p class="to-name">심재형</p>
-							<p class="to-phone">010-7791-6041</p>
-							<p class="to-zipcode">04478</p>
-							<p class="to-addr">서울특별시 송파구 문정동 10-5</p>
-							<p class="to-detail">로뎀하우스 , 1층</p>
+							<p class="to-name"><?=$order_info['to_name']?></p>
+							<p class="to-phone"><?=$order_info['to_mobile']?></p>
+							<p class="to-zipcode"><?=$order_info['to_zipcode']?></p>
+							<p class="to-addr"><?=$order_info['to_addr']?></p>
+							<p class="to-detail"><?=$order_info['to_detail_addr']?></p>
 						</div>
 						<div class="message-box">
 							<span class="hd-title">배송메시지</span>
-							<span class="message-content">문앞에두고가세요</span>
+							<span class="message-content"><?=$order_info['order_memo']?></span>
 						</div>
 					</div>
 				</div>
@@ -907,11 +1043,11 @@
 					<div>신용카드</div>
 				</div>
 			</div>
-			<div class="wrapper order-product">
+			<div class="wrapper order-product" style="">
 				<div class="header-wrap">
 					<div class="header-box">
 						<span class="hd-title">주문내역</span>
-						<!-- <div class="product-toggle-btn"><span>자세히보기</span></div> -->
+						<div class="product-toggle-btn"><span>자세히보기</span></div>
 					</div>
 				</div>
 				<div class="header-list">
@@ -921,29 +1057,69 @@
 					<div class="header-col sum-col"><span>합계</span></div>
 				</div>
 				<div class="body-wrap">
-				
+					<?php
+						foreach($order_product as $product_data) {
+					?>
+					<div class="body-list product">
+						<div class="product-info">
+							<img class="prd-img" cnt="1" src="http://116.124.128.246:81/<?=$product_data['img_location']?>" alt="">
+							<div class="info-box">
+								<div class="info-row">
+									<div class="name" data-soldout=""><span><?=$product_data['product_name']?></span></div>
+								</div>
+								<div class="info-row mobile-saleprice">
+									<div class="product-price"><?=$product_data['product_price']?></div>
+								</div>
+								<div class="info-row">
+									<div class="color-title"><span><?=$product_data['color']?></span></div>
+									<div class="color__box" data-maxcount="" data-colorcount="1">
+										<div class="color" data-color="<?=$product_data['color_rgb']?>" data-soldout="STIN" style="background-color:<?=$product_data['color_rgb']?>"></div>
+									</div>
+								</div>
+								<div class="info-row">
+									<div class="size__box">
+										<li class="size" data-soldout="STIN"><?=$product_data['option_name']?></li>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="list-row web-saleprice">
+							<span class="product-price"><?=$product_data['price_product']?></span>
+						</div>
+						<div class="list-row">
+							<span class="product-count"><?=$product_data['product_qty']?></span>
+						</div>
+						<div class="list-row">
+							<span class="total-price"><?=$product_data['price_total']?></span>
+						</div>
+					</div>
+					<?php
+						}
+					?>
+					
 					<div class="calculation-wrap">
 						<div class="calculation-box">
 							<div class="product-sum calculation-row">
 								<span>제품 합계</span>
-								<span class="cal-price">0</span>
+								<span class="cal-price"><?=$order_info['price_product']?></span>
 							</div>
 							<div class="point-box">
 								<div class="calculation-row">
 									<span>바우처 사용</span>
-									<span class="voucher-point-use" data-voucher="0">0</span>
+									<span class="voucher-point-use" data-voucher="0"><?=$order_info['price_discount']?></span>
 								</div>
 								<div class="calculation-row">
 									<span>적립 포인트 사용</span>
-									<span class="accumulate-point-use" data-accumulate="0">0</span>
+									<span class="accumulate-point-use" data-accumulate="0"><?=$order_info['price_mileage_point']?></span>
 								</div>
 								<div class="calculation-row">
 									<span>충전 포인트 사용</span>
-									<span class="charge-point-use" data-charge="0">0</span></div>
+									<span class="charge-point-use" data-charge="0"><?=$order_info['price_charge_point']?></span></div>
 							</div>
 							<div class="calculation-row">
 								<span>배송비</span>
-								<span data-delprice="5000" class="del-price">5,000</span>
+								<span data-delprice="5000" class="del-price"><?=$order_info['price_delivery']?></span>
 							</div>
 						</div>
 						<div class="total-price-wrap">
@@ -951,13 +1127,11 @@
 								<span>최종 결제금액</span>
 								<span class="product-qty hidden"></span>
 							</div>
-							<span class="total-price">0</span>
+							<span class="total-price"><?=$order_info['price_total']?></span>
 						</div>
 					</div>
 				</div>
 			</div>
-			
-		
 
 			<div class="terms-service " data-group="4">
 				<div class="header-title">주문 취소 안내</div>
@@ -983,171 +1157,18 @@
 			</div>
 		</div>
 	</section>
-
-
-
-
 </main>
 <script>
-    function resizeEvent() {
-		const bodyWidth = document.querySelector("body").offsetWidth;
-        if ( 1024 <= bodyWidth) {
-			document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
-        } else if(1024 >= bodyWidth) {
-			document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
-        }
+window.addEventListener("resize" , function() {
+	resizeEvent();
+});
+
+function resizeEvent() {
+	const bodyWidth = document.querySelector("body").offsetWidth;
+	if ( 1024 <= bodyWidth) {
+		document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
+	} else if(1024 >= bodyWidth) {
+		document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
 	}
-	window.addEventListener("resize" , function() {
-		resizeEvent();
-	});
-
-	document.addEventListener("DOMContentLoaded", function() {
-        resizeEvent();
-		// const urlParams = new URL(location.href).searchParams;
-		// const basketIdx = urlParams.get('basket_idx');
-		// let basketArr = basketIdx.split(",");
-        let basketArr = [11,9,8,7,6,5,4,3,2,1]
-		$.ajax({
-			type: "post",
-			data: {
-				"basket_idx": basketArr,
-				"country": "KR"
-			},
-			dataType: "json",
-			url: "http://116.124.128.246/_api/order/pg/get",
-			error: function() {
-				console.log("결제하기에 실패했습니다.");
-			},
-			success: function(d) {
-				let code = d.code;
-				if (code == 200) {
-					let data = d.data;
-					productInfoWrite(data[0].product_info);
-					addrInfoWrite(data[0].to_info);
-				}
-				if (code == 403) {
-					console.log(d.msg)
-				}
-			}
-		});
-	});
-	function productInfoWrite(product){
-		let domFrag = document.createDocumentFragment();
-		const orderWrapBody = document.querySelector(".order-product .body-wrap");
-		let wrap = document.createElement("div");
-		const url ="http://116.124.128.246:81"
-		wrap.classList.add("product-wrap");
-		let listHtml  = ""
-		product.forEach(el => {
-			listHtml += `
-			<div class="body-list product">
-				<div class="product-info">
-					<img class="prd-img" cnt="1" src="${url}${el.product_img}" alt="">
-					<div class="info-box">
-						<div class="info-row" data-refund="${el.refund_flg?"true":"false"}">
-							<div class="name" data-soldout=""><span>${el.product_name}</span></div>
-						</div>
-						<div class="info-row mobile-saleprice">
-							<div class="product-price">${el.sales_price}</div>
-						</div>
-						<div class="info-row">
-							<div class="color-title"><span>${el.color}</span></div>
-							<div class="color__box" data-maxcount="" data-colorcount="1">
-								<div class="color" data-color="${el.color_rgb}" data-productidx="1" data-soldout="STIN" style="background-color:${el.color_rgb}"></div>
-							</div>
-						</div>
-						<div class="info-row">
-							<div class="size__box">
-								<li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">${el.option_name}</li>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="list-row web-saleprice"><span class="product-price">${el.sales_price}</span></div>
-				<div class="list-row"><span class="product-count">${el.product_qty}</span></div>
-				<div class="list-row"><span class="total-price">${el.total_price}</span></div>
-			</div>
-			` 
-		});
-		wrap.innerHTML = listHtml;
-		domFrag.appendChild(wrap);
-		orderWrapBody.prepend(domFrag);
-		productSumPrice();
-
-	}
-	
-	function addrInfoWrite(addr){
-		let addressPlace = document.querySelector(".address-info .save-box .to-place");
-		let addressName = document.querySelector(".address-info .save-box .to-name");
-		let addressPhone = document.querySelector(".address-info .save-box .to-phone");
-		let addressZipcode = document.querySelector(".address-info .save-box .to-zipcode");
-		let addressMain= document.querySelector(".address-info .save-box .to-addr");
-		let addressDetail = document.querySelector(".address-info .save-box .to-detail");
-
-		addressPlace.innerHTML = addr[0].to_place;
-		addressName.innerHTML = addr[0].to_name;
-		addressPhone.innerHTML = addr[0].to_mobile;
-		addressZipcode.innerHTML = addr[0].to_zipcode;
-		addressMain.innerHTML = addr[0].to_addr;
-		addressDetail.innerHTML = addr[0].to_detail_addr;
-	}
-	
-	function productSumPrice() {
-		let productTotalPrices = document.querySelectorAll(".product .total-price");
-		let calProductSumPrice = document.querySelector(".calculation-wrap .product-sum .cal-price");
-		let	delPrice = document.querySelector(".calculation-wrap .del-price");
-		let	productQty = document.querySelector(".calculation-wrap .product-qty");
-		let productLen = productTotalPrices.length;
-		let productSum = [...productTotalPrices].map((el) => {
-			let sum =+ el.innerHTML.replace(/,/g, '');
-			return sum;
-		});
-		//합산
-		const sum = productSum.reduce(function add(sum, currenValue) {
-			return sum + currenValue;
-		})
-
-		calProductSumPrice.dataset.sum = sum;
-		calProductSumPrice.innerHTML = sum.toLocaleString("ko-KR");
-		productQty.innerHTML = productLen;
-
-
-		//배송비 처리
-		if(productSum < 50000 ) {
-			let set = 5000;
-			delPrice.dataset.delprice = set;
-			delPrice.innerHTML = set.toLocaleString("ko-KR");;
-		} else {
-			delPrice.dataset.delprice = 0;	
-			delPrice.innerHTML = 0;
-		}
-		totalPrice();
-	}
-	function totalPrice() {
-		const calculationWrap = document.querySelector(".calculation-wrap");
-		let step = calculationWrap.dataset.step;
-		let	totalPrice = document.querySelector(".calculation-wrap .total-price");
-		let	productPrice = document.querySelector(".calculation-wrap .cal-price");
-		let	delPrice = document.querySelector(".calculation-wrap .del-price");
-		let	voUse = document.querySelector(".calculation-wrap .voucher-point-use");
-		let	acUse = document.querySelector(".calculation-wrap .accumulate-point-use");
-		let	chUse = document.querySelector(".calculation-wrap .charge-point-use");
-		let result = 0;
-
-		//상품, 배송, 바우처, 적립, 충전 객체
-		let calWrap = [
-			{"title":"product","price":productPrice.dataset.sum},
-			{"title":"del","price":delPrice.dataset.delprice},
-			{"title":"voucher","price":voUse.dataset.voucher},
-			{"title":"accumulate","price":acUse.dataset.accumulate},
-			{"title":"charge","price":chUse.dataset.charge}]
-		if(step === "1") {
-		} else if(step === "2"){
-		}
-		result = calWrap.map(item => item.price).reduce((prev, curr) => parseInt(prev) + parseInt(curr));
-		totalPrice.innerHTML =result.toLocaleString("ko-KR");
-	}
-
-	
+}
 </script>

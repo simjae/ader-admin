@@ -119,6 +119,9 @@ function productWriteHtml(grid_info){
             let whish_img = "";
             let whish_function = "";
 
+        let memmber_idx = "<?=$_SESSION['MEMBER_IDX']?>";
+        console.log("🏂 ~ file: list.js:123 ~ productWriteHtml ~ memmber_idx", memmber_idx)
+
             let whish_flg = `${el.whish_flg}`;
             if (whish_flg == 'true') {
                 whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';

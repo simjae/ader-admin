@@ -1,4 +1,3 @@
-
 export function Bluemark() {
     this.writeHtml = () => {
         let sideBox = document.querySelector(`.side__box`);

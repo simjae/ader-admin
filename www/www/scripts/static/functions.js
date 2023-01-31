@@ -444,7 +444,7 @@ function confirm(str,ok,cancel) {
 }
 
 
-function alert(str,ok) {
+/*function alert(str,ok) {
 	$("body:not(.addClass)").addClass("on-modal");
 	$("body").append(`
 		<section class="modal alert">
@@ -464,11 +464,9 @@ function alert(str,ok) {
 		if(typeof(ok) == "function") {
 			$("body > section.modal.alert").last().remove();
 			setTimeout(ok,1);
-			/*
 			setTimeout(function() {
 				location.href = "#close";
 			},5);
-			*/
 		}
 		if(typeof(ok) == "boolean" && ok == true) {
 			$("body > section.modal").last().remove();
@@ -481,7 +479,7 @@ function alert(str,ok) {
 			$("body").removeClass("on-modal");
 		}
 	});
-}
+}*/
 
 function zipcode(obj) {
 	$("body").addClass("on-modal")

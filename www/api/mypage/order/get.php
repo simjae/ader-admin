@@ -65,10 +65,22 @@ if ($member_idx > 0 && $order_idx > 0) {
 				OI.TO_LOT_ADDR
 			)						AS TO_ADDR,
 			TO_DETAIL_ADDR			AS TO_DETAIL_ADDR,
-			OI.ORDER_MEMO			AS ORDER_MEMO,
+			IFNULL(
+				OI.ORDER_MEMO,
+				''
+			)						AS ORDER_MEMO,
 			
 			DC.COMPANY_NAME			AS COMPANY_NAME,
-			DC.COMPANY_TEL			AS COMPANY_TEL
+			DC.COMPANY_TEL			AS COMPANY_TEL,
+			CASE
+				WHEN
+					OI.ORDER_STATUS = 'DCP' AND
+					NOW() > DATE_ADD(OI.DELIVERY_END_DATE, INTERVAL 7 DAY)
+					THEN
+						'TRUE'
+				ELSE
+						'FALSE'
+			END						AS UPDATE_FLG
 		FROM
 			dev.ORDER_INFO OI
 			LEFT JOIN dev.DELIVERY_COMPANY DC ON
@@ -82,6 +94,8 @@ if ($member_idx > 0 && $order_idx > 0) {
 	
 	foreach($db->fetch() as $order_data) {
 		$order_idx = $order_data['ORDER_IDX'];
+		$update_flg = $order_data['UPDATE_FLG'];
+		$update_flg === 'TRUE'? true: false;
 		
 		$order_product = array();
 		if (!empty($order_idx)) {
@@ -127,7 +141,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 			$db->query($select_order_product_sql);
 			
 			foreach($db->fetch() as $order_product_data) {
-				$order_product = array(
+				$order_product[] = array(
 					'order_product_idx'		=>$order_product_data['ORDER_PRODUCT_IDX'],
 					'img_location'			=>$order_product_data['IMG_LOCATION'],
 					'product_name'			=>$order_product_data['PRODUCT_NAME'],
@@ -166,6 +180,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 				
 				'company_name'			=>$order_data['COMPANY_NAME'],
 				'company_tel'			=>$order_data['COMPANY_TEL'],
+				'update_flg'			=>$update_flg,
 				
 				'order_product'			=>$order_product
 			);

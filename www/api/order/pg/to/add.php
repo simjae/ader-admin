@@ -14,11 +14,10 @@
  +=============================================================================
 */
 
-$member_idx = 1;
-/*$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
-}*/
+}
 
 if ($member_idx == 0) {
 	$json_result['code'] = 401;
@@ -34,30 +33,31 @@ $to_lot_addr		= $_POST['to_lot_addr'];
 $to_road_addr		= $_POST['to_road_addr'];
 $to_detail_addr		= $_POST['to_detail_addr'];
 
-if ($member_idx != 0) {
-	$insert_sql = "
+if ($member_idx > 0) {
+	$insert_order_to_sql = "
 		INSERT INTO
-				dev.ORDER_TO
-			(
-				MEMBER_IDX,
-				TO_PLACE,
-				TO_NAME,
-				TO_MOBILE,
-				TO_ZIPCODE,
-				TO_LOT_ADDR,
-				TO_ROAD_ADDR,
-				TO_DETAIL_ADDR
-			) VALUES (
-				".$member_idx.",
-				'".$to_place."',
-				'".$to_name."',
-				'".$to_mobile."',
-				'".$to_zipcode."',
-				'".$to_lot_addr."',
-				'".$to_road_addr."',
-				'".$to_detail_addr."'
-			)";
+			dev.ORDER_TO
+		(
+			MEMBER_IDX,
+			TO_PLACE,
+			TO_NAME,
+			TO_MOBILE,
+			TO_ZIPCODE,
+			TO_LOT_ADDR,
+			TO_ROAD_ADDR,
+			TO_DETAIL_ADDR
+		) VALUES (
+			".$member_idx.",
+			'".$to_place."',
+			'".$to_name."',
+			'".$to_mobile."',
+			'".$to_zipcode."',
+			'".$to_lot_addr."',
+			'".$to_road_addr."',
+			'".$to_detail_addr."'
+		)
+	";
 	
-	$db->query($insert_sql);
+	$db->query($insert_order_to_sql);
 }
 ?>

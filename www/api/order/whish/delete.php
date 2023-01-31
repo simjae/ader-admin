@@ -36,7 +36,7 @@ if ($member_idx == 0 || $member_id == null) {
 }
 
 if ($member_idx > 0 && $product_idx > 0) {
-	$cnt = $db->count("dev.WHISH_LIST","PRODUCT_IDX = ".$product_idx." AND MEMBER_IDX = ".$member_idx);
+	$cnt = $db->count("dev.WHISH_LIST","PRODUCT_IDX = ".$product_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
 
 	if ($cnt == 0) {
 		$json_result['code'] = 401;

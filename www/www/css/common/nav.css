@@ -109,13 +109,13 @@ list-style-type: none;
 #mobile .top .lrg .lrg__title,
 #mobile .mid .lrg .lrg__title{
     font-family: var(--ft-no);
-    font-size: 1.8rem;
+    font-size: 15px;
     font-weight: 500;
     text-align: left;
     color: #343434;
 }
-#mobile .top .lrg .lrg__title.open,
-#mobile .mid .lrg .lrg__title.open {
+#mobile .top .lrg .lrg__title.open:not(.non_underline),
+#mobile .mid .lrg .lrg__title.open:not(.non_underline) {
     text-decoration: underline;
 }
 #mobile .top .lrg .lrg__back__btn,
@@ -132,7 +132,7 @@ list-style-type: none;
 }
 #mobile .mid li span, #mobile .bottom li {
     font-family: var(--ft-no);
-    font-size: 1.8rem;
+    font-size: 13px;
     font-weight: normal;
     text-align: left;
     color: #343434;
@@ -160,6 +160,112 @@ list-style-type: none;
 #mobile .bottom .bluemark{
 	color: #0000c5;
 }
+
+/*
+모바일 스토리
+*/
+
+#mobile .mobile__menu .mdlBox .sub__title{
+	text-decoration: underline;
+	margin:23px 0 12px 0;
+	font-size: 13px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: 0.33px;
+	text-align: left;
+	color: #343434;
+	line-height: 1.46;
+}
+#mobile .mobile__menu .mdlBox .st__box {
+    margin-bottom: 20px;
+    text-align: left;
+}
+#mobile .mobile__menu .mdlBox .st__box img{
+    width: 110px;
+    height: 110px;
+}
+#mobile .mobile__menu .mdlBox .st__box .newsBox{
+    display: flex;
+    align-content: center;
+    align-items: flex-start;
+}
+#mobile .mobile__menu .mdlBox .st__box .newsBox .news-title-wrap{
+    margin-left:10px;
+}
+#mobile .mobile__menu .mdlBox .st__box .newsBox .news-title-wrap .news-title{
+	margin-bottom:6px;
+	font-size: 11px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.45;
+	letter-spacing: 0.17px;
+	text-align: left;
+	color: #343434;
+}
+#mobile .mobile__menu .mdlBox .st__box .newsBox .news-title-wrap .news-m-title{
+	margin-bottom:6px;
+	font-size: 13px;
+	font-weight: 500;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: 0.33px;
+	text-align: left;
+	color: #343434;
+	line-height: 1.31;
+}
+
+#mobile .mobile__menu .mdlBox .st__box .archiveBox{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#mobile .mobile__menu .mdlBox .st__box .archiveTitle{
+	font-size: 12px;
+	text-decoration: underline;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #343434;
+	margin-top: 32px;
+}
+#mobile .mobile__menu .mdlBox .st__box .archiveList{
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: 0.33px;
+	margin-top:32px;
+	text-align: left;
+	color: #343434;
+	white-space:nowrap;
+	overflow-x: hidden;
+	max-width: 95%;
+	width: 95%;
+	text-overflow:ellipsis;
+	word-break: break-all;
+}
+#mobile .mobile__menu .mdlBox .st__box .archiveList.allBtn{
+	text-decoration: underline;
+}
+
+#mobile .mobile__menu .mdlBox .div__line{
+	background: #dcdcdc;
+    margin-left: calc(100vw / -8);
+    height: 1px;
+	margin-bottom:32px;
+	margin-top: 32px;
+}
+#mobile .mobile__menu .mdlBox .div__line.last{
+	margin-bottom:0;
+}
+
 .bluemark-icon {
 	width: 6px;
 	height: 6px;

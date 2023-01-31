@@ -183,7 +183,7 @@ if ($member_cnt > 0) {
 			$now_param = strtotime(date("Y-m-d"));
 
 			if(strtotime($start_date_param) < $now_param && strtotime($end_date_param) > $now_param){
-				brithVoucherIssue($db, $country, $data['IDX'], $start_date_param, $end_date_param);
+				brithVoucherIssue($db, $country, $data['MEMBER_IDX'], $start_date_param, $end_date_param);
 			}
 		} else {
 			$json_result['result'] = false;

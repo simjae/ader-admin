@@ -52,9 +52,9 @@ if (isset($_POST['road_addr'])) {
 	$road_addr = $_POST['road_addr'];
 }
 
-$detail_addr = null;
-if (isset($_POST['detail_addr'])) {
-	$detail_addr = $_POST['detail_addr'];
+$addr_detail = null;
+if (isset($_POST['addr_detail'])) {
+	$addr_detail = $_POST['addr_detail'];
 }
 
 $tel_mobile = null;
@@ -122,10 +122,10 @@ if ($road_addr != null) {
 	$road_addr_arr[1] = "'".$road_addr."',";
 }
 
-$detail_addr_arr = array();
-if ($detail_addr != null) {
-	$detail_addr_arr[0] = ' LOT_ADDR, ';
-	$detail_addr_arr[1] = "'".$detail_addr."',";
+$addr_detail_arr = array();
+if ($addr_detail != null) {
+	$addr_detail_arr[0] = ' DETAIL_ADDR, ';
+	$addr_detail_arr[1] = "'".$addr_detail."',";
 }
 
 $tel_mobile_arr = array();
@@ -147,26 +147,28 @@ try {
 		INSERT INTO
 			dev.MEMBER_".$country."
 		(   
+			MEMBER_STATUS,
 			".$member_id_arr[0]."
 			".$member_pw_arr[0]."
 			".$member_name_arr[0]."
 			".$zipcode_arr[0]."
 			".$lot_addr_arr[0]."
 			".$road_addr_arr[0]."
-			".$detail_addr_arr[0]."
+			".$addr_detail_arr[0]."
 			".$tel_mobile_arr[0]."
 			".$birth_arr[0].",
 			JOIN_DATE
 		)
 		VALUES
 		(
+			'NML',
 			".$member_id_arr[1]."
 			".$member_pw_arr[1]."
 			".$member_name_arr[1]."
 			".$zipcode_arr[1]."
 			".$lot_addr_arr[1]."
 			".$road_addr_arr[1]."
-			".$detail_addr_arr[1]."
+			".$addr_detail_arr[1]."
 			".$tel_mobile_arr[1]."
 			".$birth_arr[1].",
 			NOW()
@@ -201,7 +203,7 @@ try {
 				'".$zipcode."',
 				'".$lot_addr."',
 				'".$road_addr."',
-				'".$detail_addr."',
+				'".$addr_detail."',
 				TRUE
 			);
 		";

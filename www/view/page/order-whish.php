@@ -599,6 +599,22 @@
         }
     }
 </style>
+
+<?php
+	$member_idx = 0;
+	if (isset($_SESSION['MEMBER_IDX'])) {
+		$member_idx = $_SESSION['MEMBER_IDX'];
+	}
+	
+	if ($member_idx == 0) {
+		echo "
+			<script>
+				location.href='/login';
+			</script>
+		";
+	}
+?>
+
 <link rel="stylesheet" href="/css/module/foryou.css">
 <main data-basketStr="<?= $basket_idx ?>" data-country="<?= $country ?>">
     <div class="banner-wrap">
@@ -639,550 +655,576 @@
     <section class="recommend-wrap"></section>
 </main>
 <script>
-    window.addEventListener('DOMContentLoaded', function() {
-        getWhishProductList();
-        
-    });
-    let addListBox = [];
-    const quickSwiper = new Swiper(".quick-swiper", {
-        observeParents: true,
-        observeSlideChildren: true,
-        slidesPerView: "auto",
-        breakpoints: {
-            320: {
-                spaceBetween: 10,
-                slidesPerView: 4.6
-            },
-            420: {
-                spaceBetween: 10,
-                slidesPerView: 6
-            },
-            520: {
-                spaceBetween: 10,
-                slidesPerView: 7
-            },
-            620: {
-                spaceBetween: 10,
-                slidesPerView: 8
-            },
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev"
+window.addEventListener('DOMContentLoaded', function() {
+	getWhishProductList();
+	
+});
+let addListBox = [];
+const quickSwiper = new Swiper(".quick-swiper", {
+	observeParents: true,
+	observeSlideChildren: true,
+	slidesPerView: "auto",
+	breakpoints: {
+		320: {
+			spaceBetween: 10,
+			slidesPerView: 4.6
+		},
+		420: {
+			spaceBetween: 10,
+			slidesPerView: 6
+		},
+		520: {
+			spaceBetween: 10,
+			slidesPerView: 7
+		},
+		620: {
+			spaceBetween: 10,
+			slidesPerView: 8
+		},
+	},
+	navigation: {
+		nextEl: ".swiper-button-next",
+		prevEl: ".swiper-button-prev"
 
-        }
+	}
 
-    });
-    quickSwiper.on('click', function() {
-        let idx = quickSwiper.clickedIndex;
-        let whishIdx = quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
-        elementScroll("body-list", whishIdx);
-    });
-    const getWhishProductList = () => {
-        let country = "KR"
-        $.ajax({
-            type: "post",
-            data: {
-                "country": country,
-                "MEMBER_IDX": 1
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/order/whish/list/get",
-            error: function() {
-                alert("위시 리스트 등록 상품 불러오기 처리에 실패했습니다.");
-            },
-            success: function(d) {
-                let data = d.data;
-                whishListWrite(data);
-                productAddBtnClickHandler();
-                sizeSelectHandler();
-                removeProductBtnHandler();
-                productBtnStatus();
-            }
-        });
-    }
-    /*-------------------------화면 그리기-------------------------- */
-    function whishListWrite(whishlist) {
-        const bodyWrap = document.querySelector(".content .body-wrap.list");
-        let productWrap = document.createElement("div");
-        productWrap.classList.add("product-wrap");
-        let productHtml = "";
-        let url = "http://116.124.128.246:81";
+});
+quickSwiper.on('click', function() {
+	let idx = quickSwiper.clickedIndex;
+	let whishIdx = quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
+	elementScroll("body-list", whishIdx);
+});
+const getWhishProductList = () => {
+	let country = "KR"
+	$.ajax({
+		type: "post",
+		data: {
+			"country": country,
+			"MEMBER_IDX": 1
+		},
+		dataType: "json",
+		url: "http://116.124.128.246:80/_api/order/whish/list/get",
+		error: function() {
+			alert("위시 리스트 등록 상품 불러오기 처리에 실패했습니다.");
+		},
+		success: function(d) {
+			let data = d.data;
+			whishListWrite(data);
+			productAddBtnClickHandler();
+			sizeSelectHandler();
+			removeProductBtnHandler();
+			productBtnStatus();
+		}
+	});
+}
+/*-------------------------화면 그리기-------------------------- */
+function whishListWrite(whishlist) {
+	const bodyWrap = document.querySelector(".content .body-wrap.list");
+	let productWrap = document.createElement("div");
+	productWrap.classList.add("product-wrap");
+	let productHtml = "";
+	let url = "http://116.124.128.246:81";
 
-        whishlist.forEach(el => {
-            let productColorHtml = "";
-            let colorData = el.color_rgb;
-            let multi = colorData.split(";");
+	whishlist.forEach(el => {
+		let productColorHtml = "";
+		let colorData = el.color_rgb;
+		let multi = colorData.split(";");
 
-            if (multi.length === 2) {
-                productColorHtml += `
-                        <div class="color-line" style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
-                            <div class="color multi" data-title="${multi}"></div>
-                        </div>
-                    `;
-            } else {
-                productColorHtml += `
-                        <div class="color-line" style="--background-color:${multi[0]}" >
-                            <div class="color" data-title="${multi}"></div>
-                        </div>
-                    `;
-            }
+		if (multi.length === 2) {
+			productColorHtml += `
+					<div class="color-line" style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
+						<div class="color multi" data-title="${multi}"></div>
+					</div>
+				`;
+		} else {
+			productColorHtml += `
+					<div class="color-line" style="--background-color:${multi[0]}" >
+						<div class="color" data-title="${multi}"></div>
+					</div>
+				`;
+		}
 
+		let product_size = el.product_size;
+		let productSizeHtml = "";
+		product_size.forEach(size => {
+			productSizeHtml += `
+				<li class="size" data-reorder="false" data-sizetype="${size.size_type}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>
+			`;
+		});
 
-            let product_size = el.product_size;
-            let productSizeHtml = "";
-            product_size.forEach(size => {
-                productSizeHtml += `
-                    <li class="size" data-reorder="false" data-sizetype="${size.size_type}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>
-                `;
-            });
+		productHtml += `
+			<div class="body-list product" data-whish=${el.whish_idx}>
+				<div class="product-info">
+					<div class="remove-btn"> 
+						<img src="/images/svg/sold-line.svg">
+						<img src="/images/svg/sold-line.svg">
+					</div>
+					<a href="/product/detail?product_idx=${el.product_idx}" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
+					<div class="info-box">
+						<div class="info-row">
+							<div class="name" data-soldout=""><span>${el.product_name}</span></div>
+							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
+						</div>
+						<div class="info-row">
+							<div class="color-title"><span>${el.color}</span></div>
+							<div class="color__box" data-maxcount="" data-colorcount="1">
+								${productColorHtml}
+							</div>
+						</div>
+						<div class="option-wrap">
+							<div class="option-box">
+								<div class="info-row">
+									<div class="size__box">
+										${productSizeHtml}
+									</div>
+								</div>
+							</div>
+							<div data-optionidx="" data-idx="${el.product_idx}" class="product-select-btn">
+								<span>선택하기</span>
+							</div>
+						</div>
 
+					</div>
+				</div>
+			</div>
+		`;
+	});
+	productWrap.innerHTML = productHtml;
+	bodyWrap.appendChild(productWrap);
+}
 
+function writeAddBoxHtml(add) {
+	let bodyWrap = document.querySelector(".add-list-wrap .body-wrap");
+	let swiperWrap = document.querySelector(".add-list-wrap .quick-swiper .swiper-wrapper");
+	let addBoxs = bodyWrap.querySelectorAll(".add-box");
 
+	let addBoxEl = document.createElement("div");
+	let slideEl = document.createElement("div");
+	let sizeIdxArr = add.sizeidx.toString();
+	let sizeHtml = "";
+	addBoxEl.dataset.whish_idx = add.whish;
+	addBoxEl.dataset.option_idx = sizeIdxArr;
+	//사이즈 선택이 1개이상일떄 
+	if (sizeIdxArr.length > 0) {
+		let sizeResult = add.sizeText.map(el => {
+			let sizeSpan = `<span>${el}</span>`
+			return sizeSpan;
+		}).join("");
+		sizeHtml = sizeResult;
+	}
 
-            productHtml += `
-                <div class="body-list product" data-whish=${el.whish_idx}>
-                    <div class="product-info">
-                        <div class="remove-btn"> 
-                            <img src="/images/svg/sold-line.svg">
-                            <img src="/images/svg/sold-line.svg">
-                        </div>
-                        <a href="" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
-                        <div class="info-box">
-                            <div class="info-row">
-                                <div class="name" data-soldout=""><span>${el.product_name}</span></div>
-                                ${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
-                            </div>
-                            <div class="info-row">
-                                <div class="color-title"><span>${el.color}</span></div>
-                                <div class="color__box" data-maxcount="" data-colorcount="1">
-                                    ${productColorHtml}
-                                </div>
-                            </div>
-                            <div class="option-wrap">
-                                <div class="option-box">
-                                    <div class="info-row">
-                                        <div class="size__box">
-                                            ${productSizeHtml}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div data-optionidx="" data-idx="${el.product_idx}" class="product-select-btn">
-                                    <span>선택하기</span>
-                                </div>
-                            </div>
+	//동일한 위시리스트 idx가 찜리시트에 있을경우 
+	let whishStatus = addIsProductEl(add.whish);
+	if (whishStatus.length) {
+		let thisSizeList = whishStatus[0].querySelector(".size-list");
+		whishStatus[0].dataset.size = sizeIdxArr;
 
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-        productWrap.innerHTML = productHtml;
-        bodyWrap.appendChild(productWrap);
-        basketAddBtnHandler();
+		while (thisSizeList.hasChildNodes()) { //자식 요소가 있는지 확인-false가 될때까지 반복
+			thisSizeList.removeChild(thisSizeList.firstChild); // 첫번째 자식 요소를 삭제
+		}
+		add.sizeText.forEach(el => {
+			let sizeSpan = document.createElement("span");
+			sizeSpan.innerHTML = el;
+			thisSizeList.appendChild(sizeSpan);
+		});
+		return
+	}
 
-    }
-    function writeAddBoxHtml(add) {
-        let bodyWrap = document.querySelector(".add-list-wrap .body-wrap");
-        let swiperWrap = document.querySelector(".add-list-wrap .quick-swiper .swiper-wrapper");
-        let addBoxs = bodyWrap.querySelectorAll(".add-box");
+	addboxHtml = `
+		<img src="${add.img}" alt="">
+		<div class="product-title">
+			<span>${add.name}</span>
+			<div class="size-list">
+			${sizeHtml}
+			</div>
+		</div>
+	`;
 
-        let addBoxEl = document.createElement("div");
-        let slideEl = document.createElement("div");
-        let sizeIdxArr = add.sizeidx.toString();
-        let sizeHtml = "";
-        addBoxEl.dataset.whish = add.whish;
-        addBoxEl.dataset.size = sizeIdxArr;
-        //사이즈 선택이 1개이상일떄 
-        if (sizeIdxArr.length > 0) {
-            let sizeResult = add.sizeText.map(el => {
-                let sizeSpan = `<span>${el}</span>`
-                return sizeSpan;
-            }).join("");
-            sizeHtml = sizeResult;
-        }
-
-        //동일한 위시리스트 idx가 찜리시트에 있을경우 
-        let whishStatus = addIsProductEl(add.whish);
-        if (whishStatus.length) {
-            let thisSizeList = whishStatus[0].querySelector(".size-list");
-            whishStatus[0].dataset.size = sizeIdxArr;
-
-            while (thisSizeList.hasChildNodes()) { //자식 요소가 있는지 확인-false가 될때까지 반복
-                thisSizeList.removeChild(thisSizeList.firstChild); // 첫번째 자식 요소를 삭제
-            }
-            add.sizeText.forEach(el => {
-                let sizeSpan = document.createElement("span");
-                sizeSpan.innerHTML = el;
-                thisSizeList.appendChild(sizeSpan);
-            });
-            return
-        }
-
-        addboxHtml = `
-            <img src="${add.img}" alt="">
-            <div class="product-title">
-                <span>${add.name}</span>
-                <div class="size-list">
-                ${sizeHtml}
-                </div>
-            </div>
-        `;
-
-        quickHtml = `<img class="quick-img" data-no="${add.whish}" src="${add.img}" alt="">`;
+	quickHtml = `<img class="quick-img" data-no="${add.whish}" src="${add.img}" alt="">`;
 
 
 
-        addBoxEl.innerHTML = addboxHtml;
-        slideEl.innerHTML = quickHtml;
-        addBoxEl.classList.add("add-box");
-        slideEl.classList.add("swiper-slide");
-        slideEl.dataset.no = add.whish;
+	addBoxEl.innerHTML = addboxHtml;
+	slideEl.innerHTML = quickHtml;
+	addBoxEl.classList.add("add-box");
+	slideEl.classList.add("swiper-slide");
+	slideEl.dataset.no = add.whish;
 
-        bodyWrap.appendChild(addBoxEl);
-        swiperWrap.appendChild(slideEl);
-        quickSwiper.update();
-        if (bodyWrap.querySelectorAll(".add-box").length !== 0) {
-            showAddWrapBtns();
-        }
-    }
-    /*-------------------------예외 처리-------------------------- */
-    const addIsProductEl = (whishIdx) => {
-        let addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
-        let result = [...addboxEl].filter(el => el.dataset.whish == whishIdx);
-        return result
-    }
-    /*-------------------------이벤트 핸들러-------------------------- */
-    // 상품 사이즈 선택 
-    function sizeSelectHandler() {
-        let sizes = document.querySelectorAll(".size__box .size");
-        let sizeBox = document.querySelectorAll(".size__box");
+	bodyWrap.appendChild(addBoxEl);
+	swiperWrap.appendChild(slideEl);
+	quickSwiper.update();
+	if (bodyWrap.querySelectorAll(".add-box").length !== 0) {
+		showAddWrapBtns();
+	}
+}
+/*-------------------------예외 처리-------------------------- */
+const addIsProductEl = (whishIdx) => {
+	let addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
+	let result = [...addboxEl].filter(el => el.dataset.whish == whishIdx);
+	return result
+}
+/*-------------------------이벤트 핸들러-------------------------- */
+// 상품 사이즈 선택 
+function sizeSelectHandler() {
+	let sizes = document.querySelectorAll(".size__box .size");
+	let sizeBox = document.querySelectorAll(".size__box");
 
-        sizes.forEach(el => {
-            el.addEventListener("click", function(e) {
-                let szieTarget = e.target;
-                let whishIdx = szieTarget.offsetParent.dataset.whish;
-                let sizeLen = sizeIsSelectEl(e).length;      
-                let sizeEl = szieTarget.offsetParent.querySelectorAll(".size__box .size");
-                let targetBtn = szieTarget.offsetParent.querySelector(".product-select-btn");
-                let sizeStatus = szieTarget.dataset.status;
-                let notTaget;
-                let optionidxResult = szieTarget.dataset.optionidx;
-                targetBtn.dataset.optionidx = optionidxResult;
+	sizes.forEach(el => {
+		el.addEventListener("click", function(e) {
+			let szieTarget = e.target;
+			let whishIdx = szieTarget.offsetParent.dataset.whish;
+			let sizeLen = sizeIsSelectEl(e).length;      
+			let sizeEl = szieTarget.offsetParent.querySelectorAll(".size__box .size");
+			let targetBtn = szieTarget.offsetParent.querySelector(".product-select-btn");
+			let sizeStatus = szieTarget.dataset.status;
+			let notTaget;
+			let optionidxResult = szieTarget.dataset.optionidx;
+			targetBtn.dataset.optionidx = optionidxResult;
 
-                console.log("🏂 ~ file: order-whish.php:857 ~ el.addEventListener ~ optionidxResult", optionidxResult)
-                //상품 재고 상태 반영
+			console.log("🏂 ~ file: order-whish.php:857 ~ el.addEventListener ~ optionidxResult", optionidxResult)
+			//상품 재고 상태 반영
 
-                if (szieTarget.dataset.soldout != "STSO") {
-                    szieTarget.classList.toggle("select");
-                    if(sizeStatus == 0){
-                        notTaget= [...sizeEl].filter(el => el.dataset.status != 0)
-                    } else if(sizeStatus == 1){
-                        notTaget = [...sizeEl].filter(el => {
-                            reorderCheck();
-                            return el.dataset.status != 1;
-                        });
-                    } else if(sizeStatus == 2){
-                        notTaget = [...sizeEl].filter(el => el.dataset.status != 2)
-                        console.log(notTaget);
-                    } else if(sizeStatus == 3){
-                        notTaget = [...sizeEl].filter(el => el.dataset.status != 3)
-                    }
-                    notTaget.forEach(el => el.classList.remove("select"));
-                    
-                }
-                productBtnStatus(whishIdx,sizeStatus);
-                function reorderCheck() {
-                    let reorder = document.querySelectorAll(".size[data-reorder='true']");
-                    reorder.forEach(el => el.offsetParent.querySelector(".product-select-btn").classList.add("reorder"));
-                }
-            });
-        });
-    }
-    //오른쪽사이드에 상품 추가하는 버튼 
-    function productAddBtnClickHandler() {
-        let $$prdAddBtn = document.querySelectorAll(".product-select-btn");
-        let addBoxs = document.querySelectorAll(".add-list-wrap .add-box");
-        let addList = [];
-        let addProduct = {}
-        $$prdAddBtn.forEach((el, index) => {
-            el.addEventListener("click", function(e) {
-                let whishIdx = el.offsetParent.dataset.whish;
-                let sizeEl = sizeIsSelectEl(e);
-                let szieTextArr = sizeEl.map(el => el.innerHTML);
-                let szieIdxArr = sizeEl.map(el => el.dataset.optionidx);
+			if (szieTarget.dataset.soldout != "STSO") {
+				szieTarget.classList.toggle("select");
+				if(sizeStatus == 0){
+					notTaget= [...sizeEl].filter(el => el.dataset.status != 0)
+				} else if(sizeStatus == 1){
+					notTaget = [...sizeEl].filter(el => {
+						reorderCheck();
+						return el.dataset.status != 1;
+					});
+				} else if(sizeStatus == 2){
+					notTaget = [...sizeEl].filter(el => el.dataset.status != 2)
+					console.log(notTaget);
+				} else if(sizeStatus == 3){
+					notTaget = [...sizeEl].filter(el => el.dataset.status != 3)
+				}
+				notTaget.forEach(el => el.classList.remove("select"));
+				
+			}
+			productBtnStatus(whishIdx,sizeStatus);
+			function reorderCheck() {
+				let reorder = document.querySelectorAll(".size[data-reorder='true']");
+				reorder.forEach(el => el.offsetParent.querySelector(".product-select-btn").classList.add("reorder"));
+			}
+		});
+	});
+}
+//오른쪽사이드에 상품 추가하는 버튼 
+function productAddBtnClickHandler() {
+	let $$prdAddBtn = document.querySelectorAll(".product-select-btn");
+	let addBoxs = document.querySelectorAll(".add-list-wrap .add-box");
+	let addList = [];
+	let addProduct = {}
+	$$prdAddBtn.forEach((el, index) => {
+		el.addEventListener("click", function(e) {
+			let whishIdx = el.offsetParent.dataset.whish;
+			let sizeEl = sizeIsSelectEl(e);
+			let szieTextArr = sizeEl.map(el => el.innerHTML);
+			let szieIdxArr = sizeEl.map(el => el.dataset.optionidx);
 
-                let getSrc = e.target.offsetParent.querySelector(".prd-img").getAttribute("src");
-                let getName = e.target.offsetParent.querySelector(".name span").innerHTML;
-                let getSizeText = szieTextArr;
-                let getSizeIdx = szieIdxArr;
-                let getProduct = e.currentTarget.dataset.idx;
-                let getwhish = whishIdx;
-
-
-
-                if (e.currentTarget.classList.contains("select")) {
-                    //사이즈가 1개이상 선택되어 있고, 버튼이 선택해제로 활성화 상태
-                
-                    resetSizeBox(whishIdx);
-                    removeAddList(whishIdx);
-                    e.currentTarget.classList.remove("select");
-                    e.currentTarget.querySelector("span").innerHTML = "선택하기";
-                } else {
-                    //사이즈가 선택이 안되어있고, 버튼이 선택하기로 비활성화 상태
-                    
-                    /* --------사이즈 선택없이 버튼 누를경우 --------*/
-
-                    if (!sizeEl.length) {
-                        e.currentTarget.classList.remove("select");
-                        e.currentTarget.classList.add("option");
-                        e.currentTarget.children[0].innerHTML = "옵션을 선택해주세요";
-                        return false;
-                    }
-
-
-                    /* --------품절, 리오더 사이즈를 선택하고 버튼을 눌렀을때 --------*/
-                    if(el.dataset.status == 1 || el.dataset.status == 0) {
-                        let reorder = sizeEl.map(el => {
-                            el.dataset.reorder ="true"
-                            return el
-                        });
-                        console.log(reorder);
-                    } else{
-                        addProduct.idx = getProduct;
-                        addProduct.sizeidx = getSizeIdx;
-                        addProduct.sizeText = getSizeText;
-                        addProduct.img = getSrc;
-                        addProduct.name = getName;
-                        addProduct.whish = getwhish;
-
-                        e.currentTarget.classList.add("select");
-                        writeAddBoxHtml(addProduct);
-
-                        // document.querySelector(".add-list-wrap .header-box").classList.remove("hidden");
-                        // document.querySelector(".add-list-wrap .basket-link-btn").classList.remove("hidden");
-
-                        el.offsetParent.querySelector(".size__box").classList.add("disable");
-                        el.querySelector("span").innerHTML = "선택해제";
-                    }
-
-                }
-                showAddWrapBtns();
-            });
-        })
-    }
-    //쇼핑백에 담기 버튼
-    function basketAddBtnHandler(){
-        let basketBtn = document.querySelector(".add-list-wrap .basket-link-btn");
-        const addType = "whish";
-        let addBox = document.querySelectorAll(".add-list-wrap .add-box");
-
-        addBox.forEach(el => {
-            let {whish, size} = el.dataset;
-            let sizeArr = size.split(",");
-            addBasketApi(addType, whish, sizeArr);
-        })
-
-    }
-    /*------------------------- 삭제 & 초기화 -------------------------- */
-    //찜리스트에 추가된 상품 제거 
-    const removeAddList = (whishIdx) => {
-        let addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
-        let slideEl = document.querySelectorAll(".quick-swiper .swiper-slide");
-        [...addboxEl].filter(el => {
-            if (el.dataset.whish == whishIdx) {
-                el.remove();
-            }
-        });
-        slideEl.forEach((el, idx) => {
-            if (el.dataset.no == whishIdx) {
-                quickSwiper.removeSlide(idx);
-                quickSwiper.update();
-            }
-        });
+			let getSrc = e.target.offsetParent.querySelector(".prd-img").getAttribute("src");
+			let getName = e.target.offsetParent.querySelector(".name span").innerHTML;
+			let getSizeText = szieTextArr;
+			let getSizeIdx = szieIdxArr;
+			let getProduct = e.currentTarget.dataset.idx;
+			let getwhish = whishIdx;
 
 
 
-    }
-    function removeProductBtnHandler() {
-        const removeBtn = document.querySelectorAll(".remove-btn");
-        removeBtn.forEach(el => {
-            el.addEventListener("click", function(e) {
-                targetwhishIdx = e.currentTarget.offsetParent.dataset.whish;
-                removeProduct(targetwhishIdx);
-            });
-        });
-    }
-    function removeProduct(whishIdx) {
-        let country = "KR"
-        $.ajax({
-            type: "post",
-            data: {
-                "country": country,
-                "whish_idx": whishIdx
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/order/whish/delete",
-            error: function() {},
-            success: function(d) {
-                console.log("삭제성공")
-                let product = document.querySelectorAll(".product-wrap .product");
-                let result = [...product].find(el => el.dataset.whish === whishIdx);
-                result.remove();
-                removeAddList(whishIdx);
+			if (e.currentTarget.classList.contains("select")) {
+				//사이즈가 1개이상 선택되어 있고, 버튼이 선택해제로 활성화 상태
+			
+				resetSizeBox(whishIdx);
+				removeAddList(whishIdx);
+				e.currentTarget.classList.remove("select");
+				e.currentTarget.querySelector("span").innerHTML = "선택하기";
+			} else {
+				//사이즈가 선택이 안되어있고, 버튼이 선택하기로 비활성화 상태
+				
+				/* --------사이즈 선택없이 버튼 누를경우 --------*/
 
-            }
-        });
-    }
-    //개별 위시리스트 상품 사이즈 버튼 초기화 
-    const resetSizeBox = (whishIdx) => {
-        let sizeBoxs = document.querySelectorAll(".whishlist-section .size__box");
-        let $$addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
-        let $$slideEl = document.querySelectorAll(".quick-swiper .swiper-slide");
-
-        // let allRemoveBtn = document.querySelector(".add-list-wrap .header-wrap")
-        let basketBtn = document.querySelector(".add-list-wrap .basket-link-btn")
-
-        sizeBoxs.forEach((el, index) => {
-            console.log(el.offsetParent)
-            let targetWhishIdx = el.offsetParent.dataset.whish;
-            if (targetWhishIdx == whishIdx) {
-                el.classList.remove("disable");
-                [...el.children].map(size => size.classList.remove("select"));
-            }
-        });
-
-        if($$addboxEl.length == 0 ||  $$slideEl.length == 0){
-            // allRemoveBtn.classList.add("hidden");
-            // allRemoveBtn.classList.add("hidden");
-        }
-    }
-      //찜리스트에 추가된상품 모두 제거 
-    const removeAddListAll = ()=>{
-        let $$addBox = document.querySelectorAll(".body-wrap .add-box");
-        let $$productSelectBtn = document.querySelectorAll(".product-select-btn.select");
-        $$addBox.forEach(el => {
-            let whishIdx = el.dataset.whish;
-            el.remove();
-            resetSizeBox(whishIdx);
-            quickSwiper.removeAllSlides();
-            quickSwiper.update();
-            showAddWrapBtns();
-        })
-        $$productSelectBtn.forEach(el => {
-            el.classList.remove("select");
-            el.querySelector("span").innerHTML = "선택하기";
-        });
+				if (!sizeEl.length) {
+					e.currentTarget.classList.remove("select");
+					e.currentTarget.classList.add("option");
+					e.currentTarget.children[0].innerHTML = "옵션을 선택해주세요";
+					return false;
+				}
 
 
-    }
-    //매개변수가 없을시에 위시리시트 전체 상품 상태 체크 
-    const productBtnStatus = (whishIdx, status) => {
-        const $$productBtn = document.querySelectorAll(".product-select-btn");
-        const $$sizeBox = document.querySelectorAll(".size__box");
-        let stockStatus = 0;
-        //위시리스트 인덱스 체크 
-        if (whishIdx != undefined) {
-            let whishEl = [...$$productBtn].find(el => el.offsetParent.dataset.whish == whishIdx);
-            whishEl.classList.remove("option");
-            let statusIdx = whishEl.dataset.status;
-            addBtnChange(whishEl, status);
-        } else {
-            let result = [...$$sizeBox].map(el => {
-                let sizeArr = el.querySelectorAll(".size");
-                let statusResultArr = [...sizeArr].map(size => {
-                    let tmp_soldout_str = size.dataset.soldout;
-                    if (tmp_soldout_str == 'STSO') {
-                        size.dataset.status = 0;
-                        return stockStatus = 0;
-                    } else if (tmp_soldout_str == 'STSC') {
-                        size.dataset.status = 1;
-                        return stockStatus = 1;
-                    } else if (tmp_soldout_str == 'STCL' || tmp_soldout_str == 'STIN') {
-                        size.dataset.status = 2;
-                        return stockStatus = 2;
-                    }
-                });
-                return statusArrCheck(statusResultArr);
-            });
-            console.log("🏂 ~ file: order-whish.php:1074 ~ productBtnStatus ~ result", result)
-            $$productBtn.forEach((el, index) => {
-                el.dataset.status = result[index];
-                addBtnChange(el, result[index]);
-            });
-        }
+				/* --------품절, 리오더 사이즈를 선택하고 버튼을 눌렀을때 --------*/
+				if(el.dataset.status == 1 || el.dataset.status == 0) {
+					let reorder = sizeEl.map(el => {
+						el.dataset.reorder ="true"
+						return el
+					});
+					console.log(reorder);
+				} else{
+					addProduct.idx = getProduct;
+					addProduct.sizeidx = getSizeIdx;
+					addProduct.sizeText = getSizeText;
+					addProduct.img = getSrc;
+					addProduct.name = getName;
+					addProduct.whish = getwhish;
 
-        function addBtnChange(el, idx) {
-            switch (parseInt(idx)) {
-                case 0:
-                    el.querySelector("span").innerHTML = "품절된 제품입니다.";
-                    el.dataset.status = 0;
-                    el.classList.add()
-                    break;
-                case 1:
-                    el.querySelector("span").innerHTML = "재입고 알림 신청하기";
-                    el.dataset.status = 1;
-                    break;
-                case 2:
-                    el.querySelector("span").innerHTML = "선택하기";
-                    el.dataset.status = 2;
-                    break;
-                case 3:
-                    el.querySelector("span").innerHTML = "comming soon";
-                    el.dataset.status = 3;
-                    break;
-            }
-        }
-    }
-    const statusArrCheck = (list) => {
-        // 0 : 완전품절 || 1: 리오더가능 || 2: 재고 선택가능 || 3: commin-soon
-        let result = Math.max(...list);
-        return result;
-    }
-    //사이즈 선택 체크 
-    const sizeIsSelectEl = (e) => {
-        let sizeEl = e.target.offsetParent.querySelectorAll(".size__box .size");
-        let result = [...sizeEl].filter(el => el.classList.contains("select"));
+					e.currentTarget.classList.add("select");
+					writeAddBoxHtml(addProduct);
 
-        return result
-    }
+					// document.querySelector(".add-list-wrap .header-box").classList.remove("hidden");
+					// document.querySelector(".add-list-wrap .basket-link-btn").classList.remove("hidden");
 
-    /*------------------------- css 조작 스크립트 -------------------------- */
-    const showAddWrapBtns = () => {
-        let contentRight = document.querySelector(".content.right");
-        let addListWrap = document.querySelector(".add-list-wrap");
-        let addbox = addListWrap.querySelectorAll(".body-wrap .add-box");
-        // let allRemoveBtn = addListWrap.querySelector(".hd-title");
-        // let basketLinkBtn = addListWrap.querySelector(".basket-link-btn");
-        // addListWrap.classList.remove("hidden");
-        // allRemoveBtn.classList.remove("hidden");
+					el.offsetParent.querySelector(".size__box").classList.add("disable");
+					el.querySelector("span").innerHTML = "선택해제";
+				}
+
+			}
+			showAddWrapBtns();
+		});
+	})
+}
+
+//쇼핑백에 담기 버튼
+function basketAddBtnHandler(){
+	let basketBtn = document.querySelector(".add-list-wrap .basket-link-btn");
+	const addType = "whish";
+	let addBox = document.querySelectorAll(".add-list-wrap .add-box");
+	
+	let whish_info = [];
+	addBox.forEach(el => {
+		let {whish_idx,option_idx} = el.dataset;
+		
+		let tmp_option_idx = option_idx.split(",");
+		
+		let tmp_arr = {
+			'whish_idx' : whish_idx,
+			'option_idx' : tmp_option_idx
+		};
+		
+		whish_info.push(tmp_arr);
+	});
+	
+	if (whish_info != null) {
+		$.ajax({
+			type: "post",
+			url: "http://116.124.128.246:80/_api/order/basket/add",
+			data: {
+				'add_type' : 'whish',
+				'whish_info' : whish_info
+			},
+			dataType: "json",
+			error: function () {
+				alert("쇼핑백 추가처리에 실패했습니다.");
+			},
+			success: function (d) {
+				if (d.code == 200){
+					location.href='/order/basket/list';
+				} else {
+					exceptionHandling("[ 디자인 필요 ]",d.msg);
+				}
+			}
+		});
+	}
+}
+
+/*------------------------- 삭제 & 초기화 -------------------------- */
+//찜리스트에 추가된 상품 제거 
+const removeAddList = (whishIdx) => {
+	let addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
+	let slideEl = document.querySelectorAll(".quick-swiper .swiper-slide");
+	[...addboxEl].filter(el => {
+		if (el.dataset.whish == whishIdx) {
+			el.remove();
+		}
+	});
+	slideEl.forEach((el, idx) => {
+		if (el.dataset.no == whishIdx) {
+			quickSwiper.removeSlide(idx);
+			quickSwiper.update();
+		}
+	});
 
 
-        if(addbox.length > 0){
-            contentRight.classList.add("open");
-            // addListWrap.classList.remove("hidden");
-            // allRemoveBtn.classList.remove("hidden");
-            // contentRight.classList.remove("hidden");
-        } else {
-            contentRight.classList.remove("open");
-            // addListWrap.classList.add("hidden");
-            // allRemoveBtn.classList.add("hidden");
-            // contentRight.classList.add("hidden");
-        }
-    }
-    //퀵슬라이드 클릭시 스크롤 이동
-    function elementScroll(el, idx) {
-        
-        const headerHeight = document.querySelector("header").offsetHeight;
-        const bannerHeight = document.querySelector(".banner-wrap").offsetHeight;
-        // let elemTop = document.querySelectorAll(`.${el}`)[idx].offsetTop;
-        let elemTop = [...document.querySelectorAll(`.body-list`)].find(el => el.dataset.whish == idx).offsetTop;
-        let result = elemTop - (headerHeight + bannerHeight);
-        window.scrollTo(0, result);
-    }
-    /*------------------------- css조작 스크립트 -------------------------- */
 
+}
+function removeProductBtnHandler() {
+	const removeBtn = document.querySelectorAll(".remove-btn");
+	removeBtn.forEach(el => {
+		el.addEventListener("click", function(e) {
+			targetwhishIdx = e.currentTarget.offsetParent.dataset.whish;
+			removeProduct(targetwhishIdx);
+		});
+	});
+}
+function removeProduct(whishIdx) {
+	let country = "KR"
+	$.ajax({
+		type: "post",
+		data: {
+			"country": country,
+			"whish_idx": whishIdx
+		},
+		dataType: "json",
+		url: "http://116.124.128.246:80/_api/order/whish/delete",
+		error: function() {},
+		success: function(d) {
+			console.log("삭제성공")
+			let product = document.querySelectorAll(".product-wrap .product");
+			let result = [...product].find(el => el.dataset.whish === whishIdx);
+			result.remove();
+			removeAddList(whishIdx);
+
+		}
+	});
+}
+//개별 위시리스트 상품 사이즈 버튼 초기화 
+const resetSizeBox = (whishIdx) => {
+	let sizeBoxs = document.querySelectorAll(".whishlist-section .size__box");
+	let $$addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
+	let $$slideEl = document.querySelectorAll(".quick-swiper .swiper-slide");
+
+	// let allRemoveBtn = document.querySelector(".add-list-wrap .header-wrap")
+	let basketBtn = document.querySelector(".add-list-wrap .basket-link-btn")
+
+	sizeBoxs.forEach((el, index) => {
+		console.log(el.offsetParent)
+		let targetWhishIdx = el.offsetParent.dataset.whish;
+		if (targetWhishIdx == whishIdx) {
+			el.classList.remove("disable");
+			[...el.children].map(size => size.classList.remove("select"));
+		}
+	});
+
+	if($$addboxEl.length == 0 ||  $$slideEl.length == 0){
+		// allRemoveBtn.classList.add("hidden");
+		// allRemoveBtn.classList.add("hidden");
+	}
+}
+  //찜리스트에 추가된상품 모두 제거 
+const removeAddListAll = ()=>{
+	let $$addBox = document.querySelectorAll(".body-wrap .add-box");
+	let $$productSelectBtn = document.querySelectorAll(".product-select-btn.select");
+	$$addBox.forEach(el => {
+		let whishIdx = el.dataset.whish;
+		el.remove();
+		resetSizeBox(whishIdx);
+		quickSwiper.removeAllSlides();
+		quickSwiper.update();
+		showAddWrapBtns();
+	})
+	$$productSelectBtn.forEach(el => {
+		el.classList.remove("select");
+		el.querySelector("span").innerHTML = "선택하기";
+	});
+
+
+}
+//매개변수가 없을시에 위시리시트 전체 상품 상태 체크 
+const productBtnStatus = (whishIdx, status) => {
+	const $$productBtn = document.querySelectorAll(".product-select-btn");
+	const $$sizeBox = document.querySelectorAll(".size__box");
+	let stockStatus = 0;
+	//위시리스트 인덱스 체크 
+	if (whishIdx != undefined) {
+		let whishEl = [...$$productBtn].find(el => el.offsetParent.dataset.whish == whishIdx);
+		whishEl.classList.remove("option");
+		let statusIdx = whishEl.dataset.status;
+		addBtnChange(whishEl, status);
+	} else {
+		let result = [...$$sizeBox].map(el => {
+			let sizeArr = el.querySelectorAll(".size");
+			let statusResultArr = [...sizeArr].map(size => {
+				let tmp_soldout_str = size.dataset.soldout;
+				if (tmp_soldout_str == 'STSO') {
+					size.dataset.status = 0;
+					return stockStatus = 0;
+				} else if (tmp_soldout_str == 'STSC') {
+					size.dataset.status = 1;
+					return stockStatus = 1;
+				} else if (tmp_soldout_str == 'STCL' || tmp_soldout_str == 'STIN') {
+					size.dataset.status = 2;
+					return stockStatus = 2;
+				}
+			});
+			return statusArrCheck(statusResultArr);
+		});
+		console.log("🏂 ~ file: order-whish.php:1074 ~ productBtnStatus ~ result", result)
+		$$productBtn.forEach((el, index) => {
+			el.dataset.status = result[index];
+			addBtnChange(el, result[index]);
+		});
+	}
+
+	function addBtnChange(el, idx) {
+		switch (parseInt(idx)) {
+			case 0:
+				el.querySelector("span").innerHTML = "품절된 제품입니다.";
+				el.dataset.status = 0;
+				el.classList.add()
+				break;
+			case 1:
+				el.querySelector("span").innerHTML = "재입고 알림 신청하기";
+				el.dataset.status = 1;
+				break;
+			case 2:
+				el.querySelector("span").innerHTML = "선택하기";
+				el.dataset.status = 2;
+				break;
+			case 3:
+				el.querySelector("span").innerHTML = "comming soon";
+				el.dataset.status = 3;
+				break;
+		}
+	}
+}
+const statusArrCheck = (list) => {
+	// 0 : 완전품절 || 1: 리오더가능 || 2: 재고 선택가능 || 3: commin-soon
+	let result = Math.max(...list);
+	return result;
+}
+//사이즈 선택 체크 
+const sizeIsSelectEl = (e) => {
+	let sizeEl = e.target.offsetParent.querySelectorAll(".size__box .size");
+	let result = [...sizeEl].filter(el => el.classList.contains("select"));
+
+	return result
+}
+
+/*------------------------- css 조작 스크립트 -------------------------- */
+const showAddWrapBtns = () => {
+	let contentRight = document.querySelector(".content.right");
+	let addListWrap = document.querySelector(".add-list-wrap");
+	let addbox = addListWrap.querySelectorAll(".body-wrap .add-box");
+	// let allRemoveBtn = addListWrap.querySelector(".hd-title");
+	// let basketLinkBtn = addListWrap.querySelector(".basket-link-btn");
+	// addListWrap.classList.remove("hidden");
+	// allRemoveBtn.classList.remove("hidden");
+
+
+	if(addbox.length > 0){
+		contentRight.classList.add("open");
+		// addListWrap.classList.remove("hidden");
+		// allRemoveBtn.classList.remove("hidden");
+		// contentRight.classList.remove("hidden");
+	} else {
+		contentRight.classList.remove("open");
+		// addListWrap.classList.add("hidden");
+		// allRemoveBtn.classList.add("hidden");
+		// contentRight.classList.add("hidden");
+	}
+}
+//퀵슬라이드 클릭시 스크롤 이동
+function elementScroll(el, idx) {
+	
+	const headerHeight = document.querySelector("header").offsetHeight;
+	const bannerHeight = document.querySelector(".banner-wrap").offsetHeight;
+	// let elemTop = document.querySelectorAll(`.${el}`)[idx].offsetTop;
+	let elemTop = [...document.querySelectorAll(`.body-list`)].find(el => el.dataset.whish == idx).offsetTop;
+	let result = elemTop - (headerHeight + bannerHeight);
+	window.scrollTo(0, result);
+}
+/*------------------------- css조작 스크립트 -------------------------- */
 </script>
+
 <script type="module">
     import ForyouRender  from '/scripts/module/foryou.js';
     const foryou = new ForyouRender();

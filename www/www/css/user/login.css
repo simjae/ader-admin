@@ -143,13 +143,15 @@
         margin-bottom:231px;
     }
     #sidebar .login__card .card__header{
-        margin-bottom:50px;
+        margin-bottom:20px;
     }
     #sidebar .login__card input[type="text"]{
         font-family: var(--ft-fu);
+        border: 1px solid #808080!important;
     }
     #sidebar .login__card input[type="password"]{
         font-family: var(--ft-no);
+        border: 1px solid #808080!important;
     }
     #sidebar .contour__line{
         width: 470px;
@@ -163,7 +165,7 @@
         margin-top:40px;
     }
 }
-@media (max-width: 1024px){
+/* @media (max-width: 1024px){
     #sidebar input[type="password"],#sidebar input[type="text"]{
         width: 340px;
         height: 40px;
@@ -224,7 +226,7 @@
     #sidebar .content__title.sns__account__login{
         margin-top:41px;
     }
-}
+} */
 /* check */
 #sidebar input{outline: none;}
 

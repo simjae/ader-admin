@@ -471,8 +471,8 @@ function joinAction(){
             success:function(data){
                 if(data.code == "200") {
                     //location.reload();
-                    location.href='/main';
-                    console.log('회원가입 성공');
+                    exceptionHandling("회원가입","회원가입에 성공하셨습니다.");
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/main"');
                 }
                 else {
                     if(data.code == "303"){

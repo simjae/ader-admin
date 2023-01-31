@@ -137,10 +137,10 @@
                     </thead>
                     <tbody id="mileage_summary_table">
                         <td id="mileage_point">
-                            <p>3,000</p>
+                            <p>0</p>
                         </td>
                         <td id="uesd_mileage">
-                            <p>- 225,000</p>
+                            <p>0</p>
                         </td>
                         <td id="refund_scheduled">
                             <p>0</p>
