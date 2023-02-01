@@ -31,13 +31,6 @@ import {User} from '/scripts/module/user.js';
 				disableUrlBtn();
 
 				const sidebar = new Sidebar();
-				let basketBtn = document.querySelector(".basket__btn");
-				basketBtn.addEventListener("click",function(e){
-					e.currentTarget.classList.toggle("open");
-					const basket = new Basket("basket",true);
-					sidebar.openSidebar();
-				})
-	
 			}
 		});
 	}
@@ -709,15 +702,13 @@ import {User} from '/scripts/module/user.js';
 	function disableUrlBtn() {
 		const pageUrl = new URL(document.location);
 		let path = pageUrl.pathname; 
-		let whishBtn = document.querySelector('.wishlist__btn');
-		let basketBtn = document.querySelector('.basket__btn');
-		let bluemarkBtn = document.querySelector('.bluemark__btn');
-		let mypageBtn = document.querySelector('.mypage__icon');
-		let quickBox = document.querySelector('.wish__btn__wrap');
 		let sideBarBtn = document.querySelectorAll('.side-bar');
-
+		
 		sideBarBtn.forEach(el => {
 			el.addEventListener("click", function() {
+				let sideBarCloseBtn = document.querySelector('.sidebar-close-btn');
+				console.log("🏂 ~ file: nav.js:712 ~ disableUrlBtn ~ sideBarCloseBtn", sideBarCloseBtn)
+				sideBarCloseBtn.addEventListener("click",sidebarClose);
 				let sideBox = document.querySelector(".side__box");
 				let typeTarget  = this.dataset.type;
 				console.log("🏂 ~ file: nav.js:645 ~ el.addEventListener ~ typeTarget", typeTarget)
@@ -738,12 +729,9 @@ import {User} from '/scripts/module/user.js';
 					function getLanguage() {
 						return navigator.language || navigator.userLanguage;
 					}
-				} else if(typeTarget === "W"){
-					if(path.includes("whish")){
-						e.stopImmediatePropagation();
-					}
-					console.log("위시리스트");
-				} else if(typeTarget === "B"){
+				}else if(typeTarget === "B"){
+						const basket = new Basket("basket",true);
+						basket.writeHtml();
 					if(path.includes("basket")){
 						e.stopImmediatePropagation();
 					}
@@ -762,11 +750,16 @@ import {User} from '/scripts/module/user.js';
 						e.stopImmediatePropagation();
 					}
 					console.log("마이페이지");
-				}
+				} 
+				// else if(typeTarget === "W"){
+				// 	if(path.includes("whish")){
+				// 		e.stopImmediatePropagation();
+				// 	}
+				// 	console.log("위시리스트");
+				// }
 				sideBarToggleEvent();
 			});
 		})
-
 		function sideBarToggleEvent(){
 			layoutClick();
 			let sideContainer = document.querySelector("#sidebar");
@@ -774,17 +767,26 @@ import {User} from '/scripts/module/user.js';
 			let sideWrap = document.querySelector(".side__wrap");
 
 			if(sideContainer.classList.contains("open")){
-				$("header").removeClass("scroll");
-				sideContainer.classList.remove("open");
-				sideBg.classList.remove("open");
-				sideWrap.classList.remove("open");
-				document.querySelector(".side__box").innerHTML = "";
+				sidebarClose();				
 			} else {
 				$("header").addClass("scroll");
 				sideContainer.classList.add("open");
 				sideBg.classList.add("open");
 				sideWrap.classList.add("open");
 			}
+
+
+		}
+		function sidebarClose () {
+			let sideContainer = document.querySelector("#sidebar");
+		let sideBg = document.querySelector(".side__background");
+		let sideWrap = document.querySelector(".side__wrap");
+			$("header").removeClass("scroll");
+			$("#dimmer").fadeOut(100);
+			sideContainer.classList.remove("open");
+			sideBg.classList.remove("open");
+			sideWrap.classList.remove("open");
+			document.querySelector(".side__box").innerHTML = "";
 		}
 		function layoutClick () {
 			let sideWrap = document.querySelector(".side__wrap");
