@@ -6,12 +6,12 @@ ul,ol,dl,li {
     margin: 0;
     padding: 0;
 }
-.order-containner {
+.sort-containner {
     max-height: 0;
     overflow: hidden;
     background-color: #ffffff;
 }
-.order-containner.open {
+.sort-containner.open {
     top: -45px;
     position: absolute;
     z-index:9;
@@ -27,49 +27,48 @@ ul,ol,dl,li {
 
 
 
-.order-containner .order-wrap {
+.sort-containner .sort-wrap {
     display: flex;
     gap: 10px;
     flex-direction: column;
     padding: 20px 10px;
 }
-.order-containner .prd__cb {
+.sort-containner .sort__cb {
     position: absolute;
     margin: 5px;
     opacity: 0;
 }
-.order-containner .sold__list__box .cb__custom.self{
+.sort-containner .sold__list__box .cb__custom.self{
     position: absolute;
     padding: 5px;
 }
-.order-containner .cb__custom{
+.sort-containner .cb__custom{
     display: flex;
     align-items: center;
     gap: 8px;
 }
-.order-containner .cb__custom .all__cb {
+.sort-containner .cb__custom .all__cb {
     opacity: 0;
     position: absolute;
 }
-.order-containner .cb__custom.self .cb__mark{
+.sort-containner .cb__custom.self .cb__mark{
     margin: 5px;
 }
-.order-containner .cb__mark {
+.sort-containner .cb__mark {
     height: 13px;
     width: 13px;
     border-radius: 2px;
     background-color: #fff;
     border: 1px solid #343434;
 }
-.order-containner .cb__mark:after {
+.sort-containner .cb__mark:after {
     content: "";
     display: none;
 }
-
-.order-containner .cb__custom input:checked ~ .cb__mark:after {
+.sort-containner .cb__custom input:checked ~ .cb__mark:after {
     display: block;
 }
-.order-containner .cb__custom .cb__mark::after {
+.sort-containner .cb__custom .cb__mark::after {
     width: 100%;
     height: 100%;
     background-color: #000;
@@ -345,7 +344,7 @@ ul,ol,dl,li {
     grid-column: 13/17;
     align-self: end;
 }
-.addProductBtn {
+.show_more_btn {
     border: 1px solid #dcdcdc;
     display: flex;
     justify-content: center;
@@ -355,6 +354,7 @@ ul,ol,dl,li {
     color: #000;
     padding: 90px;
     margin-bottom: 200px;
+	cursor:pointer;
 }
 /* ----------------------------------------------------------------------------------------------- sort 버튼  --------------------*/
 .sort-btn.web{
@@ -484,6 +484,9 @@ ul,ol,dl,li {
 }
 
 @media (max-width:1025px) {
+    .product .wish__btn{
+        padding: 12px;
+    }
     .order-containner.open {
         top: 0;
         width: 100%;
@@ -663,7 +666,7 @@ ul,ol,dl,li {
         top: 4px;
     }
 
-    .addProductBtn {
+    .show_more_btn {
         border: 1px solid #dcdcdc;
         display: flex;
         justify-content: center;
@@ -674,6 +677,7 @@ ul,ol,dl,li {
         background-color: #fbfbfb;
         padding: 40px;
         margin-bottom: 150px;
+		cursor:pointer;
     }
     
     /* ----------------------------------------------------------------------------------------------- sort 버튼  --------------------*/

@@ -12,12 +12,18 @@
     }
     .quickview__box {
         position: fixed;
+        margin: 0 auto;
         bottom: 0;
+        left: 0;
+        max-width: 2560px;
+        width: 100vw;
         right: 0;
         z-index: 10;
         /* height: 200px; */
         display: flex;
         transition-duration: 0.5s;
+        justify-content: flex-end;
+        overflow: hidden;
     }
     
     .quickview__btn__wrap {
@@ -586,31 +592,17 @@
         elemScrollFooterUpEvent(".quickview__box");
         quickClickHandler();
     });
-    
-    function navWhishlistBtn(whishlen){
-        let whishSwiperWrap = document.querySelector(".quickview-swiper");
-        let $titleBox = document.querySelector(".title__box");
-        let $titleBoxSpan = document.querySelector(".title__box span");
-        let $titleBoxImg = document.querySelector(".title__box img");
+    function navWhishlistBtn(){
         let $contentWrap = document.querySelector(".quickview__content__wrap");
         let $listBtn = document.querySelector(".btn__box.list__btn");
-        let $allBtn = document.querySelector(".quickview__content__wrap .all-btn");
-        // whishSwiperWrap.innerHTML="";
-        
-        
-        
-        
+        let $titleBoxSpan = document.querySelector(".title__box span");
+        let $titleBoxImg = document.querySelector(".title__box img");
+        let $whishlistBtn = document.querySelector(".wishlist__btn");
         $titleBoxSpan.innerText = "위시리스트";
         $titleBoxImg.src = "/images/svg/wish-list-bk.svg";
         $contentWrap.classList.add("open");
         $listBtn.classList.add("select");
-        console.log("🏂 ~ file: quickview.php:612 ~ navWhishlistBtn ~ whishlen", whishlen)
-        // resizeWidth(whishlen);
-        // let el = ".quickview-swiper";
-        // responsiveSwiper(el);
+        getWhishlistProductList();
+        $whishlistBtn.classList.add("open");
     }
-
-
-
-
 </script>

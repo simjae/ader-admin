@@ -3,11 +3,14 @@
 #sidebar {
     visibility:hidden;
     top: 0;
-    left: 0;
     bottom: 0;
-    right: 0;
+    right: auto;
+    left: auto;
     z-index: 19;
     position: fixed;
+    max-width: 2580px;
+    width: 100vw;
+    overflow-x: hidden;
 }
 #sidebar .sidebar-close-btn{
     cursor: pointer;
@@ -20,13 +23,13 @@
     visibility:visible;
 }
 #sidebar .side__background{
-    background: rgba(0, 0, 0, 0);
+    /* background: rgba(0, 0, 0, 0); */
     transition-duration: 1s
 }
 #sidebar .side__background.open{
     display: grid;
     grid-template-columns: var(--w-g);
-    background: rgba(0, 0, 0, 0.8);
+    /* background: rgba(0, 0, 0, 0.5); */
     transition-duration: 1s
 }
 #sidebar .side__wrap{

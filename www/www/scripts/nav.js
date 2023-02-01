@@ -230,11 +230,11 @@ import {User} from '/scripts/module/user.js';
 					<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
 				</li>
 				<li class="web bluemark__btn side-bar" data-type="M"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
-				<li class="web alg__c side-bar" data-type="E">KR</li>
+				<li class="web alg__c side-bar" data-type="E"><span class="language-text">KR</span></li>
 				<li class="web search__li side-bar" data-type="S">					
 					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
 				</li>
-				<li class="flex wishlist__btn" onclick="getWhishlistProductList()" data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+				<li class="flex wishlist__btn" onclick="navWhishlistBtn()" data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
 				<li class="flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
 				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
 					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
@@ -479,7 +479,10 @@ import {User} from '/scripts/module/user.js';
 		</ul>
 		<ul class="bottom">
 			<li class="flex" onclick="location.href='/mypage'"><img src="/images/svg/user-bk.svg" style="width:18px" alt=""><span>` + userName + `</span></li>
-			<li class="flex w-7 mobile__search__btn"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></li>
+			<li class="mobile-search-wrap">
+				<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></div>
+				<div class="mdlBox"></div>
+			</li>
 			<li class="flex"><img src="/images/svg/customer-bk.svg" style="width:18px" alt=""><span>고객서비스</span></li>
 			<li class="flex bluemark"><div class="bluemark-icon"></div><span>Bluemark</span></li>
 			<li class="flex language"><span>KR</span><span>Language</span></li>
@@ -602,14 +605,22 @@ import {User} from '/scripts/module/user.js';
 			mobileSide.classList.toggle('menu__on');
 			hamburgerBtn.classList.toggle("is-active");
 			header.classList.toggle("scroll");
+			let mobileSearch = new Search();
+			mobileSearch.mobileWriteHtml();
+			mobileSearch.addSearchEvent();
 		});
 	};
 	$(document).ready(function(){
 		$(".header__wrap").hover(function() {
 			headerHover(true);
+			// headerHoberCheck();
+
 		},function(){
 			headerHover(false);
+			// headerHoberCheck();
+
 		});
+		
 	})
 	
 	
@@ -656,6 +667,7 @@ import {User} from '/scripts/module/user.js';
 	// }
 	function headerHover(bl){
 		let header = document.querySelector("header");
+		let sidebar = document.querySelector("#sidebar");
 		if(bl){
 			header.classList.add("hover");
 			header.querySelectorAll(".under-line").forEach(els => {
@@ -663,14 +675,21 @@ import {User} from '/scripts/module/user.js';
 				els.classList.add("bk");
 			});
 			$("#dimmer").fadeIn(100);
+			// if(sidebar.classList.contains("open")){
+			// 	$("#dimmer").fadeOut(100);
+			// }else {
+			// 	$("#dimmer").fadeIn(100);
+			// }
 		}
 		else{
-			header.classList.remove("hover");
-			header.querySelectorAll(".under-line").forEach(els => {
-				els.classList.remove("bk");
-				els.classList.add("wh");
-			});
-			$("#dimmer").fadeOut(100);
+			if(!sidebar.classList.contains("open")){
+				header.classList.remove("hover");
+				header.querySelectorAll(".under-line").forEach(els => {
+					els.classList.remove("bk");
+					els.classList.add("wh");
+				});
+				$("#dimmer").fadeOut(100);
+			}
 		}
 	}
 	function searchInit(){
@@ -706,19 +725,19 @@ import {User} from '/scripts/module/user.js';
 		
 		sideBarBtn.forEach(el => {
 			el.addEventListener("click", function() {
+				sideBarBtn.forEach(el => el.classList.remove("open"));
+				let target = this;
 				let sideBarCloseBtn = document.querySelector('.sidebar-close-btn');
-				console.log("🏂 ~ file: nav.js:712 ~ disableUrlBtn ~ sideBarCloseBtn", sideBarCloseBtn)
 				sideBarCloseBtn.addEventListener("click",sidebarClose);
 				let sideBox = document.querySelector(".side__box");
 				let typeTarget  = this.dataset.type;
-				console.log("🏂 ~ file: nav.js:645 ~ el.addEventListener ~ typeTarget", typeTarget)
 				sideBox.innerHTML ="";
 				if(typeTarget === "S"){
 					console.log("서치");
 					let search = new Search();
 					search.writeHtml();
 					search.addSearchEvent();
-				} else if(typeTarget === "E"){
+				}else if(typeTarget === "E"){
 					console.log("언어변경");
 					let language = new Language();
 					language.writeHtml();
@@ -736,70 +755,87 @@ import {User} from '/scripts/module/user.js';
 						e.stopImmediatePropagation();
 					}
 					console.log("베스킷");
-				} else if(typeTarget === "M"){
+				}else if(typeTarget === "M"){
 					console.log("블루마켓");
 					let bluemark = new Bluemark();
-					console.log("🏂 ~ file: nav.js:736 ~ el.addEventListener ~ bluemark", bluemark.writeHtml())
+					bluemark.writeHtml();
 					if(path.includes("mypage")){
 						e.stopImmediatePropagation();
 					}
-				} else if(typeTarget === "L"){
+				}else if(typeTarget === "L"){
 					let user = new User();
 					user.userLoad();
 					if(path.includes("mypage")){
 						e.stopImmediatePropagation();
 					}
 					console.log("마이페이지");
-				} 
-				// else if(typeTarget === "W"){
-				// 	if(path.includes("whish")){
-				// 		e.stopImmediatePropagation();
-				// 	}
-				// 	console.log("위시리스트");
-				// }
-				sideBarToggleEvent();
+				}else if(typeTarget === "W"){
+					if(path.includes("whish")){
+						e.stopImmediatePropagation();
+					}
+					
+					console.log("위시리스트");
+				}
+				sideBarToggleEvent(target);
 			});
 		})
-		function sideBarToggleEvent(){
-			layoutClick();
+		function sideBarToggleEvent(target){
+			layoutClick(target);
 			let sideContainer = document.querySelector("#sidebar");
 			let sideBg = document.querySelector(".side__background");
 			let sideWrap = document.querySelector(".side__wrap");
-
 			if(sideContainer.classList.contains("open")){
+
 				sidebarClose();				
+
 			} else {
+				target.classList.add("open");
 				$("header").addClass("scroll");
+				$("body").css("overflow","hidden");
 				sideContainer.classList.add("open");
 				sideBg.classList.add("open");
 				sideWrap.classList.add("open");
+				headerHover(true);
 			}
 
 
 		}
 		function sidebarClose () {
+			sideBarBtn.forEach(el => el.classList.remove("open"));
 			let sideContainer = document.querySelector("#sidebar");
-		let sideBg = document.querySelector(".side__background");
-		let sideWrap = document.querySelector(".side__wrap");
+			let sideBg = document.querySelector(".side__background");
+			let sideWrap = document.querySelector(".side__wrap");
+			sideBarBtn.forEach(el => el.classList.remove("open"));
 			$("header").removeClass("scroll");
-			$("#dimmer").fadeOut(100);
+			$("body").css("overflow","inherit")
 			sideContainer.classList.remove("open");
 			sideBg.classList.remove("open");
 			sideWrap.classList.remove("open");
 			document.querySelector(".side__box").innerHTML = "";
+			headerHover(false);
 		}
 		function layoutClick () {
 			let sideWrap = document.querySelector(".side__wrap");
 			let sideBg = document.querySelector(".side__background");
 			sideBg.addEventListener("click" ,(e) =>{
 				if(e.target == sideBg){
-					document.body.style["overflow"] =""
-					document.querySelector("#sidebar").classList.remove("open")
-					document.querySelector(".side__background").classList.remove("open")
-					document.querySelector(".side__wrap").classList.remove("open")
-					document.querySelector(".side__box").innerHTML = "";
+					sidebarClose();
 				}
 			} )
 
 		}
 	}
+	// function headerHoberCheck() {
+	// 	let header = document.querySelector("header");
+	// 	let sidebarBg = document.querySelector(".side__background");
+	// 	if(header.classList.contains("hover")){
+	// 		sidebarBg.style.background ="#00000000"; 
+	// 		console.log("open")
+	// 	} else{
+	// 		sidebarBg.style.background ="#000000cc";
+	// 		console.log("close")
+	// 	}
+	// }
+
+
+	

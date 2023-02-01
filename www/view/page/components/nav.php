@@ -24,6 +24,8 @@
 <nav class="lg:hidden" id="mobile">
     <div class="lg:hidden side__menu"></div>
 </nav>
+<?php include $_CONFIG['PATH']['PAGE'] . '/components/quickview.php';?>
+
 <script type="module" src="/scripts/nav.js"></script>
 
 <script>sessionStorage.setItem('login_session', <?php echo $session ?>);</script>

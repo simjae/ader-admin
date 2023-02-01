@@ -155,7 +155,7 @@
 html { font-size: 62.5%; }
 body {max-width: 2560px;width:100%;margin: 0 auto!important; ;overflow-x:hidden;background-color : #fff ; color : #000 ;transition: transform 5s linear;font-family: var(--ft-no-fu);}
 a { text-decoration : none ; color : #000 }
-main{padding-top: 50px;}
+main{padding-top: 50px;overflow-x:hidden;}
 img {max-width: 100%;height:  auto;}
 header{max-width: 2560px;margin:0 auto;}
 input[type="checkbox"]{cursor: pointer;}
@@ -501,8 +501,7 @@ transform: translateY(-4px) rotate(-45deg);
 	top:0;
 	width: 100vw;
 	height: 100vh;
-	opacity: 0.5;
-	background-color: #000;
+    background: rgba(0, 0, 0, 0.5);
 	z-index:19	
 }
 

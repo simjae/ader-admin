@@ -13,15 +13,11 @@ export function User() {
             success: function(d) {
                 let code = d.code;
                 let memberInfo = d.member_info;
-                console.log("🏂 ~ file: user.js:15 ~ User ~ memberInfo", typeof(memberInfo))
-                
-
                 if (code == "200") {
                     if(memberInfo === undefined ){
-                        console.log("로그인 필요")
                         writeLoginHtml();
                     } else {
-                        writeUserHtml(memberInfo)
+                        writeUserHtml(memberInfo);
                     }
                 }
             }
@@ -36,29 +32,31 @@ export function User() {
         userContent.className = "user-wrap";
         userContent.innerHTML = 
         `<div class="user-header"></div>
-        <div class="user-body">
-            <div class="user-logo">
-                <img src="/images/mypage/mypage_member_icon.svg" style="padding-top:8px;padding-left:6px;">
-            </div>
-            <div class="user-content">
-                <ul>
-                    <li>${member_id}</li>
-                    <li>${member_name}</li>
-                    <div class="content-row">
-                        <div class="content-row-title">
-                            <li>적립포인트</li>
-                            <li>바우처</li>
-                            <li>충전포인트</li>
+        <a href="http://116.124.128.246/mypage">
+            <div class="user-body">
+                <div class="user-logo">
+                    <img src="/images/mypage/mypage_member_icon.svg" style="padding-top:8px;padding-left:6px;">
+                </div>
+                <div class="user-content">
+                    <ul>
+                        <li>${member_id}</li>
+                        <li>${member_name}</li>
+                        <div class="content-row">
+                            <div class="content-row-title">
+                                <li>적립포인트</li>
+                                <li>바우처</li>
+                                <li>충전포인트</li>
+                            </div>
+                            <div class="content-row-value">
+                                <li  class="user-mileage">${member_mileage}</li>
+                                <li  class="user-voucher">${member_voucher}</li>
+                                <li  class="user-point">600,000</li>
+                            </div>
                         </div>
-                        <div class="content-row-value">
-                            <li  class="user-mileage">${member_mileage}</li>
-                            <li  class="user-voucher">${member_voucher}</li>
-                            <li  class="user-point">600,000</li>
-                        </div>
-                    </div>
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>`
+        </a>`
         sideBox.appendChild(userContent);
     };
     let writeLoginHtml = () => {

@@ -1,5 +1,10 @@
 <link rel="stylesheet" href="/css/common/basket.css">
 <link rel="stylesheet" href="/css/module/foryou.css">
+<style>
+
+main {overflow-x: initial;}
+
+</style>
 <main>
     <section class="basket__wrap">
         <div class="list__box">

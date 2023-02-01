@@ -1,6 +1,6 @@
-main {
+/* main {
     overflow: visible;
-}
+} */
 .basket__wrap{
     display: grid;
     grid-template-columns: repeat(16, 1fr);

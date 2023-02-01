@@ -847,7 +847,6 @@
         }
     }
 </style>
-<?php include $_CONFIG['PATH']['PAGE'] . '/components/quickview.php';?>
 <main>
     <!-- banner -->
     <section class="new__project__wrap">

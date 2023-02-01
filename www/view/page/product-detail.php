@@ -1,4 +1,5 @@
 <link rel=stylesheet href='/css/product/detail.css' type='text/css'>
+<style>main {overflow-x: initial;}</style>
 <?php
 function getUrlParamter($url, $sch_tag)
 {
