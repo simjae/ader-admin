@@ -674,7 +674,7 @@ import {User} from '/scripts/module/user.js';
 				els.classList.remove("wh");
 				els.classList.add("bk");
 			});
-			$("#dimmer").fadeIn(100);
+			$("#dimmer").addClass("show");
 			// if(sidebar.classList.contains("open")){
 			// 	$("#dimmer").fadeOut(100);
 			// }else {
@@ -688,7 +688,7 @@ import {User} from '/scripts/module/user.js';
 					els.classList.remove("bk");
 					els.classList.add("wh");
 				});
-				$("#dimmer").fadeOut(100);
+			$("#dimmer").removeClass("show");
 			}
 		}
 	}

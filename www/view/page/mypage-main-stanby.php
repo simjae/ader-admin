@@ -139,13 +139,13 @@
 <div class="stanby__wrap">
     <div class="stanby__tab__btn__container">
         <div class="tab__btn__item" form-id="stanby__apply__form__wrap" onclick="getTotalStandby()">
-            <img src="/images/mypage/tab/select_stanby_apply_btn.svg">
+            <span>응모하기</span>
         </div>
         <div class="tab__btn__item"  form-id="stanby__result__form__wrap" onclick="getEntryStandby()">
-            <img src="/images/mypage/tab/default_stanby_result_btn.svg">
+            <span>응모내역</span>
         </div>
         <div class="tab__btn__item" form-id="stanby__notice__wrap">
-            <img src="/images/mypage/tab/default_notice_btn.svg">
+            <span>유의사항</span>
         </div>
     </div>
     <div class="stanby__tab__wrap">

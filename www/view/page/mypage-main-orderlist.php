@@ -1,10 +1,5 @@
 <style>
-    .orderlist__wrap {
-        margin-top: 40px;
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(16, 1fr);
-    }
+    
 
     .orderlist__tab__wrap {
         grid-column: 1/17;
@@ -21,12 +16,7 @@
         grid-template-columns: 50px 50px 50px 50px;
     }
 
-    .orderlist__tab__contents {
-        margin: 0 auto;
-        grid-column: 1/17;
-        padding-top: 50px;
-        padding-bottom: 50px;
-    }
+   
 
     .info__title {
         margin-right: 10px;
@@ -66,6 +56,7 @@
     .list_orderlist_info p {
         font-size: 11px;
         margin-top: 10px;
+        white-space: nowrap;
     }
 
     .list_orderlist_info .underline {
@@ -74,12 +65,6 @@
 
     .orderlist__tab__contents .title {
         margin-bottom: 0;
-    }
-
-    .oderlist_info_table {
-        margin-top: 60px;
-        display: grid;
-        grid-template-columns: 600px 350px;
     }
 
     .oderlist_info_table .contents__table td {
@@ -118,6 +103,24 @@
         .contents__info .info span {
             font-size: 10px;
         }
+        .oderlist_info_table {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .orderlist__wrap {
+            margin-top: 20px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+        }
+        .orderlist__tab__contents {
+            margin: 0 auto;
+            grid-column: 1/17;
+            padding-top: 30px;
+            padding-bottom: 20px;
+        }
     }
 
     @media (min-width: 600px) {
@@ -129,8 +132,25 @@
     }
 
     @media (min-width: 1024px) {
+        .orderlist__wrap {
+            margin-top: 40px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+        }
         .orderlist__tab__wrap {
             width: 100%;
+        }
+        .oderlist_info_table {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 600px 350px;
+        }
+        .orderlist__tab__contents {
+            margin: 0 auto;
+            grid-column: 1/17;
+            padding-top: 50px;
+            padding-bottom: 50px;
         }
     }
     .orderlist__wrap .detail__btn {
@@ -143,20 +163,38 @@
         font-size: 11px;
         cursor: pointer;
     }
+    .product_name_mob {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 68px;
+    }
+    .product_info_mob {
+        vertical-align: top;
+    }
+    .product_info_mob p {
+        margin-bottom: 6px;
+    }
+    .orderlist__wrap .delivery_num {
+        text-decoration: underline;
+        font-size: 10px;
+        width: 110px;
+        cursor: pointer;
+    }
 </style>
 <div class="orderlist__wrap">
     <div class="orderlist__tab__btn__container" onclick="viewOrderList()">
         <div class="tab__btn__item" onclick="getOrderInfoList()">
-            <img src="/images/mypage/tab/select_order_btn.svg">
+            <span>주문</span>
         </div>
         <div class="tab__btn__item">
-            <img src="/images/mypage/tab/default_cancel_btn.svg">
+            <span>취소</span>
         </div>
         <div class="tab__btn__item">
-            <img src="/images/mypage/tab/default_exchange_btn.svg">
+            <span>교환</span>
         </div>
         <div class="tab__btn__item">
-            <img src="/images/mypage/tab/default_return_btn.svg">
+            <span>반품</span>
         </div>
     </div>
     <div class="orderlist__tab__wrap">
@@ -164,11 +202,13 @@
             <input type="hidden" name="rows" value="5">
             <input type="hidden" name="page" value="1">
                 <div class="pc__view"></div>
-                <!-- <div class="orderlist__paging"></div>        -->
                 <div class="mobile__view"></div>
                 <div class="orderlist__paging"></div>
         </div>
-        <div class="orderlist__tab order__detail"></div>
+        <div class="orderlist__tab order__detail">
+            <div class="pc__view"></div>
+            <div class="mobile__view"></div>
+        </div>
     </div>
 </div>
 <script>
@@ -190,8 +230,6 @@
         let page = order_list.find('input[name="page"]').val();
         $.ajax({
             type: "post",
-            data:{
-            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/order/list/get",
             error: function(d) {
@@ -203,7 +241,7 @@
                     div_list_mobile.html('');
                     if (data != null) {
                         let strDiv = '';
-                        
+                        let strDivMobile = '';
                         let slicedData = data.slice(parseInt(page - 1) * rows, rows * page);
                         slicedData.forEach(function(row) {
                             strDiv += '<div class="orderlist__tab__contents">'
@@ -240,13 +278,16 @@
                                     strDiv +=                           '<p>' + product.product_name + '</p>'
                                     strDiv +=                       '</td>'
                                     strDiv +=                       '<td>'
-                                    strDiv +=                           '<p>' + product.color + '</p>'
+                                    strDiv +=                           '<div class="color_wrap">'
+                                    strDiv +=                                '<p>' + product.color + '</p>'
+                                    strDiv +=                                '<div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>'
+                                    strDiv +=                           '</div>'
                                     strDiv +=                       '</td>'
                                     strDiv +=                       '<td>'
                                     strDiv +=                           '<p>' + product.option_name + '</p>'
                                     strDiv +=                       '</td>'
                                     strDiv +=                       '<td>'
-                                    strDiv +=                           '<p>Qty:' + product.product_qty + '</p>'
+                                    strDiv +=                           '<p>Qty: ' + product.product_qty + '</p>'
                                     strDiv +=                       '</td>'
                                     strDiv +=                       '<td>'
                                     strDiv +=                           '<p>' + product.product_price.toLocaleString('ko-KR') + '</p>'
@@ -273,7 +314,7 @@
                                         strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
                                         strDiv +=                                     '<div style="padding-bottom: 13px;">'
                                         strDiv +=                                         '<p>배송준비</p>'
-                                        strDiv +=                                         '<p style="font-size: 10px; width: 110px;">' + row.company_name + '<br>652013628816</p>'
+                                        strDiv +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
                                         strDiv +=                                     '</div>'
                                         strDiv +=                                 '</td>'
                                         strDiv +=                             '</tr>'
@@ -282,7 +323,7 @@
                                         strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
                                         strDiv +=                                     '<div style="padding-bottom: 13px;">'
                                         strDiv +=                                         '<p>배송중</p>'
-                                        strDiv +=                                         '<p style="font-size: 10px; width: 110px;">' + row.company_name + '<br>652013628816</p>'
+                                        strDiv +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
                                         strDiv +=                                     '</div>'
                                         strDiv +=                                 '</td>'
                                         strDiv +=                             '</tr>'
@@ -361,9 +402,158 @@
                             strDiv +=                     '</table>'
                             strDiv +=                '</div>'
                             strDiv +=             '</div>'
+
+                            strDivMobile += '<div class="orderlist__tab__contents">'
+                            strDivMobile +=                '<div class="contents__info">'
+                            strDivMobile +=                         '<div class="info">'
+                            strDivMobile +=                             '<span class="info__title">주문번호</span>'
+                            strDivMobile +=                             '<span class="info__value order__code">' + row.order_code + '</span>'
+                            strDivMobile +=           '</div>'
+                            strDivMobile +=           '<div class="info">'
+                            strDivMobile +=               '<span class="info__title">주문일</span>'
+                            strDivMobile +=               '<span class="info__value">' + row.order_date + '</span>'
+                            strDivMobile +=           '</div>'
+                            strDivMobile +=           '<div class="detail__btn" onclick="viewDetailOrder(' + row.order_idx + ')"><span>자세히보기</span></div>'
+                            strDivMobile +=       '</div>'
+                            strDivMobile +=       '<div class="contents__table">'
+                            strDivMobile +=           '<table>'
+                            strDivMobile +=               '<colsgroup>'
+                            strDivMobile +=                   '<col style="width:27%;">'
+                            strDivMobile +=                   '<col style="width:27%;">'
+                            strDivMobile +=                   '<col style="width:16%;">'
+                            strDivMobile +=                   '<col style="width:30%;">'
+                            strDivMobile +=               '</colsgroup>'
+                            strDivMobile +=               '<tbody>'
+                                for(let product of row.order_product) {
+                                    strDivMobile +=                   '<tr>'
+                                    strDivMobile +=                       '<td>'
+                                    strDivMobile +=                           '<img src=' + img_root + product.img_location + ' style="cursor: default;">'
+                                    strDivMobile +=                       '</td>'
+                                    strDivMobile +=                       '<td class="product_info_mob">'
+                                    strDivMobile +=                           '<p class="product_name_mob">' + product.product_name + '</p>'
+                                    strDivMobile +=                           '<p>' + product.product_price.toLocaleString('ko-KR') + '</p>'
+                                    strDivMobile +=                           '<div class="color_wrap">'
+                                    strDivMobile +=                                 '<p>' + product.color + '</p>'
+                                    strDivMobile +=                                 '<div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>'
+                                    strDivMobile +=                           '</div>'
+                                    strDivMobile +=                           '<p>' + product.option_name + '</p>'
+                                    strDivMobile +=                       '</td>'
+                                    strDivMobile +=                       '<td>'
+                                    strDivMobile +=                           '<p>Qty: ' + product.product_qty + '</p>'
+                                    strDivMobile +=                       '</td>'
+                                    if(status == 'PCP') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>결제완료<button class="order_status_box" onclick="">주문취소</button></p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                     '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'PPR') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>상품준비</p>'
+                                        strDivMobile +=                                         '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'DPR') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>배송준비</p>'
+                                        strDivMobile +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'DPG') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>배송중</p>'
+                                        strDivMobile +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'DCP') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        if(row.update_flg == 'FALSE') {
+                                            strDivMobile +=                                         '<p>배송완료<button class="order_status_box" onclick="">반품접수</button></p>'
+                                        } else {
+                                            strDivMobile +=                                         '<p>배송완료</p>'
+                                        }
+                                        strDivMobile +=                                             '<p style="font-size: 10px; width: 110px;">반품접수는 제품 수령 후<br>7일 이내 가능합니다.</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'POP') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>프리오더 준비</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'POD') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>프리오더 상품 생산</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'OCC') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>주문 취소</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'OEX') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>주문 교환</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'OEP') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>주문 교환 완료</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'ORF') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>주문 환불</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }
+                                    if(status == 'ORP') {
+                                        strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                        strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                        strDivMobile +=                                         '<p>주문 환불 완료</p>'
+                                        strDivMobile +=                                     '</div>'
+                                        strDivMobile +=                                 '</td>'
+                                        strDivMobile +=                             '</tr>'
+                                    }                       
+                            }
+                            strDivMobile +=                         '</tbody>'
+                            strDivMobile +=                     '</table>'
+                            strDivMobile +=                '</div>'
+                            strDivMobile +=             '</div>'
                         });
                         div_list_pc.append(strDiv);
-                        div_list_mobile.append(strDiv);
+                        div_list_mobile.append(strDivMobile);
                         let totalCnt = data.length;
                         let showing_page = Math.ceil(totalCnt/rows);
                         orderListPaging({
@@ -381,7 +571,8 @@
     }
 
     function getOrderInfo(order_idx) {
-        let div_list = $('.order__detail');
+        let div_list_pc = $('.order__detail .pc__view');
+        let div_list_mobile = $('.order__detail .mobile__view');
         $.ajax({
             type: "post",
             data:{
@@ -395,10 +586,12 @@
                 if (d.code == 200) {
                     let data = d.data;
             
-                    div_list.html('');
-            
+                    div_list_pc.html('');
+                    div_list_mobile.html('');
+
                     if (data != null) {
                         let strDiv = '';
+                        let strDivMobile = '';
                         data.forEach(function(row) {
                             strDiv += '<div class="orderlist__tab__contents">'
                             strDiv +=            '<div class="title" style="margin-bottom: 30px;">'
@@ -436,122 +629,125 @@
                                 strDiv +=                                '<p>' + product.product_name + '</p>'
                                 strDiv +=                            '</td>'
                                 strDiv +=                            '<td>'
-                                strDiv +=                                '<p>' + product.color + '</p>'
+                                strDiv +=                                 '<div class="color_wrap">'
+                                strDiv +=                                    '<p>' + product.color + '</p>'
+                                strDiv +=                                    '<div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>'
+                                strDiv +=                                 '</div>'
                                 strDiv +=                            '</td>'
                                 strDiv +=                            '<td>'
                                 strDiv +=                                '<p>' + product.option_name + '</p>'
                                 strDiv +=                            '</td>'
                                 strDiv +=                            '<td>'
-                                strDiv +=                                '<p>Qty:' + product.product_qty + '</p>'
+                                strDiv +=                                '<p>Qty: ' + product.product_qty + '</p>'
                                 strDiv +=                            '</td>'
                                 strDiv +=                            '<td>'
                                 strDiv +=                                '<p>' + product.product_price.toLocaleString('ko-KR') + '</p>'
                                 strDiv +=                            '</td>'
                                 if(status == 'PCP') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>결제완료<button class="order_status_box" onclick="">주문취소</button></p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                     '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>결제완료<button class="order_status_box" onclick="">주문취소</button></p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                     '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'PPR') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>상품준비</p>'
+                                    strDiv +=                                         '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'DPR') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>배송준비</p>'
+                                    strDiv +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'DPG') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>배송중</p>'
+                                    strDiv +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'DCP') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    if(row.update_flg == 'FALSE') {
+                                        strDiv +=                                         '<p>배송완료<button class="order_status_box" onclick="">반품접수</button></p>'
+                                    } else {
+                                        strDiv +=                                         '<p>배송완료</p>'
                                     }
-                                    if(status == 'PPR') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>상품준비</p>'
-                                        strDiv +=                                         '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'DPR') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>배송준비</p>'
-                                        strDiv +=                                         '<p style="font-size: 10px; width: 110px;">' + row.company_name + '<br>652013628816</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'DPG') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>배송중</p>'
-                                        strDiv +=                                         '<p style="font-size: 10px; width: 110px;">' + row.company_name + '<br>652013628816</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'DCP') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        if(row.update_flg == 'FALSE') {
-                                            strDiv +=                                         '<p>배송완료<button class="order_status_box" onclick="">반품접수</button></p>'
-                                        } else {
-                                            strDiv +=                                         '<p>배송완료</p>'
-                                        }
-                                        strDiv +=                                         '<p style="font-size: 10px; width: 110px;">반품접수는 제품 수령 후<br>7일 이내 가능합니다.</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'POP') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>프리오더 준비</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'POD') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>프리오더 상품 생산</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'OCC') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>주문 취소</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'OEX') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>주문 교환</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'OEP') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>주문 교환 완료</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'ORF') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>주문 환불</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
-                                    if(status == 'ORP') {
-                                        strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-                                        strDiv +=                                     '<div style="padding-bottom: 13px;">'
-                                        strDiv +=                                         '<p>주문 환불 완료</p>'
-                                        strDiv +=                                     '</div>'
-                                        strDiv +=                                 '</td>'
-                                        strDiv +=                             '</tr>'
-                                    }
+                                    strDiv +=                                         '<p style="font-size: 10px; width: 110px;">반품접수는 제품 수령 후<br>7일 이내 가능합니다.</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'POP') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>프리오더 준비</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'POD') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>프리오더 상품 생산</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'OCC') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>주문 취소</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'OEX') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>주문 교환</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'OEP') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>주문 교환 완료</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'ORF') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>주문 환불</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
+                                if(status == 'ORP') {
+                                    strDiv +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDiv +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDiv +=                                         '<p>주문 환불 완료</p>'
+                                    strDiv +=                                     '</div>'
+                                    strDiv +=                                 '</td>'
+                                    strDiv +=                             '</tr>'
+                                }
                             }
                             strDiv +=                    '</tbody>'
                             strDiv +=               '</table>'
@@ -596,7 +792,7 @@
                             strDiv +=                  '</div>'
                             strDiv +=               '</div>'
                             strDiv +=            '</div>'
-                            strDiv +=         '<div style="width:600px; margin-top: 100px;">'
+                            strDiv +=         '<div style="width:600px; margin-top: 90px;">'
                             strDiv +=             '<div class="title_orderlist_info">'
                             strDiv +=                  '<p>주문 취소 안내</p>'
                             strDiv +=              '</div>'
@@ -614,8 +810,218 @@
                             strDiv +=              '</div>'
                             strDiv +=           '</div>'
                             strDiv +=         '</div>'
+
+
+                            strDivMobile += '<div class="orderlist__tab__contents">'
+                            strDivMobile +=            '<div class="title" style="margin-bottom: 30px;">'
+                            strDivMobile +=                '<p>주문 상세</p>'
+                            strDivMobile +=            '</div>'
+                            strDivMobile +=            '<div class="contents__info">'
+                            strDivMobile +=                '<div class="info">'
+                            strDivMobile +=                    '<span class="info__title">주문번호</span>'
+                            strDivMobile +=                    '<span class="info__value">' + row.order_code + '</span>'
+                            strDivMobile +=                '</div>'
+                            strDivMobile +=                '<div class="info">'
+                            strDivMobile +=                   '<span class="info__title">주문일</span>'
+                            strDivMobile +=                   '<span class="info__value">' + row.order_date + '</span>'
+                            strDivMobile +=                '</div>'
+                            strDivMobile +=           '</div>'
+                            strDivMobile +=            '<div class="contents__table" style="margin-top: 9.5px !important;">'
+                            strDivMobile +=                '<table>'
+                            strDivMobile +=                    '<colsgroup>'
+                            strDivMobile +=                        '<col style="width:27%;">'
+                            strDivMobile +=                        '<col style="width:27%;">'
+                            strDivMobile +=                        '<col style="width:16%;">'
+                            strDivMobile +=                        '<col style="width:30%;">'
+                            strDivMobile +=                    '</colsgroup>'
+                            strDivMobile +=                    '<tbody>'
+                            for(let product of row.order_product) {
+                                strDivMobile +=                        '<tr>'
+                                strDivMobile +=                            '<td>'
+                                strDivMobile +=                                '<img src=' + img_root + product.img_location + ' style="cursor: default;">'
+                                strDivMobile +=                            '</td>'
+                                strDivMobile +=                            '<td class="product_info_mob">'
+                                strDivMobile +=                                '<p class="product_name_mob">' + product.product_name + '</p>'
+                                strDivMobile +=                                '<p>' + product.product_price.toLocaleString('ko-KR') + '</p>'
+                                strDivMobile +=                                '<div class="color_wrap">'
+                                strDivMobile +=                                     '<p>' + product.color + '</p>'
+                                strDivMobile +=                                     '<div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>'
+                                strDivMobile +=                                '</div>'
+                                strDivMobile +=                                '<p>' + product.option_name + '</p>'
+                                strDivMobile +=                            '</td>'
+                                strDivMobile +=                            '<td>'
+                                strDivMobile +=                                '<p>Qty: ' + product.product_qty + '</p>'
+                                strDivMobile +=                            '</td>'
+                                if(status == 'PCP') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>결제완료<button class="order_status_box" onclick="">주문취소</button></p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                     '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'PPR') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>상품준비</p>'
+                                    strDivMobile +=                                         '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'DPR') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>배송준비</p>'
+                                    strDivMobile +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'DPG') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>배송중</p>'
+                                    strDivMobile +=                                         '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'DCP') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    if(row.update_flg == 'FALSE') {
+                                        strDivMobile +=                                         '<p>배송완료<button class="order_status_box" onclick="">반품접수</button></p>'
+                                    } else {
+                                        strDivMobile +=                                         '<p>배송완료</p>'
+                                    }
+                                    strDivMobile +=                                         '<p style="font-size: 10px; width: 110px;">반품접수는 제품 수령 후<br>7일 이내 가능합니다.</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'POP') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>프리오더 준비</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'POD') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>프리오더 상품 생산</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'OCC') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>주문 취소</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'OEX') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>주문 교환</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'OEP') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>주문 교환 완료</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'ORF') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>주문 환불</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                                if(status == 'ORP') {
+                                    strDivMobile +=                                 '<td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+                                    strDivMobile +=                                     '<div style="padding-bottom: 13px;">'
+                                    strDivMobile +=                                         '<p>주문 환불 완료</p>'
+                                    strDivMobile +=                                     '</div>'
+                                    strDivMobile +=                                 '</td>'
+                                    strDivMobile +=                             '</tr>'
+                                }
+                            }
+                            strDivMobile +=                    '</tbody>'
+                            strDivMobile +=               '</table>'
+                            strDivMobile +=            '</div>'
+                            strDivMobile +=            '<div class="oderlist_info_table">'
+                            strDivMobile +=                '<div style="width:100%;">'
+                            strDivMobile +=                    '<div class="title">'
+                            strDivMobile +=                        '<p>배송정보</p>'
+                            strDivMobile +=                    '</div>'
+                            strDivMobile +=                    '<div class="contents__table">'
+                            strDivMobile +=                        '<p>' + row.member_name + '</p>'
+                            strDivMobile +=                        '<p>' + row.member_mobile + '</p>'
+                            strDivMobile +=                        '<p>(' + row.to_zipcode + ')' + row.to_addr + ' ' + row.to_detail_addr + '</p>'
+                            strDivMobile +=                        '<p>' + row.order_memo + '</p>'
+                            strDivMobile +=                   '</div>'
+                            strDivMobile +=                '</div>'
+                            strDivMobile +=                '<div style="width:100%; margin-top:20px;">'
+                            strDivMobile +=                   '<div class="title">'
+                            strDivMobile +=                        '<p>결제정보</p>'
+                            strDivMobile +=                    '</div>'
+                            strDivMobile +=                    '<div class="oderlist_payment_info_border">'
+                            strDivMobile +=                        '<div class="oderlist_payment_info">'
+                            strDivMobile +=                            '<p>제품합계</p>'
+                            strDivMobile +=                            '<p>' + row.price_product.toLocaleString('ko-KR') + '</p>'
+                            strDivMobile +=                        '</div>'
+                            strDivMobile +=                        '<div class="oderlist_payment_info">'
+                            strDivMobile +=                            '<p>배송비</p>'
+                            strDivMobile +=                            '<p>' + row.price_delivery.toLocaleString('ko-KR') + '</p>'
+                            strDivMobile +=                       '</div>'
+                            strDivMobile +=                        '<div class="oderlist_payment_info">'
+                            strDivMobile +=                           '<p>바우처</p>'
+                            strDivMobile +=                           '<p>' + row.price_discount.toLocaleString('ko-KR') + '</p>'
+                            strDivMobile +=                        '</div>'
+                            strDivMobile +=                        '<div class="oderlist_payment_info">'
+                            strDivMobile +=                           '<p>적립포인트</p>'
+                            strDivMobile +=                           '<p>' + row.price_charge_point.toLocaleString('ko-KR') + '</p>'
+                            strDivMobile +=                        '</div>'
+                            strDivMobile +=                  '</div>'
+                            strDivMobile +=                  '<div class="oderlist_payment_info" style="margin-top: 9.5px;">'
+                            strDivMobile +=                      '<p>합계</p>'
+                            strDivMobile +=                      '<p>' + row.price_total.toLocaleString('ko-KR') + '</p>'
+                            strDivMobile +=                  '</div>'
+                            strDivMobile +=               '</div>'
+                            strDivMobile +=            '</div>'
+                            strDivMobile +=         '<div style="width:100%; margin-top: 40px;">'
+                            strDivMobile +=             '<div class="title_orderlist_info">'
+                            strDivMobile +=                  '<p>주문 취소 안내</p>'
+                            strDivMobile +=              '</div>'
+                            strDivMobile +=              '<div class="list_orderlist_info">'
+                            strDivMobile +=                  '<p>·&nbsp;주문 접수 및 결제 완료 단계: 주문내역에서 취소 가능합니다.</p>'
+                            strDivMobile +=                  '<p>·&nbsp;배송 준비중 이후 단계: 주문취소 불가하며,<br>&nbsp;&nbsp;제품 수령 후 반품 진행 부탁드립니다.</p>'
+                            strDivMobile +=              '</div>'
+                            strDivMobile +=              '<div class="title_orderlist_info" style="margin-top: 30px !important;">'
+                            strDivMobile +=                  '<p>반품 안내</p>'
+                            strDivMobile +=              '</div>'
+                            strDivMobile +=              '<div class="list_orderlist_info">'
+                            strDivMobile +=                  '<p>·&nbsp;반품 접수는 제품 수령 후 7일 이내 가능합니다.</p>'
+                            strDivMobile +=                  '<p>·&nbsp;주문 상태가 배송 완료일 경우 주문내역에서 반품 접수가능하며,<br>&nbsp;&nbsp;배송중으로 보여질 경우 고객 서비스팀으로 연락 주시기 바랍니다.</p>'
+                            strDivMobile +=                  '<p class="underline">교환 및 반품 안내 바로 가기</p>'
+                            strDivMobile +=              '</div>'
+                            strDivMobile +=           '</div>'
+                            strDivMobile +=         '</div>'
                         });
-                        div_list.append(strDiv);
+                        div_list_pc.append(strDiv);
+                        div_list_mobile.append(strDivMobile);
                     }
                 }
             }
@@ -672,265 +1078,3 @@
         });
     }
 </script>
-
-<!-- <div class="orderlist__tab__contents">
-                    <div class="contents__info">
-                        <div class="info">
-                            <span class="info__title">주문번호</span>
-                            <span class="info__value">000031586</span>
-                        </div>
-                        <div class="info">
-                            <span class="info__title">주문일</span>
-                            <span class="info__value">2022.12.14</span>
-                        </div>
-                        <div class="detail__btn" onclick="viewDetailOrder()"><span>자세히보기</span></div>
-                    </div>
-                    <div class="contents__table">
-                        <table>
-                            <colsgroup>
-                                <col style="width:27%;">
-                                <col style="width:27%;">
-                                <col style="width:16%;">
-                                <col style="width:30%;">
-                            </colsgroup>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>A2</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLAFWS203BR_1.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>UK35</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="orderlist__tab__contents">
-                    <div class="contents__info">
-                        <div class="info">
-                            <span class="info__title">DRAW</span>
-                            <span class="info__title">주문번호</span>
-                            <span class="info__value">000032458</span>
-                        </div>
-                        <div class="info">
-                            <span class="info__title">주문일</span>
-                            <span class="info__value">2022.12.13</span>
-                        </div>
-                        <div class="detail__btn" onclick="viewDetailOrder()"><span>자세히보기</span></div>
-                    </div>
-                    <div class="contents__table">
-                        <table>
-                            <colsgroup>
-                                <col style="width:27%;">
-                                <col style="width:27%;">
-                                <col style="width:16%;">
-                                <col style="width:30%;">
-                            </colsgroup>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLASSTB18BK.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>A2</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="orderlist__tab__contents">
-                    <div class="contents__info">
-                        <div class="info">
-                            <span class="info__title">주문번호</span>
-                            <span class="info__value">000031556</span>
-                        </div>
-                        <div class="info">
-                            <span class="info__title">주문일</span>
-                            <span class="info__value">2022.12.11</span>
-                        </div>
-                        <div class="detail__btn" onclick="viewDetailOrder()"><span>자세히보기</span></div>
-                    </div>
-                    <div class="contents__table">
-                        <table>
-                            <colsgroup>
-                                <col style="width:27%;">
-                                <col style="width:27%;">
-                                <col style="width:16%;">
-                                <col style="width:30%;">
-                            </colsgroup>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLAFWLK15BL_8.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>A2</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLAFWHT04BK_10.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>A1</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLAFWJE11BL_12.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>A1</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="orderlist__tab__contents">
-                    <div class="contents__info">
-                        <div class="info">
-                            <span class="info__title">주문번호</span>
-                            <span class="info__value">000032458</span>
-                        </div>
-                        <div class="info">
-                            <span class="info__title">주문일</span>
-                            <span class="info__value">2022.12.02</span>
-                        </div>
-                        <div class="detail__btn" onclick="viewDetailOrder()"><span>자세히보기</span></div>
-                    </div>
-                    <div class="contents__table">
-                        <table>
-                            <colsgroup>
-                                <col style="width:27%;">
-                                <col style="width:27%;">
-                                <col style="width:16%;">
-                                <col style="width:30%;">
-                            </colsgroup>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLAFWOC03GR_11.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>A2</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="orderlist__tab__contents">
-                    <div class="contents__info">
-                        <div class="info">
-                            <span class="info__title">주문번호</span>
-                            <span class="info__value">000032458</span>
-                        </div>
-                        <div class="info">
-                            <span class="info__title">주문일</span>
-                            <span class="info__value">2022.12.02</span>
-                        </div>
-                        <div class="detail__btn" onclick="viewDetailOrder()"><span>자세히보기</span></div>
-                    </div>
-                    <div class="contents__table">
-                        <table>
-                            <colsgroup>
-                                <col style="width:27%;">
-                                <col style="width:27%;">
-                                <col style="width:16%;">
-                                <col style="width:30%;">
-                            </colsgroup>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="/images/mypage/sample_product/BLAFWTB07BL_1.png">
-                                    </td>
-                                    <td>
-                                        <p>Product name</p>
-                                        <p>000,000</p>
-                                        <p>Color</p>
-                                        <p>Onesize</p>
-                                    </td>
-                                    <td>
-                                        <p>Qty:1</p>
-                                    </td>
-                                    <td>
-                                        <p>결제완료</p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> -->          

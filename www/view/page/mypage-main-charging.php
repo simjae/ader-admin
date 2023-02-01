@@ -108,13 +108,13 @@ table.border__bottom__th th{
 <div class="charging__wrap">
     <div class="charging__tab__btn__container">
         <div class="tab__btn__item"  form-id="charging__total__wrap">
-            <img src="/images/mypage/tab/select_charging_btn.svg">
+            <span>충전하기</span>
         </div>
         <div class="tab__btn__item"  form-id="charging__detail__wrap">
-            <img src="/images/mypage/tab/default_charging_detail_btn.svg">
+            <span>충전내역</span>
         </div>
         <div class="tab__btn__item"  form-id="charging__notice__wrap">
-            <img src="/images/mypage/tab/default_notice_btn.svg">
+            <span>유의사항</span>
         </div>
     </div>
     <div class="charging__tab__wrap">

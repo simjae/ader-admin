@@ -2,6 +2,7 @@
     .as_container {
         width: 100%;
         margin: 100px auto;
+        color: #343434;
     }
 
 
@@ -71,6 +72,10 @@
         align-items: center;
     }
 
+    .as__service__btn li.selected {
+        background-color: #dcdcdc;
+    }
+
     .as__tab__wrap div.on {
         display: block;
     }
@@ -78,7 +83,15 @@
     .as__wrap__content__container {
         display: grid;
         margin-top: 80px;
+    }
 
+    .bluemark_mini_title {
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    .bluemark_mini_description {
+        margin-bottom: 20px;
     }
 
     .as__table__container {
@@ -87,15 +100,7 @@
         padding-bottom: 10px;
     }
 
-    .as__table__container .contents__table tr {
-        border-bottom: 1px solid #dcdcdc;
-    }
-
-    .as__table__container .contents__table td {
-        padding: 10px 0;
-    }
-
-    .content__table {
+    .as_container.contents__table {
         margin: 10px 0;
     }
 
@@ -120,12 +125,20 @@
         margin: 10px 0 20px;
     }
 
+    .bluemark_input_wrap {
+        display: flex;
+        border-bottom: 1px solid #dcdcdc;
+        margin-bottom: 59.5px;
+    }
+
     .bluemark_serialcode {
         height: 40px;
         width: 470px;
         border: 1px solid #808080;
+        margin-bottom: 20px;
         margin-right: 10px;
         padding: 12px 10px;
+        margin-top: 0;
     }
 
     .as__contents {
@@ -136,13 +149,17 @@
         display: grid;
     }
 
+    .as__photo__item {
+        margin-right: 10px;
+    }
+
     .as__info.as__photo__unconfirm {
         display: flex;
     }
 
     .as__photo__container {
         display: flex;
-        margin-right: 55px;
+        margin: 10px 55px 20px 0;
     }
 
     .black__btn {
@@ -176,9 +193,22 @@
         margin-bottom: 10px;
     }
 
+    .btn_step.on {
+        width: 100%;
+        height: 30px;
+        background-color: #191919;
+        color: #ffffff;
+        margin-bottom: 10px;
+    }
+
+    .as_step_contents.step_five span {
+        margin-right: 10px;
+    }
+
     .as_step_contents {
         padding: 20px 261px;
         text-align: center;
+
     }
 
     .as_step_contents p {
@@ -202,6 +232,11 @@
         text-decoration: underline;
     }
 
+    .underline p {
+        text-decoration: underline;
+    }
+
+
     .contents__table_as_payment tr {
         margin: 19.5px 0;
         border-bottom: 1px solid #dcdcdc;
@@ -211,7 +246,10 @@
         border-collapse: separate;
         border-spacing: 20px;
     }
-
+    .contents__table.as{
+        margin-top: 0;
+        padding-top: 0;
+    }
     .as__tab__wrap .title {
         font-size: 13px;
         margin-bottom: 30px;
@@ -220,6 +258,40 @@
     .as__tab__wrap .description p {
         font-size: 11px;
         margin-bottom: 10px;
+    }
+
+    /* .select-items {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    /* Hide the items when the select box is closed: */
+    .select-hide {
+        display: none;
+    }
+
+    .select-items div:hover {
+        background-color: #dcdcdc;
+        border: solid 1px #808080;
+        color: #f5f5f5;
+    }
+
+    .category__select {
+        width: 350px;
+        height: 40px;
+        border: 1px solid #808080;
+        padding: 12px 10px;
+    }
+
+    .as_step_contents.step_three div {
+        margin-bottom: 10px;
+    }
+
+    .as_status_title {
+        margin: 50px 0 10px;
+        font-size: 13px;
     }
 </style>
 
@@ -241,10 +313,10 @@
                 </ul>
             </div>
             <div class="as_buying_wrap one_one">
-                <div class="as__table__container">
+                <div class="as__table__container first">
                     <div style="margin-bottom: 30px; font-size: 11px;">·&nbsp; 회원님의
                         구매 목록에서 A/S 접수할 제품을 선택해주세요.</div>
-                    <div class="contents__table">
+                    <div class="contents__table as">
                         <table>
                             <colsgroup>
                                 <col style="width:120px;">
@@ -255,7 +327,7 @@
                                 <col style="width:120px;">
                             </colsgroup>
                             <tbody>
-                                <tr style="border-top: 1px solid #dcdcdc;">
+                                <tr>
                                     <td>
                                         <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
                                     </td>
@@ -272,7 +344,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApply()">A/S 신청</button>
+                                        <button class="order_status_box" onclick="asApply(this)">A/S 신청</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -292,7 +364,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApply()">A/S 신청</button>
+                                        <button class="order_status_box" onclick="asApply(this)">A/S 신청</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -300,10 +372,10 @@
                     </div>
                 </div>
 
-                <div class="as_buying_wrap apply" style="display: none;">
+                <div class="as_buying_wrap apply">
                     <div style="margin-bottom: 30px; font-size: 11px;">·&nbsp;A/S 접수할 내용을 입력해주세요.</div>
                     <div class="as__table__container">
-                        <div class="contents__table">
+                        <div class="contents__table as">
                             <table>
                                 <colsgroup>
                                     <col style="width:120px;">
@@ -314,7 +386,7 @@
                                     <col style="width:120px;">
                                 </colsgroup>
                                 <tbody>
-                                    <tr style="border-top: 1px solid #dcdcdc;">
+                                    <tr>
                                         <td>
                                             <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
                                         </td>
@@ -355,41 +427,40 @@
                                 </div>
                                 <p class="description">
                                     ·&nbsp;A/S 필요한 해당 제품 사진을 등록 부탁드립니다.</p>
-                                <p style="margin-top: 10px;">
+                                <p style="margin: 10px 0 19.5px;">
                                     ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
                             </div>
                             <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
-                            <button class="black__btn" onclick="asApplyComplete()">A/S 신청</button>
+                            <button class="black__btn" onclick="asApplyComplete(this)">A/S 신청</button>
                             <button class="white__btn">취소</button>
                         </form>
                     </div>
                 </div>
-
-                <div class="as_bluemark_wrap apply_complete">
-                    <div>A/S 서비스 신청이 완료되었습니다.</div>
-                    <div>
-                        <p class="description">
-                            ·&nbsp;상단의 A/S 현황 탭에서 해당 제품의 A/S 진행 과정을 열람하실 수 있습니다.</p>
-                        <p style="margin-top: 10px;">
-                            ·&nbsp;제품 회수 후에는 A/S 신청을 취소하실 수 없습니다.</p>
-                    </div>
+            </div>
+            <div class="as_bluemark_wrap apply_complete" style="display: none;">
+                <div>A/S 서비스 신청이 완료되었습니다.</div>
+                <div>
+                    <p class="description">
+                        ·&nbsp;상단의 A/S 현황 탭에서 해당 제품의 A/S 진행 과정을 열람하실 수 있습니다.</p>
+                    <p style="margin-top: 10px;">
+                        ·&nbsp;제품 회수 후에는 A/S 신청을 취소하실 수 없습니다.</p>
                 </div>
             </div>
             <div class="as_buying_wrap one_two">
-                <div class='title'>
-                    <ul>Bluemark 입력하기</ul>
+                <div class="bluemark_mini_title">
+                    <p>Bluemark 입력하기</p>
                 </div>
-                <div>·&nbsp;Bluemark 시리얼 코드를 입력하여 A/S를 접수해주세요.</div>
-                <div style="display: flex;">
+                <div class="bluemark_mini_description">·&nbsp;Bluemark 시리얼 코드를 입력하여 A/S를 접수해주세요.</div>
+                <div class="bluemark_input_wrap">
                     <input type="text" class="bluemark_serialcode" placeholder="BLUE MARK 시리얼 코드">
-                    <button class="black__btn" onclick="bludemarkSeorch()" style="width: 230px !important;">검색</button>
+                    <button class="black__btn" onclick="" style="width: 230px !important;">검색</button>
                 </div>
-                <div class='title'>
+                <div class='bluemark_mini_title'>
                     <ul>Bluemark 인증 내역</ul>
                 </div>
                 <div class="as__table__container">
-                    <div style="font-size: 11px;">·&nbsp;회원님의 Bluemark 인증 목록에서 A/S 접수할 제품을 선택해주세요.</div>
-                    <div class="contents__table">
+                    <div class="bluemark_mini_description">·&nbsp;회원님의 Bluemark 인증 목록에서 A/S 접수할 제품을 선택해주세요.</div>
+                    <div class="contents__table as">
                         <table>
                             <colsgroup>
                                 <col style="width:120px;">
@@ -400,7 +471,7 @@
                                 <col style="width:120px;">
                             </colsgroup>
                             <tbody>
-                                <tr style="border-top: 1px solid #dcdcdc;">
+                                <tr>
                                     <td>
                                         <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
                                     </td>
@@ -417,7 +488,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApply()">A/S 신청</button>
+                                        <button class="order_status_box" onclick="asApplyBluemark()">A/S 신청</button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -437,7 +508,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApply()">A/S 신청</button>
+                                        <button class="order_status_box" onclick="asApplyBluemark(this)">A/S 신청</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -449,28 +520,15 @@
                 <div>·&nbsp;확인 불가 제품은 상황에 따라 A/S가 불가할 수도 있습니다.</div>
                 <div class="as__tab as__action__wrap">
                     <form id="frm-as">
-                        <div class="title">
-                            <p>문의하기</p>
-                        </div>
                         <div class="as__info as__title">
                             <span>
                                 <select class="category__select">
-                                    <option class="inquiry_select_placeholder">취소/환불</option>
-                                    <option>주문/결제</option>
-                                    <option>출고/배송</option>
-                                    <option>반품/교환</option>
-                                    <option>환불/품절</option>
-                                    <option>A/S</option>
+                                    <option class="inquiry_select_placeholder">의류</option>
                                 </select>
                             </span>
                             <span>
                                 <select class="category__select">
-                                    <option class="as_select_placeholder">취소/환불</option>
-                                    <option>주문/결제</option>
-                                    <option>출고/배송</option>
-                                    <option>반품/교환</option>
-                                    <option>환불/품절</option>
-                                    <option>A/S</option>
+                                    <option class="as_select_placeholder">아우터</option>
                                 </select>
                             </span>
                         </div>
@@ -513,7 +571,7 @@
                         </div>
                         <div class="description">
                             ·&nbsp;상품 불량 및 오배송의 경우, 해당 제품 사진을 등록 부탁드립니다.</div>
-                        <div style="margin-top: 10px;">
+                        <div style="margin: 10px 0 20px;">
                             ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</div>
 
                         <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
@@ -527,56 +585,164 @@
     </div>
     <div class="as__tab__wrap">
         <div class="tab two">
-            접수 진행중
-            <div class="contents__table">
-                <table>
-                    <colsgroup>
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                        <col style="width:110px;">
-                        <col style="width:120px;">
-                        <col style="width:120px;">
-                    </colsgroup>
-                    <tbody>
-                        <tr style="border-top: 1px solid #dcdcdc;">
-                            <td>
-                                <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                            </td>
-                            <td>
-                                <p>Product name</p>
-                            </td>
-                            <td>
-                                <p>Color</p>
-                            </td>
-                            <td>
-                                <p>A2</p>
-                            </td>
-                            <td>
-                                <p>000,000</p>
-                            </td>
-                            <td>
-                                <p>A/S 요금 00.000</p>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <p class="as_status_title">접수 진행중
+            <p>
+            <div class="as__table__container">
+                <div class="contents__table as">
+                    <table>
+                        <colsgroup>
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                            <col style="width:110px;">
+                            <col style="width:120px;">
+                            <col style="width:120px;">
+                        </colsgroup>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                </td>
+                                <td>
+                                    <p>Product name</p>
+                                </td>
+                                <td>
+                                    <p>Color</p>
+                                </td>
+                                <td>
+                                    <p>A2</p>
+                                </td>
+                                <td>
+                                    <p>000,000</p>
+                                </td>
+                                <td>
+                                    <p>A/S 요금 00.000</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <button class="btn_step" style="margin-top: 20px; background-color:black; color: #ffffff;">STEP 01.
-                접수</button>
-
-            <div class="as_step_contents">
-                <p>A/S 서비스를 위해 접수가 진행중입니다.</p>
-                <p>요일일 2022.12.08</p>
-                요청내용 수선요청</p>
-                <div class="order_status_box as_cancel">A/S 신청 취소하기</div>
+            <button class="btn_step on" step_num="step_one" style="margin-top: 10px;" onclick="asStepBtn(this)">STEP
+                01.접수</button>
+            <div class="as_step_contents step_one">
+                <div>
+                    <p>A/S 서비스를 위해 접수가 진행중입니다.</p>
+                    <p>요청일 2022.12.08</p>
+                    <p>요청내용 수선요청</p>
+                    <div class="order_status_box as_one" step_result_num="step_result_one" onclick="asStatusStep(this)"
+                        style="width: 110px; margin-left: 37px;">A/S 신청 취소하기
+                    </div>
+                </div>
+            </div>
+            <div class="as_step_contents step_one_return" style="display: none;">
+                <p>A/S 서비스 접수가 완료되었으며 회수 준비 중입니다.</p>
+                <p>요청일 2022.12.08</p>
+                <p>요청내용 수선요청</p>
             </div>
 
-            <button class="btn_step">STEP 02. 회수</button>
-            <button class="btn_step">STEP 03. 진행</button>
-            <button class="btn_step">STEP 04. 요금</button>
-            <button class="btn_step">STEP 05. 제품 출고</button>
-            <button class="btn_step">STEP 06. 완료</button>
+            <button class="btn_step" step_num="step_two" onclick="asStepBtn(this)">STEP 02. 회수</button>
+            <div class="as_step_contents step_two" style="display: none;">
+                <div>
+                    <p>A/S 제품 수거를 위해 배송정보를 등록해주세요.</p>
+                    <div class="order_status_box as_two" step_result_num="step_result_two" onclick="asStatusStep(this)"
+                        style="width: 106px; margin-left: 70px; margin-bottom: 10px;">배송정보 등록하기
+                    </div>
+                    <p>서울시 성동구 연무장길 53 삼영빌딩 3층 ADER 고객지원팀</p>
+                    <p>02-792-2232</p>
+                </div>
+            </div>
+            <div class="as_step_contents step_two_return" style="display: none;">
+                <p>A/S 제품 수거를 위해 회수 진행 중입니다.</p>
+                <p>CJ대한통운</p>
+                <p class="underline">52013628816</p>
+            </div>
+
+            <button class="btn_step" step_num="step_three" onclick="asStepBtn(this)">STEP 03. 진행</button>
+            <div class="as_step_contents step_three" style="display: none;">
+                <p>제품 회수 후 A/S 진행 중입니다.</p>
+                <div style="display: flex; justify-content:space-between;">
+                    <div>
+                        <p>요청사항</p>
+                        <p>수선 방법</p>
+                        <p>예상 완료일자</p>
+                    </div>
+                    <div>
+                        <p>오른쪽 암홀 부분 올 풀림</p>
+                        <p>봉제</p>
+                        <p>2022.12.31</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn_step" step_num="step_four" onclick="asStepBtn(this)">STEP 04. 요금</button>
+            <div class="as_step_contents step_four" style="display: none;">
+                <p>A/S 요금이 결제 완료되면 제품 출고 단계로 전환됩니다.</p>
+                <div>
+                    <span style="margin-right: 10px;">A/S 요금</span><span>배송비 포함 10,000원</span>
+                </div>
+                <div class="order_status_box as_four" onclick=""
+                    style="width: 110px; margin-left: 60px; margin-top: 10px;">요금 결제하기</div>
+            </div>
+
+            <button class="btn_step" step_num="step_five" onclick="asStepBtn(this)">STEP 05. 제품 출고</button>
+            <div class="as_step_contents step_five" style="display: none;">
+                <p>A/S 완료 후 제품 출고 준비 중입니다.</p>
+                <div style="display: flex; justify-content:space-between;">
+                    <div>
+                        <p>요청사항</p>
+                        <p>A/S 요금</p>
+                        <p>결제수단</p>
+                        <p>결제일시</p>
+                    </div>
+                    <div>
+                        <p>오른쪽 암홀 부분 올 풀림</p>
+                        <p>배송비 포함 10,000원</p>
+                        <p>신용카드</p>
+                        <p>2022.12.30</p>
+                    </div>
+                </div>
+                <!-- <div>
+                    <span>요청사항</span><span>오른쪽 암홀 부분 올 풀림</span>
+                </div>
+                <div>
+                    <span>A/S 요금</span><span>배송비 포함 10,000원</span>
+                </div>
+                <div>
+                    <span>결제수단</span><span>신용카드</span>
+                </div>
+                <div>
+                    <span>결제일시</span><span>2022.12.30</span>
+                </div> -->
+            </div>
+
+            <!-- <button class="btn_step" onclick="">STEP 05. 제품 출고</button>
+            <div class="as_step_contents step_five_" style="display: none;">
+                <p>A/S 완료 후 제품 출고 준비 중입니다.</p>
+                <div>
+                    <span class="btn_step_margin">요청사항</span><span>오른쪽 암홀 부분 올 풀림</span>
+                </div>
+                <div>
+                    <span class="btn_step_margin">A/S 요금</span><span>배송비 포함 10,000원</span>
+                </div>
+                <div>
+                    <span class="btn_step_margin">결제수단</span><span>신용카드</span>
+                </div>
+                <div>
+                    <span class="btn_step_margin">결제일시</span><span>2022.12.20</span>
+                </div>
+                <div>
+                    <span class="btn_step_margin">배송일</span><span>2022.12.24</span>
+                </div>
+                <div>
+                    <span class="btn_step_margin">송장번호</span><span>CJ대한통운 53013628817</span>
+                </div>
+            </div> -->
+
+            <button class="btn_step" step_num="step_six" onclick="asStepBtn(this)">STEP 06. 완료</button>
+            <div class="as_step_contents step_six" style="display: none;">
+                <p>A/S가 완료되었습니다.</p>
+            </div>
         </div>
     </div>
     <div class="as__tab__wrap">
@@ -589,39 +755,41 @@
                     </div>
                     <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                 </div>
-                <div class="contents__table">
-                    <table>
-                        <colsgroup>
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:110px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                        </colsgroup>
-                        <tbody>
-                            <tr style="border-top: 1px solid #dcdcdc;">
-                                <td>
-                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                                </td>
-                                <td>
-                                    <p>Product name</p>
-                                </td>
-                                <td>
-                                    <p>Color</p>
-                                </td>
-                                <td>
-                                    <p>A2</p>
-                                </td>
-                                <td>
-                                    <p>000,000</p>
-                                </td>
-                                <td>
-                                    <p>A/S 요금 00.000</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="as__table__container">
+                    <div class="contents__table as">
+                        <table>
+                            <colsgroup>
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:110px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                            </colsgroup>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                    </td>
+                                    <td>
+                                        <p>Product name</p>
+                                    </td>
+                                    <td>
+                                        <p>Color</p>
+                                    </td>
+                                    <td>
+                                        <p>A2</p>
+                                    </td>
+                                    <td>
+                                        <p>000,000</p>
+                                    </td>
+                                    <td>
+                                        <p>A/S 요금 00.000</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="as_contents_list_wrap">
@@ -632,39 +800,41 @@
                     </div>
                     <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                 </div>
-                <div class="contents__table">
-                    <table>
-                        <colsgroup>
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:110px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                        </colsgroup>
-                        <tbody>
-                            <tr style="border-top: 1px solid #dcdcdc;">
-                                <td>
-                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                                </td>
-                                <td>
-                                    <p>Product name</p>
-                                </td>
-                                <td>
-                                    <p>Color</p>
-                                </td>
-                                <td>
-                                    <p>A2</p>
-                                </td>
-                                <td>
-                                    <p>000,000</p>
-                                </td>
-                                <td>
-                                    <p>A/S 요금 00.000</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="as__table__container">
+                    <div class="contents__table as">
+                        <table>
+                            <colsgroup>
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:110px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                            </colsgroup>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                    </td>
+                                    <td>
+                                        <p>Product name</p>
+                                    </td>
+                                    <td>
+                                        <p>Color</p>
+                                    </td>
+                                    <td>
+                                        <p>A2</p>
+                                    </td>
+                                    <td>
+                                        <p>000,000</p>
+                                    </td>
+                                    <td>
+                                        <p>A/S 요금 00.000</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="as_contents_list_wrap">
@@ -675,39 +845,41 @@
                     </div>
                     <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                 </div>
-                <div class="contents__table">
-                    <table>
-                        <colsgroup>
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:110px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                        </colsgroup>
-                        <tbody>
-                            <tr style="border-top: 1px solid #dcdcdc;">
-                                <td>
-                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                                </td>
-                                <td>
-                                    <p>Product name</p>
-                                </td>
-                                <td>
-                                    <p>Color</p>
-                                </td>
-                                <td>
-                                    <p>A2</p>
-                                </td>
-                                <td>
-                                    <p>000,000</p>
-                                </td>
-                                <td>
-                                    <p>A/S 요금 00.000</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="as__table__container">
+                    <div class="contents__table as">
+                        <table>
+                            <colsgroup>
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:110px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                            </colsgroup>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                    </td>
+                                    <td>
+                                        <p>Product name</p>
+                                    </td>
+                                    <td>
+                                        <p>Color</p>
+                                    </td>
+                                    <td>
+                                        <p>A2</p>
+                                    </td>
+                                    <td>
+                                        <p>000,000</p>
+                                    </td>
+                                    <td>
+                                        <p>A/S 요금 00.000</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="as_contents_list_wrap">
@@ -718,39 +890,41 @@
                     </div>
                     <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                 </div>
-                <div class="contents__table">
-                    <table>
-                        <colsgroup>
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:110px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                        </colsgroup>
-                        <tbody>
-                            <tr style="border-top: 1px solid #dcdcdc;">
-                                <td>
-                                    <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
-                                </td>
-                                <td>
-                                    <p>Product name</p>
-                                </td>
-                                <td>
-                                    <p>Color</p>
-                                </td>
-                                <td>
-                                    <p>A2</p>
-                                </td>
-                                <td>
-                                    <p>000,000</p>
-                                </td>
-                                <td>
-                                    <p>A/S 요금 00.000</p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="as__table__container">
+                    <div class="contents__table">
+                        <table>
+                            <colsgroup>
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                                <col style="width:110px;">
+                                <col style="width:120px;">
+                                <col style="width:120px;">
+                            </colsgroup>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png">
+                                    </td>
+                                    <td>
+                                        <p>Product name</p>
+                                    </td>
+                                    <td>
+                                        <p>Color</p>
+                                    </td>
+                                    <td>
+                                        <p>A2</p>
+                                    </td>
+                                    <td>
+                                        <p>000,000</p>
+                                    </td>
+                                    <td>
+                                        <p>A/S 요금 00.000</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -857,41 +1031,74 @@
         </div>
     </div>
 </div>
-</div>
-
 
 <script>
     $(document).ready(function () {
-        $('.tab').hide();
-        $(`.as_buying_wrap.one_one`).show();
-
+        $('.tab.two').hide();
+        $('.tab.three').hide();
+        $('.tab.four').hide();
+        $('.as_buying_wrap.apply').hide();
+        $('.as_buying_wrap.one_two').hide();
+        $('.as_buying_wrap.one_three').hide();
+        // $('.tab.one_one').show();
     })
 
     function clickAsTab(obj) {
         var tab_num = $(obj).attr('tab_num');
         $('.tab').hide();
         $(`.tab.${tab_num}`).show();
-    }
+        $('.as_tab_btn li').removeClass('on');
+        $(obj).addClass('on');
 
+    }
 
     function clickAsServiceTab(obj) {
         var tab_num = $(obj).attr('service_tab_num');
         $(`.as_buying_wrap`).hide();
         $(`.as_buying_wrap.${tab_num}`).show();
+        $('.as__service__btn li').removeClass('selected');
+        $(obj).addClass('selected');
+
     }
 
-    function asApply() {
-        // $('.as_buying_wrap.one_one').hide();
+    function asApply(obj) {
+        $('.as__table__container.first').hide();
         $('.as_buying_wrap.apply').show();
     }
-    function asApplyComplete() {
+    function asApplyComplete(obj) {
         $('.as_buying_wrap.one_one').hide();
-        $('.as_buying_wrap.apply_complete').show();
+        if ($('.as_bluemark_wrap.apply_complete').css('display') == 'none') {
+            $('.as_bluemark_wrap.apply_complete').css('display', 'show');
+            $('.as_bluemark_wrap.apply_complete').show();
+        }
     }
-</script>
 
-<!-- function clickAsTab(obj) {
-        var tab_num = $(obj).attr('tab_num');
-        $('.tab').hide();
-        $(`.tab.${tab_num}`).addClass('on').show();
-    } -->
+    function asApplyBluemark(obj) {
+        
+    }
+    function asStepBtn(obj) {
+        var step_num = $(obj).attr('step_num');
+        if ($('.as_step_contents').css('display') == 'none') {
+            $('.as_step_contents').hide();
+            $('.btn_step').removeClass('on');
+            $(obj).addClass('on');
+            $(`.as_step_contents.${step_num}`).show();
+            // $('.as_step_contents.step_one.${step_num}').toggle();
+        }
+    }
+
+    function asStatusStep(obj) {
+        var step_result_num = $(obj).attr('step_result_num');
+        if ($('.as_step_contents.step_one_return').css('display') == 'none') {
+            $('.as_step_contents.step_one').hide();
+            $('.as_step_contents.step_one_return').show();
+
+            $('.as_step_contents.step_one').hide();
+            $(`.as_step_contents.${step_result_num}`).show();
+        } else {
+            $('.as_step_contents.step_one_return').hide();
+            $('.as_step_contents.step_two_return').show();
+        }
+    }
+
+</script>

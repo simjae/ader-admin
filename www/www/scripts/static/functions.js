@@ -408,7 +408,7 @@ function modal_close(close_yn) {
 
 
 
-function confirm(str,ok,cancel) {
+/*function confirm(str,ok,cancel) {
 	$("body").addClass("on-modal")
 		.append(`
 			<section class="modal confirm">
@@ -441,7 +441,7 @@ function confirm(str,ok,cancel) {
 			}
 		},2);
 	});
-}
+}*/
 
 
 /*function alert(str,ok) {

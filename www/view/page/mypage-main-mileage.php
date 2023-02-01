@@ -96,20 +96,27 @@
             width: 710px;
         }
     }
+    .mileage__total__wrap .all_list {
+        margin-top: 30px;
+    }
+    .mileage__total__wrap .underline {
+        width: 60px;
+        word-break: break-all;
+    }
 </style>
 <div class="mileage__wrap">
     <div class="mileage__tab__btn__container">
         <div class="tab__btn__item" form-id="mileage__total__wrap" onclick="mileageGetInfo('total')">
-            <img src="/images/mypage/tab/select_total_btn.svg">
+            <span>전체</span>
         </div>
         <div class="tab__btn__item" form-id="mileage__save__wrap" onclick="mileageGetInfo('save')">
-            <img src="/images/mypage/tab/default_save_btn.svg">
+            <span>적립</span>
         </div>
         <div class="tab__btn__item" form-id="mileage__use__wrap" onclick="mileageGetInfo('use')">
-            <img src="/images/mypage/tab/default_use_btn.svg">
+            <span>사용</span>
         </div>
         <div class="tab__btn__item" form-id="mileage__notice__wrap">
-            <img src="/images/mypage/tab/default_notice_btn.svg">
+            <span>유의사항</span>
         </div>
     </div>
     <div class="mileage__tab__wrap">
@@ -586,7 +593,7 @@ function mypagePaging(obj) {
 	}
 	let paging = [];
 	for(var i = start ; i <= end ; i++) {
-		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}">${i}</div>`);
+		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}" style="${((i == obj.page) ? 'color: black' : 'color: #dcdcdc')}">${i}</div>`);
 	}
 	$(obj.el).html(`
             <div class="mypage--paging">

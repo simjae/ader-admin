@@ -13,12 +13,11 @@
  | 
  +=============================================================================
 */
-
+$tmp_sql = "";
 include_once("/var/www/www/api/common/common.php");
 
 error_reporting(E_ALL^ E_WARNING); 
 
-//$member_idx = 1;
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
@@ -40,7 +39,9 @@ if (isset($_POST['menu_idx'])) {
 }
 
 $country = null;
-if (isset($_POST['country'])) {
+if (isset($_SESSION['country'])) {
+	$country = $_SESSION['COUNTRY'];
+} else if (isset($_POST['country'])) {
 	$country = $_POST['country'];
 }
 
@@ -170,6 +171,24 @@ if ($page_idx != null && $country != null) {
 	
 	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE ".$member_level_sql);
 	if ($page_count > 0) {
+		$grid_table = "
+			dev.PRODUCT_GRID PG
+			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PG.PRODUCT_IDX = PR.IDX
+			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			PR.ORDERSHEET_IDX = OM.IDX
+		";
+		
+		$where = "
+			PG.PAGE_IDX = ".$page_idx." AND
+			PG.TYPE = 'PRD' AND
+			PG.DEL_FLG = FALSE
+			".$grid_filter_sql."
+		";
+		
+		$product_cnt = $db->count($grid_table,$where);
+		
+		//디자인 피드백 이후 이미지/동영상 표시되게 수정
 		$select_grid_sql = "
 			SELECT
 				PG.DISPLAY_NUM				AS DISPLAY_NUM,
@@ -181,25 +200,20 @@ if ($page_idx != null && $country != null) {
 				PG.PRODUCT_IDX				AS PRODUCT_IDX
 				".$order_cnt_sql."
 			FROM
-				dev.PRODUCT_GRID PG
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
-				PG.PRODUCT_IDX = PR.IDX
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
-				PR.ORDERSHEET_IDX = OM.IDX
+				".$grid_table."
 			WHERE
-				PG.PAGE_IDX = ".$page_idx." AND
-				PG.DEL_FLG = FALSE
-				".$grid_filter_sql."
+				".$where."
 			ORDER BY
 				".$grid_order_sql."
 		";
 		
-		/*if ($last_idx > 0) {
-			$select_grid_sql .= " LIMIT ".($last_idx*12+1).",12 ";
+		if ($last_idx > 0) {
+			$select_grid_sql .= " LIMIT ".$last_idx.",12 ";
 		} else {
 			$select_grid_sql .= " LIMIT 0,12 ";
-		}*/
+		}
 		
+		$tmp_sql = $select_grid_sql;
 		$db->query($select_grid_sql);
 		
 		$grid_info = array();
@@ -417,7 +431,8 @@ if ($page_idx != null && $country != null) {
 		$json_result['data'] = array(
 			'menu_info'		=>$menu_info,
 			'filter_info'	=>$filter_info,
-			'grid_info'		=>$grid_info
+			'grid_info'		=>$grid_info,
+			'tmp_sql'		=>$tmp_sql
 		);
 	} else {
 		$json_result['code'] = 402;

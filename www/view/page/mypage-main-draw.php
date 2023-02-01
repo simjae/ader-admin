@@ -133,19 +133,19 @@
 <div class="draw__wrap">
     <div class="draw__tab__btn__container">
         <div class="tab__btn__item" form-id="draw__apply__form__wrap" onclick="getTotalDraw()">
-            <img src="/images/mypage/tab/select_apply_btn.svg">
+            <span>응모하기</span>
         </div>
         <div class="tab__btn__item"  form-id="draw__result__wrap" onclick="getEntryDraw('result')">
-            <img src="/images/mypage/tab/default_total_btn.svg">
+            <span>전체</span>
         </div>
         <div class="tab__btn__item" form-id="draw__ongoing__wrap" onclick="getEntryDraw('ongoing')">
-            <img src="/images/mypage/tab/default_ongoing_btn.svg">
+            <span>진행중</span>
         </div>
         <div class="tab__btn__item"  form-id="draw__win__wrap" onclick="getEntryDraw('win')">
-            <img src="/images/mypage/tab/default_win_btn.svg">
+            <span>당첨</span>
         </div>
         <div class="tab__btn__item"  form-id="draw__not__win__wrap" onclick="getEntryDraw('not__win')">
-            <img src="/images/mypage/tab/default_not_win_btn.svg">
+            <span>미당첨</span>
         </div>
     </div>
     <div class="draw__tab__wrap">

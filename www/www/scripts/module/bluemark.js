@@ -13,6 +13,6 @@ export function Bluemark() {
                 <a href="http://116.124.128.246/mypage?mypage_type=bluemark_verify"><div class="certification-btn"><span>블루마크 인증</span></div></a>
                 <a href="http://116.124.128.246/mypage?mypage_type=bluemark_list"><div class="certification-detail-btn"><span>블루마크 인증 내역</span></div></a>
             </div>`
-        sideBox.appendChild(bluemarkContent);
+        sideBox.appendChild(bluemarkContent)
     };
 }

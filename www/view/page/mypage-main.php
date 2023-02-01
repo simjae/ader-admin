@@ -404,7 +404,26 @@ td p{
     width:110px;
     justify-content:center;
 }
-.tab__btn__item{cursor:pointer}
+.tab__btn__item{cursor:pointer;height:24px;border:none;text-align:center}
+.tab__btn__item.selected{cursor:pointer;height:24px;border:1px solid;width:100%}
+    .tab__btn__item span{
+        color:#B6B6B6;
+        line-height: 24px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: center;
+    }
+    .tab__btn__item.selected span{
+        color:black;
+        line-height: 24px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: center;
+    }
 .mypage--paging .page{width:30px;text-align: center;}
 .mypage--paging .page.prev{width:10px;}
 .mypage--paging .page.next{width:10px;}
@@ -424,6 +443,16 @@ td p{
 @media (min-width: 1024px){
     .pc__view{display:block}
     .mobile__view{display:none}
+    .tab__btn__item span{
+        color:#B6B6B6;
+        line-height: 24px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        font-size:11px;
+        letter-spacing: normal;
+        text-align: center;
+    }
 }
 
 @media (max-width: 1024px){
@@ -487,8 +516,16 @@ td p{
                 </script>
 		";
     }
+    function getUrlParamter($url, $sch_tag) {
+        $parts = parse_url($url);
+        parse_str($parts['query'], $query);
+        return $query[$sch_tag];
+    }
+    $page_url = $_SERVER['REQUEST_URI'];
+    $mypage_type = getUrlParamter($page_url, 'mypage_type');
 ?>
 <main>
+    <input type="hidden" id="mypage_type" value="<?=$mypage_type?>">
     <div class="mypage__wrap">
         <div class="mypage__container">
             <div class="mypage__items profile">
@@ -525,19 +562,19 @@ td p{
                 </div>
             </div>
             <div class="mypage__items btn__items">
-                <div class="click__icon__item icon__item" btn-type="home" onclick="mypageTabBtnClick(this)">
+                <div class="click__icon__item icon__item" btn-type="home" onclick="mypageTabBtnClick('home', 0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_home_icon.svg" style="padding-top:17.5px;padding-left:16.5px;">
                     </div>
                     <div class="icon__title"><p>마이페이지 홈</p></div>
                 </div>
-                <div class="icon__item" btn-type="orderlist" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="orderlist" onclick="mypageTabBtnClick('orderlist',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_orderlist_icon.svg" style="padding-top:15px;padding-left:17px;">
                     </div>
                     <div class="icon__title"><p>주문조회</p></div>
                 </div>
-                <div id="mileage_icon" class="icon__item" btn-type="mileage" onclick="mypageTabBtnClick(this)">
+                <div id="mileage_icon" class="icon__item" btn-type="mileage" onclick="mypageTabBtnClick('mileage',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
                     </div>
@@ -549,67 +586,67 @@ td p{
                     </div>
                     <div class="icon__title"><p>충전포인트</p></div>
                 </div>
-                <div id="voucher_icon" class="icon__item" btn-type="voucher" onclick="mypageTabBtnClick(this)">
+                <div id="voucher_icon" class="icon__item" btn-type="voucher" onclick="mypageTabBtnClick('voucher',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_voucher_icon.svg" style="padding-top:19px;padding-left:14px;">
                     </div>
                     <div class="icon__title"><p>바우처</p></div>
                 </div>
-                <div class="icon__item" btn-type="bluemark" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="bluemark" onclick="mypageTabBtnClick('bluemark',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_bluemark_icon.svg" style="padding-top:21px;padding-left:21px;">
                     </div>
                     <div class="icon__title"><p>블루마크</p></div>
                 </div>
-                <div class="icon__item" btn-type="stanby" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="stanby" onclick="mypageTabBtnClick('stanby',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_stanby_icon.svg" style="padding-top:13px;padding-left:11px;">
                     </div>
                     <div class="icon__title"><p>스탠바이</p></div>
                 </div>
-                <div class="icon__item" btn-type="preorder" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="preorder" onclick="mypageTabBtnClick('preorder',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_preorder_icon.svg" style="padding-top:14px;padding-left:16px;">
                     </div>
                     <div class="icon__title"><p>프리오더</p></div>
                 </div>
-                <div class="icon__item" btn-type="reorder" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="reorder" onclick="mypageTabBtnClick('reorder',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_reorder_icon.svg" style="padding-top:14px;padding-left:17px;">
                     </div>
                     <div class="icon__title"><p>재입고알림</p></div>
                 </div>
-                <div class="icon__item" btn-type="draw" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="draw" onclick="mypageTabBtnClick('draw',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_draw_icon.svg" style="padding-top:12px;padding-left:16px;">
                     </div>
                     <div class="icon__title"><p>드로우</p></div>
                 </div>
-                <div class="icon__item" btn-type="membership" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="membership" onclick="mypageTabBtnClick('membership',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_membership_icon.svg" style="padding-top:18px;padding-left:15px;">
                     </div>
                     <div class="icon__title"><p>멤버쉽</p></div>
                 </div>
-                <div class="icon__item" btn-type="inquiry" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="inquiry" onclick="mypageTabBtnClick('inquiry',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_inquiry_icon.svg" style="padding-top:18px;padding-left:15px;">
                     </div>
                     <div class="icon__title"><p>문의</p></div>
                 </div>
-                <div class="icon__item" btn-type="as" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="as" onclick="mypageTabBtnClick('as',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_as_icon.svg" style="padding-top:13px;padding-left:15px;">
                     </div>
                     <div class="icon__title"><p>A/S</p></div>
                 </div>
-                <div class="icon__item" btn-type="service" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="service" onclick="mypageTabBtnClick('service',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_service_icon.svg" style="padding-top:12px;padding-left:12px;">
                     </div>
                     <div class="icon__title"><p>고객서비스</p></div>
                 </div>
-                <div class="icon__item" btn-type="profile" onclick="mypageTabBtnClick(this)">
+                <div class="icon__item" btn-type="profile" onclick="mypageTabBtnClick('profile',0)">
                     <div class="icon" style="width:50px;height:50px;">
                         <img src="/images/mypage/mypage_profile_icon.svg" style="padding-top:15px;padding-left:13px;">
                     </div>
@@ -620,19 +657,19 @@ td p{
     </div>
     <div class="swiper icon">
         <div class="swiper-wrapper">
-            <div class="swiper-slide icon__item click__icon__item" btn-type="home" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item click__icon__item" btn-type="home" onclick="mypageTabBtnClick('home',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_home_icon.svg" style="padding-top:17.5px;padding-left:16.5px;">
                 </div>
                 <div class="icon__title"><p>마이페이지 홈</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="orderlist" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="orderlist" onclick="mypageTabBtnClick('orderlist',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_orderlist_icon.svg" style="padding-top:15px;padding-left:17px;">
                 </div>
                 <div class="icon__title"><p>주문조회</p></div>
             </div>
-            <div id="mileage_icon" class="swiper-slide icon__item" btn-type="mileage" onclick="mypageTabBtnClick(this)">
+            <div id="mileage_icon" class="swiper-slide icon__item" btn-type="mileage" onclick="mypageTabBtnClick('mileage',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
                 </div>
@@ -644,67 +681,67 @@ td p{
                 </div>
                 <div class="icon__title"><p>충전포인트</p></div>
             </div>
-            <div id="voucher_icon" class="swiper-slide icon__item" btn-type="voucher" onclick="mypageTabBtnClick(this)">
+            <div id="voucher_icon" class="swiper-slide icon__item" btn-type="voucher" onclick="mypageTabBtnClick('voucher',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_voucher_icon.svg" style="padding-top:19px;padding-left:14px;">
                 </div>
                 <div class="icon__title"><p>바우처</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="bluemark" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="bluemark" onclick="mypageTabBtnClick('bluemark',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_bluemark_icon.svg" style="padding-top:21px;padding-left:21px;">
                 </div>
                 <div class="icon__title"><p>블루마크</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="stanby" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="stanby" onclick="mypageTabBtnClick('stanby',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_stanby_icon.svg" style="padding-top:13px;padding-left:11px;">
                 </div>
                 <div class="icon__title"><p>스탠바이</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="preorder" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="preorder" onclick="mypageTabBtnClick('preorder',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_preorder_icon.svg" style="padding-top:14px;padding-left:16px;">
                 </div>
                 <div class="icon__title"><p>프리오더</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="reorder" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="reorder" onclick="mypageTabBtnClick('reorder',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_reorder_icon.svg" style="padding-top:14px;padding-left:17px;">
                 </div>
                 <div class="icon__title"><p>재입고알림</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="draw" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="draw" onclick="mypageTabBtnClick('draw',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_draw_icon.svg" style="padding-top:12px;padding-left:16px;">
                 </div>
                 <div class="icon__title"><p>드로우</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="membership" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="membership" onclick="mypageTabBtnClick('membership',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_membership_icon.svg" style="padding-top:18px;padding-left:15px;">
                 </div>
                 <div class="icon__title"><p>멤버쉽</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="inquiry" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="inquiry" onclick="mypageTabBtnClick('inquiry',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_inquiry_icon.svg" style="padding-top:18px;padding-left:15px;">
                 </div>
                 <div class="icon__title"><p>문의</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="as" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="as" onclick="mypageTabBtnClick('as',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_as_icon.svg" style="padding-top:13px;padding-left:15px;">
                 </div>
                 <div class="icon__title"><p>A/S</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="service" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="service" onclick="mypageTabBtnClick('service',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_service_icon.svg" style="padding-top:12px;padding-left:12px;">
                 </div>
                 <div class="icon__title"><p>고객서비스</p></div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="profile" onclick="mypageTabBtnClick(this)">
+            <div class="swiper-slide icon__item" btn-type="profile" onclick="mypageTabBtnClick('profile',0)">
                 <div class="icon" style="width:50px;height:50px;">
                     <img src="/images/mypage/mypage_profile_icon.svg" style="padding-top:15px;padding-left:13px;">
                 </div>
@@ -811,6 +848,13 @@ $(document).ready(function() {
 
         var btn_group = btn_parents.find('.tab__btn__item');
         var swiper_btn_group = swiper_btn_parents.find('.tab__btn__item');
+        
+        /* new */
+        ancestorObj.find('.tab__btn__item').removeClass('selected');
+        btn_group.eq($(this).index()).addClass('selected');
+        swiper_btn_group.eq($(this).index()).addClass('selected');
+        /* old */
+        /*
         var btn_length = btn_group.length;
         var old_src = '';
         var sel_old_src = '';
@@ -828,10 +872,12 @@ $(document).ready(function() {
 
         btn_group.eq($(this).index()).children().attr('src', select_src);
         swiper_btn_group.eq($(this).index()).children().attr('src', select_src);
+        */
+        /*  */
 
         var tab_class = $('#btn_type').val() + '__tab';
         var form_id = $(this).attr('form-id');
-
+        console.log(form_id);
         if(form_id != ''){
             $('.' + tab_class).hide();
             $('.' + form_id).show();
@@ -845,7 +891,7 @@ $(document).ready(function() {
     })
     $('.question').on('click', function(){
         if($(this).next().css('display') == 'none'){
-            console.log($(this).find('img.top__down__icon'));
+            //console.log($(this).find('img.top__down__icon'));
             $(this).find('img.down__up__icon').attr('src','/images/mypage/mypage_up_tab_btn.svg');
         }
         else{
@@ -890,24 +936,33 @@ $(document).ready(function() {
             }
         }
     });
+    var mypage_type = $('#mypage_type').val();
+    if(mypage_type != null && mypage_type.length > 0){
+        //console.log(mypage_type);
+        switch(mypage_type){
+            case 'bluemark_verify':
+                mypageTabBtnClick('bluemark',0);
+                break;
+            case 'bluemark_list':
+                mypageTabBtnClick('bluemark',1);
+                break;
+        }
+    }
 });
 
-function mypageTabBtnClick(obj) {
-	var btn_type = $(obj).attr('btn-type');
-	$('#btn_type').val(btn_type);
+function mypageTabBtnClick(type, tab_idx) {
+    console.log(type);
+	$('#btn_type').val(type);
     
 	$('.menu__tab').addClass('non__display__tab');
-	$('#mypage_tab_' + btn_type).removeClass('non__display__tab');
+	$('#mypage_tab_' + type).removeClass('non__display__tab');
 
     
     $('.click__icon__item').removeClass('click__icon__item');
-    $('.click__icon__item').addClass('icon__item');
-    //console.log($(obj).index());
-    $('.swiper-slide.icon__item').eq($(obj).index()).addClass('click__icon__item');
-    $('.mypage__items.btn__items .icon__item').eq($(obj).index()).addClass('click__icon__item');
-    $(obj).addClass('click__icon__item');
-    swiperMypage.slideTo($(obj).index()-1);
-    $('#mypage_tab_' + btn_type).find('.tab__btn__item').eq(0).click();
+
+    $('.icon__item[btn-type=' + type + ']').addClass('click__icon__item');
+    swiperMypage.slideTo($(`.icon__item[btn-type='${type}']`).index()-1);
+    $(`.${type}__wrap`).find('.tab__btn__item').eq(tab_idx).click();
 }
 
 function memberInfoClick(obj){
@@ -915,11 +970,12 @@ function memberInfoClick(obj){
     $("#" + info_type + "_icon").trigger("click");
 }
 function makeSelect(divId){
+    
     var selectDiv = $('.' + divId);
     selectDiv.css('position','relative');
     var SelLen = selectDiv.find('select option').length;
 
-    var selectedDiv = ` <div class="select-selected">${selectDiv.find('select option:selected').text()}</div>`;
+    var selectedDiv = ` <div class="select-selected">${selectDiv.find('select option:selected').text()}</div><img src="/images/mypage/mypage_down_tab_btn.svg" style="width:10px;height:5px;position: absolute;right:10px;top:18px;">`;
     selectDiv.append(selectedDiv);
 
     var selectHideDiv = `<div class="select-items select-hide">`;
@@ -940,6 +996,13 @@ function makeSelect(divId){
         selectDiv.find('.select-selected').text(clickCountryText);
 
         selectDiv.find('.select-items').toggle();
+
+        if($(this).parent().parent().attr('class') == 'inquiry__category'){
+            var category_no = $('#inq_cate').val();
+            getFaqList('click', category_no);
+            $('.category__small').find('.faq__category__btn').removeClass('click__btn');
+            $('.category__small').find('.faq__category__btn[category-no=' + category_no + ']').addClass('click__btn');
+        }
     })
 
     selectDiv.find('.select-selected').on('click', function(){

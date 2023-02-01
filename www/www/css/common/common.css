@@ -502,9 +502,13 @@ transform: translateY(-4px) rotate(-45deg);
 	width: 100vw;
 	height: 100vh;
     background: rgba(0, 0, 0, 0.5);
-	z-index:19	
+	z-index:19;
+    transition: all 0.3s;
 }
-
+#dimmer.show{
+	display:block!important;
+    transition: all 0.3s;
+}
 
 
 /* 언더라인 */

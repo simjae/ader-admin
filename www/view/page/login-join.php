@@ -546,9 +546,9 @@ input::placeholder{
                         <input type="checkbox" id="terms_of_service_flg" class="login__check__option component">
                         <label for="terms_of_service_flg"></label>
                     </div>
-                    <span class="font__underline">이용약관,</span>
+                    <span class="font__underline" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=terms_of_use'">이용약관,</span>
                     <span class="font__small"> </span> 
-                    <span class="font__underline">개인정보수집 및 이용</span>
+                    <span class="font__underline" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=privacy_policy'">개인정보수집 및 이용</span>
                     <span class="font__small">에 동의합니다. (필수)</span>
                 </div>
                 <div class="content__row">

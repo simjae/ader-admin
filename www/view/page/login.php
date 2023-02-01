@@ -226,6 +226,16 @@ input{outline: none;}
     }
 }
 </style>
+<?php
+	if (isset($_SESSION['MEMBER_IDX'])) {
+		echo "
+			<script>
+				location.href='/main';
+			</script>
+		";
+	}
+	
+?>
 <main>
     <div class="login__card">
         <div class="card__header">
@@ -233,7 +243,7 @@ input{outline: none;}
             <span class="font__underline font__red result_msg"></span>
         </div>
         <div class="card__body">
-            <form id="frm-login" method="post" onSubmit="login();return false;">
+            <form id="frm-login">
                 <input type="hidden" name="country" value="KR">
                 <div class="content__wrap">
                     <div class="content__title">이메일
@@ -251,8 +261,8 @@ input{outline: none;}
                         <input type="password" id="member_pw" name="member_pw" value="">
                     </div>
                 </div>
-                <div class="content__wrap login_btn">
-                    <input type="button" class="black_btn" id="login_btn" onclick="login()" value="로그인">
+                <div class="content__wrap login_btn" onClick="login();">
+                    <input type="button" class="black_btn" id="login_btn" value="로그인">
                 </div>
             </form>
             <div class="content__wrap">
@@ -284,7 +294,5 @@ input{outline: none;}
         </div>
     </div>
 </main>
+
 <script src="/scripts/member/login.js"></script>
-
-
-

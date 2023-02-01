@@ -108,9 +108,9 @@
             </div>
             <div class="f_content">
                 <ul>
-                    <li class="disclaimer">온라인 스토어 이용가이드</li>
-                    <li class="disclaimer">이용 약관</li>
-                    <li class="disclaimer">개인정보 처리방침</li>
+                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=online_store'">온라인 스토어 이용가이드</li>
+                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=terms_of_use'">이용 약관</li>
+                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=privacy_policy'">개인정보 처리방침</li>
                 </ul>
             </div>
         </li>

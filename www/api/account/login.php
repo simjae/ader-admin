@@ -32,17 +32,16 @@ if (isset($_POST['member_pw'])) {
 	$member_pw = $_POST['member_pw'];
 }
 
-// 값 검사
-//$id = strtolower(trim($id));
-//$pw = strtolower(trim($pw));
-
 if($member_id == '' || $member_id == null) {
 	$json_result['code'] = 401;
+	$json_result['msg'] = "아이디를 입력해주세요.";
+	
 	return $json_result;
 }
 
 if($member_pw == '' || $member_pw == null) {
 	$json_result['code'] = 402;
+	$json_result['msg'] = "비밀번호를 입력해주세요.";
 	return $json_result;
 }
 
@@ -124,7 +123,6 @@ if ($member_cnt > 0) {
 			$status = $data['MEMBER_STATUS'];
 			
 			if($status == 'DRP') {
-				$json_result['result'] = false;
 				$json_result['code'] = 305;
 				$json_result['msg'] = "탈퇴처리된 회원입니다.";
 				
@@ -167,17 +165,20 @@ if ($member_cnt > 0) {
 			
 			if ($data['AGO_YEAR_PARAM'] != $data['LATER_YEAR_PARAM']) {
 				if ($data['NOW_MONTH'] == '01') {
-					$ago_year = (string) ((int) $data['NOW_YEAR'] - 1);
+					$ago_year = intval($data['NOW_YEAR']) - 1;
 					$later_year = $data['NOW_YEAR'];
 				} else if ($data['NOW_MONTH'] == '12') {
 					$ago_year = $data['NOW_YEAR'];
-					$later_year = (string) ((int) $data['NOW_YEAR'] + 1);
+					$later_year = intval($data['NOW_YEAR']) + 1;
+				} else {
+					$ago_year = $data['NOW_YEAR'];
+					$later_year = $data['NOW_YEAR'];
 				}
 			} else {
 				$ago_year = $data['NOW_YEAR'];
 				$later_year = $data['NOW_YEAR'];
 			}
-
+			
 			$start_date_param = $ago_year.$data['AGO_DATE_PARAM'];
 			$end_date_param = $later_year.$data['LATER_DATE_PARAM'];
 			$now_param = strtotime(date("Y-m-d"));

@@ -94,6 +94,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 	
 	foreach($db->fetch() as $order_data) {
 		$order_idx = $order_data['ORDER_IDX'];
+		
 		$update_flg = $order_data['UPDATE_FLG'];
 		$update_flg === 'TRUE'? true: false;
 		
@@ -123,6 +124,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 					)					AS IMG_LOCATION,
 					OP.PRODUCT_NAME		AS PRODUCT_NAME,
 					OM.COLOR			AS COLOR,
+					OM.COLOR_RGB		AS COLOR_RGB,
 					OP.OPTION_NAME		AS OPTION_NAME,
 					OP.PRODUCT_QTY		AS PRODUCT_QTY,
 					OP.PRODUCT_PRICE	AS PRODUCT_PRICE
@@ -146,6 +148,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 					'img_location'			=>$order_product_data['IMG_LOCATION'],
 					'product_name'			=>$order_product_data['PRODUCT_NAME'],
 					'color'					=>$order_product_data['COLOR'],
+					'color_rgb'				=>$order_product_data['COLOR_RGB'],
 					'option_name'			=>$order_product_data['OPTION_NAME'],
 					'product_qty'			=>$order_product_data['PRODUCT_QTY'],
 					'product_price'			=>$order_product_data['PRODUCT_PRICE']

@@ -169,13 +169,13 @@
 <div class="preorder__wrap">
     <div class="preorder__tab__btn__container">
         <div class="tab__btn__item" form-id="preorder__apply__form__wrap" onclick="getTotalPreorder()">
-            <img src="/images/mypage/tab/select_preorder_apply_btn.svg" >
+            <span>신청하기</span>
         </div>
         <div class="tab__btn__item"  form-id="preorder__result__form__wrap" onclick="getEntryPreorder()">
-            <img src="/images/mypage/tab/default_preorder_result_btn.svg">
+            <span>신청내역</span>
         </div>
         <div class="tab__btn__item" form-id="preorder__notice__wrap">
-            <img src="/images/mypage/tab/default_notice_btn.svg">
+            <span>유의사항</span>
         </div>
     </div>
     <div class="preorder__tab__wrap">

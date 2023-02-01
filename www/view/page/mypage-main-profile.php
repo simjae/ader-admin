@@ -314,37 +314,37 @@
 <div class="profile__wrap">
     <div class="profile__tab__btn__container">
         <div class="tab__btn__item" form-id="profile__set__wrap">
-            <img src="/images/mypage/tab/select_profile_set_btn.svg">
+            <span>계정설정</span>
         </div>
         <div class="tab__btn__item" form-id="profile__credit__update__wrap">
-            <img src="/images/mypage/tab/default_credit_btn.svg">
+            <span>결제수단</span>
         </div>
         <div class="tab__btn__item" form-id="profile__customize__purchase__wrap">
-            <img src="/images/mypage/tab/default_customize_purchase_btn.svg">
+            <span>맞춤구매</span>
         </div>
         <div class="tab__btn__item" form-id="profile__delivery__wrap" onclick="getOrderToList()">
-            <img src="/images/mypage/tab/default_delivery_btn.svg">
+            <span>배송지목록</span>
         </div>
         <div class="tab__btn__item" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
-            <img src="/images/mypage/tab/default_marketing_btn.svg">
+            <span>마케팅설정</span>
         </div>
     </div>
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
-            <div class="swiper-slide tab__btn__item" form-id="profile__set__wrap">
-                <img src="/images/mypage/tab/select_profile_set_btn.svg">
+            <div class="swiper-slide tab__btn__item" style="width:60px;" form-id="profile__set__wrap">
+                <span>계정설정</span>
             </div>
-            <div class="swiper-slide tab__btn__item" form-id="profile__credit__update__wrap">
-                <img src="/images/mypage/tab/default_credit_btn.svg">
+            <div class="swiper-slide tab__btn__item" style="width:60px;" form-id="profile__credit__update__wrap">
+                <span>결제수단</span>
             </div>
-            <div class="swiper-slide tab__btn__item" form-id="profile__customize__purchase__wrap">
-                <img src="/images/mypage/tab/default_customize_purchase_btn.svg">
+            <div class="swiper-slide tab__btn__item" style="width:60px;" form-id="profile__customize__purchase__wrap">
+                <span>맞춤구매</span>
             </div>
-            <div class="swiper-slide tab__btn__item" form-id="profile__delivery__wrap" onclick="getOrderToList()">
-                <img src="/images/mypage/tab/default_delivery_btn.svg">
+            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__delivery__wrap" onclick="getOrderToList()">
+                <span>배송지목록</span>
             </div>
-            <div class="swiper-slide tab__btn__item" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
-                <img src="/images/mypage/tab/default_marketing_btn.svg">
+            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
+                <span>마케팅설정</span>
             </div>
         </div>
     </div>
@@ -528,7 +528,7 @@
                 <p>결제수단 저장</p>
             </div>
             <div class="description">
-                <p>빠른 주문 결제를 위해 결제수단을 미리 입력해두세요.</p>
+                <p>&nbsp;&nbsp;빠른 주문 결제를 위해 결제수단을 미리 입력해두세요.</p>
             </div>
             <div class="input__form__wrap" style="margin-top:20px;">
                 <div class="input__form__rows">
@@ -565,14 +565,14 @@
                 <p>구매 맞춤 정보 설정</p>
             </div>
             <div class="description">
-                <p>구매 전 사이즈를 선택할 수 있도록 사이즈 정보를 제공해 주세요.</p>
+                <p>&nbsp;&nbsp;구매 전 사이즈를 선택할 수 있도록 사이즈 정보를 제공해 주세요.</p>
             </div>
             <div class="input__form__wrap" style="margin-top:20px;">
                 <div class="input__form__rows">
                     <div class="rows__title">성별</div>
                     <div style="margin-top:10px;margin-bottom:30px;">
                         <label>
-                            <input type="radio" name="gender">
+                            <input type="radio" name="gender" checked>
                             <span>여성</span>
                         </label>
                         <div style="height:10px;"></div>
@@ -674,7 +674,7 @@
                 <p>마케팅 정보 수신 및 활용 동의</p>
             </div>
             <div class="description">
-                <p>제품, 할인 정보, 멤버 혜택 관련 최신 소식을 받아보세요.</p>
+                <p>&nbsp;&nbsp;제품, 할인 정보, 멤버 혜택 관련 최신 소식을 받아보세요.</p>
             </div>
             <div style="margin-top:20px; margin-bottom:20px;">
                 <div class="input__form__rows marketing__receive">
@@ -703,8 +703,8 @@
                 </div>
             </div>
             <div class="description" style="margin-bottom:30px;">
-                <p>·&nbsp;귀하의 개인정보를 이용하는 방법 및 귀하의 개인정보 접근, 변경 및 삭제 요청 방법에 대한<br>
-                    &nbsp;&nbsp;자세한 정보는 <span class="underline">개인정보취급방침</span>을 확인하시기 바랍니다.
+                <p>&nbsp;·&nbsp;귀하의 개인정보를 이용하는 방법 및 귀하의 개인정보 접근, 변경 및 삭제 요청 방법에 대한<br>
+                    자세한 정보는 <span class="underline" style="cursor:pointer" onclick="mypageTabBtnClick('service', 3)">개인정보취급방침</span>을 확인하시기 바랍니다.
                 </p>
             </div>
             <button class="black__full__width__btn" onclick="putMarketingCheck()">저장</button>

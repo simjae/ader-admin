@@ -84,13 +84,13 @@ table.border__bottom td{
 <div class="reorder__wrap">
     <div class="reorder__tab__btn__container">
         <div class="tab__btn__item"  form-id="reorder__apply__wrap" onclick="getreorderList('apply')">
-            <img src="/images/mypage/tab/select_reorder_apply_btn.svg">
+            <span>신청완료</span>
         </div>
         <div class="tab__btn__item"  form-id="reorder__alarm__wrap" onclick="getreorderList('alarm')">
-            <img src="/images/mypage/tab/default_reorder_alarm_btn.svg">
+            <span>알림완료</span>
         </div>
         <div class="tab__btn__item"  form-id="reorder__cancel__wrap" onclick="getreorderList('cancel')">
-            <img src="/images/mypage/tab/default_reorder_cancel_btn.svg">
+            <span>취소완료</span>
         </div>
     </div>
     <div class="reorder__tab__wrap">

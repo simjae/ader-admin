@@ -14,7 +14,7 @@
     .select-selected {
         color: #343434;
         border-radius: 1px;
-        border: solid 1px #808080
+        border: solid 1px #808080;
     }
 
     .select-items div,
@@ -24,8 +24,14 @@
         padding: 12px 0 12px 10px;
         border: solid 1px #808080;
         cursor: pointer;
+        border-top:none;
     }
 
+    .inquiry__category .select-items.select-hide{
+        height:175px;
+        overflow-y:scroll;
+        border-bottom:1px solid;
+    }
     /* Style items (options): */
     .select-items {
         position: absolute;
@@ -42,7 +48,7 @@
     .select-items div:hover {
         background-color: #dcdcdc;
         border: solid 1px #808080;
-        color: #f5f5f5;
+        border-top:none;
     }
 
     .mobile__view select {
@@ -325,13 +331,13 @@
 <div class="inquiry__wrap">
     <div class="inquiry__tab__btn__container">
         <div class="tab__btn__item" form-id="inquiry__faq__wrap">
-            <img src="/images/mypage/tab/select_question_btn.svg">
+            <span>자주 찾는 질문</span>
         </div>
         <div class="tab__btn__item" form-id="inquiry__action__wrap">
-            <img src="/images/mypage/tab/default_inquiry_btn.svg">
+            <span>문의하기</span>
         </div>
         <div class="tab__btn__item" form-id="inquiry__list__wrap">
-            <img src="/images/mypage/tab/default_inquiry_list_btn.svg">
+            <span>문의내역</span>
         </div>
     </div>
     <div class="inquiry__tab__wrap">
@@ -491,6 +497,13 @@
                 }
             }
         });
+        $('.inquiry__category').on('click', function() {
+            if($('.inquiry__category').find('.select-hide').is(':visible') == true) {
+                $('.inquiry__category').find('img').prop('src', '/images/mypage/mypage_up_tab_btn.svg');
+            } else {
+                $('.inquiry__category').find('img').prop('src', '/images/mypage/mypage_down_tab_btn.svg');
+            }
+        })
     })
 
     function getFaqList(type, param) {
@@ -564,13 +577,15 @@
         }
         else {
             var cate_no = $(obj).attr('category-no');
-            $('.category__small').find('.children__category').hide();
-            $(obj).parent().parent().find('.children__category').show();
 
             $('.category__small').find('.faq__category__btn').removeClass('click__btn');
             $(obj).addClass('click__btn');
 
-            getFaqList('click', cate_no);
+            var cate_name = $('#inq_cate option[value='+ cate_no +']').text();
+            $('.inquiry__category .select-items div:contains("' + cate_name + '")').click();
+            $('.inquiry__category img').attr('src', '/images/mypage/mypage_down_tab_btn.svg');
+            $('.inquiry__category .select-items.select-hide').css('display', 'none');
+
         }
         $('.search__keyword').val('');
     }
@@ -592,7 +607,7 @@
         }
         $(obj).next().toggle();
     }
-
+/*
     function makeSelect(divId) {
         var selectDiv = $('.' + divId);
         selectDiv.css('position', 'relative');
@@ -619,10 +634,13 @@
             selectDiv.find('.select-selected').text(clickCountryText);
 
             selectDiv.find('.select-items').toggle();
+
+            getFaqList('click', $('#inq_cate').val());
         })
 
         selectDiv.find('.select-selected').on('click', function () {
             selectDiv.find('.select-items').toggle();
         });
     }
+    */
 </script>

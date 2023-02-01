@@ -21,12 +21,11 @@
     
 	<input id="country" type="hidden" value="KR">
     
-	<input id="img_param" type="hidden" value="O">
 	<input id="last_idx" type="hidden" value="0">
 	<input id="more_flg" type="hidden" value="false">
 	<input id="product_total" type="hidden" value="">
 
-    <section class="product__list__wrap" data-country="KR" data-menu_idx ="<?= $menu_idx ?>" data-menu_sort ="<?= $menu_sort ?>" data-page_idx="<?= $page_idx ?>">
+    <section class="product__list__wrap" data-session="<?=$session?>" data-country="KR" data-last-idx="0" data-menu-idx ="<?= $menu_idx ?>" data-page-idx="<?= $page_idx ?>"  data-menu-sort ="<?= $menu_sort ?>"   >
         <div class="top__banner"></div>
         <div class="prd__meun">
             <div class="prd__meun__grid"></div>
@@ -41,18 +40,19 @@
                         <img src="/images/svg/filter.svg" alt="">
                         <span>필터</span>
                     </li>
-                    <li class="sort-btn type-btn" onClick="clickImgTypeBtn();">
+                    <li class="sort-btn type-btn" onClick="changeImgTypeBtn();">
                         <img src="/images/svg/cloth.svg" alt="">
+                        <input type="hidden" id="img_param" value="O">
                         <span id="img_type_text">착용보기</span>
                     </li>
                     <div class="sort-btn web rW sort__grid" data-grid="4">
-						<img src="/images/svg/grid-cols-2.svg" alt="">
-						<span>2칸보기</span>
+                            <img src="/images/svg/grid-cols-2.svg" alt="">
+                            <span>2칸보기</span>
                     </div>
                     <div class="sort-btn mobile rM sort__grid" data-grid="3">
-						<img src="/images/svg/grid-cols-2.svg" alt="">
-						<span>2칸보기</span>
-					</div>
+                            <img src="/images/svg/grid-cols-2.svg" alt="">
+                            <span>2칸보기</span>
+                        </div>
                 </div>
             </div>
             <div class="line"></div>
@@ -66,30 +66,30 @@
         <div class="product__list__body">
             <div class="sort-containner">
                 <ul class="sort-wrap">
-                    <li class="sort-box" status="false" style="cursor:pointer;">
-                        <label class="cb__custom self" for="order_param_POP">
-                            <input id="order_param_POP" class="sort__cb self__cb" type="checkbox" name="order_param" value="POP" onClick="sortProductList(this);">
+                    <li class="sort-box">
+                        <label class="cb__custom self" for="">
+                            <input class="prd__cb self__cb" type="radio" name="sort">
                             <div class="cb__mark"></div>
                             <span>인기순</span>
                         </label>
                     </li>
-                    <li class="sort-box" status="false" style="cursor:pointer;">
-                        <label class="cb__custom self" for="orde_param_NEW">
-                            <input id="order_param_NEW" class="sort__cb self__cb" type="checkbox" name="order_param" value="NEW" onClick="sortProductList(this);">
+                    <li class="sort-box">
+                        <label class="cb__custom self" for="">
+                            <input class="prd__cb self__cb" type="radio"name="sort">
                             <div class="cb__mark"></div>
                             <span>신상품순</span>
                         </label>
                     </li>
-                    <li class="sort-box" status="false" style="cursor:pointer;">
-                        <label class="cb__custom self" for="order_param_MIN">
-                            <input id="order_param_MIN" class="sort__cb self__cb" type="checkbox" name="order_param" value="MIN" onClick="sortProductList(this);">
+                    <li class="sort-box">
+                        <label class="cb__custom self" for="">
+                            <input class="prd__cb self__cb" type="radio" name="sort">
                             <div class="cb__mark"></div>
                             <span>낮은 가격순</span>
                         </label>
                     </li>
-                    <li class="sort-box" status="false" style="cursor:pointer;">
-                        <label class="cb__custom self" for="order_param_MAX">
-                            <input id="order_param_MAX" class="sort__cb self__cb" type="checkbox" name="order_param" value="MAX" onClick="sortProductList(this);">
+                    <li class="sort-box">
+                        <label class="cb__custom self" for="">
+                            <input class="prd__cb self__cb" type="radio" name="sort">
                             <div class="cb__mark"></div>
                             <span>높은 가격순</span>
                         </label>
@@ -155,4 +155,4 @@
         </div>
     </section>
 </main>
-<script src="/scripts/product/list.js"></script>
+<script src="/scripts/product/list_tmp.js"></script>

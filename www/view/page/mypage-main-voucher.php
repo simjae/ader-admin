@@ -115,6 +115,9 @@
         margin-top: 0; 
         padding-bottom: 20px;
     }
+    .notice_br {
+        display: inline;
+    }
 }
 @media (min-width: 600px) {
     .voucher__tab__wrap {
@@ -138,6 +141,9 @@
     .use__voucher__form__wrap .info {
         margin-top: 0;
         padding-bottom: 30px;
+    }
+    .notice_br {
+        display: none;
     }
 }
 .voucher__regist__form__wrap .title {
@@ -182,16 +188,16 @@
 <div class="voucher__wrap">
     <div class="voucher__tab__btn__container">
         <div class="tab__btn__item" form-id="voucher__regist__form__wrap" onclick="issueVoucherFormPrint()">
-            <img src="/images/mypage/tab/select_voucher_regist_btn.svg">
+            <span>바우처 등록</span>
         </div>
         <div class="tab__btn__item"  form-id="voucher__amount__form__wrap" onclick="voucherListGet('possession')">
-            <img src="/images/mypage/tab/default_voucher_amount_btn.svg">
+            <span>보유 바우처</span>
         </div>
         <div class="tab__btn__item" form-id="use__voucher__form__wrap" onclick="voucherListGet('use')">
-            <img src="/images/mypage/tab/default_use_voucher_btn.svg">
+            <span>사용 바우처</span>
         </div>
         <div class="tab__btn__item" form-id="voucher__notice__form__wrap">
-            <img src="/images/mypage/tab/default_notice_btn.svg">
+            <span>유의사항</span>
         </div>
     </div>
     <div class="voucher__tab__wrap">
@@ -225,7 +231,7 @@
             <div class='info non__border'>
                 <p>· 1개의 바우처를 여러 제품에 중복 적용할 수 없습니다.</p>
                 <p>· 사용기간에 표시되는 종료 시간의 기준은 주문 완료 시점입니다.</p>
-                <p>· 반품(취소)한 주문에 사용된 바우처 복원은 반품완료 이후 최대 40분이 소요됩니다.</p>
+                <p>· 반품(취소)한 주문에 사용된 바우처 복원은 반품완료 이후 <br class="notice_br">최대 40분이 소요됩니다.</p>
                 <p>· 유효기간이 지난 바우처는 재발행 되지 않습니다.</p>
             </div>
             <div class="footer"></div>
@@ -310,7 +316,7 @@ function voucherListGet(str){
                                                     <td style="width:100%; padding-top: 0; padding-right: 0;">
                                                         <div style="display:flex;justify-content: space-between; margin-bottom: -1px">
                                                             <p>${row.voucher_issue_code}</p>
-                                                            <p>${row.usable_start_date}-${row.usable_end_date}</p>
+                                                            <p>${row.usable_start_date} - ${row.usable_end_date}</p>
                                                         </div>
                                                         <div style="display:flex;justify-content: space-between; margin-bottom: -1px">
                                                             <p>${row.voucher_name}</p>
@@ -336,12 +342,12 @@ function voucherListGet(str){
                             }
                             else{
                                 divClass = 'info';
-                                useDate = `사용일 ${row.update_date}`;
+                                useDate = `<span>사용일</span><span style="margin-left: 10px">${row.update_date}</span>`;
                             }
                             var strDiv = `
                                 <div class="${divClass}">
                                     <div class="info__title__container">
-                                        <div class="info__title__item">바우처번호 ${row.voucher_issue_code}</div>
+                                        <div class="info__title__item"><span>바우처번호</span><span style="margin-left: 10px">${row.voucher_issue_code}</span></div>
                                         <div class="info__title__item">${useDate}</div>
                                     </div>
                                     <div class="table__wrap">

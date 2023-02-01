@@ -340,6 +340,7 @@
     .same-as-selected {
         background-color: #f5f5f5;
         border: solid 1px #808080;
+	border-top: none;
     }
     .form input{
         margin-top:0px;
@@ -378,6 +379,12 @@
     .form {display: block;}
     #handover_id{width:100%}
     .bluemark_country{width:100%;position:none;margin-bottom:10px;}
+    .bluemark__tab .notice_br {
+        display: none;
+    }
+    .bluemark_explain {
+        white-space: normal;
+    }
 }
 @media (min-width: 600px) {
     .bluemark__tab__wrap {
@@ -396,15 +403,27 @@
     .description.fail_mobile{ display:none; }
     .description.verify_pc{ display:block; width:100%;}
     .description.verify_mobile{ display:none; }
+    .bluemark__tab .notice_br {
+        display: inline;
+    }
+    .bluemark_explain {
+        white-space: nowrap;
+    }
+}
+.bluemark__wrap .select-items div, .select-selected {
+    margin-bottom: -1px;
+}
+.bluemark__wrap .select-hide {
+    margin-top: -1px;
 }
 </style>
 <div class="bluemark__wrap">
     <div class="bluemark__tab__btn__container">
         <div class="tab__btn__item" form-id="verify__form__wrap" onclick="tabClickTmp(this);">
-            <img src="/images/mypage/tab/select_verify_btn.svg">
+            <span>인증</span>
         </div>
         <div class="tab__btn__item" form-id="verify__list__wrap" onclick="getBluemarkList();">
-            <img src="/images/mypage/tab/default_list_btn.svg">
+            <span>내역</span>
         </div>
     </div>
     <div class="bluemark__tab__wrap">
@@ -413,7 +432,7 @@
                 <p class="title_name">Bluemark</p>
             </div>
             <div class="description">
-                <p>&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.
+                <p class="bluemark_explain">&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.<br class="notice_br">
                 ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여 적극적으로 대응중입니다.</p>
                 <div class="bluemark__err__msg" style="width:100%;height:16.5px;">
                     <p style="color:red;text-align:right;"></p>
@@ -469,7 +488,7 @@
             
             <div class="description verify_pc">
                 <p>·&nbsp;인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
-                <p>·&nbsp;블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여 정보 등록을 완료해 주시길 바랍니다.</p>
+                <p style="white-space: nowrap;">·&nbsp;블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여 정보 등록을 완료해 주시길 바랍니다.</p>
             </div>
             <div class="description verify_mobile">
                 <p>·&nbsp;인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
@@ -514,8 +533,8 @@
                         <div class="close" onclick="close()"><img src='/images/mypage/tmp_img/X-12.svg' /></div>
                     </div>
                     <div class="description_transfer">
-                        <p>·&nbsp;하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 양도신청이 접수됩니다.</p>
-                        <p>·&nbsp;정보는 향후 변경이 불가능하니 신청 전에 반드시 확인해 주시길 바랍니다.</p>
+                        <p>·&nbsp;하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 <br class="notice_br">양도신청이 접수됩니다.</p>
+                        <p>·&nbsp;정보는 향후 변경이 불가능하니 신청 전에 반드시 <br class="notice_br">확인해 주시길 바랍니다.</p>
                     </div>
                     <div>
                         <p style="margin-bottom: 10px;">양도 받을 아이디</p>
@@ -527,10 +546,9 @@
                                 <option name="bluemark_country" value="EN">영문몰</option>
                                 <option name="bluemark_country" value="CN">중문몰</option>
                             </select>
-                            <img src="/images/mypage/mypage_down_tab_btn.svg" style="width:10px;height:5px;position: absolute;right:10px;top:18px;">
                         </div>
                         <input id="handover_id" type="text" name="bluemark_handover_id" class="bluemark_handover_id"
-                            placeholder="한/영/중 몰을 선택 후 이곳에 아이디를 입려해주세요.">
+                            placeholder="한/영/중 몰을 선택 후 이곳에 아이디를 입력해주세요.">
                     </div>
                     <div class="black_transfer_btn">
                         <button class="bluemark_idx" onclick="handoverBluemark(this)">양도하기</button>
@@ -556,6 +574,13 @@ $(document).ready(function() {
         $('.bluemark__tab').hide();
         $('.voucher__handover__wrap').show();
     });
+    $('.bluemark_country').on('click', function() {
+        if($('.bluemark_country').find('.select-hide').is(':visible') == true) {
+            $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_up_tab_btn.svg');
+        } else {
+            $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_down_tab_btn.svg');
+        }
+    })
 })
     
 
@@ -858,7 +883,7 @@ function bluemarkPaging(obj) {
 	}
 	let paging = [];
 	for(var i = start ; i <= end ; i++) {
-		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}">${i}</div>`);
+		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}" style="${((i == obj.page) ? 'color: black' : 'color: #dcdcdc')}">${i}</div>`);
 	}
 	$(obj.el).html(`
             <div class="mypage--paging">
