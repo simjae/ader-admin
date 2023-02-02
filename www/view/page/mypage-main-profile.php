@@ -176,17 +176,18 @@
         display: flex;
         flex-direction: column;
     }
-    .default_destination {
+    .profile__wrap .default_destination {
         width:100%;
         display: flex;
         flex-direction: column;
     }
-    .other_destination {
-        height: 290px;
-        width: 470px;
+    .profile__wrap .other_destination {
+        height: auto;
+        width: auto;
         display: flex;
         flex-direction: column;
         border-bottom: solid 1px #dcdcdc;
+        margin-bottom: 20px;
     }
     .keyword_label {
         display: none;
@@ -202,15 +203,12 @@
     .order__to__update__wrap {
         width: 470px;
     }
-    .keyword {
+    .profile__wrap .keyword {
         height: 40px;
-        width: 350px;
-        /* float: left; */
     }
-    .search_button {
+    .profile__wrap .search_button {
         width: 110px;
         height: 40px;
-        margin-left:  10px;
         object-fit: contain;
         font-family: var(--ft-no);
         font-size: 11px;
@@ -230,6 +228,8 @@
     .postcode_search_controls {
         display: flex;
         align-items: flex-end;
+        justify-content: flex-start;
+        gap: 10px;
     }
     .post_change_result {
         width: 350px;
@@ -618,7 +618,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="black__full__width__btn new__delivery" action-type="update_order_to" onclick="buttonAction(this)">저장</button>
+                <button class="black__full__width__btn new__delivery" action-type="update_order_to" onclick="buttonAction(this)">새로운 배송지 추가</button>
             </div>
         </div>
 
@@ -965,15 +965,17 @@
                     if (data != null) {
                         if(data.length <= 1) {
                             $('.other_list_wrap').hide();
+                            $('.profile__wrap .default__list').css('margin-bottom', '0px');
                         } else {
                             $('.other_list_wrap').show();
+                            $('.profile__wrap .default__list').css('margin-bottom', '90px');
                         }
                         let headData = data[0];
                         let tailData = data.slice(1);
                         let defaultList = $('.default__list');
                         let otherList = $('.other__list');
                         let strDiv = '';
-
+                        
                         defaultList.html('');
                         strDiv += '<tr class="default_destination">';
                         strDiv +=     '<td>' + headData.to_place + '</td>';
@@ -983,8 +985,8 @@
                         let detailAddr = headData.to_detail_addr ? (' ' + headData.to_detail_addr) : '';
                         strDiv +=     '<td>' + addr + detailAddr + '</td>';
                         strDiv +=     '<td>' + headData.to_zipcode + '</td>';
-                        strDiv +=     '<td>';
-                        strDiv +=     '     <div style="width:100%;display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
+                        strDiv +=     '<td style="padding-right: 0;">';
+                        strDiv +=     '     <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
                         strDiv +=         '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
                         strDiv +=         '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
                         strDiv +=         '</div>';
@@ -996,11 +998,12 @@
                         otherList.html('');
                         tailData.forEach((row) => {
                             strDiv += '<tr class="other_destination">';
-                            strDiv +=     '<td style="display: flex; justify-content: space-between;">';
+                            strDiv +=     '<td style="display: flex; justify-content: space-between; padding-right: 0;">';
                             strDiv +=          '<div>' + row.to_place + '</div>';
-                            strDiv +=          '<div class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)">';
-                            strDiv +=              '<img src="/images/mypage/tab/select_delivery_default_change_btn.svg">';
-                            strDiv +=          '</div>';
+                            // strDiv +=          '<div class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)">';
+                            // strDiv +=              '<img src="/images/mypage/tab/select_delivery_default_change_btn.svg">';
+                            // strDiv +=          '</div>';
+                            strDiv +=          '<button class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)" style="text-decoration: underline;">기본 배송지로 설정</button>';
                             strDiv +=     '</td>';
                             strDiv +=     '<td>' + row.to_name + '</td>';
                             strDiv +=     '<td>' + row.to_mobile + '</td>';
@@ -1008,12 +1011,10 @@
                             let detailAddr = row.to_detail_addr ? (' ' + row.to_detail_addr) : '';
                             strDiv +=     '<td>' + addr + detailAddr + '</td>';
                             strDiv +=     '<td>' + row.to_zipcode + '</td>';
-                            strDiv +=     '<td style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
-                            strDiv +=         '<div class="order_to_idx" idx="' + row.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">';
-                            strDiv +=             '<img src="/images/mypage/tab/select_delivery_change_btn.svg">';
-                            strDiv +=         '</div>';
-                            strDiv +=         '<div class="order_to_idx" idx="' + row.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">';
-                            strDiv +=             '<img src="/images/mypage/tab/select_delivery_cancel_btn.svg">';
+                            strDiv +=     '<td style="padding-right: 0; padding-bottom: 20px;">';
+                            strDiv +=         '<div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
+                            strDiv +=         '     <button class="gray__mypage__btn" idx="' + row.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
+                            strDiv +=         '     <button class="white__full__width__btn" idx="' + row.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
                             strDiv +=         '</div>';
                             strDiv +=    '</td>';
                             strDiv += '</tr>';

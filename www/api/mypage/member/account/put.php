@@ -34,9 +34,9 @@ if (isset($_POST['member_tel'])) {
 	$member_tel = $_POST['member_tel'];
 }
 
-if ($country == null && $member_idx == 0) {
+if ($country == null || $member_idx == 0) {
 	$json_result['code'] = 401;
-	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	$json_result['msg'] = "로그인 정보가 없습니다";
 	return $json_result;
 }
 
@@ -68,6 +68,11 @@ if ($country != null && $member_idx > 0 && ($member_pw != null || $member_tel !=
 	";
 	
 	$db->query($update_member_sql);
+}
+else{
+	$json_result['code'] = 301;
+	$json_result['msg'] = "변경할 회원정보를 다시 확인해주세요";
+	return $json_result;
 }
 
 ?>

@@ -192,7 +192,7 @@
                 <p>·&nbsp;STAND BY 는 선착순으로 진행되며, 한정 수량 종료 시, 구매가 어려울 수 있는 점 참고 바랍니다.</p>
                 <p class="next__line__exist">·&nbsp;회원 정보의 전화번호로 구매 링크가 발송되오니 참여 전</p>
                 <p>&nbsp;고객님의 회원정보의 전화번호가 현재의 번호와 동일한지 확인 바랍니다.</p>
-                <p>·&nbsp;정보 오기입으로 인해 발생되는 불이익에 대해서는 책임지지 않으니 정보 입력 후 재확인 부탁드립니다.</p>
+                <p>·&nbsp;정보 오기입으로 인해 발생되는 불이익에 대해서는 책임지지 않으니 정보 입력 후<br>재확인 부탁드립니다.</p>
                 <p>·&nbsp;STANDBY 참여자는 개별 문자(LMS)로 구매 링크가 전송됩니다.</p>
                 <p>·&nbsp;STANDBY 참여자라 하더라도 재고 소진 시 구매 기회는 보장되지 않습니다.</p>
                 <p>·&nbsp;구매는 STANDBY 참여 시 로그인 한 아이디로 구매 가능합니다.​</p>
@@ -224,7 +224,7 @@ function getTotalStandby(){
         data: {},
         dataType: "json",
         error: function() {
-            alert('스탠바이 등록 처리중 오류가 발생했습니다.');
+            exceptionHandling("스탠바이",'목록을 불러오지 못했습니다.');
         },
         success: function(d) {
             let code = d.code;
@@ -271,6 +271,16 @@ function getTotalStandby(){
                     })
                 }
             }
+            else{
+                let err_str = '목록을 불러오지 못했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("스탠바이",err_str);
+                if(d.code = 401){
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                }
+            }
         }
     });
 }
@@ -283,7 +293,7 @@ function getEntryStandby(){
         type: "post",
         dataType: "json",
         error: function() {
-            alert('스탠바이 신청내역 오류가 발생했습니다.');
+            exceptionHandling("스탠바이",'신청내역 목록을 불러오지 못했습니다.');
         },
         success: function(d) {
             let code = d.code;
@@ -455,6 +465,16 @@ function getEntryStandby(){
                         $('.stanby__result__form__wrap .pc__view').append(strDivPc);
                         $('.stanby__result__form__wrap .mobile__view').append(strDivMobile);
                     })
+                }
+            }
+            else{
+                let err_str = '신청내역을 불러오지 못했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("스탠바이",err_str);
+                if(d.code = 401){
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                 }
             }
         }

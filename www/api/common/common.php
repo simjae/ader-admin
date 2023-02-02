@@ -157,55 +157,57 @@ function getProductColor($db,$product_idx) {
 }
 
 function getProductSize($db,$product_idx) {
-	if ($product_idx != null) {
-		//일반 상품 주문 상태	: 결제완료(PCP)	| 상품준비(PPR) 							| 배송준비(DPR) | 배송중(DPG) | 배송완료(DCP)
+	if ($product_idx > 0) {
+		//일반 상품 주문 상태		: 결제완료(PCP)	| 상품준비(PPR) 							| 배송준비(DPR) | 배송중(DPG) | 배송완료(DCP)
 		//프리오더 상품 주문 상태	: 결제완료(PCP)	| 프리오더 준비(POP) | 프리오더 상품 생산(POD)	| 배송준비(DPR) | 배송중(DPG) | 배송완료(DCP)
 		//현재 주문 상품 중 배송중/배송완료 상태의 주문 상품 수량 취득
 		
-		$sql = "SELECT
-					PR.IDX				AS PRODUCT_IDX,
-					PR.SOLD_OUT_QTY		AS SOLD_OUT_QTY,
-					OM.COLOR			AS COLOR,
-					OO.IDX				AS OPTION_IDX,
-					OO.OPTION_NAME		AS OPTION_NAME,
-					(
-						SELECT
-							COUNT(IDX)
-						FROM
-							dev.PRODUCT_STOCK S_PS_1
-						WHERE
-							S_PS_1.OPTION_IDX = OO.IDX AND
-							S_PS_1.STOCK_DATE > NOW()
-					) AS STOCK_STANDBY,
-					(
-						SELECT
-							IFNULL(SUM(STOCK_QTY),0)
-						FROM
-							dev.PRODUCT_STOCK S_PS_2
-						WHERE
-							S_PS_2.OPTION_IDX = OO.IDX AND
-							S_PS_2.STOCK_DATE <= NOW()
-					) AS STOCK_QTY,
-					(
-						SELECT
-							IFNULL(SUM(S_OP.PRODUCT_QTY),0)
-						FROM
-							dev.ORDER_PRODUCT S_OP
-						WHERE
-							S_OP.OPTION_IDX = OO.IDX AND
-							S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
-					) AS ORDER_QTY
-				FROM
-					dev.SHOP_PRODUCT PR
-					LEFT JOIN dev.ORDERSHEET_MST OM ON
-					PR.ORDERSHEET_IDX = OM.IDX
-					LEFT JOIN dev.ORDERSHEET_OPTION OO ON
-					OM.IDX = OO.ORDERSHEET_IDX
-				WHERE
-					PR.IDX = ".$product_idx." AND
-					PR.SALE_FLG = TRUE";
+		$select_product_sql = "
+			SELECT
+				PR.IDX				AS PRODUCT_IDX,
+				PR.SOLD_OUT_QTY		AS SOLD_OUT_QTY,
+				OM.COLOR			AS COLOR,
+				OO.IDX				AS OPTION_IDX,
+				OO.OPTION_NAME		AS OPTION_NAME,
+				(
+					SELECT
+						COUNT(IDX)
+					FROM
+						dev.PRODUCT_STOCK S_PS_1
+					WHERE
+						S_PS_1.OPTION_IDX = OO.IDX AND
+						S_PS_1.STOCK_DATE > NOW()
+				) AS STOCK_STANDBY,
+				(
+					SELECT
+						IFNULL(SUM(STOCK_QTY),0)
+					FROM
+						dev.PRODUCT_STOCK S_PS_2
+					WHERE
+						S_PS_2.OPTION_IDX = OO.IDX AND
+						S_PS_2.STOCK_DATE <= NOW()
+				) AS STOCK_QTY,
+				(
+					SELECT
+						IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+					FROM
+						dev.ORDER_PRODUCT S_OP
+					WHERE
+						S_OP.OPTION_IDX = OO.IDX AND
+						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+				) AS ORDER_QTY
+			FROM
+				dev.SHOP_PRODUCT PR
+				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				PR.ORDERSHEET_IDX = OM.IDX
+				LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+				OM.IDX = OO.ORDERSHEET_IDX
+			WHERE
+				PR.IDX = ".$product_idx." AND
+				PR.SALE_FLG = TRUE
+		";
 		
-		$db->query($sql);
+		$db->query($select_product_sql);
 		
 		$product_size = array();
 		

@@ -27,6 +27,7 @@ const getProduct = (product_idx) => {
             "product_idx": product_idx,
             "country": country,
         },
+        async:false,
         dataType: "json",
         url: "http://116.124.128.246:80/_api/product/get",
         error: function () {
@@ -113,18 +114,20 @@ const getProduct = (product_idx) => {
 				let login_status = getLoginStatus();
 				
 				if (login_status == "true") {
+                    
 					if (whish_flg == 'true') {
 						whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
 						whish_function = "deleteWhishListBtn(this);";
 					} else if (whish_flg == 'false') {
 						whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
 						whish_function = "setWhishListBtn(this);";
+                        
 					}
 				} else {
 					whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
 					whish_function = "return false;";
+                    
 				}
-                
 
 
                 infoBoxHtml = `
@@ -143,14 +146,15 @@ const getProduct = (product_idx) => {
 						<div class="basket__wrap--btn">
 							<div class="basket__box--btn">
 								<div class="basket-btn" >
+                                    <img src="/images/svg/basket.svg" alt="">
 									<span class="basket-title">쇼핑백에 담기</span>
 								</div>
                                 <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
                                     ${whish_img}
                                 </div>
 							</div>
-							
 						</div>
+				
 						<div class="detail__btn__wrap">
 							<div class="detail__btn__row">
 								<div class="img-box">
@@ -180,7 +184,30 @@ const getProduct = (product_idx) => {
 								<div class="detail__content__box"></div>
 							</div>
 						</div>
+                        
 					`;
+
+
+                //모바일 전용 쇼핑백담기버튼 추가
+                let mobileBasketBtnWrap = document.createElement("div");
+                let whishlistTitle = "<div class='whislist-tilte'>whislist</div>"
+                mobileBasketBtnWrap.className = "basket__wrap--btn nav";
+
+                mobileBasketBtnWrap.innerHTML =`
+                <div class="basket__box--btn">
+                    <div class="basket-btn" >
+                        <img src="/images/svg/basket.svg" alt="">
+                        <span class="basket-title">쇼핑백에 담기</span>
+                    </div>
+                    <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
+                        ${whish_img}
+                        ${whish_flg == 'true'? whishlistTitle : ""}
+                    </div>
+                </div>
+                
+                `
+                document.querySelector(".detail__wrapper").appendChild(mobileBasketBtnWrap)
+
             });
             let relevant_idx = data[0].relevant_idx;
             if (relevant_idx != null) {
@@ -210,43 +237,48 @@ const getProduct = (product_idx) => {
 
 }
 //메인 스와이프 관련 함수 
-let mainSwiper = initMainSwiper();
-let pagingSwiper = initPagingSwiper();
+// let mainSwiper = initMainSwiper();
+// let pagingSwiper = initPagingSwiper();
+let mainSwiper = null;
+let pagingSwiper = null;
 function responsiveSwiper() {
     let breakpoint = window.matchMedia('screen and (min-width:1025px)');
     if (breakpoint.matches === true) {
-        mainSwiper.destroy();
-        pagingSwiper.destroy();
-    } else if (breakpoint.matches === false) {
-        if (typeof (mainSwiper) == 'object') {
+        if(mainSwiper !== null){
             mainSwiper.destroy();
+            mainSwiper = null;
         }
-        if (typeof (pagingSwiper) == 'object') {
+        if(pagingSwiper !== null){
             pagingSwiper.destroy();
+            pagingSwiper = null;
         }
-        mainSwiper = initMainSwiper();
-        pagingSwiper = initPagingSwiper();
-        mainSwiper.controller.control = pagingSwiper;
+    } else if (breakpoint.matches === false) {
+        if(pagingSwiper == null){
+            pagingSwiper = initPagingSwiper();
+        }
+        if(mainSwiper == null){
+            mainSwiper = initMainSwiper();
+			mainSwiper.on('slideChange', function(){
+				$(".swiper-pagination-detail-fraction .swiper-pagination-current").html(mainSwiper.activeIndex + 1);
+			});
+        }
+        pagingSwiper.controller.control = mainSwiper;
     } 
 
 };
 function initMainSwiper() {
-    return new Swiper('.main__swiper', {
+    return new Swiper('#main__swiper-detail', {
         pagination: {
-            el: ".detail__wrapper .swiper-pagination",
-            type: "bullets",
+            el: ".swiper-pagination-detail-bullets",
+			dynamicBullets: true,
             clickable: true,
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
         },
     });
 }
 function initPagingSwiper() {
-    return new Swiper(".main__swiper", {
+    return new Swiper("#main__swiper-detail", {
         pagination: {
-            el: ".main__swiper .swiper-pagination2",
+            el: ".swiper-pagination-detail-fraction",
             type: "fraction",
         },
     });
@@ -356,10 +388,6 @@ function styleSwiper() {
             nextEl: ".style-swiper .swiper-button-next",
             prevEl: ".style-swiper .swiper-button-prev",
         },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
         grabCursor: true,
         breakpoints: {
             // when window width is >= 320px
@@ -417,8 +445,10 @@ function viewportImg() {
         imageWrap.appendChild(img);
         imageWrap.appendChild(closebtn);
         document.body.appendChild(imageWrap);
+        document.body.style.overflow ="hidden";
     }))
     closebtn.addEventListener("click", function () {
+        document.body.style.overflow ="inherit";
         document.querySelector(".viewport__wrap--img").remove();
     })
 }
@@ -438,7 +468,10 @@ function basketStatusBtn() {
                     option_idx.push(size.dataset.optionidx);
                 }
             });
-            
+            console.log("🏂 ~ file: detail.js:444 ~ selectResult ~ option_idx", option_idx)
+            if(option_idx.length == 0){
+                basketBtnStatusChange($$productBtn, 4);
+            }
 			if (option_idx.length > 0) {
 				$.ajax({
 					type: "post",
@@ -471,24 +504,37 @@ function basketBtnStatusChange(el, idx) {
         switch (parseInt(idx)) {
             case 0:
                 btn.querySelector("span").innerHTML = "품절";
-                btn.dataset.status = 0;
+                btn.querySelector("img").setAttribute("src", "");
+                btn.querySelector("img").classList.add("hidden");
                 btn.parentNode.dataset.status = 0;
-                btn.classList.add()
+                btn.dataset.status = 0;
                 break;
             case 1:
                 btn.querySelector("span").innerHTML = "재입고 알림 신청하기";
+                btn.querySelector("img").classList.remove("hidden");
+                btn.querySelector("img").setAttribute("src", "/images/svg/reflesh-bk.svg");
                 btn.parentNode.dataset.status = 1;
                 btn.dataset.status = 1;
                 break;
             case 2:
                 btn.querySelector("span").innerHTML = "쇼핑백에 담기";
+                btn.querySelector("img").classList.remove("hidden");
+                btn.querySelector("img").setAttribute("src", "/images/svg/basket.svg");
                 btn.parentNode.dataset.status = 2;
                 btn.dataset.status = 2;
                 break;
             case 3:
+                btn.querySelector("img").classList.add("hidden");
                 btn.querySelector("span").innerHTML = "comming soon";
                 btn.parentNode.dataset.status = 3;
                 btn.dataset.status = 3;
+                break;
+            case 4:
+                btn.querySelector("span").innerHTML = "옵션을 선택해주세요";
+                btn.querySelector("img").setAttribute("src", "");
+                btn.querySelector("img").classList.add("hidden");
+                btn.parentNode.dataset.status = 4;
+                btn.dataset.status = 4;
                 break;
         }
     })

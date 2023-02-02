@@ -20,12 +20,11 @@ if(isset($_POST['country'])){
 
 if ($country == "" || $country == null) {
 	$json_result['code'] = 300;
-	$json_result['msg'] = 'FAQ 카테고리 취득 API를 실행할 수 없습니다.';
+	$json_result['msg'] = 'FAQ정보 불러오기에 실패했습니다.';
 	
 	return $json_result;
 }
-
-if($country != null){
+else{
 	$json_result['data'] = get_category_node(0,$country,$db);
 }
 

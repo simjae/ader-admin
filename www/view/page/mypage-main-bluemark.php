@@ -196,16 +196,16 @@
     }
 
     .voucher__handover__wrap {
-        position:absolute;
-        width: 490px;
+        position:fixed;
         border: 1px solid #808080;
         padding: 20px;
         margin: 0 auto;
         background-color: #fff;
         display: none;
         z-index: 1;
-        left: 0;
+        left: 50%;
         top: 0;
+        transform: translate(-50%,50%);
         overflow: auto;
 
     }
@@ -242,7 +242,7 @@
         flex: 1 1 50%;
     }
 
-    ..certified_table td {
+    .certified_table td {
         display: flex;
         justify-content: center;
     }
@@ -375,7 +375,7 @@
     .description.fail_mobile{ display:block;}
     .description.verify_pc{ display:none; }
     .description.verify_mobile{ display:block;}
-    .voucher__handover__wrap {width:100%}
+    .voucher__handover__wrap {width:100%;padding-left:10px;padding-right:10px;}
     .form {display: block;}
     #handover_id{width:100%}
     .bluemark_country{width:100%;position:none;margin-bottom:10px;}
@@ -392,6 +392,7 @@
         width:580px;
         margin:0 auto;
     }
+    .voucher__handover__wrap {width:580px;}
 }
 @media (min-width: 1024px){
     .bluemark__tab__wrap{
@@ -409,6 +410,7 @@
     .bluemark_explain {
         white-space: nowrap;
     }
+    .voucher__handover__wrap {width:470px;}
 }
 .bluemark__wrap .select-items div, .select-selected {
     margin-bottom: -1px;
@@ -772,6 +774,9 @@ function getBluemarkList() {
                     });
                 }
             }
+            else{
+                
+            }
         }
     })
 }
@@ -784,7 +789,6 @@ function handoverBluemark(obj) {
         (handover_id != "" && handover_id != null) &&
         (country != "" && country != null)
     ) {
-        console.log(country);
         $.ajax({
             type: "post",
             url: "http://116.124.128.246:80/_api/product/bluemark/put",
@@ -802,6 +806,13 @@ function handoverBluemark(obj) {
                 let code = d.code;
                 if (code == 200) {
                     $('.voucher__handover__wrap').show();
+                }
+                else{
+                    let err_msg = '블루마크 양도처리에 실패했습니다.';
+                    if(d.msg != null){
+                        err_msg = d.msg;
+                    }
+                    exceptionHandling("블루마크 양도",err_msg);
                 }
             }
         });
@@ -896,6 +907,11 @@ function bluemarkPaging(obj) {
         var new_page = $(this).data("page");
         $(obj.use_form).find('input[name="page"]').val(new_page);
         getBluemarkList();
+        initHandoverWrap();
+        $('html, body').scrollTop(0);
     });
+}
+function initHandoverWrap(){
+    $('.voucher__handover__wrap').hide();
 }
 </script>

@@ -68,7 +68,7 @@ if (isset($_POST['default_flg'])) {
 
 if ($country == null || $member_idx == 0) {
 	$json_result['code'] = 401;
-	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	$json_result['msg'] = "로그인 정보가 없습니다";
 	exit;
 }
 
@@ -131,11 +131,16 @@ if ($member_idx > 0 && $to_zipcode != null) {
 	} catch(mysqli_sql_exception $exception) {
 		$db->rollback();
 
-		$json_result['code'] = 401;
+		$json_result['code'] = 302;
 		$json_result['msg'] = '배송지 추가에 실패했습니다.';
 		
 		return $json_result;
 	}
+}
+else{
+	$json_result['code'] = 301;
+	$json_result['msg'] = '배송지 정보를 다시 입력해주세요';
+	exit;
 }
 
 ?>

@@ -17,18 +17,16 @@
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $country = null;
-if (isset($_POST['country'])) {
-	$country = $_POST['country'];
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
 }
 
-$member_idx = 1;
-//$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = 'adertest4';
-//$member_id = null;
+$member_id = null;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
@@ -50,13 +48,7 @@ if (isset($_POST['option_idx'])) {
 	$option_idx = $_POST['option_idx'];
 }
 
-if ($country == "" || $country == null) {
-	$json_result['code'] = 401;
-	$json_result['msg'] = "부적절한 방법으로 접근하셨습니다. 사이트 내의 링크를 확인해주세요.";
-	return $json_result;
-}
-
-if ($member_idx == 0 || $member_id == null) {
+if ($member_idx == 0 || $country == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
 	return $json_result;
@@ -71,6 +63,7 @@ if ($add_type == "basket") {
 				INSERT INTO
 					dev.PRODUCT_REORDER
 				(
+					COUNTRY,
 					MEMBER_IDX,
 					MEMBER_ID,
 					PRODUCT_IDX,
@@ -83,6 +76,7 @@ if ($add_type == "basket") {
 					UPDATER
 				)
 				SELECT
+					'".$country."'		AS COUNTRY,
 					".$member_idx."		AS MEMBER_IDX,
 					'".$member_id."'	AS MEMBER_ID,
 					PR.IDX				AS PRODUCT_IDX,

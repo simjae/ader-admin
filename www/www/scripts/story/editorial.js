@@ -29,11 +29,15 @@ function loadEditorialData() {
                         appendThumbnailTitle(row.page_title);
                         appendThumbnailBackground(row.contents_location, row.page_title, row.page_idx, cnt++, row.size_type)
                         asideClickEvent();
-                        $(".editorial-wrap .banner").on('click',function(){
-                            location.href = `editorial/detail?page_idx=${page_idx}&size_type="${size_type}"`;
-                        })
                         responsive();
                     })
+                    $(".editorial-wrap.open .banner").on('touchstart', function(){
+                       0
+                    })
+                    $(".editorial-wrap.open .banner").on("touchmove", function(){
+                        $(this).children().children().click();			
+                    }, false); 
+                  
                 }
             }
         }
@@ -120,9 +124,9 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
     if (idx > 0) article.classList.add("hidden")
 
     if (backgroundType === "mp4") {
-        backgroundHtml = `<video controls autoplay muted loop src="${url}${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')"></video>`
+        backgroundHtml = `<video autoplay muted loop playsinline src="${url}${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')"></video>`
     } else {
-        backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" alt="">`
+        backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')">`
     }
 
 
@@ -134,8 +138,6 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
     `;
     editorialWrap.appendChild(article);
 }
-
-
 
 function asideClickEvent() {
     let banner = document.querySelectorAll(".editorial-wrap .banner");

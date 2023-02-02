@@ -31,10 +31,13 @@ input::-webkit-inner-spin-button {
 .postcodify_search_result{
     font-family: var(--ft-no);
     font-size: 11px;
-    height:95px;
+    min-height:95px;
     border-bottom: solid 1px #dcdcdc;
     padding: 23px 19px;
 }
+.post-change-result::-webkit-scrollbar{width:5px;}
+.post-change-result::-webkit-scrollbar-track {background-color: transparent;}
+.post-change-result::-webkit-scrollbar-thumb {background-color: #dcdcdc;}
 .content__wrap{
     margin-top:10px;
     margin-bottom:10px;

@@ -17,45 +17,37 @@
 include_once("/var/www/www/api/common/common.php");
 
 $country = null;
-if (isset($_POST['country'])) {
-	$country = $_POST['country'];
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
 }
 
-$member_idx = 1;
-//$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = 'adertest4';
-//$member_id = null;
+$member_id = null;
 if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$basket_idx = null;
+$basket_idx = 0;
 if (isset($_POST['basket_idx'])) {
 	$basket_idx	= $_POST['basket_idx'];
 }
 
-$product_idx = null;
+$product_idx = 0;
 if (isset($_POST['product_idx'])) {
 	$product_idx = $_POST['product_idx'];
 }
 
-if ($member_idx == 0 || $member_id == null) {
+if ($member_idx == 0 || $country == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
 	return $json_result;
 }
 
-if ($country == "" || $country == null) {
-	$json_result['code'] = 401;
-	$json_result['msg'] = "부적절한 방법으로 접근하셨습니다. 사이트 내의 링크를 확인해주세요.";
-	return $json_result;
-}
-
-if ($basket_idx != null) {
+if ($basket_idx > 0) {
 	$select_product_sql = "
 		SELECT
 			PR.IDX			AS PRODUCT_IDX,
@@ -144,7 +136,7 @@ if ($basket_idx != null) {
 	}
 }
 
-if ($product_idx != null) {
+if ($product_idx > 0) {
 	$product_size = array();
 	$product_size = getProductSize($db,$product_idx);
 	

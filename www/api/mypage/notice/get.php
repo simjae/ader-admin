@@ -24,9 +24,9 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-if($member_idx == 0){
-    $json_result['code'] = 304;
-    $json_result['msg'] = '비로그인 상태입니다.';
+if ($country == null || $member_idx == 0) {
+    $json_result['code'] = 401;
+    $json_result['msg'] = '로그인 정보가 없습니다';
 	
 	return $json_result;
 }

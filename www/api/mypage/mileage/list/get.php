@@ -13,6 +13,11 @@
  | 
  +=============================================================================
 */
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+}
+
 $member_idx = 0;
 if(isset($_SESSION['MEMBER_IDX'])){
 	$member_idx = $_SESSION['MEMBER_IDX'];
@@ -23,14 +28,9 @@ if(isset($_POST['list_type'])){
 	$list_type = $_POST['list_type'];
 }
 
-$country = NULL;
-if(isset($_POST['country'])){
-	$country = $_POST['country'];
-}
-
-if($member_idx == 0) {
-	$json_result['code'] = 304;
-	$json_result['msg'] = '비로그인 상태입니다.';
+if ($country == null || $member_idx == 0) {
+	$json_result['code'] = 401;
+	$json_result['msg'] = '로그인 정보가 없습니다';
 	
 	return $json_result;
 }
@@ -68,7 +68,8 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 									FROM
 										dev.MILEAGE_INFO
 									WHERE
-										MEMBER_IDX = ".$member_idx."
+										MEMBER_IDX = ".$member_idx." AND
+										COUNTRY = '".$country."'
 								) MI
 								LEFT JOIN dev.MILEAGE_CODE MC ON
 								MI.MILEAGE_CODE = MC.MILEAGE_CODE
@@ -125,5 +126,9 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 		);
 	}
 }
-
+else{
+	$json_result['code'] = 301;
+	$json_result['msg'] = "마일정보 내역을 불러오지 못했습니다";
+	exit;
+}
 ?>

@@ -82,7 +82,7 @@ export function Login() {
             }
         );
     }
-    
+
     function setCookie(cookieName, value, exdays){
         let exdate = new Date();
         exdate.setDate(exdate.getDate() + exdays);

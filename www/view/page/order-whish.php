@@ -397,6 +397,7 @@
 
     .add-list-wrap .header-wrap .header-box .hd-title {
         text-decoration: underline;
+		cursor:pointer;
     }
 
     .add-list-wrap .body-wrap {
@@ -507,6 +508,9 @@
     }
 
     @media (max-width:1025px) {
+        .product-wrap{
+            margin-top: 27px;
+        }
         .banner-wrap {
             top: 42px;
             height: 37px;
@@ -548,11 +552,11 @@
             width: calc(100% - 45px);
         }
 
-        .product {
+        .whishlist-section .product {
             width: 50%;
         }
 
-        .product .product-info {
+        .whishlist-section .product .product-info {
             height: auto;
         }
 
@@ -863,6 +867,7 @@ const addIsProductEl = (whishIdx) => {
 	let result = [...addboxEl].filter(el => el.dataset.whish == whishIdx);
 	return result
 }
+
 /*-------------------------이벤트 핸들러-------------------------- */
 // 상품 사이즈 선택 
 function sizeSelectHandler() {
@@ -881,9 +886,7 @@ function sizeSelectHandler() {
 			let optionidxResult = szieTarget.dataset.optionidx;
 			targetBtn.dataset.optionidx = optionidxResult;
 
-			console.log("🏂 ~ file: order-whish.php:857 ~ el.addEventListener ~ optionidxResult", optionidxResult)
 			//상품 재고 상태 반영
-
 			if (szieTarget.dataset.soldout != "STSO") {
 				szieTarget.classList.toggle("select");
 				if(sizeStatus == 0){
@@ -895,7 +898,6 @@ function sizeSelectHandler() {
 					});
 				} else if(sizeStatus == 2){
 					notTaget = [...sizeEl].filter(el => el.dataset.status != 2)
-					console.log(notTaget);
 				} else if(sizeStatus == 3){
 					notTaget = [...sizeEl].filter(el => el.dataset.status != 3)
 				}
@@ -918,7 +920,7 @@ function productAddBtnClickHandler() {
 	let addProduct = {}
 	$$prdAddBtn.forEach((el, index) => {
 		el.addEventListener("click", function(e) {
-			let whishIdx = el.offsetParent.dataset.whish;
+			let whish_idx = el.offsetParent.dataset.whish;
 			let sizeEl = sizeIsSelectEl(e);
 			let szieTextArr = sizeEl.map(el => el.innerHTML);
 			let szieIdxArr = sizeEl.map(el => el.dataset.optionidx);
@@ -928,15 +930,12 @@ function productAddBtnClickHandler() {
 			let getSizeText = szieTextArr;
 			let getSizeIdx = szieIdxArr;
 			let getProduct = e.currentTarget.dataset.idx;
-			let getwhish = whishIdx;
-
-
 
 			if (e.currentTarget.classList.contains("select")) {
 				//사이즈가 1개이상 선택되어 있고, 버튼이 선택해제로 활성화 상태
 			
-				resetSizeBox(whishIdx);
-				removeAddList(whishIdx);
+				resetSizeBox(whish_idx);
+				removeAddList(whish_idx);
 				e.currentTarget.classList.remove("select");
 				e.currentTarget.querySelector("span").innerHTML = "선택하기";
 			} else {
@@ -958,14 +957,13 @@ function productAddBtnClickHandler() {
 						el.dataset.reorder ="true"
 						return el
 					});
-					console.log(reorder);
 				} else{
 					addProduct.idx = getProduct;
 					addProduct.sizeidx = getSizeIdx;
 					addProduct.sizeText = getSizeText;
 					addProduct.img = getSrc;
 					addProduct.name = getName;
-					addProduct.whish = getwhish;
+					addProduct.whish = whish_idx;
 
 					e.currentTarget.classList.add("select");
 					writeAddBoxHtml(addProduct);
@@ -1028,24 +1026,23 @@ function basketAddBtnHandler(){
 
 /*------------------------- 삭제 & 초기화 -------------------------- */
 //찜리스트에 추가된 상품 제거 
-const removeAddList = (whishIdx) => {
-	let addboxEl = document.querySelectorAll(".add-list-wrap .add-box");
-	let slideEl = document.querySelectorAll(".quick-swiper .swiper-slide");
-	[...addboxEl].filter(el => {
-		if (el.dataset.whish == whishIdx) {
+const removeAddList = (whish_idx) => {
+	let add_box = document.querySelectorAll(".add-list-wrap .add-box");
+	let slide = document.querySelectorAll(".quick-swiper .swiper-slide");
+	[...add_box].filter(el => {
+		if (el.dataset.whish_idx == whish_idx) {
 			el.remove();
 		}
 	});
-	slideEl.forEach((el, idx) => {
-		if (el.dataset.no == whishIdx) {
+	
+	slide.forEach((el, idx) => {
+		if (el.dataset.no == whish_idx) {
 			quickSwiper.removeSlide(idx);
 			quickSwiper.update();
 		}
 	});
-
-
-
 }
+
 function removeProductBtnHandler() {
 	const removeBtn = document.querySelectorAll(".remove-btn");
 	removeBtn.forEach(el => {
@@ -1055,6 +1052,7 @@ function removeProductBtnHandler() {
 		});
 	});
 }
+
 function removeProduct(whishIdx) {
 	let country = "KR"
 	$.ajax({
@@ -1067,7 +1065,6 @@ function removeProduct(whishIdx) {
 		url: "http://116.124.128.246:80/_api/order/whish/delete",
 		error: function() {},
 		success: function(d) {
-			console.log("삭제성공")
 			let product = document.querySelectorAll(".product-wrap .product");
 			let result = [...product].find(el => el.dataset.whish === whishIdx);
 			result.remove();
@@ -1076,6 +1073,7 @@ function removeProduct(whishIdx) {
 		}
 	});
 }
+
 //개별 위시리스트 상품 사이즈 버튼 초기화 
 const resetSizeBox = (whishIdx) => {
 	let sizeBoxs = document.querySelectorAll(".whishlist-section .size__box");
@@ -1086,7 +1084,6 @@ const resetSizeBox = (whishIdx) => {
 	let basketBtn = document.querySelector(".add-list-wrap .basket-link-btn")
 
 	sizeBoxs.forEach((el, index) => {
-		console.log(el.offsetParent)
 		let targetWhishIdx = el.offsetParent.dataset.whish;
 		if (targetWhishIdx == whishIdx) {
 			el.classList.remove("disable");
@@ -1101,23 +1098,26 @@ const resetSizeBox = (whishIdx) => {
 }
   //찜리스트에 추가된상품 모두 제거 
 const removeAddListAll = ()=>{
-	let $$addBox = document.querySelectorAll(".body-wrap .add-box");
 	let $$productSelectBtn = document.querySelectorAll(".product-select-btn.select");
+	
+	let $$addBox = document.querySelectorAll(".body-wrap .add-box");
 	$$addBox.forEach(el => {
-		let whishIdx = el.dataset.whish;
+		let whish_idx = el.dataset.whish_idx;
 		el.remove();
-		resetSizeBox(whishIdx);
+		
+		resetSizeBox(whish_idx);
+		
 		quickSwiper.removeAllSlides();
 		quickSwiper.update();
+		
 		showAddWrapBtns();
 	})
 	$$productSelectBtn.forEach(el => {
 		el.classList.remove("select");
 		el.querySelector("span").innerHTML = "선택하기";
 	});
-
-
 }
+
 //매개변수가 없을시에 위시리시트 전체 상품 상태 체크 
 const productBtnStatus = (whishIdx, status) => {
 	const $$productBtn = document.querySelectorAll(".product-select-btn");
@@ -1147,7 +1147,7 @@ const productBtnStatus = (whishIdx, status) => {
 			});
 			return statusArrCheck(statusResultArr);
 		});
-		console.log("🏂 ~ file: order-whish.php:1074 ~ productBtnStatus ~ result", result)
+		
 		$$productBtn.forEach((el, index) => {
 			el.dataset.status = result[index];
 			addBtnChange(el, result[index]);

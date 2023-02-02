@@ -14,45 +14,54 @@
  +=============================================================================
 */
 
-$member_idx = 1;
-//$member_idx = 0;
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+}
+
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$member_id = 'adertest4';
-//$member_id = null;
+$member_id = null;
 if (isset($_SESSION['MEMBER_ID'])) {
 	$member_id = $_SESSION['MEMBER_ID'];
 }
 
-$reorder_idx	= $_POST['reorder_idx'];
+$reorder_idx = 0;
+if (isset($_POST['reorder_idx'])) {
+	$reorder_idx = $_POST['reorder_idx'];
+}
 
-if ($member_idx == 0 || $member_id == null) {
+if ($member_idx == 0 || $country == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
 	exit;
 }
 
-if ($reorder_idx != null && $member_idx != null) {
-	$reorder_cnt = $db->count("dev.PRODUCT_REORDER","IDX = ".$reorder_idx." AND MEMBER_IDX = ".$member_idx);
+if ($reorder_idx > 0 && $member_idx > 0) {
+	$reorder_cnt = $db->count("dev.PRODUCT_REORDER","IDX = ".$reorder_idx." AND COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx);
 	
-	if ($reorder_cnt == 0) {
-		$json_result['code'] = 401;
-		$json_result['msg'] = "부적절한 리오더 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
-		return $json_result;
-	} else {
-		$sql = "UPDATE
+	if ($reorder_cnt > 0) {
+		$delete_reorder_sql = "
+			UPDATE
 				dev.PRODUCT_REORDER
 			SET
 				DEL_FLG = TRUE,
-				UPDATER = '".$member_id."',
-				UPDATE_DATE = NOW()
+				UPDATE_DATE = NOW(),
+				UPDATER = '".$member_id."'
 			WHERE
-				IDX IN (".$reorder_idx.") AND
+				IDX = ".$reorder_idx." AND
+				COUNTRY = '".$country."' AND
 				MEMBER_IDX = ".$member_idx;
 		
 		$db->query($sql);
+	} else {
+		$json_result['code'] = 301;
+		$json_result['msg'] = "부적절한 리오더 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
+		
+		return $json_result;
 	}
 }
 ?>

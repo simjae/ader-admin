@@ -260,14 +260,23 @@ function voucherIssue(){
         dataType: "json",
         url: "http://116.124.128.246:80/_api/mypage/voucher/issue/add",
         error: function(d) {
+            exceptionHandling("바우처","응모에 실패했습니다. 다시 진행해주세요.");
         },
         success: function(d) {
             if(d.code == 200){
                 $('#voucher_err_msg').hide();
-                console.log('바우처 등록 성공');
+                exceptionHandling("바우처","바우처가 등록되었습니다.");
             }
             else{
-                $('#voucher_err_msg').text(d.msg);
+                let err_str = '응모에 실패했습니다. 다시 진행해주세요.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                if(d.code = 401){
+                    exceptionHandling("드로우",err_str);
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                }
+                $('#voucher_err_msg').text(err_str);
                 $('#voucher_err_msg').show();
             }
         }
@@ -297,6 +306,7 @@ function voucherListGet(str){
         dataType: "json",
         url: "http://116.124.128.246:80/_api/mypage/voucher/list/get",
         error: function(d) {
+            exceptionHandling("바우처","목록을 불러오지 못했습니다.");
         },
         success: function(d) {
             if(d.code == 200){
@@ -373,6 +383,16 @@ function voucherListGet(str){
                             $('.info__wrap.' + str).append(strDiv);
                         }
                     })
+                }
+            }
+            else{
+                let err_str = '목록을 불러오지 못했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("바우처",err_str);
+                if(d.code = 401){
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                 }
             }
         }

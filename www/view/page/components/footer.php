@@ -22,9 +22,9 @@
         </div>
         <div class="drop__down__content">
             <ul>
-                <li class="disclaimer">온라인 스토어 이용가이드</li>
-                <li class="disclaimer">이용 약관</li>
-                <li class="disclaimer">개인정보 처리방침</li>
+                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=online_store'">온라인 스토어 이용가이드</li>
+                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=terms_of_use'">이용 약관</li>
+                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=privacy_policy'">개인정보 처리방침</li>
             </ul>
         </div>
     </li>
@@ -174,39 +174,23 @@
         dropMenuToggleBtn();
     });
         let dropMenuToggleBtn = () => {
-            const  $$dropMenuBtn = document.querySelectorAll(".footer-mobile .drop__menu");
-            const  $footerMobile = document.querySelector(".footer-mobile");
-            $$dropMenuBtn.forEach(el => {
-                el.addEventListener("click", function(e){
 
-                    if(e.currentTarget.classList.contains("show")){
-                        // e.currentTarget.classList.remove("show");
-                        // e.currentTarget.children[1].classList.remove("show");
-                        // e.currentTarget.children[0].children[1].classList.remove("toggle");
-                        allDropMenu();
-                    }else {
-                        allDropMenu();
-                        e.currentTarget.classList.add("show");
-                        e.currentTarget.children[0].classList.add("show");
-                        e.currentTarget.children[1].classList.add("show");
-                        e.currentTarget.children[0].children[1].classList.add("toggle");
-                    }
-                    
-                    
-                });
-            });
-            function allDropMenu() {
-                $$dropMenuBtn.forEach(el => {
-                    el.classList.remove("show");
-                    el.children[1].classList.remove("show");
-                    el.children[0].children[1].classList.remove("toggle");
-                })
-            }
+            $('.footer-mobile .drop__menu').on('click',function(){
+                let dropMenu = $(this);
+                let plusBtn = $(this).find('.drop__btn.plus-btn');
+                let dropDownContents = $(this).find('.drop__down__content');
+
+                if(dropMenu.hasClass('show')){
+                    dropMenu.addClass('show');
+                    plusBtn.addClass('show');
+                    dropDownContents.addClass('show');
+                }
+                else{
+                    dropMenu.removeClass('show');
+                    plusBtn.removeClass('show');
+                    dropDownContents.removeClass('show');
+                }
+                dropDownContents.toggle();
+            })
         }
-
-
-
-
-
-    
 </script>

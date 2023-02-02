@@ -40,8 +40,8 @@ if (isset($_POST['option_idx'])) {
 }
 
 if ($country == null || $member_idx == 0 || $member_name == null) {
-	$json_result['code'] = 301;
-	$json_result['mst'] = "로그인 정보가 없습니다";
+	$json_result['code'] = 401;
+	$json_result['msg'] = "로그인 정보가 없습니다";
 	
 	return $json_result;
 }

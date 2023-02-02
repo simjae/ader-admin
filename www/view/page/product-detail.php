@@ -1,5 +1,8 @@
 <link rel=stylesheet href='/css/product/detail.css' type='text/css'>
-<style>main {overflow-x: initial;}</style>
+<style>
+main {overflow-x: initial;}
+.quickview__box {display: none;}
+</style>
 <?php
 function getUrlParamter($url, $sch_tag)
 {
@@ -56,25 +59,15 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 		<div class="detail__box">
 			<div class="navigation__wrap"></div>
 			<div class="detail__img__wrap">
-				<div class="main__swiper swiper">
+				<div id="main__swiper-detail" class="main__swiper swiper">
 					<div class="swiper-wrapper main_img_wrapper"></div>
-					<div class="swiper-pagination2"></div>
+					<div class="swiper-pagination-detail-fraction"></div>
+					<div class="swiper-pagination-detail-bullets"></div>
 				</div>
 			</div>
 		</div>
-		<div class="swiper-pagination"></div>
 		<div class="info__wrap product"></div>
-		<div class="basket__wrap--btn nav">
-			<div class="basket__box--btn">
-				<div class="basket-btn">
-					<!-- <img src="/images/svg/basket.svg" alt=""> -->
-					<span class="basket-title">쇼핑백에 담기</span>
-				</div>
-				<div class="whish-btn" onclick="setWhishListBtn(this)">
-					<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="">
-				</div>
-			</div>
-		</div>
+		
 	</section>
 	<aside class="style__wrapper">
 		<div class="left__title"><span>Styling with ></span></div>

@@ -130,6 +130,7 @@ function exceptionHandling(page,message){
 //위시리스트 함수 
 function setWhishListBtn(obj) {
     let product_idx = $(obj).attr('product_idx');
+    let basket_wrap = $(obj).parent().parent();
     if (product_idx != null) {
         $.ajax({
             type: "post",
@@ -150,6 +151,9 @@ function setWhishListBtn(obj) {
                     whish_img.attr('src', '/images/svg/wishlist-bk.svg');
                     whish_img.attr('style', 'width:19px');
                     $(obj).attr('onClick', 'deleteWhishListBtn(this);');
+                    if(basket_wrap.hasClass("nav")){
+                        basket_wrap.find(".whish-btn").append("<div class='whislist-tilte'>whislist</div>")
+                    }
                 }
             }
         });
@@ -158,7 +162,7 @@ function setWhishListBtn(obj) {
 
 function deleteWhishListBtn(obj) {
     let product_idx = $(obj).attr('product_idx');
-
+    let basket_wrap = $(obj).parent().parent();
     if (product_idx != null) {
         $.ajax({
             type: "post",
@@ -178,8 +182,77 @@ function deleteWhishListBtn(obj) {
                     let whish_img = $(obj).find('.whish_img');
                     whish_img.attr('src', '/images/svg/wishlist.svg');
                     $(obj).attr('onClick', 'setWhishListBtn(this);');
+                    if(basket_wrap.hasClass("nav")){
+                        basket_wrap.find(".whislist-tilte").remove();
+                    }
                 }
             }
         });
     }
 }
+
+function createFooterObserver() {
+    let observer;
+    let options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5
+    }
+    let target = document.querySelector("footer")
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            console.log(entry.isIntersecting)
+            if(entry.isIntersecting){
+                let footerHeight = entry.boundingClientRect.height;
+                document.querySelector("#quickview .quickview__box").style.bottom = `${footerHeight}px`;
+            } else {
+                document.querySelector("#quickview .quickview__box").style.bottom = `0px`;
+            }
+        });
+    }, options);
+    observer.observe(target);
+}
+
+window.addEventListener("DOMContentLoaded", function() {
+    createFooterObserver();
+})
+
+/**
+ * @author 김성식
+ * @description 세로 스크롤바 사이즈 반환
+ */
+function getScrollBarWidth () {
+	var inner = document.createElement('p');
+	inner.style.width = "100%";
+	inner.style.height = "200px";
+
+	var outer = document.createElement('div');
+	outer.style.position = "absolute";
+	outer.style.top = "0px";
+	outer.style.left = "0px";
+	outer.style.visibility = "hidden";
+	outer.style.width = "200px";
+	outer.style.height = "150px";
+	outer.style.overflow = "hidden";
+	outer.appendChild (inner);
+
+	document.body.appendChild (outer);
+	var w1 = inner.offsetWidth;
+	outer.style.overflow = 'scroll';
+	var w2 = inner.offsetWidth;
+	if (w1 == w2) w2 = outer.clientWidth;
+
+	document.body.removeChild (outer);
+
+	return (w1 - w2);
+};
+
+
+
+/**
+ * @author 김성식
+ * @description 스크롤바 유무 판단
+ */
+$.fn.hasScrollBar = function() {
+	return (this.prop("scrollHeight") == 0 && this.prop("clientHeight") == 0) || (this.prop("scrollHeight") > this.prop("clientHeight"));
+};

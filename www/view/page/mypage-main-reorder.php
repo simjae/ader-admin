@@ -261,6 +261,7 @@ function getreorderList(str){
         dataType: "json",
         url: "http://116.124.128.246:80/_api/mypage/reorder/get",
         error: function(d) {
+            exceptionHandling("리오더","재주문 목록을 불러오지 못했습니다.");
         },
         success: function(d) {
             if(d.code == 200){
@@ -277,6 +278,7 @@ function getreorderList(str){
                                         <img src="/images/mypage/mypage_cancel_btn.svg" no="${row.reorder_idx}" action-type="cancel" onclick="reorderBtnAction(this)">
                                     </div>
                                 `;
+                            
                                 break;
                             case 'alarm':
                                 strBtn = `
@@ -292,6 +294,7 @@ function getreorderList(str){
                                         <img src="/images/mypage/mypage_re_apply_btn.svg" no="${row.reorder_idx}" action-type="re_apply" onclick="reorderBtnAction(this)">
                                     </div>
                                 `;
+                                
                                 break;
                         }
                         var img_location = 'http://116.124.128.246:81' + row.img_location;
@@ -361,6 +364,16 @@ function getreorderList(str){
                             });
                         }
                     })
+                }
+            }
+            else{
+                let err_str = '재주문 목록을 불러오지 못했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("리오더",err_str);
+                if(d.code = 401){
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                 }
             }
         }

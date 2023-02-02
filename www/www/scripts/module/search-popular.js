@@ -131,14 +131,12 @@ export function Search() {
         sideBox.appendChild(searchContent);
     };
     this.mobileWriteHtml = () => {
-        let mobileSearchWrap = document.querySelector(`.mobile-search-wrap .mdlBox`);
+        let mobileSearchWrap = document.querySelector(`.search__cont`);
         mobileSearchWrap.innerHTML = "";
-        const mdlBox = document.createElement("ul");
-        mdlBox.className = "mdl";
+        const mdlBox = document.createElement("div");
+        mdlBox.className = "mdlSearchBox";
         mdlBox.innerHTML = 
             `
-            <li>
-                <div class="mdlSearchBox hidden">
                     <div class="search-header">
                         <img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
                         <input id="search-input" type="search" placeholder="검색 해주세요!">
@@ -260,10 +258,8 @@ export function Search() {
                             <div class="search-all-btn"><span>검색 결과 전체보기</span></div>
                         </div>
                     </div>
-                </div>
-            </li>
             `
-        mobileSearchWrap.appendChild(mdlBox);
+        mobileSearchWrap.append(mdlBox);
     };
     this.addSearchEvent = () => {
         let input = document.getElementById("search-input");

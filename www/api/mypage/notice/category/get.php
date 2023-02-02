@@ -18,7 +18,17 @@ $country = null;
 if (isset($_SESSION['COUNTRY'])) {
 	$country = $_POST['COUNTRY'];
 }
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
 
+if ($country == null || $member_idx == 0) {
+    $json_result['code'] = 401;
+    $json_result['msg'] = '로그인 정보가 없습니다';
+	
+	return $json_result;
+}
 if ($country != null) {
 	$select_notice_sql = "
 		SELECT 

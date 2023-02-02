@@ -5,34 +5,9 @@
         color: #343434;
     }
 
-
     .as_tab_btn {
         display: flex;
         justify-content: center;
-    }
-
-    .as__tab__btn__container {
-        display: flex;
-        justify-content: center;
-        margin-top: 100px;
-        margin-bottom: 50px;
-    }
-
-    .as__tab__btn__container li {
-        list-style: none;
-        width: 100px;
-        cursor: pointer;
-        text-align: center;
-    }
-
-    .as__tab__btn__container li.selected {
-        border: 1px solid #343434;
-        height: 24px;
-        width: 72px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-right: 10px;
     }
 
     .as_tab_btn li {
@@ -40,14 +15,15 @@
         justify-content: center;
         align-items: center;
         list-style: none;
-        width: 86px;
+        width: 72px;
         height: 24px;
-        padding: 10px 15px;
         cursor: pointer;
+        margin-right: 10px;
+        font-size: 11px;
     }
 
     .as_tab_btn li.on {
-        border: 1px solid #dcdcdc;
+        border: 1px solid #808080;
     }
 
     .as__tab__wrap {
@@ -67,6 +43,7 @@
         height: 40px;
         width: 230px;
         margin-right: 10px;
+        font-size: 11px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -100,12 +77,11 @@
         padding-bottom: 10px;
     }
 
-    .as_container.contents__table {
-        margin: 10px 0;
-    }
-
-    .order_status_box {
-        border: 1px solid #343434;
+    .as_order_status_box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #808080;
         width: 56px;
         height: 23px;
         margin-left: 10px;
@@ -177,14 +153,6 @@
         color: #343434;
     }
 
-    .order_status_box.as_cancel {
-        width: 110px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-left: 40px;
-    }
-
     .btn_step {
         width: 100%;
         height: 30px;
@@ -243,13 +211,21 @@
     }
 
     .contents__table_as_payment table {
-        border-collapse: separate;
+        border-collapse: collapse;
         border-spacing: 20px;
     }
-    .contents__table.as{
+
+    .contents__table.as {
         margin-top: 0;
         padding-top: 0;
+        border-collapse: collapse;
+        border-bottom: none;
     }
+
+    .contents__table.as tr {
+        border-bottom: 1px solid #dcdcdc;
+    }
+
     .as__tab__wrap .title {
         font-size: 13px;
         margin-bottom: 30px;
@@ -258,13 +234,6 @@
     .as__tab__wrap .description p {
         font-size: 11px;
         margin-bottom: 10px;
-    }
-
-    /* .select-items {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
     }
 
     /* Hide the items when the select box is closed: */
@@ -278,11 +247,13 @@
         color: #f5f5f5;
     }
 
+    .as__info.as__title {
+        display: flex;
+        width: 100%;
+    }
+
     .category__select {
         width: 350px;
-        height: 40px;
-        border: 1px solid #808080;
-        padding: 12px 10px;
     }
 
     .as_step_contents.step_three div {
@@ -300,7 +271,7 @@
         <li class="on" onclick="clickAsTab (this)" tab_num="one">A/S 신청</li>
         <li onclick="clickAsTab (this)" tab_num="two">A/S 현황</li>
         <li onclick="clickAsTab (this)" tab_num="three">A/S 내역</li>
-        <li onclick="clickAsTab (this)" tab_num="four">약관 및 요금</li>
+        <li onclick="clickAsTab (this)" tab_num="four" style="width: 86px;">약관 및 요금</li>
     </ul>
     <div class="as__tab__wrap">
         <div class="tab one">
@@ -344,7 +315,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApply(this)">A/S 신청</button>
+                                        <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -364,7 +335,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApply(this)">A/S 신청</button>
+                                        <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -453,7 +424,7 @@
                 <div class="bluemark_mini_description">·&nbsp;Bluemark 시리얼 코드를 입력하여 A/S를 접수해주세요.</div>
                 <div class="bluemark_input_wrap">
                     <input type="text" class="bluemark_serialcode" placeholder="BLUE MARK 시리얼 코드">
-                    <button class="black__btn" onclick="" style="width: 230px !important;">검색</button>
+                    <button class="black__btn" onclick="asSearch(this)" style="width: 230px !important;">검색</button>
                 </div>
                 <div class='bluemark_mini_title'>
                     <ul>Bluemark 인증 내역</ul>
@@ -488,7 +459,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApplyBluemark()">A/S 신청</button>
+                                        <div class="as_order_status_box" onclick="asApplyBluemark()">A/S 신청</div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -508,7 +479,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td style="padding-bottom: 10px;">
-                                        <button class="order_status_box" onclick="asApplyBluemark(this)">A/S 신청</button>
+                                        <div class="as_order_status_box" onclick="asApplyBluemark(this)">A/S 신청</div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -517,15 +488,16 @@
                 </div>
             </div>
             <div class="as_buying_wrap one_three">
-                <div>·&nbsp;확인 불가 제품은 상황에 따라 A/S가 불가할 수도 있습니다.</div>
+                <div style="margin-bottom: 20px;">·&nbsp;확인 불가 제품은 상황에 따라 A/S가 불가할 수도 있습니다.</div>
                 <div class="as__tab as__action__wrap">
                     <form id="frm-as">
                         <div class="as__info as__title">
                             <span>
-                                <select class="category__select">
+                                <select class="category__select" style="margin-right: 10px;">
                                     <option class="inquiry_select_placeholder">의류</option>
                                 </select>
                             </span>
+                            <img src="http://116.124.128.246/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="float:right;margin-top:10px;">
                             <span>
                                 <select class="category__select">
                                     <option class="as_select_placeholder">아우터</option>
@@ -588,7 +560,7 @@
             <p class="as_status_title">접수 진행중
             <p>
             <div class="as__table__container">
-                <div class="contents__table as">
+                <div class="contents__table as" id="as_table">
                     <table>
                         <colsgroup>
                             <col style="width:120px;">
@@ -630,8 +602,8 @@
                     <p>A/S 서비스를 위해 접수가 진행중입니다.</p>
                     <p>요청일 2022.12.08</p>
                     <p>요청내용 수선요청</p>
-                    <div class="order_status_box as_one" step_result_num="step_result_one" onclick="asStatusStep(this)"
-                        style="width: 110px; margin-left: 37px;">A/S 신청 취소하기
+                    <div class="as_order_status_box as_one" step_result_num="step_result_one"
+                        onclick="asStatusStep(this)" style="width: 110px; margin-left: 37px;">A/S 신청 취소하기
                     </div>
                 </div>
             </div>
@@ -645,8 +617,9 @@
             <div class="as_step_contents step_two" style="display: none;">
                 <div>
                     <p>A/S 제품 수거를 위해 배송정보를 등록해주세요.</p>
-                    <div class="order_status_box as_two" step_result_num="step_result_two" onclick="asStatusStep(this)"
-                        style="width: 106px; margin-left: 70px; margin-bottom: 10px;">배송정보 등록하기
+                    <div class="as_order_status_box as_two" step_result_num="step_result_two"
+                        onclick="asStatusStep(this)" style="width: 106px; margin-left: 70px; margin-bottom: 10px;">배송정보
+                        등록하기
                     </div>
                     <p>서울시 성동구 연무장길 53 삼영빌딩 3층 ADER 고객지원팀</p>
                     <p>02-792-2232</p>
@@ -681,7 +654,7 @@
                 <div>
                     <span style="margin-right: 10px;">A/S 요금</span><span>배송비 포함 10,000원</span>
                 </div>
-                <div class="order_status_box as_four" onclick=""
+                <div class="as_order_status_box as_four" onclick=""
                     style="width: 110px; margin-left: 60px; margin-top: 10px;">요금 결제하기</div>
             </div>
 
@@ -891,7 +864,7 @@
                     <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                 </div>
                 <div class="as__table__container">
-                    <div class="contents__table">
+                    <div class="contents__table as">
                         <table>
                             <colsgroup>
                                 <col style="width:120px;">
@@ -1010,7 +983,7 @@
                                     <p>80,000~</p>
                                 </td>
                             </tr>
-                            <tr>
+                            <tr style="border-bottom: none;">
                                 <td>
                                     <p>주얼리</p>
                                 </td>
@@ -1073,9 +1046,15 @@
         }
     }
 
-    function asApplyBluemark(obj) {
-        
+    function asSearch(obj) {
+        $('.black__btn').text('취소');
+  
     }
+
+    function asApplyBluemark(obj) {
+
+    }
+
     function asStepBtn(obj) {
         var step_num = $(obj).attr('step_num');
         if ($('.as_step_contents').css('display') == 'none') {

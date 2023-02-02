@@ -4,6 +4,7 @@ import {Bluemark} from '/scripts/module/bluemark.js';
 import {Language} from '/scripts/module/language.js';
 import {Search} from '/scripts/module/search-popular.js';
 import {User} from '/scripts/module/user.js';
+	var headerSwiperArr = new Array();
 	
 	window.addEventListener('DOMContentLoaded', function() {
 		getMenuListApi();
@@ -118,10 +119,10 @@ import {User} from '/scripts/module/user.js';
 									}).join("")
 									}
 									<li class="pobox all-view" onclick="location.href="/posting/collaboration">
-										<a class="menu-ul">
+										<a href="/posting/collaboration" class="menu-ul">
 											콜라보레이션
 										</a>
-										<a class="menu-ul">
+										<a href="/posting/collaboration" class="menu-ul">
 											전체보기
 										</a>
 									</li>
@@ -138,14 +139,14 @@ import {User} from '/scripts/module/user.js';
 				<ul class="menu__wrap right">`
 		menuHtml +=`
 				<li class="drop web story" data-type="ST" data-large="6">
-					<a class="menu-ul lrg" href="">스토리</a>
+					<a class="menu-ul lrg menu-ul" href="#">스토리</a>
 					<div class="drop__menu">
 						<ul class="cont st__menu">
 							<li></li>
 							<li>
 								<ul class="st__cont">
 									<li>
-										<a href="">새로운 소식</a>
+										<a href="#" class="menu-ul">새로운 소식</a>
 										<ul class="list__grid">
 											<li class="st__box">
 												<div class="newsBox">
@@ -171,50 +172,50 @@ import {User} from '/scripts/module/user.js';
 										</ul>
 									</li>
 									<li>
-										<a href="">아카이브</a>
+										<a href="/story/main" class="menu-ul">아카이브</a>
 										<ul class="list__grid">
 											<li class="st__box">
-												<div class="mid-a archiveTitle">프로젝트</div>
+												<div class="mid-a archiveTitle"><a href="/posting/lookbook" class="menu-ul">프로젝트</a></div>
 												<div class="archiveBox">
 													<ul>
-														<li class="archiveList">2022 SS  'After blue'</li>
-														<li class="archiveList">2022 Origin 'Cinder'</li>
-														<li class="archiveList">2021 AW 'Un nouveau système'</li>
-														<li class="archiveList">2021 SS 'Layering time'</li>
+														<li class="archiveList link">2022 SS  'After blue'</li>
+														<li class="archiveList link">2022 Origin 'Cinder'</li>
+														<li class="archiveList link">2021 AW 'Un nouveau système'</li>
+														<li class="archiveList link">2021 SS 'Layering time'</li>
 													</ul>
 													<ul>
 														<li class="archiveList dot"></li>
-														<li class="archiveList allBtn">+  전체보기</li>
+														<li class="archiveList allBtn"><a href="/posting/lookbook" class="menu-ul">+  전체보기</a></li>
 													</ul>
 												</div>
 											</li>
 											<li class="st__box"  data-mdl="">
-												<div class="mid-a archiveTitle">룩북</div>
+												<div class="mid-a archiveTitle"><a href="/posting/runway" class="menu-ul">룩북</a></div>
 												<div class="archiveBox">
 													<ul>
-														<li class="archiveList">2022 F/W 'Phenomenon comm...</li>
-														<li class="archiveList">2022 S/S 'After blue'</li>
-														<li class="archiveList">2022 Origin 'Cinder'</li>
-														<li class="archiveList">2021 SS 'Layering time'</li>
+														<li class="archiveList link">2022 F/W 'Phenomenon comm...</li>
+														<li class="archiveList link">2022 S/S 'After blue'</li>
+														<li class="archiveList link">2022 Origin 'Cinder'</li>
+														<li class="archiveList link">2021 SS 'Layering time'</li>
 													</ul>
 													<ul>
 														<li class="archiveList dot"></li>
-														<li class="archiveList allBtn">+  전체보기</li>
+														<li class="archiveList allBtn"><a href="/posting/runway" class="menu-ul">+  전체보기</a></li>
 													</ul>
 												</div>
 											</li>
 											<li class="st__box"  data-mdl="">
-												<div class="mid-a archiveTitle">에디토리얼</div>
+												<div class="mid-a archiveTitle"><a href="/posting/editorial" class="menu-ul">에디토리얼</a></div>
 												<div class="archiveBox">
 													<ul>
-														<li class="archiveList">Mule series 'Curve'</li>
-														<li class="archiveList">‘Self Expression'</li>
-														<li class="archiveList">Adererror x Puma 'Vaderon'</li>
-														<li class="archiveList">2022ss campaign ‘After blue'</li>
+														<li class="archiveList link">Mule series 'Curve'</li>
+														<li class="archiveList link">‘Self Expression'</li>
+														<li class="archiveList link">Adererror x Puma 'Vaderon'</li>
+														<li class="archiveList link">2022ss campaign ‘After blue'</li>
 													</ul>
 													<ul>
 														<li class="archiveList dot"></li>
-														<li class="archiveList allBtn">+  전체보기</li>
+														<li class="archiveList allBtn"><a href="/posting/editorial" class="menu-ul">+  전체보기</a></li>
 													</ul>
 												</div>
 											</li>
@@ -234,7 +235,7 @@ import {User} from '/scripts/module/user.js';
 				<li class="web search__li side-bar" data-type="S">					
 					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
 				</li>
-				<li class="flex wishlist__btn" onclick="navWhishlistBtn()" data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+				<li class="flex wishlist__btn"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
 				<li class="flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
 				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
 					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
@@ -259,7 +260,7 @@ import {User} from '/scripts/module/user.js';
 		let $$webMenu = document.querySelectorAll(".web");
 		let $webMenu = document.querySelector(".web");
 		let $lrgMenu = document.querySelectorAll(".lrg");
-				
+	/*			
 		$$webMenu.forEach(el => {
 			el.addEventListener("mouseover", function(e) {
 				var swiper = new Swiper(".swiper__box", {
@@ -276,15 +277,30 @@ import {User} from '/scripts/module/user.js';
 				}); 
 			},{ once : true });
 		});
-		
+		*/
 		$(".drop.web").hover(function() {
 			var showRate = 200;
+			var idx = $(this).attr("data-lrg");
 			$(".drop__menu").each(function(index, item){
 				if($(item).css("display") == "block"){
 					showRate = 0;
 				}
 			});
 			$(this).find(".drop__menu").fadeIn(showRate);
+			if(!headerSwiperArr[idx]){
+				headerSwiperArr[idx] = new Swiper("#menuSwiper"+idx, {
+					observer:true,
+					observeParents:true,
+					pagination: {
+						el: ".swiper-pagination-"+idx,
+						dynamicBullets: true
+					},
+					autoplay: {
+						delay: 2000,
+						disableOnInteraction: false,
+					}
+				}); 
+			}
 		},function(){
 			$(this).find(".drop__menu").fadeOut(100);
 		});
@@ -426,7 +442,7 @@ import {User} from '/scripts/module/user.js';
 						<li class="div__line">
 						</li>
 						<li>
-							<div class="sub__title">아카이브</div>
+							<div class="sub__title"><a href="http://116.124.128.246/story/main">아카이브</a></div>
 							<ul class="list__grid">
 								<li class="st__box">
 									<div class="mid-a archiveTitle">프로젝트</div>
@@ -483,59 +499,18 @@ import {User} from '/scripts/module/user.js';
 				<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></div>
 				<div class="mdlBox"></div>
 			</li>
-			<li class="flex"><img src="/images/svg/customer-bk.svg" style="width:18px" alt=""><span>고객서비스</span></li>
 			<li class="flex bluemark"><div class="bluemark-icon"></div><span>Bluemark</span></li>
 			<li class="flex language"><span>KR</span><span>Language</span></li>
-			
+			<li class="flex logout"><span>로그아웃[임시]</span></li>
 		</ul>
 		<div class="mobile__search">
-			<div class="seach__input">
-				<img src="/images/svg/mobile-search.svg" alt="">
-				<input type="text" placeholder="검색어를 입력하세요">
-			</div>
-			<div class="recommend__search">
-				<ul>
-					<li class="recommend__search__title">추천 검색어</li>
-					<li class="search__result">쇼퍼백</li>
-					<li class="search__result">트윈하트로고 티셔츠</li>
-					<li class="search__result">키링</li>
-					<li class="search__result">The new is not new</li>
-					<li class="search__result">버켄스탁 콜라보레이션</li>
-				</ul>
-			</div>
-			<div class="recommend__prd">
-				<div class="prd__title">추천 상품</div>
-				<div class="prd__content">
-					<div class="prd__card">
-						<div class="prd__img__wrap">
-							<div class="prd__img" style="background-image: url('/images/product/prd2.png');"></div>
-						</div>
-						<p class="prd__img__title">shopper bag</p>
-					</div>
-					<div class="prd__card">
-						<div class="prd__img__wrap">
-							<div class="prd__img" style="background-image: url('/images/product/prd4.png');"></div>
-						</div>
-						<p class="prd__img__title">shopper bag</p>
-					</div>
-					<div class="prd__card">
-						<div class="prd__img__wrap">
-							<div class="prd__img" style="background-image: url('/images/product/prd1.png');"></div>
-						</div>
-						<p class="prd__img__title">shopper bag</p>
-					</div>
-					<div class="prd__card">
-						<div class="prd__img__wrap">
-							<div class="prd__img" style="background-image: url('/images/product/prd3.png');"></div>
-						</div>
-						<p class="prd__img__title">shopper bag</p>
-					</div>
-				</div>
-			</div>
+			<div class="search__back__btn"></div>
+			<div class="search__cont"></div>
 		</div>`
 		mobileMenu.innerHTML = menuHtml;
 		document.querySelector(".side__menu").appendChild(domfrag);
 		menuLrgClick();
+		logoutClick();
 	}
 	function mobileMdlSwipe() {
 		const $$swiperBox = document.querySelectorAll(".m__swiper__box");
@@ -549,6 +524,7 @@ import {User} from '/scripts/module/user.js';
 				}
 			});
 		});
+		
 	}
 	/*모바일 관련*/
 	const menuLrgClick = () => {
@@ -584,6 +560,32 @@ import {User} from '/scripts/module/user.js';
 			$(".mobile__menu .lrg").slideDown(200);
 		});
 		
+		$(".mobile__search__btn").click(function(){
+			$(".top, .mid, .bottom").slideUp(150);
+			$(".mobile__search").slideDown(200);
+			$(this).closest(".side__menu").addClass("lrg__on");
+			$(".mobile__search .search__back__btn").addClass("open");
+		});
+		$(".mobile__search .search__back__btn").click(function(){
+			$(".mobile__search").slideUp(150);
+			$(".top, .mid, .bottom").slideDown(150);
+			$(this).closest(".side__menu").removeClass("lrg__on");
+			$(".mobile__search .search__back__btn").removeClass("open");
+		});
+		
+	}
+	const logoutClick = () => {
+		$('.flex.logout').on('click', function(){
+			$.ajax({
+				type: "post",
+				dataType: "json",
+				url: "http://116.124.128.246:80/_api/account/logout",
+				success: function (d) {
+					exceptionHandling("",'로그아웃');
+					$('#exception-modal .close-btn').attr('onclick', 'location.href="/main"');
+				}
+			});
+		})
 	}
 	const mobileSearch = () => {
 		let mobile = document.querySelector("#mobile");
@@ -604,6 +606,9 @@ import {User} from '/scripts/module/user.js';
 		mobileMenuBtn.addEventListener('click', (ev) => {
 			mobileSide.classList.toggle('menu__on');
 			hamburgerBtn.classList.toggle("is-active");
+			if(hamburgerBtn.classList.contains("is-active")){
+				$("#dimmer").removeClass("show");
+			}
 			header.classList.toggle("scroll");
 			let mobileSearch = new Search();
 			mobileSearch.mobileWriteHtml();
@@ -722,7 +727,18 @@ import {User} from '/scripts/module/user.js';
 		const pageUrl = new URL(document.location);
 		let path = pageUrl.pathname; 
 		let sideBarBtn = document.querySelectorAll('.side-bar');
-		
+
+		//위시
+		let $quickview = document.querySelector("#quickview");
+		let $contentWrap = document.querySelector(".quickview__content__wrap");
+		let $listBtn = document.querySelector(".btn__box.list__btn");
+		let $whishlistBtn = document.querySelector(".wishlist__btn");
+		let $titleBoxSpan = document.querySelector(".title__box span");
+		let $titleBoxImg = document.querySelector(".title__box img");
+
+
+
+		navWhishlistBtn();
 		sideBarBtn.forEach(el => {
 			el.addEventListener("click", function() {
 				sideBarBtn.forEach(el => el.classList.remove("open"));
@@ -780,17 +796,24 @@ import {User} from '/scripts/module/user.js';
 			});
 		})
 		function sideBarToggleEvent(target){
-			layoutClick(target);
+			// layoutClick(target);
+			
 			let sideContainer = document.querySelector("#sidebar");
 			let sideBg = document.querySelector(".side__background");
 			let sideWrap = document.querySelector(".side__wrap");
 			if(sideContainer.classList.contains("open")){
-
-				sidebarClose();				
-
+				sidebarClose();	
 			} else {
+				if($(".wishlist__btn.open").length !== 0){
+					whishlistClose();
+				}
 				target.classList.add("open");
 				$("header").addClass("scroll");
+				console.log("scr"+getScrollBarWidth());
+				console.log("scr"+$("html").hasScrollBar());
+				if($("html").hasScrollBar()){
+					$("header, main, footer").css("padding-right",getScrollBarWidth());
+				}
 				$("body").css("overflow","hidden");
 				sideContainer.classList.add("open");
 				sideBg.classList.add("open");
@@ -800,7 +823,7 @@ import {User} from '/scripts/module/user.js';
 
 
 		}
-		function sidebarClose () {
+		function sidebarClose() {
 			sideBarBtn.forEach(el => el.classList.remove("open"));
 			let sideContainer = document.querySelector("#sidebar");
 			let sideBg = document.querySelector(".side__background");
@@ -808,13 +831,43 @@ import {User} from '/scripts/module/user.js';
 			sideBarBtn.forEach(el => el.classList.remove("open"));
 			$("header").removeClass("scroll");
 			$("body").css("overflow","inherit")
+			if($("html").hasScrollBar()){
+				$("header, main, footer").css("padding-right","");
+			}
 			sideContainer.classList.remove("open");
 			sideBg.classList.remove("open");
 			sideWrap.classList.remove("open");
 			document.querySelector(".side__box").innerHTML = "";
 			headerHover(false);
 		}
-		function layoutClick () {
+		function navWhishlistBtn(){
+			let $wishlistBtn  = document.querySelector(".wishlist__btn");
+			
+
+			$wishlistBtn.addEventListener("click", function(){
+				if(this.classList.contains("open")){
+					whishlistClose();
+				}else {
+					if($(".side-bar.open").length !== 0){
+						sidebarClose();
+					}
+					$quickview.classList.remove("hidden");
+					$titleBoxSpan.innerText = "위시리스트";
+					$titleBoxImg.src = "/images/svg/wish-list-bk.svg";
+					$contentWrap.classList.add("open");
+					$listBtn.classList.add("select");
+					getWhishlistProductList();
+					$whishlistBtn.classList.add("open");
+				}
+			})
+		}
+		function whishlistClose(){
+			$quickview.classList.add("hidden");
+			$contentWrap.classList.remove("open");
+			$listBtn.classList.remove("select");
+			$whishlistBtn.classList.remove("open");
+		}
+		function layoutClick() {
 			let sideWrap = document.querySelector(".side__wrap");
 			let sideBg = document.querySelector(".side__background");
 			sideBg.addEventListener("click" ,(e) =>{
@@ -825,17 +878,8 @@ import {User} from '/scripts/module/user.js';
 
 		}
 	}
-	// function headerHoberCheck() {
-	// 	let header = document.querySelector("header");
-	// 	let sidebarBg = document.querySelector(".side__background");
-	// 	if(header.classList.contains("hover")){
-	// 		sidebarBg.style.background ="#00000000"; 
-	// 		console.log("open")
-	// 	} else{
-	// 		sidebarBg.style.background ="#000000cc";
-	// 		console.log("close")
-	// 	}
-	// }
+	
+	
 
 
 	

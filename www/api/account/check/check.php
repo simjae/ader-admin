@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 회원 비밀번호 찾기 - 가입여부 체크  / 임시 비밀번호 발송
+ | 가입메일 체크
  | -------
  |
  | 최초 작성	: 박성혁
@@ -14,53 +14,47 @@
  | 
  +=============================================================================
 */
+$country		= $_POST['country'];
+$member_id		= $_POST['member_id'];
 
-$country = null;
-if (isset($_POST['country'])) {
-	$country = $_POST['country'];
+if($member_id == null || $member_id == ''){
+	$result = false;
+	$code	= 401;
+	$msg = '입력한 이메일이 올바르지 않습니다. 다시 입력해주세요';
 }
+else{
+	$member_count = 0;
+	$sql = "
+		SELECT 
+			COUNT(0) AS MEMBER_CNT,
+			IDX 
+		FROM 
+			dev.MEMBER_".$country."
+		WHERE
+			MEMBER_ID = '".$member_id."'
+	";
+	$db->query($sql);
 
-$member_id = null;
-if (isset($_POST['member_id'])) {
-	$member_id = $_POST['member_id'];
-}
+	$result_arr = array();
+	foreach($db->fetch() as $data){
+		$member_count = $data['MEMBER_CNT'];
+		$result_arr = array(
+			'member_idx' => $data['IDX']
+		);
+	}
 
-if($member_id == '' || $member_id == null){
-	$json_result['result'] = false;
-	$json_result['code'] = 401;
-	
-	return $json_result;
-}
+	if($member_count > 0){
 
-if ($country != null && $member_id != null) {
-	$member_cnt = $db->count("dev.MEMBER_".$country,"MEMBER_ID = '".$member_id."'");
-	
-	if ($member_cnt > 0) {
-		$tmp_pw = dechex(substr(time(),0,10));
-		
-		$update_member_sql = "
-			UPDATE
-				dev.MEMBER_".$country."
-			SET
-				MEMBER_PW = '".md5($tmp_pw)."',
-				PW_DATE = NOW()
-			WHERE
-				MEMBER_ID = '".$member_id."'
-		";
-		
-		$db->query($update_member_sql);
-		
-		$db_result = $db->affectedRows();
-		
-		if ($db_result > 0) {
-			// php의 메일 발송 함수 mail() 
-			// 미구현
-		}
-	} else{
-		$json_result['result'] = false;
-		$json_result['code'] = 300;
-		
-		return $json_result;
+		// php의 메일 발송 함수 mail() 
+		// 미구현
+
+
+		$json_result['data'][] = $result_arr; 
+	}
+	else{
+		$result = false;
+		$code	= 300;
+		$msg = '존재하지 않는 이메일입니다';
 	}
 }
 ?>

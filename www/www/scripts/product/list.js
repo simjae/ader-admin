@@ -911,10 +911,12 @@ function upperFilterSelectEvent() {
     let {pathname,search} = getCurrentUrl();
     
 	let slide  = document.querySelectorAll(".prd__meun__grid .swiper-slide");
-    slide.forEach(el => {
-        if(el.dataset.url == `${pathname}${search}`){
-            el.classList.add("select");
-        }
+    slide.forEach((el,idx) => {
+            if(el.dataset.url == `${pathname}${search}`){
+                if(idx == 0){
+                    el.classList.add("select");
+                }
+            }
     })
 }
 

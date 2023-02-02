@@ -71,9 +71,6 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 	$db->begin_transaction();
 	
 	try {
-		//선택한 상품/옵션이 구매 가능한 상태인지 체크
-		$product_result = checkProduct($db,$product_idx,$country,$member_idx);
-		
 		$basket_cnt = $db->count("dev.BASKET_INFO","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE ");
 		
 		if ($basket_cnt > 0) {
@@ -82,6 +79,9 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 			
 			return $json_result;
 		}
+		
+		//선택한 상품/옵션이 구매 가능한 상태인지 체크
+		$product_result = checkProduct($db,$product_idx,$country,$member_idx);
 		
 		if ($product_result == true) {
 			for ($i=0; $i<count($option_idx); $i++) {

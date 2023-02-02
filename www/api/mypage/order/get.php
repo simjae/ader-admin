@@ -151,7 +151,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 					'color_rgb'				=>$order_product_data['COLOR_RGB'],
 					'option_name'			=>$order_product_data['OPTION_NAME'],
 					'product_qty'			=>$order_product_data['PRODUCT_QTY'],
-					'product_price'			=>$order_product_data['PRODUCT_PRICE']
+					'product_price'			=>number_format($order_product_data['PRODUCT_PRICE'])
 				);
 			}
 			
@@ -169,12 +169,12 @@ if ($member_idx > 0 && $order_idx > 0) {
 				'member_name'			=>$order_data['MEMBER_NAME'],
 				'member_mobile'			=>$order_data['MEMBER_MOBILE'],
 
-				'price_product'			=>$order_data['PRICE_PRODUCT'],
-				'price_delivery'		=>$order_data['PRICE_DELIVERY'],
-				'price_discount'		=>$order_data['PRICE_DISCOUNT'],
-				'price_mileage_point'	=>$order_data['PRICE_MILEAGE_POINT'],
-				'price_charge_point'	=>$order_data['PRICE_CHARGE_POINT'],
-				'price_total'			=>$order_data['PRICE_TOTAL'],
+				'price_product'			=>number_format($order_data['PRICE_PRODUCT']),
+				'price_delivery'		=>number_format($order_data['PRICE_DELIVERY']),
+				'price_discount'		=>number_format($order_data['PRICE_DISCOUNT']),
+				'price_mileage_point'	=>number_format($order_data['PRICE_MILEAGE_POINT']),
+				'price_charge_point'	=>number_format($order_data['PRICE_CHARGE_POINT']),
+				'price_total'			=>number_format($order_data['PRICE_TOTAL']),
 
 				'to_zipcode'			=>$order_data['TO_ZIPCODE'],
 				'to_addr'				=>$order_data['TO_ADDR'],

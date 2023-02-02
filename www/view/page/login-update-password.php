@@ -348,8 +348,10 @@ input::placeholder{
                 
                 $page_url = $_SERVER['REQUEST_URI'];
                 $member_idx = getUrlParamter($page_url, 'member_idx');
+                $country = getUrlParamter($page_url, 'country');
 		?>
 				<input id="member_idx" type="hidden" name="member_idx" value="<?=$member_idx?>">
+                <input id="country" type="hidden" name="member_idx" value="<?=$country?>">
             <div class="card__body">
                 <div class="content__wrap">
                     <div class="content__title warm__msg__area">

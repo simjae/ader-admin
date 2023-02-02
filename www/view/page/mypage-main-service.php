@@ -689,6 +689,7 @@ $(document).ready(function(){
         dataType: "json",
         url: "http://116.124.128.246:80/_api/mypage/notice/get",
         error: function(d) {
+            exceptionHandling("공지사항",'공지사항을 불러오지 못했습니다.');
         },
         success: function(d) {
             if(d.code == 200){
@@ -722,10 +723,20 @@ $(document).ready(function(){
                 $('.service__tab__wrap .request p').css('text-align','left');
                 $('.service__tab__wrap .request img').css('width','670px');
             }
-            
+            else{
+                let err_str = '공지사항을 불러오지 못했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("공지사항",err_str);
+                if(d.code = 401){
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                }
+            }
             $('.question').on('click', function(){
-                $('.request').hide();
+                $('.request').not($(this).next()).hide();
                 $('.question').find('img.down__up__icon').attr('src','/images/mypage/mypage_down_tab_btn.svg');
+                
                 if($(this).next().css('display') == 'none'){
                     $(this).find('img.down__up__icon').attr('src','/images/mypage/mypage_up_tab_btn.svg');
                 }

@@ -283,6 +283,14 @@ function getTotalDraw(){
                     })
                 }
             }
+            else{
+                let err_str = '드로우목록을 불러오지 못했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("드로우",err_str);
+				$('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+            }
         }
     });
 }
@@ -470,6 +478,15 @@ function getEntryDraw(type){
                         $('.draw__' + type + '__wrap .mobile__view .info__wrap').append(strDivMobile);
                     })
                 }
+            }
+            else{
+                let err_str = '드로우 응모내역을 불러오지 못했습니다';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("드로우",err_str);
+				$('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                
             }
         }
     });

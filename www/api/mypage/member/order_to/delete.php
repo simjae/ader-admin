@@ -31,7 +31,7 @@ if (isset($_POST['order_to_idx'])) {
 
 if ($country == null || $member_idx == 0) {
 	$json_result['code'] = 401;
-	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	$json_result['msg'] = "로그인 정보가 없습니다";
 	exit;
 }
 
@@ -46,5 +46,10 @@ if ($member_idx > 0 && $order_to_idx > 0) {
 	";
 
 	$db->query($delete_order_to_sql);
+}
+else{
+	$json_result['code'] = 301;
+	$json_result['msg'] = "배송지정보를 불러오지 못했습니다<br>다시 진행해주세요";
+	exit;
 }
 ?>

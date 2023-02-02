@@ -295,4 +295,6 @@ input{outline: none;}
     </div>
 </main>
 
-<script src="/scripts/member/login.js"></script>
+<script src="/scripts/member/login.js">
+
+</script>

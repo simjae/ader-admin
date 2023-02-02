@@ -92,6 +92,7 @@ swiper
     height: 100px;
     text-align: center;
     justify-content: space-between;
+    width:75px;
 }
 .lookbook-wrap .lookCategory-swiper .swiper-slide span {
     opacity: 0.4;
@@ -117,7 +118,6 @@ swiper
     width: 65px;
     height: 65px;
 }
-
 
 .lookbook-wrap .arrow-wrap{
     position: relative;
@@ -311,9 +311,17 @@ lookbook-detail
     swiper 
     ----------------------------------------------------
     */
+    .lookbook-wrap .arrow-wrap{
+        margin-left:10px;
+        width:100%;
+        position: relative;
+    }
     .lookbook-wrap .lookCategory-swiper .swiper-slide{
+        width:60px;
         height: 90px;
     }
+    .lookbook-wrap .lookCategory-swiper .swiper-slide .lookCategory-box{height:60px;}
+    .lookbook-wrap .lookCategory-swiper .swiper-slide.select .lookCategory-box{height:60px;}
     .lookbook-wrap .lookCategory-swiper img{
         width: 55px;
         height: 55px;
@@ -850,7 +858,7 @@ function lookbookClickEvent() {
 
 let lookbookCategorySwiper = new Swiper(".lookCategory-swiper" ,{
     // slidesPerView:'auto',
-    slidesPerView: 10.4,
+    slidesPerView: 'auto',
     spaceBetween: 10,
     navigation: {
         nextEl: ".look-header-wrap .swiper-button-next",

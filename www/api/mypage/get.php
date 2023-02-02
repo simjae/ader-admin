@@ -25,7 +25,7 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 }
 
 if ($country == null || $member_idx == 0) {
-	$json_result['code'] = 302;
+	$json_result['code'] = 401;
     $json_result['msg'] = '로그인 정보가 없습니다.';
 	
 	return $json_result;

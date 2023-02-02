@@ -67,6 +67,18 @@ function login() {
 	});
 }
 
+    function logout(){
+        $.ajax(
+            {
+                url: "http://116.124.128.246:80/_api/account/logout",
+                type: 'POST',
+                success:function(){
+                    exceptionHandling("",'로그아웃');
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/main"');
+                }
+            }
+        )
+    }
 function setCookie(cookieName, value, exdays){
 	let exdate = new Date();
 	exdate.setDate(exdate.getDate() + exdays);
@@ -118,7 +130,6 @@ function password_find_check() {
 			return false;
 		}
 	}
-	
 	$.ajax(
 		{
 			url: "http://116.124.128.246:80/_api/account/check/check",
@@ -132,12 +143,15 @@ function password_find_check() {
 			success:function(data){
 				if(data.code == "200") { // 이메일검사 성공
 					$('.member_id_msg').css('visibility','hidden');
-					$('.result_msg').css('visibility','visible');
-					$('.result_msg').text(data.data.temp_password);
+					exceptionHandling('',"입력하신 이메일로<br>비밀번호 변경창 링크를 전송했습니다.");
 				}
 				else {	// 이메일검사 실패
+					let err_str = '이메일이 올바르지 않습니다. 다시 입력해주세요';
+					if(data.msg != null){
+						err_str = data.msg;
+					}
 					$('.member_id_msg').css('visibility','visible');
-					$('.member_id_msg').text('존재하지 않는 이메일입니다');
+					$('.member_id_msg').text(err_str);
 				}
 			},
 			complete:function(data){
@@ -171,7 +185,6 @@ function urlParsing(){
 		var data_arr = data.split("=");
 		if(data_arr[0] == 'member_idx'){
 			$('input [name="idx"]').val(data_arr[1]);
-			console.log($('input [name="idx"]').val());
 		}
 	}
 }
@@ -185,8 +198,7 @@ function memberPwConfirm(str){
 	//var password_str = $('input[name="password"]').eq(0).val();
 
 	if(space_reg.test(str) == false){
-		return password_reg.test(str)
-			return true;
+		return password_reg.test(str);
 	}
 	else{
 		return false;
@@ -196,7 +208,12 @@ function memberPwConfirm(str){
 
 //.css('visibility','hidden');
 function updateMemberPw(){
+	//member_idx : 
+	//비밀번호 변경 -> 이메일로 변경페이지 링크생성될때 파라미터로 주어진 값.
+	//로그인 유무와는 상관없음.
 	var member_idx = $('input[name="member_idx"]').val();
+	var country = $('input[name="country"]').val();
+
 	var member_pw = $('input[name="member_pw"]').val();
 	var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
 
@@ -215,15 +232,23 @@ function updateMemberPw(){
 		{
 			url: "http://116.124.128.246:80/_api/account/put",
 			type:'POST',
-			data: { 'member_idx' : member_idx,
+			data: { 'country' : country,
+					'member_idx' : member_idx,
 					'member_pw' : member_pw },
 			error:function(data){
 			},
 			success:function(data){
 				if(data.code == "200") {
 					//location.reload();
-					console.log('비밀번호 변경 성공');
+					exceptionHandling("비밀번호 변경","비밀번호 변경에 성공했습니다.");
 					location.href='/login';
+				}
+				else{
+					let err_msg = ''
+					if(data.msg != null){
+						err_msg = data.msg;
+					}
+					exceptionHandling("비밀번호 변경",err_msg);
 				}
 			},
 			complete:function(data){
@@ -376,8 +401,8 @@ function joinAction(){
 			success:function(data){
 				if(data.code == "200") {
 					//location.reload();
-					exceptionHandling("회원가입","회원가입에 성공하셨습니다.");
-					$('#exception-modal .close-btn').attr('onclick', 'location.href="/main"');
+					exceptionHandling("회원가입","회원가입에 성공하셨습니다.<br>로그인창으로 돌아갑니다.");
+					$('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
 				}
 				else {
 					if(data.code == "303"){
@@ -403,3 +428,8 @@ function hidePwDescription(){
 	$('#pw_desciption').hide();
 	$('#hide_area').show();
 }
+$('#member_pw, #member_id').on('keypress', function(e){
+	if(e.keyCode == '13'){
+		login();
+	}
+})

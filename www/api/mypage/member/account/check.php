@@ -29,9 +29,9 @@ if (isset($_POST['member_pw'])) {
 	$member_pw = md5($_POST['member_pw']);
 }
 
-if ($country == null && $member_idx == 0) {
+if ($country == null || $member_idx == 0) {
 	$json_result['code'] = 401;
-	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	$json_result['msg'] = "로그인 정보가 없습니다";
 	return $json_result;
 }
 
@@ -44,6 +44,7 @@ if ($country != null && $member_idx > 0 && $member_pw != null) {
 		$json_result['code'] = 200;
 	} else {
 		$json_result['code'] = 301;
+		$json_result['msg'] = "비밀번호가 일치하지 않습니다.";
 	}
 	
 	return $json_result;

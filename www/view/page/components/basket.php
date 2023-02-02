@@ -1,10 +1,5 @@
 <link rel="stylesheet" href="/css/common/basket.css">
 <link rel="stylesheet" href="/css/module/foryou.css">
-<style>
-
-main {overflow-x: initial;}
-
-</style>
 <main>
     <section class="basket__wrap">
         <div class="list__box">
@@ -33,7 +28,7 @@ main {overflow-x: initial;}
             </div>
             <div class="pay__row">
                 <div>배송비</div>
-                <div class="deli__price" data-deli="5000">0</div>
+                <div class="deli__price" data-price_delivery="5000">0</div>
             </div>
             <div class="pay__row">
                 <div>총 합계</div>

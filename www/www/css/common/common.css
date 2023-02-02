@@ -319,7 +319,6 @@ transform: translateY(-4px) rotate(-45deg);
     justify-content: space-between;
     gap: 10px;
     list-style: none;
-
 }
 .size__box li {
     position: relative;
@@ -378,6 +377,7 @@ transform: translateY(-4px) rotate(-45deg);
     align-items: center;
     font-family: FuturaLTPro;
     font-size: 1.1rem;
+    height: 15px;
     color: #343434;
 }
 .product .product-info .info-row .color__box[data-maxcount="over"]::after{
@@ -495,18 +495,19 @@ transform: translateY(-4px) rotate(-45deg);
     top: -3px;
 } */
 #dimmer{
-	display:none;
+	visibility:hidden;
 	position:fixed;
 	left:0;
 	top:0;
 	width: 100vw;
 	height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0);
 	z-index:19;
     transition: all 0.3s;
 }
 #dimmer.show{
-	display:block!important;
+	visibility:visible!important;
+	background: rgba(0, 0, 0, 0.5);
     transition: all 0.3s;
 }
 
@@ -752,7 +753,8 @@ transform: translateY(-4px) rotate(-45deg);
     /* 스와이프 */
     .foryou-wrap .foryou-swiper .product .product-info{
         position: relative;
-        padding: 10px;
+        padding: 7px 5px;
+        box-sizing: border-box;
     }
     .foryou-wrap .foryou-swiper .product .product-info .info-row .size__box{
         display: none;
@@ -764,6 +766,7 @@ transform: translateY(-4px) rotate(-45deg);
     }
     .foryou-wrap .foryou-swiper .product .product-info .color-title{
         line-height: 0.5;
+        color: #343434;
     }
     .foryou-wrap .foryou-swiper .product .product-info > .info-row:nth-of-type(1){
         margin-bottom: 10px;
@@ -798,7 +801,7 @@ transform: translateY(-4px) rotate(-45deg);
     .product .product-info {
         font-size: 1rem;
         padding: 0;
-        height: 45px;
+        height: 46px;
     }
     .product .product-info .info-row .name {
         font-size: 1.1rem;

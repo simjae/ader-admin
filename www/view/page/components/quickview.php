@@ -60,6 +60,7 @@
     }
     .swiper-containner{
         /* max-width: 400px; */
+        min-height: 118px;
         overflow-x: hidden;
         margin-right: 30px;
         margin-left: 10px;
@@ -183,12 +184,17 @@
         width: 13px;
         height: 13px;
     }
+    .all-btn{
+        cursor: pointer;
+    }
     .all-btn.web {
+        color: #000;
         display: flex;
         justify-content: flex-end;
         margin-right: 30px;
     }
     .all-btn.mobile {
+        color: #000;
         display: none;
         text-decoration: underline;
     }
@@ -236,6 +242,9 @@
         left: 5px;
     }
     @media (max-width: 1024px) {
+        .swiper-containner{
+            min-height: auto;
+        }
         .all-btn.web {
             display: none;
         }
@@ -276,13 +285,24 @@
         }
 
         .btn__box {
+            border-right: 1px solid #808080;
+            box-sizing: border-box;
             display: flex;
             flex: auto;
             flex-direction: row !important;
             align-items: center;
-            border: none !important;
+            border-bottom: none !important;
+            justify-content: flex-start!important;
+            margin-left: 10px;
+            gap: 5px;
+            width: 25%;
         }
-
+        .btn__box p{
+            display: none;
+        }
+        .btn__box.select p{
+            display: block;
+        }
         .quickview__btn__wrap .btn__box p {
             visibility: visible;
         }
@@ -295,7 +315,7 @@
         }
     }
 </style>
-<div data-modal="quickview">
+<div id="quickview" class="hidden">
     <div class="quickview__box">
         <div class="quickview__btn__wrap open">
             <div class="btn__box recent__btn" data-quick="recent">
@@ -323,7 +343,7 @@
                 </div>
                 <div class="title__box--btn">
                     <div class="all-btn mobile" onclick="location.href='http://116.124.128.246:80/order/whish'">+ 전체 보기</div>
-                    <div class="remove-btn"> 
+                    <div id="quickview-close-btn" onclick="quickviewContentClose();" class="remove-btn"> 
                         <img src="/images/svg/sold-line.svg">
                         <img src="/images/svg/sold-line.svg">
                     </div>
@@ -337,7 +357,7 @@
 
 <script>
     let breakpoint = window.matchMedia( 'screen and (min-width:1025px)' );//미디어 쿼리 
-    let quickSwiper; //스와이퍼 변수 
+    let sideQuickSwiper; //스와이퍼 변수 
 
     const webSwiperOption = {
         navigation: {
@@ -395,8 +415,8 @@
         }
     }
     function initSwiper(el, option) {
-        if (typeof(quickSwiper) == 'object') quickSwiper.destroy();
-        return quickSwiper = new Swiper(el, option);
+        if (typeof(sideQuickSwiper) == 'object') sideQuickSwiper.destroy();
+        return sideQuickSwiper = new Swiper(el, option);
     }
     function responsiveSwiper(el){
         if ( breakpoint.matches === true ) {
@@ -422,7 +442,8 @@
                 let $currentTarget = e.currentTarget;
                 let $target = e.target;
                 let targetData = e.currentTarget.dataset.quick;
-
+                let $$allBtn = document.querySelectorAll(".quickview__box .all-btn");
+                
                 if (e.currentTarget.classList.contains("select")) {
                     e.currentTarget.classList.remove("select");
                     $contentWrap.classList.remove("open");
@@ -430,6 +451,7 @@
                 } else {
                     removeSelect();
                     if (targetData == "recent") {
+                        // $$allBtn.setAttribute("onclick", "location.href='http://116.124.128.246:80/order/whish'")
                         whishSwiperWrap.innerHTML="";
                         $titleBoxSpan.innerText = "최근 본 제품";
                         $titleBoxImg.src = "/images/svg/wish-recent-bk.svg";
@@ -589,20 +611,16 @@
         }, delay);
     });
     window.addEventListener('DOMContentLoaded', function() {
-        elemScrollFooterUpEvent(".quickview__box");
+        // elemScrollFooterUpEvent(".quickview__box");
         quickClickHandler();
     });
-    function navWhishlistBtn(){
-        let $contentWrap = document.querySelector(".quickview__content__wrap");
-        let $listBtn = document.querySelector(".btn__box.list__btn");
-        let $titleBoxSpan = document.querySelector(".title__box span");
-        let $titleBoxImg = document.querySelector(".title__box img");
-        let $whishlistBtn = document.querySelector(".wishlist__btn");
-        $titleBoxSpan.innerText = "위시리스트";
-        $titleBoxImg.src = "/images/svg/wish-list-bk.svg";
-        $contentWrap.classList.add("open");
-        $listBtn.classList.add("select");
-        getWhishlistProductList();
-        $whishlistBtn.classList.add("open");
-    }
+    function quickviewContentClose(){
+			let $contentWrap = document.querySelector("#quickview .quickview__content__wrap");
+            let $listBtn = document.querySelector("#quickview .btn__box.list__btn");
+			let $quickviewSwiper = document.querySelector("#quickview .quickview-swiper");
+            $quickviewSwiper.innerHTML = "";
+			$contentWrap.classList.remove("open");
+            $listBtn.classList.remove("select");
+		}
+        
 </script>

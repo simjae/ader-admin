@@ -7,7 +7,7 @@
         color: var(--wh);
         background-color: RGBA(255,255,255,0);
         border-bottom: 0px;
-		transition: all 0.3s;
+		transition: background 0.3s;
     }
 
     header .logo {
@@ -50,7 +50,7 @@
         background-color: #fff;
         color: var(--bk);
         border-bottom: 1px solid #eeeeee;
-		transition: all 0.3s;
+		transition: background 0.3s;
     }
     header.hover .logo, header.scroll .logo {
         content: url("/images/svg/logo-bk.svg");
@@ -533,7 +533,9 @@
         top: calc(100% - 50%);
         color: var(--bk);
     }
-
+    .foryou-wrap .swiper-slide:first-child{
+        border-left:1px solid #dcdcdc;
+    }
     .swiper-button-prev.swiper-button-disabled {
         opacity: 0;
     }

@@ -32,7 +32,7 @@ if ($member_idx == 0 || $country == null) {
 	exit;
 }
 
-if ($country != null) {
+if ($member_idx > 0 && $country != null) {
 	$select_basket_sql = "
 		SELECT
 			BI.IDX						AS BASKET_IDX,

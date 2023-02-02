@@ -887,6 +887,7 @@ $(document).ready(function() {
         ancestorObj.find('input[type="text"]').val('');
         ancestorObj.find('.select-items.select-hide').hide();
         ancestorObj.find('.toggle__item .question .down__up__icon').attr('src','http://116.124.128.246/images/mypage/mypage_down_tab_btn.svg');
+        $('.mypage__tab__container input[name="page"]').val(1);
         $('.request').hide();
     })
     $('.question').on('click', function(){

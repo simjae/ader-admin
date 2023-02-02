@@ -61,6 +61,8 @@ body {
 	color: #dcdcdc;
 }
 
+.tui-selected {color:#343434;}
+
 .tui-select-box-input:focus {
 	outline: 0px;
 }
@@ -482,12 +484,27 @@ body {
 	grid-column: 1/4;
 }
 
+.point-row .mileage_point_btn {
+	cursor: pointer;
+	grid-column: 4/5;
+}
+
 .point-row .point-btn {
 	cursor: pointer;
 	grid-column: 4/5;
 }
 
-.point-btn {
+.mileage_point_btn {
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 40px;
+	border-radius: 1px;
+	background-color: #dcdcdc;
+}
+
+.charge_point_btn {
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
@@ -1075,10 +1092,13 @@ body {
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요.">
-						<div class="point-btn" onclick="getTotalMileage()"><span>모두적용</span></div>
+						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요." style="padding-left:10px;">
+						<div class="mileage_point_btn" onclick="getTotalMileage(true)"><span>모두적용</span></div>
 					</div>
-					<div class="get-point reserves"><span>보유 적립 포인트</span><span id="total_mileage_str"></span></div>
+					<div class="get-point reserves">
+						<span>보유 적립 포인트</span>
+						<span id="txt_total_mileage" style="margin-left:5px;"></span>
+					</div>
 					<ul class="reserves-info-list">
 						<li>주문으로 발생한 적립 포인트는 배송완료 후 7일 부터 실제 사용 가능한 적립 포인트로 전환됩니다. 배송
 							완료 시점으로부터 7일 동안은 미가용 적립 포인트로 분류됩니다.</li>
@@ -1100,10 +1120,13 @@ body {
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text">
-						<div class="point-btn"><span>모두적용</span></div>
+						<input type="text" style="padding-left:10px;">
+						<div class="charge_point_btn"><span>모두적용</span></div>
 					</div>
-					<div class="get-point charge"><span>보유 충전 포인트</span><span>0</span></div>
+					<div class="get-point charge">
+						<span>보유 충전 포인트</span>
+						<span id="txt_total_charge" style="margin-left:5px;">0</span>
+					</div>
 					<div class="charge-btn"><span>충전하기</span></div>
 				</div>
 			</div>
@@ -1225,8 +1248,8 @@ body {
 				<div class="check-row">
 					<div class="check-text">
 						<input onclick="essentialCheckBox(this)" type="checkbox" class="check-self essential">
-						<span style="text-decoration: underline;">이용약관</span>,<span
-							style="text-decoration: underline;">개인정보처리방침</span><span>에 동의합니다. (필수)</span>
+						<span style="text-decoration: underline;" onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=terms_of_use');">이용약관</span>,<span
+							style="text-decoration: underline;" onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=privacy_policy');">개인정보처리방침</span><span>에 동의합니다. (필수)</span>
 					</div>
 				</div>
 				<div class="check-row">
@@ -1266,9 +1289,9 @@ body {
 </form>
 
 <script>
+let total_qty = 0;
 window.addEventListener("resize", function () {
 	resizeEvent();
-	getTotalMileage();
 });
 
 function resizeEvent() {
@@ -1315,8 +1338,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				getMemberInfo(data.member_info);
 				getAddrInfo(data.order_to_info);
 				getVoucherInfoList(data.voucher_cnt,data.voucher_info);
+				
+				getTotalMileage(false);
 			} else {
-				console.log(d.msg)
+				exceptionHandling("디자인 필요",d.msg);
 			}
 		}
 	});
@@ -1330,8 +1355,15 @@ function getOrderPgInfoList(product) {
 	const orderWrapBody = document.querySelector(".order-product .body-wrap");
 	let wrap = document.createElement("div");
 	wrap.classList.add("product-wrap");
-	let listHtml = ""
+	
+	let listHtml = "";
 	product.forEach(el => {
+		let product_qty = parseInt(el.product_qty);
+		total_qty += product_qty;
+		
+		let sales_price = el.sales_price.toLocaleString('ko-KR')
+		let total_price = el.total_price.toLocaleString('ko-KR')
+		
 		listHtml += "";
 		listHtml += '<div class="body-list product">';
 		listHtml += '    <div class="product-info">';
@@ -1341,7 +1373,7 @@ function getOrderPgInfoList(product) {
 		listHtml += '                <div class="name" data-soldout=""><span>' + el.product_name + '</span></div>';
 		listHtml += '            </div>';
 		listHtml += '            <div class="info-row mobile-saleprice">';
-		listHtml += '                <div class="product-price">' + el.sales_price + '</div>';
+		listHtml += '                <div class="product-price">' + sales_price + '</div>';
 		listHtml += '            </div>';
 		listHtml += '            <div class="info-row">';
 		listHtml += '                <div class="color-title"><span>' + el.color +'</span></div>';
@@ -1357,11 +1389,12 @@ function getOrderPgInfoList(product) {
 		listHtml += '        </div>';
 		listHtml += '    </div>';
 
-		listHtml += '    <div class="list-row web-saleprice"><span class="product-price">' + el.sales_price + '</span></div>';
+		listHtml += '    <div class="list-row web-saleprice"><span class="product-price">' + sales_price + '</span></div>';
 		listHtml += '    <div class="list-row"><span class="product-count">' + el.product_qty + '</span></div>';
-		listHtml += '    <div class="list-row"><span class="price_total">' + el.total_price + '</span></div>';
+		listHtml += '    <div class="list-row"><span class="price_total">' + total_price + '</span></div>';
 		listHtml += '</div>';
 	});
+	
 	wrap.innerHTML = listHtml;
 	domFrag.appendChild(wrap);
 	orderWrapBody.prepend(domFrag);
@@ -1454,7 +1487,7 @@ list_addr_btn.addEventListener("click", function () {
 					list_addr_wrap.classList.remove("hidden");
 				}
 			} else {
-				console.log(d.msg)
+				exceptionHandling("디자인 필요",d.msg);
 			}
 		}
 	});
@@ -1507,7 +1540,7 @@ function getOrderToInfo(order_to_idx) {
 					});
 				}
 			} else {
-				console.log(d.msg);
+				exceptionHandling("디자인 필요",d.msg);
 			}
 		}
 	});
@@ -1582,7 +1615,7 @@ add_addr_btn.addEventListener("click", function () {
 
 	if (addrSearch.value.length == 0) {
 		if (document.querySelector(".tmp_to_zipcode").value === document.querySelector(".postcodify_search_controls .keyword").value) {
-			console.log("배송지를 선택해주세요");
+			exceptionHandling("디자인 필요","배송지를 선택해주세요");
 		}
 		return false;
 	}
@@ -1688,14 +1721,7 @@ function orderMemoChangeEvent() {
 		let select_label = ev.curr.getLabel();
 		let select_value = ev.curr.getValue();
 		
-		console.log(select_label);
-		
-		if (select_value != "direct") {
-			$('#order_memo').val(select_label);
-			tmp_order_memo.value = "";
-		} else {
-			$('#order_memo').val('');
-		}
+		$('.edit-message-box').find('.tui-select-box-placeholder').addClass('tui-selected');
 		
 		document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
 		
@@ -1755,6 +1781,8 @@ function getVoucherInfoList(voucher_cnt,voucher_info) {
 	}
 	
 	voucherInfoSelectBox.on('change', ev => {
+		$('.voucher-select-box').find('.tui-select-box-placeholder').addClass('tui-selected');
+		
 		let select_label = ev.curr.getLabel();
 		let select_value = ev.curr.getValue();
 		
@@ -1764,29 +1792,47 @@ function getVoucherInfoList(voucher_cnt,voucher_info) {
 			
 			$('#voucher_idx').val(voucher_info['voucher_idx']);
 			
-			let sale_price = voucher_info['sale_price'];
+			let tmp_discount = voucher_info['sale_price'];
 			let price_discount = document.querySelector(".calculation-wrap .price_discount");
-			price_discount.innerHTML = sale_price;
-			price_discount.dataset.price_discount = sale_price;
+			price_discount.innerHTML = tmp_discount.toLocaleString('ko-KR');
+			price_discount.dataset.price_discount = tmp_discount;
 			
 			
 			let mileage_flg = voucher_info['mileage_flg'];
 			if (mileage_flg == false) {
 				$('#use_mileage').attr('disabled',false);
+				$('.mileage_point_btn').attr('onClick','getTotalMileage(true);');
 			} else {
-				$('#use_mileage').val('')
+				$('#use_mileage').val(0);
 				$('#use_mileage').attr('disabled',true);
+				$('.mileage_point_btn').attr('onClick','return false;');
+				
+				let price_mileage_point = document.querySelector(".price_mileage_point");
+				price_mileage_point.dataset.price_mileage_point = 0;
+				price_mileage_point.innerHTML = 0;
 			}
 		} else {
 			$('#voucher_idx').val(0);
 			$('#use_mileage').attr('disabled',false);
+			$('.mileage_point_btn').attr('onClick','return false;');
+			
+			let price_discount = document.querySelector(".price_discount");
+			price_discount.dataset.price_discount = 0;
+			price_discount.innerHTML = 0;
+			
+			let price_mileage_point = document.querySelector(".price_mileage_point");
+			price_mileage_point.dataset.price_mileage_point = 0;
+			price_mileage_point.innerHTML = 0;
+			
+			$('#use_mileage').attr('disabled',false);
+			$('.mileage_point_btn').attr('onClick','getTotalMileage(true);');
 		}
 		
 		calcPriceTotal();
 	});
 }
 
-function getTotalMileage(){
+function getTotalMileage(calc_flg){
 	$.ajax({
 		type: "post",
 		dataType: "json",
@@ -1797,11 +1843,19 @@ function getTotalMileage(){
 		success: function (d) {
 			let code = d.code;
 			if (code == 200) {
-				let data = d.data;
-				$('#use_mileage').val(data.toLocaleString('ko-KR'));
-			}
-			if (code == 403) {
-				console.log(d.msg)
+				let mileage_point = d.data;
+				$('#txt_total_mileage').text(mileage_point.toLocaleString('ko-KR'));
+				$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
+				
+				let price_mileage_point = document.querySelector(".price_mileage_point");
+				price_mileage_point.dataset.price_mileage_point = mileage_point;
+				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
+				
+				if (calc_flg == true) {
+					calcPriceTotal();
+				}
+			} else {
+				exceptionHandling("디자인 필요",d.msg);
 			}
 		}
 	});
@@ -1819,21 +1873,27 @@ $('#use_mileage').keyup(function () {
 
 	$.ajax({
 		type: "post",
-		dataType: "json",
+		url: "http://116.124.128.246/_api/mileage/check",
 		data: {
 			'input_mileage' : temp_meileage
 		},
-		url: "http://116.124.128.246/_api/mileage/check",
+		dataType: "json",
 		error: function () {
 			console.log("적립 포인트 불러오기에 실패했습니다.");
 		},
 		success: function (d) {
 			let code = d.code;
 			if (code == 200) {
-				let data = d.data;
-				$('#use_mileage').val(data.toLocaleString('ko-KR'));
+				let mileage_point = d.data;
+				$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
+				
+				let price_mileage_point = document.querySelector(".price_mileage_point");
+				price_mileage_point.dataset.price_mileage_point = mileage_point;
+				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
+				
+				calcPriceTotal();
 			} else if (code == 403) {
-				console.log(d.msg)
+				exceptionHandling("디자인 필요",d.msg);
 			}
 		}
 	});
@@ -1892,7 +1952,7 @@ next_step_btn.addEventListener("click", function () {
 	
 	if (next_step_level == 2) {
 		if (orderSection.dataset.status === "F") {
-			console.log("이용약관에 동의가 필요합니다.");
+			exceptionHandling("디자인 필요","이용약관에 동의가 필요합니다.");
 		} else if (orderSection.dataset.status === "T") {
 			$('#frm-check').submit();
 		}
@@ -1978,7 +2038,8 @@ function calcPriceProduct() {
 
 	price_product.dataset.price_product = sum;
 	price_product.innerHTML = sum.toLocaleString("ko-KR");
-	product_qty.innerHTML = product_len;
+	//product_qty.innerHTML = product_len;
+	product_qty.innerHTML = total_qty;
 
 	//배송비 처리
 	if (product_sum < 50000) {
@@ -1999,6 +2060,7 @@ function calcPriceTotal() {
 	let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
 	let price_discount = document.querySelector(".calculation-wrap .price_discount").dataset.price_discount;
 	let price_mileage_point = document.querySelector(".calculation-wrap .price_mileage_point").dataset.price_mileage_point;
+	console.log(price_mileage_point);
 	let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
 	let price_delivery = document.querySelector(".calculation-wrap .price_delivery").dataset.price_delivery;
 	

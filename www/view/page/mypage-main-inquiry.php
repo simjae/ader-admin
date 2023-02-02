@@ -385,14 +385,15 @@
                 <div class="inquiry__info inquiry__title">
                     <span>
                         <p class="title">문의유형</p>
-                        <select class="category__select">
-                            <option class="inquiry_select_placeholder">취소/환불</option>
-                            <option>주문/결제</option>
-                            <option>출고/배송</option>
-                            <option>반품/교환</option>
-                            <option>환불/품절</option>
-                            <option>A/S</option>
-                        </select>
+                        <div class="inquiry__type" style="width:110px;margin-right:10px;margin-top:10px;">
+                            <select id="inquiry__type" name="inquiry__type" style="display:none">
+                                <option name="inquiry__type" value="KR" selected>취소/환불</option>
+                                <option name="inquiry__type" value="EN">주문/결제</option>
+                                <option name="inquiry__type" value="CN">출고/배송</option>
+                                <option name="inquiry__type" value="CN">반품/교환</option>
+                                <option name="inquiry__type" value="CN">A/S</option>
+                            </select>
+                        </div>
                     </span>
                     <span style="width:100%;">
                         <p class="title">제목</p>
@@ -453,6 +454,8 @@
 <script>
 
     $(document).ready(function () {
+        makeSelect('inquiry__type');
+
         $('.inquiry__tab').hide();
         $('.inquiry__faq__wrap').show();
 

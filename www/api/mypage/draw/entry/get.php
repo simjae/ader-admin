@@ -18,64 +18,60 @@ $country = null;
 if (isset($_SESSION['COUNTRY'])) {
 	$country = $_SESSION['COUNTRY'];
 }
-
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
-
 $entry_status = null;
 if (isset($_POST['entry_status'])) {
 	$entry_status = $_POST['entry_status'];
 }
 
 if ($country == null || $member_idx == 0) {
-	$json_result['code'] = 301;
-	$json_result['mst'] = "로그인 정보가 없습니다";
+	$json_result['code'] = 401;
+	$json_result['msg'] = "로그인 정보가 없습니다";
 	
 	return $json_result;
 }
-
-$entry_status_sql = "";
-if ($entry_status != null && $entry_status != "ALL") {
-	switch ($entry_status) {
-		//드로우 진행중
-		case "ONG" :
-			$entry_status_sql = "
-				AND (
-					(
-						PD.ENTRY_START_DATE <= NOW() AND
-						PD.ENTRY_END_DATE > NOW()
-					) OR (
-						PD.ANNOUNCE_DATE > NOW()
+else{
+	$entry_status_sql = "";
+	if ($entry_status != null && $entry_status != "ALL") {
+		switch ($entry_status) {
+			//드로우 진행중
+			case "ONG" :
+				$entry_status_sql = "
+					AND (
+						(
+							PD.ENTRY_START_DATE <= NOW() AND
+							PD.ENTRY_END_DATE > NOW()
+						) OR (
+							PD.ANNOUNCE_DATE > NOW()
+						)
 					)
-				)
-			";
-			break;
-		
-		//드로우 당첨
-		case "PRZ" :
-			$entry_status_sql = "
-				AND (
-					PD.ANNOUNCE_DATE < NOW() AND
-					ED.PRIZE_FLG = TRUE
-				)
-			";
-			break;
-		
-		//드로우 미당첨
-		case "NWN" :
-			$entry_status_sql = "
-				AND (
-					PD.ANNOUNCE_DATE < NOW() AND
-					ED.PRIZE_FLG = FALSE
-				)
-			";
-			break;
+				";
+				break;
+			
+			//드로우 당첨
+			case "PRZ" :
+				$entry_status_sql = "
+					AND (
+						PD.ANNOUNCE_DATE < NOW() AND
+						ED.PRIZE_FLG = TRUE
+					)
+				";
+				break;
+			
+			//드로우 미당첨
+			case "NWN" :
+				$entry_status_sql = "
+					AND (
+						PD.ANNOUNCE_DATE < NOW() AND
+						ED.PRIZE_FLG = FALSE
+					)
+				";
+				break;
+		}
 	}
-}
-
-if($country != null && $member_idx > 0){
 	$select_entry_sql = "
 		SELECT
 			ED.IDX					AS ENTRY_IDX,
@@ -215,5 +211,4 @@ if($country != null && $member_idx > 0){
 		);
 	}
 }
-
 ?>

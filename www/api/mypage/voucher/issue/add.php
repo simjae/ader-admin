@@ -36,7 +36,7 @@ if (isset($_POST['voucher_issue_code'])) {
 }
 
 if($member_idx == 0){
-    $json_result['code'] = 304;
+    $json_result['code'] = 401;
     $json_result['msg'] = '비로그인 상태입니다.';
 	
 	return $json_result;

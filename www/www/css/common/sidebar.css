@@ -442,9 +442,9 @@
 }
 
 @media (max-width: 1024px){
-    #sidebar .side__wrap.open[data-module="basket"]{
-        grid-column: 8/17;	
-    }
+    /* #sidebar .side__wrap.open[data-module="basket"]{
+        grid-column: 1/17;	
+    } */
 	#sidebar .side__background.open {
 		grid-template-columns: var(--m-g);
 	}
