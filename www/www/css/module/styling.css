@@ -1,0 +1,86 @@
+/* styling-with */
+.styling-with-wrap {
+    padding-top: 100px;
+}
+/* module */
+.styling-wrap{
+    /* margin-bottom: 200px; */
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+}
+.styling-wrap .left__title{
+    padding: 10px 0px 0 10px;
+    grid-column: 1/2;
+    border: 1px solid #dcdcdc;
+    border-bottom: 0px;
+}
+.styling-wrap .left__title span{
+    text-decoration: underline;
+}
+.styling-wrap .swiper-grid{
+    grid-column: 2/17;
+}
+.styling-wrap .styling-swiper .product{
+    width: 100%;
+}
+.styling-wrap .styling-swiper .product .product-info .info-row .size__box{
+    padding-bottom:0px;
+}
+.styling-wrap .swiper-slide {
+    border-top: solid 1px #dcdcdc;
+    /* border-bottom: solid 1px #dcdcdc; */
+    border-right: solid 1px #dcdcdc;
+}
+.styling-wrap .swiper-slide:not(:last-child) {
+    /* border-bottom: solid 1px #dcdcdc; */
+}
+.styling-wrap .wish__btn img{
+    width: 14px;
+    height: 12px;
+}
+@media (max-width: 1025px) {
+.styling-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 75px;
+}
+.styling-wrap .left__title{
+        padding:10px 20px ;
+        border: 0;
+    }
+.styling-wrap .left__title span{
+        text-decoration: none;
+        font-size: 13px;
+    }
+.styling-wrap .styling-swiper .product .product-info{
+        border-top: 1px solid #dcdcdc;
+        position: relative;
+        padding: 5px 10px;
+        box-sizing: border-box;
+    }
+.styling-wrap .styling-swiper .product .product-info .info-row .size__box{
+        display: none;
+    }
+.styling-wrap .styling-swiper .product .product-info .color__box{
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        margin: 0px!important;
+    }
+.styling-wrap .styling-swiper .product .product-info .color-title{
+        line-height: 0.5;
+        color: #343434;
+    }
+.styling-wrap .styling-swiper .product .product-info > .info-row:nth-of-type(1){
+        margin-bottom: 13px;
+    }
+.styling-wrap .styling-swiper .product .product-info > .info-row:nth-of-type(3){
+        position: relative;
+    }
+    .styling-wrap .swiper-slide:not(:last-child) {
+        border-bottom: solid 1px #dcdcdc;
+    }
+    .styling-wrap .swiper-slide {
+        border-bottom: solid 1px #dcdcdc;
+    }
+}
