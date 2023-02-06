@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="/css/story/editorial.css">
+<link rel=stylesheet href='/css/module/styling.css' type='text/css'>
 <main>
     <input type="hidden" id="page_idx" value="<?=$page_idx?>">
     <input type="hidden" id="size_type" value="<?=$size_type?>">
@@ -136,5 +137,30 @@ if ($page_idx > 0 && $size_type != null) {
             </p>
         </article>
     </section>
+    <section class="styling-with-wrap"></section>
 </main>
 <script src="/scripts/story/editorial.js"></script>
+<script type="module">
+	import StylingRender from '/scripts/module/styling.js';
+	let main = document.querySelector("main");
+    let country = main.dataset.country;
+	let urlParams = new URL(location.href).searchParams;
+	let productIdx = urlParams.get('product_idx');
+    const styling = new StylingRender("1,2,3,4,5");
+    // $.ajax({
+    //     type: "post",
+    //     data: {
+    //         "product_idx": productIdx,
+    //         "country": country,
+    //     },
+    //     dataType: "json",
+    //     url: "http://116.124.128.246:80/_api/product/get",
+    //     error: function () {
+    //         alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
+    //     },
+    //     success: function (d) {
+	// 		let relevant_idx = d.data[0].relevant_idx;
+			
+	// 	}
+	// })
+</script> 

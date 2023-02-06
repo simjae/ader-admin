@@ -6,6 +6,8 @@ window.addEventListener('DOMContentLoaded', function(){
     else{
         loadEditorialData();  
     }
+    scrollTop();
+
 })
 
 function loadEditorialData() {
@@ -25,11 +27,12 @@ function loadEditorialData() {
                 if(d.data != null){
                     d.data.forEach(function(row){
                         console.log(row);
-                        appendThumbnailTitle(row.page_title);
+                        appendThumbnailTitle(row.page_title, row.page_idx , row.size_type);
                         appendThumbnailBackground(row.contents_location, row.page_title, row.page_idx, cnt++, row.size_type)
                         asideClickEvent();
                         responsive();
                     })
+                    addBtn();
                     /*
                     $(".editorial-wrap.open .banner").on('touchmove', function(ev){
                        ev.preventDefault();
@@ -42,11 +45,13 @@ function loadEditorialData() {
     });
 }
 
-function appendThumbnailTitle(title) {
+function appendThumbnailTitle(title,pageIdx,sizeType) {
     let titleUl = document.querySelector(".thumbnail-side nav ul");
     let titleLi = document.createElement("li");
     titleLi.className = "thumbnail-title"
     titleLi.innerHTML = title;
+    titleLi.dataset.pageidx = pageIdx;
+    titleLi.dataset.sizetype = sizeType;
     titleUl.appendChild(titleLi);
 }
 
@@ -68,8 +73,6 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
     } else {
         backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')">`
     }
-
-
     article.innerHTML = `
         <figure>
             ${backgroundHtml}
@@ -82,10 +85,22 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
 function asideClickEvent() {
     let banner = document.querySelectorAll(".editorial-wrap .banner");
     let thumTitle = document.querySelectorAll(".thumbnail-title");
-    thumTitle.forEach((el, idx) => el.addEventListener("click", function () {
-        banner.forEach(el => el.classList.add("hidden"));
-        bannerTarget(idx).classList.remove("hidden");
-    }))
+    thumTitle[0].classList.add("select");
+    
+    thumTitle.forEach((el, idx) => {
+        el.addEventListener("click", function() {
+            if(this.classList.contains("select")){
+                let {pageidx, sizetype } = this.dataset;
+                moveEditorialDtail(pageidx, sizetype)
+            }
+        })
+        el.addEventListener("mouseover", function () {
+            thumTitle.forEach(el => el.classList.remove("select"));
+            this.classList.add("select");
+            banner.forEach(el => el.classList.add("hidden"));
+            bannerTarget(idx).classList.remove("hidden");
+        })
+    }) 
     function bannerTarget(tidx) {
         return [...banner].find((el, idx) => idx === tidx);
     }
@@ -155,9 +170,26 @@ function responsive(){
             let banner = document.querySelectorAll(".editorial-wrap .banner");
             banner.forEach(el => el.classList.remove("hidden"));
     } else if (breakpoint.matches === false) {
-        
     }
 }
 function moveEditorialDtail(page_idx, size_type){
     location.href = `editorial/detail?page_idx=${page_idx}&size_type=${size_type}`;
+}
+
+function addBtn() {
+    let addBtn = document.createElement("div");
+    addBtn.className = "show_more_btn"
+    addBtn.innerHTML =`
+        <span class="add-btn">더보기 +</span>
+        <img src="" alt="">
+    ` 
+    document.querySelector("main").appendChild(addBtn);
+}
+function scrollTop() {
+    let topBtn = document.querySelector(".top-btn");
+    if(!topBtn == null){
+        topBtn.addEventListener("click", function (){
+            window.scrollTo({ top: 0,left: 0,behavior: 'smooth'});
+        })
+    }
 }
