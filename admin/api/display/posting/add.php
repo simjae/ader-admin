@@ -33,8 +33,11 @@ $seo_exposure_flg	= $_POST['seo_exposure_flg'];		//검색엔진 노출 플래그
 $seo_title			= $_POST['seo_title'];				//브라우저 타이틀
 $seo_author			= $_POST['seo_author'];				//메타태그1
 $seo_description	= $_POST['seo_description'];		//메타태그2
+$seo_description 	= str_replace("<p>&nbsp;</p>","",$seo_description);
 $seo_keywords		= $_POST['seo_keywords'];			//메타태그3
 $seo_alt_text		= $_POST['seo_alt_text'];			//메타태그4
+$seo_alt_text 		= str_replace("<p>&nbsp;</p>","",$seo_alt_text);
+
 
 $table = " dev.PAGE_POSTING ";
 
@@ -74,6 +77,7 @@ $sql = "
 		SEO_AUTHOR,
 		SEO_DESCRIPTION,
 		SEO_KEYWORDS,
+		SEO_ALT_TEXT,
 
 		CREATER,
 		UPDATER
@@ -97,6 +101,7 @@ $sql = "
 		'".$seo_author."',
 		'".$seo_description."',
 		'".$seo_keywords."',
+		'".$seo_alt_text."',
 
 		'Admin',
 		'Admin'

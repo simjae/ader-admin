@@ -17,11 +17,11 @@ $sort_type 				= $_POST['sort_type'];
 $where = '	EVENT.DEL_FLG = FALSE
 	AND		EVENT.EVENT_NO='.$event_no;
 $tables = '
-	'.$_TABLE['EVENT'].' 		AS EVENT		LEFT JOIN 
-	'.$_TABLE['EVENT_INFO'].' 	AS EVENT_INFO 
+	dev.EVENT 				AS EVENT		LEFT JOIN 
+	dev.EVENT_INFO 			AS EVENT_INFO 
 ON 	EVENT.EVENT_NO = EVENT_INFO.IDX 			LEFT JOIN
-	dev.MEMBER
-ON	EVENT.ID = MEMBER.ID
+	dev.MEMBER_KR			AS MK
+ON	EVENT.ID = MK.MEMBER_ID
 ';
 
 if ($eventStatus != null) {
@@ -127,24 +127,24 @@ $sql = '
 		IF(EVENT.STATUS = "Y", true, false) AS STATUS,
 		EVENT.FINPUT_DATE,
 		EVENT.LINPUT_DATE,
-		EVENT_INFO.EVENT_TITLE 	AS EVENT,
-		IF(MEMBER.BIRTHDAY IS NULL, "-", MEMBER.BIRTHDAY) AS BIRTHDAY
+		EVENT_INFO.EVENT_TITLE 	AS EVENT_TITLE,
+		IF(MK.MEMBER_BIRTH IS NULL, "-", MK.MEMBER_BIRTH) AS MEMBER_BIRTH
 	FROM '.$tables.' 
 	WHERE 
 		'.$where.'
-	'.$order.'
-	'.$limit;
+	'.$order;
+//'.$limit 제거;
 
 $db->query($sql);
 foreach($db->fetch() as $data) {
 	$json_result['data'][] = array(
 		'num'		=>$total--,
 		'idx'		=>intval($data['IDX']),
-		'event'		=>$data['EVENT'],
+		'event_title'		=>$data['EVENT_TITLE'],
 		'name'		=>$data['NAME'],
 		'id'		=>$data['ID'],
 		'email'		=>$data['EMAIL'],
-		'birthday'	=>$data['BIRTHDAY'],
+		'member_birth'	=>$data['MEMBER_BIRTH'],
 		'tel'		=>$data['TEL'],
 		'zipcode'	=>$data['ZIPCODE'],
 		'address1'	=>$data['ADDRESS1'],

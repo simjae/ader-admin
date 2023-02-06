@@ -11,7 +11,7 @@
 	</div>
 	<input id="subtab_num" type="hidden" value="01">
 	<div class="tabNum tabNum_01">
-		<form id="frm-list_02_01" action="display/board/get">
+		<form id="frm-list_02_01" action="page/board/get">
 			<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 			<input type="hidden" name="tab_num" value="02">
@@ -22,8 +22,7 @@
 				<div class="content__wrap">
 					<div class="content__title">쇼핑몰 선택</div>
 					<div class="content__row" style="display: block;">
-						<select class="fSelect" name="board_country" id="board_country" style="width:163px;">
-							<option value="">전체</option>
+						<select class="fSelect" name="country" id="country" style="width:163px;">
 							<option value="KR">한국몰</option>
 							<option value="EN">영문몰</option>
 							<option value="CN">중문몰</option>
@@ -101,11 +100,11 @@
 						<div class="rd__block">
 							<input type="radio" id="report_status_02_01_1" class="radio__input" value="" name="report_status" checked/>
 							<label for="report_status_02_01_1">전체보기</label>
-							<input type="radio" id="report_status_02_01_2" class="radio__input" value="0001" name="report_status"/>
+							<input type="radio" id="report_status_02_01_2" class="radio__input" value="STB" name="report_status"/>
 							<label for="report_status_02_01_2">처리 전</label>
-							<input type="radio" id="report_status_02_01_3" class="radio__input" value="0002" name="report_status"/>
+							<input type="radio" id="report_status_02_01_3" class="radio__input" value="HBD" name="report_status"/>
 							<label for="report_status_02_01_3">게시물 숨김</label>
-							<input type="radio" id="report_status_02_01_4" class="radio__input" value="0003" name="report_status"/>
+							<input type="radio" id="report_status_02_01_4" class="radio__input" value="UHB" name="report_status"/>
 							<label for="report_status_02_01_4">게시물 숨김 해제</label>
 						</div>
 					</div>
@@ -122,7 +121,7 @@
 		</div> 
 	</div>
 	<div class="tabNum tabNum_02" style="display:none;">
-		<form id="frm-list_02_02" action="display/board/get">
+		<form id="frm-list_02_02" action="page/board/get">
 			<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 			<input type="hidden" name="tab_num" value="02">
@@ -133,8 +132,7 @@
 					<div class="content__wrap">
 					<div class="content__title">쇼핑몰 선택</div>
 					<div class="content__row" style="display: block;">
-						<select class="fSelect" name="board_country" id="board_country" style="width:163px;">
-							<option value="">전체</option>
+						<select class="fSelect" name="country" id="country" style="width:163px;">
 							<option value="KR">한국몰</option>
 							<option value="EN">영문몰</option>
 							<option value="CN">중문몰</option>
@@ -196,7 +194,7 @@
 		</div> 
 	</div>
 	<div class="tabNum tabNum_03" style="display:none;">
-		<form id="frm-list_02_03" action="display/board/get">
+		<form id="frm-list_02_03" action="page/board/get">
 			<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 			<input type="hidden" name="tab_num" value="02">
@@ -207,8 +205,7 @@
 				<div class="content__wrap">
 					<div class="content__title">쇼핑몰 선택</div>
 					<div class="content__row" style="display: block;">
-						<select class="fSelect" name="board_country" id="board_country" style="width:163px;">
-							<option value="">전체</option>
+						<select class="fSelect" name="country" id="country" style="width:163px;">
 							<option value="KR">한국몰</option>
 							<option value="EN">영문몰</option>
 							<option value="CN">중문몰</option>
@@ -262,11 +259,11 @@
 						<div class="rd__block">
 							<input type="radio" id="report_status_02_03_1" class="radio__input" value="" name="report_status" checked/>
 							<label for="report_status_02_03_1">전체보기</label>
-							<input type="radio" id="report_status_02_03_2" class="radio__input" value="0001" name="report_status"/>
+							<input type="radio" id="report_status_02_03_2" class="radio__input" value="STB" name="report_status"/>
 							<label for="report_status_02_03_2">처리 전</label>
-							<input type="radio" id="report_status_02_03_3" class="radio__input" value="0002" name="report_status"/>
+							<input type="radio" id="report_status_02_03_3" class="radio__input" value="HBD" name="report_status"/>
 							<label for="report_status_02_03_3">게시물 숨김</label>
-							<input type="radio" id="report_status_02_03_4" class="radio__input" value="0003" name="report_status"/>
+							<input type="radio" id="report_status_02_03_4" class="radio__input" value="UHB" name="report_status"/>
 							<label for="report_status_02_03_4">게시물 숨김 해제</label>
 						</div>
 					</div>
@@ -582,6 +579,9 @@ function getBoardTabInfo_02() {
 				if( row.status == '게시판 숨김'){
 					status_str = '신고로 인한 숨김상태';
 				}
+				else{
+					status_str = row.status;
+				}
 				if(row.answer_state == null){ 
 					row.answer_state = '-';
 				}
@@ -610,7 +610,7 @@ function getBoardTabInfo_02() {
 									<TD>${row.product_name}</TD>
 									<TD>
 										<div class="row">
-											<font style="cursor:pointer;" onClick="openBoardPreviewModal(${row.idx}, 'review');">${row.title}</font>
+											<font style="cursor:pointer;" onClick="openBoardPreviewModal(${row.idx}, 'review', 'KR');">${row.title}</font>
 										</div>
 									</TD>
 									<TD style="text-decoration:underline;line-height: 1.4;">
@@ -659,10 +659,16 @@ function getBoardTabInfo_02() {
 						}
 
 						var report_processing_str = '처리전';
+						var origin_status = '-';
 						if (row.processing_flg == true) {
 							report_processing_str = "처리완료";
+							if(row.origin_status == true){
+								origin_status = '신고로 인한 숨김상태';
+							}
+							else{
+								origin_status = '신고로 인한 숨김상태 해제';
+							}
 						}
-						if(row.origin_status == null){ row.origin_status = '-'; }
 						strDiv = `
 								<TR>
 									<TD>
@@ -677,7 +683,7 @@ function getBoardTabInfo_02() {
 									<TD>
 										${division_str}
 									</TD>
-									<TD>${status_str}</TD>
+									<TD>${origin_status}</TD>
 									<TD>${row.origin_title}</TD>
 									<TD style="text-decoration:underline;">
 										${row.origin_creater_name}<br>

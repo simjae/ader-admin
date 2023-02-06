@@ -40,28 +40,14 @@ $(function(){
 		}
 		$('#board_tab_'+tab_num).find('div.category__tab').not($(this)).css('color','#707070');
 		$('#board_tab_'+tab_num).find('div.category__tab').not($(this)).css('border-bottom','none');
-		//var subtab_num = $('#board_tab_'+tab_num).find('#subtab_num').val();
+		var subtab_num = $('#board_tab_'+tab_num).find('#subtab_num').val();
 		
 		$(this).css('color','#140f82');
 		$(this).css('border-bottom','3px solid #140f82');
-
-		var subtab_title = '';
-		switch(subtab_num){
-			case '01':
-				subtab_title = '게시판 관리(후기 -> 전체 게시물)';;
-				break;
-			case '02':
-				subtab_title = '게시판 관리(후기 -> 전체 댓글)';
-				break;
-			case '03':
-				subtab_title = '게시판 관리(후기 -> 신고된 게시물)';
-				break;
-		}
-		$('#board_tab_' + tab_num).find('h3').eq(0).text(subtab_title);
 		getBoardTabInfo_02();
 	});
 });
-function init_filter(frm_id, func_name){
+function init_fileter(frm_id, func_name){
 	var formObj = $('#'+frm_id);
 	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked', true);
 	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked', true);
@@ -96,7 +82,7 @@ function boardTabBtnClick(obj) {
 	$('.board_tab_btn').not($(obj)).css('background-color','#ffffff');
 	$('.board_tab_btn').not($(obj)).css('color','#000000');
 
-	//$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
+	$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
 
 	switch(tab_num){
 		case '01':
@@ -177,14 +163,14 @@ function setPaging(obj) {
 	$('#board_tab_'+tab_num).find('.cnt_total').text(total_cnt.val());
 	$('#board_tab_'+tab_num).find('.cnt_result').text(result_cnt.val());
 
-	//$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
+	$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
 }
 function rowsChange(obj) {
 	var tab_num = $('#tab_num').val();
 	var subtab_num = $('#board_tab_'+tab_num).find('#subtab_num').val();
 	var rows = $(obj).val();
 	$('#frm-list_'+tab_num+"_"+subtab_num).find('.rows').val(rows);
-	//$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
+	$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
 	
 	switch(tab_num){
 		case '01':
@@ -207,7 +193,7 @@ function CommentChange(obj){
 	var select_value = $(obj).val();
 
 	$('#frm-list_'+tab_num+"_"+subtab_num).find('.eSearchComment').val(select_value);
-	//$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
+	$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
 	switch(tab_num){
 		case '01':
 			getBoardTabInfo_01();
@@ -234,7 +220,7 @@ function orderChange(obj) {
 	$('#frm-list_'+tab_num+"_"+subtab_num).find('.sort_value').val(order_value[0]);
 	$('#frm-list_'+tab_num+"_"+subtab_num).find('.sort_type').val(order_value[1]);
 	
-	//$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
+	$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
 	switch(tab_num){
 		case '01':
 			getBoardTabInfo_01();
@@ -258,13 +244,11 @@ function boardActionClick(obj) {
 		var btn_class 	= $(obj).attr('class');
 		var action_name = "";
 		var select_idx	= "";
-		var tab_title = $('#board_tab_' + tab_num).find('h3').eq(0).text();
-		var formData = new FormData();
-
 		$("#frm-"+tab_num+"-"+subtab_num).find('input[name="action_type"]').val(action_type);
+
+		var formData = new FormData();
 		formData = $("#frm-"+tab_num+"-"+subtab_num).serializeObject();
 
-		console.log(tab_title);
 		if(btn_class == 'mileage_flg_btn'){
 			select_idx 			= $(obj).parents('tr').find('.select');
 			formData.board_idx 		= [select_idx.val()];
@@ -336,8 +320,7 @@ function boardActionClick(obj) {
 				success: function(d) {
 					if(d.code == 200) {
 						alert(action_name + ' 처리에 성공했습니다.');
-						insertLog("전시관리 > 게시판 관리 ", tab_title + " " + action_name, select_idx.length);
-						//$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
+						$('#frm-list_'+tab_num+"_"+subtab_num).find('.page').val(1);
 						$("#frm-"+tab_num+"-"+subtab_num).find('input[name="selectAll"]').prop('checked', false);
 						switch(tab_num){
 							case '01':

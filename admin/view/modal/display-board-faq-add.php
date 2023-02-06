@@ -6,7 +6,7 @@
 		</a>
 	</h1>
 	<div class="content__card" style="width:100%;margin: 0;">
-		<form id="frm-update" action="display/board/faq/add">
+		<form id="frm-update" action="page/board/faq/add">
             <input type="hidden" name="category_info" value="<?=$category_info?>">
             <input type="hidden" name="category_idx" value="">
             <div class="card__body">
@@ -76,7 +76,7 @@ $(document).ready(function() {
 			'category_idx' : category_info_arr[0]
 		},
 		dataType: "json",
-		url: config.api + "display/board/faq/category/get",
+		url: config.api + "page/board/faq/category/get",
 		error: function() {
 			alert("상세 카테고리 불러오기 처리에 실패했습니다.");
 		},

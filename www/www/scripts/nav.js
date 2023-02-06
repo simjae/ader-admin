@@ -8,11 +8,13 @@ import {User} from '/scripts/module/user.js';
 	
 	window.addEventListener('DOMContentLoaded', function() {
 		getMenuListApi();
-		windowResponsive();
+//		windowResponsive();
 	});
+/*
 	window.addEventListener('resize', () => {
 		windowResponsive()
 	});
+*/
 
 	const getMenuListApi = () => {
 		let country = "KR";
@@ -445,42 +447,42 @@ import {User} from '/scripts/module/user.js';
 							<div class="sub__title"><a href="http://116.124.128.246/story/main">아카이브</a></div>
 							<ul class="list__grid">
 								<li class="st__box">
-									<div class="mid-a archiveTitle">프로젝트</div>
+									<div class="mid-a archiveTitle" onclick="location.href='/posting/lookbook'">프로젝트</div>
 									<div class="archiveBox">
 										<ul>
-											<li class="archiveList">2022 SS  'After blue'</li>
-											<li class="archiveList">2022 Origin 'Cinder'</li>
-											<li class="archiveList">2021 AW 'Un nouveau système'</li>
-											<li class="archiveList">2021 SS 'Layering time'</li>
-											<li class="archiveList allBtn">+  전체보기</li>
+											<li class="archiveList" onclick="location.href='/posting/lookbook'">2022 SS  'After blue'</li>
+											<li class="archiveList" onclick="location.href='/posting/lookbook'">2022 Origin 'Cinder'</li>
+											<li class="archiveList" onclick="location.href='/posting/lookbook'">2021 AW 'Un nouveau système'</li>
+											<li class="archiveList" onclick="location.href='/posting/lookbook'">2021 SS 'Layering time'</li>
+											<li class="archiveList allBtn" onclick="location.href='/posting/lookbook'">+  전체보기</li>
 										</ul>
 									</div>
 								</li>
 								<li class="div__line">
 								</li>
 								<li class="st__box">
-									<div class="mid-a archiveTitle">룩북</div>
+									<div class="mid-a archiveTitle" onclick="location.href='/posting/runway'">룩북</div>
 									<div class="archiveBox">
 										<ul>
 											<li class="archiveList">2022 F/W 'Phenomenon comm...</li>
 											<li class="archiveList">2022 S/S 'After blue'</li>
 											<li class="archiveList">2022 Origin 'Cinder'</li>
 											<li class="archiveList">2021 SS 'Layering time'</li>
-											<li class="archiveList allBtn">+  전체보기</li>
+											<li class="archiveList allBtn" onclick="location.href='/posting/runway'">+  전체보기</li>
 										</ul>
 									</div>
 								</li>
 								<li class="div__line">
 								</li>
 								<li class="st__box">
-									<div class="mid-a archiveTitle">에디토리얼</div>
+									<div class="mid-a archiveTitle" onclick="location.href='/posting/editorial'">에디토리얼</div>
 									<div class="archiveBox">
 										<ul>
-											<li class="archiveList">Mule series 'Curve'</li>
-											<li class="archiveList">‘Self Expression'</li>
-											<li class="archiveList">Adererror x Puma 'Vaderon'</li>
-											<li class="archiveList">2022ss campaign ‘After blue'</li>
-											<li class="archiveList allBtn">+  전체보기</li>
+											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=61&size_type=M'">Mule series 'Curve'</li>
+											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=62&size_type=M'">‘Self Expression'</li>
+											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=63&size_type=M'">Adererror x Puma 'Vaderon'</li>
+											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=64&size_type=M'">2022ss campaign ‘After blue'</li>
+											<li class="archiveList allBtn" onclick="location.href='/posting/editorial'">+  전체보기</li>
 										</ul>
 									</div>
 								</li>
@@ -499,7 +501,7 @@ import {User} from '/scripts/module/user.js';
 				<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></div>
 				<div class="mdlBox"></div>
 			</li>
-			<li class="flex bluemark"><div class="bluemark-icon"></div><span>Bluemark</span></li>
+			<li class="flex bluemark" onclick="location.href='/mypage?mypage_type=bluemark_verify'"><div class="bluemark-icon"></div><span>Bluemark</span></li>
 			<li class="flex language"><span>KR</span><span>Language</span></li>
 			<li class="flex logout"><span>로그아웃[임시]</span></li>
 		</ul>
@@ -599,17 +601,25 @@ import {User} from '/scripts/module/user.js';
 		});
 	}
 	const mobileMenu = () => {
+		const $body = document.querySelector("body");
 		const mobileMenuBtn = document.querySelector('.mobileMenu');
 		const mobileSide = document.querySelector('#mobile');
 		const hamburgerBtn = document.querySelector(".hamburger");
 		let header = document.querySelector("header");
 		mobileMenuBtn.addEventListener('click', (ev) => {
-			mobileSide.classList.toggle('menu__on');
 			hamburgerBtn.classList.toggle("is-active");
 			if(hamburgerBtn.classList.contains("is-active")){
-				$("#dimmer").removeClass("show");
+				mobileSide.classList.add('menu__on');
+				$("#dimmer").addClass("show");
+				header.classList.add("hover");
+				$body.classList.add("m_menu_open");	
 			}
-			header.classList.toggle("scroll");
+			else{
+				mobileSide.classList.remove('menu__on');
+				$("#dimmer").removeClass("show");
+				header.classList.remove("hover");
+				$body.classList.remove("m_menu_open");			
+			}
 			let mobileSearch = new Search();
 			mobileSearch.mobileWriteHtml();
 			mobileSearch.addSearchEvent();
@@ -765,12 +775,17 @@ import {User} from '/scripts/module/user.js';
 						return navigator.language || navigator.userLanguage;
 					}
 				}else if(typeTarget === "B"){
+					if(getLoginStatus() == 'false'){
+						location.href='/login';
+						return 
+					} else {
 						const basket = new Basket("basket",true);
 						basket.writeHtml();
-					if(path.includes("basket")){
-						e.stopImmediatePropagation();
+						if(path.includes("basket")){
+							e.stopImmediatePropagation();
+						}
+						console.log("베스킷");
 					}
-					console.log("베스킷");
 				}else if(typeTarget === "M"){
 					console.log("블루마켓");
 					let bluemark = new Bluemark();
@@ -797,6 +812,7 @@ import {User} from '/scripts/module/user.js';
 		})
 		function sideBarToggleEvent(target){
 			// layoutClick(target);
+			const $body = document.querySelector("body");
 			
 			let sideContainer = document.querySelector("#sidebar");
 			let sideBg = document.querySelector(".side__background");
@@ -808,14 +824,12 @@ import {User} from '/scripts/module/user.js';
 					whishlistClose();
 				}
 				target.classList.add("open");
-				$("header").addClass("scroll");
-				console.log("scr"+getScrollBarWidth());
-				console.log("scr"+$("html").hasScrollBar());
-				if($("html").hasScrollBar()){
-					$("header, main, footer").css("padding-right",getScrollBarWidth());
-				}
-				$("body").css("overflow","hidden");
+				
+				$("header").addClass("hover");
+				$body.classList.add("sidebar_open");
+				$body.dataset.sbType = target.dataset.type;
 				sideContainer.classList.add("open");
+				sideContainer.classList.add(target.dataset.type);
 				sideBg.classList.add("open");
 				sideWrap.classList.add("open");
 				headerHover(true);
@@ -824,17 +838,17 @@ import {User} from '/scripts/module/user.js';
 
 		}
 		function sidebarClose() {
+			const $body = document.querySelector("body");
 			sideBarBtn.forEach(el => el.classList.remove("open"));
 			let sideContainer = document.querySelector("#sidebar");
 			let sideBg = document.querySelector(".side__background");
 			let sideWrap = document.querySelector(".side__wrap");
 			sideBarBtn.forEach(el => el.classList.remove("open"));
-			$("header").removeClass("scroll");
-			$("body").css("overflow","inherit")
-			if($("html").hasScrollBar()){
-				$("header, main, footer").css("padding-right","");
-			}
-			sideContainer.classList.remove("open");
+			$("header").removeClass("hover");
+			$body.classList.remove("sidebar_open");
+			$body.dataset.sbType = "";
+			//class all remove
+			sideContainer.className = "";
 			sideBg.classList.remove("open");
 			sideWrap.classList.remove("open");
 			document.querySelector(".side__box").innerHTML = "";
@@ -842,8 +856,12 @@ import {User} from '/scripts/module/user.js';
 		}
 		function navWhishlistBtn(){
 			let $wishlistBtn  = document.querySelector(".wishlist__btn");
-			
-
+			if($("html").hasScrollBar()){
+				$("#quickview .quickview__box").css("padding-right",getScrollBarWidth());
+			}
+			else{
+					$("#quickview .quickview__box").css("padding-right","");
+			}
 			$wishlistBtn.addEventListener("click", function(){
 				if(this.classList.contains("open")){
 					whishlistClose();

@@ -77,6 +77,7 @@ export function User() {
             <div class="card__body">
                 <form id="frm-login" method="post" onSubmit="login();return false;">
                     <input type="hidden" name="country" value="KR">
+                    <input type="hidden" name="member_ip" value="0.0.0.0">
                     <div class="content__wrap">
                         <div class="content__title">이메일
                         <p class="font__underline font__red member_id_msg"></p>
@@ -126,9 +127,9 @@ export function User() {
             </div>
             <div class="customer-title">고객서비스</div>
             <div class="customer-btn-box">
-                <div class="customer-btn"><span>공지사항</span></div>
-                <div class="customer-btn"><span>자주 묻는 질문</span></div>
-                <div class="customer-btn"><span>문의하기</span></div>
+                <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=online_store'"><span>공지사항</span></div>
+                <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=terms_of_use'"><span>자주 묻는 질문</span></div>
+                <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=privacy_policy'"><span>문의하기</span></div>
             </div>
         </div>
         

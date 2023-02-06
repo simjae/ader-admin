@@ -432,6 +432,12 @@ function mileageGetInfo(str) {
     var rows = use_form.find('input[name="rows"]').val();
 	var page = use_form.find('input[name="page"]').val();
 
+    if(rows == null){
+        rows = 10;
+    }
+    if(page == null){
+        page = 1;
+    }
     $.ajax({
         type: "post",
         data: { 
@@ -443,6 +449,7 @@ function mileageGetInfo(str) {
         dataType: "json",
         url: "http://116.124.128.246:80/_api/mypage/mileage/list/get",
         error: function (d) {
+            exceptionHandling("마일리지",'마일리지 정보조회에 실패했습니다.');
         },
         success: function (d) {
             if (d.code == 200) {
@@ -526,6 +533,16 @@ function mileageGetInfo(str) {
                     })
                 }
             }
+            else{
+                let err_str = '마일리지 정보조회에 실패했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("마일리지",err_str);
+                if(d.code = 401){
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                }
+            }
         }
     });
 }
@@ -537,6 +554,7 @@ function mileageGetSummary() {
         dataType: "json",
         url: "http://116.124.128.246:80/_api/mypage/mileage/get",
         error: function (d) {
+            exceptionHandling("마일리지",'마일리지 정보조회에 실패했습니다.');
         },
         success: function (d) {
             if (d.code == 200) {
@@ -549,6 +567,16 @@ function mileageGetSummary() {
                     $('#mileage_point').find('p').text(parseInt(data.mileage_balance).toLocaleString('ko-KR'));
                     $('#uesd_mileage').find('p').text(parseInt(data.refund_scheduled).toLocaleString('ko-KR'));
                     $('#refund_scheduled').find('p').text(parseInt(data.used_mileage).toLocaleString('ko-KR'));
+                }
+            }
+            else{
+                let err_str = '마일리지 정보조회에 실패했습니다.';
+                if(d.msg != null){
+                    err_str = d.msg;
+                }
+                exceptionHandling("마일리지",err_str);
+                if(d.code = 401){
+                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                 }
             }
         }

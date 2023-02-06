@@ -13,66 +13,56 @@
  | 
  +=============================================================================
 */
-$sort_type = $_POST['sort_type'];
-$sort_value = $_POST['sort_value'];
-$rows = $_POST['rows'];
-$page = $_POST['page'];
 
-$tables = ' '.$_TABLE['ADMIN'].' AS A ';
-$where = ' DEL_FLG = FALSE ';
-$where_cnt = $where;
+$admin_idx = $_POST['admin_idx'];
 
-$limit_start = (intval($page)-1)*$rows;
-
-$total_cnt = $db->count($tables, $where_cnt);
-$json_result = array(
-	'total' => $db->count($tables,$where),
-	'total_cnt' => $total_cnt,
-	'page' => $page
-);
-
-$order  = $sort_value." ".$sort_type;
-$sql = '
-	SELECT 
-		ADMIN.IDX								AS IDX, 
-		ADMIN.ID								AS ID,
-		ADMIN.NAME								AS NAME,
-		ADMIN.NICK								AS NICK,
-		ADMIN.EMAIL								AS EMAIL,
-		ADMIN.TEL								AS TEL,
-		ADMIN.STATUS							AS STATUS,
-		(
-			SELECT
-				TITLE
-			FROM
-				dev.ADMINISTRATOR_PERMITION
-			WHERE
-				IDX = ADMIN.PERMITION_NO
-		)										AS PERMITION,
-		ADMIN.JOIN_DATE							AS JOIN_DATE
-	FROM 
-		dev.ADMINISTRATOR ADMIN
-	WHERE 
-		'.$where.'
-	ORDER BY
-		'.$order.'
-	';	
-if ($rows != null) {
-	$sql .= " LIMIT ".$limit_start.",".$rows;
-}
-$db->query($sql,$where_values);
-foreach($db->fetch() as $data) {
-	$json_result['data'][] = array(
-		'no'		=> $total_cnt--,
-		'idx'		=> $data['IDX'],
-		'id'		=> $data['ID'],
-		'nick'		=> $data['NICK'],
-		'name'		=> $data['NAME'],
-		'permition'	=> $data['PERMITION'],
-		'email'		=> $data['EMAIL'],
-		'tel'		=> $data['TEL'],
-		'status'	=> $data['STATUS'],
-		'join_date'	=> $data['JOIN_DATE']
-	);
+if($admin_idx != null) {
+    $select_admin_sql = "
+		SELECT 
+			AD.IDX				AS ADMIN_IDX,
+			AD.PERMITION_IDX	AS PERMITION_IDX,
+			AD.ADMIN_ID			AS ADMIN_ID,
+			AD.ADMIN_NAME		AS ADMIN_NAME,
+			AD.ADMIN_NICK		AS ADMIN_NICK,
+			AD.ADMIN_EMAIL		AS ADMIN_EMAIL,
+			AD.TEL_MOBILE		AS TEL_MOBILE,
+			AD.ADMIN_FAX		AS ADMIN_FAX,
+			(
+				SELECT 
+					REPLACE(
+						S_AI.IMG_LOCATION,
+						'/var/www/admin/www',
+						''
+					)
+				FROM
+					dev.ADMIN_PROFILE_IMG S_AI
+				WHERE
+					S_AI.ADMIN_IDX = AD.IDX AND
+					S_AI.IMG_SIZE = 'S' AND
+					S_AI.DEL_FLG = FALSE
+			)					AS IMG_LOCATION
+		FROM
+			dev.ADMIN AD
+			LEFT JOIN dev.ADMIN_PERMITION AP ON
+			AD.IDX = AP.ADMIN_IDX
+		WHERE
+		   AD.IDX = ".$admin_idx."
+	";
+    
+	$db->query($select_admin_sql);
+    
+	foreach($db->fetch() as $data) {
+        $json_result['data'][] = array(
+            'admin_idx'			=>$data['ADMIN_IDX'],
+            'permition_idx'		=>$data['PERMITION_IDX'],
+            'admin_id'			=>$data['ADMIN_ID'],
+            'admin_name'		=>$data['ADMIN_NAME'],
+            'admin_nick'		=>$data['ADMIN_NICK'],
+            'admin_email'		=>$data['ADMIN_EMAIL'],
+            'tel_mobile'		=>$data['TEL_MOBILE'],
+            'admin_fax'			=>$data['ADMIN_FAX'],
+			'img_location'		=>$data['IMG_LOCATION']
+        );
+    }
 }
 ?>

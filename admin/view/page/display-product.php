@@ -354,7 +354,7 @@ function getProdPageInfo() {
 				strDiv += '        ' + display_str;
 				strDiv += '    </TD>';
 				strDiv += '    <TD>' + display_date + '</TD>';
-				strDiv += '    <TD><font style="cursor:pointer;" onClick="openProductDisplayUpdateModal(' + row.idx + ');">' + row.page_title + '</font></TD>';
+				strDiv += '    <TD><font style="cursor:pointer;" onClick="openProductDisplayUpdateModal(' + row.page_idx + ');">' + row.page_title + '</font></TD>';
 				strDiv += '    <TD>' + row.page_memo + '</TD>';
 				strDiv += '    <TD>' + row.page_url + '</TD>';
 				strDiv += '    <TD>' + row.display_location + '</TD>';

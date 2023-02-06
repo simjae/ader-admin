@@ -13,39 +13,61 @@
  | 
  +=============================================================================
 */
-
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 /** 변수 정리 **/
+$drop_country = $_POST['drop_country'];
 $select_idx = $_POST['select_idx'];
 
-$set = "";
-$set .= " DROP_DATE = NOW(), ";
-$set .= " STATUS = '탈퇴', ";
-$set .= " DROP_TYPE = '일반탈퇴', ";
-$set .= " DEL_FLG = TRUE ";
-
-$where = " 1=1 ";
-$idx_list="";
-if ($select_idx != null) {
-	$idx_list = implode(',',$select_idx);
-	$where .= " AND IDX IN (".$idx_list.")";
+$member_table = '';
+if($drop_country != null){
+	switch($drop_country){
+		case 'KR':
+			$member_table = 'dev.MEMBER_KR';
+			break;
+		case 'EN':
+			$member_table = 'dev.MEMBER_EN';
+			break;
+		case 'CN':
+			$member_table = 'dev.MEMBER_CN';
+			break;
+	}
 }
 
-$tables = $_TABLE['MEMBER'];
+if(strlen($member_table) > 0){
 
-/** DB 처리 **/
+	$db->begin_transaction();
+	try {
+		$tables = $member_table;
+	
+		$where = "";
+		$idx_list = "";
+		if ($select_idx != null) {
+			$idx_list = implode(',',$select_idx);
+			$where .= " IDX IN (".$idx_list.")";
+		}
 
-$json_result = array(
-	'total' => $db->count($tables,$where),
-	'page' => intval($page)
-);
+		//수정항목
+		$sql = "UPDATE
+					".$tables."
+				SET
+					DROP_DATE = NOW(),
+					MEMBER_STATUS = 'DRP',
+					DROP_TYPE = 'NDP'
+				WHERE
+					".$where;
 
-	//수정항목
-$sql = "UPDATE
-			".$tables."
-		SET
-			".$set."
-		WHERE
-			".$where;
-
-$db->query($sql);
+		$db->query($sql);
+		$db->commit();
+	}
+	catch(mysqli_sql_exception $exception){
+		echo $exception->getMessage();
+		$json_result['code'] = 301;
+		$db->rollback();
+		$msg = "회원탈퇴 처리에 실패했습니다.";
+	}
+}
+else{
+	$json_result['code'] = 301;
+	$msg = "회원탈퇴 처리에 실패했습니다.";
+}
 ?>

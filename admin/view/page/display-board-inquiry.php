@@ -10,7 +10,7 @@
 	</div>
 	<input id="subtab_num" type="hidden" value="01">
 	<div class="tabNum tabNum_01">
-		<form id="frm-list_01_01" action="display/board/get">
+		<form id="frm-list_01_01" action="page/board/get">
 			<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 			<input type="hidden" name="tab_num" value="01">
@@ -21,8 +21,7 @@
 				<div class="content__wrap">
 					<div class="content__title">쇼핑몰 선택</div>
 					<div class="content__row" style="display: block;">
-						<select class="fSelect" name="board_country" id="board_country" style="width:163px;">
-							<option value="">전체</option>
+						<select class="fSelect" name="country" id="country" style="width:163px;">
 							<option value="KR">한국몰</option>
 							<option value="EN">영문몰</option>
 							<option value="CN">중문몰</option>
@@ -56,17 +55,17 @@
 					<div class="content__row">
 						<select class="fSelect" id="board_category" name="board_category" style="width:130px;">
 							<option value=""> 카테고리 전체</option>
-							<option value="0001">배송/기타문의</option>
-							<option value="0002">취소/환불</option>
-							<option value="0003">주문/결제</option>
-							<option value="0004">출고/배송</option>
-							<option value="0005">반품/교환</option>
-							<option value="0006">재입고</option>
-							<option value="0007">제품문의</option>
-							<option value="0008">블루마크/정가품</option>
-							<option value="0009">A/S</option>
-							<option value="0010">바우처</option>
-							<option value="0011">기타서비스</option>
+							<option value="DAE">배송/기타문의</option>
+							<option value="CAR">취소/환불</option>
+							<option value="OAP">주문/결제</option>
+							<option value="OAD">출고/배송</option>
+							<option value="RAE">반품/교환</option>
+							<option value="RST">재입고</option>
+							<option value="PIQ">제품문의</option>
+							<option value="BAR">블루마크/정가품</option>
+							<option value="AFS">A/S</option>
+							<option value="VUC">바우처</option>
+							<option value="ETC">기타서비스</option>
 						</select>
 					</div>
 				</div>
@@ -96,11 +95,11 @@
 						<div class="rd__block">
 							<input type="radio" id="answer_state01_01_1" class="radio__input" value="" name="answer_state" checked/>
 							<label for="answer_state01_01_1">전체보기</label>
-							<input type="radio" id="answer_state01_01_2" class="radio__input" value="0001" name="answer_state"/>
+							<input type="radio" id="answer_state01_01_2" class="radio__input" value="NAS" name="answer_state"/>
 							<label for="answer_state01_01_2">답변전</label>
-							<input type="radio" id="answer_state01_01_3" class="radio__input" value="0002" name="answer_state"/>
+							<input type="radio" id="answer_state01_01_3" class="radio__input" value="PCS" name="answer_state"/>
 							<label for="answer_state01_01_3">처리중</label>
-							<input type="radio" id="answer_state01_01_4" class="radio__input" value="0003" name="answer_state"/>
+							<input type="radio" id="answer_state01_01_4" class="radio__input" value="RCP" name="answer_state"/>
 							<label for="answer_state01_01_4">답변완료</label>
 						</div>
 					</div>
@@ -271,7 +270,7 @@ function getBoardTabInfo_01() {
 						<TD>${row.category}</TD>
 						<TD>
 							<div class="row">
-								<font style="cursor:pointer;" onClick="openBoardPreviewModal(${row.idx}, 'inquiry');">${row.title}</font>
+								<font style="cursor:pointer;" onClick="openBoardPreviewModal(${row.idx}, 'inquiry', '${row.country}');">${row.title}</font>
 							</div>
 						</TD>
 						<TD>${row.product_name}</TD>

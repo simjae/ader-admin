@@ -1152,8 +1152,8 @@
 				</ul>
 			</div>
 			<div class="step-btn-wrap">
-				<div class="step-btn pre"><span>계속 쇼핑하기</span></div>
-				<div class="step-btn next" data-step="1"><span>주문/배송조회</span></div>
+				<div class="step-btn pre" onClick="location.href='/order/basket/list'"><span>계속 쇼핑하기</span></div>
+				<div class="step-btn next" data-step="1" onClick="location.href='/mypage/main?mypage_type=orderlist'"><span>주문/배송조회</span></div>
 			</div>
 		</div>
 	</section>

@@ -9,7 +9,7 @@
  | 최초 작성일	: 2022.07.05
  | 최종 수정일	: 
  | 버전		: 1.0
- | 설명		: 
+ | 설명		:
  | 
  +=============================================================================
 */
@@ -17,15 +17,28 @@
 /** 변수 정리 **/
 $default_level = $_POST['default_level'];
 
-$tables = $_TABLE['MEMBER'];
 
 /** DB 처리 **/
 
-	//수정항목
+//수정항목
 $sql = "ALTER TABLE
-			".$tables."
+			dev.MEMBER_KR
 		ALTER
-			LEVEL SET DEFAULT '".$default_level."'";
+			LEVEL_IDX SET DEFAULT '".$default_level."'";
+
+$db->query($sql);
+
+$sql = "ALTER TABLE
+			dev.MEMBER_EN
+		ALTER
+			LEVEL_IDX SET DEFAULT '".$default_level."'";
+
+$db->query($sql);
+
+$sql = "ALTER TABLE
+			dev.MEMBER_CN
+		ALTER
+			LEVEL_IDX SET DEFAULT '".$default_level."'";
 
 $db->query($sql);
 ?>

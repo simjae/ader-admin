@@ -9,8 +9,8 @@
 <!-- START RESPONSE CARD -->
 
 <div class="content__card">
-	<form id="frm-add" action="display/post/add">
-		<input id="posting_type" type="hidden" value="collection" style="width:80%;" name="posting_type">
+	<form id="frm-add">
+		<input id="posting_type" type="hidden" value="COLC" style="width:80%;" name="posting_type">
 		<div class="card__header">
 			<div class="flex justify-between">
 				<h3>컬렉션 등록</h3>
@@ -120,14 +120,21 @@
 			<div class="content__wrap">
 				<div class="content__title">검색엔진<br>메타태그Description</div>
 				<div class="content__row">
-					<textarea name="seo_description" id="" cols="70" rows="10" style="border: 1px solid #000;"></textarea>
+					<textarea name="seo_description" id="seo_description" cols="70" rows="10" style="width:90%;"></textarea>
 				</div>
 			</div>
 			
 			<div class="content__wrap">
 				<div class="content__title">검색엔진<br>메타태그Keywords</div>
 				<div class="content__row">
-					<textarea name="seo_keywords" id="" cols="70" rows="10" style="border: 1px solid #000;"></textarea>
+					<input type="text" name="seo_keywords">
+				</div>
+			</div>
+
+			<div class="content__wrap">
+				<div class="content__title">검색엔진<br>메타태그 Alt 텍스트</div>
+				<div class="content__row">
+					<textarea name="seo_alt_text" id="seo_alt_text" cols="70" rows="10" style="width:90%;"></textarea>
 				</div>
 			</div>
 		</div>
@@ -144,7 +151,27 @@
 </div>
 
 <script>
+var seo_description = [];
+var seo_alt_text = [];
+
+function setSmartEditor() {
+	//seo
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: seo_description,
+		elPlaceHolder: "seo_description",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload : function(){}}
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: seo_alt_text,
+		elPlaceHolder: "seo_alt_text",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload : function(){}}
+	});
+}
+
 $(document).ready(function() {
+	setSmartEditor();
 	timeSelectInit();
 	
 	$('.display_date').val('');
@@ -235,6 +262,9 @@ function timeSelectInit(){
 function postingCollectionRegist(){
 	var page_title		= $('input[name=page_title]');
 	
+	seo_description.getById["seo_description"].exec("UPDATE_CONTENTS_FIELD", []); 
+	seo_alt_text.getById["seo_alt_text"].exec("UPDATE_CONTENTS_FIELD", []); 
+	
 	if(page_title.val().length == 0){
 		alert("페이지명을 입력해주세요", page_title.focus());
 		return false;
@@ -280,8 +310,10 @@ function postingCollectionRegist(){
 			},
 			success: function(d) {
 				if(d.code == 200) {
-					alert("컬렉션 페이지 등록에 성공했습니다.");
-					location.href='/display/posting';
+					alert('컬렉션 페이지 등록에 성공했습니다.', function pageLocation() {
+						insertLog("전시관리 > 게시물 관리", "새 컬렉션 페이지 등록", 1);
+						location.href='/display/posting';
+					});
 				}
 			}
 		});

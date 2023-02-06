@@ -13,6 +13,7 @@
  | 
  +=============================================================================
 */
+$country    	= $_POST['country'];
 $search_date    = $_POST['search_date'];
 $reserve_from   = $_POST['reserve_from'];
 $reserve_to     = $_POST['reserve_to'];
@@ -24,9 +25,28 @@ $tables =   ' 	dev.MILEAGE_INFO 	AS MILEAGE 	LEFT JOIN
 			ON	MILEAGE.MILEAGE_CODE = CODE.MILEAGE_CODE ';
 $where =    ' 1=1 ';
 
+$member_table = '';
+switch($country){
+	case 'KR':
+		$member_table = 'dev.MEMBER_KR'; 
+		break;
+	case 'EN':
+		$member_table = 'dev.MEMBER_EN';
+		break;
+	case 'CN':
+		$member_table = 'dev.MEMBER_CN';
+		break;
+}
+
+if($country != null){
+    $where .= " AND MILEAGE.COUNTRY = '".$country."' ";
+}
+else{
+	$where .= " AND MILEAGE.COUNTRY = NULL ";
+}
 
 if($member_level != null){
-    $where .= " AND MILEAGE.ID IN (SELECT ID FROM dev.MEMBER WHERE LEVEL = '".$member_level."')";
+    $where .= " AND MILEAGE.MEMBER_IDX IN (SELECT IDX FROM ".$member_table." WHERE LEVEL_IDX = ".$member_level.")";
 }
 
 if($id != null){

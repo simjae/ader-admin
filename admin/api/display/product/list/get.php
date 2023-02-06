@@ -61,10 +61,6 @@ if(isset($page_idx)){
 			case "content" :
 				$where .=  " AND PP.PAGE_MEMO LIKE '%".$search_keyword."%' ";
 				break;
-
-			case "location" :
-				$where .=  " AND PP.DISPLAY_LOCATION LIKE '%".$search_keyword."%' ";
-				break;
 		}
 	}
 	
@@ -181,7 +177,6 @@ $sql = "SELECT
 			PP.DISPLAY_FLG				AS DISPLAY_FLG,
 			".$display_sql."
 			
-            PP.DISPLAY_LOCATION			AS DISPLAY_LOCATION,
 			PP.SEO_EXPOSURE_FLG			AS SEO_EXPOSURE_FLG,
 			PP.SEO_TITLE				AS SEO_TITLE,
 			PP.SEO_AUTHOR				AS SEO_AUTHOR,
@@ -221,8 +216,6 @@ foreach($db->fetch() as $data) {
 		'end_date'          			=>$data['END_DATE'],
 		'end_h'     	     			=>$data['END_H'],
 		'end_m'   		       			=>$data['END_M'],
-		
-		'display_location'          	=>$data['DISPLAY_LOCATION'],
 		
 		'seo_exposure_flg'				=>$data['SEO_EXPOSURE_FLG'],
 		'seo_title'						=>$data['SEO_TITLE'],

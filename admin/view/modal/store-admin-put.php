@@ -1,15 +1,7 @@
 <style>
 .table__toggle__btn {
+	background-color:#000;color:#fff;width:110px;height:28px;text-align:center;font-size:12px;font-weight:300;border-radius:2px;line-height:2.4;
 	cursor:pointer;
-	background-color:#000;
-	color:#fff;
-	width:110px;
-	height:28px;
-	text-align:center;
-	font-size:12px;
-	font-weight:300;
-	border-radius:2px;
-	line-height:2.4;
 }
 </style>
 
@@ -20,32 +12,47 @@
 			<i class="xi-close"></i>
 		</a>
 	</h1>
+	
     <div class="contents">
-		<form id="frm-list" action="store/admin/modal/put">
-			<input type="hidden" name="member_idx" value="">
+		<form id="frm-put" action="store/admin/put">
+			<input class="admin_idx" type="hidden" name="admin_idx" value="">
+			
 			<h2>기본 정보</h2>
 			<div class="form-group">
-				<input type="text" name="id" minlength="3" maxlength="15" value="" required="">
+				<input type="text" name="admin_id" value="" required="" readonly>
 				<label class="control-label">아이디</label>
 			</div>
 
 			<div class="form-group">
-				<input type="text" name="name" minlength="2" maxlength="10" value="" class="width-150" required="">
+				<select class="fSelect" style="width:163px;" name="permition_idx">
+					<option value="ALL" checked>전체</option>
+					<option value="1">메인 관리자</option>
+					<option value="2">기획</option>
+					<option value="3">디자인</option>
+					<option value="4">생산</option>
+					<option value="5">온라인</option>
+					<option value="6">브랜드</option>
+				</select>
+				<label class="control-label">권한</label>
+			</div>
+
+			<div class="form-group">
+				<input type="text" name="admin_name" minlength="2" maxlength="10" value="" class="width-150" required="">
 				<label class="control-label">이름</label>
 			</div>
 
 			<div class="form-group">
-				<input type="password" name="current_pw" minlength="4" maxlength="20">
+				<input type="password" name="admin_pw" minlength="4" maxlength="20">
 				<label class="control-label">현재 비밀번호</label>
 			</div>
 
 			<div class="form-group">
-				<input type="password" name="pwchg" minlength="4" maxlength="20">
+				<input type="password" name="pw_new" minlength="4" maxlength="20">
 				<label class="control-label">비밀번호 변경</label>
 			</div>
 
 			<div class="form-group">
-				<input type="password" name="pwchg_confirm" minlength="4" maxlength="20">
+				<input type="password" name="pw_confirm" minlength="4" maxlength="20">
 				<label class="control-label">비밀번호 변경 확인</label>
 			</div>
 			
@@ -59,27 +66,23 @@
 				<label class="control-label">프로필사진</label>
 			</div>
 			<div class="form-group">
-				<input type="text" name="NICK" value="" minlength="2" maxlength="10" class="width-150">
+				<input type="text" name="admin_nick" value="" minlength="2" maxlength="10" class="width-150">
 				<label class="control-label">닉네임</label>
 			</div>
 			<div class="form-group">
-				<input type="text" name="EMAIL" value="">
+				<input type="text" name="admin_email" value="">
 				<label class="control-label">이메일</label>
 			</div>
 			<div class="form-group">
 				<label class="control-label">연락처</label>
 				<div class="form-row">
-					<input type="text" name="TEL" value="" maxlength="13" class="width-150 phone">
+					<input type="text" name="tel_mobile" value="" maxlength="13" class="width-150 phone">
 					<span class="-describe"></span>
 				</div>
 			</div>
 			<div class="form-group">
-				<input type="text" name="FAX" value="" maxlength="13" class="width-150 phone">
+				<input type="text" name="admin_fax" value="" maxlength="13" class="width-150 phone">
 				<label class="control-label">팩스</label>
-			</div>
-			<div class="form-group">
-				<input type="text" name="MOBILE" value="" maxlength="13" class="width-150 phone">
-				<label class="control-label">휴대폰</label>
 			</div>
 			
 			<h2>권한</h2>
@@ -1462,7 +1465,6 @@
 						
 						<TR>
 							<TD>통합엑셀 다운로드</TD>
-							
 							<TD>
 								<div class="row form-group">
 									<label>
@@ -1484,7 +1486,6 @@
 						
 						<TR>
 							<TD>대시보드</TD>
-							
 							<TD>
 								<div class="row form-group">
 									<label>
@@ -1510,41 +1511,79 @@
 	</div>
 	<div class="footer">
 		<a onclick="modal_cancel();" class="btn"><i class="xi-close"></i>작성 취소</a>
-		<a onclick="updateBtnAction();" class="btn red"><i class="xi-check"></i>적용</a>
+		<a onclick="putAdminInfo();" class="btn red"><i class="xi-check"></i>적용</a>
 	</div>
 </div>
 <script>
 $(document).ready(function() {
+	getAdminInfo();
+	$('.profile_img').on('change', function() {
+		ext = $(this).val().split('.').pop().toLowerCase(); //확장자
+		
+		//배열에 추출한 확장자가 존재하는지 체크
+		if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+			resetFormElement($(this)); //폼 초기화
+			window.alert('이미지 파일이 아닙니다! (gif, png, jpg, jpeg 만 업로드 가능)');
+		} else {
+			file = $(this).prop("files")[0];
+			
+			blobURL = window.URL.createObjectURL(file);
+			
+			$('#profile_img').attr('src', blobURL);
+			$('#profile_img').slideDown(); //업로드한 이미지 미리보기 
+			//$(this).slideUp(); //파일 양식 감춤
+		}
+	});
+	
+	$('.table__toggle__btn').click(function() {
+		var table_id = $(this).attr('id');
+		var btn_text = $(this).text();
+		
+		var display = $('.' + table_id).css('display');
+		
+		if (display == "none") {
+			btn_text = btn_text.replace('+','-');
+		} else {
+			btn_text = btn_text.replace('-','+');
+		}
+		
+		$(this).text(btn_text);
+		$('.' + table_id).toggle();
+	});
+});
+
+function getAdminInfo() {
 	$.ajax({
 		type: "post",
-		data: { 'idx' : <?=$idx?> },
+		data: {
+			'admin_idx' : <?=$admin_idx?>
+		},
 		dataType: "json",
-		url: config.api + "store/admin/modal/get",
+		url: config.api + "store/admin/get",
 		error: function() {
 			alert("운영자 정보 불러오기가 실패했습니다.");
 		},
-		success: function(data) {
-			if(data.code == 200) {
-				$("input[name='member_idx']").val(data['data'][0].idx);
-				$("input[name='EMAIL']").val(data['data'][0].email);
-				$("input[name='FAX']").val(data['data'][0].fax);
-				$("input[name='id']").val(data['data'][0].id);
-				$("input[name='MOBILE']").val(data['data'][0].mobile);
-				$("input[name='name']").val(data['data'][0].name);
-				$("input[name='NICK']").val(data['data'][0].nick);
-				$("input[name='TEL']").val(data['data'][0].tel);
-				$("input[name='pw']").val(data['data'][0].pw);
-				$("select[name=permit]").val(data['data'][0].permit).prop("selected", true);
+		success: function(d) {
+			if(d.code == 200) {
+				let data = d.data[0];
 				
-				var profile_img = data['data'][0].img_location;
+				$("input[name='admin_idx']").val(data.admin_idx);
+				$("select[name=permition_idx]").val(data.permition_idx);
+				$("input[name='admin_id']").val(data.admin_id);
+				$("input[name='admin_name']").val(data.admin_name);
+				$("input[name='admin_nick']").val(data.admin_nick);
+				$("input[name='admin_email']").val(data.admin_email);
+				$("input[name='tel_mobile']").val(data.tel_mobile);
+				$("input[name='admin_fax']").val(data.admin_fax);
+				
+				var profile_img = data.img_location;
 				if (profile_img != null) {
-					profile_img = profile_img.replace('/var/www/admin/www','');
 					$('#profile_img').attr('src',profile_img);
 				} else {
 					$('#profile_img').attr('src','/images/ico-avatar.png');
 				}
 				
-				permitionRadioCheck('store_info_kr',data['data'][0].store_info_kr);
+				/*permitionRadioCheck('store_info_kr',data['data'][0].store_info_kr);
 				permitionRadioCheck('store_info_en',data['data'][0].store_info_en);
 				permitionRadioCheck('store_info_cn',data['data'][0].store_info_cn);
 				permitionRadioCheck('store_admin',data['data'][0].store_admin);
@@ -1608,45 +1647,11 @@ $(document).ready(function() {
 				permitionRadioCheck('order_admin',data['data'][0].order_admin);
 
 				permitionRadioCheck('analysis_excel',data['data'][0].analysis_excel);
-				permitionRadioCheck('analysis_dashboard',data['data'][0].analysis_dashboard);
+				permitionRadioCheck('analysis_dashboard',data['data'][0].analysis_dashboard);*/
 			}
 		}
 	});
-	
-	$('.profile_img').on('change', function() {
-		ext = $(this).val().split('.').pop().toLowerCase(); //확장자
-		
-		//배열에 추출한 확장자가 존재하는지 체크
-		if($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-			resetFormElement($(this)); //폼 초기화
-			window.alert('이미지 파일이 아닙니다! (gif, png, jpg, jpeg 만 업로드 가능)');
-		} else {
-			file = $(this).prop("files")[0];
-			
-			blobURL = window.URL.createObjectURL(file);
-			
-			$('#profile_img').attr('src', blobURL);
-			$('#profile_img').slideDown(); //업로드한 이미지 미리보기 
-			//$(this).slideUp(); //파일 양식 감춤
-		}
-	});
-	
-	$('.table__toggle__btn').click(function() {
-		var table_id = $(this).attr('id');
-		var btn_text = $(this).text();
-		
-		var display = $('.' + table_id).css('display');
-		
-		if (display == "none") {
-			btn_text = btn_text.replace('+','-');
-		} else {
-			btn_text = btn_text.replace('-','+');
-		}
-		
-		$(this).text(btn_text);
-		$('.' + table_id).toggle();
-	});
-});
+}
 
 function permitionRadioCheck(permition_name,permition_val) {
 	if (permition_val == true) {
@@ -1658,85 +1663,117 @@ function permitionRadioCheck(permition_name,permition_val) {
 	}
 }
 
-function updateBtnAction(){
-	var id 			= $('input[name=id]');
-	var name 		= $('input[name=name]');
-	var pwcurrent 	= $('input[name=current_pw]');
-	var pwchg 		= $('input[name=pwchg]');
-	var pwchg2 		= $('input[name=pwchg_confirm]');
-	var email 		= $('input[name=EMAIL]');
-	var reg_email 	= /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-	var spl_id		= id.val().search(/\s/g);
+function putAdminInfo(){
+	let admin_id = $('input[name=admin_id]');
+	let admin_name = $('input[name=admin_name]');
+	let admin_pw = $('input[name=admin_pw]');
+	let pw_new = $('input[name=pw_new]');
+	let pw_confirm = $('input[name=pw_confirm]');
+	let admin_email = $('input[name=admin_email]');
+	
+	let reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+	let spl_id = admin_id.val().search(/\s/g);
 
-	if(id.val().length == 0){
-		alert("아이디를 입력해주세요", id.focus());
-		return false;
-	} else{
-		if(id.val().search(/[a-z]/ig) < 0){
-			alert("아이디에 영문과 숫자가 조합되어야 합니다.",id.focus());
-			return false;
-		}
-		if(spl_id >= 0){
-			alert("아이디에 공백이 포함될 수 없습니다.",id.focus());
-			return false;
-		}
-	}
-	
-	if(name.val().length == 0){
-		alert("이름를 입력해주세요",name.focus());
+	if(admin_id.val().length == 0){
+		alert("아이디를 입력해주세요", admin_id.focus());
 		return false;
 	}
 	
-	if(email.val().length == 0){
-		alert("이메일을 입력해주세요", email.focus());
+	if(admin_id.val().search(/[a-z]/ig) < 0){
+		alert("아이디에 영문과 숫자가 조합되어야 합니다.",admin_id.focus());
+		return false;
+	}
+	
+	if(spl_id >= 0){
+		alert("아이디에 공백이 포함될 수 없습니다.",admin_id.focus());
+		return false;
+	}
+	
+	if(admin_name.val().length == 0){
+		alert("이름를 입력해주세요",admin_name.focus());
+		return false;
+	}
+	
+	if(admin_email.val().length == 0){
+		alert("이메일을 입력해주세요", admin_email.focus());
+		return false;
+	}
+	
+	if(reg_email.test(admin_email.val()) == false){
+		alert("이메일을 정확히 입력해주세요", admin_email.focus());
+		return false;
+	}
+	
+	if(admin_pw.val().length == 0){
+		alert("관리자 정보 변경을 위해 현재 비밀번호를 입력해주세요.",admin_pw.focus());
 		return false;
 	} else {
-		if(reg_email.test(email.val()) == false){
-			alert("이메일을 정확히 입력해주세요", email.focus());
+		if(pwValidationCheck(admin_pw) == false){
 			return false;
+		};
+	}
+	
+	if (pw_new.val().length > 0 || pw_confirm.val().length > 0) {
+		if(pw_new.val().length == 0){
+			alert("변경 비밀번호를 입력해주세요",pw_new.focus());
+			return false;
+		} else {
+			if(pwValidationCheck(pw_new) == false){
+				return false;
+			};
+		}
+		
+		if(pw_confirm.val().length == 0){
+			alert("변경확인 비밀번호를 입력해주세요",pw_confirm.focus());
+			return false;
+		} else {
+			if(pwValidationCheck(pw_confirm) == false){
+				return false;
+			};
+		}
+		
+		if(pw_new.val() != pw_confirm.val()){
+			alert("변경하려는 비밀번호가 일치하지 않습니다.",pw_confirm.focus());
+			return false;
+		} else {
+			if(pwValidationCheck(pw_confirm) == false){
+				return false;
+			};
 		}
 	}
 	
-	if(pwcurrent.val().length > 0) {
-		if (pwchg.val().length > 0 || pwchg2.val().length > 0) {
-			if(pwcurrent.val().length == 0){
-				alert("현재 비밀번호를 입력해주세요", pwcurrent.focus());
-				return false;
-			} else {
-				if(pwValidationCheck(pwcurrent) == false){
-					return false;
-				};
-			}
-			
-			if(pwchg.val().length == 0){
-				alert("변경 비밀번호를 입력해주세요",pwchg.focus());
-				return false;
-			} else {
-				if(pwValidationCheck(pwchg) == false){
-					return false;
-				};
-			}
-
-			if(pwchg2.val().length == 0){
-				alert("변경확인 비밀번호를 입력해주세요",pwchg2.focus());
-				return false;
-			} else {
-				if(pwValidationCheck(pwchg2) == false){
-					return false;
-				};
-			}
-
-			if(pwchg.val().length > 0 && (pwchg.val() != pwchg2.val())){
-				alert("변경/변경확인 비밀번호를 동일하게 입력해주세요", pwchg.focus());
-				return false;
-			}
+	let formData = new FormData();
+	formData = $("#frm-put").serializeObject();
+	
+	confirm(
+		'운영자 정보를 수정하시겠습니까?',
+		function() {
+			$.ajax({
+				type: "post",
+				data: formData,
+				dataType: "json",
+				url: config.api + "store/admin/put",
+				error: function() {
+					alert("운영자 정보 수정처리중 오류가 발생했습니다.");
+				},
+				success: function(d) {
+					if(d.code == 200) {
+						confirm(
+							"선택한 운영자 정보가 수정되었습니다.",
+							function() {
+								insertLog("상점관리 > 운영자 관리 > 운영자 목록","운영자 개별 정보수정: ",1);
+								getAdminInfoList();
+								modal_close();
+							}
+						)
+					} else {
+						alert("운영자 정보 수정처리에 실패했습니다. 수정하려는 운영자 정보를 확인해주세요.");
+						return false;
+					}
+				}
+			});
 		}
-	} else {
-		alert("관리자 정보 변경을 위해 현재 비밀번호를 입력해주세요.",pwcurrent.focus());
-		return false;
-	}
-	insertLog("상점관리 > 운영자 관리 > 운영자 목록", "운영자 개별 정보수정: ", 1);
-	modal_submit($('#frm-list'),'getAdminInfo');
+	)
 }
 
 function pwValidationCheck(pw) {

@@ -7,7 +7,7 @@
 	}
 </style>
 <div class="content__card">
-	<form id="frm-filter" action="pm/ordersheet/list/get">
+	<form id="frm-filter" action="pcs/ordersheet/list/get">
 		<input type="hidden" name="regist_flg" value="true">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
@@ -353,7 +353,7 @@ function getMdDtlCategory() {
 			'depth':4
 		},
 		dataType: "json",
-		url: config.api + "pm/ordersheet/md/category/get",
+		url: config.api + "pcs/ordersheet/md/category/get",
 		error: function() {
 			data.instance.refresh();
 		},
@@ -560,44 +560,48 @@ function selectAllClick(obj) {
 
 function ordersheetActionCheck() {
 	confirm('독립몰 상품등록작업을 진행하시겠습니까?', function(){
-	var select_idx = [];
-	var length = $('#frm-list').find('.select').length;
-	
-	for (var i=0; i<length; i++) {
-		if ($('#frm-list').find('.select').eq(i).prop('checked') == true) {
-			select_idx.push($('#frm-list').find('.select').eq(i).val());
-		}
-	}
-	if (select_idx.length == 0) {
-		alert('독립몰 상품등록 할 상품를 선택해주세요.');
-	} else {
-		var cnt = 0;
-		var action_name = "독립몰 상품등록";
+		var select_idx = [];
+		var length = $('#frm-list').find('.select').length;
 		
-		var formData = new FormData();
-		formData = $("#frm-list").serializeObject();
-		
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "product/add_new",
-			error: function() {
-				alert('독립몰 상품등록 처리에 실패했습니다.');
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					alert('독립몰 상품등록작업 처리에 성공했습니다.');
-					insertLog("상품관리 > 독립몰 상품등록", '독립몰 상품등록', select_idx.length);
-					getOrdersheetTabInfo();
-				}
-				else{
-					alert(d.msg);
-				}
+		for (var i=0; i<length; i++) {
+			if ($('#frm-list').find('.select').eq(i).prop('checked') == true) {
+				select_idx.push($('#frm-list').find('.select').eq(i).val());
 			}
-		});
-	}
-});
+		}
+		if (select_idx.length == 0) {
+			alert('독립몰 상품등록 할 상품를 선택해주세요.');
+		} else {
+			var cnt = 0;
+			var action_name = "독립몰 상품등록";
+			
+			var formData = new FormData();
+			formData = $("#frm-list").serializeObject();
+			
+			$.ajax({
+				type: "post",
+				data: formData,
+				dataType: "json",
+				url: config.api + "product/add",
+				error: function() {
+					alert('독립몰 상품등록 처리에 실패했습니다.');
+				},
+				beforeSend: function(){
+					LoadingWithMask('/images/default/loading_img.gif')
+				},
+				success: function(d) {
+					if(d.code == 200) {
+						closeLoadingWithMask();
+						alert('독립몰 상품등록작업 처리에 성공했습니다.');
+						insertLog("상품관리 > 독립몰 상품등록", '독립몰 상품등록', select_idx.length);
+						getOrdersheetTabInfo();
+					}
+					else{
+						alert(d.msg);
+					}
+				}
+			});
+		}
+	});
 }
 
 function rowsChange(obj) {
@@ -619,5 +623,45 @@ function orderChange(obj) {
 
 	getOrdersheetTabInfo();
 }
+function LoadingWithMask(gif) {
+    //화면의 높이와 너비를 구합니다.
+    var maskHeight = $(document).height();
+    var maskWidth  = window.document.body.clientWidth;
+	var top = 0;
+	var left = 0;
+	top = ( $(window).height()) / 2 + $(window).scrollTop();
+    left = ( $(window).width()) / 2 + $(window).scrollLeft();
+	
+    //화면에 출력할 마스크를 설정해줍니다.
+    var mask       = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+    var loadingImg = '';
+      
+	loadingImg = `
+					<div id='loadingImg' style="position:absolute; top:${top}px; left:${left}px; width:75px; height:75px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; ">
+						<img src='${gif}' style="width:75px; height:75px;"/>
+					</div>
+				`;
+ 
+    //화면에 레이어 추가
+    $('body').append(mask);
+	$('body').append(loadingImg);
+ 
+    //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
+    $('#mask_loading').css({
+            'width' : maskWidth,
+            'height': maskHeight,
+            'opacity' : '0.3'
+    }); 
+  
+    //마스크 표시
+    $('#mask_loading').show();
+  
+    //로딩중 이미지 표시
+    $('#loadingImg').show();
+}
 
+function closeLoadingWithMask() {
+    $('#mask_loading, #loadingImg').hide();
+    $('#mask_loading, #loadingImg').empty();  
+}
 </script>

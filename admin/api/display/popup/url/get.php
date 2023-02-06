@@ -13,65 +13,72 @@
  | 
  +=============================================================================
 */
-//param
-$search_type = $_POST['search_type'];
-$search_keyword = $_POST['search_keyword'];
-$popup_idx = $_POST['popup_idx'];
-$list_type = $_POST['list_type'];
 
-$rows = $_POST['rows'];
-$page = $_POST['page'];
+$search_type		= $_POST['search_type'];
+$search_keyword		= $_POST['search_keyword'];
+$popup_idx			= $_POST['popup_idx'];
+$list_type			= $_POST['list_type'];
+
+$rows				= $_POST['rows'];
+$page				= $_POST['page'];
 
 $table = "";
 $select = "";
 $sql = "";
-$where = "1=1";
+
+$where = " 1=1 ";
 $where_cnt = $where;
 if ($popup_idx != null) {
-    $sql = "SELECT
-                IDX,
-                POPUP_IDX,
-                POPUP_URL_TYPE,
-                FRONT_IDX,
-                PAGE_TITLE,
-                PRODUCT_IDX,
-                PRODUCT_NAME,
-                PRODUCT_CODE,
-                URL
-            FROM
-                dev.POPUP_URL
-            WHERE
-                POPUP_IDX = ".$popup_idx;
+    $sql = "
+		SELECT
+			IDX				AS URL_IDX,
+			POPUP_IDX		AS POPUP_IDX,
+			POPUP_URL_TYPE	AS POPUP_URL_TYPE,
+			FRONT_IDX		AS FRONT_IDX,
+			PAGE_TITLE		AS PAGE_TITLE,
+			PRODUCT_IDX		AS PRODUCT_IDX,
+			PRODUCT_NAME	AS PRODUCT_NAME,
+			PRODUCT_CODE	AS PRODUCT_CODE,
+			URL				AS URL
+		FROM
+			dev.POPUP_URL
+		WHERE
+			POPUP_IDX = ".$popup_idx."
+	";
 } else {
     if($list_type == 'web'){
         $table = 'dev.FRONT_PAGE_URL';
-        $select = " IDX,
-                    PAGE_TITLE,
-                    PAGE_URL AS URL";
+        $select = "
+			IDX			AS IDX,
+			PAGE_TITLE	AS PAGE_TITLE,
+			PAGE_URL	AS URL
+		";
     }
     else if($list_type == 'product'){
         $table = 'dev.SHOP_PRODUCT';
-        $select = " IDX,
-                    PRODUCT_NAME,
-                    PRODUCT_CODE";
+        $select = "
+			IDX				AS IDX,
+			PRODUCT_NAME	AS PRODUCT_NAME,
+			PRODUCT_CODE	AS PRODUCT_CODE
+		";
     }
 
     if ($search_type != null && $search_keyword != null) {
         switch ($search_type) {
             case "title" :
-                $where .= " AND PAGE_TITLE LIKE '%".$search_keyword."%' ";
+                $where .= " AND (PAGE_TITLE LIKE '%".$search_keyword."%') ";
                 break;
             
             case "url" :
-                $where .= " AND PAGE_URL LIKE '%".$search_keyword."%' ";
+                $where .= " AND (PAGE_URL LIKE '%".$search_keyword."%') ";
                 break;
             
             case "product_code" :
-                $where .= " AND PRODUCT_CODE LIKE '%".$search_keyword."%' ";
+                $where .= " AND (PRODUCT_CODE LIKE '%".$search_keyword."%') ";
                 break;
             
             case "product_name":
-                $where .= " AND PRODUCT_NAME LIKE '%".$search_keyword."%' ";
+                $where .= " AND (PRODUCT_NAME LIKE '%".$search_keyword."%') ";
                 break;
         }
     }

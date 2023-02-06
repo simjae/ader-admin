@@ -399,6 +399,7 @@
     border: solid 1px #343434;
     background-color: #ffffff;
     color: #343434;
+    cursor:pointer;
 }
 #sidebar .customer-btn-box{
     display: flex;

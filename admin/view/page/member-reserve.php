@@ -1,24 +1,4 @@
-<?php
-$sql = '
-	SELECT
-		SUM(MILEAGE_USABLE_INC)		AS SUM_USABLE_INC,
-		SUM(MILEAGE_USABLE_DEC)		AS SUM_USABLE_DEC,
-		SUM(MILEAGE_USABLE_INC)
-		- SUM(MILEAGE_USABLE_DEC)	AS SUM_USABLE_TOTAL,
-		SUM(MILEAGE_UNUSABLE)		AS SUM_UNUSABLE
-	FROM 
-		dev.MILEAGE_INFO
-	LIMIT 
-		1
-';
-$db->query($sql);
-foreach($db->fetch() as $data) { 
-	$sum_usable_inc 	= $data['SUM_USABLE_INC'];
-	$sum_usable_dec 	= $data['SUM_USABLE_DEC'];
-	$sum_usable_total 	= $data['SUM_USABLE_TOTAL'];
-	$sum_unusable 		= $data['SUM_UNUSABLE'];
-}
-?>
+
 <style>
 .info__wrap{
 	margin-bottom: 20px;
@@ -34,6 +14,7 @@ foreach($db->fetch() as $data) {
 			<table>
 				<THEAD>
 					<TR>
+						<TH rowspan="2">국가</TH>
 						<TH colspan="3">가용 적립금</TH>
 						<TH>미가용 적립금</TH>
 					</TR>
@@ -46,12 +27,45 @@ foreach($db->fetch() as $data) {
 					</TR>
 				</THEAD>
 				<TBODY>
+<?php
+	$sql = '
+		SELECT
+			COUNTRY						AS COUNTRY,
+			SUM(MILEAGE_USABLE_INC)		AS SUM_USABLE_INC,
+			SUM(MILEAGE_USABLE_DEC)		AS SUM_USABLE_DEC,
+			SUM(MILEAGE_USABLE_INC)
+			- SUM(MILEAGE_USABLE_DEC)	AS SUM_USABLE_TOTAL,
+			SUM(MILEAGE_UNUSABLE)		AS SUM_UNUSABLE
+		FROM 
+			dev.MILEAGE_INFO
+		GROUP BY 
+			COUNTRY
+	';
+	$db->query($sql);
+	foreach($db->fetch() as $data) {
+		switch($data['COUNTRY']){
+			case 'KR':
+				$country_str = "한국몰";
+				break;
+			case 'EN':
+				$country_str = "영문몰";
+				break;
+			case 'CN':
+				$country_str = "중국몰";
+				break;
+		}
+?>
 					<TR>
-						<TD class="text-right"><?=number_format($sum_usable_inc)?></TD>
-						<TD class="text-right">-<?=number_format($sum_usable_dec)?></TD>
-						<TD class="text-right"><?=number_format($sum_usable_total)?></TD>
-						<TD class="text-right"><?=number_format($sum_unusable)?></TD>
+						<TD class="text-right"><?=$country_str?></TD>
+						<TD class="text-right"><?=number_format($data['SUM_USABLE_INC'])?></TD>
+						<TD class="text-right">-<?=number_format($data['SUM_USABLE_DEC'])?></TD>
+						<TD class="text-right"><?=number_format($data['SUM_USABLE_TOTAL'])?></TD>
+						<TD class="text-right"><?=number_format($data['SUM_UNUSABLE'])?></TD>
 					</TR>
+<?php
+	}
+?>
+					
 				</TBODY>
 			</table>
 		</div>
@@ -70,12 +84,22 @@ foreach($db->fetch() as $data) {
 		</div>
 		<div class="card__body">
 			<div class="content__wrap">
+				<div class="content__title">국가</div>
+				<div class="content__row">
+					<select name="country" class="fSelect" style="width:150px;">
+						<option value="KR">한국몰</option>
+						<option value="EN">영문몰</option>
+						<option value="CN">중국몰</option>
+					</select>
+				</div>
+			</div>
+			<div class="content__wrap">
 				<div class="content__title">등급</div>
 				<div class="content__row">
 					<select name="member_level" class="fSelect" style="width:150px;">
 						<option value="">전체</option>	
-						<option value="ADER family">ADER family</option>
-						<option value="일반회원">일반회원</option>
+						<option value="2">ADER family</option>
+						<option value="1">일반회원</option>
 					</select>
 				</div>
 			</div>
@@ -121,7 +145,7 @@ foreach($db->fetch() as $data) {
 </div>
 <div class="content__card">
 	<div class="card__header">
-		<h3>검색결과 내 적립금 내역 통계</h3>
+		<h3 id="statistic_result_title">검색결과 내 적립금 내역 통계</h3>
 		<div class="drive--x"></div>
 	</div>
 	<div class="card__body">
@@ -154,7 +178,7 @@ foreach($db->fetch() as $data) {
 </div>
 <div class="content__card">
 	<div class="card__header">
-		<h3>회원 적립금 내역</h3>
+		<h3 id="mileage_result_title">회원 적립금 내역</h3>
 		<div class="drive--x"></div>
 	</div>
 	<div class="card__body">
@@ -281,11 +305,15 @@ function setPaging(obj) {
 	$('.tabNum_' + tab_num).find('.cnt_result').text(result_cnt);
 }
 function searchMileageInfo() {
+	if($('select[name="country"]').val().length == 0){
+		alert('국가항목을 반드시 선택해주세요');
+	}
 	$('#frm-list').find("input[name='page']").val(1);
 	getMileageTabStatistics();
 	getMileageTabInfo();
 }
 function getMileageTabInfo() {
+	
 	var tab_num = $('#tab_num').val();
 	$("#result_table_"+tab_num).html('');
 	
@@ -298,6 +326,30 @@ function getMileageTabInfo() {
 
 	var rows = $('#frm-list').find("input[name='rows']").val();
 	var page = $('#frm-list').find("input[name='page']").val();
+
+	var country = $('select[name="country"]').val();
+	title_country_str = '';
+	statistic_country_str = '';
+	switch(country){
+		case 'KR':
+			title_country_str = '[한국몰] 회원 적립금 내역';
+			statistic_country_str = '검색결과 내 [한국몰] 적립금 내역 통계';
+			break;
+		case 'EN':
+			title_country_str = '[영문몰] 회원 적립금 내역';
+			statistic_country_str = '검색결과 내 [영문몰] 적립금 내역 통계';
+			break;
+		case 'CN':
+			title_country_str = '[중국몰] 회원 적립금 내역';
+			statistic_country_str = '검색결과 내 [중국몰] 적립금 내역 통계';
+			break;
+		default:
+			title_country_str = '회원 적립금 내역';
+			statistic_country_str = '검색결과 내 적립금 내역 통계';
+			break;
+	}
+	$('#mileage_result_title').text(title_country_str);
+	$('#statistic_result_title').text(statistic_country_str);
 	get_contents($('#frm-list'),{
 		pageObj : $(".paging_"+tab_num),
 		html : function(d) {
@@ -320,6 +372,7 @@ function getMileageTabInfo() {
 						usable_date_str = '1달';
 						break;
 				}
+				
                 switch(tab_num){
 					case '01':
 						strDiv += `

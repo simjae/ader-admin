@@ -265,7 +265,6 @@ function voucherIssue(){
         success: function(d) {
             if(d.code == 200){
                 $('#voucher_err_msg').hide();
-                exceptionHandling("바우처","바우처가 등록되었습니다.");
             }
             else{
                 let err_str = '응모에 실패했습니다. 다시 진행해주세요.';

@@ -2,11 +2,11 @@
 /*
  +=============================================================================
  | 
- | 상품 목록 페이지 등록
- | -----------
+ | 콜라보레이션 관리 페이지 - 콜라보레이션 정보 개별 조회
+ | -------
  |
  | 최초 작성	: 손성환
- | 최초 작성일	: 2022.08.22
+ | 최초 작성일	: 2023.01.28
  | 최종 수정일	: 
  | 버전		: 1.0
  | 설명		: 
@@ -14,148 +14,160 @@
  +=============================================================================
 */
 
-$page_idx               = $_POST['page_idx'];
-$tmp_flg				= $_POST['tmp_flg'];
-
-$tbl_posting = array();
-if ($tmp_flg == "true") {
-	$tbl_posting[0] = "dev.TMP_DISPLAY_POSTING_COLLABORATION";
-	$tbl_posting[1] = "dev.TMP_POSTING_IMG_COLLABORATION";
-} else {
-	$tbl_posting[0] = "dev.DISPLAY_POSTING_COLLABORATION";
-	$tbl_posting[1] = "dev.POSTING_IMG_COLLABORATION";
+$admin_idx = 0;
+if (isset($_SESSION['ADMIN_IDX'])) {
+	$admin_idx = $_SESSION['ADMIN_IDX'];
 }
 
-if($page_idx != null){
-	$posting_sql= "SELECT
-					IDX								AS IDX,
-					PAGE_IDX						AS PAGE_IDX,
-					
-					COLLABORATION_DATE				AS COLLABORATION_DATE,
-					COLLABORATION_TITLE				AS COLLABORATION_TITLE,
-					COLLABORATION_DESCRIPTION		AS COLLABORATION_DESCRIPTION,
-					COLLABORATION_SCRIPT			AS COLLABORATION_SCRIPT,
-					COLLABORATION_VIDEO_URL			AS COLLABORATION_VIDEO_URL,
-					
-					BTN_PRODUCT_TOP_DISPLAY_FLG		AS BTN_PRODUCT_TOP_DISPLAY_FLG,
-					IFNULL(
-						BTN_PRODUCT_TOP_TEXT,'더 많은 제품 보러가기'
-					)								AS BTN_PRODUCT_TOP_TEXT,
-					IFNULL(BTN_PRODUCT_TOP_URL,'')	AS BTN_PRODUCT_TOP_URL,
-					
-					BTN_PRODUCT_BOT_DISPLAY_FLG		AS BTN_PRODUCT_BOT_DISPLAY_FLG,
-					IFNULL(
-						BTN_PRODUCT_BOT_TEXT,'더 많은 제품 보러가기'
-					)								AS BTN_PRODUCT_BOT_TEXT,
-					IFNULL(BTN_PRODUCT_BOT_URL,'')	AS BTN_PRODUCT_BOT_URL,
-					
-					BTN_VIDEO_DISPLAY_FLG			AS BTN_VIDEO_DISPLAY_FLG,
-					IFNULL(BTN_VIDEO_TEXT,'캠페인 영상 보기')		AS BTN_VIDEO_TEXT,
-					
-					BTN_IMG_DISPLAY_FLG				AS BTN_IMG_DISPLAY_FLG,
-					IFNULL(
-						BTN_IMG_TEXT,'캠페인 이미지 전체 보기'
-					)								AS BTN_IMG_TEXT,
-					IFNULL(BTN_IMG_URL,'')			AS BTN_IMG_URL,
-					
-					IFNULL(COLLABORATION_IMG_SCRIPT,'')	AS COLLABORATION_IMG_SCRIPT,
-					
-					COLLABORATION_PRODUCT			AS COLLABORATION_PRODUCT
-				FROM
-					".$tbl_posting[0]."
-				WHERE
-					PAGE_IDX = ".$page_idx." AND
-					DEL_FLG = FALSE";
+$collaboration_idx		= $_POST['collaboration_idx'];
+
+if ($collaboration_idx != null) {
+	$select_collaboration_sql = "
+		SELECT
+			PC.IDX					AS COLLABORATION_IDX,
+			PP.COUNTRY				AS COUNTRY,
+			PC.POSTING_STATUS		AS POSTING_STATUS,
+			PP.PAGE_TITLE			AS PAGE_TITLE,
+			DATE_FORMAT(
+				PP.DISPLAY_START_DATE,
+				'%Y-%m-%d'
+			)						AS DISPLAY_START_DATE,
+			DATE_FORMAT(
+				PP.DISPLAY_END_DATE,
+				'%Y-%m-%d'
+			)						AS DISPLAY_END_DATE,
+			PC.DISPLAY_NUM			AS DISPLAY_NUM,
+			
+			PC.PRODUCT_LIST_FLG		AS PRODUCT_LIST_FLG,
+			PC.PRODUCT_LINK_FLG		AS PRODUCT_LINK_FLG
+		FROM
+			dev.POSTING_COLLABORATION PC
+			LEFT JOIN dev.PAGE_POSTING PP ON
+			PC.PAGE_IDX = PP.IDX
+		WHERE
+			PC.IDX = ".$collaboration_idx." AND
+			PC.DEL_FLG = FALSE
+	";
 	
-	$db->query($posting_sql);
-	foreach($db->fetch() as $posting_data) {
-		$collaboration_idx = $posting_data['IDX'];
+	$db->query($select_collaboration_sql);
+	
+	$column_info = array();
+	$product_info = array();
+	foreach($db->fetch() as $collaboration_data) {
+		$country = $collaboration_data['COUNTRY'];
+		$collaboration_idx = $collaboration_data['COLLABORATION_IDX'];
 		
-		if ($collaboration_idx > 0) {
-			$img_sql = "SELECT
-							IDX,
-							IMG_SIZE,
-							IMG_TYPE,
-							IMG_LOCATION,
-							IMG_URL
-						FROM
-							".$tbl_posting[1]."
-						WHERE
-							PAGE_IDX = ".$page_idx."
-							AND COLLABORATION_IDX = ".$collaboration_idx."
-							AND DEL_FLG = FALSE";
-			$db->query($img_sql);
+		$select_column_sql = "
+			SELECT
+				CC.IDX				AS COLUMN_IDX,
+				CC.PHS_COLUMN_NAME	AS PHS_COLUMN_NAME,
+				CC.LGC_COLUMN_NAME	AS LGC_COLUMN_NAME,
+				CC.COLUMN_VALUE		AS COLUMN_VALUE
+			FROM
+				dev.COLLABORATION_COLUMN CC
+			WHERE
+				CC.COLLABORATION_IDX = ".$collaboration_idx."
+		";
+		
+		$db->query($select_column_sql);
+		
+		foreach($db->fetch() as $column_data) {
+			$column_info[] = array(
+				'column_idx'		=>$column_data['COLUMN_IDX'],
+				'phs_column_name'	=>$column_data['PHS_COLUMN_NAME'],
+				'lgc_column_name'	=>$column_data['LGC_COLUMN_NAME'],
+				'column_value'		=>$column_data['COLUMN_VALUE']
+			);
+		}
+		
+		$select_product_sql = "
+			SELECT
+				CP.IDX						AS COLLABO_PRODUCT_IDX,
+				CP.DISPLAY_NUM				AS DISPLAY_NUM,
+				PR.PRODUCT_CODE				AS PRODUCT_CODE,
+				PR.PRODUCT_NAME				AS PRODUCT_NAME,
+				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
+				OM.COLOR					AS COLOR,
+				OM.COLOR_RGB				AS COLOR_RGB,
+				IFNULL(
+					PR.MATERIAL_".$country.",
+					'-'
+				)							AS MATERIAL,
+				(
+					SELECT
+						REPLACE(
+							S_PI.IMG_LOCATION,
+							'/var/www/admin/www',
+							''
+						)
+					FROM
+						dev.PRODUCT_IMG S_PI
+					WHERE
+						S_PI.PRODUCT_IDX = PR.IDX AND
+						IMG_TYPE = 'P' AND
+						IMG_SIZE = 'S'
+					ORDER BY
+						IDX ASC
+					LIMIT
+						0,1
+				)							AS IMG_LOCATION,
+				CP.DISPLAY_FLG				AS DISPLAY_FLG
+			FROM
+				dev.COLLABORATION_PRODUCT CP
+				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				CP.PRODUCT_IDX = PR.IDX
+				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				PR.ORDERSHEET_IDX = OM.IDX
+			WHERE
+				CP.COLLABORATION_IDX = ".$collaboration_idx."
+			ORDER BY
+				CP.DISPLAY_NUM ASC
+		";
+		
+		$db->query($select_product_sql);
+		
+		foreach($db->fetch() as $product_data) {
+			$product_info[] = array(
+				'collabo_product_idx'	=>$product_data['COLLABO_PRODUCT_IDX'],
+				'display_num'			=>$product_data['DISPLAY_NUM'],
+				'product_code'			=>$product_data['PRODUCT_CODE'],
+				'product_name'			=>$product_data['PRODUCT_NAME'],
+				'sales_price'			=>number_format($product_data['SALES_PRICE']),
+				'color'					=>$product_data['COLOR'],
+				'color_rgb'				=>$product_data['COLOR_RGB'],
+				'material'				=>$product_data['MATERIAL'],
+				'img_location'			=>$product_data['IMG_LOCATION'],
+				'display_flg'			=>$product_data['DISPLAY_FLG']
+			);
+		}
+		
+		$bookmark_flg = false;
+		if ($admin_idx > 0) {
+			$bookmark_cnt = $db->count("dev.COLLABORATION_BOOKMARK","COLLABORATION_IDX = ".$collaboration_idx." AND ADMIN_IDX = ".$admin_idx);
 			
-			$img_result = array();
-			foreach($db->fetch() as $img_data) {
-				$img_result['data'][] = array(
-					'img_idx'			=>intval($img_data['IDX']),
-					'img_size'			=>$img_data['IMG_SIZE'],
-					'img_type'			=>$img_data['IMG_TYPE'],
-					'img_location'		=>$img_data['IMG_LOCATION'],
-					'img_url'			=>$img_data['IMG_URL']
-				);
-			}
-			
-			$product_result = array();
-			$collaboration_product = $posting_data['COLLABORATION_PRODUCT'];
-			if ($collaboration_product != null) {
-				$product_sql = "SELECT
-									PRODUCT.IDX,
-									REPLACE(IMG_LOCATION,'/var/www/admin/www','') AS IMG_LOCATION
-								FROM
-									dev.SHOP_PRODUCT PRODUCT
-									LEFT JOIN dev.PRODUCT_IMG IMG ON
-									PRODUCT.IDX = IMG.PRODUCT_IDX
-								WHERE
-									IMG.DEL_FLG = FALSE AND
-									IMG.IMG_TYPE = 'product' AND
-									IMG.IMG_SIZE = 'mdl' AND
-									PRODUCT.IDX IN (".$collaboration_product.")";
-				$db->query($product_sql);
-				
-				foreach($db->fetch() as $product_data) {
-					$product_result['data'][] = array(
-						'product_idx'			=>intval($product_data['IDX']),
-						'product_img_location'	=>$product_data['IMG_LOCATION'],
-					);
-				}
+			if ($bookmark_cnt > 0) {
+				$bookmark_flg = true;
 			}
 		}
 		
 		$json_result['data'][] = array(
-			'idx'							=>intval($posting_data['IDX']),
-			'page_idx'						=>$posting_data['PAGE_IDX'],
-			'collaboration_date'			=>$posting_data['COLLABORATION_DATE'],
-			'collaboration_title'			=>$posting_data['COLLABORATION_TITLE'],
-			'collaboration_description'		=>$posting_data['COLLABORATION_DESCRIPTION'],
+			'collaboration_idx'		=>$collaboration_idx,
+			'country'				=>$collaboration_data['COUNTRY'],
+			'posting_status'		=>$collaboration_data['POSTING_STATUS'],
+			'page_title'			=>$collaboration_data['PAGE_TITLE'],
+			'display_start_date'	=>$collaboration_data['DISPLAY_START_DATE'],
+			'display_end_date'		=>$collaboration_data['DISPLAY_END_DATE'],
+			'display_num'			=>$collaboration_data['DISPLAY_NUM'],
 			
-			'collaboration_script'			=>$posting_data['COLLABORATION_SCRIPT'],
+			'product_list_flg'		=>$collaboration_data['PRODUC_LIST_FLG'],
+			'product_link_flg'		=>$collaboration_data['PRODUC_LINK_FLG'],
 			
-			'collaboration_video_url'		=>$posting_data['COLLABORATION_VIDEO_URL'],
+			'bookmark_flg'			=>$bookmark_flg,
 			
-			'btn_product_top_display_flg'	=>$posting_data['BTN_PRODUCT_TOP_DISPLAY_FLG'],
-			'btn_product_top_text'			=>$posting_data['BTN_PRODUCT_TOP_TEXT'],
-			'btn_product_top_url'			=>$posting_data['BTN_PRODUCT_TOP_URL'],
-			
-			'btn_product_bot_display_flg'	=>$posting_data['BTN_PRODUCT_BOT_DISPLAY_FLG'],
-			'btn_product_bot_text'			=>$posting_data['BTN_PRODUCT_BOT_TEXT'],
-			'btn_product_bot_url'			=>$posting_data['BTN_PRODUCT_BOT_URL'],
-			
-			'btn_video_display_flg'			=>$posting_data['BTN_VIDEO_DISPLAY_FLG'],
-			'btn_video_text'				=>$posting_data['BTN_VIDEO_TEXT'],
-			
-			'btn_img_display_flg'			=>$posting_data['BTN_IMG_DISPLAY_FLG'],
-			'btn_img_text'					=>$posting_data['BTN_IMG_TEXT'],
-			'btn_img_url'					=>$posting_data['BTN_IMG_URL'],
-			
-			'collaboration_img_script'		=>$posting_data['COLLABORATION_IMG_SCRIPT'],
-			
-			'collaboration_product'			=>$posting_data['COLLABORATION_PRODUCT'],
-			
-			'img_result'					=>$img_result,
-			'product_result'				=>$product_result
+			'column_info'			=>$column_info,
+			'product_info'			=>$product_info
 		);
 	}
 }
+
 ?>

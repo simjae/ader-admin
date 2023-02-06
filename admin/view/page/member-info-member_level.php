@@ -3,52 +3,39 @@
         <h3>회원 등급 목록</h3>
         <div class="drive--x"></div>
     </div>
-    <form id="frm-06-01" action="member/info/level/get">
-    </form>
-    <div id="table_div_06" class="table table__wrap">
-        <form id="frm-06-02" action="member/info/level/delete">
-            <div class="table__filter">
-                <div class="filrer__wrap">
-                    <div class="filter__btn"onclick="memberLevelCheck();">삭제</div>
-                    <div class="filter__btn">추가</div>
-                </div> 	
-				<div>
-					<div class="table__setting__btn">설정</div>
-				</div>  
-            </div>
-            <TABLE>
-                <THEAD>
-                    <TR>
-                        <TH rowspan="2" style="width:3%;">
-                            <div class="cb__color">
-                                <label>
-                                    <input type="checkbox" name="selectAll" value=" "onclick="selectLevel(this);">
-                                    <span></span>
-                                </label>
-                            </div>
-                        </TH>
-                        <TH rowspan="2">일괄 등급</TH>
-                        <TH rowspan="2">혜택 결제조건</TH>  
-                        <TH colspan="2">구매 적립</TH>
-                        <TH colspan="2">구매 할인</TH>
-                        <TH rowspan="2">회원 수</TH>
-                    </TR>
-                    <TR>
-                        <TH>구매금액(이상)</TH>
-                        <TH>적립</TH>
-                        <TH>구매금액(이상)</TH>
-                        <TH>할인</TH>
-                    </TR>
-                </THEAD>
-                <TBODY id="member_level_table">
-                    <TR>
-                        <TD colspan="12">
-                            조회 결과가 없습니다
-                        </TD>
-                    </TR>
-                </TBODY>
-            </TABLE>
-        </form>
+    <div class="table table__wrap">
+		<div class="table__filter">
+			<div class="filrer__wrap">
+				<div class="filter__btn"onclick="memberLevelCheck();">삭제</div>
+				<div class="filter__btn">추가</div>
+			</div>
+		</div>
+		<div class="overflow-x-auto">
+			<TABLE style="width:40%;">
+				<THEAD>
+					<TR>
+						<TH rowspan="2" style="width:3%;">
+							<div class="cb__color">
+								<label>
+									<input type="checkbox" name="selectAll" value="" onclick="selectAllLevel(this);">
+									<span></span>
+								</label>
+							</div>
+						</TH>
+						<TH>레벨 타이틀</TH>
+						<TH>마일리지 적립 비율</TH>  
+						<TH style="width:15%;">회원수</TH>
+					</TR>
+				</THEAD>
+				<TBODY id="member_level_table">
+					<TR>
+						<TD colspan="4">
+							조회 결과가 없습니다
+						</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
+		</div>
     </div>
 </div>
 
@@ -74,6 +61,7 @@
         </div>
     </form>
 </div>
+
 <div class="content__card">
     <form id="frm-list_06" action="member/info/get">
         <input type="hidden" class="rows" name="rows" value="10">
@@ -83,29 +71,83 @@
             <div class="drive--x"></div>
         </div>
         <div class="card__body">
-            <div class="content__wrap" style="grid-template-columns: 170px 2fr;">
-                <div class="content__title">회원등급</div>
+			<div class="content__wrap">
+                <div class="content__title">쇼핑몰</div>
                 <div class="content__row">
-                    <select id="member_level" name="member_level" class="fSelect" style="width:163px;">
-                    </select>
+					<select class="fSelect country" name="country" style="width:163px;">
+						<option value="KR" selected="selected">한국몰</option>
+						<option value="EN">영문몰</option>
+						<option value="CN">중국몰</option>
+					</select>
                 </div>
             </div>
-            <div class="content__wrap" style="grid-template-columns: 170px 2fr;">
-                <div class="content__title">결과 내 검색</div>
-                <div class="content__row">
-                    <select name="search_type" class="fSelect" style="width:163px;">
-                        <option value="member_id" selected="">아이디</option>
-                        <option value="name">이름</option>
-                    </select>
-                    <input type="text" name="search_keyword" value="">
-                </div>
-            </div>
+            
+			<div class="content__wrap">
+				<div class="content__title">회원정보</div>
+				<div class="content__row">
+					<select name="search_type" class="fSelect" style="width:163px;">
+						<option value="member_id" selected="">아이디</option>
+						<option value="member_name">이름</option>
+						<option value="tel_mobile">휴대폰번호</option>
+						<option value="member_addr">주소</option>
+					</select>
+
+					<input class="content__input" type="text" name="search_keyword" value="" style="width:70%;">
+				</div>
+			</div>
+			
+			<div class="content__wrap grid__half">
+				<div class="half__box__wrap">
+					<div class="content__title">회원레벨</div>
+					<div class="content__row">
+						<select name="member_level" class="fSelect" style="width:163px;">
+							<option value="ALL" selected="selected">전체</option>
+						<?php
+							$select_level_sql = "
+								SELECT
+									ML.IDX		AS LEVEL_IDX,
+									ML.TITLE	AS LEVEL_TITLE
+								FROM
+									dev.MEMBER_LEVEL ML
+								WHERE
+									DEL_FLG = FALSE
+							";
+							
+							$db->query($select_level_sql);
+							
+							foreach($db->fetch() as $level_data) {
+						?>
+							<option value="<?=$level_data['LEVEL_IDX']?>"><?=$level_data['LEVEL_TITLE']?></option>
+						<?php
+							}
+						?>
+						</select>
+					</div>
+				</div>
+				
+				<div class="half__box__wrap">
+					<div class="content__title">성별</div>
+					<div class="content__row">
+						<div class="rd__block">
+							<input type="radio" id="member_gender_INF_ALL" class="radio__input" value="ALL" name="member_gender" checked>
+							<label for="member_gender_INF_ALL">전체</label>
+
+							<input type="radio" id="member_gender_INF_M" class="radio__input" value="M" name="member_gender"/>
+							<label for="member_gender_INF_M">남</label>
+							
+							<input type="radio" id="member_gender_INF_F" class="radio__input" value="F" name="member_gender"/>
+							<label for="member_gender_INF_F">여</label>
+						</div>
+					</div>
+				</div>
+			</div>
         </div>
+		
         <div class="card__footer">
 			<div class="footer__btn__wrap" style="grid: none;">
 				<div class="btn__wrap--lg">
-					<div  class="blue__color__btn" onClick="getMemberTabInfo_06();"><span>검색</span></div>
-					<div class="defult__color__btn" onClick="init_filter('frm-list_06', 'getMemberTabInfo_06');"><span>초기화</span></div>
+					<div  class="blue__color__btn" onClick="getMemberInfoList('MLV');"><span>검색</span></div>
+					<div class="defult__color__btn" onClick="init_filter('frm-filter_MLV','getMemberInfoList');"><span>초기화</span></div>
 				</div>
 			</div>
 		</div> 
@@ -114,15 +156,16 @@
 
 <div class="content__card">
     <form id="frm-06-04" action="member/info/level/list/put">
+		<input type="hidden" name="level_country" value="KR">
         <div class="info__wrap " style="justify-content:space-between; align-items: center;">
             <div class="body__info--count">
                 <div class="drive--left"></div>
-                총 회원수 <font class="cnt_06_total info__count">0</font>명 
+				총 회원 수 <font class="cnt_MLV_total info__count" >0</font>명 
 				<div class="drive--left"></div>
-				검색결과 <font class="cnt_06_result info__count">0</font>명
+				검색결과 <font class="cnt_MLV_result info__count" >0</font>명
             </div>
             <div class="content__row">
-				<select style="width:163px;float:right;" onChange="orderChange(this);">
+				<select style="width:163px;float:right;" tab_status="MLV" onChange="orderChange(this);">
 					<option value="JOIN_DATE|DESC" selected>가입일 역순</option>
 					<option value="JOIN_DATE|ASC">가입일 순</option>
 					<option value="NAME|DESC">이름 역순</option>
@@ -145,7 +188,7 @@
 					<option value="REGION|ASC">지역 순</option>
 				</select>
 					
-                <select name="rows" style="width:163px;float:right;" onChange="rowsChange(this);">
+                <select name="rows" tab_status="MLV" onChange="rowsChange(this);" style="width: 163px;">
                     <option value="10" selected>10개씩보기</option>
                     <option value="20">20개씩보기</option>
                     <option value="30">30개씩보기</option>
@@ -176,11 +219,12 @@
 							<TH style="width:3%;">
 								<div class="cb__color">
 									<label>
-										<input type="checkbox" name="selectAll" value="" onclick="selectAllClick(this);">
+										<input type="checkbox" onClick="selectAllClick(this);">
 										<span></span>
 									</label>
 								</div>
 							</TH>
+							<TH style="width:3%;">No.</TH>
 							<TH style="width:8%;">등록일</TH>
 							<TH style="width:10%;">이름</TH>
 							<TH style="width:10%;">아이디</TH>
@@ -202,20 +246,22 @@
 				</TABLE>
         	</div>
         </div>
+		
         <div class="padding__wrap">
-			<input type="hidden" class="total_cnt" value="0" tab_num="06" onChange="setResultCount(this);">
-			<input type="hidden" class="result_cnt" value="0" tab_num="06" onChange="setResultCount(this);">
-            <div class="paging_06"></div>
+			<input type="hidden" class="total_cnt" tab_status="MLV" value="0" onChange="setPaging(this);">
+			<input type="hidden" class="result_cnt" tab_status="MLV" value="0" onChange="setPaging(this);">
+			<div class="paging_PRC"></div>
         </div>
     </form>
 </div>
 
 <script>
 $(document).ready(function() {
-	getMemberLevel();
-	getMemberTabInfo_06();
+	//getMemberLevel();
+	//getMemberTabInfo_06();
 });
-function initFilter_06(){
+
+/*function initFilter_06(){
 	$('#frm-06-03').find('select[name="default_level"] option:eq(1)').prop("selected", true);
 
 	$('#frm-list_06').find('select[name="member_level"] option:eq(0)').prop("selected", true);
@@ -248,18 +294,29 @@ function getMemberLevel() {
 				strDiv += '    <TD>';
 				strDiv += '        <div class="cb__color">';
 				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" class="select" name="select_lv[]" value="' + row.lv + '">';
+				strDiv += '                <input type="checkbox" class="select" name="sel_level_idx[]" value="' + row.idx + '">';
 				strDiv += '                <span></span>';
 				strDiv += '            </label>';
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
 				strDiv += '    <TD>' + row.title + '</TD>';
-				strDiv += '    <TD>' + row.sale_type + '</TD>';
-				strDiv += '    <TD>' + row.r_purchase_price + '</TD>';
-				strDiv += '    <TD>' + row.r_purchase_reserve + '</TD>';
-				strDiv += '    <TD>' + row.d_purchase_price + '</TD>';
-				strDiv += '    <TD>' + row.d_purchase_discount + '</TD>';
-				strDiv += '    <TD>' + row.count + '</TD>';
+				strDiv += '    <TD>' + row.mileage_per + '</TD>';
+				strDiv += '    <TD>';
+				strDiv += '    		<TABLE>';
+				strDiv += '    			<TR>';
+				strDiv += '    				<TD>한국몰 회원수</TD>';
+				strDiv += '    				<TD>' + row.kr_count + '</TD>';
+				strDiv += '    			</TR>';
+				strDiv += '    			<TR>';
+				strDiv += '    				<TD>영국몰 회원수</TD>';
+				strDiv += '    				<TD>' + row.en_count + '</TD>';
+				strDiv += '    			</TR>';
+				strDiv += '    			<TR>';
+				strDiv += '    				<TD>중국몰 회원수</TD>';
+				strDiv += '    				<TD>' + row.cn_count + '</TD>';
+				strDiv += '    			</TR>';
+				strDiv += '    		</TABLE>';
+				strDiv += '    </TD>';
 				strDiv += '</TR>';
 				
 				$("#member_level_table").append(strDiv);
@@ -279,18 +336,18 @@ function getMemberLevel() {
 				var sel_strDiv = "";
 				var strDiv = "";
 				var selected = "";
-				if (row.default_level == row.title) {
+				if (row.default_level == row.idx) {
 					selected = "selected";
 				}
-				sel_strDiv += '<option value="' + row.title + '" ' + selected + '>' + row.title + '</option>';
-				strDiv += '<option value="' + row.title + '" >' + row.title + '</option>';
+				sel_strDiv += '<option value="' + row.idx + '" ' + selected + '>' + row.title + '</option>';
+				strDiv += '<option value="' + row.idx + '" >' + row.title + '</option>';
 				
 				$('#default_level').append(sel_strDiv);
 				$('#member_level').append(strDiv);
 			});
 		},
 	});
-}
+}*/
 
 function selectLevel(obj) {
 	if ($(obj).prop('checked') == true) {
@@ -303,30 +360,28 @@ function selectLevel(obj) {
 }
 
 function memberLevelCheck() {
-	var select_lv = [];
-	var length = $('#member_level_table').find('.select').length;
-	for (var i=0; i<length; i++) {
-		if ($('#member_level_table').find('.select').eq(i).prop('checked') == true) {
-			select_lv.push($('#member_level_table').find('.select').eq(i).val());
+	var sel_level_arr = [];
+	var sel_level_obj = $('#member_level_table').find('.select');
+
+	for (var i=0; i<sel_level_obj.length; i++) {
+		if (sel_level_obj.eq(i).prop('checked') == true) {
+			sel_level_arr.push(sel_level_obj.eq(i).val());
 		}
 	}
 	
-	if (select_lv.length == 0) {
+	if (sel_level_arr.length == 0) {
 		alert('삭제 할 멤버의 등급을 선택해주세요.');
 	} else {
-		var cnt = 0;
-		for (var i=0; i<select_lv.length; i++) {
-			if (select_lv[i] == 99) {
-				cnt++;
-			}
+		if(sel_level_arr.find(val => val == 1) == undefined){
+			confirm('선택 한 멤버의 등급을 삭제하시겠습니까?','memberLevelDelete(' + sel_level_arr.length + ')');
+			//일반회원 등급 미선택
 		}
-		
-		if (cnt > 0) {
+		else{
 			alert('"일반회원" 등급은 삭제할 수 없습니다');
-		} else {
-			confirm('선택 한 멤버의 등급을 삭제하시겠습니까?','memberLevelDelete(' + select_lv.length + ')');
+			//일반회원 등급 선택
 		}
 	}
+
 }
 
 function memberLevelDelete(len) {
@@ -394,57 +449,11 @@ function getMemberTabInfo_06() {
 				
 			}
 			d.forEach(function(row) {
-				var join_date = [];
-				if (row.join_date != null) {
-					join_date = row.join_date.split(' ');
-				}
 				
-				var strDiv = "";
-				strDiv += '<TR>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="cb__color">';
-				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" class="select" name="select_idx[]" value="' + row.no + '">';
-				strDiv += '                <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + join_date[0] + '<br>' + join_date[1] + '</TD>';
-				strDiv += '    <TD style="text-decoration:underline;">' + row.name + '</TD>';
-				strDiv += '    <TD style="text-decoration:underline;">' + row.id + '</TD>';
-				strDiv += '    <TD>';
-				strDiv +=          row.level;
-				strDiv += '        <input type="hidden" id="member_level_' + row.no + '" value="' + row.level + '">';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + row.gender + '</TD>';
-				strDiv += '    <TD>' + row.age + '</TD>';
-				strDiv += '    <TD>' + row.region + '</TD>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="row">';
-				if (row.receive.email == true) {
-					strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">MAIL</button>';
-				} else {
-					strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff">MAIL</button>';
-				}
-				if (row.receive.sms == true) {
-					strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">SMS</button>';
-				} else {
-					strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff">SMS</button>';
-				}
-				strDiv += '            <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff">MEMO</button>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="row" style="margin-top:15px;margin-bottom:15px;">';
-				strDiv += '            <button style="font-size:0.5rem;width:50px;height:30px;border:1px solid;background-color:#ffffff;">주문</button>';
-				strDiv += '            <button style="font-size:0.5rem;width:50px;height:30px;border:1px solid;background-color:#ffffff;">적립금</button>';
-				strDiv += '            <button style="font-size:0.5rem;width:50px;height:30px;border:1px solid;background-color:#ffffff;">쿠폰</button>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				strDiv += '</TR>';
 				
 				$("#result_table_06").append(strDiv);
 			});
+			$('input[name="level_country"]').val($('#frm-list_06').find('select[name="country"]').val());
 		},
 	},rows,1);
 }
@@ -501,5 +510,73 @@ function memberLevelUpdate_list(len) {
 			}
 		}
 	});
+}
+
+function setMemberInfoList_MLV(member_data) {
+	let result_table = $('#result_table_INF');
+	
+	let strDiv = "";
+	if (member_data != null) {
+		let strDiv = "";
+		member_data.forEach(function(row) {
+			let join_date = [];
+			if (row.join_date != null) {
+				join_date = row.join_date.split(' ');
+			}
+
+			var strDiv = "";
+			strDiv += '<TR>';
+			strDiv += '    <TD>';
+			strDiv += '        <div class="cb__color">';
+			strDiv += '            <label>';
+			strDiv += '                <input type="checkbox" class="select" name="select_idx[]" value="' + row.no + '">';
+			strDiv += '                <span></span>';
+			strDiv += '            </label>';
+			strDiv += '        </div>';
+			strDiv += '    </TD>';
+			strDiv += '    <TD>' + join_date[0] + '<br>' + join_date[1] + '</TD>';
+			strDiv += '    <TD style="text-decoration:underline;">' + row.member_name + '</TD>';
+			strDiv += '    <TD style="text-decoration:underline;">' + row.member_id + '</TD>';
+			strDiv += '    <TD>';
+			strDiv +=          row.level;
+			strDiv += '        <input type="hidden" id="member_level_' + row.no + '" value="' + row.level + '">';
+			strDiv += '    </TD>';
+			strDiv += '    <TD>' + gender_str + '</TD>';
+			strDiv += '    <TD>' + row.age + '</TD>';
+			strDiv += '    <TD>' + region_str + '</TD>';
+			strDiv += '    <TD>';
+			strDiv += '        <div class="row">';
+			if (row.receive.email == true) {
+				strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">MAIL</button>';
+			} else {
+				strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff">MAIL</button>';
+			}
+			if (row.receive.sms == true) {
+				strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">SMS</button>';
+			} else {
+				strDiv += '        <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff">SMS</button>';
+			}
+			strDiv += '            <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff">MEMO</button>';
+			strDiv += '        </div>';
+			strDiv += '    </TD>';
+			strDiv += '    <TD>';
+			strDiv += '        <div class="row" style="margin-top:15px;margin-bottom:15px;">';
+			strDiv += '            <button style="font-size:0.5rem;width:50px;height:30px;border:1px solid;background-color:#ffffff;">주문</button>';
+			strDiv += '            <button style="font-size:0.5rem;width:50px;height:30px;border:1px solid;background-color:#ffffff;">적립금</button>';
+			strDiv += '            <button style="font-size:0.5rem;width:50px;height:30px;border:1px solid;background-color:#ffffff;">쿠폰</button>';
+			strDiv += '        </div>';
+			strDiv += '    </TD>';
+			strDiv += '</TR>';
+		});
+		
+		result_table.append(strDiv);
+	} else {
+		let strDiv = "";
+		strDiv += '<TD class="default_td" colspan="12">';
+		strDiv += '    조회 결과가 없습니다';
+		strDiv += '</TD>';
+		
+		result_table.append(strDiv);
+	}
 }
 </script>

@@ -29,16 +29,29 @@ if (isset($_POST['product_idx'])) {
 	$product_idx = $_POST['product_idx'];
 }
 
+$whish_idx = 0;
+if (isset($_POST['whish_idx'])) {
+	$whish_idx = $_POST['whish_idx'];
+}
+
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
 	return $json_result;
 }
 
-if ($member_idx > 0 && $product_idx > 0) {
-	$cnt = $db->count("dev.WHISH_LIST","PRODUCT_IDX = ".$product_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
-
-	if ($cnt == 0) {
+if ($member_idx > 0 && ($product_idx > 0 || $whish_idx > 0)) {
+	$whish_cnt = 0;
+	$where_sql = "";
+	if ($product_idx > 0) {
+		$whish_cnt = $db->count("dev.WHISH_LIST","PRODUCT_IDX = ".$product_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+		$where_sql = " PRODUCT_IDX = ".$product_idx." ";
+	} else if ($whish_idx > 0) {
+		$whish_cnt = $db->count("dev.WHISH_LIST","IDX = ".$whish_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+		$where_sql = " IDX = ".$whish_idx." ";
+	}
+	
+	if ($whish_cnt == 0) {
 		$json_result['code'] = 401;
 		$json_result['msg'] = "존재하지 않는 위시리스트 상품이 선택되었습니다. 삭제하려는 상품을 다시 확인해주세요.";
 		return $json_result;
@@ -52,7 +65,7 @@ if ($member_idx > 0 && $product_idx > 0) {
 			UPDATE_DATE = NOW(),
 			UPDATER = '".$member_id."'
 		WHERE
-			PRODUCT_IDX = ".$product_idx." AND
+			".$where_sql." AND
 			MEMBER_IDX = ".$member_idx."
 	";
 

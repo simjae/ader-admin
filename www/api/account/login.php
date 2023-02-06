@@ -17,6 +17,11 @@
 
 include_once("/var/www/admin/api/voucher/issue/add.php");
 
+$member_ip = '0.0.0.0';
+if (isset($_POST['member_ip'])) {
+	$member_ip = $_POST['member_ip'];
+}
+
 $country = null;
 if (isset($_POST['country'])) {
 	$country = $_POST['country'];
@@ -155,6 +160,7 @@ if ($member_cnt > 0) {
 				UPDATE
 					dev.MEMBER_".$country."
 				SET
+					IP = '".$member_ip."',
 					LOGIN_CNT = LOGIN_CNT + 1,
 					LOGIN_DATE = NOW()
 				WHERE

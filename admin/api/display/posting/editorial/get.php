@@ -2,11 +2,11 @@
 /*
  +=============================================================================
  | 
- | 상품 목록 페이지 등록
+ | 에디토리얼 관리 화면 - 에디토리얼 썸네일/컨텐츠 정보 개별 조회
  | -----------
  |
  | 최초 작성	: 손성환
- | 최초 작성일	: 2022.08.03
+ | 최초 작성일	: 2023.01.27
  | 최종 수정일	: 
  | 버전		: 1.0
  | 설명		: 
@@ -14,69 +14,64 @@
  +=============================================================================
 */
 
-$page_idx               = $_POST['page_idx'];
-$tmp_flg				= $_POST['tmp_flg'];
+$thumb_idx			= $_POST['thumb_idx'];
+$page_idx			= $_POST['page_idx'];
+$display_num		= $_POST['display_num'];
+$size_type			= $_POST['size_type'];
 
-$tbl_posting = array();
-if ($tmp_flg == "true") {
-	$tbl_posting[0] = "dev.TMP_DISPLAY_POSTING_EDITORIAL";
-	$tbl_posting[1] = "dev.TMP_POSTING_IMG_EDITORIAL";
-} else {
-	$tbl_posting[0] = "dev.DISPLAY_POSTING_EDITORIAL";
-	$tbl_posting[1] = "dev.POSTING_IMG_EDITORIAL";
-}
-
-if($page_idx != null){
-	$posting_sql= "SELECT
-					IDX						AS IDX,
-					PAGE_IDX				AS PAGE_IDX,
-					
-					EDITORIAL_TITLE			AS EDITORIAL_TITLE,
-					EDITORIAL_VIDEO_URL		AS EDITORIAL_VIDEO_URL
-				FROM
-					".$tbl_grid[0]."
-				WHERE
-					PAGE_IDX = ".$page_idx." AND
-					DEL_FLG = FALSE";
+if ($page_idx != null && $display_num != null && $size_type != null) {
+	$select_editorial_sql = "
+		SELECT
+			ET.IDX					AS THUMB_IDX,
+			ET.DISPLAY_NUM			AS DISPLAY_NUM,
+			ET.THUMB_TYPE			AS THUMB_TYPE,
+			ET.SIZE_TYPE			AS SIZE_TYPE,
+			REPLACE(
+				ET.THUMB_LOCATION,
+				'/var/www/admin/www',
+				''
+			)						AS THUMB_LOCATION,
+			ET.THUMB_URL			AS THUMB_URL,
+			
+			EC.IDX					AS CONTENTS_IDX,
+			EC.CONTENTS_TYPE		AS CONTENTS_TYPE,
+			EC.SIZE_TYPE			AS SIZE_TYPE,
+			REPLACE(
+				EC.CONTENTS_LOCATION,
+				'/var/www/admin/www',
+				''
+			)						AS CONTENTS_LOCATION,
+			EC.CONTENTS_URL			AS CONTENTS_URL
+		FROM
+			dev.EDITORIAL_THUMB ET	LEFT JOIN
+			dev.EDITORIAL_CONTENTS EC ON
+			ET.IDX = EC.THUMB_IDX AND
+			ET.SIZE_TYPE = EC.SIZE_TYPE
+		WHERE
+			ET.PAGE_IDX = ".$page_idx."	AND
+			ET.DISPLAY_NUM = ".$display_num." AND
+			ET.DEL_FLG = FALSE AND
+			ET.SIZE_TYPE = '".$size_type."' 
+		ORDER BY
+			ET.DISPLAY_NUM ASC
+	";
+	$db->query($select_editorial_sql);
 	
-	$db->query($posting_sql);
-	foreach($db->fetch() as $posting_data) {
-		$editorial_idx = $posting_data['IDX'];
-		
-		if ($editorial_idx > 0) {
-			$img_sql = "SELECT
-							IDX,
-							IMG_TYPE,
-							IMG_LOCATION,
-							IMG_URL
-						FROM
-							".$tbl_grid[1]."
-						WHERE
-							PAGE_IDX = ".$page_idx."
-							AND EDITORIAL_IDX = ".$editorial_idx."
-							AND DEL_FLG = FALSE";
-			$db->query($img_sql);
-			
-			$img_result = array();
-			foreach($db->fetch() as $img_data) {
-				$img_result['data'][] = array(
-					'img_idx'			=>intval($img_data['IDX']),
-					'img_type'			=>$img_data['IMG_TYPE'],
-					'img_location'		=>$img_data['IMG_LOCATION'],
-					'img_url'			=>$img_data['IMG_URL']
-				);
-			}
-		}
-		
+	foreach($db->fetch() as $editorial_data) {
 		$json_result['data'][] = array(
-			'idx'					=>intval($posting_data['IDX']),
-			'page_idx'				=>$posting_data['PAGE_IDX'],
-			'editorial_title'		=>$posting_data['EDITORIAL_TITLE'],
-			
-			'editorial_video_url'	=>$posting_data['EDITORIAL_VIDEO_URL'],
-			
-			'img_result'			=>$img_result
+			'thumb_idx' 		=> $editorial_data['THUMB_IDX'],
+			'display_num' 		=> $editorial_data['DISPLAY_NUM'],
+			'thumb_type' 		=> $editorial_data['THUMB_TYPE'],
+			'size_type' 		=> $editorial_data['SIZE_TYPE'],
+			'thumb_location'	=> $editorial_data['THUMB_LOCATION'],
+			'thumb_url' 		=> $editorial_data['THUMB_URL'],
+
+			'contents_idx' 		=> $editorial_data['CONTENTS_IDX'],
+			'contents_type' 	=> $editorial_data['CONTENTS_TYPE'],
+			'contents_location' => $editorial_data['CONTENTS_LOCATION'],
+			'contents_url' 		=> $editorial_data['CONTENTS_URL']
 		);
 	}
 }
+
 ?>

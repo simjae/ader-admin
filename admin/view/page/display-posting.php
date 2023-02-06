@@ -3,6 +3,7 @@
 	<button class="post_tab_btn tap__button" tab_num="02" style="width:180px;" onClick="postTabBtnClick(this);">에디토리얼</button>
 	<button class="post_tab_btn tap__button" tab_num="03" style="width:180px;" onClick="postTabBtnClick(this);">콜라보레이션</button>
 	<button class="post_tab_btn tap__button" tab_num="04" style="width:180px;" onClick="postTabBtnClick(this);">기획전</button>
+	<button class="post_tab_btn tap__button" tab_num="05" style="width:180px;" onClick="postTabBtnClick(this);">룩북</button>
 </div>
 
 	<input id="tab_num" type="hidden" value="01">
@@ -18,6 +19,9 @@
 	</div>
 	<div id="post_tab_04" class="post_tab" style="display:none;">
 		<?php include_once("display-posting-exhibition.php"); ?>
+	</div>
+	<div id="post_tab_05" class="post_tab" style="display:none;">
+		<?php include_once("display-posting-lookbook.php"); ?>
 	</div>
 
 <script>
@@ -44,85 +48,62 @@ function postTabBtnClick(obj) {
 function selectAllClick(obj) {
 	var tab_num = $('#tab_num').val();
 	
-	var country = "";
-	if (tab_num == "03") {
-		country = $('#collaboration_country').val() + "_";
-	} else if (tab_num == "04") {
-		country = $('#exhibition_country').val() + "_";
-	}
-	
 	if ($(obj).prop('checked') == true) {
-		$("#result_" + tab_num + "_" + country + "table").find('.select').prop('checked',true);
-	} else {
-		$("#result_" + tab_num + "_" + country + "table").find('.select').prop('checked',false);
+		$("#result_" + tab_num + "_table").find('.select').prop('checked',true);
+	} 
+	else {
+		$("#result_" + tab_num + "_table").find('.select').prop('checked',false);
 	}
 }
 
 function orderChange(obj) {
 	var tab_num = $('#tab_num').val();
-	
-	var country = "";
-	if (tab_num == "03") {
-		country = $('#collaboration_country').val() + "-";
-	} else if (tab_num == "04") {
-		country = $('#exhibition_country').val() + "-";
-	}
 
 	var select_value = $(obj).val();
 	var order_value = [];
 	order_value = select_value.split('|');
 	
-	$('#frm-' + tab_num + '-' + country + 'list').find('.sort_value').val(order_value[0]);
-	$('#frm-' + tab_num + '-' + country + 'list').find('.sort_type').val(order_value[1]);
+	$('#frm-' + tab_num + '-filter').find('.sort_value').val(order_value[0]);
+	$('#frm-' + tab_num + '-filter').find('.sort_type').val(order_value[1]);
 	
 	switch (tab_num) {
 		case "01" :
 			getPostingCollectionInfo();
 			break;
-		
 		case "02" :
 			getPostingEditorialInfo();
 			break;
-		
 		case "03" :
 			getPostingCollaborationInfo();
 			break;
-		
 		case "04" :
 			getPostingExhibitionInfo();
+			break;
+		case "05" :
+			getPostingLookbookInfo();
 			break;
 	}
 }
 function rowsChange(obj) {
 	var tab_num = $('#tab_num').val();
-	
-	var country = "";
-	if (tab_num == "03") {
-		country = $('#collaboration_country').val() + "-";
-	} else if (tab_num == "04") {
-		country = $('#exhibition_country').val() + "-";
-	}
-	
-	var rows = $(obj).val();
-	
-	$('#frm-' + tab_num + '-' + country + 'list').find('.rows').val(rows);
-	$('#frm-' + tab_num + '-' + country + 'list').find('.page').val(1);
+
+	$('#frm-' + tab_num + '-filter').find('input[name="rows"]').eq(0).val($(obj).val());
 	
 	switch (tab_num) {
 		case "01" :
 			getPostingCollectionInfo();
 			break;
-		
 		case "02" :
 			getPostingEditorialInfo();
 			break;
-		
 		case "03" :
 			getPostingCollaborationInfo();
 			break;
-		
 		case "04" :
 			getPostingExhibitionInfo();
+			break;
+		case "05" :
+			getPostingLookbookInfo();
 			break;
 	}
 }
@@ -130,15 +111,8 @@ function rowsChange(obj) {
 function setPaging(obj) {
 	var tab_num = $(obj).attr('tab_num');
 	var total_cnt = $(obj).val();
-	
-	var country = "";
-	if (tab_num == "03") {
-		country = $('#collaboration_country').val() + "_";
-	} else if (tab_num == "04") {
-		country = $('#exhibition_country').val() + "_";
-	}
-	
-	$('#cnt_' + tab_num + '_' + country + 'total').text(total_cnt);
+
+	$('#cnt_' + tab_num + '_total').text(total_cnt);
 }
 
 function postingActionClick(obj) {
@@ -146,6 +120,12 @@ function postingActionClick(obj) {
 	
 	var action_type = $(obj).attr('action_type');
 	var action_name = "";
+	var form_list = $('#frm-' + tab_num + '-list');
+	var checked_cnt = form_list.find('.select:checked').length;
+
+	var sel_idx_arr = [];
+	var flg_str = '';
+	var err_msg = '';
 
 	switch(action_type){
 		case 'page_copy':
@@ -156,90 +136,80 @@ function postingActionClick(obj) {
 			break;
 		case 'display_true':
 			action_name = "전시";
+			flg_str = 'true';
+			err_msg = '현재 미진열중인 페이지만 진열상태로 변경할 수 있습니다. 선택한 페이지의 진열상태를 확인해주세요.';
 			break;
 		case 'display_false':
 			action_name = "전시취소";
+			flg_str = 'false';
+			err_msg = '현재 진열중인 페이지만 미진열상태로 변경할 수 있습니다. 선택한 페이지의 진열상태를 확인해주세요.';
 			break;
 	}
-	
-	var country = "";
-	if (tab_num == "03") {
-		country = $('#collaboration_country').val() + "-";
-	} else if (tab_num == "04") {
-		country = $('#exhibition_country').val() + "-";
-	}
-	
-	var form = $('#frm-' + tab_num + '-' + country + 'list');
-	form.find('.action_type').val(action_type);
-	
-	var formData = new FormData();
-	formData = form.serializeObject();
-	
-	var select_idx = [];
-	var length = form.find('.select').length;
-	var true_cnt = 0;
-	var false_cnt = 0;
-	for (var i=0; i<length; i++) {
-		var select = form.find('.select').eq(i);
-		if (select.prop('checked') == true) {
-			if (form.find('#display_flg_' + select.val()).val() == "true") {
-				true_cnt++;
-			} else if (form.find('#display_flg_' + select.val()).val() == "false") {
-				false_cnt++;
-			}
-			
-			select_idx.push(select.val());
-		}		
-	}
-	
-	if (action_type == "display_true" && true_cnt > 0) {
-		alert('현재 미진열중인 페이지만 진열상태로 변경할 수 있습니다. 선택한 페이지의 진열상태를 확인해주세요.');
-		return false;
-	} else if (action_type == "display_false" && false_cnt > 0) {
-		alert('현재 진열중인 페이지만 미진열상태로 변경할 수 있습니다. 선택한 페이지의 진열상태를 확인해주세요.');
-		return false;
-	}
-	
-	if (select_idx.length > 0) {
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "display/posting/put",
-			error: function() {
-				alert(action_name + " 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					var tab_title = $('#post_tab_'+tab_num).find('h3').eq(0).text();
-					insertLog("전시관리 > 게시물 관리 > " + tab_title, action_name, select_idx.length);
-					alert(action_name + ' 처리에 성공했습니다.');
-					form.find('input[name="selectAll"]').prop('checked', false);
-					
-					switch (tab_num) {
-						case "01" :
-							getPostingCollectionInfo();
-							break;
-						
-						case "02" :
-							getPostingEditorialInfo();
-							break;
-						
-						case "03" :
-							getPostingCollaborationInfo();
-							break;
-						
-						case "04" :
-							getPostingExhibitionInfo();
-							break;
-					}
+
+	confirm(action_name + "작업을 진행하시겠습니까?",function() {
+		var return_val = '';
+		form_list.find('.select').each(function (){
+			var select_idx = $(this).val();
+			var dispaly_flg = form_list.find('#display_flg_' + select_idx).val();
+
+			if($(this).is(":checked") == true){
+				if(dispaly_flg == flg_str){
+					alert(err_msg);
+					return_val = 'false';
+					return false;
+				}
+				else{
+					sel_idx_arr.push(select_idx);
 				}
 			}
-		});
-	} else {
-		alert(action_name + ' 처리 할 상품을 선택해주세요.');
-		return false;
-	}
+		})
+		if(return_val != 'false'){
+			if(checked_cnt > 0){
+				$.ajax({
+					type: "post",
+					data: {
+						'tab_num' : tab_num,
+						'action_type' : action_type,
+						'select_idx' : sel_idx_arr.join(',')
+					},
+					dataType: "json",
+					url: config.api + "display/posting/put",
+					error: function() {
+						alert(action_name + " 처리에 실패했습니다.");
+					},
+					success: function(d) {
+						if(d.code == 200) {
+							alert(action_name + ' 처리에 성공했습니다.');
+							form_list.find('input[name="selectAll"]').prop('checked', false);
+							form_list.find('.select').prop('checked',false);
+							switch (tab_num) {
+								case "01" :
+									getPostingCollectionInfo();
+									break;
+								case "02" :
+									getPostingEditorialInfo();
+									break;
+								case "03" :
+									getPostingCollaborationInfo();
+									break;
+								case "04" :
+									getPostingExhibitionInfo();
+									break;
+								case "05" :
+									getPostingLookbookInfo();
+									break;
+							}
+						}
+					}
+				});
+			}
+			else{
+				alert(action_name + ' 처리 할 상품을 선택해주세요.');
+				return false;
+			}
+		}
+	})
+	
 }
 
 function openPostingUpdateModal(idx) {
@@ -249,17 +219,17 @@ function openPostingUpdateModal(idx) {
 		case "01" :
 			modal('/collection/put', 'idx='+idx);
 			break;
-		
 		case "02" :
 			modal('/editorial/put', 'idx='+idx);
 			break;
-		
 		case "03" :
 			modal('/collaboration/put', 'idx='+idx);
 			break;
-		
 		case "04" :
 			modal('/exhibition/put', 'idx='+idx);
+			break;
+		case "05" :
+			modal('/lookbook/put', 'idx='+idx);
 			break;
 	}
 }

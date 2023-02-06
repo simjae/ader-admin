@@ -4,7 +4,10 @@
 }
 </style>
 <div class="content__card" style="width:950px;margin: 0;">
-    <input id="page_idx" type="hidden" name="page_idx" value="<?=$idx?>">
+    <input id="json_str" type="hidden"  value='<?=$json_str?>'>
+    <input id="page_idx" type="hidden" name="page_idx" value="">
+    <input id="page_idx" type="hidden" name="country" value="">
+
     <div class="card__header">
         <div class="flex justify-between">
             <h3 id='preview_title'>1:1문의 프리뷰</h3>
@@ -54,17 +57,22 @@
 <script>
 
 $(document).ready(function() {
-	var page_idx = $('#page_idx').val();
+    var json_str = $('#json_str').val();
+    var json_data = eval("(" + json_str + ")");
+
+	var page_idx = json_data.page_idx;
+    var country = json_data.country;
 
 	$.ajax({
 		type: "post",
 		data: {
 			'board_idx' : page_idx,
+            'country' : country,
             'tab_num' : '02',
             'subtab_num' : '01'
 		},
 		dataType: "json",
-		url: config.api + "display/board/get",
+		url: config.api + "page/board/get",
 		error: function() {
 			alert("1:1문의 불러오기 처리에 실패했습니다.");
 		},

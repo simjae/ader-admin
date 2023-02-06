@@ -63,7 +63,7 @@ $(document).ready(function() {
             'tab_num' : '04',
 		},
 		dataType: "json",
-		url: config.api + "display/board/get",
+		url: config.api + "page/board/get",
 		error: function() {
 			alert("1:1문의 불러오기 처리에 실패했습니다.");
 		},

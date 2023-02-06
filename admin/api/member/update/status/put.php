@@ -13,62 +13,86 @@
  | 
  +=============================================================================
 */
-
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 /** 변수 정리 **/
+$list_country = $_POST['list_country'];
 $action_type = $_POST['action_type'];
 $select_idx = $_POST['select_idx'];
 
-$set = "";
-if ($action_type != null) {
-	switch ($action_type) {
-		case "member_trust" :
-			$set .= " SUSPICION_FLG = FALSE ";
+$member_table = '';
+if($list_country != null){
+	switch($list_country){
+		case 'KR':
+			$member_table = 'dev.MEMBER_KR';
 			break;
-		
-		case "member_suspicion" :
-			$set .= " SUSPICION_FLG = TRUE ";
+		case 'EN':
+			$member_table = 'dev.MEMBER_EN';
 			break;
-		
-		case "member_default" :
-			$set .= " STATUS = '정상' ";
-			break;
-		
-		case "member_faulty" :
-			$set .= " STATUS = '불량' ";
-			break;
-		
-		case "member_drop" :
-			$set .= " DROP_DATE = NOW(), ";
-			$set .= " STATUS = '탈퇴', ";
-			$set .= " DROP_TYPE = '강제탈퇴', ";
-			$set .= " DEL_FLG = TRUE ";
+		case 'CN':
+			$member_table = 'dev.MEMBER_CN';
 			break;
 	}
 }
 
-$where = " 1=1 ";
-$idx_list="";
-if ($select_idx != null) {
-	$idx_list = implode(',',$select_idx);
-	$where .= " AND IDX IN (".$idx_list.")";
+if(strlen($member_table) > 0){
+
+	$db->begin_transaction();
+	try {
+		$tables = $member_table;
+	
+		$where = "";
+		$idx_list = "";
+		if ($select_idx != null) {
+			$idx_list = implode(',',$select_idx);
+			$where .= " IDX IN (".$idx_list.")";
+		}
+
+		$set= '';
+		if ($action_type != null) {
+			switch ($action_type) {
+				case "member_trust" :
+					$set .= " SUSPICION_FLG = FALSE ";
+					break;
+				
+				case "member_suspicion" :
+					$set .= " SUSPICION_FLG = TRUE ";
+					break;
+				
+				case "member_default" :
+					$set .= " MEMBER_STATUS = 'NML' ";
+					break;
+				
+				case "member_faulty" :
+					$set .= " MEMBER_STATUS = 'BMB' ";
+					break;
+				
+				case "member_drop" :
+					$set .= " DROP_DATE = NOW(), ";
+					$set .= " MEMBER_STATUS = 'DRP', ";
+					$set .= " DROP_TYPE = 'FDP' ";
+					break;
+			}
+		}
+		//수정항목
+		$sql = "UPDATE
+					".$tables."
+				SET
+					".$set."
+				WHERE
+					".$where;
+
+		$db->query($sql);
+		$db->commit();
+	}
+	catch(mysqli_sql_exception $exception){
+		echo $exception->getMessage();
+		$json_result['code'] = 301;
+		$db->rollback();
+		$msg = "회원탈퇴 처리에 실패했습니다.";
+	}
 }
-
-$tables = $_TABLE['MEMBER'];
-
-/** DB 처리 **/
-
-$json_result = array(
-	'total' => $db->count($tables,$where),
-	'page' => intval($page)
-);
-
-	//수정항목
-$sql = "UPDATE
-			".$tables."
-		SET
-			".$set."
-		WHERE
-			".$where;
-
-$db->query($sql);
+else{
+	$json_result['code'] = 301;
+	$msg = "회원탈퇴 처리에 실패했습니다.";
+}
 ?>

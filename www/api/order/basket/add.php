@@ -53,9 +53,9 @@ if (isset($_POST['whish_info'])) {
 	$whish_info = $_POST['whish_info'];
 }
 
-if ($country == "" || $country == null) {
+if ($member_idx == 0 || $country == null) {
 	$json_result['code'] = 401;
-	$json_result['msg'] = "부적절한 방법으로 접근하셨습니다. 사이트 내의 링크를 확인해주세요.";
+	$json_result['msg'] = "로그인 후 다시 시도해주세요.";
 	
 	return $json_result;
 }

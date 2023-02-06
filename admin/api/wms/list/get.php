@@ -15,22 +15,11 @@ $sql = "
     SELECT
 		CASE
 			WHEN
-				(SELECT COUNT(*) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
+				PI.IMG_LOCATION IS NULL
 				THEN
-					(
-						SELECT
-							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-						FROM
-							dev.PRODUCT_IMG S_PI
-						WHERE
-							S_PI.PRODUCT_IDX = PR.IDX AND
-							S_PI.IMG_TYPE = 'P' AND
-							S_PI.IMG_SIZE = 'S'
-						LIMIT
-							0,1
-					)
+					'/images/default_product_img.jpg'
 			ELSE
-				'/images/default_product_img.jpg'
+				PI.IMG_LOCATION
 		END					AS IMG_LOCATION,
 		OO.BARCODE			AS BARCODE,
         PR.PRODUCT_NAME		AS PRODUCT_NAME,
@@ -61,9 +50,23 @@ $sql = "
 		OM.DELIVER_BOX_IDX = DB.IDX
 		LEFT JOIN dev.ORDERSHEET_OPTION OO ON
 		PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
+		LEFT JOIN (
+			SELECT
+				S_PI.PRODUCT_IDX,
+				S_PI.IMG_LOCATION
+			FROM
+				dev.PRODUCT_IMG S_PI
+			WHERE
+				S_PI.IMG_TYPE = 'P' AND
+				S_PI.IMG_SIZE = 'S'
+			GROUP BY
+				S_PI.PRODUCT_IDX
+		) AS PI ON
+		PR.IDX = PI.PRODUCT_IDX
 	WHERE
 		PR.PRODUCT_CODE IS NOT NULL AND
-		OO.BARCODE IS NOT NULL
+		OO.BARCODE IS NOT NULL AND
+		PR.ORDERSHEET_IDX > 71
 ";
 
 $db->query($sql);

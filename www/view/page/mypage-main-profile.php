@@ -830,17 +830,28 @@
                     'member_idx':member_idx
                 },
                 error: function (data) {
+                    exceptionHandling("계정","계정 탈퇴를 수행하지 못했습니다.");
                 },
                 success: function (data) {
 
                     if (data.code == "200") {
-                        console.log('계정탈퇴에 성공했습니다.');
-                        location.href('/main');
+                        exceptionHandling("계정","계정탈퇴를 완료했습니다.");
                         $('.alertms_del').html('');
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
+                    else{
+                        let err_str = '계정 탈퇴를 수행하지 못했습니다.';
+                        if(d.msg != null){
+                            err_str = d.msg;
+                        }
+                        exceptionHandling("계정",err_str);
+                        if(d.code = 401){
+                            $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                        }
                     }
                 },
                 complete: function (data) {
-
+                    
                 },
                 dataType: 'json'
             }
@@ -897,7 +908,7 @@
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/account/check",
             error: function () {
-                console.log("현재 비밀번호 조회에 실패했습니다.");
+                exceptionHandling("계정",'회원정보가 올바르지 않습니다.');
             },
             success: function (d) {
                 let code = d.code;
@@ -908,9 +919,15 @@
 					$('.tmp_update_pw_check').val('');
 					$('.profile__pw__update__wrap').hide();
 					$('.profile__set__wrap').show();
-					console.log("비밀번호 체크가 완료되었습니다.");
                 } else {
-					console.log("현재 비밀번호와 일치하지 않습니다.");
+                    let err_str = '회원정보가 올바르지 않습니다.';
+                    if(d.msg != null){
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("계정",err_str);
+                    if(d.code = 401){
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
                     return false;
 				}
             }
@@ -930,19 +947,28 @@
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/account/put",
                 error: function () {
-                    console.log("계정정보 변경에 실패했습니다.");
+                    exceptionHandling("계정","계정정보 변경에 실패했습니다.");
                 },
                 success: function (d) {
                     let code = d.code;
                     if (code == 200) {
-                        console.log("비밀번호, 휴대전화 번호 변경이 완료되었습니다.");
 						$('.user_update_pw').val('');
                         $('.user_update_tel').val('');
+                    }
+                    else{
+                        let err_str = '회원정보가 올바르지 않습니다.';
+                        if(d.msg != null){
+                            err_str = d.msg;
+                        }
+                        exceptionHandling("계정",err_str);
+                        if(d.code = 401){
+                            $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                        }
                     }
                 }
             });
         } else {
-            console.log("수정된 정보가 없습니다.");
+            exceptionHandling("계정","수정된 정보가 없습니다.");
 			return false;
         }
     }
@@ -956,7 +982,7 @@
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/list/get",
             error: function () {
-                console.log("배송지 목록을 불어오는데 실패했습니다.");
+                exceptionHandling("계정","배송지 목록을 불어오는데 실패했습니다.");
             },
             success: function (d) {
                 let code = d.code;
@@ -1025,6 +1051,16 @@
                         $('.other_list_wrap').hide();
                     }
                 }
+                else{
+                    let err_str = '회원정보가 올바르지 않습니다.';
+                    if(d.msg != null){
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("계정",err_str);
+                    if(d.code = 401){
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
+                }
             }
         })
     }
@@ -1040,7 +1076,7 @@
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/get",
                 error: function() {
-                    console.log("배송지 개별정보 조회에 실패했습니다.");
+                    exceptionHandling("계정",'배송지 개별정보 조회에 실패했습니다');
                 },
                 success: function(d) {
                     let code = d.code;
@@ -1059,7 +1095,16 @@
                             $('.order_to_detail_addr').val(row.to_detail_addr);
                             let flg = row.default_flg == 1 ? true : false;
                             $('.order_to_default_flg').prop('checked', flg);
-                            console.log("배송지 개별정보 조회에 성공했습니다.");
+                        }
+                    }
+                    else{
+                        let err_str = '회원정보가 올바르지 않습니다.';
+                        if(d.msg != null){
+                            err_str = d.msg;
+                        }
+                        exceptionHandling("계정",err_str);
+                        if(d.code = 401){
+                            $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                         }
                     }
                 }
@@ -1078,13 +1123,22 @@
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/delete",
                 error: function() {
-                    console.log("배송지 삭제에 실패했습니다.");
+                    exceptionHandling("계정",'배송지 삭제에 실패했습니다.');
                 },
                 success: function(d) {
                     let code = d.code;
                     if(code == 200) {
                         getOrderToList();
-                        console.log("배송지 삭제에 성공했습니다.");
+                    }
+                    else{
+                        let err_str = '회원정보가 올바르지 않습니다.';
+                        if(d.msg != null){
+                            err_str = d.msg;
+                        }
+                        exceptionHandling("계정",err_str);
+                        if(d.code = 401){
+                            $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                        }
                     }
                 }
             })
@@ -1105,14 +1159,23 @@
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/put",
                 error: function() {
-                    console.log("기본 배송지 변경에 실패했습니다.");
+                    exceptionHandling("계정",'기본 배송지 변경에 실패했습니다.');
                 },
                 success: function(d) {
                     let code = d.code;
                     if(code == 200) {
                         getOrderToList();
                         // $('.profile__delivery__wrap').show();
-                        console.log("기본 배송지 변경에 성공했습니다.");
+                    }
+                    else{
+                        let err_str = '회원정보가 올바르지 않습니다.';
+                        if(d.msg != null){
+                            err_str = d.msg;
+                        }
+                        exceptionHandling("계정",err_str);
+                        if(d.code = 401){
+                            $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                        }
                     }
                 }
             })
@@ -1182,7 +1245,7 @@
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/add",
             error: function() {
-                console.log("배송지 추가에 실패했습니다.");
+                exceptionHandling("배송지 추가에 실패했습니다.");
             },
             success: function(d) {
                 let code = d.code;
@@ -1202,8 +1265,16 @@
                     
                     $('.other_list_wrap').show();
                     $('.profile__delivery__wrap').show();
-                   
-                    console.log("배송지 추가에 성공했습니다.");
+                }
+                else{
+                    let err_str = '배송지정보가 올바르지 않습니다.';
+                    if(d.msg != null){
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("계정",err_str);
+                    if(d.code = 401){
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
                 }
             }
         });
@@ -1259,7 +1330,7 @@
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/put",
             error: function() {
-                console.log("배송지 정보 변경에 실패했습니다.");
+                exceptionHandling("계정","배송지 정보 변경에 실패했습니다.");
             },
             success: function(d) {
                 let code = d.code;
@@ -1280,8 +1351,16 @@
                     
                     $('.other_list_wrap').show();
                     $('.profile__delivery__wrap').show();
-                    
-                    console.log("배송지 정보 변경에 성공했습니다.");
+                }
+                else{
+                    let err_str = '배송지정보가 올바르지 않습니다.';
+                    if(d.msg != null){
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("계정",err_str);
+                    if(d.code = 401){
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
                 }
             }
         })
@@ -1308,7 +1387,7 @@
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/marketing/get",
             error: function() {
-                console.log("마케팅 정보 조회에 실패했습니다.");
+                exceptionHandling("계정","마케팅 정보 조회에 실패했습니다.");
             },
             success: function(d) {
                 let code = d.code;
@@ -1323,7 +1402,16 @@
                         $('.sms_check').prop('checked', smsFlg);
                         $('.tel_check').prop('checked', telFlg);
                         marketingCheckOne();
-                        console.log("마케팅 정보 조회에 성공했습니다.");
+                    }
+                }
+                else{
+                    let err_str = '배송지정보가 올바르지 않습니다.';
+                    if(d.msg != null){
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("계정",err_str);
+                    if(d.code = 401){
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
             }
@@ -1344,12 +1432,21 @@
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/marketing/put",
             error: function() {
-                console.log("마케팅 정보 변경에 실패했습니다.");
+                exceptionHandling("계정","마케팅 정보 변경에 실패했습니다.");
             },
             success: function(d) {
                 let code = d.code;
                 if(code == 200) {
-                    console.log("마케팅 정보 변경에 성공했습니다.");
+                }
+                else{
+                    let err_str = '회원정보가 올바르지 않습니다.';
+                    if(d.msg != null){
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("계정",err_str);
+                    if(d.code = 401){
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
                 }
             }
         })

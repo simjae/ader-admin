@@ -45,54 +45,86 @@
     header .header__grid {
         color: var(--wh);
     }
-	
+	body.sidebar_open header,
+	body.m_menu_open header,
     header.hover, header.scroll {
         background-color: #fff;
         color: var(--bk);
         border-bottom: 1px solid #eeeeee;
 		transition: background 0.3s;
     }
+	body.sidebar_open header .logo,
+	body.m_menu_open header .logo,
+	body.sidebar_open header .logo,
     header.hover .logo, header.scroll .logo {
         content: url("/images/svg/logo-bk.svg");
     }
 
+	body.sidebar_open header .search-svg,
+	body.m_menu_open header .search-svg,
     header.hover .search-svg, header.scroll .search-svg {
         content: url("/images/svg/search-bk.svg");
     }
 
+	body.sidebar_open header .earth-svg,
+	body.m_menu_open header .earth-svg,
     header.hover .earth-svg, header.scroll .earth-svg {
         content: url("/images/svg/earth-bk.svg");
     }
 
+	body.sidebar_open header .alg__c,
+	body.m_menu_open header .alg__c,
 	header.hover .alg__c, header.scroll .alg__c {
 		color: #000;
 	}
-    header.hover .wishlist-svg, header.scroll .wishlist-svg {
+	body.sidebar_open header .wishlist-svg,
+	body.m_menu_open header .wishlist-svg,
+    header.hover .wishlist-svg,
+	header.scroll .wishlist-svg {
         content: url("/images/svg/wishlist-bk-line.svg");
     }
+	
+	body.sidebar_open header .wishlist__btn.open .wishlist-svg,
+	body.m_menu_open header .wishlist__btn.open .wishlist-svg,
+	header .wishlist__btn.open .wishlist-svg {
+		margin-top: 28px;
+		content: url("/images/svg/wishlist-wh-fill.svg");
+	}
 
+	body.sidebar_open header .wishlist__btn.open .wishlist-svg,
+	body.m_menu_open header .wishlist__btn.open .wishlist-svg,
+	header.hover .wishlist__btn.open .wishlist-svg,
+	header.scroll .wishlist__btn.open .wishlist-svg {
+		margin-top: 28px;
+		content: url("/images/svg/wishlist-fill.svg");
+	}
+
+	body.sidebar_open header .basket-svg,
+	body.m_menu_open header .basket-svg,
     header.hover .basket-svg, header.scroll .basket-svg {
         content: url("/images/svg/basket-bk.svg");
     }
 
+	body.sidebar_open header .bluemark-svg,
+	body.m_menu_open header .bluemark-svg,
     header.hover .bluemark-svg, header.scroll .bluemark-svg {
         content: url("/images/svg/bluemark-bk.svg");
     }
 
+	body.sidebar_open header .user-svg,
+	body.m_menu_open header .user-svg,
     header.hover .user-svg, header.scroll .user-svg {
         content: url("/images/svg/user-bk.svg");
     }
 
-    header.scroll {
-        background-color: #fff;
-        color: var(--bk);
-        border-bottom: 1px solid #eeeeee;
-    }
-
+	body.sidebar_open header .header__grid,
+	body.m_menu_open header .header__grid,
     header.hover .header__grid, header.scroll .header__grid {
         color: var(--bk);
     }
 
+	body.sidebar_open header .hamburger .line,
+	body.m_menu_open header .hamburger .line,
     header.hover .hamburger .line, header.scroll .hamburger .line {
         background-color: var(--bk);
     }
@@ -480,7 +512,7 @@
     }
 
     .re-swiper .navigation .swiper-button-prev {
-        display: none;
+        width: 13px;
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 50%);
@@ -527,7 +559,7 @@
     }
 
     .foryou-swiper .navigation .swiper-button-prev {
-        display: none;
+        width: 13px;
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 50%);

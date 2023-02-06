@@ -245,6 +245,7 @@ input{outline: none;}
         <div class="card__body">
             <form id="frm-login">
                 <input type="hidden" name="country" value="KR">
+                <input type="hidden" name="member_ip" value="0.0.0.0">
                 <div class="content__wrap">
                     <div class="content__title">이메일
                     <p class="font__underline font__red member_id_msg"></p>
@@ -295,6 +296,5 @@ input{outline: none;}
     </div>
 </main>
 
-<script src="/scripts/member/login.js">
+<script src="/scripts/member/login.js"></script>
 
-</script>

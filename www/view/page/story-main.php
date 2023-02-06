@@ -15,6 +15,10 @@
     object-fit:cover;
     height:100%;
     width:100%;
+    opacity: 0.5;
+}
+.story__item:hover img{
+    opacity: 1;
 }
 .story__item p{
     font-size: 12px;
@@ -45,9 +49,7 @@
     font-family: var(--ft-fu)!important;
     font-size: 1.2rem;
 }
-.blur {
-    filter:opacity(0.5);-webkit-filter:opacity(0.5);
-}
+
 @media (min-width: 1024px){
     .story__container{display:grid;}
     .story__moblie__container{display:none;}
@@ -61,25 +63,25 @@
     <div class="story__container">
         <div class="story__item" seq="1">
             <a href="http://116.124.128.246/posting/editorial">
-                <img src="/images/story/Editorial.jpg" alt="editorial" class="blur">
+                <img src="/images/story/Editorial.jpg" alt="editorial">
                 <p>Editorial</p>
             </a>
         </div>
         <div class="story__item" seq="2">
             <a href="http://116.124.128.246/posting/runway">
-                <img src="/images/story/Runway.jpg" alt="runway" class="blur">
+                <img src="/images/story/Runway.jpg" alt="runway">
                 <p>Runway</p>
             </a>
         </div>
         <div class="story__item" seq="3">
             <a href="http://116.124.128.246/posting/lookbook">
-                <img src="/images/story/Collection.jpg" alt="collection" class="blur">
+                <img src="/images/story/Collection.jpg" alt="collection">
                 <p>Collection</p>
             </a>
         </div>
         <div class="story__item" seq="4">
             <a href="http://116.124.128.246/posting/collaboration">
-                <img src="/images/story/Collaboration.jpg" alt="collaboration" class="blur">
+                <img src="/images/story/Collaboration.jpg" alt="collaboration">
                 <p>Collaboration</p>
             </a>
         </div>
@@ -120,13 +122,3 @@
         </div>
     </div>
 </main>
-<script>
-$(document).ready(function() {
-    $(".story__item").mouseover(function(){
-        $(this).children().eq(0).removeClass('blur');
-    })
-    $(".story__item").mouseout(function(){
-        $(this).children().eq(0).addClass('blur');
-    })
-});
-</script>

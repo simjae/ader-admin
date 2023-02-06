@@ -24,8 +24,8 @@
 				<div class="content__row">
 					<select id="category" type="select" name="category" style="width:150px">
 						<option value="" selected>카테고리 선택</option>
-						<option value="0000" >일반</option>
-						<option value="0013" >미확인입금자명단</option>
+						<option value="CMN" >일반</option>
+						<option value="UDL" >미확인입금자명단</option>
 					</select>
 				</div>
 			</div>
@@ -178,14 +178,14 @@ function noticeRegistCheck(){
 			type: "post",
             data: formData,
 			dataType: "json",
-			url: config.api + "display/board/notice/add",
+			url: config.api + "page/board/notice/add",
 			error: function() {
 				alert("공지사항 등록이 실패했습니다.");
 			},
 			success: function(d) {
 				if(d.code == 200) {
 					alert("공지사항 등록에 성공했습니다.");
-					location.href='/display/board';
+					location.href='/page/board';
 				}
                 else{
                     alert("공지사항 등록이 실패했습니다.");

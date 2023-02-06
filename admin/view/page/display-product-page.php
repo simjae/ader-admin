@@ -280,12 +280,6 @@
     box-sizing: border-box;
   }
 
-  html {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    background: #fff;
-  }
-
   html.dragging body {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -830,9 +824,9 @@
     flex-direction: column;
     gap: 10px;
     width: 100px;
-    min-height: 500px;
-    max-height: 100%;
-    overflow: auto;
+    min-height: 73vh;
+    overflow-y: auto;
+	overflow-x: hidden;
     border: 1px solid #bfbfbf;
     margin: 10px;
     background-color: #fff;
@@ -1019,22 +1013,8 @@
   }
 </style>
 
-<div class="content__card">
-	<div class="grid__wrap prd__wrap">
-		<div class="prd__grid">
-			<div class="prd__title">라이브러리</div>
-			<div class="library__btn__wrap">
-				<div class="library__btn" onclick="libraryLoad_product();">
-					<span>상품</span></div>
-				<div class="library__btn" onclick="libraryLoad_img();"><span>이미지</span></div>
-				<div class="library__btn"><span>비디오</span></div>
-				<div class="container product-grid library__product"></div>
-			</div>
-		</div>
-		<div class="prd__grid">
-			<div class="prd__title">상품 진열 그리드</div>
-			<div class="prd__display__btn__wrap">
-				<?php
+<div class="content__card" style="max-height:100%;">
+	<?php
 		function getUrlParamter($url, $sch_tag) {
 			$parts = parse_url($url);
 			parse_str($parts['query'], $query);
@@ -1043,25 +1023,43 @@
 		
 		$page_url = $_SERVER['REQUEST_URI'];
 		$page_idx = getUrlParamter($page_url, 'page_idx');
-		?>
+	?>
+	<div class="grid__wrap prd__wrap" style="height:100%;">
+		<div class="prd__grid" style="height:90vh;">
+			<div class="prd__title">라이브러리</div>
+			<div class="library__btn__wrap">
+				<div class="library__btn" onclick="getLibraryListProduct();">
+					<span>상품</span></div>
+				<div class="library__btn" onclick="getLibraryListBanner('IMG');">
+					<span>이미지</span>
+				</div>
+				<div class="library__btn" onClick="getLibraryListBanner('VID')">
+					<span>비디오</span>
+				</div>
+				
+				<input id="banner_type" type="hidden" value="">
+				<div class="container product-grid library__product"></div>
+			</div>
+		</div>
+		<div class="prd__grid" style="height:90vh;">
+			<div class="prd__title">상품 진열 그리드</div>
+			<div class="prd__display__btn__wrap">
 				<input id="page_idx" type="hidden" value="<?=$page_idx?>">
 				<div class="display__btn bg__blue" tmp_flg="false" onclick="saveDisplayProductPage(this);">페이지 저장</div>
 				<div class="display__btn" id="reset" onClick="location.reload();">페이지 초기화</div>
 				<div class="display__btn" onClick="getDisplayProductInfo(true);">임시저장 불러오기</div>
 				<div class="display__btn bg__black" tmp_flg="true" onclick="saveDisplayProductPage(this);">임시저장</div>
 			</div>
-			<section class="grid-demo" style="margin-top: 50px;">
-				<div class="prd__display__btn__wrap">
-					<div id="product" class="add-more-items btn-primary product display__btn">1 x 1
-						추가</div>
-					<div id="img" class="add-more-items btn-primary img display__btn">2 x 1 추가
-					</div>
+			
+			<div class="prd__display__btn__wrap">
+				<div id="product" class="add-more-items btn-primary product display__btn">1 x 1 추가</div>
+				<div id="img" class="add-more-items btn-primary img display__btn">2 x 1 추가</div>
 
-					<input id="rgb_input_all" class="rgb__input prd__input" type="text" placeholder="ex) #ffffff"
-						value="#ffffff">
-					<div class="display__btn bg__gray" change="all" onClick="gridBgChangeBtnClick(this);">전체 배경색 변경</div>
-
-				</div>
+				<input id="rgb_input_all" class="rgb__input prd__input" type="text" placeholder="ex) #ffffff" value="#ffffff">
+				<div class="display__btn bg__gray" change="all" onClick="gridBgChangeBtnClick(this);">전체 배경색 변경</div>
+			</div>
+			
+			<section class="grid-demo" style="margin-top:50px;margin-top:30px;max-height:83%;overflow-y:auto;overflow-x:hidden;">
 				<div class="controls cf" style="display: none;">
 					<div class="control search">
 						<div class="control-icon">
@@ -1123,7 +1121,7 @@
 				</div>
 			</section>
 		</div>
-		<div class="prd__grid">
+		<div class="prd__grid" style="height:90vh;">
 			<div class="prd__title">상품별 상세정보 등록/수정</div>
 			<div class="prd__info__wrap">
 				<form action="product-result.html" name="productInfoForm" method="post">
@@ -1135,20 +1133,20 @@
 
 					<div class="product-wrap">
 						<input id="product_idx" type="hidden" value="0">
-						<div id="grid1" class="category-position" data-position="" data-idx="1"></div>
-						<div id="grid2" class="category-position" data-position="" data-idx="2"></div>
-						<div id="grid3" class="category-position" data-position="" data-idx="3"></div>
-						<div id="grid4" class="category-position" data-position="" data-idx="4"></div>
-						<div id="grid5" class="category-position" data-position="" data-idx="5"></div>
-						<div id="grid6" class="category-position" data-position="" data-idx="6"></div>
-						<div id="grid7" class="category-position" data-position="" data-idx="7"></div>
-						<div id="grid8" class="category-position" data-position="" data-idx="8"></div>
-						<div id="grid9" class="category-position" data-position="" data-idx="9"></div>
-						<div id="grid10" class="category-position" data-position="" data-idx="10"></div>
-						<div id="grid11" class="category-position" data-position="" data-idx="11"></div>
-						<div id="grid12" class="category-position" data-position="" data-idx="12"></div>
-						<div id="grid13" class="category-position" data-position="" data-idx="13"></div>
-						<div id="grid14" class="category-position" data-position="" data-idx="14"></div>
+						<div id="grid_column_1" class="category-position" data-position="" data-idx="1"></div>
+						<div id="grid_column_2" class="category-position" data-position="" data-idx="2"></div>
+						<div id="grid_column_3" class="category-position" data-position="" data-idx="3"></div>
+						<div id="grid_column_4" class="category-position" data-position="" data-idx="4"></div>
+						<div id="grid_column_5" class="category-position" data-position="" data-idx="5"></div>
+						<div id="grid_column_6" class="category-position" data-position="" data-idx="6"></div>
+						<div id="grid_column_7" class="category-position" data-position="" data-idx="7"></div>
+						<div id="grid_column_8" class="category-position" data-position="" data-idx="8"></div>
+						<div id="grid_column_9" class="category-position" data-position="" data-idx="9"></div>
+						<div id="grid_column_10" class="category-position" data-position="" data-idx="10"></div>
+						<div id="grid_column_11" class="category-position" data-position="" data-idx="11"></div>
+						<div id="grid_column_12" class="category-position" data-position="" data-idx="12"></div>
+						<div id="grid_column_13" class="category-position" data-position="" data-idx="13"></div>
+						<div id="grid_column_14" class="category-position" data-position="" data-idx="14"></div>
 					</div>
 
 					<div class="align__btn__wrap">
@@ -1215,10 +1213,10 @@ function imgClick(event){
 	let imgEl = event.path[1].nextSibling.nextSibling;
 	
 	if (imgEl != null) {
-		let product_code = imgEl.dataset.productcode;
-		let url = imgEl.dataset.url;
+		let product_code = imgEl.dataset.product_code;
+		let content_location = imgEl.dataset.content_location;
 		
-		let grid_info_temp = $('#grid_' + product_code).val();
+		let grid_info_temp = $('#grid_PRD_' + product_code).val();
 		
 		let bg_color = "";
 		let grid_column_data = null;
@@ -1229,27 +1227,27 @@ function imgClick(event){
 			grid_column_data = json_data.data;
 		}
 		
-		$('#product_idx').val(imgEl.dataset.idx);
+		$('#product_idx').val(imgEl.dataset.product_idx);
 		
-		$('.product-wrap').css('background-image', 'url(' + url + ')');
+		$('.product-wrap').css('background-image', 'url(' + content_location + ')');
 		$('.product-wrap').attr('grid_type','PRD');
 		$('.product-wrap').attr('grid_size',"1");
 		$('.product-wrap').attr('bg-color',bg_color);
 		
-		document.querySelector('.product-wrap').dataset.productcode = product_code;
-		document.querySelector('.product-wrap').dataset.src = url;
-		document.querySelector('.product-wrap').style.backgroundColor = bg_color;
+		document.querySelector('.product-wrap').dataset.product_code = product_code;
+		document.querySelector('.product-wrap').dataset.content_location = content_location;
+		document.querySelector('.product-wrap').style.bg_color = bg_color;
 		
 		productDetailCategoryLoad();
 		
-		//shson.Reset Grid Column
+		//상품별 상세정보 등록/수정 초기화
 		for (var i=1; i<=14; i++) {
-			$('#grid' + i).empty();
+			$('#grid_column_' + i).empty();
 		}
 		
 		if (grid_column_data != null) {
 			for (var i=0; i<grid_column_data.length; i++) {
-				let grid = $('#grid' + grid_column_data[i].idx);
+				let grid = $('#grid_column_' + grid_column_data[i].idx);
 				grid.attr('position',grid_column_data[i].position);
 				
 				$('#' + grid_column_data[i].category_id).remove();
@@ -1268,7 +1266,7 @@ function imgClick(event){
 	}
 }
 
-function libraryLoad_product() {
+function getLibraryListProduct() {
 	let card = document.querySelectorAll('.card');
 	let product_idx = [];
 	
@@ -1277,39 +1275,43 @@ function libraryLoad_product() {
 			let children = el.children[3];
 			
 			if (children != null) {
-				let idx = children.dataset.idx;
-				product_idx.push(idx);
+				let children_lib_type = children.dataset.lib_type;
+				
+				if (children.dataset.lib_type == "PRD") {
+					let idx = children.dataset.product_idx;
+					product_idx.push(idx);
+				}
 			}
 		});
 	}
 	
-	modal('get','product_idx=' + product_idx);
+	modal('product_get','product_idx=' + product_idx);
 }
 
-function libraryLoad_img() {
+function getLibraryListBanner(banner_type) {
+	$('#banner_type').val(banner_type);
+	
 	let card = document.querySelectorAll('.card');
-	let img_idx = [];
+	let banner_idx = [];
 	
 	if (card != null) {	
 		[...card].forEach((el) =>{
 			let children = el.children[3];
-			
 			if (children != null) {
-				let idx = children.dataset.idx;
-				img_idx.push(idx);
+				let children_lib_type = children.dataset.lib_type;
+				let children_banner_type = children.dataset.banner_type;
+				
+				if (children_lib_type != "PRD" && children_banner_type == banner_type) {
+					let idx = children.dataset.banner_idx;
+					banner_idx.push(idx);
+				}
 			}
 		});
 	}
 	
-	let productImgWrap = document.querySelector('.product-grid');
+	console.log(banner_idx);
 	
-	var strDiv = "";
-	for (var i=1; i<=6; i++) {
-		strDiv += '<img class="library" draggable="true" id="img_0' + i + '" data-name="ader1" data-url="/images/display/sample/sample' + i + '.jpeg" data-productcode="IMG' + i + '" data-idx="0" src="/images/display/sample/sample' + i + '.jpeg" alt="">'
-	}
-	productImgWrap.innerHTML = strDiv;
-	
-	libraryDragStart();
+	modal('banner_get','banner_idx=' + banner_idx);
 }
 
 function libraryDragStart() {
@@ -1319,9 +1321,16 @@ function libraryDragStart() {
 	library.forEach((item) => {
 		item.addEventListener('dragstart', (ev) => {
 			if (ev.dataTransfer.effectAllowed === 'uninitialized') {
-				ev.dataTransfer.setData('product_idx', ev.target.dataset.idx);
-				ev.dataTransfer.setData('product_code', ev.target.id);
-				ev.dataTransfer.setData('content_location', ev.target.dataset.url);
+				ev.dataTransfer.setData('lib_type', ev.target.dataset.lib_type);
+				if (ev.target.dataset.lib_type == "PRD") {
+					ev.dataTransfer.setData('banner_type', "-");
+				} else {
+					ev.dataTransfer.setData('banner_type', ev.target.dataset.banner_type);
+				}
+				ev.dataTransfer.setData('banner_idx', ev.target.dataset.banner_idx);
+				ev.dataTransfer.setData('product_idx', ev.target.dataset.product_idx);
+				ev.dataTransfer.setData('product_code', ev.target.dataset.product_code);
+				ev.dataTransfer.setData('content_location', ev.target.dataset.content_location);
 				
 				let imgLibrarySrc = ev.target.src;
 				let imgLibraryId = ev.target.id;
@@ -1352,9 +1361,14 @@ function libraryDrop(ev) {
 	if (ev.target.classList != 'card') {
 		return false;
 	} else {
-		let product_idx = ev.dataTransfer.getData('product_idx');
-		let product_code = ev.dataTransfer.getData('product_code');
-		let content_location = ev.dataTransfer.getData('content_location');
+		let data_transfer = ev.dataTransfer;
+		
+		let lib_type = data_transfer.getData('lib_type');
+		let banner_type = data_transfer.getData('banner_type');
+		let banner_idx = data_transfer.getData('banner_idx');
+		let product_idx = data_transfer.getData('product_idx');
+		let product_code = data_transfer.getData('product_code');
+		let content_location = data_transfer.getData('content_location');
 		
 		let width = 0;
 		let grid_type = "";
@@ -1373,20 +1387,34 @@ function libraryDrop(ev) {
 		
 		let default_value = "";
 		default_value += '{';
-		default_value += '    "grid_type":"' + grid_type + '",';
+		default_value += '    "grid_type":"' + lib_type + '",';
+		default_value += '    "banner_type":"' + banner_type + '",';
 		default_value += '    "grid_size":"' + width + '",';
+		default_value += '    "banner_idx":"' + banner_idx + '",';
 		default_value += '    "product_idx":"' + product_idx + '",';
 		default_value += '    "product_code":"' + product_code + '",';
 		default_value += '    "content_location":"' + content_location + '",';
 		default_value += '    "bg_color":"' + bg_color + '",';
-		default_value += '    "data":null';
+		default_value += '    "column_info":null';
 		default_value += '}';
 		
-		grid_info_temp.attr('id','grid_' + product_code);
-		grid_info_temp.attr('product_idx',product_idx);
+		let item_id = "";
+		if (lib_type == "PRD") {
+			grid_info_temp.attr('id','grid_PRD_' + product_code);
+			grid_info_temp.attr('product_idx',product_idx);
+			item_id = product_code;
+		} else {
+			grid_info_temp.attr('id','grid_BNR_' + banner_idx);
+			grid_info_temp.attr('banner_idx',banner_idx);
+			item_id = "BANNER_" + banner_type + '_' + banner_idx;
+		}
+		
 		grid_info_temp.val(default_value);
 		
-		let item = document.getElementById(product_code);
+		let item = document.getElementById(item_id);
+		if (lib_type == "BNR") {
+			$(item).attr('src',content_location);
+		}
 		ev.target.appendChild(item);
 		
 		resetProductWrap();
@@ -1587,7 +1615,7 @@ function gridBgChangeBtnClick(obj){
 		let product_code = product_wrap.dataset.productcode;
 		if (product_code != null) {
 			$('#' + product_code).css('background-color',color_code);
-			let grid_info_temp = $('#grid_' + product_code).val();
+			let grid_info_temp = $('#grid_PRD_' + product_code).val();
 			if (grid_info_temp != null) {
 				let json_data = JSON.parse(grid_info_temp);
 				json_data.bg_color = color_code;
@@ -1694,6 +1722,8 @@ function saveDisplayProductPage(obj){
 					alert('상품이 정상적으로 진열되었습니다.',function pageLocation() {
 						location.href = '/display/product';
 					});
+				} else {
+					alert(d.msg);
 				}
 			}
 		});
@@ -1721,8 +1751,8 @@ $(document).ready(function () {
 	let sortField = demo.querySelector(".sort-field");
 	let layoutField = demo.querySelector(".layout-field");
 	let itemsElement = demo.querySelector(".add-more-items");
-	let imgItemsElement = demo.querySelector("#img");
-	let productItemsElement = demo.querySelector("#product");
+	let imgItemsElement = docElem.querySelector("#img");
+	let productItemsElement = docElem.querySelector("#product");
 	let characters = "abcdefghijklmnopqrstuvwxyz";
 	let filterOptions = ["red", "blue", "green","gray"];
 	let dragOrder = [];
@@ -1941,12 +1971,14 @@ $(document).ready(function () {
 			let default_value = "";
 			default_value += '{';
 			default_value += '    "grid_type":"PRD",';
-			default_value += '    "grid_size":"' + width + '",';
+			default_value += '    "banner_type":"-",';
+			default_value += '    "grid_size":"1",';
+			default_value += '    "banner_idx":"0",';
 			default_value += '    "product_idx":"0",';
 			default_value += '    "product_code":null,';
 			default_value += '    "content_location":null,';
 			default_value += '    "bg_color":"' + color_code + '",';
-			default_value += '    "data":null';
+			default_value += '    "column_info":null';
 			default_value += '}';
 			
 			strDiv += "    <input data-gridinput='" + id + "' product_idx='0' type='hidden' class='grid_info_temp' name='grid_info_temp' value='" + default_value + "'>";
@@ -1987,21 +2019,30 @@ $(document).ready(function () {
 			
 			let default_value = "";
 			default_value += '{';
-			default_value += '    "grid_type":"PRD",';
-			default_value += '    "grid_size":"' + width + '",';
+			default_value += '    "grid_type":"BNR",';
+			default_value += '    "banner_type":"-",';
+			default_value += '    "grid_size":"2",';
+			default_value += '    "banner_idx":"0",';
 			default_value += '    "product_idx":"0",';
 			default_value += '    "product_code":null,';
 			default_value += '    "content_location":null,';
-			default_value += '    "bg_color":"#ffffff",';
-			default_value += '    "data":null';
+			default_value += '    "bg_color":null,';
+			default_value += '    "column_info":null';
 			default_value += '}';
 			
 			strDiv += "    <input data-gridinput='" + id + "' product_idx='0' type='hidden' class='grid_info_temp' name='grid_info_temp' value='" + default_value + "'>";
 			strDiv += '    <div class="item-content">';
+			
 			strDiv += '        <div class="card">';
 			strDiv += '            <div class="card-id">' + id + '</div>';
-			strDiv += '            <div class="card-remove"><i class="material-icons">&#xE5CD;</i></div>';
+			strDiv += '            <div class="card-remove">';
+			strDiv += '                <i class="material-icons">&#xE5CD;</i>';
+			strDiv += '            </div>';
+			strDiv += '            <div class="card-add" >';
+			strDiv += '                <i class="material-icons" onclick="imgClick(event);">&#xE145;</i>';
+			strDiv += '            </div>';
 			strDiv += '        </div>';
+			
 			strDiv += '    </div>';
 			strDiv += '</div>';
 			
@@ -2092,15 +2133,17 @@ $(document).ready(function () {
 			let default_value = "";
 			default_value += '{';
 			default_value += '    "grid_type":"PRD",';
+			default_value += '    "banner_type":"-",';
 			default_value += '    "grid_size":"1",';
+			default_value += '    "banner_idx":"0",';
 			default_value += '    "product_idx":"' + product_idx + '",';
 			default_value += '    "product_code":"' + product_code + '",';
 			default_value += '    "content_location":"' + content_location + '",';
 			default_value += '    "bg_color":"#ffffff",';
-			default_value += '    "data":null';
+			default_value += '    "column_info":null';
 			default_value += '}';
 			
-			$('#grid_' + product_code).val(default_value);
+			$('#grid_PRD_' + product_code).val(default_value);
 			
 			categoryPosition.forEach((i)=>{
 				removeAllchild(i);
@@ -2148,48 +2191,70 @@ function getDisplayProductInfo(param) {
 					let itemElem = document.createElement("div");
 					
 					data.forEach(function(row) {
-						let id = row.display_num;
+						let display_num = row.display_num;
 						let bg = row.background_color;
 						let width = "";
 						let color = "gray";
 						
-						let grid_type = row.type;
-						if (grid_type == "PRD") {
+						let grid_id = "";
+						let grid_type = "";
+						let banner_type = "";
+						let img_id = "";
+						
+						let display_status = "";
+						
+						let type = row.type;
+						if (type == "PRD") {
+							grid_type = type;
+							banner_type = "-";
+							
+							grid_id = 'id="grid_PRD_' + row.product_code + '"';
+							img_id = row.product_code;
 							width = 1;
-						} else if (grid_type == "IMG") {
+						} else {
+							grid_type = "BNR";
+							banner_type = type;
+							
+							grid_id = 'id="grid_BNR_' + row.banner_idx + '"';
+							img_id = 'BANNER_' + grid_type + '_' + row.banner_idx;
 							width = 2;
+							
+							display_status = "display:none;";
 						}
+						
+						let column_info = JSON.stringify(row.column_info);
 						
 						let height = 1;
 
 						let strDiv = "";
-						strDiv += '<div class="card_grid item h1 w' + width + ' ' + color + '" style="background-color:' + bg + '" draggable="true" data-id="' + id + '" data-color="' + color + '">';
+						strDiv += '<div class="card_grid item h1 w' + width + ' ' + color + '" style="background-color:' + bg + '" draggable="true" data-id="' + display_num + '" data-color="' + color + '">';
 						
-						var default_value = JSON.stringify(row.column_info);
+						let default_value = "";
+						default_value += '{';
+						default_value += '    "grid_type":"' + grid_type + '",';
+						default_value += '    "banner_type":"' + banner_type + '",';
+						default_value += '    "grid_size":"' + width + '",';
+						default_value += '    "banner_idx":"' + row.banner_idx + '",';
+						default_value += '    "product_idx":"' + row.product_idx + '",';
+						default_value += '    "product_code":"' + row.product_code + '",';
+						default_value += '    "content_location":"' + row.content_location + '",';
+						default_value += '    "bg_color":"' + row.background_color + '",';
+						default_value += '    "column_info":' + column_info;
+						default_value += '}';
 						
-						let product_code = row.product_code;
-						
-						let grid_id = "";
-						if (product_code.length > 0) {
-							grid_id = 'id="grid_' + product_code + '"';
-						}
-						
-						strDiv += "    <input " + grid_id + " data-gridinput='" + id + "' product_idx='" + row.product_idx + "' type='hidden' class='grid_info_temp' name='grid_info_temp' value='" + default_value + "'>";
+						strDiv += "    <input " + grid_id + " data-gridinput='" + display_num + "' product_idx='" + row.product_idx + "' type='hidden' class='grid_info_temp' name='grid_info_temp' value='" + default_value + "'>";
 						strDiv += '    <div class="item-content">';
 						strDiv += '        <div class="card">';
-						strDiv += '            <div class="card-id">' + id + '</div>';
+						strDiv += '            <div class="card-id">' + display_num + '</div>';
 						strDiv += '            <div class="card-remove">';
 						strDiv += '                <i class="material-icons">&#xE5CD;</i>';
 						strDiv += '            </div>';
 						
-						if (grid_type == "PRD") {
-							strDiv += '        <div class="card-add" >';
+						if (row.content_location != "" || row.content_location != null) {
+							strDiv += '        <div class="card-add" style="' + display_status + '">';
 							strDiv += '            <i class="material-icons" onclick="imgClick(event);">&#xE145;</i>';
 							strDiv += '        </div>';
-						}
-						
-						if (row.content_location.length > 0) {
-							strDiv += '        <img id="' + row.product_code + '"class="library" draggable="true" id="' + row.product_code + '" data-name="ader1" data-url="' + row.content_location + '" data-productcode="' + row.product_code + '" data-idx="' + row.product_idx + '" src="' + row.content_location + '" alt="">';	
+							strDiv += '        <img id="' + img_id + '" class="library" draggable="true" data-lib_type="' + grid_type + '" data-banner_type="' + banner_type + '" data-banner_idx="' + row.banner_idx + '" data-product_idx="' + row.product_idx + '" data-product_code="' + row.product_code + '" data-content_location="' + row.content_location + '" src="' + row.content_location  + '" alt="">';
 						}
 						
 						strDiv += '        </div>';
@@ -2209,5 +2274,48 @@ function getDisplayProductInfo(param) {
 			}
 		}
 	});
+}
+
+function rowsChange(obj) {
+	let lib_type = $(obj).attr('lib_type');
+	
+	var rows = $(obj).val();
+	
+	$('#frm-filter_' + lib_type).find('.rows').val(rows);
+	$('#frm-filter_' + lib_type).find('.page').val(1);
+	
+	if (lib_type == "PRD") {
+		getLibraryProduct();
+	} else {
+		let banner_type = $('#banner_type').val();
+		getLibraryBanner();
+	}
+	
+}
+
+function orderChange(obj) {
+	let lib_type = $(obj).attr('lib_type');
+	
+	var select_value = $(obj).val();
+	
+	var order_value = [];
+	order_value = select_value.split('|');
+	
+	$('#frm-filter_' + lib_type).find('.sort_value').val(order_value[0]);
+	$('#frm-filter_' + lib_type).find('.sort_type').val(order_value[1]);
+	
+	if (lib_type == "PRD") {
+		getLibraryProduct();
+	} else {
+		let banner_type = $('#banner_type').val();
+		getLibraryBanner();
+	}
+}
+
+function setPaging(obj) {
+	var total_cnt = $(obj).parent().find('.total_cnt');
+	var result_cnt = $(obj).parent().find('.result_cnt');
+	$('.cnt_total').text(total_cnt.val());
+	$('.cnt_result').text(result_cnt.val());
 }
 </script>

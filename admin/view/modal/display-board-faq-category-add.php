@@ -7,7 +7,7 @@
 	</h1>
     <input type="hidden" id="faq_country" value="<?=$country?>">
 	<div class="content__card" style="width:100%;margin: 0;">
-		<form id="frm-add" action="display/board/faq/category/add">
+		<form id="frm-add" action="page/board/faq/category/add">
             <div class="card__body">
                 <!--
                 <div class="content__wrap">
@@ -85,7 +85,7 @@ $(document).ready(function() {
     $.ajax({
 		type: "post",
 		dataType: "json",
-		url: config.api + "display/board/faq/category/get",
+		url: config.api + "page/board/faq/category/get",
         data: {
             category_idx : 0
         },

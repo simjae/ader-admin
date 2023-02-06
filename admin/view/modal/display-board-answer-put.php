@@ -45,7 +45,7 @@
     </div>
 	<div id="reply_div"></div>
 	<div class="card__body">
-		<form id="frm-update" action="display/board/put">
+		<form id="frm-update" action="page/board/put">
 			<input id="page_idx" type="hidden" name="page_idx" value="<?=$idx?>">
 			<input type="hidden" name="put_type" value="answer">
 			<div class="card__header" id="answer">
@@ -94,7 +94,7 @@ $(document).ready(function() {
             'tab_num' : '01',
 		},
 		dataType: "json",
-		url: config.api + "display/board/get",
+		url: config.api + "page/board/get",
 		error: function() {
 			alert("1:1문의 불러오기 처리에 실패했습니다.");
 		},

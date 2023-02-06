@@ -1,6 +1,6 @@
 <div class="body">
 	<h1>
-		상품정보 일괄변경
+		상품정보 일괄변경 - 가격
 		<a onclick="modal_close();" class="btn-close">
 			<i class="xi-close"></i>
 		</a>
@@ -18,8 +18,8 @@
 			-->
 			<div id="currency_table" class="row form-group" style="margin-top:5px;display:none;"></div>
 			
-			<div class="row" style="margin-top:10px;">
-				<TABLE id="insert_table_price" class="list" style="font-size:0.7rem;">
+			<div class="row table__wrap" style="margin-top:10px;">
+				<TABLE id="insert_table_price">
 					<colgroup>
 						<col width="10%">
 						<col width="23%">
@@ -30,29 +30,29 @@
 					</colgroup>
 					<TBODY>
 						<TR class="cal_discount">
-							<TD>한국몰 가격</TD>
+							<TD>한국몰<br>가격</TD>
 							<TD><input id="price_kr" class="price" type="number" step="0.01" name="price_kr" value="0"></TD>
-							<TD>한국몰 세일가격</TD>
+							<TD>한국몰<br>세일가격</TD>
 							<TD><input id="sales_price_kr" class="sales_price" type="number" step="0.01" name="sales_price_kr" value="0"></TD>
-							<TD>한국몰 할인율</TD>
+							<TD>한국몰<br>할인율</TD>
 							<TD><input id="discount_kr" class="result" type="number" step="0.01" name="discount_kr" value="0" readonly></TD>
 
 						</TR>
 						<TR class="cal_discount">
-							<TD>영문몰 가격</TD>
+							<TD>영문몰<br>가격</TD>
 							<TD><input id="price_en" class="price" type="number" step="0.01" name="price_en" value="0"></TD>
-							<TD>영문몰 세일가격</TD>
+							<TD>영문몰<br>세일가격</TD>
 							<TD><input id="sales_price_en" class="sales_price" type="number" step="0.01" name="sales_price_en" value="0"></TD>
-							<TD>영문몰 할인율</TD>
+							<TD>영문몰<br>할인율</TD>
 							<TD><input id="discount_en" class="result" type="number" step="0.01" name="discount_en" value="0" readonly></TD>
 
 						</TR>
 						<TR class="cal_discount"> 
-							<TD>중국몰 가격</TD>
+							<TD>중국몰<br>가격</TD>
 							<TD><input id="price_cn" class="price" type="number" step="0.01" name="price_cn" value="0"></TD>
-							<TD>중국몰 세일가격</TD>
+							<TD>중국몰<br>세일가격</TD>
 							<TD><input id="sales_price_cn" class="sales_price" type="number" step="0.01" name="sales_price_cn" value="0"></TD>
-							<TD>중국몰 할인율</TD>
+							<TD>중국몰<br>할인율</TD>
 							<TD><input id="discount_cn" class="result" type="number" step="0.01" name="discount_cn" value="0" readonly></TD>
 
 						</TR>

@@ -1,82 +1,77 @@
 <style>
 	.checked{background-color:#707070!important;color:#ffffff!important;}
 	.unchecked{background-color:#ffffff!important;color:#000000!important;}
+	.table__wrap label{
+		display: inline-flex!important;
+	}
 </style>
 
-<div class="body">
-	<h1>
-		상품정보 일괄변경
-		<a onclick="modal_close();" class="btn-close">
+<div class="content__card">
+	<h3>
+		상품정보 일괄변경 - 판매정보
+		<a onclick="modal_close();" class="btn-close" style="float:right;">
 			<i class="xi-close"></i>
 		</a>
-	</h1>
-	
-	<div class="contents">
-		<form id="frm-regist" action="product/put">
+	</h3>
+	<div class="card__body">
+		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
 			
-			<div class="row" style="margin-top:10px;">
-				<TABLE id="insert_table_sales_info" class="list" style="font-size:0.7rem;">
+			<div class="row table__wrap" style="margin-top:10px;">
+				<TABLE id="insert_table_sales_info">
 					<TBODY>
 						<TR>
-							<TD colspan="6" style="width:100%;overflow:scroll;">
-								<div class="row" style="width:1500px;height:300px;">
-									<input type="hidden" name="md_category_1" value="">
-									<input type="hidden" name="md_category_2" value="">
-									<input type="hidden" name="md_category_3" value="">
-									<input type="hidden" name="md_category_4" value="">
-									<input type="hidden" name="md_category_5" value="">
-									<input type="hidden" name="md_category_6" value="">
-									
-									<input type="hidden" name="category_idx" value="">
-									
-									<div id="md_category_1" depth="1" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_2" depth="2" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_3" depth="3" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_4" depth="4" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_5" depth="5" style="width:250px;height:100%;">
-										
-									</div>
-									
-									<div id="md_category_6" depth="6" style="width:250px;height:100%;">
-										
-									</div>
+							<TD>MD 제품 카테고리</TD>
+							<TD colspan="5">
+								<div class="content__row">
+									<input type="hidden" id="md_category_1" name="md_category_1" value="">
+									<input type="hidden" id="md_category_2" name="md_category_2" value="">
+									<input type="hidden" id="md_category_3" name="md_category_3" value="">
+									<input type="hidden" id="md_category_4" name="md_category_4" value="">
+									<input type="hidden" id="md_category_5" name="md_category_5" value="">
+									<input type="hidden" id="md_category_6" name="md_category_6" value="">
+									<select class="fSelect category eCategory eCategory1" depth="1" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+										<option value="">상품분류 01</option>	
+									</select>
+									<select class="fSelect category eCategory eCategory2" depth="2" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+										<option value="">상품분류 02</option>
+									</select>
+									<select class="fSelect category eCategory eCategory3" depth="3" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+										<option value="">상품분류 03</option>
+									</select>
+									<select class="fSelect category eCategory eCategory4" depth="4" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+										<option value="">상품분류 04</option>
+									</select>
+									<select class="fSelect category eCategory eCategory5" depth="5" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+										<option value="">상품분류 05</option>
+									</select>
+									<select class="fSelect category eCategory eCategory6" depth="6" name="md_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+										<option value="">상품분류 06</option>
+									</select>
 								</div>
 							</TD>
 						</TR>
 						
 						<TR>
 							<TD style="width:10%;">한국몰 판매가격</TD>
-							<TD>
+							<TD style="width:23%;">
 								<input id="sales_price_kr" type="number" step="0.01" name="sales_price_kr" value="0">
 							</TD>
 							
 							<TD style="width:10%;">영문몰 판매가격</TD>
-							<TD>
+							<TD style="width:23%;">
 								<input id="sales_price_en" type="number" step="0.01" name="sales_price_en" value="0">
 							</TD>
 							
 							<TD style="width:10%;">중문몰 판매가격</TD>
-							<TD>
+							<TD style="width:23%;">
 								<input id="sales_price_cn" type="number" step="0.01" name="sales_price_cn" value="0">
 							</TD>
 						</TR>
 						<TR>
 							<TD style="width:10%;">구매멤버 제한</TD>
 							<TD colspan="5">
-								<div class="row form-group">
+								<div class="content__row form-group">
 									<label>
 										<input type="checkbox" name="limit_purchase_member[]" value="0">
 										<span>전체</span>
@@ -137,57 +132,40 @@
 								</div>
 							</TD>
 						</TR>
-						
 						<TR>
-							<TD colspan="6">
-								<TABLE class="list" style="font-size:0.5rem;">
-									<THEAD>
-										<TR>
-											<TH style="width:10%;">상품유형 선택</TH>
-											<TH>
-												<div class="form-group">
-													<input type="hidden" name="refund_idx" value="">
-													<select id="product_category" class="fSelect eSearch" name="product_category" style="width:163px;">
-													</select>
-													
-													<button type="button" style="width:120px;height:30px;cursor:pointer;" onClick="getRefundInfo();">환불정보 조회</button>
-												</div>
-											</TH>
-										</TR>
-									</THEAD>
-									<TBODY id="refund_body">
-										
-									</TBODY>
-								</TABLE>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD colspan="6">
-								<div class="row">
-									<input type="text" name="product_category" style="width:163px;margin-right:10px;" value="">
-									<input type="text" name="refund_title" style="width:450px;" value="">
-									<button type="button" style="width:50px;height:30px;background-color:#000000;color:#ffffff;float:right;cursor:pointer;" onClick="addDetailRefund();">등록</button>
+							<TD>구매 전<br>환불정보 표시 플래그</TD>
+							<TD colspan="11">
+								<div class="content__row">
+									<label class="rd__square">
+										<input id="refund_flg" type="radio" name="refund_flg" value="true" checked>
+										<div><div></div></div>
+										<span>표시</span>
+									</label>
+									<label class="rd__square">
+										<input id="refund_flg" type="radio" name="refund_flg" value="false">
+										<div><div></div></div>
+										<span>표시안함</span>
+									</label>
+									<input type="text">
 								</div>
 							</TD>
 						</TR>
-
 						<TR>
-							<TD style="width:10%;">한국몰 추가 상세 정보<br>(교환/환불)</TD>
+							<TD style="width:10%;">추가 교환/환불<br>상세정보<br>(한국몰)</TD>
 							<TD colspan="5">
 								<textarea class="width-100p" id="detail_refund_kr" name="detail_refund_kr" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 
 						<TR>
-							<TD style="width:10%;">영문몰 추가 상세 정보<br>(교환/환불)</TD>
+							<TD style="width:10%;">추가 교환/환불<br>상세정보<br>(한국몰)</TD>
 							<TD colspan="5">
 								<textarea class="width-100p" id="detail_refund_en" name="detail_refund_en" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 
 						<TR>
-							<TD style="width:10%;">중문몰 추가 상세 정보<br>(교환/환불)</TD>
+							<TD style="width:10%;">추가 교환/환불<br>상세정보<br>(한국몰)</TD>
 							<TD colspan="5">
 								<textarea class="width-100p" id="detail_refund_cn" name="detail_refund_cn" required style="width:90%; height:150px;"></textarea>
 							</TD>
@@ -245,7 +223,7 @@
 		</form>
 	</div>
 	
-	<div class="footer">
+	<div class="card__footer">
 		<a onclick="modal_cancel();" class="btn"><i class="xi-close"></i>작성 취소</a>
 		<a onclick="productUpdateCheck();" class="btn red"><i class="xi-check"></i>완료</a>
 	</div>
@@ -276,8 +254,9 @@ function setSmartEditor() {
 }
 
 $(document).ready(function() {
+	getProductCategory(0,0, 'frm-update');
 	setSmartEditor();
-	getProductCategory(0,0);
+	/*
 	for (var i=0; i<6; i++) {
 		var category_idx = $("input[name='md_category_" + (i+1) + "']").val();
 		if (parseInt(category_idx) > 0) {
@@ -285,9 +264,10 @@ $(document).ready(function() {
 			getProductCategory(parseInt(depth),category_idx);
 		}
 	}
-	setProductCategory();
+	*/
+	//setProductCategory();
 });
-
+/*
 function setProductCategory() {
 	$.ajax({
 		type: "post",
@@ -317,83 +297,7 @@ function setProductCategory() {
 		}
 	});
 }
-
-
-function getProductCategory(depth,no) {
-	if (depth == 0) {
-		depth = 1;
-	} else {
-		depth += 1;
-	}
-	$.ajax({
-		type: "post",
-		data: {
-			'depth':depth,
-			'no':no
-		},
-		dataType: "json",
-		url: config.api + "product/common/get",
-		error: function() {
-			alert('MD 카테고리 정보를 불러오는데 실패했습니다.')
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				setMdCategory(depth,d.data);
-			}
-		}
-	});
-}
-
-function productCategoryClick(obj) {
-	var depth = parseInt($(obj).parent().attr('depth'));
-	var no = $(obj).attr('category_idx');
-	
-	for (var i=depth; i<=6; i++) {
-		$('#md_category_' + i).children('.md_category').css('background-color','#ffffff');
-		$('#md_category_' + i).children('.md_category').css('color','#000000');
-		$('#md_category_' + i).children('.md_category').removeClass('checked');
-		$('#md_category_' + i).children('.md_category').addClass('unchecked');
-	}
-	
-	$(obj).removeClass('unchecked');
-	$(obj).addClass('checked');
-	
-	var category_idx = $('#md_category_' + depth).children('.checked').attr('category_idx');
-	
-	$("input[name='md_category_" + depth + "']").val(category_idx);
-	$("input[name='category_idx']").val(category_idx);
-	
-	for (var i=(depth+1); i<=6; i++) {
-		$("input[name='md_category_" + i + "']").val(0);
-	}
-	
-	getProductCategory(depth,no);
-}
-
-function setMdCategory(depth,d){
-	var eCategory = $('#md_category_' + depth);
-	eCategory.empty();
-	
-	for (var i=(depth+1); i<=6; i++) {
-		$('#md_category_' + i).empty();
-	}
-	
-	var category_idx = $("input[name='md_category_" + depth + "']").val();
-	
-	if (d != null) {
-		d.forEach(function(row) {
-			var checked = "";
-			if (category_idx == row.no) {
-				checked = "checked";
-			} else {
-				checked = "unchecked";
-			}
-			
-			eCategory.append($('<div id="md_category_idx_' + row.no + '" class="md_category ' + checked + '" category_idx="' + row.no + '" style="width:100%;height:50px;border:1px solid #000000;cursor:pointer;" onClick="productCategoryClick(this);">' + row.text + '</div>'));
-		});
-	}	
-}
-
+*/
 function getRefundInfo() {
 	var product_category = $('#product_category').val();
 	$.ajax({
@@ -509,7 +413,7 @@ function addDetailRefund() {
 		},
 		success: function(data) {
 			if(data.code == 200) {
-				setProductCategory();
+				//setProductCategory();
 			}
 		}
 	});

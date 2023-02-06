@@ -1,8 +1,7 @@
 window.addEventListener('DOMContentLoaded', function(){
     var page_idx = $('#page_idx').val();
-    var size_type = $('#size_type').val();
     if(page_idx != null){
-        loadEditorialDetailData(page_idx,size_type);
+        appendSlide();
     }
     else{
         loadEditorialData();  
@@ -31,42 +30,16 @@ function loadEditorialData() {
                         asideClickEvent();
                         responsive();
                     })
-                    $(".editorial-wrap.open .banner").on('touchstart', function(){
-                       0
+                    /*
+                    $(".editorial-wrap.open .banner").on('touchmove', function(ev){
+                       ev.preventDefault();
                     })
-                    $(".editorial-wrap.open .banner").on("touchmove", function(){
-                        $(this).children().children().click();			
-                    }, false); 
+                    */
                   
                 }
             }
         }
     });
-}
-
-function loadEditorialDetailData(page_idx,size_type) {
-    /*
-    $.ajax({
-        type: "post",
-        data: {
-            'page_idx' : page_idx,
-            "size_type" : size_type
-        },
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/posting/editorial/get",
-        error: function() {
-            alert("블루마크 내역 조회처리에 실패했습니다.");
-        },
-        success: function(d) {
-            if(d.code == 200){
-                if(d.data != null){
-                    appendSlide(d.data);
-                }
-            }
-        }
-    });
-    */
-    appendSlide();
 }
 
 function appendThumbnailTitle(title) {
@@ -78,39 +51,6 @@ function appendThumbnailTitle(title) {
 }
 
 function appendSlide() {
-    /*
-    let controllerWrap = document.querySelector(".editorial-controller-swiper .swiper-wrapper");
-    let previewWrap = document.querySelector(".editorial-preview-swiper .swiper-wrapper");
-    let docFrag = document.createDocumentFragment("div");
-    let docDetailFrag = document.createDocumentFragment("div");
-    let url = "http://116.124.128.246:81";
-
-    data.forEach(function (row){
-        var contents_type = row.contents_info[0].contents_type;
-
-        if (contents_type === "VID") {
-            contentsHtml = `<video controls="" autoplay="" muted="" loop="" src="${url}/${row.contents_info[0].contents_url}"></video>`;
-        } else {
-            contentsHtml = `<img src="${url}/${row.contents_info[0].contents_url}" alt="">`;
-        }
-
-        let slide = document.createElement("div");
-        slide.className = "swiper-slide";
-        slide.innerHTML = `
-            <img  src="${url}/${row.img_location}" alt="">
-        `;
-
-        let detailSlide = document.createElement("div");
-        detailSlide.className = "swiper-slide";
-        detailSlide.innerHTML = contentsHtml;
-
-        docFrag.appendChild(slide);
-        docDetailFrag.appendChild(detailSlide);
-    })
-
-    controllerWrap.appendChild(docFrag);
-    previewWrap.appendChild(docDetailFrag);
-*/
     $('.editorial-detail-wrap').addClass('open');
 }
 

@@ -17,6 +17,7 @@
 /** 변수 정리 **/
 $tab_num		= $_POST['tab_num'];
 
+$country 		= $_POST['country'];
 $member_id		= $_POST['member_id'];				//ID
 $login_ip		= $_POST['login_ip'];				//로그인 IP
 $search_date	= $_POST['search_date'];			//검색 일자
@@ -44,8 +45,8 @@ if ($tab_num != "03") {
 	$tables = ' dev.OFFLINE_ENTERANCE ';
 }
 
-/** 검색 조건 **/
 $where = '1=1';
+/** 검색 조건 **/
 
 //$status = "";
 if ($tab_num == "02") {

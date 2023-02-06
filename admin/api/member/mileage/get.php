@@ -14,6 +14,7 @@
  +=============================================================================
 */
 $search_date    = $_POST['search_date'];
+$country    	= $_POST['country'];
 $reserve_from   = $_POST['reserve_from'];
 $reserve_to     = $_POST['reserve_to'];
 $tab_num        = $_POST['tab_num'];
@@ -28,6 +29,26 @@ $tables =   ' 	dev.MILEAGE_INFO 	AS MILEAGE 	LEFT JOIN
 				dev.MILEAGE_CODE	AS CODE
 			ON	MILEAGE.MILEAGE_CODE = CODE.MILEAGE_CODE ';
 $where =    ' 1=1 ';
+
+if($country != null){
+    $where .= " AND MILEAGE.COUNTRY = '".$country."' ";
+}
+else{
+	$where .= " AND MILEAGE.COUNTRY = NULL ";
+}
+
+$member_table = '';
+switch($country){
+	case 'KR':
+		$member_table = 'dev.MEMBER_KR'; 
+		break;
+	case 'EN':
+		$member_table = 'dev.MEMBER_EN';
+		break;
+	case 'CN':
+		$member_table = 'dev.MEMBER_CN';
+		break;
+}
 
 if($tab_num != null){
     switch($tab_num){
@@ -58,7 +79,7 @@ if($tab_num != null){
 }
 
 if($member_level != null){
-    $where .= " AND MILEAGE.ID IN (SELECT ID FROM dev.MEMBER WHERE LEVEL = '".$member_level."')";
+    $where .= " AND MILEAGE.MEMBER_IDX IN (SELECT IDX FROM ".$member_table." WHERE LEVEL_IDX = ".$member_level.")";
 }
 
 if($id != null){
@@ -115,6 +136,7 @@ $limit_start = (intval($page)-1)*$rows;
 $sql = '
 	SELECT 
 		MILEAGE.IDX										AS IDX, 
+		MILEAGE.COUNTRY									AS COUNTRY,
 		MILEAGE.ID										AS ID,
 		MILEAGE.MILEAGE_CODE							AS MILEAGE_CODE,
 		CODE.MILEAGE_TYPE								AS MILEAGE_TYPE,
@@ -141,6 +163,7 @@ $db->query($sql);
 foreach($db->fetch() as $data) {
 	$json_result['data'][] = array(
 		'idx'                       => $data['IDX'],
+		'country'                   => $data['COUNTRY'],
 		'id'                        => $data['ID'],
 		'mileage_code'		        => $data['MILEAGE_CODE'],
 		'mileage_type'              => $data['MILEAGE_TYPE'],

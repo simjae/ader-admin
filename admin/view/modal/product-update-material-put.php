@@ -1,6 +1,6 @@
 <div class="body">
 	<h1>
-		관리자 정보 관리
+		상품정보 일괄변경 - 소재
 		<a onclick="modal_close();" class="btn-close">
 			<i class="xi-close"></i>
 		</a>
@@ -9,36 +9,29 @@
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
 			
-			<div class="row" style="margin-top:10px;">
-				<TABLE id="insert_table_wkla_material" class="list" style="font-size:0.7rem;">
+			<div class="row table__wrap" style="margin-top:10px;">
+				<TABLE id="insert_table_wkla_material">
 					<colgroup>
 						<col width="10%">
 						<col width="90%">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD>W/K/L/A</TD>
-							<TD>
-								<input type="text" name="wkla" value="">
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>Material 한글</TD>
+							<TD>소재<br>(한국몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="material_kr" name="material_kr" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD>Material 영문</TD>
+							<TD>소재<br>(영문몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="material_en" name="material_en" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD>Material 중문</TD>
+							<TD>소재<br>(중문몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="material_cn" name="material_cn" required style="width:90%; height:150px;"></textarea>
 							</TD>

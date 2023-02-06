@@ -51,7 +51,7 @@
 			FROM 
 				dev.MEMBER_LEVEL
 			ORDER BY
-				LV ASC
+				IDX ASC
 	";
 	$db->query($sql);
 	foreach($db->fetch() as $data){

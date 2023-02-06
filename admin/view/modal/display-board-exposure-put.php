@@ -7,7 +7,7 @@
 	</h1>
 	
 	<div class="content__card" style="width:100%;margin: 0;">
-		<form id="frm-update" action="display/board/put">
+		<form id="frm-update" action="page/board/put">
 			<input type="hidden" name="board_idx[]" value="<?=$board_idx_arr?>">
             <input type="hidden" name="put_type" value="exposure_date">
             <div class="card__body">

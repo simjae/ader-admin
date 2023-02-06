@@ -113,9 +113,9 @@ $(document).ready(function() {
 			$("#frm-list tbody").empty();
 			d.forEach(function(row) { // json_result.data 만 d 변수로 넘김
 				$("#frm-list tbody").append(`
-					<tr data-no="${row.no}">
+					<tr data-no="${row.idx}">
 						<td>${row.num}</td>
-						<td>${row.title}</td>
+						<td>${row.event_title}</td>
 						<td class="text-right">${number_format(row.count)} 명</td>
 						<td>${(row.date)?row.date.start + " ~ " + row.date.end:''}</td>
 						<td>${row.reg_date}</td>
@@ -129,6 +129,7 @@ $(document).ready(function() {
 			});
 			$("#frm-list tbody > tr > td:not(.no-click)").click(function() { // 셀 클릭시 상세 내용 표시
 				$("#frm-list-join input[name='event_no']").val($(this).parent().data("no"));
+				console.log($(this).parent().data("no"));
 				/** 이벤트 참여자 목록 **/
 				get_contents($("#frm-list-join"),{
 					pageObj : $("#paging"), // 페이징 표시할 element
@@ -136,12 +137,12 @@ $(document).ready(function() {
 						$("#frm-list-join tbody").empty();
 						d.forEach(function(row) { // json_result.data 만 d 변수로 넘김
 							$("#frm-list-join tbody").append(`
-								<tr data-no="${row.no}">
-									<td class="no-click"><input type="checkbox" name="no" value="${row.no}"><i></i></td>
+								<tr data-no="${row.idx}">
+									<td class="no-click"><input type="checkbox" name="no" value="${row.idx}"><i></i></td>
 									<td>${row.num}</td>
-									<td>${row.event}</td>
+									<td>${row.event_title}</td>
 									<td>${row.name}</td>
-									<td>${row.birthday}</td>
+									<td>${row.member_birth}</td>
 									<td>${row.tel}</td>
 									<td>${row.info_1}</td>
 									<td>${row.info_2}</td>

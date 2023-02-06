@@ -9,13 +9,10 @@
 	</div>
 	<div class="flex"style="gap:50px;margin:20px 0;">
 		<div class="category__tab" tab_num="03" subtab_num="01" style="color: #140f82;border-bottom: 3px solid #140f82;text-align: center;cursor: pointer;">전체</div>
-		<div country="KR" style="height:30px;color:#707070;text-align:center;cursor:pointer;">한국몰</div>
-		<div country="EN" style="height:30px;color:#707070;text-align:center;cursor:pointer;">영문몰</div>
-		<div country="CN" style="height:30px;color:#707070;text-align:center;cursor:pointer;">중문몰</div>
 	</div>
 	<input id="subtab_num" type="hidden" value="01">
 	<div class="tabNum tabNum_01">
-		<form id="frm-list_03_01" action="display/board/get">
+		<form id="frm-list_03_01" action="page/board/get">
 			<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 			<input type="hidden" name="tab_num" value="03">
@@ -26,8 +23,7 @@
 				<div class="content__wrap">
 					<div class="content__title">쇼핑몰 선택</div>
 					<div class="content__row" style="display: block;">
-						<select class="fSelect" name="board_country" id="board_country" style="width:163px;">
-							<option value="">전체</option>
+						<select class="fSelect" name="country" id="country" style="width:163px;">
 							<option value="KR">한국몰</option>
 							<option value="EN">영문몰</option>
 							<option value="CN">중문몰</option>
@@ -307,7 +303,7 @@ function getBoardTabInfo_03() {
 						<TD>${row.category}</TD>
 						<TD>
 							<div class="row">
-								<font style="cursor:pointer;" onClick="openBoardPreviewModal(${row.idx}, 'notice');">${row.title}</font>
+								<font style="cursor:pointer;" onClick="openBoardPreviewModal(${row.idx}, 'notice', 'KR');">${row.title}</font>
 							</div>
 						</TD>
 						<TD style="text-decoration:underline;line-height: 1.4;">

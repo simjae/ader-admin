@@ -1,4 +1,8 @@
 <style>
+	#quickview{
+		position:absolute;
+        transition-duration: 0.3s;
+	}
     .remove-btn {
         display: flex;
         position: relative;
@@ -21,9 +25,12 @@
         z-index: 10;
         /* height: 200px; */
         display: flex;
-        transition-duration: 0.5s;
         justify-content: flex-end;
         overflow: hidden;
+    }
+	
+    .quickview__box.on {
+        position: absolute;
     }
     
     .quickview__btn__wrap {
@@ -254,7 +261,6 @@
         .quickview__box {
             bottom: 0;
             height: auto;
-            width: 100%;
             flex-direction: column;
         }
         
@@ -358,16 +364,13 @@
 <script>
     let breakpoint = window.matchMedia( 'screen and (min-width:1025px)' );//미디어 쿼리 
     let sideQuickSwiper; //스와이퍼 변수 
-
-    const webSwiperOption = {
+    const webSideQuickSwiperOption = {
         navigation: {
             nextEl: ".quickview-swiper .swiper-button-next",
             prevEl: ".quickview-swiper .swiper-button-prev",
         },
         breakpointsBase:"containner",
-        // autoHeight: true,
         grabCursor: true,
-        // slidesPerView:'auto',
         breakpoints: {
             170: {
                 spaceBetween: 5,
@@ -388,7 +391,7 @@
             
         }
     }
-    const mobileSwiperOption = {
+    const mobileSideQuickSwiperOption = {
         navigation: {
             nextEl: ".quickview-swiper .swiper-button-next",
             prevEl: ".quickview-swiper .swiper-button-prev",
@@ -414,15 +417,19 @@
             
         }
     }
-    function initSwiper(el, option) {
-        if (typeof(sideQuickSwiper) == 'object') sideQuickSwiper.destroy();
-        return sideQuickSwiper = new Swiper(el, option);
+    function initSideQuickSwiper(el, option) {
+        if(sideQuickSwiper !== undefined){
+            if (typeof(sideQuickSwiper) == 'object'){
+                sideQuickSwiper.destroy();
+            }
+            return sideQuickSwiper = new Swiper(el, option);
+        }
     }
     function responsiveSwiper(el){
         if ( breakpoint.matches === true ) {
-            return initSwiper(el, webSwiperOption);
+                return initSideQuickSwiper(el, webSideQuickSwiperOption);
         } else if ( breakpoint.matches === false ) {
-            return initSwiper(el, mobileSwiperOption);
+                return initSideQuickSwiper(el, mobileSideQuickSwiperOption);
         }
     };
     function quickClickHandler(){
@@ -518,7 +525,9 @@
             },
             success: function(d) {
                 let data = d.data;
-                writeWishlistSwiperHtml(data);
+				if (data != null){
+					writeWishlistSwiperHtml(data);
+				}
             }
         });
     }

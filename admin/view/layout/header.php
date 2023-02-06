@@ -82,12 +82,16 @@
 		})
 		
 		var url = window.location.pathname;
-		var path = url.substr(1,2);
-		
-		if (path == "pm") {
+		var path = url.substr(1,3);
+		if (path == "pcs") {
 			$('.header').css('background-color','#0000c5');
 			$('#backend').hide();
 			$('#product_management').show();
+		}
+		else{
+			$('.header').css('background-color','#000000');
+			$('#backend').show();
+			$('#product_management').hide();
 		}
 	});
 </script>
@@ -222,7 +226,7 @@
 					</div>	
 				</div>	
 			</div>
-			
+			<!--
 			<div class="nav__parent__wrap" id="btn_product_management">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
@@ -230,6 +234,7 @@
 					</div>
 				</div>	
 			</div>
+			-->
 		</div>
 		
 		<div class="nav__wrap" id="product_management" style="display:none;">
@@ -240,11 +245,11 @@
 					</div>
 					
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pm/ordersheet/line">라인 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/wkla">W/K/L/A 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/load_box">적재박스 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/td_sub_material">포장 부자재 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/delivery_sub_material">배송 부자재 관리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/line">라인 관리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/wkla">W/K/L/A 관리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/load_box">적재박스 관리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/td_sub_material">포장 부자재 관리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/delivery_sub_material">배송 부자재 관리</div>
 					</div>	
 				</div>	
 			</div>
@@ -255,9 +260,9 @@
 					</div>
 					
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pm/ordersheet/classify">오더시트 분류 관리</div>
-						<div class="nav__child" data-url="/pm/ordersheet/list">오더시트 리스트</div>
-						<div class="nav__child" data-url="/pm/ordersheet/history">오더시트 히스토리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/classify">오더시트 분류 관리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/list">오더시트 리스트</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/history">오더시트 히스토리</div>
 					</div>	
 				</div>	
 			</div>
@@ -269,7 +274,7 @@
 					</div>
 					
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pm/sample/list" >샘플 리스트 조회</div>
+						<div class="nav__child" data-url="/pcs/sample/list" >샘플 리스트 조회</div>
 					</div>	
 				</div>	
 			</div>
@@ -280,7 +285,7 @@
 						<span class="nav__title">홀세일 정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pm/wholesale/list">홀세일 리스트 조회</div>
+						<div class="nav__child" data-url="/pcs/wholesale/list">홀세일 리스트 조회</div>
 					</div>	
 				</div>	
 			</div>
@@ -291,11 +296,11 @@
 						<span class="nav__title">공장별 수주정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pm/factory/list">공장별 수주 정보 조회</div>
+						<div class="nav__child" data-url="/pcs/factory/list">공장별 수주 정보 조회</div>
 					</div>	
 				</div>	
 			</div>
-			
+			<!--
 			<div class="nav__parent__wrap" id="btn_backend">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
@@ -303,6 +308,7 @@
 					</div>
 				</div>	
 			</div>
+			-->
 		</div>
 	</div>
 

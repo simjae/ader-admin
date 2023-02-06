@@ -1,79 +1,121 @@
 <div class="content__card">
-	<form id="frm-list_03" action="member/info/get">
-		<input type="hidden" class="sort_value" name="sort_value" value="JOIN_DATE">
+	<form id="frm-filter_DRP" action="member/info/list/get">
+		<input type="hidden" class="sort_value" name="sort_value" value="DROP_DATE">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
-		<input type="hidden" name="tab_num" value="03">
+		
+		<input type="hidden" name="tab_status" value="DRP">
+		
 		<input type="hidden" class="rows" name="rows" value="10">
 		<input type="hidden" class="page" name="page" value="1">
+		
 		<div class="card__header">
 			<h3>탈퇴회원</h3>
 			<div class="drive--x"></div>
 		</div>
 		<div class="card__body">
 			<div class="content__wrap">
-				<div class="content__title">아이디</div>
+				<div class="content__title">쇼핑몰</div>
 				<div class="content__row">
-					<input type="text" name="member_id" value="" style="width:20%;">
-				</div>
-			</div>
-			<div class="content__wrap">
-				<div class="content__title">탈퇴 유형</div>
-				<div class="content__row">
-					<select name="drop_type" id="drop_type" class="fSelect" style="width:20%;">
-						<option value="all" selected="">전체</option>
-						<option value="탈퇴신청중">탈퇴신청중</option>
-						<option value="일반탈퇴">일반탈퇴</option>
-						<option value="강제탈퇴">강제탈퇴</option>
+					<select class="fSelect country" name="country" style="width:163px;">
+						<option value="KR" selected="selected">한국몰</option>
+						<option value="EN">영문몰</option>
+						<option value="CN">중국몰</option>
 					</select>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
-				<div class="content__title">기간</div>
+				<div class="content__title">회원정보</div>
 				<div class="content__row">
-					<div class="content__date__wrap">
-						<div class="content__date__btn">
-							<input id="search_date_drop" type="hidden" name="search_date" value="" style="width:150px;">
+					<select name="search_type" class="fSelect" style="width:163px;">
+						<option value="member_id" selected="">아이디</option>
+						<option value="member_name">이름</option>
+						<option value="tel_mobile">휴대폰번호</option>
+						<option value="member_addr">주소</option>
+					</select>
 
-							<div class="search_date_drop date__picker" date_type="drop" date="today" type="button"  onclick="searchDateClick(this);">오늘</div>
-							<div class="search_date_drop date__picker" date_type="drop" date="01d" type="button"  onclick="searchDateClick(this);">어제</div>
-							<div class="search_date_drop date__picker" date_type="drop" date="03d" type="button"  onclick="searchDateClick(this);">3일</div>
-							<div class="search_date_drop date__picker" date_type="drop" date="07d" type="button"  onclick="searchDateClick(this);">7일</div>
-							<div class="search_date_drop date__picker" date_type="drop" date="15d" type="button"  onclick="searchDateClick(this);">15일</div>
-							<div class="search_date_drop date__picker" date_type="drop" date="01m" type="button"  onclick="searchDateClick(this);">1개월</div>
-							<div class="search_date_drop date__picker" date_type="drop" date="03m" type="button"  onclick="searchDateClick(this);">3개월</div>
-						</div>
-						<div class="content__date__picker">
-							<input id="drop_from" class="date_param" type="date" name="drop_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="drop" onChange="dateParamChange(this);">
-								<font>~</font>
-							<input id="drop_to" class="date_param" type="date" name="drop_to" placeholder="To" readonly style="width:150px;" date_type="drop" onChange="dateParamChange(this);">
+					<input class="content__input" type="text" name="search_keyword" value="" style="width:70%;">
+				</div>
+			</div>
+			
+			<div class="content__wrap grid__half">
+				<div class="half__box__wrap">
+					<div class="content__title">회원레벨</div>
+				<div class="content__row">
+					<select name="member_level" class="fSelect" style="width:163px;">
+						<option value="ALL" selected="selected">전체</option>
+						<?php
+							$select_level_sql = "
+								SELECT
+									ML.IDX		AS LEVEL_IDX,
+									ML.TITLE	AS LEVEL_TITLE
+								FROM
+									dev.MEMBER_LEVEL ML
+								WHERE
+									DEL_FLG = FALSE
+							";
+							
+							$db->query($select_level_sql);
+							
+							foreach($db->fetch() as $level_data) {
+						?>
+						<option value="<?=$level_data['LEVEL_IDX']?>"><?=$level_data['LEVEL_TITLE']?></option>
+						<?php
+							}
+						?>
+					</select>
+				</div>
+				</div>
+				
+				<div class="half__box__wrap">
+					<div class="content__title">성별</div>
+					<div class="content__row">
+						<div class="rd__block">
+							<input type="radio" id="member_gender_DRP_ALL" class="radio__input" value="ALL" name="member_gender" checked>
+							<label for="member_gender_DRP_ALL">전체</label>
+
+							<input type="radio" id="member_gender_DRP_M" class="radio__input" value="M" name="member_gender"/>
+							<label for="member_gender_DRP_M">남</label>
+							
+							<input type="radio" id="member_gender_DRP_F" class="radio__input" value="F" name="member_gender"/>
+							<label for="member_gender_DRP_F">여</label>
 						</div>
 					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
-				<div class="content__title">탈퇴 사유</div>
+				<div class="content__title">탈퇴기간</div>
 				<div class="content__row">
-					<select class="fSelect" name="drop_reason" style="width:20%;">
-						<option value="all">전체</option>
-						<option value="01">상품종류가 부족하다</option>
-						<option value="02">상품가격이 비싸다</option>
-						<option value="03">상품가격에 비해 품질이 떨어진다</option>
-						<option value="04">배송이 느리다</option>
-						<option value="05">반품/교환이 불만이다</option>
-						<option value="06">상담원 고객응대 서비스가 불만이다</option>
-						<option value="07">쇼핑몰 혜택이 부족하다 (쿠폰, 적립금,할인 등)</option>
-						<option value="08">이용빈도가 낮다</option>
-						<option value="09">개인정보 유출이 염려된다</option>
-						<option value="10">기타</option>
-					</select>
+					<div class="content__date__wrap">
+						<div class="content__date__btn">
+							<input class="search_date_type" type="hidden" name="search_date_type" value="">
+							<input class="search_date" type="hidden" name="search_date" value="">
+							
+							<div class="date__picker" date_type="drop" date="today" type="button"  onclick="searchDateClick(this);">오늘</div>
+							<div class="date__picker" date_type="drop" date="01d" type="button"  onclick="searchDateClick(this);">어제</div>
+							<div class="date__picker" date_type="drop" date="03d" type="button"  onclick="searchDateClick(this);">3일</div>
+							<div class="date__picker" date_type="drop" date="07d" type="button"  onclick="searchDateClick(this);">7일</div>
+							<div class="date__picker" date_type="drop" date="15d" type="button"  onclick="searchDateClick(this);">15일</div>
+							<div class="date__picker" date_type="drop" date="01m" type="button"  onclick="searchDateClick(this);">1개월</div>
+							<div class="date__picker" date_type="drop" date="03m" type="button"  onclick="searchDateClick(this);">3개월</div>
+						</div>
+						
+						<div class="content__date__picker">
+							<input id="drop_from" class="date_param" type="date" name="drop_from"  placeholder="From" readonly="" style="width:150px;" date_type="drop" onChange="dateParamChange(this);">
+							<font style="display:none;">~</font>
+							<input id="drop_to" class="date_param" type="date" name="drop_to" placeholder="To" readonly="" style="width:150px;" date_type="drop" onChange="dateParamChange(this);">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+		
 		<div class="card__footer">
 			<div class="footer__btn__wrap" style="grid: none;">
 				<div class="btn__wrap--lg">
-					<div  class="blue__color__btn" onClick="getMemberTabInfo_03();"><span>검색</span></div>
-					<div class="defult__color__btn" onClick="init_filter('frm-list_03', 'getMemberTabInfo_03');"><span>초기화</span></div>
+					<div  class="blue__color__btn" onClick="getMemberInfoList('DRP');"><span>검색</span></div>
+					<div class="defult__color__btn" onClick="init_filter('frm-filter_DRP','getMemberInfoList');"><span>초기화</span></div>
 				</div>
 			</div>
 		</div> 
@@ -82,16 +124,17 @@
 
 <div class="content__card">
 	<form id="frm-03-01" action="member/update/drop/put">
+		<input type="hidden" name="drop_country" value="KR">
 		<div class="card__body">
 			<div class="info__wrap " style="justify-content:space-between; align-items: center;">
 				<div class="body__info--count">
 					<div class="drive--left"></div>
-					총 회원 수 <font class="cnt_03_total info__count" >0</font>명 
+					총 회원 수 <font class="cnt_DRP_total info__count" >0</font>명 
 					<div class="drive--left"></div>
-					검색결과 <font class="cnt_03_result info__count" >0</font>명
+					검색결과 <font class="cnt_DRP_result info__count" >0</font>명
 				</div>
 				<div class="content__row">
-					<select style="width:163px;float:right;" onChange="orderChange(this);">
+					<select style="width:163px;float:right;" tab_status="DRP" onChange="orderChange(this);">
 						<option value="JOIN_DATE|DESC" selected>가입일 역순</option>
 						<option value="JOIN_DATE|ASC">가입일 순</option>
 						<option value="NAME|DESC">이름 역순</option>
@@ -114,7 +157,7 @@
 						<option value="REGION|ASC">지역 순</option>
 					</select>
 					
-					<select name="rows" style="width:163px;float:right;" onChange="rowsChange(this);">
+					<select name="rows" tab_status="DRP" onChange="rowsChange(this);" style="width: 163px;">
 						<option value="10" selected>10개씩보기</option>
 						<option value="20">20개씩보기</option>
 						<option value="30">30개씩보기</option>
@@ -127,7 +170,7 @@
 				</div>
 			</div>
 			
-			<div id="table_div_03" class="table table__wrap">
+			<div id="table_div_DRP" class="table table__wrap">
 				<div class="table__filter">
 					<div class="filrer__wrap">
 						<div class="filter__btn" onClick="memberDropCheck();">탈퇴</div>
@@ -138,7 +181,21 @@
 					</div>  
 				</div>
 				<div class="overflow-x-auto">
-					<TABLE id="excel_table_03">
+					<TABLE id="excel_table_DRP">
+						<colgroup>
+							<col width="3%">
+							<col width="3%">
+							<col width="5%">
+							<col width="10%">
+							<col width="15%">
+							<col width="5%">
+							<col width="5%">
+							<col width="8%">
+							<col width="5%">
+							<col width="5%">
+							<col width="5%">
+							<col width="auto">
+						</colgroup>
 						<THEAD>
 							<TR>
 								<TH style="width:3%;">
@@ -149,27 +206,34 @@
 										</label>
 									</div>
 								</TH>
-								<TH style="width:8%;">아이디</TH>
-								<TH style="width:8%;">상태</TH>
-								<TH style="width:8%;">회원 탈퇴일</TH>
-								<TH style="width:8%;">탈퇴 유형</TH>
-								<TH>탈퇴 사유</TH>
+								<TH>No.</TH>
+								<TH>탈퇴일</TH>
+								<TH>이름</TH>
+								<TH>ID</TH>
+								<TH>회원등급</TH>
+								<TH>상태</TH>
+								<TH>휴대전화</TH>
+								<TH>성별</TH>
+								<TH>나이</TH>
+								<TH>지역</TH>
+								<TH>탈퇴사유</TH>
 							</TR>
 						</THEAD>
-						<TBODY id="result_table_03">
+						<TBODY id="result_table_DRP">
 							<TR>
-								<TD class="default_td" colspan="6">
+								<TD class="default_td" colspan="12">
 									조회 결과가 없습니다
 								</TD>
 							</TR>
 						</TBODY>
 					</TABLE>
 				</div>		
-			</div>	
+			</div>
+			
 			<div class="padding__wrap">
-				<input type="hidden" class="total_cnt" value="0" tab_num="03" onChange="setResultCount(this);">
-				<input type="hidden" class="result_cnt" value="0" tab_num="03" onChange="setResultCount(this);">
-            	<div class="paging_03"></div>
+				<input type="hidden" class="total_cnt" tab_status="DRP" value="0" onChange="setPaging(this);">
+				<input type="hidden" class="result_cnt" tab_status="DRP" value="0" onChange="setPaging(this);">
+				<div class="paging_DRP"></div>
         	</div>
 		</div>	
 	</form>
@@ -177,67 +241,8 @@
 
 <script>
 $(document).ready(function() {
-	getMemberTabInfo_03();
+	getMemberInfoList('DRP');
 })
-function getMemberTabInfo_03() {
-	var tab_num = $('#tab_num').val();
-	
-	$("#result_table_" + tab_num).html('');
-	
-	var strDiv = '';
-	strDiv += '<TD colspan="6">';
-	strDiv += '    조회 결과가 없습니다';
-	strDiv += '</TD>';
-	
-	$("#result_table_03").append(strDiv);
-	
-	var rows = $('#frm-list_03').find('.rows').val();
-	$('#frm-list_03').find('.page').val(1);
-	
-	get_contents($("#frm-list_03"),{
-		pageObj : $(".paging_03"),
-		html : function(d) {
-			
-			if (d.length > 0) {
-				$("#result_table_03").html('');
-			}
-			
-			d.forEach(function(row) {
-				var drop_date = [];
-				var str_drop_date = "";
-				if (row.drop_date != null) {
-					drop_date = row.drop_date.split(' ');
-					str_drop_date = drop_date[0] + '<br>' + drop_date[1];
-				} else {
-					str_drop_date = "탈퇴신청중"
-				}
-				
-				var strDiv = '';
-				
-				strDiv += '<TR>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="form-group">';
-				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" class="select" name="select_idx[]" value="' + row.no + '">';
-				strDiv += '                    <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + row.id + '</TD>';
-				strDiv += '    <TD>';
-				strDiv += '        ' + row.status;
-				strDiv += '        <input type="hidden" id="drop_status_' + row.no + '" value="' + row.status + '">';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + str_drop_date + '</TD>';
-				strDiv += '    <TD>' + row.drop_type + '</TD>';
-				strDiv += '    <TD>' + row.remark + '</TD>';
-				strDiv += '</TR>';
-				
-				$("#result_table_03").append(strDiv);
-			});
-		},
-	},rows,1);
-}
 
 function memberDropCheck() {
 	var select_idx = [];
@@ -256,7 +261,7 @@ function memberDropCheck() {
 		for (var i=0; i<select_idx.length; i++) {
 			var drop_status = $('#drop_status_' + select_idx[i]).val();
 			
-			if (drop_status != "탈퇴신청") {
+			if (drop_status != "AFD") {
 				cnt++;
 			}
 		}
@@ -288,5 +293,46 @@ function memberDrop() {
 			}
 		}
 	});
+}
+
+function setMemberInfoList_DRP(member_data) {
+	let result_table = $('#result_table_DRP');
+	
+	let strDiv = "";
+	if (member_data != null) {
+		let strDiv = '';
+		member_data.forEach(function(row) {
+			strDiv += '<TR>';
+			strDiv += '    <TD>';
+			strDiv += '        <div class="cb__color">';
+			strDiv += '            <label>';
+			strDiv += '                <input class="select" type="checkbox" name="member_idx[]" value="' + row.member_idx + '">';
+			strDiv += '                    <span></span>';
+			strDiv += '            </label>';
+			strDiv += '        </div>';
+			strDiv += '    </TD>';
+			strDiv += '    <TD>' + row.num + '</TD>';
+			strDiv += '    <TD>' + row.drop_date + '</TD>';
+			strDiv += '    <TD>' + row.member_name + '</TD>';
+			strDiv += '    <TD>' + row.member_id + '</TD>';
+			strDiv += '    <TD>' + row.member_level + '</TD>';
+			strDiv += '    <TD>' + row.drop_type + '</TD>';
+			strDiv += '    <TD>' + row.tel_mobile + '</TD>';
+			strDiv += '    <TD>' + row.member_gender + '</TD>';
+			strDiv += '    <TD>' + row.age + '</TD>';
+			strDiv += '    <TD>' + row.region + '</TD>';
+			strDiv += '    <TD>-</TD>';
+			strDiv += '</TR>';
+		});
+		
+		result_table.append(strDiv);
+	} else {
+		let strDiv = "";
+		strDiv += '<TD class="default_td" colspan="12">';
+		strDiv += '    조회 결과가 없습니다';
+		strDiv += '</TD>';
+		
+		result_table.append(strDiv);
+	}
 }
 </script>

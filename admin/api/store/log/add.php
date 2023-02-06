@@ -16,29 +16,41 @@
 $log_type           = $_POST['log_type'];
 $log_contents       = $_POST['log_contents'];
 $target_cnt         = $_POST['target_cnt'];
-$creater            = '김철수';
-$creater_ip         = '127.0.0.7';
-$creater_level      = '메인 관리자';
 
-$where_values = array();
-$where_ist = '';
-$where_ist_values = array();
-
-if($target_cnt != null && $target_cnt > 0){
-    $log_contents .= ': ('.$target_cnt.')건';
+$admin_id = null;
+if (isset($_SESSION['ADMIN_ID'])) {
+	$admin_id = $_SESSION['ADMIN_ID'];
 }
-$values = array(
-    'LOG_TYPE'      => $log_type,
-    'LOG_CONTENTS'  => $log_contents,
-    'CREATER'       => $creater,
-    'CREATER_IP'    => $creater_ip,
-    'CREATER_LEVEL' => $creater_level           
-);
-$db->insert(
-        'dev.ADMINISTRATOR_LOG',
-        $values,
-        $where_ist,
-        $where_ist_values
-);
-$code = 200;
+
+$admin_ip = null;
+if (isset($_SESSION['ADMIN_IP'])) {
+	$admin_ip = $_SESSION['ADMIN_IP'];
+}
+
+$admin_permition = null;
+if (isset($_SESSION['ADMIN_PERMITION'])) {
+	$admin_permition = $_SESSION['ADMIN_PERMITION'];
+}
+
+if ($admin_id != null && $admin_permition != null) {
+	$insert_log_sql = "
+		INSERT INTO
+			dev.ADMIN_LOG
+		(
+			LOG_TYPE,
+			LOG_CONTENTS,
+			CREATER,
+			CREATER_LEVEL,
+			CREATER_IP
+		) VALUES (
+			'".$log_type."',
+			'".$log_contents." : (".$target_cnt.")건',
+			'".$admin_id."',
+			'".$admin_permition."',
+			'".$admin_ip."'
+		)
+	";
+	
+	$db->query($insert_log_sql);
+}
 ?>

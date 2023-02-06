@@ -1,1010 +1,962 @@
+
 <?php
+
 /*
  +=============================================================================
  | 
- | 회원 목록
+ | 독립몰 상품 등록
  | -------
  |
- | 최초 작성	: 손성환
- | 최초 작성일	: 2022.07.17
+ | 최초 작성	: 박성혁
+ | 최초 작성일	: 2022.10.27
  | 최종 수정일	: 
  | 버전		: 1.0
  | 설명		: 
  | 
  +=============================================================================
 */
-$product_idx = $_POST['product_idx'];
-$product_idx_arr = $_POST['product_idx_arr'];
-$idx_list = "";
-
-if ($product_idx != null) {
-	$idx_list = $product_idx;
-} else if ($product_idx_arr != null) {
-	$idx_list = $product_idx_arr;
-}
-
-$pl_lrg_category = $_POST['pl_lrg_category'];
-$pl_lrg_category_arr = array();
-if ($pl_lrg_category != null) {
-	$pl_lrg_category_arr[0] = ' PL_LRG_CATEGORY = ';
-	$pl_lrg_category_arr[1] = "'".$pl_lrg_category."',";
-}
-
-$pl_mdl_category = $_POST['pl_mdl_category'];
-$pl_mdl_category_arr = array();
-if ($pl_mdl_category != null) {
-	$pl_mdl_category_arr[0] = ' PL_MDL_CATEGORY = ';
-	$pl_mdl_category_arr[1] = "'".$pl_mdl_category."',";
-}
-
-$pl_sml_category = $_POST['pl_sml_category'];
-$pl_sml_category_arr = array();
-if ($pl_sml_category != null) {
-	$pl_sml_category_arr[0] = ' PL_SML_CATEGORY = ';
-	$pl_sml_category_arr[1] = "'".$pl_sml_category."',";
-}
-
-$pl_dtl_category = $_POST['pl_dtl_category'];
-$pl_dtl_category_arr = array();
-if ($pl_dtl_category != null) {
-	$pl_dtl_category_arr[0] = ' PL_DTL_CATEGORY = ';
-	$pl_dtl_category_arr[1] = "'".$pl_dtl_category."',";
-}
-
-$material = $_POST['material'];
-$material_arr = array();
-if ($material != null) {
-	$material_arr[0] = ' MATERIAL = ';
-	$material_arr[1] = "'".$material."',";
-}
-
-$graphic = $_POST['graphic'];
-$graphic_arr = array();
-if ($graphic != null) {
-	$graphic_arr[0] = ' GRAPHIC = ';
-	$graphic_arr[1] = "'".$graphic."',";
-}
-
-$fit = $_POST['fit'];
-$fit_arr = array();
-if ($fit != null) {
-	$fit_arr[0] = ' FIT = ';
-	$fit_arr[1] = "'".$fit."',";
-}
-
-$product_name = $_POST['product_name'];
-$product_name_arr = array();
-if ($product_name != null) {
-	$product_name_arr[0] = ' PRODUCT_NAME = ';
-	$product_name_arr[1] = "'".$product_name."',";
-}
-
-$size = $_POST['size'];
-$size_arr = array();
-if ($size != null) {
-	$size_arr[0] = ' SIZE = ';
-	$size_arr[1] = "'".$size."',";
-}
-
-$color = $_POST['color'];
-$color_arr = array();
-if ($color != null) {
-	$color_arr[0] = ' COLOR = ';
-	$color_arr[1] = "'".$color."',";
-}
-
-$color_code = $_POST['color_code'];
-$color_code_arr = array();
-if ($color_code != null) {
-	$color_code_arr[0] = ' COLOR_CODE = ';
-	$color_code_arr[1] = "'".$color_code."',";
-}
-
-$navigation = $_POST['navigation'];
-$navigation_arr = array();
-if ($navigation != null) {
-	$navigation_arr[0] = ' NAVIGATION = ';
-	$navigation_arr[1] = "'".$navigation."',";
-}
-
-$limit_purchase_member_ext = $_POST['limit_purchase_member_ext'];
-$limit_purchase_member_ext_arr = array();
-if ($limit_purchase_member_ext != null) {
-	$limit_purchase_member_ext_arr[0] = ' LIMIT_PURCHASE_MEMBER_EXT = ';
-	$limit_purchase_member_ext_arr[1] = "'".$limit_purchase_member_ext."',";
-}
-
-//오더시트 - material
-$wkla = $_POST['wkla'];
-$wkla_arr = array();
-if ($wkla != null) {
-	$wkla_arr[0] = ' WKLA = ';
-	$wkla_arr[1] = "'".$wkla."',";
-}
-
-$material_kr = $_POST['material_kr'];
-$material_kr = str_replace("<p>&nbsp;</p>","",$material_kr);
-$material_kr_arr = array();
-if ($material_kr != null) {
-	$material_kr_arr[0] = ' MATERIAL_KR = ';
-	$material_kr_arr[1] = "'".$material_kr."',";
-}
-
-$material_en = $_POST['material_en'];
-$material_en = str_replace("<p>&nbsp;</p>","",$material_en);
-$material_en_arr = array();
-if ($material_en != null) {
-	$material_en_arr[0] = ' MATERIAL_EN = ';
-	$material_en_arr[1] = "'".$material_en."',";
-}
-
-$material_cn = $_POST['material_cn'];
-$material_cn = str_replace("<p>&nbsp;</p>","",$material_cn);
-$material_cn_arr = array();
-if ($material_cn != null) {
-	$material_cn_arr[0] = ' MATERIAL_CN = ';
-	$material_cn_arr[1] = "'".$material_cn."',";
-}
-
-//오더시트 - size
-$size_detail_model = $_POST['size_detail_model'];
-$size_detail_model_arr = array();
-if ($size_detail_model != null) {
-	$size_detail_model_arr[0] = ' SIZE_DETAIL_MODEL = ';
-	$size_detail_model_arr[1] = "'".$size_detail_model."',";
-}
-
-$size_detail_wear = $_POST['size_detail_wear'];
-$size_detail_wear_arr = array();
-if ($size_detail_wear != null) {
-	$size_detail_wear_arr[0] = ' SIZE_DETAIL_WEAR = ';
-	$size_detail_wear_arr[1] = "'".$size_detail_wear."',";
-}
-
-$size_detail_a1_kr = $_POST['size_detail_a1_kr'];
-$size_detail_a1_kr = str_replace("<p>&nbsp;</p>","",$size_detail_a1_kr);
-$size_detail_a1_kr_arr = array();
-if ($size_detail_a1_kr != null) {
-	$size_detail_a1_kr_arr[0] = ' SIZE_DETAIL_A1_KR = ';
-	$size_detail_a1_kr_arr[1] = "'".$size_detail_a1_kr."',";
-}
-
-$size_detail_a2_kr = $_POST['size_detail_a2_kr'];
-$size_detail_a2_kr = str_replace("<p>&nbsp;</p>","",$size_detail_a2_kr);
-$size_detail_a2_kr_arr = array();
-if ($size_detail_a2_kr != null) {
-	$size_detail_a2_kr_arr[0] = ' SIZE_DETAIL_A2_KR = ';
-	$size_detail_a2_kr_arr[1] = "'".$size_detail_a2_kr."',";
-}
-
-$size_detail_a3_kr = $_POST['size_detail_a3_kr'];
-$size_detail_a3_kr = str_replace("<p>&nbsp;</p>","",$size_detail_a3_kr);
-$size_detail_a3_kr_arr = array();
-if ($size_detail_a3_kr != null) {
-	$size_detail_a3_kr_arr[0] = ' SIZE_DETAIL_A3_KR = ';
-	$size_detail_a3_kr_arr[1] = "'".$size_detail_a3_kr."',";
-}
-
-$size_detail_a4_kr = $_POST['size_detail_a4_kr'];
-$size_detail_a4_kr = str_replace("<p>&nbsp;</p>","",$size_detail_a4_kr);
-$size_detail_a4_kr_arr = array();
-if ($size_detail_a4_kr != null) {
-	$size_detail_a4_kr_arr[0] = ' SIZE_DETAIL_A4_KR = ';
-	$size_detail_a4_kr_arr[1] = "'".$size_detail_a4_kr."',";
-}
-
-$size_detail_a5_kr = $_POST['size_detail_a5_kr'];
-$size_detail_a5_kr = str_replace("<p>&nbsp;</p>","",$size_detail_a5_kr);
-$size_detail_a5_kr_arr = array();
-if ($size_detail_a5_kr != null) {
-	$size_detail_a5_kr_arr[0] = ' SIZE_DETAIL_A5_KR = ';
-	$size_detail_a5_kr_arr[1] = "'".$size_detail_a5_kr."',";
-}
-
-$size_detail_onesize_kr = $_POST['size_detail_onesize_kr'];
-$size_detail_onesize_kr = str_replace("<p>&nbsp;</p>","",$size_detail_onesize_kr);
-$size_detail_onesize_kr_arr = array();
-if ($size_detail_onesize_kr != null) {
-	$size_detail_onesize_kr_arr[0] = ' SIZE_DETAIL_ONESIZE_KR = ';
-	$size_detail_onesize_kr_arr[1] = "'".$size_detail_onesize_kr."',";
-}
-
-$size_detail_a1_en = $_POST['size_detail_a1_en'];
-$size_detail_a1_en = str_replace("<p>&nbsp;</p>","",$size_detail_a1_en);
-$size_detail_a1_en_arr = array();
-if ($size_detail_a1_en != null) {
-	$size_detail_a1_en_arr[0] = ' SIZE_DETAIL_A1_EN = ';
-	$size_detail_a1_en_arr[1] = "'".$size_detail_a1_en."',";
-}
-
-$size_detail_a2_en = $_POST['size_detail_a2_en'];
-$size_detail_a2_en = str_replace("<p>&nbsp;</p>","",$size_detail_a2_en);
-$size_detail_a2_en_arr = array();
-if ($size_detail_a2_en != null) {
-	$size_detail_a2_en_arr[0] = ' SIZE_DETAIL_A2_EN = ';
-	$size_detail_a2_en_arr[1] = "'".$size_detail_a2_en."',";
-}
-
-$size_detail_a3_en = $_POST['size_detail_a3_en'];
-$size_detail_a3_en = str_replace("<p>&nbsp;</p>","",$size_detail_a3_en);
-$size_detail_a3_en_arr = array();
-if ($size_detail_a3_en != null) {
-	$size_detail_a3_en_arr[0] = ' SIZE_DETAIL_A3_EN = ';
-	$size_detail_a3_en_arr[1] = "'".$size_detail_a3_en."',";
-}
-
-$size_detail_a4_en = $_POST['size_detail_a4_en'];
-$size_detail_a4_en = str_replace("<p>&nbsp;</p>","",$size_detail_a4_en);
-$size_detail_a4_en_arr = array();
-if ($size_detail_a4_en != null) {
-	$size_detail_a4_en_arr[0] = ' SIZE_DETAIL_A4_EN = ';
-	$size_detail_a4_en_arr[1] = "'".$size_detail_a4_en."',";
-}
-
-$size_detail_a5_en = $_POST['size_detail_a5_en'];
-$size_detail_a5_en = str_replace("<p>&nbsp;</p>","",$size_detail_a5_en);
-$size_detail_a5_en_arr = array();
-if ($size_detail_a5_en != null) {
-	$size_detail_a5_en_arr[0] = ' SIZE_DETAIL_A5_EN = ';
-	$size_detail_a5_en_arr[1] = "'".$size_detail_a5_en."',";
-}
-
-$size_detail_onesize_en = $_POST['size_detail_onesize_en'];
-$size_detail_onesize_en = str_replace("<p>&nbsp;</p>","",$size_detail_onesize_en);
-$size_detail_onesize_en_arr = array();
-if ($size_detail_onesize_en != null) {
-	$size_detail_onesize_en_arr[0] = ' SIZE_DETAIL_ONESIZE_EN = ';
-	$size_detail_onesize_en_arr[1] = "'".$size_detail_onesize_en."',";
-}
-
-$size_detail_a1_cn = $_POST['size_detail_a1_cn'];
-$size_detail_a1_cn = str_replace("<p>&nbsp;</p>","",$size_detail_a1_cn);
-$size_detail_a1_cn_arr = array();
-if ($size_detail_a1_cn != null) {
-	$size_detail_a1_cn_arr[0] = ' SIZE_DETAIL_A1_CN = ';
-	$size_detail_a1_cn_arr[1] = "'".$size_detail_a1_cn."',";
-}
-
-$size_detail_a2_cn = $_POST['size_detail_a2_cn'];
-$size_detail_a2_cn = str_replace("<p>&nbsp;</p>","",$size_detail_a2_cn);
-$size_detail_a2_cn_arr = array();
-if ($size_detail_a2_cn != null) {
-	$size_detail_a2_cn_arr[0] = ' SIZE_DETAIL_A2_CN = ';
-	$size_detail_a2_cn_arr[1] = "'".$size_detail_a2_cn."',";
-}
-
-$size_detail_a3_cn = $_POST['size_detail_a3_cn'];
-$size_detail_a3_cn = str_replace("<p>&nbsp;</p>","",$size_detail_a3_cn);
-$size_detail_a3_cn_arr = array();
-if ($size_detail_a3_cn != null) {
-	$size_detail_a3_cn_arr[0] = ' SIZE_DETAIL_A3_CN = ';
-	$size_detail_a3_cn_arr[1] = "'".$size_detail_a3_cn."',";
-}
-
-$size_detail_a4_cn = $_POST['size_detail_a4_cn'];
-$size_detail_a4_cn = str_replace("<p>&nbsp;</p>","",$size_detail_a4_cn);
-$size_detail_a4_cn_arr = array();
-if ($size_detail_a4_cn != null) {
-	$size_detail_a4_cn_arr[0] = ' SIZE_DETAIL_A4_CN = ';
-	$size_detail_a4_cn_arr[1] = "'".$size_detail_a4_cn."',";
-}
-
-$size_detail_a5_cn = $_POST['size_detail_a5_cn'];
-$size_detail_a5_cn = str_replace("<p>&nbsp;</p>","",$size_detail_a5_cn);
-$size_detail_a5_cn_arr = array();
-if ($size_detail_a5_cn != null) {
-	$size_detail_a5_cn_arr[0] = ' SIZE_DETAIL_A5_CN = ';
-	$size_detail_a5_cn_arr[1] = "'".$size_detail_a5_cn."',";
-}
-
-$size_detail_onesize_cn = $_POST['size_detail_onesize_cn'];
-$size_detail_onesize_cn = str_replace("<p>&nbsp;</p>","",$size_detail_onesize_cn);
-$size_detail_onesize_cn_arr = array();
-if ($size_detail_onesize_cn != null) {
-	$size_detail_onesize_cn_arr[0] = ' SIZE_DETAIL_ONESIZE_CN = ';
-	$size_detail_onesize_cn_arr[1] = "'".$size_detail_onesize_cn."',";
-}
-
-//오더시트 - care
-$care_kr = $_POST['care_kr'];
-$care_kr = str_replace("<p>&nbsp;</p>","",$care_kr);
-$care_kr_arr = array();
-if ($care_kr != null) {
-	$care_kr_arr[0] = ' CARE_KR = ';
-	$care_kr_arr[1] = "'".$care_kr."',";
-}
-
-$care_en = $_POST['care_en'];
-$care_en = str_replace("<p>&nbsp;</p>","",$care_en);
-$care_en_arr = array();
-if ($care_en != null) {
-	$care_en_arr[0] = ' CARE_EN = ';
-	$care_en_arr[1] = "'".$care_en."',";
-}
-
-$care_cn = $_POST['care_cn'];
-$care_cn = str_replace("<p>&nbsp;</p>","",$care_cn);
-$care_cn_arr = array();
-if ($care_cn != null) {
-	$care_cn_arr[0] = ' CARE_CN = ';
-	$care_cn_arr[1] = "'".$care_cn."',";
-}
-
-//오더시트 - detail
-$detail_kr = $_POST['detail_kr'];
-$detail_kr = str_replace("<p>&nbsp;</p>","",$detail_kr);
-$detail_kr_arr = array();
-if ($detail_kr != null) {
-	$detail_kr_arr[0] = ' DETAIL_KR = ';
-	$detail_kr_arr[1] = "'".$detail_kr."',";
-}
-
-$detail_en = $_POST['detail_en'];
-$detail_en = str_replace("<p>&nbsp;</p>","",$detail_en);
-$detail_en_arr = array();
-if ($detail_en != null) {
-	$detail_en_arr[0] = ' DETAIL_EN = ';
-	$detail_en_arr[1] = "'".$detail_en."',";
-}
-
-$detail_cn = $_POST['detail_cn'];
-$detail_cn = str_replace("<p>&nbsp;</p>","",$detail_cn);
-$detail_cn_arr = array();
-if ($detail_cn != null) {
-	$detail_cn_arr[0] = ' DETAIL_CN = ';
-	$detail_cn_arr[1] = "'".$detail_cn."',";
-}
-
-//오더시트 - price
-$price_kr = $_POST['price_kr'];
-$price_kr_arr = array();
-if ($price_kr != null && $price_kr > 0) {
-	$price_kr_arr[0] = ' PRICE_KR = ';
-	$price_kr_arr[1] = $price_kr.",";
-}
-
-$price_kr_gb = $_POST['price_kr_gb'];
-$price_kr_gb_arr = array();
-if ($price_kr_gb != null && $price_kr_gb > 0) {
-	$price_kr_gb_arr[0] = ' PRICE_KR_GB = ';
-	$price_kr_gb_arr[1] = $price_kr_gb.",";
-}
-
-$price_en = $_POST['price_en'];
-$price_en_arr = array();
-if ($price_en != null && $price_en > 0) {
-	$price_en_arr[0] = ' PRICE_EN = ';
-	$price_en_arr[1] = $price_en.",";
-}
-
-$price_cn = $_POST['price_cn'];
-$price_cn_arr = array();
-if ($price_cn != null && $price_cn > 0) {
-	$price_cn_arr[0] = ' PRICE_CN = ';
-	$price_cn_arr[1] = $price_cn.",";
-}
-
-//판매정보 - 판매정보
-$md_category_1 = $_POST['md_category_1'];
-$md_category_1_arr = array();
-if ($md_category_1 != null) {
-	$md_category_1_arr[0] = ' MD_CATEGORY_1 = ';
-	$md_category_1_arr[1] = $md_category_1.",";
+include_once("/var/www/admin/api/common/common.php");
+
+$ordersheet_idx             = $_POST['ordersheet_idx'];
+$product_idx                = $_POST['product_idx'];
+
+// 독립몰 상품 항목
+$style_code                 = $_POST['shop_style_code'];
+$style_code_str             = '';
+if($style_code != null){
+    $style_code_str         = " STYLE_CODE = '".$style_code."', ";
+}
+$shop_color_code            = $_POST['shop_color_code'];
+$shop_color_code_str        = '';
+if($shop_color_code != null){
+    $shop_color_code_str    = " COLOR_CODE = '".$shop_color_code."', ";
+}
+$product_code               = $_POST['shop_product_code'];
+$product_code_str           = '';
+if($product_code != null){
+    $product_code_str       = " PRODUCT_CODE = '".$product_code."', ";
+}
+
+$shop_product_name              = $_POST['shop_product_name'];
+$shop_product_name_update_flg   = $_POST['shop_product_name_update_flg'];
+$shop_product_name_str          = '';
+if($shop_product_name_update_flg == 'true'){
+    $shop_product_name_str               = " PRODUCT_NAME = '".$shop_product_name."', ";
+}
+
+$md_category_flg = $_POST['md_category_flg'];
+if($md_category_flg == 'true'){
+    $category_idx = '0';
+    $md_category_1              = $_POST['md_category_idx'][0];
+    $md_category_1_str          = '';
+    if($md_category_1 == '' || $md_category_1 == null){
+        $md_category_1 = '0';
+        $category_idx = '0';
+    }
+    $md_category_1_str          = " MD_CATEGORY_1 = ".$md_category_1.", ";
+
+    $md_category_2              = $_POST['md_category_idx'][1];
+    $md_category_2_str          = '';
+    if($md_category_2 == '' || $md_category_2 == null){
+        $md_category_2 = '0';
+        if($md_category_1 != '0'){
+            $category_idx = $md_category_1;
+        }
+    }
+    $md_category_2_str          = " MD_CATEGORY_2 = ".$md_category_2.", ";
+
+    $md_category_3              = $_POST['md_category_idx'][2];
+    $md_category_3_str          = '';
+    if($md_category_3 == '' || $md_category_3 == null){
+        $md_category_3 = '0';
+        if($md_category_2 != '0'){
+            $category_idx = $md_category_2;
+        }
+    }
+    $md_category_3_str          = " MD_CATEGORY_3 = ".$md_category_3.", ";
+
+    $md_category_4              = $_POST['md_category_idx'][3];
+    $md_category_4_str          = '';
+    if($md_category_4 == '' || $md_category_4 == null){
+        $md_category_4 = '0';
+        if($md_category_3 != '0'){
+            $category_idx = $md_category_3;
+        }
+    }
+    $md_category_4_str          = " MD_CATEGORY_4 = ".$md_category_4.", ";
+
+    $md_category_5              = $_POST['md_category_idx'][4];
+    $md_category_5_str          = '';
+    if($md_category_5 == '' || $md_category_5 == null){
+        $md_category_5 = '0';
+        if($md_category_4 != '0'){
+            $category_idx = $md_category_4;
+        }
+    }
+    $md_category_5_str          = " MD_CATEGORY_5 = ".$md_category_5.", ";
+
+    $md_category_6              = $_POST['md_category_idx'][5];
+    $md_category_6_str          = '';
+    if($md_category_6 == '' || $md_category_6 == null){
+        $md_category_6 = '0';
+        if($md_category_5 != '0'){
+            $category_idx = $md_category_5;
+        }
+    }
+    $md_category_6_str          = " MD_CATEGORY_6 = ".$md_category_6.", ";
+    $category_idx               = " CATEGORY_IDX = ".$category_idx.", ";
+}
+
+$mileage_flg                = $_POST['mileage_flg'];
+$mileage_flg_str            = '';
+if($mileage_flg != null){
+    $mileage_flg_str        = " MILEAGE_FLG = ".$mileage_flg.", ";
+}
+$exclusive_flg              = $_POST['exclusive_flg'];
+$exclusive_flg_str          = '';
+if($exclusive_flg != null){
+    $exclusive_flg_str      = " EXCLUSIVE_FLG = ".$exclusive_flg.", ";
+}
+
+$price_kr                       = $_POST['price_kr'];
+$price_kr_update_flg            = $_POST['price_kr_update_flg'];
+$price_kr_str = '';
+if ($price_kr_update_flg == 'true') {
+    if($price_kr == '' || $price_kr == null){
+        $price_kr = '0';
+    }
+    $price_kr_str               = " PRICE_KR = ".$price_kr.",";
+}
+$price_en                       = $_POST['price_en'];
+$price_en_update_flg            = $_POST['price_en_update_flg'];
+$price_en_str = '';
+if ($price_en_update_flg == 'true') {
+    if($price_en == '' || $price_en == null){
+        $price_en = '0';
+    }
+    $price_en_str               = " PRICE_EN = ".$price_en.",";
+}
+$price_cn                       = $_POST['price_cn'];
+$price_cn_update_flg            = $_POST['price_cn_update_flg'];
+$price_cn_str = '';
+if ($price_cn_update_flg == 'true') {
+    if($price_cn == '' || $price_cn == null){
+        $price_cn = '0';
+    }
+    $price_cn_str               = " PRICE_CN = ".$price_cn.",";
+}
+
+$discount_kr                    = $_POST['discount_kr'];
+$discount_kr_update_flg         = $_POST['discount_kr_update_flg'];
+$discount_kr_str = '';
+if ($discount_kr_update_flg == 'true') {
+    if($discount_kr == '' || $discount_kr == null){
+        $discount_kr = '0';
+    }
+    $discount_kr_str            = " DISCOUNT_KR = ".$discount_kr.",";
+}
+$discount_en                    = $_POST['discount_en'];
+$discount_en_update_flg         = $_POST['discount_en_update_flg'];
+$discount_en_str = '';
+if ($discount_en_update_flg == 'true') {
+    if($discount_en == '' || $discount_en == null){
+        $discount_en = '0';
+    }
+    $discount_en_str            = " DISCOUNT_EN = ".$discount_en.",";
+}
+$discount_cn                    = $_POST['discount_cn'];
+$discount_cn_update_flg         = $_POST['discount_cn_update_flg'];
+$discount_cn_str = '';
+if ($discount_cn_update_flg == 'true') {
+    if($discount_cn == '' || $discount_cn == null){
+        $discount_cn = '0';
+    }
+    $discount_cn_str            = " DISCOUNT_CN = ".$discount_cn.",";
+}
+
+$sales_price_kr                 = $_POST['sales_price_kr'];
+$sales_price_kr_update_flg      = $_POST['sales_price_kr_update_flg'];
+$sales_price_kr_str = '';
+if ($sales_price_kr_update_flg == 'true') {
+    if($sales_price_kr == '' || $sales_price_kr == null){
+        $sales_price_kr = '0';
+    }
+    $sales_price_kr_str           = " SALES_PRICE_KR = ".$sales_price_kr.",";
+}
+$sales_price_en                 = $_POST['sales_price_en'];
+$sales_price_en_update_flg      = $_POST['sales_price_en_update_flg'];
+$sales_price_en_str = '';
+if ($sales_price_en_update_flg == 'true') {
+    if($sales_price_en == '' || $sales_price_en == null){
+        $sales_price_en = '0';
+    }
+    $sales_price_en_str         = " SALES_PRICE_EN = ".$sales_price_en.",";
+}
+$sales_price_cn                 = $_POST['sales_price_cn'];
+$sales_price_cn_update_flg      = $_POST['sales_price_cn_update_flg'];
+$sales_price_cn_str = '';
+if ($sales_price_cn_update_flg == 'true') {
+    if($sales_price_cn == '' || $sales_price_cn == null){
+        $sales_price_cn = '0';
+    }
+    $sales_price_cn_str         = " SALES_PRICE_CN = ".$sales_price_cn.",";
+}
+
+$limit_member_update_flg        = $_POST['limit_member_update_flg'];
+$limit_member                   = $_POST['limit_member'];
+$limit_member_str = '';
+if ($limit_member_update_flg == 'true') {
+    if(!isset($limit_member) || !is_array($limit_member)){
+        $limit_member = 'NULL';
+    }
+    else{
+        $limit_member = "'".implode(",", $limit_member)."'";
+    }
+    $limit_member_str           = " LIMIT_MEMBER = ".$limit_member.",";
+}
+
+$limit_purchase_qty_flg         = $_POST['limit_purchase_qty_flg'];
+$limit_purchase_qty_flg_str = '';
+if($limit_purchase_qty_flg != null){
+    $limit_purchase_qty_flg_str = " LIMIT_PURCHASE_QTY_FLG = ".$limit_purchase_qty_flg.", ";
+}
+
+$limit_purchase_qty_min_update_flg  = $_POST['limit_purchase_qty_min_update_flg'];
+$limit_purchase_qty_min             = $_POST['limit_purchase_qty_min'];
+$limit_purchase_qty_min_str = '';
+if ($limit_purchase_qty_min_update_flg == 'true') {
+    if($limit_purchase_qty_min == '' || $limit_purchase_qty_min == null){
+        $limit_purchase_qty_min = '0';
+    }
+    $limit_purchase_qty_min_str     = " LIMIT_PURCHASE_QTY_MIN = ".$limit_purchase_qty_min.",";
+}
+
+$limit_purchase_qty_max_update_flg  = $_POST['limit_purchase_qty_max_update_flg'];
+$limit_purchase_qty_max             = $_POST['limit_purchase_qty_max'];
+$limit_purchase_qty_max_str = '';
+if ($limit_purchase_qty_max_update_flg == 'true') {
+    if($limit_purchase_qty_max == '' || $limit_purchase_qty_max == null){
+        $limit_purchase_qty_max = '0';
+    }
+    $limit_purchase_qty_max_str     = " LIMIT_PURCHASE_QTY_MAX = ".$limit_purchase_qty_max.",";
+}
+
+$product_keyword_update_flg     = $_POST['product_keyword_update_flg'];
+$product_keyword                = $_POST['product_keyword'];
+$product_keyword_str = '';
+if ($product_keyword_update_flg == 'true') {
+    $product_keyword_str        = " PRODUCT_KEYWORD = '".$product_keyword."',";
+}
+
+$product_tag_update_flg         = $_POST['product_tag_update_flg'];
+$product_tag                    = $_POST['product_tag'];
+$product_tag_str = '';
+if ($product_tag_update_flg == 'true') {
+    if(!isset($product_tag) || !is_array($product_tag)){
+        $product_tag = 'NULL';
+    }
+    else{
+        $product_tag = "'".implode(",", $product_tag)."'";
+    }
+    $product_tag_str           = " PRODUCT_TAG = ".$product_tag.",";
+}
+
+$custom_clearance_update_flg     = $_POST['custom_clearance_update_flg'];
+$custom_clearance                = $_POST['custom_clearance'];
+$clearance_idx_str = '';
+if ($custom_clearance_update_flg == 'true') {
+    if($clearance_idx == NULL){
+        $clearance_idx = 'NULL';
+    }
+    $clearance_idx_str        = " CLEARANCE_IDX = (SELECT IDX FROM dev.CUSTOM_CLEARANCE WHERE HS_CODE = '".$custom_clearance."'),";
+}
+
+$relevant_update_flg     = $_POST['relevant_update_flg'];
+$relevant_idx                = $_POST['relevant_idx'];
+$relevant_idx_str = '';
+if ($relevant_update_flg == 'true') {
+    if($relevant_idx == NULL){
+        $relevant_idx = 'NULL';
+    }
+    $relevant_idx_str        = " RELEVANT_IDX = '".$relevant_idx."',";
+}
+
+$sold_out_qty_update_flg    = $_POST['sold_out_qty_update_flg'];
+$sold_out_qty               = $_POST['sold_out_qty'];
+$sold_out_qty_str = '';
+if ($sold_out_qty_update_flg == 'true') {
+    if($sold_out_qty == '' || $sold_out_qty == null){
+        $sold_out_qty = '0';
+    }
+    $sold_out_qty_str       = " SOLD_OUT_QTY = ".$sold_out_qty.",";
+}
+
+$detail_kr                  = $_POST['detail_kr'];
+$detail_kr_update_flg       = $_POST['detail_kr_update_flg'];
+$detail_kr_str = '';
+if($detail_kr_update_flg == 'true'){
+    $detail_kr = str_replace("<p>&nbsp;</p>","",$detail_kr);
+    if ($detail_kr != null) {
+        $detail_kr_str          = " DETAIL_KR = '".$detail_kr."',";
+    }
+    else{
+        $detail_kr_str          = " DETAIL_KR = NULL,";
+    }
+}
+
+$detail_en                  = $_POST['detail_en'];
+$detail_en_update_flg       = $_POST['detail_en_update_flg'];
+$detail_en_str = '';
+if($detail_en_update_flg == 'true'){
+    $detail_en = str_replace("<p>&nbsp;</p>","",$detail_en);
+    if ($detail_en != null) {
+        $detail_en_str      = " DETAIL_EN = '".$detail_en."',";
+    }
+    else{
+        $detail_en_str      = " DETAIL_EN = NULL,";
+    }
+}
+$detail_cn                  = $_POST['detail_cn'];
+$detail_cn_update_flg       = $_POST['detail_cn_update_flg'];
+$detail_cn_str = '';
+if($detail_cn_update_flg == 'true'){
+    $detail_cn = str_replace("<p>&nbsp;</p>","",$detail_cn);
+    if ($detail_cn != null) {
+        $detail_cn_str      = " DETAIL_CN = '".$detail_cn."',";
+    }
+    else{
+        $detail_cn_str      = " DETAIL_CN = NULL,";
+    }
+}
+
+$care_kr                    = $_POST['care_kr'];
+$care_kr_update_flg         = $_POST['care_kr_update_flg'];
+$care_kr_str = '';
+$care_dsn_kr_str = '';
+$care_td_kr_str = '';
+if($care_kr_update_flg == 'true'){
+    $care_kr = str_replace("<p>&nbsp;</p>","",$care_kr);
+    if ($care_kr != null) {
+        $care_kr_str        = " CARE_KR = '".$care_kr."',";
+        $care_dsn_kr_str    = " CARE_DSN_KR = '".$care_kr."',";
+        $care_td_kr_str     = " CARE_TD_KR = '".$care_kr."',";
+    }
+    else{
+        $care_kr_str        = " CARE_KR = NULL,";
+        $care_dsn_kr_str    = " CARE_DSN_KR = NULL,";
+        $care_td_kr_str     = " CARE_TD_KR = NULL,";
+    }
+}
+$care_en                    = $_POST['care_en'];
+$care_en_update_flg         = $_POST['care_en_update_flg'];
+$care_en_str = '';
+$care_dsn_en_str = '';
+$care_td_en_str = '';
+if($care_en_update_flg == 'true'){
+    $care_en = str_replace("<p>&nbsp;</p>","",$care_en);
+    if ($care_en != null) {
+        $care_en_str        = " CARE_EN = '".$care_en."',";
+        $care_dsn_en_str    = " CARE_DSN_EN = '".$care_en."',";
+        $care_td_en_str     = " CARE_TD_EN = '".$care_en."',";
+    }
+    else{
+        $care_en_str        = " CARE_EN = NULL,";
+        $care_dsn_en_str    = " CARE_DSN_EN = NULL,";
+        $care_td_en_str     = " CARE_TD_EN = NULL,";
+    }
+}
+$care_cn                    = $_POST['care_cn'];
+$care_cn_update_flg         = $_POST['care_cn_update_flg'];
+$care_cn_str = '';
+$care_dsn_cn_str = '';
+$care_td_cn_str = '';
+if($care_cn_update_flg == 'true'){
+    $care_cn = str_replace("<p>&nbsp;</p>","",$care_cn);
+    if ($care_cn != null) {
+        $care_cn_str        = " CARE_CN = '".$care_cn."',";
+        $care_dsn_cn_str    = " CARE_DSN_CN = '".$care_cn."',";
+        $care_td_cn_str     = " CARE_TD_CN = '".$care_cn."',";
+    }
+    else{
+        $care_cn_str        = " CARE_CN = NULL,";
+        $care_dsn_cn_str    = " CARE_DSN_CN = NULL,";
+        $care_td_cn_str     = " CARE_TD_CN = NULL,";
+    }
+}
+
+$material_kr                = $_POST['material_kr'];
+$material_kr_update_flg     = $_POST['material_kr_update_flg'];
+$material_kr_str = '';
+if($material_kr_update_flg == 'true'){
+    $material_kr = str_replace("<p>&nbsp;</p>","",$material_kr);
+    if ($material_kr != null) {
+        $material_kr_str    = " MATERIAL_KR = '".$material_kr."',";
+    }
+    else{
+        $material_kr_str    = " MATERIAL_KR = NULL,";
+    }
+}
+$material_en                = $_POST['material_en'];
+$material_en_update_flg     = $_POST['material_en_update_flg'];
+$material_en_str = '';
+if($material_en_update_flg == 'true'){
+    $material_en = str_replace("<p>&nbsp;</p>","",$material_en);
+    if ($material_en != null) {
+        $material_en_str    = " MATERIAL_EN = '".$material_en."',";
+    }
+    else{
+        $material_en_str    = " MATERIAL_EN = NULL,";
+    }
+}
+$material_cn                = $_POST['material_cn'];
+$material_cn_update_flg     = $_POST['material_cn_update_flg'];
+$material_cn_str = '';
+if($material_cn_update_flg == 'true'){
+    $material_cn = str_replace("<p>&nbsp;</p>","",$material_cn);
+    if ($material_cn != null) {
+        $material_cn_str    = " MATERIAL_CN = '".$material_cn."',";
+    }
+    else{
+        $material_cn_str    = " MATERIAL_CN = NULL,";
+    }
+}
+$refund_msg_flg             = $_POST['refund_msg_flg'];
+
+$refund_msg_update_flg      = $_POST['refund_msg_update_flg'];
+$refund_msg                 = $_POST['refund_msg'];
+$refund_msg_str = '';
+if ($refund_msg_update_flg == 'true') {
+    $refund_msg_str         = " REFUND_MSG = '".$refund_msg."',";
+}
+
+$refund_kr                  = $_POST['refund_kr'];
+$refund_kr_update_flg       = $_POST['refund_kr_update_flg'];
+$refund_kr_str = '';
+if($refund_kr_update_flg == 'true'){
+    $refund_kr = str_replace("<p>&nbsp;</p>","",$refund_kr);
+    if ($refund_kr != null) {
+        $refund_kr_str      = " REFUND_KR = '".$refund_kr."',";
+    }
+    else{
+        $refund_kr_str      = " REFUND_KR = NULL,";
+    }
+}
+$refund_en                  = $_POST['refund_en'];
+$refund_en_update_flg       = $_POST['refund_en_update_flg'];
+$refund_en_str = '';
+if($refund_en_update_flg == 'true'){
+    $refund_en = str_replace("<p>&nbsp;</p>","",$refund_en);
+    if ($refund_en != null) {
+        $refund_en_str      = " REFUND_EN = '".$refund_en."',";
+    }
+    else{
+        $refund_en_str      = " REFUND_EN = NULL,";
+    }
+}
+$refund_cn                  = $_POST['refund_cn'];
+$refund_cn_update_flg       = $_POST['refund_cn_update_flg'];
+$refund_cn_str = '';
+if($refund_cn_update_flg == 'true'){
+    $refund_cn = str_replace("<p>&nbsp;</p>","",$refund_cn);
+    if ($refund_cn != null) {
+        $refund_cn_str      = " REFUND_CN = '".$refund_cn."',";
+    }
+    else{
+        $refund_cn_str      = " REFUND_CN = NULL,";
+    }
+}
+
+$memo                       = $_POST['memo'];
+$memo_update_flg            = $_POST['memo_update_flg'];
+$memo_str = '';
+if($memo_update_flg == 'true'){
+    $memo = str_replace("<p>&nbsp;</p>","",$memo);
+    if ($memo != null) {
+        $memo_str           = " MEMO = '".$memo."',";
+    }
+    else{
+        $memo_str           = " MEMO = NULL,";
+    }
+}
+
+$seo_exposure_flg           = $_POST['seo_exposure_flg'];
+
+$seo_title_update_flg       = $_POST['seo_title_update_flg'];
+$seo_title                  = $_POST['seo_title'];
+$seo_title_str = '';
+if ($seo_title_update_flg == 'true') {
+    $seo_title_str        = " SEO_TITLE = '".$seo_title."',";
+}
+$seo_author_update_flg      = $_POST['seo_author_update_flg'];
+$seo_author                 = $_POST['seo_author'];
+$seo_author_str = '';
+if ($seo_author_update_flg == 'true') {
+    $seo_author_str        = " SEO_AUTHOR = '".$seo_author."',";
+}
+$seo_description            = $_POST['seo_description'];
+$seo_description_update_flg = $_POST['seo_description_update_flg'];
+$seo_description_str = '';
+if($seo_description_update_flg == 'true'){
+    $seo_description = str_replace("<p>&nbsp;</p>","",$seo_description);
+    if ($seo_description != null) {
+        $seo_description_str    = " SEO_DESCRIPTION = '".$seo_description."',";
+    }
+    else{
+        $seo_description_str    = " SEO_DESCRIPTION = NULL,";
+    }
+}
+$seo_keywords               = $_POST['seo_keywords'];
+$seo_keywords_update_flg    = $_POST['seo_keywords_update_flg'];
+$seo_keywords               = $_POST['seo_keywords'];
+$seo_keywords_str = '';
+if ($seo_keywords_update_flg == 'true') {
+    $seo_keywords_str       = " SEO_KEYWORDS = '".$seo_keywords."',";
+}
+$seo_alt_text               = $_POST['seo_alt_text'];
+$seo_alt_text_update_flg    = $_POST['seo_alt_text_update_flg'];
+$seo_alt_text_str = '';
+if($seo_alt_text_update_flg == 'true'){
+    $seo_alt_text = str_replace("<p>&nbsp;</p>","",$seo_alt_text);
+    if ($seo_alt_text != null) {
+        $seo_alt_text_str   = " SEO_ALT_TEXT = '".$seo_alt_text."',";
+    }
+    else{
+        $seo_alt_text_str   = " SEO_ALT_TEXT = NULL,";
+    }
+}
+
+$product_idx_list           = $_POST['product_idx_list'];
+$option_list_str            = $_POST['option_list_str'];
+
+$filter_cl					= $_POST['filter_cl'];
+$filter_cl_str = "";
+if ($filter_cl != null) {
+	$filter_cl_str = " FILTER_CL = '".implode(",",$filter_cl)."', ";
+}
+
+$filter_ft					= $_POST['filter_ft'];
+$filter_gp					= $_POST['filter_gp'];
+$filter_ln					= $_POST['filter_ln'];
+
+$filter_sz					= $_POST['filter_sz'];
+$filter_sz_str = "";
+if ($filter_sz != null) {
+	$filter_sz_str = " FILTER_SZ = '".implode(",",$filter_sz)."', ";
+}
+
+$db->begin_transaction();
+
+try {
+    if($ordersheet_idx != null){
+
+        //오더시트 항목(세트상품 수정)
+        $preorder_flg               = $_POST['preorder_flg'];
+        $preorder_flg_str           = '';
+        if($preorder_flg != null){
+            $preorder_flg_str       = " PREORDER_FLG = ".$preorder_flg.", ";
+        }
+        $refund_flg                 = $_POST['refund_flg'];
+        $refund_flg_str             = '';
+        if($refund_flg != null){
+            $refund_flg_str         = " REFUND_FLG = ".$refund_flg.", ";
+        }
+
+        $line_idx                   = $_POST['line_idx'];
+        $line_update_flg            = $_POST['line_update_flg'];
+        $line_idx_str               = '';
+        if($line_update_flg == 'true'){
+            $line_idx_str           = " LINE_IDX = ".$line_idx.", ";
+        }
+
+        $material                   = $_POST['material'];
+        $material_update_flg        = $_POST['material_update_flg'];
+        $material_str               = '';
+        if($material_update_flg == 'true'){
+            $material_str           = " MATERIAL = '".$material."', ";
+        }
+        $graphic                    = $_POST['graphic'];
+        $graphic_update_flg         = $_POST['graphic_update_flg'];
+        $graphic_str                = '';
+        if($graphic_update_flg == 'true'){
+            $graphic_str            = " GRAPHIC = '".$graphic."', ";
+        }
+        $fit                        = $_POST['fit'];
+        $fit_update_flg             = $_POST['fit_update_flg'];
+        $fit_str                    = '';
+        if($fit_update_flg == 'true'){
+            $fit_str                = " FIT = '".$fit."', ";
+        }
+        $product_name               = $_POST['product_name'];
+        $product_name_update_flg    = $_POST['product_name_update_flg'];
+        $product_name_str           = '';
+        if($product_name_update_flg == 'true'){
+            $product_name_str       = " PRODUCT_NAME = '".$product_name."', ";
+        }
+        
+        $product_size               = $_POST['product_size'];
+        $product_size_update_flg    = $_POST['product_size_update_flg'];
+        $product_size_str           = '';
+        if($product_size_update_flg == 'true'){
+            $product_size_str       = " PRODUCT_SIZE = '".$product_size."', ";
+        }
+        $color                      = $_POST['color'];
+        $color_update_flg           = $_POST['color_update_flg'];
+        $color_str                  = '';
+        if($color_update_flg == 'true'){
+            $color_str              = " COLOR = '".$color."', ";
+        }
+        $color_rgb                  = $_POST['color_rgb'];
+        $color_rgb_update_flg       = $_POST['color_rgb_update_flg'];
+        $color_rgb_str              = '';
+        if($color_rgb_update_flg == 'true'){
+            $color_rgb_str          = " COLOR_RGB = '".$color_rgb."', ";
+        }
+        $pantone_code               = $_POST['pantone_code'];
+        $pantone_code_update_flg    = $_POST['pantone_code_update_flg'];
+        $pantone_code_str           = '';
+        if($pantone_code_update_flg == 'true'){
+            $pantone_code_str       = " PANTONE_CODE = '".$pantone_code."', ";
+        }
+        $wkla_idx                   = $_POST['wkla_idx'];
+        $wkla_update_flg            = $_POST['wkla_update_flg'];
+        $wkla_idx_str               = '';
+        if($wkla_update_flg == 'true'){
+            $wkla_idx_str           = " WKLA_IDX = ".$wkla_idx.", ";
+        }
+        $load_box_idx               = $_POST['load_box_idx'];
+        $load_box_update_flg        = $_POST['load_box_update_flg'];
+        $load_box_idx_str           = '';
+        if($load_box_update_flg == 'true'){
+            $load_box_idx_str       = " LOAD_BOX_IDX = ".$load_box_idx.", ";
+        }
+
+        $load_weight                = $_POST['load_weight'];
+        $load_weight_update_flg     = $_POST['load_weight_update_flg'];
+        $load_weight_str            = '';
+        if($load_weight_update_flg == 'true'){
+            if($load_weight == null){
+                $load_weight = 'NULL';
+            }
+            $load_weight_str        = " LOAD_WEIGHT = ".$load_weight.", ";
+        }
+        $load_qty                   = $_POST['load_qty'];
+        $load_qty_update_flg        = $_POST['load_qty_update_flg'];
+        $load_qty_str               = '';
+        if($load_qty_update_flg == 'true'){
+            if($load_weight == null){
+                $load_weight = 'NULL';
+            }
+            $load_qty_str           = " LOAD_QTY = ".$load_qty.", ";
+        }
+
+        $sub_material_update_flg            = $_POST['sub_material_update_flg'];
+        if($sub_material_update_flg == 'true'){
+            $td_sub_material_idx            = $_POST['td_sub_material_idx'];
+            $td_sub_material_idx_str        = '';
+            if($td_sub_material_idx == NULL || !is_array($td_sub_material_idx)){
+                $td_sub_material_idx        = 'NULL';
+            }
+            else{
+                $td_sub_material_idx        = "'".implode(",", $td_sub_material_idx)."'";
+            }
+            $td_sub_material_idx_str        = " TD_SUB_MATERIAL_IDX = ".$td_sub_material_idx.", ";
+
+            $delivery_sub_material_idx      = $_POST['delivery_sub_material_idx'];
+            $delivery_sub_material_idx_str  = '';
+            if($delivery_sub_material_idx == NULL || !is_array($delivery_sub_material_idx)){
+                $delivery_sub_material_idx = 'NULL';
+            }
+            else{
+                $delivery_sub_material_idx = "'".implode(",", $delivery_sub_material_idx)."'";
+            }
+            $delivery_sub_material_idx_str        = " DELIVERY_SUB_MATERIAL_IDX = ".$delivery_sub_material_idx.", ";
+        }
+
+        $ordersheet_sql  = "
+            UPDATE dev.ORDERSHEET_MST
+            SET
+                ".$style_code_str."
+                ".$color_code_str."
+                ".$product_code_str."
+                ".$product_size_str."
+                ".$preorder_flg_str."
+                ".$refund_flg_str."
+                ".$line_idx_str."
+                ".$material_str."
+                ".$graphic_str."
+                ".$fit_str."
+                ".$product_name_str."
+                ".$color_str."
+                ".$color_rgb_str."
+                ".$pantone_code_str."
+                ".$price_kr_str."
+                ".$price_en_str."
+                ".$price_cn_str."
+                ".$wkla_idx_str."
+                ".$detail_kr_str."
+                ".$detail_en_str."
+                ".$detail_cn_str."
+                ".$care_dsn_kr_str."
+                ".$care_dsn_en_str."
+                ".$care_dsn_cn_str."
+                ".$care_td_kr_str."
+                ".$care_td_en_str."
+                ".$care_td_cn_str."
+                ".$material_kr_str."
+                ".$material_en_str."
+                ".$material_cn_str."
+                ".$load_box_idx_str."
+                ".$deliver_box_idx_str."
+                ".$load_weight_str."
+                ".$load_qty_str."
+                ".$td_sub_material_idx_str."
+                ".$delivery_sub_material_idx_str."
+                UPDATE_DATE =   NOW()
+            WHERE
+                IDX = ".$ordersheet_idx."
+            ";
+        $db->query($ordersheet_sql);
+        $ordersheet_update_cnt = 0;
+        $ordersheet_update_cnt = $db->mysqli_affected_rows();
+        
+        if ($ordersheet_update_cnt > 0) {
+            $product_sql = "
+                    UPDATE
+						dev.SHOP_PRODUCT
+                    SET
+                        ".$style_code_str."
+                        ".$color_code_str."
+                        ".$product_code_str."
+                        ".$shop_product_name_str."
+                        ".$md_category_1_str."
+                        ".$md_category_2_str."
+                        ".$md_category_3_str."
+                        ".$md_category_4_str."
+                        ".$md_category_5_str."
+                        ".$md_category_6_str."
+                        ".$category_idx_str."
+                        ".$mileage_flg_str."
+                        ".$exclusive_flg_str."
+                        ".$price_kr_str."
+                        ".$discount_kr_str."
+                        ".$sales_price_kr_str."
+                        ".$price_en_str."
+                        ".$discount_en_str."
+                        ".$sales_price_en_str."
+                        ".$price_cn_str."
+                        ".$discount_cn_str."
+                        ".$sales_price_cn_str."
+                        ".$limit_member_str."
+                        ".$limit_purchase_qty_flg_str."
+                        ".$limit_purchase_qty_min_str."
+                        ".$limit_purchase_qty_max_str."
+                        ".$product_keyword_str."
+                        ".$product_tag_str."
+                        ".$clearance_idx_str."
+                        ".$relevant_idx_str."
+                        ".$sold_out_qty_str."
+                        ".$care_kr_str."
+                        ".$care_en_str."
+                        ".$care_cn_str."
+                        ".$detail_kr_str."
+                        ".$detail_en_str."
+                        ".$detail_cn_str."
+                        ".$material_kr_str."
+                        ".$material_en_str."
+                        ".$material_cn_str."
+                        ".$refund_flg_str."
+                        ".$refund_msg_flg_str."
+                        ".$refund_msg_str."
+                        ".$refund_kr_str."
+                        ".$refund_en_str."
+                        ".$refund_cn_str."
+                        ".$memo_str."
+                        ".$seo_exposure_flg_str."
+                        ".$seo_title_str."
+                        ".$seo_author_str."
+                        ".$seo_description_str."
+                        ".$seo_keywords_str."
+                        ".$seo_alt_text_str."
+						".$filter_cl_str."
+						FILTER_FT = ".$filter_ft.",
+						FILTER_GP = ".$filter_gp.",
+						FILTER_LN = ".$filter_ln.",
+						".$filter_sz_str."
+                        UPDATE_DATE = NOW()
+                    WHERE
+                        IDX = ".$product_idx." ";
+        }
+        $db->query($product_sql);
+        $prod_update_cnt = $db->mysqli_affected_rows();
+        
+        if ($prod_update_cnt > 0) {
+            $delete_sql = "
+                    DELETE FROM 
+                        dev.SET_PRODUCT
+                    WHERE
+                        SET_PRODUCT_IDX = ".$product_idx." ";
+            $db->query($delete_sql);
+
+            for ($i=0; $i<count($product_idx_list); $i++) {
+                $option_idx = '';
+                if($option_list_str[$i] != null){
+                    $option_idx = $option_list_str[$i];
+                };
+                $set_product_sql = "INSERT INTO
+                                        dev.SET_PRODUCT
+                                        (
+                                            SET_PRODUCT_IDX,
+                                            PRODUCT_IDX,
+                                            OPTION_IDX,
+                                            CREATER,
+                                            UPDATER
+                                        ) VALUES (
+                                            ".$product_idx.",
+                                            ".$product_idx_list[$i].",
+                                            '".$option_idx."',
+                                            'Admin',
+                                            'Admin'
+                                        )";
+                $db->query($set_product_sql);
+            }
+        }
+    }
+    else{
+        if ($product_idx != null) {
+            $product_sql = "
+                    UPDATE dev.SHOP_PRODUCT
+                    SET
+                        ".$style_code_str."
+                        ".$color_code_str."
+                        ".$product_code_str."
+                        ".$shop_product_name_str."
+                        ".$md_category_1_str."
+                        ".$md_category_2_str."
+                        ".$md_category_3_str."
+                        ".$md_category_4_str."
+                        ".$md_category_5_str."
+                        ".$md_category_6_str."
+                        ".$category_idx_str."
+                        ".$mileage_flg_str."
+                        ".$exclusive_flg_str."
+                        ".$price_kr_str."
+                        ".$discount_kr_str."
+                        ".$sales_price_kr_str."
+                        ".$price_en_str."
+                        ".$discount_en_str."
+                        ".$sales_price_en_str."
+                        ".$price_cn_str."
+                        ".$discount_cn_str."
+                        ".$sales_price_cn_str."
+                        ".$limit_member_str."
+                        ".$limit_purchase_qty_flg_str."
+                        ".$limit_purchase_qty_min_str."
+                        ".$limit_purchase_qty_max_str."
+                        ".$product_keyword_str."
+                        ".$product_tag_str."
+                        ".$clearance_idx_str."
+                        ".$relevant_idx_str."
+                        ".$sold_out_qty_str."
+                        ".$care_kr_str."
+                        ".$care_en_str."
+                        ".$care_cn_str."
+                        ".$detail_kr_str."
+                        ".$detail_en_str."
+                        ".$detail_cn_str."
+                        ".$material_kr_str."
+                        ".$material_en_str."
+                        ".$material_cn_str."
+                        ".$refund_flg_str."
+                        ".$refund_msg_flg_str."
+                        ".$refund_msg_str."
+                        ".$refund_kr_str."
+                        ".$refund_en_str."
+                        ".$refund_cn_str."
+                        ".$memo_str."
+                        ".$seo_exposure_flg_str."
+                        ".$seo_title_str."
+                        ".$seo_author_str."
+                        ".$seo_description_str."
+                        ".$seo_keywords_str."
+                        ".$seo_alt_text_str."
+						".$filter_cl_str."
+						FILTER_FT = ".$filter_ft.",
+						FILTER_GP = ".$filter_gp.",
+						FILTER_LN = ".$filter_ln.",
+						".$filter_sz_str."
+                        UPDATE_DATE = NOW()
+                    WHERE
+                        IDX = ".$product_idx." ";
+        }
+        $db->query($product_sql);
+    }
+    if($_POST['ftp_img_flg'] == 'true'){
+        $img_url = $_POST['img_url'];
+        $tmp_arr = explode('/',$img_url);
+
+        $ftp_dir = $tmp_arr[count($tmp_arr)-2];
+        $product_dir_name = $tmp_arr[count($tmp_arr)-1];
+        
+        
+        //"/ader_prod_img";
+        $server_img_path = "/var/www/admin/www/images/product/";
+        
+        $upload_file = url_to_file_up($ftp_dir, $server_img_path, $product_dir_name);
+        
+        if ($upload_file != null) {
+            for ($i=0; $i<count($upload_file); $i++) {
+                $img_type = $upload_file[$i]['img_type'];
+                $img_url = $img_location = $upload_file[$i]['url'];
+                $img_location = "";
+                if($upload_file[$i]['img_size'] == 'L'){
+                    $img_location = $upload_file[$i]['url'];
+                } else{
+                    $img_location = $server_img_path.$upload_file[$i]['filename'];
+                }
+                $img_size = $upload_file[$i]['img_size'];
+                
+                $img_sql = "
+                            INSERT INTO
+                                dev.PRODUCT_IMG
+                            (
+                                PRODUCT_IDX,
+                                PRODUCT_CODE,
+                                IMG_TYPE,
+                                IMG_SIZE,
+                                IMG_URL,
+                                IMG_LOCATION,
+                                CREATE_DATE,
+                                CREATER,
+                                UPDATE_DATE,
+                                UPDATER
+                            )
+                            VALUES
+                            (
+                                ".$product_idx.",
+                                '".$product_code."',
+                                '".$img_type."',
+                                '".$img_size."',
+                                '".$img_url."',
+                                '".$img_location."',
+                                NOW(),
+                                'Admin',
+                                NOW(),
+                                'Admin'
+                            )";
+                $db->query($img_sql);
+            }
+        }
+    }
+    $db->commit();
+    
+    $json_result['code'] = 200;
+    return $json_result;
+} 
+catch(mysqli_sql_exception $exception){
+    echo $exception->getMessage();
+    $json_result['code'] = 301;
+    $db->rollback();
+    $msg = "등록작업에 실패했습니다.";
 }
 
-$md_category_2 = $_POST['md_category_2'];
-$md_category_2_arr = array();
-if ($md_category_2 != null) {
-	$md_category_2_arr[0] = ' MD_CATEGORY_2 = ';
-	$md_category_2_arr[1] = $md_category_2.",";
-}
-
-$md_category_3 = $_POST['md_category_3'];
-$md_category_3_arr = array();
-if ($md_category_3 != null) {
-	$md_category_3_arr[0] = ' MD_CATEGORY_3 = ';
-	$md_category_3_arr[1] = $md_category_3.",";
-}
-
-$md_category_4 = $_POST['md_category_4'];
-$md_category_4_arr = array();
-if ($md_category_4 != null) {
-	$md_category_4_arr[0] = ' MD_CATEGORY_4 = ';
-	$md_category_4_arr[1] = $md_category_4.",";
-}
-
-$md_category_5 = $_POST['md_category_5'];
-$md_category_5_arr = array();
-if ($md_category_5 != null) {
-	$md_category_5_arr[0] = ' MD_CATEGORY_5 = ';
-	$md_category_5_arr[1] = $md_category_5.",";
-}
-
-$md_category_6 = $_POST['md_category_6'];
-$md_category_6_arr = array();
-if ($md_category_6 != null) {
-	$md_category_6_arr[0] = ' MD_CATEGORY_6 = ';
-	$md_category_6_arr[1] = $md_category_6.",";
-}
-
-$category_idx = $_POST['category_idx'];
-$category_idx_arr = array();
-if ($category_idx != null) {
-	$category_idx_arr[0] = ' CATEGORY_IDX = ';
-	$category_idx_arr[1] = $category_idx.",";
-}
-
-$sales_price_kr = $_POST['sales_price_kr'];
-$sales_price_kr_arr = array();
-if ($sales_price_kr != null && $sales_price_kr > 0) {
-	$sales_price_kr_arr[0] = ' SALES_PRICE_KR = ';
-	$sales_price_kr_arr[1] = $sales_price_kr.",";
-}
-
-$sales_price_en = $_POST['sales_price_en'];
-$sales_price_en_arr = array();
-if ($sales_price_en != null && $sales_price_en > 0) {
-	$sales_price_en_arr[0] = ' SALES_PRICE_EN = ';
-	$sales_price_en_arr[1] = $sales_price_en.",";
-}
-
-$sales_price_cn = $_POST['sales_price_cn'];
-$sales_price_cn_arr = array();
-if ($sales_price_cn != null && $sales_price_cn > 0) {
-	$sales_price_cn_arr[0] = ' SALES_PRICE_CN = ';
-	$sales_price_cn_arr[1] = $sales_price_cn.",";
-}
-
-$option_stock_set = $_POST['option_stock_set'];
-$option_stock_set_arr = array();
-if ($option_stock_set != null) {
-	$option_stock_set_arr[0] = ' OPTION_STOCK_SET = ';
-	$option_stock_set_arr[1] = "'".$option_stock_set."',";
-}
-
-$limit_purchase_member = $_POST['limit_purchase_member'];
-$limit_purchase_member_arr = array();
-if ($limit_purchase_member != null) {
-	$limit_purchase_member_arr[0] = ' LIMIT_PURCHASE_MEMBER = ';
-	$tmp_str = implode(',',$limit_purchase_member);
-	$limit_purchase_member_arr[1] = "'".$tmp_str."',";
-}
-
-$limit_purchase_single = $_POST['limit_purchase_single'];
-$limit_purchase_single_arr = array();
-if ($limit_purchase_single != null) {
-	$limit_purchase_single_arr[0] = ' LIMIT_PURCHASE_SINGLE = ';
-	$limit_purchase_single_arr[1] = $limit_purchase_single.",";
-}
-
-$limit_purchase_qty_min_num = $_POST['limit_purchase_qty_min_num'];
-$limit_purchase_qty_min_num_arr = array();
-if ($limit_purchase_qty_min_num != null) {
-	$limit_purchase_qty_min_num_arr[0] = ' LIMIT_PURCHASE_QTY_MIN_NUM = ';
-	$limit_purchase_qty_min_num_arr[1] = $limit_purchase_qty_min_num.",";
-}
-
-$limit_purchase_qty_max_num = $_POST['limit_purchase_qty_max_num'];
-$limit_purchase_qty_max_num_arr = array();
-if ($limit_purchase_qty_max_num != null) {
-	$limit_purchase_qty_max_num_arr[0] = ' LIMIT_PURCHASE_QTY_MAX_NUM = ';
-	$limit_purchase_qty_max_num_arr[1] = $limit_purchase_qty_max_num.",";
-}
-
-$detail_refund_kr = $_POST['detail_refund_kr'];
-$detail_refund_kr = str_replace("<p>&nbsp;</p>","",$detail_refund_kr);
-$detail_refund_kr_arr = array();
-if ($detail_refund_kr != null) {
-	$detail_refund_kr_arr[0] = ' DETAIL_REFUND_KR = ';
-	$detail_refund_kr_arr[1] = "'".$detail_refund_kr."',";
-}
-
-$detail_refund_en = $_POST['detail_refund_en'];
-$detail_refund_en = str_replace("<p>&nbsp;</p>","",$detail_refund_en);
-$detail_refund_en_arr = array();
-if ($detail_refund_en != null) {
-	$detail_refund_en_arr[0] = ' DETAIL_REFUND_EN = ';
-	$detail_refund_en_arr[1] = "'".$detail_refund_en."',";
-}
-
-$detail_refund_cn = $_POST['detail_refund_cn'];
-$detail_refund_cn = str_replace("<p>&nbsp;</p>","",$detail_refund_cn);
-$detail_refund_cn_arr = array();
-if ($detail_refund_cn != null) {
-	$detail_refund_cn_arr[0] = ' DETAIL_REFUND_CN = ';
-	$detail_refund_cn_arr[1] = "'".$detail_refund_cn."',";
-}
-
-$product_keyword = $_POST['product_keyword'];
-$product_keyword_arr = array();
-if ($product_keyword != null) {
-	$product_keyword_arr[0] = ' PRODUCT_KEYWORD = ';
-	$product_keyword_arr[1] = "'".$product_keyword."',";
-}
-
-$product_tag = $_POST['product_tag'];
-$product_tag_arr = array();
-if ($product_tag != null) {
-	$product_tag_arr[0] = ' PRODUCT_TAG = ';
-	$product_tag_arr[1] = "'".implode(",",$product_tag)."', ";
-}
-
-$mileage_flg = $_POST['mileage_flg'];
-$mileage_flg_arr = array();
-if ($mileage_flg != null) {
-	$mileage_flg_arr[0] = ' MILEAGE_FLG = ';
-	$mileage_flg_arr[1] = $mileage_flg.",";
-}
-
-$img_product_detail = $_POST['img_product_detail'];
-$img_product_detail = str_replace("<p>&nbsp;</p>","",$img_product_detail);
-$img_product_detail_arr = array();
-if ($img_product_detail != null) {
-	$img_product_detail_arr[0] = '';
-	$img_product_detail_arr[1] = "'".$img_product_detail."'";
-}
-
-$img_wear_detail = $_POST['img_wear_detail'];
-$img_wear_detail = str_replace("<p>&nbsp;</p>","",$img_wear_detail);
-$img_wear_detail_arr = array();
-if ($img_wear_detail != null) {
-	$img_wear_detail_arr[0] = '';
-	$img_wear_detail_arr[1] = "'".$img_wear_detail."'";
-}
-
-//판매정보 - 배송정보
-$hs_code = $_POST['hs_code'];
-$hs_code_arr = array();
-if ($hs_code != null) {
-	$hs_code_arr[0] = ' HS_CODE = ';
-	$hs_code_arr[1] = "'".$hs_code."',";
-}
-
-$product_total_weight = $_POST['product_total_weight'];
-$product_total_weight_arr = array();
-if ($product_total_weight != null) {
-	$product_total_weight_arr[0] = ' PRODUCT_TOTAL_WEIGHT = ';
-	$product_total_weight_arr[1] = $product_total_weight.",";
-}
-
-$product_division = $_POST['product_division'];
-$product_division_arr = array();
-if ($product_division != null) {
-	$product_division_arr[0] = ' PRODUCT_DIVISION = ';
-	$product_division_arr[1] = "'".$product_division."',";
-}
-
-$product_material_kr = $_POST['product_material_kr'];
-$product_material_kr_arr = array();
-if ($product_material_kr != null) {
-	$product_material_kr_arr[0] = ' PRODUCT_MATERIAL_KR = ';
-	$product_material_kr_arr[1] = "'".$product_material_kr."',";
-}
-
-$product_material_en = $_POST['product_material_en'];
-$product_material_en_arr = array();
-if ($product_material_en != null) {
-	$product_material_en_arr[0] = ' PRODUCT_MATERIAL_EN = ';
-	$product_material_en_arr[1] = "'".$product_material_en."',";
-}
-
-$fabric = $_POST['fabric'];
-$fabric_arr = array();
-if ($fabric != null) {
-	$fabric_arr[0] = ' FABRIC = ';
-	$fabric_arr[1] = "'".$fabric."',";
-}
-
-
-//판매정보 - 제작정보
-$manufacturer = $_POST['manufacturer'];
-$manufacturer_arr = array();
-if ($manufacturer != null) {
-	$manufacturer_arr[0] = ' MANUFACTURER = ';
-	$manufacturer_arr[1] = "'".$manufacturer."',";
-}
-
-$supplier = $_POST['supplier'];
-$supplier_arr = array();
-if ($supplier != null) {
-	$supplier_arr[0] = ' SUPPLIER = ';
-	$supplier_arr[1] = "'".$supplier."',";
-}
-
-$origin_country = $_POST['origin_country'];
-$origin_country_arr = array();
-if ($origin_country != null) {
-	$origin_country_arr[0] = ' ORIGIN_COUNTRY = ';
-	$origin_country_arr[1] = "'".$origin_country."',";
-}
-
-$brand = $_POST['brand'];
-$brand_arr = array();
-if ($brand != null) {
-	$brand_arr[0] = ' BRAND = ';
-	$brand_arr[1] = "'".$brand."',";
-}
-
-$trend = $_POST['trend'];
-$trend_arr = array();
-if ($trend != null) {
-	$trend_arr[0] = ' TREND = ';
-	$trend_arr[1] = "'".$trend."',";
-}
-
-$self_classification = $_POST['self_classification'];
-$self_classification_arr = array();
-if ($self_classification != null) {
-	$self_classification_arr[0] = ' SELF_CLASSIFICATION = ';
-	$self_classification_arr[1] = "'".$self_classification."',";
-}
-
-$manufacturing_date = $_POST['manufacturing_date'];
-$manufacturing_date_arr = array();
-if ($manufacturing_date != null) {
-	$manufacturing_date_arr[0] = ' MANUFACTURING_DATE = ';
-	$manufacturing_date_arr[1] = "'".$manufacturing_date."',";
-}
-
-$release_date = $_POST['release_date'];
-$release_date_arr = array();
-if ($release_date != null) {
-	$release_date_arr[0] = ' RELEASE_DATE = ';
-	$release_date_arr[1] = "'".$release_date."',";
-}
-
-$validate_start_date = $_POST['validate_start_date'];
-$validate_start_date_arr = array();
-if ($validate_start_date != null) {
-	$validate_start_date_arr[0] = ' VALIDATE_START_DATE = ';
-	$validate_start_date_arr[1] = "'".$validate_start_date."',";
-}
-
-$validate_end_date = $_POST['validate_end_date'];
-$validate_end_date_arr = array();
-if ($validate_end_date != null) {
-	$validate_end_date_arr[0] = ' VALIDATE_END_DATE = ';
-	$validate_end_date_arr[1] = "'".$validate_end_date."',";
-}
-
-$product_width = $_POST['product_width'];
-$product_width_arr = array();
-if ($product_width != null) {
-	$product_width_arr[0] = ' PRODUCT_WIDTH = ';
-	$product_width_arr[1] = $product_width.",";
-}
-
-$product_depth = $_POST['product_depth'];
-$product_depth_arr = array();
-if ($product_depth != null) {
-	$product_depth_arr[0] = ' PRODUCT_DEPTH = ';
-	$product_depth_arr[1] = $product_depth.",";
-}
-
-$product_height = $_POST['product_height'];
-$product_height_arr = array();
-if ($product_height != null) {
-	$product_height_arr[0] = ' PRODUCT_HEIGHT = ';
-	$product_height_arr[1] = $product_height.",";
-}
-
-$product_volume = $_POST['product_volume'];
-$product_volume_arr = array();
-if ($product_volume != null) {
-	$product_volume_arr[0] = ' PRODUCT_VOLUME = ';
-	$product_volume_arr[1] = $product_volume.",";
-}
-
-$relevant_idx = $_POST['relevant_idx'];
-$relevant_idx_arr = array();
-if ($relevant_idx != null) {
-	$relevant_idx_arr[0] = ' RELEVANT_IDX = ';
-	$relevant_idx_arr[1] = "'".$relevant_idx."',";
-}
-
-$release_start_date = $_POST['release_start_date'];
-$release_start_date_arr = array();
-if ($release_start_date != null) {
-	$release_start_date_arr[0] = ' RELEASE_START_DATE =  ';
-	$release_start_date_arr[1] = "'".$release_start_date."',";
-}
-
-$release_end_date = $_POST['release_end_date'];
-$release_end_date_arr = array();
-if ($release_end_date != null) {
-	$release_end_date_arr[0] = ' RELEASE_END_DATE =  ';
-	$release_end_date_arr[1] = "'".$release_end_date."',";
-}
-
-$display_start_date = $_POST['display_start_date'];
-$display_start_date_arr = array();
-if ($display_start_date != null) {
-	$display_start_date_arr[0] = ' DISPLAY_START_DATE =  ';
-	$display_start_date_arr[1] = "'".$display_start_date."',";
-}
-
-$display_end_date = $_POST['display_end_date'];
-$display_end_date_arr = array();
-if ($display_end_date != null) {
-	$display_end_date_arr[0] = ' DISPLAY_END_DATE = ';
-	$display_end_date_arr[1] = "'".$display_end_date."',";
-}
-
-$non_release_reason = $_POST['non_release_reason'];
-$non_release_reason_arr = array();
-if ($non_release_reason != null) {
-	$non_release_reason_arr[0] = ' NON_RELEASE_REASON = ';
-	$non_release_reason_arr[1] = "'".$non_release_reason."',";
-}
-
-$seo_exposure_flg = $_POST['seo_exposure_flg'];
-$seo_exposure_flg_arr = array();
-if ($seo_exposure_flg != null) {
-	$seo_exposure_flg_arr[0] = ' SEO_EXPOSURE_FLG = ';
-	$seo_exposure_flg_arr[1] = $seo_exposure_flg.", ";
-}
-
-$seo_title = $_POST['seo_title'];
-$seo_title_arr = array();
-if ($seo_title != null) {
-	$seo_title_arr[0] = ' SEO_TITLE = ';
-	$seo_title_arr[1] = "'".$seo_title."', ";
-}
-
-$seo_author = $_POST['seo_author'];
-$seo_author_arr = array();
-if ($seo_author != null) {
-	$seo_author_arr[0] = ' SEO_AUTHOR = ';
-	$seo_author_arr[1] = "'".$seo_author."', ";
-}
-
-$seo_description = $_POST['seo_description'];
-$seo_description = str_replace("<p>&nbsp;</p>","",$seo_description);
-$seo_description_arr = array();
-if ($seo_description != null) {
-	$seo_description_arr[0] = ' SEO_DESCRIPTION = ';
-	$seo_description_arr[1] = "'".$seo_description."', ";
-}
-
-$seo_keywords = $_POST['seo_keywords'];
-$seo_keywords_arr = array();
-if ($seo_keywords != null) {
-	$seo_keywords_arr[0] = ' SEO_KEYWORDS = ';
-	$seo_keywords_arr[1] = "'".$seo_keywords."', ";
-}
-
-$seo_alt_text = $_POST['seo_alt_text'];
-$seo_alt_text_arr = array();
-if ($seo_alt_text != null) {
-	$seo_alt_text_arr[0] = ' SEO_ALT_TEXT = ';
-	$seo_alt_text_arr[1] = "'".$seo_alt_text."', ";
-}
-
-$tables = '
-	'.$_TABLE['SHOP_PRODUCT'].' 		AS A
-';
-
-//검색 유형 - 디폴트
-$sql = 	"UPDATE
-			dev.SHOP_PRODUCT
-		SET
-			".$pl_lrg_category_arr[0].$pl_lrg_category_arr[1]."
-			".$pl_mdl_category_arr[0].$pl_mdl_category_arr[1]."
-			".$pl_sml_category_arr[0].$pl_sml_category_arr[1]."
-			".$pl_dtl_category_arr[0].$pl_dtl_category_arr[1]."
-			".$material_arr[0].$material_arr[1]."
-			".$graphic_arr[0].$graphic_arr[1]."
-			".$fit_arr[0].$fit_arr[1]."
-			".$product_name_arr[0].$product_name_arr[1]."
-			".$size_arr[0].$size_arr[1]."
-			".$color_arr[0].$color_arr[1]."
-			".$color_code_arr[0].$color_code_arr[1]."
-			".$navigation_arr[0].$navigation_arr[1]."
-			".$limit_purchase_member_ext_arr[0].$limit_purchase_member_ext_arr[1]."
-			".$wkla_arr[0].$wkla_arr[1]."
-			".$material_kr_arr[0].$material_kr_arr[1]."
-			".$material_en_arr[0].$material_en_arr[1]."
-			".$material_cn_arr[0].$material_cn_arr[1]."
-			".$size_detail_model_arr[0].$size_detail_model_arr[1]."
-			".$size_detail_wear_arr[0].$size_detail_wear_arr[1]."
-			".$size_detail_a1_kr_arr[0].$size_detail_a1_kr_arr[1]."
-			".$size_detail_a2_kr_arr[0].$size_detail_a2_kr_arr[1]."
-			".$size_detail_a3_kr_arr[0].$size_detail_a3_kr_arr[1]."
-			".$size_detail_a4_kr_arr[0].$size_detail_a4_kr_arr[1]."
-			".$size_detail_a5_kr_arr[0].$size_detail_a5_kr_arr[1]."
-			".$size_detail_onesize_kr_arr[0].$size_detail_onesize_kr_arr[1]."
-			".$size_detail_a1_en_arr[0].$size_detail_a1_en_arr[1]."
-			".$size_detail_a2_en_arr[0].$size_detail_a2_en_arr[1]."
-			".$size_detail_a3_en_arr[0].$size_detail_a3_en_arr[1]."
-			".$size_detail_a4_en_arr[0].$size_detail_a4_en_arr[1]."
-			".$size_detail_a5_en_arr[0].$size_detail_a5_en_arr[1]."
-			".$size_detail_onesize_en_arr[0].$size_detail_onesize_en_arr[1]."
-			".$size_detail_a1_cn_arr[0].$size_detail_a1_cn_arr[1]."
-			".$size_detail_a2_cn_arr[0].$size_detail_a2_cn_arr[1]."
-			".$size_detail_a3_cn_arr[0].$size_detail_a3_cn_arr[1]."
-			".$size_detail_a4_cn_arr[0].$size_detail_a4_cn_arr[1]."
-			".$size_detail_a5_cn_arr[0].$size_detail_a5_cn_arr[1]."
-			".$size_detail_onesize_cn_arr[0].$size_detail_onesize_cn_arr[1]."
-			".$care_kr_arr[0].$care_kr_arr[1]."
-			".$care_en_arr[0].$care_en_arr[1]."
-			".$care_cn_arr[0].$care_cn_arr[1]."
-			".$detail_kr_arr[0].$detail_kr_arr[1]."
-			".$detail_en_arr[0].$detail_en_arr[1]."
-			".$detail_cn_arr[0].$detail_cn_arr[1]."
-			".$price_kr_arr[0].$price_kr_arr[1]."
-			".$price_kr_gb_arr[0].$price_kr_gb_arr[1]."
-			".$price_en_arr[0].$price_en_arr[1]."
-			".$price_cn_arr[0].$price_cn_arr[1]."
-			".$md_category_1_arr[0].$md_category_1_arr[1]."
-			".$md_category_2_arr[0].$md_category_2_arr[1]."
-			".$md_category_3_arr[0].$md_category_3_arr[1]."
-			".$md_category_4_arr[0].$md_category_4_arr[1]."
-			".$md_category_5_arr[0].$md_category_5_arr[1]."
-			".$md_category_6_arr[0].$md_category_6_arr[1]."
-			".$category_idx_arr[0].$category_idx_arr[1]."
-			".$sales_price_kr_arr[0].$sales_price_kr_arr[1]."
-			".$sales_price_en_arr[0].$sales_price_en_arr[1]."
-			".$sales_price_cn_arr[0].$sales_price_cn_arr[1]."
-			".$option_stock_set_arr[0].$option_stock_set_arr[1]."
-			".$limit_purchase_member_arr[0].$limit_purchase_member_arr[1]."
-			".$limit_purchase_single_arr[0].$limit_purchase_single_arr[1]."
-			".$limit_purchase_qty_min_num_arr[0].$limit_purchase_qty_min_num_arr[1]."
-			".$limit_purchase_qty_max_num_arr[0].$limit_purchase_qty_max_num_arr[1]."
-			".$detail_refund_kr_arr[0].$detail_refund_kr_arr[1]."
-			".$detail_refund_en_arr[0].$detail_refund_en_arr[1]."
-			".$detail_refund_cn_arr[0].$detail_refund_cn_arr[1]."
-			".$product_keyword_arr[0].$product_keyword_arr[1]."
-			".$product_tag_arr[0].$product_tag_arr[1]."
-			".$mileage_flg_arr[0].$mileage_flg_arr[1]."
-			".$hs_code_arr[0].$hs_code_arr[1]."
-			".$product_total_weight_arr[0].$product_total_weight_arr[1]."
-			".$product_division_arr[0].$product_division_arr[1]."
-			".$product_material_kr_arr[0].$product_material_kr_arr[1]."
-			".$product_material_en_arr[0].$product_material_en_arr[1]."
-			".$fabric_arr[0].$fabric_arr[1]."
-			".$manufacturer_arr[0].$manufacturer_arr[1]."
-			".$supplier_arr[0].$supplier_arr[1]."
-			".$origin_country_arr[0].$origin_country_arr[1]."
-			".$brand_arr[0].$brand_arr[1]."
-			".$trend_arr[0].$trend_arr[1]."
-			".$self_classification_arr[0].$self_classification_arr[1]."
-			".$manufacturing_date_arr[0].$manufacturing_date_arr[1]."
-			".$release_date_arr[0].$release_date_arr[1]."
-			".$validate_start_date_arr[0].$validate_start_date_arr[1]."
-			".$validate_end_date_arr[0].$validate_end_date_arr[1]."
-			".$product_width_arr[0].$product_width_arr[1]."
-			".$product_depth_arr[0].$product_depth_arr[1]."
-			".$product_height_arr[0].$product_height_arr[1]."
-			".$product_volume_arr[0].$product_volume_arr[1]."
-			".$relevant_idx_arr[0].$relevant_idx_arr[1]."
-			".$release_start_date_arr[0].$release_start_date_arr[1]."
-			".$release_end_date_arr[0].$release_end_date_arr[1]."
-			".$display_start_date_arr[0].$display_start_date_arr[1]."
-			".$display_end_date_arr[0].$display_end_date_arr[1]."
-			".$non_release_reason_arr[0].$non_release_reason_arr[1]."
-			".$seo_exposure_flg_arr[0].$seo_exposure_flg_arr[1]."
-			".$seo_title_arr[0].$seo_title_arr[1]."
-			".$seo_author_arr[0].$seo_author_arr[1]."
-			".$seo_description_arr[0].$seo_description_arr[1]."
-			".$seo_keywords_arr[0].$seo_keywords_arr[1]."
-			".$seo_alt_text_arr[0].$seo_alt_text_arr[1]."
-			UPDATE_DATE = NOW(),
-			UPDATER = 'Admin'
-		WHERE
-			IDX IN (".$idx_list.")";
-$db->query($sql);
-
-if ($idx_list != null) {
-	if ($_FILES['img_outfit']['size'] > 0 || $_FILES['img_product']['size'] > 0 || $_FILES['img_wear']['size'] > 0) {
-		// 상품 이미지 업로드
-		$path = "/var/www/admin/www/images/product/";
-		if($_FILES['img_outfit']['size'] > 0) {
-			$update_sql = "UPDATE dev.PRODUCT_IMG SET DEL_FLG = TRUE WHERE IMG_TYPE = 'outfit' AND PRODUCT_IDX IN (".$idx_list.")";
-			$db->query($update_sql);
-			
-			$file_name_arr = explode('.',$_FILES['img_outfit']['name']);
-			$ext = $file_name_arr[1];
-			
-			$_FILES['img_outfit']['name'] = "img_product_outfit_".$product_code.".".$ext;
-			$upload_file = file_up('img_outfit',$path); // 이미지 업로드
-			
-			for ($i=0; $i<count($upload_file); $i++) {
-				$img_sql = "INSERT INTO
-							dev.PRODUCT_IMG
-						(
-							PRODUCT_IDX,
-							IMG_TYPE,
-							PRODUCT_CODE,
-							IMG_SIZE,
-							IMG_LOCATION,
-							IMG_URL,
-							CREATER,
-							UPDATER
-						) VALUES (
-							".$product_idx.",
-							'outfit',
-							(SELECT PRODUCT_CODE FROM dev.SHOP_PRODUCT WHERE IDX = ".$product_idx."),
-							'".$upload_file[$i]['img_size']."',
-							'".$path.$upload_file[$i]['filename']."',
-							'".$path.$upload_file[$i]['filename']."',
-							'Admin',
-							'Admin'
-						)";
-				$db->query($img_sql);
-			}
-		}
-
-		if($_FILES['img_product']['size'] > 0) {
-			$update_sql = "UPDATE dev.PRODUCT_IMG SET DEL_FLG = TRUE WHERE IMG_TYPE = 'product' AND PRODUCT_IDX IN (".$idx_list.")";
-			$db->query($update_sql);
-			
-			$file_name_arr = explode('.',$_FILES['img_product']['name']);
-			$ext = $file_name_arr[1];
-			
-			$_FILES['img_product']['name'] = "img_product_product_".$product_code.".".$ext;
-			$upload_file = file_up('img_product',$path); // 이미지 업로드
-			
-			for ($i=0; $i<count($upload_file); $i++) {
-				$img_sql = "INSERT INTO
-							dev.PRODUCT_IMG
-						(
-							PRODUCT_IDX,
-							IMG_TYPE,
-							PRODUCT_CODE,
-							IMG_SIZE,
-							IMG_LOCATION,
-							IMG_URL,
-							CREATER,
-							UPDATER
-						) VALUES (
-							".$product_idx.",
-							'product',
-							(SELECT PRODUCT_CODE FROM dev.SHOP_PRODUCT WHERE IDX = ".$product_idx."),
-							'".$upload_file[$i]['img_size']."',
-							'".$path.$upload_file[$i]['filename']."',
-							'".$path.$upload_file[$i]['filename']."',
-							'Admin',
-							'Admin'
-						)";
-				$db->query($img_sql);
-			}
-		}
-
-		if($_FILES['img_wear']['size'] > 0) {
-			$update_sql = "UPDATE dev.PRODUCT_IMG SET DEL_FLG = TRUE WHERE IMG_TYPE = 'wear' AND PRODUCT_IDX IN (".$idx_list.")";
-			$db->query($update_sql);
-			
-			$file_name_arr = explode('.',$_FILES['img_wear']['name']);
-			$ext = $file_name_arr[1];
-			
-			$_FILES['img_wear']['name'] = "img_product_wear_".$product_code.".".$ext;
-			$upload_file = file_up('img_wear',$path); // 이미지 업로드
-			
-			for ($i=0; $i<count($upload_file); $i++) {
-				$img_sql = "INSERT INTO
-							dev.PRODUCT_IMG
-						(
-							PRODUCT_IDX,
-							IMG_TYPE,
-							PRODUCT_CODE,
-							IMG_SIZE,
-							IMG_LOCATION,
-							IMG_URL,
-							CREATER,
-							UPDATER
-						) VALUES (
-							".$product_idx.",
-							'wear',
-							(SELECT PRODUCT_CODE FROM dev.SHOP_PRODUCT WHERE IDX = ".$product_idx."),
-							'".$upload_file[$i]['img_size']."',
-							'".$path.$upload_file[$i]['filename']."',
-							'".$path.$upload_file[$i]['filename']."',
-							'Admin',
-							'Admin'
-						)";
-				$db->query($img_sql);
-			}
-		}
-	}
-}
 ?>

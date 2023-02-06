@@ -150,7 +150,7 @@
 			<div id="js--tree"></div>
 		</div>
 		<div class="tree__desciption">
-			<form id="frm-list" action="product/list/get">
+			<form id="frm-list" action="product/category/list/get">
 				<input type="hidden" name="md_category_node" value="">
 				<input type="hidden" name="md_category_depth" value="">
 				<input type="hidden" name="child_search_flg" value="true">
@@ -231,6 +231,8 @@
 						</div>
 						
 						<div class="table table__wrap">
+
+						
 							<TABLE id="product_list_table">
 								<THEAD>
 									<TR>
@@ -582,84 +584,162 @@ function getProdTabInfo(){
 				result_table.html('');
 			}
 			d.forEach(function(row) {
-				var strDiv = "";
-				strDiv += '<tr>';
-				strDiv += '    <td>';
-				strDiv += '        <div class="cb__color">';
-				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.no + '">';
-				strDiv += '                <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </td>';
-				strDiv += '    <td>' + row.num + '</td>';
-				var product_type = "";
-				if (row.product_type == "B") {
-					product_type = "일반";
-				} else if (row.product_type == "S") {
-					product_type = "세트";
-				}
+				let product_type = row.product_type;
+				let product_type_str = "";
 				
-				strDiv += '    <td>' + product_type + '</td>';
-				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
-				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
-				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.product_code + '</font></td>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="product__img__wrap">';
-				
-				var background_url = "background-image:url('" + row.img_location + "');";
-				
-				strDiv += '            <div class="product__img" style="' + background_url + '">';
-				strDiv += '            </div>';
-				strDiv += '            <div>';
-				strDiv += '                <p>' + row.product_name + '</p><br>';
-				strDiv += '            	   <p style="color:#EF5012">' + row.update_date + '</p>';
-				strDiv += '            </div>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_kr = row.discount_kr;
-				if (discount_kr > 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
-				} else {
-					if(row.price_kr != null){
-						strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
+				let strDiv = "";
+				if (product_type == "B") {
+					product_type_str = "일반";
+					
+					strDiv += '<tr>';
+					strDiv += '    <td>';
+					strDiv += '        <div class="cb__color">';
+					strDiv += '            <label>';
+					strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.product_idx + '">';
+					strDiv += '                <span></span>';
+					strDiv += '            </label>';
+					strDiv += '        </div>';
+					strDiv += '    </td>';
+					strDiv += '    <td>' + row.num + '</td>';
+					
+					strDiv += '    <td>' + product_type_str + '</td>';
+					strDiv += '    <td><font product_type="B" product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
+					strDiv += '    <td><font product_type="B" product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
+					//strDiv += '    <td><font product_idx="${row.product_idx}" onClick="location.href='http://116.124.128.246/product/detail?product_idx=${row.product_idx}';" style="cursor:pointer;">${row.product_code}</font></td>`;
+					strDiv += '    <td><font product_idx="' + row.product_idx+ '" style="cursor:pointer;">' + row.product_code + '</td>';
+					strDiv += '    <TD>';
+					strDiv += '        <div class="product__img__wrap">';
+					
+					var background_url = "background-image:url('" + row.img_location + "');";
+					
+					strDiv += '            <div class="product__img" style="' + background_url + '">';
+					strDiv += '            </div>';
+					strDiv += '            <div>';
+					strDiv += '                <p>' + row.product_name + '</p><br>';
+					strDiv += '            	   <p style="color:#EF5012">' + row.update_date + '</p>';
+					strDiv += '            </div>';
+					strDiv += '        </div>';
+					strDiv += '    </TD>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					var discount_kr = row.discount_kr;
+					if (discount_kr > 0) {
+						strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
+						strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
+					} else {
+						if(row.price_kr != null){
+							strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
+						}
+					}
+					
+					strDiv += '    </td>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					var discount_en = row.discount_en;
+					if (discount_en > 0) {
+						strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
+						strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
+					} else {
+						if(row.price_en != null){
+							strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
+						}
+					}
+					
+					strDiv += '    </td>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					var discount_cn = row.discount_cn;
+					if (discount_cn > 0) {
+						strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
+						strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
+					} else {
+						if(row.price_cn != null){
+							strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
+						}
+					}
+					
+					strDiv += '    </td>';
+					
+					strDiv += '</tr>';
+				} else if (product_type == "S") {
+					product_type_str = "세트";
+					
+					let set_product_info = row.set_product_info;
+					let cnt = set_product_info.length;
+
+					for (let i=0; i<cnt; i++) {
+						strDiv += '<tr>';
+						if (i == 0) {
+							strDiv += '<td rowspan="' + cnt + '">';
+							strDiv += '    <div class="cb__color">';
+							strDiv += '        <label>';
+							strDiv += '            <input type="checkbox" class="select" name="no[]" value="' + row.product_idx + '">';
+							strDiv += '            <span></span>';
+							strDiv += '        </label>';
+							strDiv += '    </div>';
+							strDiv += '</td>';
+							strDiv += '<td rowspan="' + cnt + '">' + row.num + '</td>';
+							strDiv += '<td rowspan="' + cnt + '">' + product_type_str + '</td>';
+							strDiv += '<td rowspan="' + cnt + '" product_type="S" product_idx="' + row.product_idx + '" ordersheet_idx="' + row.ordersheet_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</td>';
+							strDiv += '<td rowspan="' + cnt + '" product_type="S" product_idx="' + row.product_idx + '" ordersheet_idx="' + row.ordersheet_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</td>';
+							strDiv += '<td rowspan="' + cnt + '">' + row.product_code + '</td>';
+						}
+						
+						strDiv += '    <TD>';
+						strDiv += '        <p style="margin-bottom:5px;">' + row.product_name + '</p>';
+						strDiv += '        <div class="product__img__wrap">';
+
+						var background_url = "background-image:url('" + set_product_info[i].img_location + "');";
+
+						strDiv += '            <div class="product__img" style="' + background_url + '">';
+						strDiv += '            </div>';
+						strDiv += '            <div>';
+						strDiv += '                <p>' + set_product_info[i].product_name + '</p><br>';
+						strDiv += '            	   <p style="color:#EF5012">' + set_product_info[i].update_date + '</p>';
+						strDiv += '            </div>';
+						strDiv += '        </div>';
+						strDiv += '    </TD>';
+
+						if (i == 0) {
+							strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
+							var discount_kr = set_product_info[i].discount_kr;
+							if (discount_kr > 0) {
+								strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+								strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_kr.toLocaleString('ko-KR') + "</span></br>";
+								strDiv += '        <span>' + set_product_info[i].sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
+							} else {
+								strDiv += '        ' + set_product_info[i].price_kr.toLocaleString('ko-KR');
+							}
+							strDiv += '    </td>';
+
+							strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
+							var discount_en = set_product_info[i].discount_en;
+							if (discount_en > 0) {
+								strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+								strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_en.toLocaleString('ko-KR') + "</span></br>";
+								strDiv += '        <span>' + set_product_info[i].sales_price_en.toLocaleString('ko-KR') + "</span></br>";
+							} else {
+								strDiv += '        ' + set_product_info[i].price_en.toLocaleString('ko-KR');
+							}
+							strDiv += '    </td>';
+							
+							strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
+							var discount_cn = set_product_info[i].discount_cn;
+							if (discount_cn > 0) {
+								strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+								strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_cn.toLocaleString('ko-KR') + "</span></br>";
+								strDiv += '        <span>' + set_product_info[i].sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
+							} else {
+								strDiv += '        ' + set_product_info[i].price_cn.toLocaleString('ko-KR');
+							}
+							strDiv += '    </td>';
+						}
+						strDiv += '</tr>';
 					}
 				}
-				
-				strDiv += '    </td>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_en = row.discount_en;
-				if (discount_en > 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
-				} else {
-					if(row.price_en != null){
-						strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
-					}
-				}
-				
-				strDiv += '    </td>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_cn = row.discount_cn;
-				if (discount_cn > 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
-				} else {
-					if(row.price_cn != null){
-						strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
-					}
-				}
-				
-				strDiv += '    </td>';
-				strDiv += '</tr>';
 				result_table.append(strDiv);
 			});
 		},

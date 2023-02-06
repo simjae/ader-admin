@@ -7,9 +7,9 @@
 }
 </style>
 <div class="content__card" style="width:950px;margin: 0;">
-	<form id="frm-update" action="display/posting/put">
+	<form id="frm-update">
 		<input id="page_idx" type="hidden" name="page_idx" value="<?=$idx?>">
-        <input type="hidden" value="editorial" style="width:80%;" placeholder="" name="postingType">
+        <input type="hidden" value="EDTL" style="width:80%;" placeholder="" name="postingType">
 		
 		<div class="card__header">
 			<div class="flex justify-between">
@@ -20,6 +20,18 @@
 		</div>
 		
 		<div class="card__body">
+			<div class="content__wrap">
+				<div class="content__title">국가</div>
+				<div class="content__row">
+					<select id="country" type="select" name="country" style="width:80px">
+						<option value="" selected>국가</option>
+						<option value="KR" >한국몰</option>
+						<option value="EN" >영문몰</option>
+						<option value="CN" >중문몰</option>
+					</select>
+				</div>
+			</div>
+
 			<div class="content__wrap">
 				<div class="content__title">페이지명</div>
 				<div class="content__row">
@@ -116,14 +128,21 @@
 			<div class="content__wrap">
 				<div class="content__title">검색엔진<br>메타태그Description</div>
 				<div class="content__row">
-					<textarea name="seo_description" id="" cols="70" rows="10" style="border: 1px solid #000;"></textarea>
+					<textarea name="seo_description" id="seo_description" cols="70" rows="10" style="width:90%;"></textarea>
 				</div>
 			</div>
 			
 			<div class="content__wrap">
 				<div class="content__title">검색엔진<br>메타태그Keywords</div>
 				<div class="content__row">
-					<textarea name="seo_keywords" id="" cols="70" rows="10" style="border: 1px solid #000;"></textarea>
+					<input type="text" name="seo_keywords">
+				</div>
+			</div>
+
+			<div class="content__wrap">
+				<div class="content__title">검색엔진<br>메타태그 Alt 텍스트</div>
+				<div class="content__row">
+					<textarea name="seo_alt_text" id="seo_alt_text" cols="70" rows="10" style="width:90%;"></textarea>
 				</div>
 			</div>
 		</div>
@@ -139,9 +158,28 @@
 	</form>
 </div>
 <script>
+var seo_description = [];
+var seo_alt_text = [];
+
+function setSmartEditor() {
+	//seo
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: seo_description,
+		elPlaceHolder: "seo_description",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload : function(){}}
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: seo_alt_text,
+		elPlaceHolder: "seo_alt_text",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload : function(){}}
+	});
+}
 $(document).ready(function() {
 	var page_idx = $('#page_idx').val();
 	
+	setSmartEditor()
 	timeSelectInit();
 	
 	$('.display_flg').click(function() {
@@ -167,6 +205,7 @@ $(document).ready(function() {
 		},
 		success: function(data) {
 			if(data.code == 200) {
+				$("select[name='country']").val(data['data'][0].country).prop('selected',true);
 				$("input[name='page_title']").val(data['data'][0].page_title);
 				$("input[name='page_memo']").val(data['data'][0].page_memo);
 				$("input[name='page_url']").val(data['data'][0].page_url);
@@ -200,8 +239,9 @@ $(document).ready(function() {
 				
 				$("input[name='seo_title']").val(data['data'][0].seo_title);
 				$("input[name='seo_author']").val(data['data'][0].seo_author);
-				$("textarea[name='seo_description']").text(data['data'][0].seo_description);
-				$("textarea[name='seo_keywords']").text(data['data'][0].seo_keywords);
+				$("textarea[name='seo_description']").html(data['data'][0].seo_description);
+				$("input[name='seo_keywords']").val(data['data'][0].seo_keywords);
+				$("textarea[name='seo_alt_text']").html(data['data'][0].seo_alt_text);
 			}
 		}
 	});
@@ -277,39 +317,69 @@ function timeSelectInit(){
 }
 
 function postingUpdateAction(){
-	var page_title 			= $('input[name=page_title]');
-	
-	if(page_title.val().length == 0){
-		alert("페이지명을 입력해주세요", page_title.focus());
-		return false;
-	}
-	
-	var duplicate_check = $('#duplicate_check').val();
-	
-	if (duplicate_check == "false") {
-		alert("에디토리얼 페이지 정보 갱신을 위해 페이지명 중복검사를 확인해주세요.");
-		return;
-	}
-	
-	var display_flg = $('#display_flg').val();
-	if (display_flg == "false") {
-		var display_start_date = $("input[name='display_from']").val() + ' ' + $("select[name='display_from_h']").val() + ':' + $("select[name='display_from_m']").val();
-		var display_end_date = $("input[name='display_to']").val() + ' ' + $("select[name='display_to_h']").val() + ':' + $("select[name='display_to_m']").val();
+	confirm('에디토리얼 페이지 정보를 수정하시겠습니까?',function(){
+		var country 		= $('select[name=country]');
+		var page_title 		= $('input[name=page_title]');
 		
-		if (display_start_date != null && display_end_date != null) {
-			var start_date = new Date(display_start_date);
-			var end_date = new Date(display_end_date);
-			
-			if (start_date > end_date) {
-				alert('진열 시작일/종료일에 올바른 날짜를 입력해주세요.');
-				return false;
-			}
-		} else {
-			alert('진열 시작일/종료일에 정확한 날짜를 입력해주세요.');
+		seo_description.getById["seo_description"].exec("UPDATE_CONTENTS_FIELD", []); 
+		seo_alt_text.getById["seo_alt_text"].exec("UPDATE_CONTENTS_FIELD", []);
+
+		if(country.val().length == 0){
+			alert("국가를 선택해주세요", country.focus());
 			return false;
 		}
-	}
-	
-	modal_submit($('#frm-list'),'getPostingEditorialInfo');
+		
+		if(page_title.val().length == 0){
+			alert("페이지명을 입력해주세요", page_title.focus());
+			return false;
+		}
+		
+		var duplicate_check = $('#duplicate_check').val();
+		
+		if (duplicate_check == "false") {
+			alert("에디토리얼 페이지 정보 갱신을 위해 페이지명 중복검사를 확인해주세요.");
+			return;
+		}
+		
+		var display_flg = $('#display_flg').val();
+		if (display_flg == "false") {
+			var display_start_date = $("input[name='display_from']").val() + ' ' + $("select[name='display_from_h']").val() + ':' + $("select[name='display_from_m']").val();
+			var display_end_date = $("input[name='display_to']").val() + ' ' + $("select[name='display_to_h']").val() + ':' + $("select[name='display_to_m']").val();
+			
+			if (display_start_date != null && display_end_date != null) {
+				var start_date = new Date(display_start_date);
+				var end_date = new Date(display_end_date);
+				
+				if (start_date > end_date) {
+					alert('진열 시작일/종료일에 올바른 날짜를 입력해주세요.');
+					return false;
+				}
+			} else {
+				alert('진열 시작일/종료일에 정확한 날짜를 입력해주세요.');
+				return false;
+			}
+		}
+
+		var formData = new FormData();
+		formData = $('#frm-update').serializeObject();
+
+		$.ajax({
+			type: "post",
+			data: formData,
+			dataType: "json",
+			url: config.api + "display/posting/put",
+			error: function() {
+				alert(action_str + " 처리에 실패했습니다.");
+			},
+			success: function(d) {
+				if(d.code == 200) {
+					alert('에디토리얼 수정작업이 정상적으로 실행되었습니다.',function(){
+						getPostingEditorialInfo();
+						modal_close();
+					});
+				}
+			}
+		});
+	})
 }
 </script>

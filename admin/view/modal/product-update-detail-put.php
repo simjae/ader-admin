@@ -1,6 +1,6 @@
 <div class="body">
 	<h1>
-		상품정보 일괄변경
+		상품정보 일괄변경 - 제품 상세정보
 		<a onclick="modal_close();" class="btn-close">
 			<i class="xi-close"></i>
 		</a>
@@ -10,29 +10,29 @@
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
 			
-			<div class="row" style="margin-top:10px;">
-				<TABLE id="insert_table_detail" class="list" style="font-size:0.7rem;">
+			<div class="row table__wrap" style="margin-top:10px;">
+				<TABLE id="insert_table_detail" >
 					<colgroup>
 						<col width="10%">
 						<col width="90%">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD style="width:10%;">Detail 한글</TD>
+							<TD>제품<br>상세정보<br>(한국몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="detail_kr" name="detail_kr" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD style="width:10%;">Detail 영문</TD>
+							<TD>제품<br>상세정보<br>(영문몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="detail_en" name="detail_en" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD style="width:10%;">Detail 중문</TD>
+						<TD>제품<br>상세정보<br>(중문몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="detail_cn" name="detail_cn" required style="width:90%; height:150px;"></textarea>
 							</TD>

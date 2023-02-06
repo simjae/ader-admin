@@ -277,19 +277,18 @@ const productSml = () => {
     let productListSwiper = new Swiper(".prd__meun__category", {
         grabCursor: true,
         slidesPerView: "auto",
-        spaceBetween: 10,
         pagination: {
             el: ".prd__meun__category .swiper-pagination",
             clickable: true,
         },
         breakpoints: {
             320: {
-            slidesPerView: 5,
-            spaceBetween: 10
+                spaceBetween: 10,
+                slidesPerView: "auto"
             },
             1024: {
-                slidesPerView: 15,
-                spaceBetween: 10
+                spaceBetween: 20,
+                slidesPerView: "auto"
             }
         }
     });
@@ -326,7 +325,7 @@ function swiperStateCheck() {
 
 const imgSwiper = (move) => {
     let productImg = document.querySelectorAll('.product-img');
-    if (typeof(productListSwipe) == 'object') [...productListSwipe].map(el=> el.destroy());
+    if (typeof(productListSwipe) == 'objec') [...productListSwipe].map(el=> el.destroy());
     
 	return productListSwipe = new Swiper('.product-img', {
         // autoHeight: true,
@@ -530,6 +529,7 @@ function deleteWhishListBtn(obj) {
 
 function clickImgTypeBtn() {
     let img_param = $('#img_param');
+    
 	
     let img_type_text = "";
     let items = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='item']");
@@ -537,14 +537,14 @@ function clickImgTypeBtn() {
 
     if (img_param.val() == "O") {
         img_param.val('P');
-		img_type_text = "아이템보기";
-        
+		img_type_text = "아이템";
+        $(".type-btn img").attr("src", "/images/svg/item.svg");
 		items.forEach(el => el.style.display = "none");
         outfits.forEach(el => el.style.display = "block");
     } else if (img_param.val() == "P") {
         img_param.val('O');
-        img_type_text = "착용보기";
-        
+        img_type_text = "착용컷";
+        $(".type-btn img").attr("src", "/images/svg/cloth.svg");
 		items.forEach(el => el.style.display = "block"); 
         outfits.forEach(el => el.style.display = "none");
     }

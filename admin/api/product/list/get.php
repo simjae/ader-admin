@@ -55,21 +55,7 @@ $page = $_POST['page'];
 
 //검색 유형 - 디폴트
 $where = '1=1';
-
-$delete_flg = $_POST['delete_flg'];
-if($delete_flg == 'true'){
-	$tab_num = $_POST['tab_num'];
-	if ($tab_num != null) {
-		if ($tab_num == "01") {
-			$where .= ' AND (PR.DEL_FLG = TRUE) ';
-		} else {
-			$where .= ' AND (PR.INDP_FLG = TRUE) ';
-		}
-	}
-}
-else{
-	$where .= ' AND (PR.INDP_FLG = FALSE AND PR.DEL_FLG = FALSE) ';
-}
+$where .= ' AND (PR.INDP_FLG = FALSE AND PR.DEL_FLG = FALSE) ';
 
 $where_cnt = $where;
 
@@ -228,17 +214,11 @@ if ($inner_category_idx != null) {
 			$where .= " AND (PR.CATEGORY_IDX = 0) ";
 		}
 	}
-}
-else if($md_category_depth != null){
+} else if($md_category_depth != null){
 	if($md_category_node == null){
 		$md_category_node = -1;
 	}
 	$where .= " AND (PR.MD_CATEGORY_".$md_category_depth." = ".$md_category_node." ) ";
-}
-
-//검색 유형 - 상품구분
-if($product_type != null && $product_type!='ALL'){
-	$where .= ' AND (PR.PRODUCT_TYPE LIKE "%'.$product_type.'%") ';
 }
 
 //검색 유형 - 상품가격
@@ -349,12 +329,10 @@ if($stock_type != null && ($stock_min != null || $stock_max != null)){
 									SUM(S_OP.PRODUCT_QTY),0
 								)
 							FROM
-								dev.ORDER_INFO S_OI
-								LEFT JOIN dev.ORDER_PRODUCT S_OP ON
-								S_OI.IDX = S_OP.ORDER_INFO_IDX
+								dev.ORDER_PRODUCT S_OP
 							WHERE
-								S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
-								S_OP.PRODUCT_IDX = PR.IDX
+								S_OP.PRODUCT_IDX = PR.IDX AND
+								S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 						)	AS ORDER_QTY ";
 	} else if ($stock_type == "safe") {
 		$stock_sql  = " (
@@ -446,98 +424,360 @@ if ($sale_flg != null && $sale_flg != "all") {
 /** 정렬 조건 **/
 $order = '';
 if ($sort_value != null && $sort_type != null) {
-	$order = ' PR.'.$sort_value." ".$sort_type." ";
+	$order = ' '.$sort_value." ".$sort_type." ";
 } else {
-	$order = ' PR.IDX DESC';
+	$order = ' PRODUCT_IDX DESC';
 }
 
 $limit_start = (intval($page)-1)*$rows;
+
+$select = "
+	PR.ORDERSHEET_IDX			AS ORDERSHEET_IDX,
+	PR.IDX						AS PRODUCT_IDX,
+	PR.PRODUCT_TYPE				AS PRODUCT_TYPE,
+	PR.STYLE_CODE				AS STYLE_CODE,
+	PR.COLOR_CODE				AS COLOR_CODE,
+	PR.PRODUCT_CODE				AS PRODUCT_CODE,
+	CASE
+		WHEN
+			(
+				SELECT
+					COUNT(S_PI.IDX)
+				FROM
+					dev.PRODUCT_IMG S_PI
+				WHERE
+					S_PI.PRODUCT_IDX = PR.IDX AND
+					S_PI.IMG_TYPE = 'P' AND
+					S_PI.IMG_SIZE = 'S'
+			) > 0
+			THEN
+				(
+					SELECT
+						REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+					FROM
+						dev.PRODUCT_IMG S_PI
+					WHERE
+						S_PI.PRODUCT_IDX = PR.IDX AND
+						S_PI.DEL_FLG = FALSE AND
+						S_PI.IMG_SIZE = 'S' AND
+						S_PI.IMG_TYPE = 'P'
+					ORDER BY
+						S_PI.IDX ASC
+					LIMIT
+						0,1
+				)
+		ELSE
+			'/images/default_product_img.jpg'
+	END							AS IMG_LOCATION,
+	PR.PRODUCT_NAME				AS PRODUCT_NAME,
+	PR.PRICE_KR					AS PRICE_KR,
+	PR.PRICE_EN					AS PRICE_EN,
+	PR.PRICE_CN					AS PRICE_CN,
+	PR.DISCOUNT_KR				AS DISCOUNT_KR,
+	PR.DISCOUNT_EN				AS DISCOUNT_EN,
+	PR.DISCOUNT_CN				AS DISCOUNT_CN,
+	PR.SALES_PRICE_KR			AS SALES_PRICE_KR,
+	PR.SALES_PRICE_EN			AS SALES_PRICE_EN,
+	PR.SALES_PRICE_CN			AS SALES_PRICE_CN,
+	PR.CREATER					AS CREATER,
+	PR.CREATE_DATE				AS CREATE_DATE,
+	PR.UPDATER					AS UPDATER,
+	PR.UPDATE_DATE				AS UPDATE_DATE
+";
+
+$sql = "";
+//검색 유형 - 상품구분
+if($product_type != null){
+	switch ($product_type) {
+		case "B" :
+			$sql = "SELECT
+						".$select."
+					FROM
+						dev.SHOP_PRODUCT PR
+						LEFT JOIN dev.ORDERSHEET_MST OM ON
+						PR.ORDERSHEET_IDX = OM.IDX
+					WHERE
+						".$where."
+						AND (PRODUCT_TYPE = 'B')
+					ORDER BY 
+						".$order;
+			break;
+		
+		case "S" :
+			$sql = "
+					SELECT
+						DISTINCT *
+					FROM
+						(
+							(
+								SELECT
+									".$select."
+								FROM
+									dev.SHOP_PRODUCT PR
+									LEFT JOIN dev.ORDERSHEET_MST OM ON
+									PR.ORDERSHEET_IDX = OM.IDX
+								WHERE
+									".$where."
+									AND (PR.PRODUCT_TYPE = 'S')
+							) UNION (
+								SELECT
+									".$select."
+								FROM
+									dev.SHOP_PRODUCT PR
+								WHERE
+									PR.PRODUCT_TYPE = 'S' AND
+									PR.IDX IN (
+										SELECT
+											DISTINCT SET_PRODUCT_IDX SP
+										FROM
+											dev.SET_PRODUCT SP
+										WHERE
+											SP.PRODUCT_IDX IN (
+												SELECT
+													PR.IDX
+												FROM
+													dev.SHOP_PRODUCT PR
+													LEFT JOIN dev.ORDERSHEET_MST OM ON
+													PR.ORDERSHEET_IDX = OM.IDX
+												WHERE
+													".$where."
+													AND (
+														PR.IDX IN (
+															SELECT
+																DISTINCT SP.PRODUCT_IDX
+															FROM
+																dev.SET_PRODUCT SP
+														)
+													)
+											)
+									)
+								AND
+									PR.DEL_FLG = FALSE							
+							)
+						) AS TMP
+					ORDER BY
+						".$order;
+			break;
+		
+		case "ALL" :
+			$sql = "SELECT
+						*
+					FROM
+						(
+							(
+								SELECT
+									".$select."
+								FROM
+									dev.SHOP_PRODUCT PR
+								WHERE
+									".$where."
+									AND (PRODUCT_TYPE = 'B')
+								ORDER BY 
+									".$order."
+							) UNION (
+								SELECT
+									".$select."
+								FROM
+									dev.SHOP_PRODUCT PR
+								WHERE
+									PR.PRODUCT_TYPE = 'S' AND
+									PR.IDX IN (
+										SELECT
+											DISTINCT SET_PRODUCT_IDX SP
+										FROM
+											dev.SET_PRODUCT SP
+										WHERE
+											SP.PRODUCT_IDX IN (
+												SELECT
+													PR.IDX
+												FROM
+													dev.SHOP_PRODUCT PR
+													LEFT JOIN dev.ORDERSHEET_MST OM ON
+													PR.ORDERSHEET_IDX = OM.IDX
+												WHERE
+													".$where."
+													AND (
+														PR.IDX IN (
+															SELECT
+																DISTINCT SP.PRODUCT_IDX
+															FROM
+																dev.SET_PRODUCT SP
+														)
+													)
+											)
+									)
+								AND
+									PR.DEL_FLG = FALSE
+								ORDER BY
+									PRODUCT_IDX DESC
+							)
+						) AS TMP
+					ORDER BY
+						".$order;
+			break;
+	}
+}
+
 $json_result = array(
-	'total' => $db->count("dev.SHOP_PRODUCT PR LEFT JOIN dev.ORDERSHEET_MST OM ON PR.ORDERSHEET_IDX = OM.IDX",$where),
-	'total_cnt' => $db->count("dev.SHOP_PRODUCT PR LEFT JOIN dev.ORDERSHEET_MST OM ON PR.ORDERSHEET_IDX = OM.IDX",$where_cnt),
+	'total' => $db->count("(".$sql.") AS TMP"),
+	'total_cnt' => $db->count("dev.SHOP_PRODUCT PR",$where_cnt),
 	'page' => $page
 );
-
-$idx_flg = $_POST['idx_flg'];
-$select = "";
-if ($idx_flg == 'true') {
-	$select.= " GROUP_CONCAT(PR.IDX SEPARATOR ',') AS PRODUCT_IDX_ARR ";
-}
-else{
-	$select.= "
-			PR.IDX						AS PRODUCT_IDX,
-			PR.PRODUCT_TYPE				AS PRODUCT_TYPE,
-			PR.STYLE_CODE				AS STYLE_CODE,
-			PR.COLOR_CODE				AS COLOR_CODE,
-			PR.PRODUCT_CODE				AS PRODUCT_CODE,
-			CASE
-				WHEN
-					(
-						SELECT
-							COUNT(S_PI.IDX)
-						FROM
-							dev.PRODUCT_IMG S_PI
-						WHERE
-							S_PI.PRODUCT_IDX = PR.IDX AND
-							S_PI.IMG_TYPE = 'P' AND
-							S_PI.IMG_SIZE = 'S'
-					) > 0
-					THEN
-						(
-							SELECT
-								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-							FROM
-								dev.PRODUCT_IMG S_PI
-							WHERE
-								S_PI.PRODUCT_IDX = PR.IDX AND
-								S_PI.DEL_FLG = FALSE AND
-								S_PI.IMG_SIZE = 'S' AND
-								S_PI.IMG_TYPE = 'P'
-							ORDER BY
-								S_PI.IDX ASC
-							LIMIT
-								0,1
-						)
-				ELSE
-					'/images/default_product_img.jpg'
-			END							AS IMG_LOCATION,
-			PR.PRODUCT_NAME				AS PRODUCT_NAME,
-			PR.PRICE_KR					AS PRICE_KR,
-			PR.PRICE_EN					AS PRICE_EN,
-			PR.PRICE_CN					AS PRICE_CN,
-			PR.DISCOUNT_KR				AS DISCOUNT_KR,
-			PR.DISCOUNT_EN				AS DISCOUNT_EN,
-			PR.DISCOUNT_CN				AS DISCOUNT_CN,
-			PR.SALES_PRICE_KR			AS SALES_PRICE_KR,
-			PR.SALES_PRICE_EN			AS SALES_PRICE_EN,
-			PR.SALES_PRICE_CN			AS SALES_PRICE_CN,
-			PR.CREATER					AS CREATER,
-			PR.CREATE_DATE				AS CREATE_DATE,
-			PR.UPDATER					AS UPDATER,
-			PR.UPDATE_DATE				AS UPDATE_DATE
-	";
-}
-$sql = 	"SELECT
-			".$select."
-		FROM 
-			dev.SHOP_PRODUCT PR
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
-			PR.ORDERSHEET_IDX = OM.IDX
-		WHERE 
-			".$where."
-		ORDER BY 
-			".$order;
 
 if ($rows != null && $select_idx_flg == null) {
 	$sql .= " LIMIT ".$limit_start.",".$rows;
 }
 
+$product_cnt = array();
+$cnt_sql = "SELECT
+				(
+					SELECT
+						COUNT(IDX)
+					FROM
+						dev.SHOP_PRODUCT
+				) AS PRODUCT_QTY,
+				(
+					SELECT
+						COUNT(IDX)
+					FROM
+						dev.SHOP_PRODUCT
+					WHERE
+						SALE_FLG = TRUE
+				) AS SALES_QTY,
+				(
+					SELECT
+						COUNT(DISTINCT PG.PRODUCT_IDX)
+					FROM
+						dev.SHOP_PRODUCT PR
+						LEFT JOIN dev.PRODUCT_GRID PG ON
+						PR.IDX = PG.PRODUCT_IDX
+				) AS DISPLAY_QTY
+			FROM
+				DUAL";
+$db->query($cnt_sql);
+
+$product_cnt = array();
+foreach($db->fetch() as $cnt_data) {
+	$product_qty = intval($cnt_data['PRODUCT_QTY']);
+	$sales_qty = intval($cnt_data['SALES_QTY']);
+	$display_qty = intval($cnt_data['DISPLAY_QTY']);
+	
+	$non_sales_qty = $product_qty - $sales_qty;
+	$non_display_qty = $product_qty - $display_qty;
+	
+	$product_cnt[] = array(
+		'product_qty'		=>$product_qty,
+		'sales_qty'			=>$sales_qty,
+		'non_sales_qty'		=>$non_sales_qty,
+		'display_qty'		=>$display_qty,
+		'non_display_qty'	=>$non_display_qty
+	);
+}
+
+$json_result['data'][] = array(
+	'product_cnt'	=>$product_cnt
+);
+
+//print_r($sql);
 $db->query($sql);
-foreach($db->fetch() as $data) {	
+foreach($db->fetch() as $data) {
+	$product_idx = $data['PRODUCT_IDX'];
+	$product_type = $data['PRODUCT_TYPE'];
+	
+	if ($product_type == "S") {
+		$set_sql = "SELECT
+						PR.STYLE_CODE				AS STYLE_CODE,
+						PR.COLOR_CODE				AS COLOR_CODE,
+						PR.PRODUCT_CODE				AS PRODUCT_CODE,
+						CASE
+							WHEN
+								(
+									SELECT
+										COUNT(S_PI.IDX)
+									FROM
+										dev.PRODUCT_IMG S_PI
+									WHERE
+										S_PI.PRODUCT_IDX = PR.IDX AND
+										S_PI.IMG_TYPE = 'P' AND
+										S_PI.IMG_SIZE = 'S'
+								) > 0
+								THEN
+									(
+										SELECT
+											REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+										FROM
+											dev.PRODUCT_IMG S_PI
+										WHERE
+											S_PI.PRODUCT_IDX = PR.IDX AND
+											S_PI.DEL_FLG = FALSE AND
+											S_PI.IMG_SIZE = 'S' AND
+											S_PI.IMG_TYPE = 'P'
+										ORDER BY
+											S_PI.IDX ASC
+										LIMIT
+											0,1
+									)
+							ELSE
+								'/images/default_product_img.jpg'
+						END							AS IMG_LOCATION,
+						PR.PRODUCT_NAME				AS PRODUCT_NAME,
+						PR.PRICE_KR					AS PRICE_KR,
+						PR.PRICE_EN					AS PRICE_EN,
+						PR.PRICE_CN					AS PRICE_CN,
+						PR.DISCOUNT_KR				AS DISCOUNT_KR,
+						PR.DISCOUNT_EN				AS DISCOUNT_EN,
+						PR.DISCOUNT_CN				AS DISCOUNT_CN,
+						PR.SALES_PRICE_KR			AS SALES_PRICE_KR,
+						PR.SALES_PRICE_EN			AS SALES_PRICE_EN,
+						PR.SALES_PRICE_CN			AS SALES_PRICE_CN,
+						PR.CREATER					AS CREATER,
+						PR.CREATE_DATE				AS CREATE_DATE,
+						PR.UPDATER					AS UPDATER,
+						PR.UPDATE_DATE				AS UPDATE_DATE
+					FROM
+						dev.SHOP_PRODUCT PR
+						LEFT JOIN dev.ORDERSHEET_MST OM ON
+						PR.ORDERSHEET_IDX = OM.IDX
+					WHERE
+						PR.IDX IN (
+							SELECT
+								S_SP.PRODUCT_IDX
+							FROM
+								dev.SET_PRODUCT S_SP
+							WHERE
+								S_SP.SET_PRODUCT_IDX = ".$product_idx."
+					)";
+		$db->query($set_sql);
+		$set_product_info = array();
+		foreach($db->fetch() as $set_data) {
+			$set_product_info[] = array(
+				'style_code'					=>$set_data['STYLE_CODE'],
+				'color_code'					=>$set_data['COLOR_CODE'],
+				'product_code'					=>$set_data['PRODUCT_CODE'],
+				'img_location'					=>$set_data['IMG_LOCATION'],
+				'product_name'					=>$set_data['PRODUCT_NAME'],
+				'price_kr'						=>$set_data['PRICE_KR'],
+				'price_en'						=>$set_data['PRICE_EN'],
+				'price_cn'						=>$set_data['PRICE_CN'],
+				'discount_kr'					=>$set_data['DISCOUNT_KR'],
+				'discount_en'					=>$set_data['DISCOUNT_EN'],
+				'discount_cn'					=>$set_data['DISCOUNT_CN'],
+				'sales_price_kr'				=>$set_data['SALES_PRICE_KR'],
+				'sales_price_en'				=>$set_data['SALES_PRICE_EN'],
+				'sales_price_cn'				=>$set_data['SALES_PRICE_CN'],
+				'creater'						=>$set_data['CREATER'],
+				'create_date'					=>$set_data['CREATE_DATE'],
+				'updater'						=>$set_data['UPDATER'],
+				'update_date'					=>$set_data['UPDATE_DATE']
+			);
+		}
+	}
+	
 	$json_result['data'][] = array(
 		'num'							=>$total_cnt--,
-		'product_idx'					=>$data['PRODUCT_IDX'],
-		'product_type'					=>$data['PRODUCT_TYPE'],
+		'product_idx'					=>$product_idx,
+		'product_type'					=>$product_type,
+		'ordersheet_idx'				=>$data['ORDERSHEET_IDX'],
 		'style_code'					=>$data['STYLE_CODE'],
 		'color_code'					=>$data['COLOR_CODE'],
 		'product_code'					=>$data['PRODUCT_CODE'],
@@ -556,7 +796,7 @@ foreach($db->fetch() as $data) {
 		'create_date'					=>$data['CREATE_DATE'],
 		'updater'						=>$data['UPDATER'],
 		'update_date'					=>$data['UPDATE_DATE'],
-		'product_idx_arr'				=>$data['PRODUCT_IDX_ARR']
+		'set_product_info'				=>$set_product_info
 	);
 }
 ?>

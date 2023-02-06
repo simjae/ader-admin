@@ -13,6 +13,10 @@
  | 
  +=============================================================================
 */
+
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
 $web_idx            = $_POST['web_idx'];			//국가
 $product_idx        = $_POST['product_idx'];		//국가
 
@@ -88,8 +92,8 @@ $sql = "
         '".$align."',
         '".$close_flg."',
 
-		'Admin',
-		'Admin'
+		'".$session_id."',
+		'".$session_id."'
 	)";
 $db->query($sql);
 
@@ -113,8 +117,8 @@ if ($popup_idx != null) {
                 'WEB',
                 PAGE_TITLE,
                 PAGE_URL,
-                'Admin',
-                'Admin'
+                '".$session_id."',
+                '".$session_id."'
             FROM
                 dev.FRONT_PAGE_URL
             WHERE
@@ -135,14 +139,17 @@ if ($popup_idx != null) {
                 UPDATER
             )
             SELECT
-                ".$popup_idx.",
-                IDX,
-                'PRODUCT',
-                PRODUCT_CODE,
-                PRODUCT_NAME,
-                CONCAT('/test/product/detail?product_idx=',IDX) AS URL,
-                'Admin',
-                'Admin'
+                ".$popup_idx."		AS POPUP_IDX,
+                IDX					AS PRODUCT_IDX,
+                'PRODUCT'			AS POPUP_URL_TYPE,
+                PRODUCT_CODE		AS PRODUCT_CODE,
+                PRODUCT_NAME		AS PRODUCT_NAME,
+                CONCAT(
+					'/test/product/detail?product_idx=',
+					IDX
+				)					AS URL,
+                '".$session_id."'	AS CREATER,
+                '".$session_id."'	AS UPDATER
             FROM
                 dev.SHOP_PRODUCT
             WHERE

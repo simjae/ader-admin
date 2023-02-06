@@ -14,6 +14,10 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
+
 /** 변수 정리 **/
 $popup_idx      = $_POST['popup_idx'];
 $action_type    = $_POST['action_type'];
@@ -26,41 +30,48 @@ if ($popup_idx != null) {
 }
 
 if ($action_type != null) {
+	$update_popup_sql = "";
     switch($action_type){
         case 'popup_delete':
-            $sql = "
-                UPDATE dev.DISPLAY_POPUP
+            $update_popup_sql = "
+                UPDATE
+					dev.DISPLAY_POPUP
                 SET
                     DEL_FLG = TRUE,
                     UPDATE_DATE = NOW(),
-                    UPDATER = 'Admin'
+                    UPDATER = '".$session_id."'
                 WHERE
                     ".$where."
             ";
             break;
-        case 'display_set':
-            $sql = "
-                UPDATE dev.DISPLAY_POPUP
+        
+		case 'display_set':
+            $update_popup_sql = "
+                UPDATE
+					dev.DISPLAY_POPUP
                 SET
                     DISPLAY_FLG = TRUE,
                     UPDATE_DATE = NOW(),
-                    UPDATER = 'Admin'
+                    UPDATER = '".$$session_id."'
                 WHERE
                     ".$where."
             ";
             break;
-        case 'non_display_set':
-            $sql = "
-                UPDATE dev.DISPLAY_POPUP
+        
+		case 'non_display_set':
+            $update_popup_sql = "
+                UPDATE
+					dev.DISPLAY_POPUP
                 SET
                     DISPLAY_FLG = FALSE,
                     UPDATE_DATE = NOW(),
-                    UPDATER = 'Admin'
+                    UPDATER = '".$session_id."'
                 WHERE
                     ".$where."
             ";
             break;
     }
-    $db->query($sql);
+	
+    $db->query($update_popup_sql);
 }
 ?>

@@ -1,6 +1,6 @@
 <div class="body">
 	<h1>
-		상품정보 일괄변경
+		상품정보 일괄변경 - 제품취급 유의사항
 		<a onclick="modal_close();" class="btn-close">
 			<i class="xi-close"></i>
 		</a>
@@ -10,29 +10,29 @@
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
 			
-			<div class="row" style="margin-top:10px;">
-				<TABLE id="insert_table_care" class="list" style="font-size:0.7rem;">
+			<div class="row table__wrap" style="margin-top:10px;">
+				<TABLE id="insert_table_care">
 					<colgroup>
 						<col width="10%">
 						<col width="90%">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD style="width:10%;">Care 한글</TD>
+							<TD style="width:10%;">제품취급<br>유의사항<br>(한국몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="care_kr" name="care_kr" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD style="width:10%;">Care 영문</TD>
+							<TD style="width:10%;">제품취급<br>유의사항<br>(영문몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="care_en" name="care_en" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD style="width:10%;">Care 중문</TD>
+							<TD style="width:10%;">제품취급<br>유의사항<br>(중국몰)</TD>
 							<TD>
 								<textarea class="width-100p" id="care_cn" name="care_cn" required style="width:90%; height:150px;"></textarea>
 							</TD>

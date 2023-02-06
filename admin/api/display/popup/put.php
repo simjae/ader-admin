@@ -13,6 +13,10 @@
  | 
  +=============================================================================
 */
+
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
 $popup_idx          = $_POST['popup_idx'];
 $web_idx            = $_POST['web_idx'];			//
 $product_idx        = $_POST['product_idx'];		//
@@ -70,7 +74,7 @@ $sql = "
 		POPUP_TYPE          = '".$popup_type."',
 		ALIGN               = '".$align."',
 		CLOSE_FLG           = '".$close_flg."',
-		UPDATER             = 'Admin'
+		UPDATER             = '".$session_id."'
     WHERE
         IDX = ".$popup_idx."
 	";
@@ -90,13 +94,13 @@ if ($web_idx != null && count($web_idx) > 0) {
             UPDATER
         )
         SELECT
-            ".$popup_idx.",
-            IDX,
-            'WEB',
-            PAGE_TITLE,
-            PAGE_URL,
-            'Admin',
-            'Admin'
+            ".$popup_idx."		AS POPUP_IDX,
+            IDX					AS FRONT_IDX,
+            'WEB'				AS POP_URL_TYPE,
+            PAGE_TITLE			AS PAGE_TITLE,
+            PAGE_URL			AS PAGE_URL,
+            '".$session_id."'	AS CREATER,
+            '".$session_id."'	AS UPDATER
         FROM
             dev.FRONT_PAGE_URL
         WHERE
@@ -117,14 +121,17 @@ if ($product_idx != null && count($product_idx) > 0) {
             UPDATER
         )
         SELECT
-            ".$popup_idx.",
-            IDX,
-            'PRODUCT',
-            PRODUCT_CODE,
-            PRODUCT_NAME,
-            CONCAT('/test/product/detail?product_idx=',IDX) AS URL,
-            'Admin',
-            'Admin'
+            ".$popup_idx."		AS POPUP_IDX,
+            IDX					AS PRODUCT_IDX,
+            'PRODUCT'			AS POPUP_URL_TYPE,
+            PRODUCT_CODE		AS PRODUCT_CODE,
+            PRODUCT_NAME		AS PRODUCT_NAME,
+            CONCAT(
+				'/test/product/detail?product_idx=',
+				IDX
+			)					AS URL,
+            '".$session_id."'	AS CREATER,
+            '".$session_id."'	AS UPDATER
         FROM
             dev.SHOP_PRODUCT
         WHERE

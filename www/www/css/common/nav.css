@@ -59,6 +59,12 @@ header .wishlist__btn.open .wishlist-svg {
     margin-top: 28px;
     content: url("/images/svg/wishlist-fill.svg");
 }
+
+header.hover .wishlist__btn.open .wishlist-svg,
+header.scroll .wishlist__btn.open .wishlist-svg {
+    margin-top: 28px;
+    content: url("/images/svg/wishlist-fill.svg");
+}
 header .side-bar.open .basket-svg {
     margin-top: 28px;
     content: url("/images/svg/basket-fill.svg");
@@ -1082,7 +1088,6 @@ header .menu-ul:hover::after{
 	right:auto;
 	width:100%
 }
-
 @media (max-width: 1440px){
     .header__grid .cont{
 		display: grid;
@@ -1275,9 +1280,19 @@ header .menu-ul:hover::after{
     }
     /* 검색 */
     header .wishlist__btn.open .wishlist-svg{
-        margin-top: 20px;
+        margin-top: 20px!important;
     }
     header .side-bar.open .basket-svg{
-        margin-top: 20px;
+        margin-top: 20px!important;
     }
+	
+	#sidebar.open.L,
+	#sidebar.open.S{
+		display:none;
+	}
+	
+	body[data-sb-type="L"] #dimmer.show,
+	body[data-sb-type="S"] #dimmer.show{
+		display:none;
+	}
 }

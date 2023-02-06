@@ -595,12 +595,17 @@ $(function() {
 		onReady:function(){
 			document.querySelector(".post-change-result").style.display="none";
 			$(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
-			// $(".post-change-result").hide();
+			$('.postcodify_search_controls .keyword').attr('chk-flg','false');
+            // $(".post-change-result").hide();
 		},
 		onSuccess:function(){
 			document.querySelector(".post-change-result").style.display="block";
 			$("#postcodify div.postcode_search_status.too_many").hide();
 			// $(".post-change-result").hide();
+			
+			$('.input-row').css('position','relative');
+			$('.post-change-result').css('position','absolute');
+			$('.post-change-result').css('top','0px');
 		},
 		afterSelect: function(selectedEntry) {
 
@@ -611,7 +616,19 @@ $(function() {
 			$("#entry_box").show();
 			$("#entry_details").focus();
 			$(".postcodify_search_controls .keyword").val($("#road_addr").val());
+			
+			$('.input-row').css('position','relative');
+			$('.post-change-result').css('position','absolute');
+			$('.post-change-result').css('top','0px');
 		}
 	});
+	
+    $('.postcodify_search_controls .keyword').keyup(function(){
+        $('.postcodify_search_controls .keyword').attr('chk-flg', 'false');
+    });
+	
+    $('.post-change-result.postcodify_search_form.postcode_search_form').on('click',function(){
+        $('.postcodify_search_controls .keyword').attr('chk-flg', 'true');
+    });
 });
 </script>

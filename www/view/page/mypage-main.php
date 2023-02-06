@@ -456,7 +456,7 @@ td p{
 }
 
 @media (max-width: 1024px){
-    .mypage .product .wish__btn{padding-top:15px;padding:right:10px;}
+    .mypage .product .wish__btn{padding-top:15px;padding-right:10px;}
     .mypage .product .wish__btn img{width:14px!important;height:12.2px;}
     .mypage .product .product-info .info-row .price[data-dis="true"]::before{margin-top:3px;}
     .swiper.icon .swiper-slide{
@@ -524,6 +524,7 @@ td p{
     $page_url = $_SERVER['REQUEST_URI'];
     $mypage_type = getUrlParamter($page_url, 'mypage_type');
 ?>
+<link rel="stylesheet" href="/css/module/foryou.css" type="text/css">
 <main>
     <input type="hidden" id="mypage_type" value="<?=$mypage_type?>">
     <div class="mypage__wrap">
@@ -780,7 +781,7 @@ td p{
             <?php include_once("mypage-main-home.php"); ?>
         </div>
         <div id="mypage_tab_orderlist" class="menu__tab non__display__tab">
-            <?php include_once("mypage-main-orderlist.php"); ?>
+            <?php include_once("mypage-main-orderlist_tmp.php"); ?>
         </div>
         <div id="mypage_tab_mileage" class="menu__tab non__display__tab">
             <?php include_once("mypage-main-mileage.php"); ?>
@@ -800,10 +801,7 @@ td p{
     </div>
     
     <div style="margin-bottom:100px;"></div>
-    <aside class="foryou__wrapper mypage">
-        <div class="title"><p>For you   ></p></div>
-        <div class="recommend-wrap"></div>
-    </aside>
+    <div class="recommend-wrap"></div>
 </main>
 <script>
 var swiperMypage = '';
@@ -947,6 +945,9 @@ $(document).ready(function() {
             case 'bluemark_list':
                 mypageTabBtnClick('bluemark',1);
                 break;
+            case 'orderlist':
+                mypageTabBtnClick('orderlist',0);
+                break;
         }
     }
 });
@@ -1014,6 +1015,4 @@ function makeSelect(divId){
 <script type="module">
     import ForyouRender  from '/scripts/module/foryou.js';
     const foryou = new ForyouRender();
-
-    $('.left__title').hide();
 </script>

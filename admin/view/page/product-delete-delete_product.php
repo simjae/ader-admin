@@ -1,5 +1,5 @@
 <div class="content__card">
-	<form id="frm-list_01" action="product/list/get">
+	<form id="frm-list_01" action="product/delete/get">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" name="delete_flg" value="true">

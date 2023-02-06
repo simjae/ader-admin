@@ -43,7 +43,7 @@
                     </li>
                     <li class="sort-btn type-btn" onClick="clickImgTypeBtn();">
                         <img src="/images/svg/cloth.svg" alt="">
-                        <span id="img_type_text">착용보기</span>
+                        <span id="img_type_text">착용컷</span>
                     </li>
                     <div class="sort-btn web rW sort__grid" data-grid="4">
 						<img src="/images/svg/grid-cols-2.svg" alt="">

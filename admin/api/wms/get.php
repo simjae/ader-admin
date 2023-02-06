@@ -65,7 +65,8 @@ $sql = "
 		LEFT JOIN dev.ORDERSHEET_OPTION OO ON
 		PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 	WHERE
-		OO.BARCODE = '".$product_code."'
+		OO.BARCODE = '".$product_code."' AND
+		PR.ORDERSHEET_IDX > 71
 ";
 
 $db->query($sql);

@@ -1,6 +1,6 @@
 <div class="body">
 	<h1>
-		상품정보 일괄변경
+		상품정보 일괄변경 - 배송정보
 		<a onclick="modal_close();" class="btn-close">
 			<i class="xi-close"></i>
 		</a>
@@ -10,8 +10,8 @@
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
 			
-			<div class="row" style="margin-top:10px;">
-				<TABLE id="insert_table_delivery" class="list" style="font-size:0.7rem;">
+			<div class="row table__wrap" style="margin-top:10px;">
+				<TABLE id="insert_table_delivery">
 					<TBODY>
 						<TR>
 							<TD style="width:10%;">HS코드</TD>

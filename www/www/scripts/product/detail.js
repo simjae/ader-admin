@@ -211,7 +211,7 @@ const getProduct = (product_idx) => {
             });
             let relevant_idx = data[0].relevant_idx;
             if (relevant_idx != null) {
-                getRelevantProductList(relevant_idx, country);
+                // getRelevantProductList(relevant_idx, country);
             }
             // getProductRecommendList();
 
@@ -285,103 +285,103 @@ function initPagingSwiper() {
 }
 
 //스타일링 스와이프	
-const getRelevantProductList = (relevant_idx, country) => {
-    $.ajax({
-        type: "post",
-        data: {
-            "relevant_idx": relevant_idx,
-            "country": country
-        },
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/common/relevant/get",
-        error: function () {
-            alert("관련상품정보 불러오기 처리에 실패했습니다.");
-        },
-        success: function (d) {
-            let data = d.data;
+// const getRelevantProductList = (relevant_idx, country) => {
+//     $.ajax({
+//         type: "post",
+//         data: {
+//             "relevant_idx": relevant_idx,
+//             "country": country
+//         },
+//         dataType: "json",
+//         url: "http://116.124.128.246:80/_api/common/relevant/get",
+//         error: function () {
+//             alert("관련상품정보 불러오기 처리에 실패했습니다.");
+//         },
+//         success: function (d) {
+//             let data = d.data;
 
-            let productRelevantListHtml = "";
-            let imgDiv = "";
-            const domFrag = document.createDocumentFragment();
+//             let productRelevantListHtml = "";
+//             let imgDiv = "";
+//             const domFrag = document.createDocumentFragment();
 
-            const styleWrap = document.querySelector(".style-swiper");
-            const prdListSlide = document.createElement("div");
-            prdListSlide.classList.add("swiper-wrapper");
-            data.forEach(el => {
-                let product_link = "/product/detail?product_idx=" + `${el.product_idx}`;
+//             const styleWrap = document.querySelector(".style-swiper");
+//             const prdListSlide = document.createElement("div");
+//             prdListSlide.classList.add("swiper-wrapper");
+//             data.forEach(el => {
+//                 let product_link = "/product/detail?product_idx=" + `${el.product_idx}`;
 
-                let whish_img = "";
-                let whish_function = "";
+//                 let whish_img = "";
+//                 let whish_function = "";
 
-                let whish_flg = `${el.whish_flg}`;
-                if (whish_flg == 'true') {
-                    whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
-                    whish_function = "deleteWhishListBtn(this);";
-                } else if (whish_flg == 'false') {
-                    whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                    whish_function = "setWhishListBtn(this);";
-                }
+//                 let whish_flg = `${el.whish_flg}`;
+//                 if (whish_flg == 'true') {
+//                     whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
+//                     whish_function = "deleteWhishListBtn(this);";
+//                 } else if (whish_flg == 'false') {
+//                     whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+//                     whish_function = "setWhishListBtn(this);";
+//                 }
 
-                let product_size = el.product_size;
+//                 let product_size = el.product_size;
 
-                let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
-                let colorCtn = el.product_color.length;
+//                 let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
+//                 let colorCtn = el.product_color.length;
 
 
-                let productSizeHtml = "";
-                product_size.forEach(size => {
-                    productSizeHtml += `
-							<div class="product__size">${size.option_name}</div>
-						`;
-                });
+//                 let productSizeHtml = "";
+//                 product_size.forEach(size => {
+//                     productSizeHtml += `
+// 							<div class="product__size">${size.option_name}</div>
+// 						`;
+//                 });
 
-                productRelevantListHtml +=
-                    `<div class="swiper-slide">
-						<div class="product">
-							<div class="wish__btn" product_idx="${el.product_idx}" onClick="${whish_function}">
-								${whish_img}
-							</div>
-							<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
-								<div class="product-img swiper">
-									<img class="prd-img" cnt="${el.product_idx}" src="${img_root}${el.product_img}" alt="">
-								</div>
-							</a>
-							<div class="product-info">
-								<div class="info-row">
-									<div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
-									${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
-								</div>
-								<div class="color-title"><span>${el.color}</span></div>
-								<div class="info-row">
-									<div class="color__box" data-maxcount="${colorCtn < 6 ? "" : "over"}" data-colorcount="${colorCtn < 6 ? colorCtn : colorCtn - 5}">
-										${el.product_color.map((color, idx) => {
-                        let maxCnt = 5;
-                        if (idx < maxCnt) {
-                            return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-                        }
-                    }).join("")
-                    }
-									</div>
-									<div class="size__box">
-										${el.product_size.map((size) => {
-                        return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-                    }).join("")
-                    }  
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					`;
+//                 productRelevantListHtml +=
+//                     `<div class="swiper-slide">
+// 						<div class="product">
+// 							<div class="wish__btn" product_idx="${el.product_idx}" onClick="${whish_function}">
+// 								${whish_img}
+// 							</div>
+// 							<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
+// 								<div class="product-img swiper">
+// 									<img class="prd-img" cnt="${el.product_idx}" src="${img_root}${el.product_img}" alt="">
+// 								</div>
+// 							</a>
+// 							<div class="product-info">
+// 								<div class="info-row">
+// 									<div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
+// 									${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
+// 								</div>
+// 								<div class="color-title"><span>${el.color}</span></div>
+// 								<div class="info-row">
+// 									<div class="color__box" data-maxcount="${colorCtn < 6 ? "" : "over"}" data-colorcount="${colorCtn < 6 ? colorCtn : colorCtn - 5}">
+// 										${el.product_color.map((color, idx) => {
+//                         let maxCnt = 5;
+//                         if (idx < maxCnt) {
+//                             return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
+//                         }
+//                     }).join("")
+//                     }
+// 									</div>
+// 									<div class="size__box">
+// 										${el.product_size.map((size) => {
+//                         return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+//                     }).join("")
+//                     }  
+// 									</div>
+// 								</div>
+// 							</div>
+// 						</div>
+// 					</div>
+// 					`;
 
-                prdListSlide.innerHTML = productRelevantListHtml;
-            });
-            domFrag.appendChild(prdListSlide);
-            styleWrap.appendChild(domFrag);
-            styleSwiper();
-        }
-    });
-}
+//                 prdListSlide.innerHTML = productRelevantListHtml;
+//             });
+//             domFrag.appendChild(prdListSlide);
+//             styleWrap.appendChild(domFrag);
+//             styleSwiper();
+//         }
+//     });
+// }
 function styleSwiper() {
     return new Swiper(".style-swiper", {
         navigation: {

@@ -35,18 +35,19 @@ $search_date        = $_POST['search_date'];
 $search_from      	= $_POST['search_from'];        	//등록일 검색 시작일자
 $search_to     	    = $_POST['search_to'];        	    //등록일 검색 종료일자
 
+$rows				= $_POST['rows'];
+$page				= $_POST['page'];
+
+$sort_value 		= $_POST['sort_value'];
+$sort_type 			= $_POST['sort_type'];
+
 $code_mst					= array();
 $member_level				= array();
 $administrator_permision	= array();
 $origin_report 				= array();
 
-$rows = $_POST['rows'];
-$page = $_POST['page'];
-$sort_value = $_POST['sort_value'];
-$sort_type 	= $_POST['sort_type'];
-
 $where = ' DEL_FLG = FALSE';
-$tables = "  dev.DISPLAY_POPUP ";  
+$tables = " dev.DISPLAY_POPUP ";
 
 $order = "";
 $limit = "";
@@ -54,40 +55,44 @@ if ($popup_idx != null) {
     $where .= " AND (IDX = ".$popup_idx.") ";
 } else {
     /** 검색 조건 **/
-    $cnt_where = "";
-    $cnt_where .= $where;
+    $cnt_where = $where;
 
     /* 검색조건 : 쇼핑몰 */
     if($country != null){
-        $where .= " AND COUNTRY = '".$country."' ";
+        $where .= " AND (COUNTRY = '".$country."') ";
     }
     /* 검색조건 : 검색타입 - 검색키워드 */
     if ($search_type != null && $search_keyword != null) {
         switch ($search_type) {
             case "title" :
-                $where .=  " AND TITLE LIKE '%".$search_keyword."%' ";
+                $where .=  " AND (TITLE LIKE '%".$search_keyword."%') ";
                 break;
             case "url" :
-                $where .=  " AND IDX IN 
-                                (SELECT 
-                                    DISTINCT POPUP_IDX 
-                                FROM 
-                                    dev.POPUP_URL 
-                                WHERE 
-                                    URL LIKE '%product%' 
-                                AND 
-                                    URL LIKE '%".$search_keyword."%') ";
+                $where .= "
+					AND (
+						IDX IN (
+							SELECT 
+								DISTINCT POPUP_IDX 
+							FROM 
+								dev.POPUP_URL 
+							WHERE 
+								URL LIKE '%product%' 
+							AND 
+								URL LIKE '%".$search_keyword."%'
+						)
+					)
+				";
                 break;
         }
     }
 
     /* 검색조건 : 팝업 타입 'LAYER', 'WINDOW' */
     if ($popup_type != null && $popup_type != 'ALL') {
-        $where .=  " AND  POPUP_TYPE = '".$popup_type."' ";
+        $where .=  " AND  (POPUP_TYPE = '".$popup_type."') ";
     }
     /* 검색조건 : 디바이스 'WEB', 'mobile' */
     if ($device != null && $device != 'TOTAL') {
-        $where .=  " AND DEVICE = '".$device."' ";
+        $where .=  " AND (DEVICE = '".$device."') ";
     }
     /* 검색조건 : 상태 */
     /* 검색조건 진열예약, 진열상태 */ 
@@ -111,18 +116,22 @@ if ($popup_idx != null) {
     if($display_date != null && $display_date != 'all'){
         switch ($display_date) {
             case "true" :
-                $where .= " AND DISPLAY_END_DATE = '9999-12-31 23:59' ";
+                $where .= " AND (DISPLAY_END_DATE = '9999-12-31 23:59') ";
                 break;
             case "false" :
                 if($display_from != null && $display_to == null){
-                    $where .= " AND DISPLAY_START_DATE >= '".$display_from."' ";
+                    $where .= " AND (DISPLAY_START_DATE >= '".$display_from."') ";
                 }
                 if($display_from == null && $display_to != null){
-                    $where .= " AND DISPLAY_END_DATE <= '".$display_to."'  ";
+                    $where .= " AND (DISPLAY_END_DATE <= '".$display_to."') ";
                 }
                 if($display_from != null && $display_to != null){
-                    $where .= " AND DISPLAY_START_DATE >= '".$display_from."' 
-                                AND DISPLAY_END_DATE <= '".$display_to."' ";
+                    $where .= "
+						AND (
+							DISPLAY_START_DATE >= '".$display_from."' AND
+							DISPLAY_END_DATE <= '".$display_to."'
+						)
+					";
                 }
                 break;
         }
@@ -182,39 +191,53 @@ if ($popup_idx != null) {
     $limit = " LIMIT ".$limit_start.",".$rows;
 }
 
-$sql = "SELECT
-                IDX,
-                COUNTRY,
-                TITLE,
-                CONTENTS,
-                DEVICE,
-                DISPLAY_FLG,
-                DATE_FORMAT(DISPLAY_START_DATE, '%Y-%m-%d %H:%i') AS DISPLAY_START_DATE,
-                DATE_FORMAT(DISPLAY_END_DATE, '%Y-%m-%d %H:%i') AS DISPLAY_END_DATE,
-                LOCATION_WIDTH,
-                LOCATION_HEIGHT,
-                SIZE_WIDTH,
-                SIZE_HEIGHT,
-                POPUP_TYPE,
-                ALIGN,
-                CLOSE_FLG,
-                CREATER,
-                DATE_FORMAT(CREATE_DATE, '%Y-%m-%d %H:%i') AS CREATE_DATE,
-                UPDATER,
-                DATE_FORMAT(UPDATE_DATE, '%Y-%m-%d %H:%i') AS UPDATE_DATE
-            FROM
-                ".$tables."
-            WHERE
-                ".$where."
-            ".$order."
-            ".$limit." 
-    ";
+$select_popup_sql = "
+	SELECT
+		IDX					AS POPUP_IDX,
+		COUNTRY				AS COUNTRY,
+		TITLE				AS TITLE,
+		CONTENTS			AS CONTENTS,
+		DEVICE				AS DEVICE,
+		DISPLAY_FLG			AS DISPLAY_FLG,
+		DATE_FORMAT(
+			DISPLAY_START_DATE,
+			'%Y-%m-%d %H:%i'
+		)					AS DISPLAY_START_DATE,
+		DATE_FORMAT(
+			DISPLAY_END_DATE,
+			'%Y-%m-%d %H:%i'
+		)					AS DISPLAY_END_DATE,
+		LOCATION_WIDTH		AS LOCATION_WIDTH,
+		LOCATION_HEIGHT		AS LOCATION_HEIGHT,
+		SIZE_WIDTH			AS SIZE_WIDTH,
+		SIZE_HEIGHT			AS SIZE_HEIGHT,
+		POPUP_TYPE			AS POPUP_TYPE,
+		ALIGN				AS ALIGN,
+		CLOSE_FLG			AS CLOSE_FLG,
+		CREATER				AS CREATER,
+		DATE_FORMAT(
+			CREATE_DATE,
+			'%Y-%m-%d %H:%i'
+		)					AS CREATE_DATE,
+		UPDATER				AS UPDATER,
+		DATE_FORMAT(
+			UPDATE_DATE,
+			'%Y-%m-%d %H:%i'
+		)					AS UPDATE_DATE
+	FROM
+		".$tables."
+	WHERE
+		".$where."
+	".$order."
+	".$limit." 
+";
 
-$db->query($sql);
+$db->query($select_popup_sql);
+
 foreach($db->fetch() as $data) {
     $json_result['data'][] = array(
         'num'					=> $total_cnt--,
-        'idx' 					=> $data['IDX'],
+        'idx' 					=> $data['POPUP_IDX'],
         'country' 				=> $data['COUNTRY'],
         'title' 			    => $data['TITLE'],
         'contents' 			    => $data['CONTENTS'],

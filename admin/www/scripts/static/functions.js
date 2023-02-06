@@ -45,10 +45,12 @@ function get_contents(obj,data,rowsParam,pageParam) {
 							row.num = num--;
 						});
 						data.html(d.data);
-					}
-					else if('nodata' in data && typeof data.nodata == 'function') {
+					} else if('nodata' in data && typeof data.nodata == 'function') {
 						data.nodata();
+					} else {
+						data.html(null);
 					}
+					
 					if('complete' in data && typeof data.complete == 'function') {
 						data.complete(d);
 					}
@@ -83,8 +85,7 @@ function get_contents(obj,data,rowsParam,pageParam) {
 							}
 						});
 					}
-				}
-				else {
+				} else {
 					alert(d.msg);
 				}
 			}
@@ -93,6 +94,7 @@ function get_contents(obj,data,rowsParam,pageParam) {
 		return false;
 	}).submit();
 };
+
 function insertLog(type, contents,cnt){
 	$.ajax({
 		type: "post",

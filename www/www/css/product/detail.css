@@ -568,6 +568,7 @@ ul,li{
     top: 10%;
     left: 80%;
     cursor: pointer;
+    transform: scaleX(1.65);
 }
 /* 디테일박스 */
 /* web */

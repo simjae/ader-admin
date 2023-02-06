@@ -145,6 +145,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 			foreach($db->fetch() as $order_product_data) {
 				$order_product[] = array(
 					'order_product_idx'		=>$order_product_data['ORDER_PRODUCT_IDX'],
+					'order_status'			=>$order_product_data['ORDER_STATUS'],
 					'img_location'			=>$order_product_data['IMG_LOCATION'],
 					'product_name'			=>$order_product_data['PRODUCT_NAME'],
 					'color'					=>$order_product_data['COLOR'],

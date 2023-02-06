@@ -71,7 +71,10 @@ if ($select_idx_flg == true) {
                 SP.CLEARANCE_IDX            AS CLEARANCE_IDX,
                 SP.RELEVANT_IDX             AS RELEVANT_IDX,
                 SP.SOLD_OUT_QTY             AS SOLD_OUT_QTY,
-                SP.DETAIL_KR                AS DETAIL_KR,
+                SP.CARE_KR                	AS CARE_KR,
+                SP.CARE_EN                	AS CARE_EN,
+                SP.CARE_CN                	AS CARE_CN,
+				SP.DETAIL_KR                AS DETAIL_KR,
                 SP.DETAIL_EN                AS DETAIL_EN,
                 SP.DETAIL_CN                AS DETAIL_CN,
                 SP.MATERIAL_KR              AS MATERIAL_KR,
@@ -90,8 +93,56 @@ if ($select_idx_flg == true) {
                 SP.SEO_DESCRIPTION          AS SEO_DESCRIPTION,
                 SP.SEO_KEYWORDS             AS SEO_KEYWORDS,
                 SP.SEO_ALT_TEXT             AS SEO_ALT_TEXT,
+				(
+					SELECT
+						REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+					FROM
+						dev.PRODUCT_IMG S_PI
+					WHERE
+						S_PI.PRODUCT_IDX = SP.IDX AND
+						S_PI.IMG_TYPE = 'P' AND
+						S_PI.IMG_SIZE = 'S'
+					ORDER BY
+						IDX ASC
+					LIMIT
+						0,1
+				) 							AS IMG_LOCATION,
+				(
+					SELECT
+						IFNULL(SUM(S_PS.STOCK_QTY),0)
+					FROM
+						dev.PRODUCT_STOCK S_PS
+					WHERE
+						S_PS.PRODUCT_IDX = SP.IDX AND
+						S_PS.STOCK_DATE <= NOW()
+				)	AS STOCK_QTY,
+				(
+					SELECT
+						IFNULL(SUM(S_PS.STOCK_SAFE_QTY),0)
+					FROM
+						dev.PRODUCT_STOCK S_PS
+					WHERE
+						S_PS.PRODUCT_IDX = SP.IDX AND
+						S_PS.STOCK_DATE <= NOW()
+				)	AS SAFE_QTY,
+				(
+					SELECT
+						IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+					FROM
+						dev.ORDER_PRODUCT S_OP
+					WHERE
+						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
+						S_OP.PRODUCT_IDX = SP.IDX
+				)	AS ORDER_QTY,
                 SP.SALE_FLG                 AS SALE_FLG,
-                SP.INDP_FLG                 AS INDP_FLG";
+                SP.INDP_FLG                 AS INDP_FLG,
+				SP.FILTER_FT				AS FILTER_FT,
+				SP.FILTER_GP				AS FILTER_GP,
+				SP.FILTER_LN				AS FILTER_LN,
+				SP.FILTER_CL				AS FILTER_CL,
+				SP.FILTER_SZ				AS FILTER_SZ,
+				SP.CREATE_DATE				AS CREATE_DATE,
+				SP.UPDATE_DATE				AS UPDATE_DATE";
 }
 $sql = 	'SELECT
 			'.$select.'
@@ -100,32 +151,8 @@ $sql = 	'SELECT
 		WHERE 
 			'.$where;
 
-$img_result = array();
-if ($product_idx != null) {
-	$img_sql = "SELECT
-					IDX AS IMG_IDX,
-					IMG_TYPE,
-					IMG_SIZE,
-					IMG_LOCATION
-				FROM
-					dev.PRODUCT_IMG
-				WHERE
-					DEL_FLG = FALSE AND
-					IMG_SIZE = 'org' AND
-					PRODUCT_IDX = '".$product_idx."'";
-	$db->query($img_sql);
-	
-	foreach($db->fetch() as $img_data) {
-		$img_result['data'][] = array(
-			'img_idx'						=>$img_data['IMG_IDX'],
-			'img_type'						=>$img_data['IMG_TYPE'],
-			'img_size'						=>$img_data['IMG_SIZE'],
-			'img_location'					=>$img_data['IMG_LOCATION']
-		);
-	}
-}
-
 $db->query($sql);
+
 if ($select_idx_flg == true) {
 	foreach($db->fetch() as $data) {
 		$json_result['data'][] = array(
@@ -135,17 +162,169 @@ if ($select_idx_flg == true) {
 	}
 } else {
 	foreach($db->fetch() as $data) {
+		if($data['PRODUCT_TYPE'] == 'S'){
+			$select_set_sql = "
+				SELECT
+					PR.IDX					AS PRODUCT_IDX,
+					PR.ORDERSHEET_IDX		AS ORDERSHEET_IDX,
+					PR.STYLE_CODE			AS STYLE_CODE,
+					PR.COLOR_CODE			AS COLOR_CODE,
+					PR.PRODUCT_CODE			AS PRODUCT_CODE,
+					PR.PRODUCT_TYPE			AS PRODUCT_TYPE,
+					PR.PRODUCT_NAME			AS PRODUCT_NAME,
+					CASE
+					WHEN
+						(SELECT COUNT(*) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
+							THEN
+								(
+									SELECT
+										REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+									FROM
+										dev.PRODUCT_IMG S_PI
+									WHERE
+										S_PI.PRODUCT_IDX = PR.IDX AND
+										S_PI.IMG_TYPE = 'P' AND
+										S_PI.IMG_SIZE = 'S'
+									LIMIT
+										0,1
+								)
+						ELSE
+							'/images/default_product_img.jpg'
+					END						AS IMG_LOCATION,
+					PR.PRICE_KR				AS PRICE_KR,
+					PR.DISCOUNT_KR			AS DISCOUNT_KR,
+					PR.SALES_PRICE_KR		AS SALES_PRICE_KR,
+					PR.PRICE_EN				AS PRICE_EN,
+					PR.DISCOUNT_EN			AS DISCOUNT_EN,
+					PR.SALES_PRICE_EN		AS SALES_PRICE_EN,
+					PR.PRICE_CN				AS PRICE_CN,
+					PR.DISCOUNT_CN			AS DISCOUNT_CN,
+					PR.SALES_PRICE_CN		AS SALES_PRICE_CN,
+					(
+						SELECT
+							IFNULL(SUM(S_PS.STOCK_QTY),0)
+						FROM
+							dev.PRODUCT_STOCK S_PS
+						WHERE
+							S_PS.PRODUCT_IDX = PR.IDX AND
+							S_PS.STOCK_DATE <= NOW()
+					)						AS STOCK_QTY,
+					(
+						SELECT
+							IFNULL(SUM(S_PS.STOCK_SAFE_QTY),0)
+						FROM
+							dev.PRODUCT_STOCK S_PS
+						WHERE
+							S_PS.PRODUCT_IDX = PR.IDX AND
+							S_PS.STOCK_DATE <= NOW()
+					)						AS SAFE_QTY,
+					(
+						SELECT
+							IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+						FROM
+							dev.ORDER_PRODUCT S_OP
+						WHERE
+							S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
+							S_OP.PRODUCT_IDX = PR.IDX
+					)						AS ORDER_QTY,
+					(
+						SELECT 
+							S_SP.OPTION_IDX
+						FROM 
+							dev.SET_PRODUCT S_SP
+						WHERE
+							S_SP.PRODUCT_IDX = PR.IDX
+						AND
+							SET_PRODUCT_IDX = ".$data['PRODUCT_IDX']."
+					)						AS OPTION_IDX,
+					PR.FILTER_FT			AS FILTER_FT,
+					PR.FILTER_GP			AS FILTER_GP,
+					PR.FILTER_LN			AS FILTER_LN,
+					PR.FILTER_CL			AS FILTER_CL,
+					PR.FILTER_SZ			AS FILTER_SZ,
+					PR.UPDATE_DATE			AS UPDATE_DATE
+				FROM
+					dev.SHOP_PRODUCT PR
+				WHERE
+					PR.IDX IN (
+						SELECT
+							S_SP.PRODUCT_IDX
+						FROM
+							dev.SET_PRODUCT S_SP
+						WHERE
+							S_SP.SET_PRODUCT_IDX = ".$data['PRODUCT_IDX']."
+					)
+			";
+			
+			$db->query($select_set_sql);
+			
+			$set_product_arr = array();
+			foreach($db->fetch() as $set_data) {
+				$option_info = array();
+				if($data['ORDERSHEET_IDX'] != null){
+					$select_option_sql = "
+						SELECT 
+							OO.IDX				AS OPTION_IDX,
+							OO.OPTION_NAME		AS OPTION_NAME
+						FROM 
+							dev.ORDERSHEET_OPTION OO
+						WHERE 
+							OO.ORDERSHEET_IDX = ".$set_data['ORDERSHEET_IDX']."
+					";
+					
+					$db->query($select_option_sql);
+					foreach($db->fetch() as $option_data) {
+						array_push($option_info, array(
+							'option_idx'	=> $option_data['OPTION_IDX'], 
+							'option_name'	=> $option_data['OPTION_NAME']
+							)
+						);
+					}
+				}
+				
+				array_push($set_product_arr, array(
+					'ordersheet_idx'	=>$set_data['ORDERSHEET_IDX'],
+					'product_idx'		=>$set_data['PRODUCT_IDX'],
+					'style_code'		=>$set_data['STYLE_CODE'],
+					'color_code'		=>$set_data['COLOR_CODE'],
+					'product_code'		=>$set_data['PRODUCT_CODE'],
+					'product_type'		=>$set_data['PRODUCT_TYPE'],
+					'product_name'		=>$set_data['PRODUCT_NAME'],
+					'img_location'		=>$set_data['IMG_LOCATION'],
+					'price_kr'			=>$set_data['PRICE_KR'],
+					'discount_kr'		=>$set_data['DISCOUNT_KR'],
+					'sales_price_kr'	=>$set_data['SALES_PRICE_KR'],
+					'price_en'			=>$set_data['PRICE_EN'],
+					'discount_en'		=>$set_data['DISCOUNT_EN'],
+					'sales_price_en'	=>$set_data['SALES_PRICE_EN'],
+					'price_cn'			=>$set_data['PRICE_CN'],
+					'discount_cn'		=>$set_data['DISCOUNT_CN'],
+					'sales_price_cn'	=>$set_data['SALES_PRICE_CN'],
+					'stock_qty'			=>$set_data['STOCK_QTY'],
+					'order_qty'			=>$set_data['ORDER_QTY'],
+					'safe_qty'			=>$set_data['SAFE_QTY'],
+					'option_idx'		=>$set_data['OPTION_IDX'],
+					'option_info'		=>$option_info,
+					'update_date'		=>$set_data['UPDATE_DATE']
+				));
+			}
+		}
+
 		$relevant_idx = $data['RELEVANT_IDX'];
 		$relevant_product = array();
 		if ($relevant_idx != null) {
-			$relevant_sql ="SELECT
-								IDX,
-								PRODUCT_NAME
-							FROM
-								dev.SHOP_PRODUCT
-							WHERE
-								IDX IN (".$relevant_idx.")";
-			$db->query($relevant_sql);
+			$select_relevant_sql ="
+				SELECT
+					IDX,
+					PRODUCT_NAME
+				FROM
+					dev.SHOP_PRODUCT
+				WHERE
+					IDX IN (".$relevant_idx.")
+			";
+			
+			$db->query($select_relevant_sql);
+			
 			foreach($db->fetch() as $relevant_data) {
 				$relevant_product['data'][] = array(
 					'idx'			=>$relevant_data['IDX'],
@@ -156,8 +335,8 @@ if ($select_idx_flg == true) {
 		
 		$json_result['data'][] = array(
 			'num'							=>$total_cnt--,
-			'no'							=>intval($data['PRODUCT_IDX']),
-			'img_result'					=>$img_result,
+			'product_idx'					=>intval($data['PRODUCT_IDX']),
+			'img_location'					=>$data['IMG_LOCATION'],
             'ordersheet_idx'			    =>$data['ORDERSHEET_IDX'],
 			'product_type'					=>$data['PRODUCT_TYPE'],
 			'style_code'					=>$data['STYLE_CODE'],
@@ -217,9 +396,18 @@ if ($select_idx_flg == true) {
 			'seo_alt_text'				    =>$data['SEO_ALT_TEXT'],
 			'sale_flg'				        =>$data['SALE_FLG'],
 			'indp_flg'				        =>$data['INDP_FLG'],
+			'filter_ft'				        =>$data['FILTER_FT'],
+			'filter_gp'				        =>$data['FILTER_GP'],
+			'filter_ln'				        =>$data['FILTER_LN'],
+			'filter_cl'				        =>$data['FILTER_CL'],
+			'filter_sz'				        =>$data['FILTER_SZ'],
+			'stock_qty'						=>$data['STOCK_QTY'],
+			'safe_qty'						=>$data['SAFE_QTY'],
+			'order_qty'						=>$data['ORDER_QTY'],
 			'create_date'					=>$data['CREATE_DATE'],
 			'update_date'					=>$data['UPDATE_DATE'],
-			'relevant_product'				=>$relevant_product
+			'relevant_product'				=>$relevant_product,
+			'set_product_info'				=>$set_product_arr
 		);
 	}
 }

@@ -200,6 +200,10 @@
                     } else {
                         $('<div class="too_short"></div>').postcodifyAddClass("search_status").html(info.translations[settings.language].errorTooShort.replace(/\n/g, "<br>")).appendTo(results);
                     }
+					$('.post-change-result').show();
+					$('.input-row').css('position','relative');
+					$('.post-change-result').css('position','absolute');
+					$('.post-change-result').css('top','0px');
                     return;
                 }
                 

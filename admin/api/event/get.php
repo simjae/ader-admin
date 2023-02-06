@@ -106,8 +106,8 @@ $sql = "
 		".$tables."
 	WHERE 
 		".$where."
-	".$order."
-	".$limit;
+	".$order;
+//".$limit; 제거
 $db->query($sql);
 
 foreach($db->fetch() as $data) {

@@ -42,6 +42,7 @@
 		<!-- <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script> -->
 		<link rel="stylesheet" href="/css/common/basket.css">
 		<script src="//cdn.tiny.cloud/1/8hqw5yh8xbtwt4pm8v4989rj0osoy7jyes9s0kwkncucraz4/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+		<script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>		
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="/scripts/static/jquery-ui.min.js"></script>
 		<script src="/scripts/static/jquery.minicolors.min.js"></script>

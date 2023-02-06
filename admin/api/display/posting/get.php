@@ -35,21 +35,24 @@ $where = ' DEL_FLG = FALSE ';
 if(isset($tab_num)){
 	switch($tab_num){
 		case '01':
-			$where .= " AND POSTING_TYPE = 'collection' ";
+			$where .= " AND POSTING_TYPE = 'COLC' ";
 			break;
 		case '02':
-			$where .= " AND POSTING_TYPE = 'editorial' ";
+			$where .= " AND POSTING_TYPE = 'EDTL' ";
 			break;
 		case '03':
-			$where .= " AND POSTING_TYPE = 'collaboration' ";
+			$where .= " AND POSTING_TYPE = 'COLA' ";
 			break;
 		case '04':
-			$where .= " AND POSTING_TYPE = 'exhibition' ";
+			$where .= " AND POSTING_TYPE = 'EXHB' ";
+			break;
+		case '05':
+			$where .= " AND POSTING_TYPE = 'LKBK' ";
 			break;
 	}
 }
 
-if($country != null && $country != "all"){
+if($country != null && $country != "ALL"){
 	$where .= " AND COUNTRY = '".$country."' ";
 }
 $cnt_where = $where;
@@ -115,21 +118,20 @@ if ($page_idx != null) {
 
 $sql = "SELECT
 			IDX,
-			POSTING_TYPE,
 			".$country_sql."
+			POSTING_TYPE,
 			PAGE_TITLE,
 			PAGE_URL,
-			PAGE_MEMO,
+			IFNULL(PAGE_MEMO,'') AS PAGE_MEMO,
 			PAGE_VIEW,
 			DISPLAY_FLG,
 			".$display_sql."
-			
 			SEO_EXPOSURE_FLG,
-			SEO_TITLE,
-			SEO_AUTHOR,
-			SEO_DESCRIPTION,
-			SEO_KEYWORDS,
-			SEO_ALT_TEXT,
+			IFNULL(SEO_TITLE, '') AS SEO_TITLE,
+			IFNULL(SEO_AUTHOR, '') AS SEO_AUTHOR,
+			IFNULL(SEO_DESCRIPTION, '') AS SEO_DESCRIPTION,
+			IFNULL(SEO_KEYWORDS, '') AS SEO_KEYWORDS,
+			IFNULL(SEO_ALT_TEXT, '') AS SEO_ALT_TEXT,
 			
 			CREATE_DATE,
 			CREATER,
@@ -143,7 +145,6 @@ $sql = "SELECT
 if ($rows != null) {
 	$sql .= " LIMIT ".$limit_start.",".$rows;
 }
-
 $db->query($sql);
 foreach($db->fetch() as $data) {
 	$json_result['data'][] = array(

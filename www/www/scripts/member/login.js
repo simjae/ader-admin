@@ -24,47 +24,58 @@ $(document).ready(function() {
 });
 
 function login() {
-	var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-	var member_id = $('#member_id').val();
-	var member_pw = $('#member_pw').val();
-	mail_regex.test(member_id);
+	var ip = '0.0.0.0';
 
-	$('.font__underline.font__red').text('');
-	if(member_id == ''){
-		$('.member_id_msg').text('이메일을 입력해주세요');
-	
-		return false;
-	}
-	
-	if(!mail_regex.test(member_id)){
-		$('.member_id_msg').text('이메일을 올바르게 입력해주세요');
-
-		return false;
-	}
-
-	if (member_pw == '') {
-		$('.member_pw_msg').text('비밀번호를 입력해주세요');
-
-		return false;
-	}
-	
-	$.ajax({
-		type: 'POST',
-		url: "http://116.124.128.246:80/_api/account/login",
-		data: $("#frm-login").serialize(),
-		dataType: "json",
-		error:function(){
-			alert("로그인 처리중 오류가 발생했습니다.");
-		},
-		success:function(d){
-			if(d.code == "200") {
-				sessionStorage.login_session = "true";
-				location.href='/main';
-			} else {
-				$('.result_msg').text("로그인정보 재확인 후 다시 시도해주세요.");
-			}
+	$.getJSON("https://api.ipify.org?format=jsonp&callback=?",
+		function(json) {
+			ip = json.ip;
 		}
-	});
+	).then(function(){
+		$('input[name="member_ip"]').val(ip);
+		console.log(ip);
+		var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+		var member_id = $('#member_id').val();
+		var member_pw = $('#member_pw').val();
+		mail_regex.test(member_id);
+	
+		$('.font__underline.font__red').text('');
+		if(member_id == ''){
+			$('.member_id_msg').text('이메일을 입력해주세요');
+		
+			return false;
+		}
+		
+		if(!mail_regex.test(member_id)){
+			$('.member_id_msg').text('이메일을 올바르게 입력해주세요');
+	
+			return false;
+		}
+	
+		if (member_pw == '') {
+			$('.member_pw_msg').text('비밀번호를 입력해주세요');
+	
+			return false;
+		}
+		
+		$.ajax({
+			type: 'POST',
+			url: "http://116.124.128.246:80/_api/account/login",
+			data: $("#frm-login").serialize(),
+			dataType: "json",
+			error:function(){
+				alert("로그인 처리중 오류가 발생했습니다.");
+			},
+			success:function(d){
+				if(d.code == "200") {
+					sessionStorage.login_session = "true";
+					location.href='/main';
+				} else {
+					$('.result_msg').text("로그인정보 재확인 후 다시 시도해주세요.");
+				}
+			}
+		});
+	})
+	
 }
 
     function logout(){
@@ -110,7 +121,7 @@ function getCookie(cookieName){
 
 // check
 function password_find_check() {
-	var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+	var mail_regex = new RegExp('^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$');
 	var member_id = $('#member_id').val();
 	mail_regex.test(member_id);
 
@@ -351,7 +362,7 @@ function memberPwConfirm(str){
 }
 //.css('visibility','hidden');
 function joinAction(){
-	var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+	var mail_regex = new RegExp('^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$');
 	var member_id = $('input[name="member_id"]').val();
 	var member_pw = $('input[name="member_pw"]').val();
 	var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
@@ -359,6 +370,7 @@ function joinAction(){
 	var birth_year = $('input[name="birth_year"]').val();
 	var birth_month = $('input[name="birth_month"]').val();
 	var birth_day = $('input[name="birth_day"]').val();
+	var addr_chk_flg = $('.postcodify_search_controls .keyword').attr('chk-flg');
 	var terms_of_service_flg = $('#terms_of_service_flg').is(':checked');
 
 	mail_regex.test(member_id);
@@ -383,6 +395,11 @@ function joinAction(){
 	}
 	else if(birth_year == '' || birth_month == '' || birth_day == ''){
 		$('.warn__msg.birth').css('visibility','visible');
+		return false;
+	}
+	else if(addr_chk_flg == 'false'){
+		$('.warn__msg.essential').css('visibility','visible');
+		$('.warn__msg.essential').text('도로명/지번 주소를 검색 후 선택해주세요');
 		return false;
 	}
 	else if(terms_of_service_flg == false){

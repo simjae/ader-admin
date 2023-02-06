@@ -196,21 +196,42 @@ function createFooterObserver() {
     let options = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.5
+        threshold: 0
     }
     let target = document.querySelector("footer")
     observer = new IntersectionObserver((entries) => {
+		const $body = document.querySelector("body");
         entries.forEach(entry => {
-            console.log(entry.isIntersecting)
-            if(entry.isIntersecting){
+            if(entry.isIntersecting && !$body.classList.contains("m_menu_open")){
                 let footerHeight = entry.boundingClientRect.height;
-                document.querySelector("#quickview .quickview__box").style.bottom = `${footerHeight}px`;
+				document.querySelector("#quickview .quickview__box").classList.add("on");
+//                document.querySelector("#quickview .quickview__box").style.bottom = `${footerHeight}px`;
             } else {
-                document.querySelector("#quickview .quickview__box").style.bottom = `0px`;
+				document.querySelector("#quickview .quickview__box").classList.remove("on");
+//                document.querySelector("#quickview .quickview__box").style.bottom = `0px`;
             }
         });
     }, options);
     observer.observe(target);
+	
+	/*    
+	var $w = $(window),
+	footerHei = $('footer').outerHeight(),
+	$quickview = $("#quickview .quickview__box");
+
+	$w.on('scroll', function() {
+		var sT = $w.scrollTop();
+		var val = $(document).height() - $w.height() - footerHei;
+
+		if (sT >= val){
+			$quickview.addClass('on');
+			$quickview.css("bottom",footerHei+"px");
+		}
+		else{
+			$quickview.removeClass('on');
+		}
+	});
+*/
 }
 
 window.addEventListener("DOMContentLoaded", function() {
