@@ -137,6 +137,10 @@
         width: 100%;
     }
 
+    .icon__title p {
+        font-size: 13px;
+        text-align: center;
+    }
 
     .icon__item {
         cursor: pointer
@@ -165,14 +169,6 @@
     .icon__title {
         margin-top: 10px;
         height: 19px;
-    }
-
-    .icon__title p {
-        font-size: 13px;
-        text-align: center;
-        line-height: 15px;
-        line-height: 1.15;
-        letter-spacing: -1.3px;
     }
 
     .click__icon__item .icon {
@@ -379,33 +375,30 @@
     .black__full__width__btn {
         width: 100%;
         height: 40px;
-        background-color: #191919;
-        color: #ffffff;
+        background-color: black;
+        color: white;
         text-align: center;
         border-radius: 1px;
-        font-size: 11px;
     }
 
     .white__full__width__btn {
         width: 100%;
         height: 40px;
-        background-color: #ffffff;
-        color: #343434;
+        background-color: white;
+        color: black;
         text-align: center;
         border-radius: 1px;
         border: solid 1px #dcdcdc;
-        font-size: 11px;
     }
 
     .gray__mypage__btn {
         width: 100%;
         height: 40px;
         background-color: #dcdcdc;
-        color: #343434;
+        color: black;
         text-align: center;
         border-radius: 1px;
         border: solid 1px #dcdcdc;
-        font-size: 11px;
     }
 
     .next__line__exist {
@@ -494,10 +487,6 @@
         overflow: hidden;
     }
 
-    .swiper-autoheight .swiper-wrapper {
-        margin-left: 10px;
-    }
-
     .mypage__paging {
         margin-top: 30px;
     }
@@ -570,12 +559,6 @@
         height: 12.5px;
     }
 
-    .swiper-autoheight,
-    .swiper-autoheight .swiper-slide {
-        display: grid;
-        place-items: center;
-    }
-
     @media (min-width: 1250px) {
         .swiper.icon {
             display: none;
@@ -585,6 +568,10 @@
     @media (max-width: 1250px) {
         .mypage__items.btn__items {
             display: none;
+        }
+
+        .swiper.icon .swiper-slide {
+            width: 80px !important;
         }
     }
 
@@ -672,16 +659,6 @@
 
         .point__item {
             padding: 0 19.5px;
-        }
-
-        .icon__item .icon,
-        .icon__item:hover .icon {
-            margin: 0 10px;
-        }
-
-        .recommend-wrap {
-            width: 600px;
-            margin: 0 auto;
         }
     }
 </style>

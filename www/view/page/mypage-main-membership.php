@@ -107,10 +107,9 @@
     .level__box{width:100%;height:31px;display:flex;}
     .level__title{padding-top:10px;margin-right:auto;margin-left:10px;}
     .level__info {padding-top:8px;margin-left:auto;margin-right:10px;}
-    .level__info__container {width:100%;display:block; padding-top: 0px;padding-bottom: 20px;}
-    .level__info__container .title p{margin-bottom:20px;}
-    .level__info__item{margin-top:20px;}
-    .level__info__item .title{height:6px; margin-bottom:0px;}
+    .level__info__container {width:100%;display:block; padding-top: 0px;padding-bottom: 10px;}
+    .level__info__item{margin:20px 0;}
+    .level__info__item .title{height:19px;}
 }
 @media (min-width: 600px) {
     .membership__wrap {

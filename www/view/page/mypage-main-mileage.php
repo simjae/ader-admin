@@ -27,10 +27,18 @@
         margin: 0;
     }
 
+    .mileage__tab__wrap {
+        grid-column: 1/17;
+        margin: 0 auto;
+        margin-top: 50px;
+        width: 710px;
+    }
+
     .mileage__tab__wrap .contents__table {
         border-top: none;
         border-bottom: none;
         margin-top: 40px;
+        padding-top: 0;
     }
 
     .description.tab__total {
@@ -58,10 +66,6 @@
         border-bottom: 1px solid #dcdcdc;
     }
 
-    .mileage__tab__wrap .footer {
-        margin-bottom: 100px;
-    }
-
     .mileage__table tr {
         height: 55px;
     }
@@ -78,27 +82,20 @@
         .mileage__tab__wrap {
             grid-column: 1/17;
             width: 100%;
-            margin-top:40px;
+            margin-top: 40px;
+        }
+
+        .notice_br {
+            display: inline;
         }
     }
-    @media (min-width: 600px) {
-        .mileage__tab__wrap {
-            grid-column: 1/17;
-            width:580px;
-            margin:0 auto;
-        }
-    }
+
     @media (min-width: 1024px) {
-        .mileage__tab__wrap {
-            grid-column: 1/17;
-            margin: 0 auto;
-            margin-top: 50px;
-            width: 710px;
+        .notice_br {
+            display: none;
         }
     }
-    .mileage__total__wrap .all_list {
-        margin-top: 30px;
-    }
+
     .mileage__total__wrap .underline {
         width: 60px;
         word-break: break-all;
@@ -156,7 +153,7 @@
                 </table>
             </div>
             <div class="description tab__total">
-                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 적립금으로 전환됩니다.</p>
+                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
                 <p>·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
                 <p>·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
                 <p>·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
@@ -230,7 +227,6 @@
                     </div>
                 </form>
             </div>
-            <div class="footer"></div>
         </div>
         <div class="mileage__tab mileage__save__wrap">
             <div class="title">
@@ -304,8 +300,7 @@
                         <div class="mypage__paging"></div>
                     </div>
                 </div>
-            </from>
-            <div class="footer"></div>
+                </from>
         </div>
         <div class="mileage__tab mileage__use__wrap">
             <div class="title">
@@ -380,48 +375,46 @@
                     </div>
                 </div>
             </form>
-            <div class="footer"></div>
         </div>
         <div class="mileage__tab mileage__notice__wrap">
             <div class='title'>
                 <p>적립포인트 유의사항</p>
             </div>
             <div class='description tab__notice'>
-                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 적립금으로 전환됩니다.</p>
+                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
                 <p>·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
                 <p>·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
                 <p>·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
             </div>
-            <div class="footer"></div>
         </div>
     </div>
 </div>
 <script>
-$('.mileage__alarm__wrap').hide();
-$('.mileage__cancel__wrap').hide();
+    $('.mileage__alarm__wrap').hide();
+    $('.mileage__cancel__wrap').hide();
 
-function mileageGetInfo(str) {
-    var list_type = str;
-    var country = 'KR';
+    function mileageGetInfo(str) {
+        var list_type = str;
+        var country = 'KR';
 
-    if (str == 'total') {
-        mileageGetSummary();
-    }
-    var use_form = $('#frm-mileage-' + str + '-list');
+        if (str == 'total') {
+            mileageGetSummary();
+        }
+        var use_form = $('#frm-mileage-' + str + '-list');
 
-    var result_table = $('#mileage_' + list_type + '_result');
-    var result_table_mobile = $('#mileage_' + list_type + '_result_mobile')
+        var result_table = $('#mileage_' + list_type + '_result');
+        var result_table_mobile = $('#mileage_' + list_type + '_result_mobile')
 
-    result_table.html('');
-    result_table_mobile.html('');
-    result_table.html(`
+        result_table.html('');
+        result_table_mobile.html('');
+        result_table.html(`
     <tr>
         <td colspan="6" style="text-align:center">
             <p>조회결과가 없습니다.</p>
         </td>
     </tr>
     `);
-    result_table_mobile.html(`
+        result_table_mobile.html(`
     <tr>
         <td colspan="4" style="text-align:center">
             <p>조회결과가 없습니다.</p>
@@ -429,55 +422,55 @@ function mileageGetInfo(str) {
     </tr>
     `);
 
-    var rows = use_form.find('input[name="rows"]').val();
-	var page = use_form.find('input[name="page"]').val();
+        var rows = use_form.find('input[name="rows"]').val();
+        var page = use_form.find('input[name="page"]').val();
 
-    if(rows == null){
-        rows = 10;
-    }
-    if(page == null){
-        page = 1;
-    }
-    $.ajax({
-        type: "post",
-        data: { 
-                'country': 'KR', 
+        if (rows == null) {
+            rows = 10;
+        }
+        if (page == null) {
+            page = 1;
+        }
+        $.ajax({
+            type: "post",
+            data: {
+                'country': 'KR',
                 'list_type': str,
                 'rows': rows,
-                'page': page 
+                'page': page
             },
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/mypage/mileage/list/get",
-        error: function (d) {
-            exceptionHandling("마일리지",'마일리지 정보조회에 실패했습니다.');
-        },
-        success: function (d) {
-            if (d.code == 200) {
-                if (d.data != null && d.data.length > 0) {
-                    $('#mileage_' + list_type + '_result').html('');
-                    $('#mileage_' + list_type + '_result_mobile').html('');
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/mypage/mileage/list/get",
+            error: function (d) {
+                exceptionHandling("마일리지", '마일리지 정보조회에 실패했습니다.');
+            },
+            success: function (d) {
+                if (d.code == 200) {
+                    if (d.data != null && d.data.length > 0) {
+                        $('#mileage_' + list_type + '_result').html('');
+                        $('#mileage_' + list_type + '_result_mobile').html('');
 
-                    d.data.forEach(function (row) {
-                        var price_str = '';
+                        d.data.forEach(function (row) {
+                            var price_str = '';
 
-                        var mileage_usable_inc = parseInt(row.mileage_usable_inc);
-                        var mileage_usable_dec = parseInt(row.mileage_usable_dec);
+                            var mileage_usable_inc = parseInt(row.mileage_usable_inc);
+                            var mileage_usable_dec = parseInt(row.mileage_usable_dec);
 
-                        var mileage_usable_val = mileage_usable_inc - mileage_usable_dec;
-                        var mileage_usable_str = mileage_usable_val.toLocaleString('ko-KR');
-                        if (mileage_usable_val > 0) {
-                            mileage_usable_str = '+ ' + mileage_usable_str;
-                        }
-                        else if (mileage_usable_val < 0) {
-                            mileage_usable_str = '- ' + mileage_usable_str;
-                        }
+                            var mileage_usable_val = mileage_usable_inc - mileage_usable_dec;
+                            var mileage_usable_str = mileage_usable_val.toLocaleString('ko-KR');
+                            if (mileage_usable_val > 0) {
+                                mileage_usable_str = '+ ' + mileage_usable_str;
+                            }
+                            else if (mileage_usable_val < 0) {
+                                mileage_usable_str = '- ' + mileage_usable_str;
+                            }
 
-                        if (row.price_total != "") {
-                            row.price_total = parseInt(row.price_total).toLocaleString('ko-KR');
-                        }
+                            if (row.price_total != "") {
+                                row.price_total = parseInt(row.price_total).toLocaleString('ko-KR');
+                            }
 
-                        var strDiv =
-                            `
+                            var strDiv =
+                                `
                             <tr>
                                 <td>
                                     <p>${row.update_date}</p>
@@ -499,10 +492,10 @@ function mileageGetInfo(str) {
                                 </td>
                             </tr> 
                         `;
-                        $('#mileage_' + list_type + '_result').append(strDiv);
+                            $('#mileage_' + list_type + '_result').append(strDiv);
 
-                        var strMobileDiv =
-                            `
+                            var strMobileDiv =
+                                `
                             <tr>
                                 <td>
                                     <p class="underline">${row.ordernum}</p>
@@ -518,122 +511,122 @@ function mileageGetInfo(str) {
                                 </td>
                             </tr> 
                         `;
-                        $('#mileage_' + list_type + '_result_mobile').append(strMobileDiv);
+                            $('#mileage_' + list_type + '_result_mobile').append(strMobileDiv);
 
-                        var showing_page = Math.ceil(d.total/rows);
-                        mypagePaging({
-							total : d.total,
-							el : use_form.find(".mypage__paging"),
-							page : page,
-							row : rows,
-							show_paging : showing_page,
-                            use_form : use_form,
-                            list_type : str
-						});
-                    })
+                            var showing_page = Math.ceil(d.total / rows);
+                            mypagePaging({
+                                total: d.total,
+                                el: use_form.find(".mypage__paging"),
+                                page: page,
+                                row: rows,
+                                show_paging: showing_page,
+                                use_form: use_form,
+                                list_type: str
+                            });
+                        })
+                    }
+                }
+                else {
+                    let err_str = '마일리지 정보조회에 실패했습니다.';
+                    if (d.msg != null) {
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("마일리지", err_str);
+                    if (d.code = 401) {
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
                 }
             }
-            else{
-                let err_str = '마일리지 정보조회에 실패했습니다.';
-                if(d.msg != null){
-                    err_str = d.msg;
+        });
+    }
+
+    function mileageGetSummary() {
+        $.ajax({
+            type: "post",
+            data: { 'country': 'KR' },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/mypage/mileage/get",
+            error: function (d) {
+                exceptionHandling("마일리지", '마일리지 정보조회에 실패했습니다.');
+            },
+            success: function (d) {
+                if (d.code == 200) {
+                    if (d.data != null) {
+                        var data = d.data;
+
+                        var mileage_point
+                        var uesd_mileage
+                        var refund_scheduled
+                        $('#mileage_point').find('p').text(parseInt(data.mileage_balance).toLocaleString('ko-KR'));
+                        $('#uesd_mileage').find('p').text(parseInt(data.refund_scheduled).toLocaleString('ko-KR'));
+                        $('#refund_scheduled').find('p').text(parseInt(data.used_mileage).toLocaleString('ko-KR'));
+                    }
                 }
-                exceptionHandling("마일리지",err_str);
-                if(d.code = 401){
-                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                else {
+                    let err_str = '마일리지 정보조회에 실패했습니다.';
+                    if (d.msg != null) {
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("마일리지", err_str);
+                    if (d.code = 401) {
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
                 }
             }
+        });
+    }
+
+    function mypagePaging(obj) {
+        if (typeof obj != 'object' || 'total' in obj == false || 'el' in obj == false) {
+            return;
         }
-    });
-}
+        if ('page' in obj == false) obj.page = 1;
+        if ('row' in obj == false) obj.row = 10;
+        if ('show_paging' in obj == false) obj.show_paging = 9;
 
-function mileageGetSummary() {
-    $.ajax({
-        type: "post",
-        data: { 'country': 'KR' },
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/mypage/mileage/get",
-        error: function (d) {
-            exceptionHandling("마일리지",'마일리지 정보조회에 실패했습니다.');
-        },
-        success: function (d) {
-            if (d.code == 200) {
-                if (d.data != null) {
-                    var data = d.data;
+        let total_page = Math.ceil(obj.total / obj.row);
 
-                    var mileage_point
-                    var uesd_mileage
-                    var refund_scheduled
-                    $('#mileage_point').find('p').text(parseInt(data.mileage_balance).toLocaleString('ko-KR'));
-                    $('#uesd_mileage').find('p').text(parseInt(data.refund_scheduled).toLocaleString('ko-KR'));
-                    $('#refund_scheduled').find('p').text(parseInt(data.used_mileage).toLocaleString('ko-KR'));
-                }
-            }
-            else{
-                let err_str = '마일리지 정보조회에 실패했습니다.';
-                if(d.msg != null){
-                    err_str = d.msg;
-                }
-                exceptionHandling("마일리지",err_str);
-                if(d.code = 401){
-                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
-                }
-            }
+        // 이전 페이징
+        let prev = obj.page - obj.show_paging;
+        if (prev < 1) prev = 1;
+
+        // 다음 페이징
+        let next = obj.page + obj.show_paging;
+        if (next > total_page) next = total_page;
+
+        // 페이지 시작 번호
+        let start = obj.page - Math.ceil(obj.show_paging / 2) + 1;
+        if (start < 1) start = 1;
+
+        // 페이지 끝 번호
+        let end = start + obj.show_paging - 1;
+        if (end > total_page) {
+            end = total_page;
+            start = end - obj.show_paging + 1;
+            if (start < 1) start = 1;
         }
-    });
-}
-
-function mypagePaging(obj) {
-	if(typeof obj != 'object' || 'total' in obj == false || 'el' in obj == false) {
-		return;
-	}
-	if('page' in obj == false) obj.page = 1;
-	if('row' in obj == false) obj.row = 10;
-	if('show_paging' in obj == false) obj.show_paging = 9;
-	
-	let total_page = Math.ceil(obj.total/obj.row);
-
-	// 이전 페이징
-	let prev = obj.page - obj.show_paging;
-	if(prev < 1) prev = 1;
-
-	// 다음 페이징
-	let next = obj.page + obj.show_paging;
-	if(next > total_page) next = total_page;
-
-	// 페이지 시작 번호
-	let start = obj.page - Math.ceil(obj.show_paging / 2 ) + 1;
-	if(start < 1) start = 1;
-
-	// 페이지 끝 번호
-	let end = start + obj.show_paging - 1;
-	if(end > total_page) {
-		end = total_page;
-		start = end - obj.show_paging + 1;
-		if(start < 1) start = 1;
-	}
-	if(end < 1) {
-		total_page = 1;
-		end = 1;
-		next = 1;
-		prev = 1;
-		start = 1;
-	}
-	let paging = [];
-	for(var i = start ; i <= end ; i++) {
-		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}" style="${((i == obj.page) ? 'color: black' : 'color: #dcdcdc')}">${i}</div>`);
-	}
-	$(obj.el).html(`
+        if (end < 1) {
+            total_page = 1;
+            end = 1;
+            next = 1;
+            prev = 1;
+            start = 1;
+        }
+        let paging = [];
+        for (var i = start; i <= end; i++) {
+            paging.push(`<div class="page ${((i == obj.page) ? 'now' : '')}" data-page="${i}" style="${((i == obj.page) ? 'color: black' : 'color: #dcdcdc')}">${i}</div>`);
+        }
+        $(obj.el).html(`
             <div class="mypage--paging">
                 <div class="page prev" data-page="${prev}"><</div>
-				${paging.join("")}
-				<div class="page next" data-page="${next}">></div>
-			</div>
-		`);
-    $(obj.el).find(".mypage--paging .page").click(function() {
-        var new_page = $(this).data("page");
-        $(obj.use_form).find('input[name="page"]').val(new_page);
-        mileageGetInfo(obj.list_type);
-    });
-}
+                ${paging.join("")}
+                <div class="page next" data-page="${next}">></div>
+            </div>
+        `);
+        $(obj.el).find(".mypage--paging .page").click(function () {
+            var new_page = $(this).data("page");
+            $(obj.use_form).find('input[name="page"]').val(new_page);
+            mileageGetInfo(obj.list_type);
+        });
+    }
 </script>

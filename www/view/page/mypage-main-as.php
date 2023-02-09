@@ -27,10 +27,12 @@
         cursor: pointer;
         margin-right: 10px;
         font-size: 11px;
+        color: #dcdcdc;
     }
 
     .as_tab_btn li.on {
         border: 1px solid #808080;
+        color: #343434;
     }
 
     .as__tab__wrap {
@@ -231,7 +233,7 @@
 
     .as__tab__wrap .title {
         font-size: 13px;
-        margin-bottom: 30px;
+        margin: 50px 0 30px;
     }
 
     .as__tab__wrap .description p {
@@ -306,6 +308,12 @@
             width: 80px !important;
             max-width: initial;
         }
+        .as_contents_list_wrap{
+            margin-bottom: 52.5px;
+        }
+        .as__tab__wrap .title{
+            margin-top: 40px 0 20px;
+        }
 
     }
 
@@ -317,10 +325,10 @@
         }
     }
 
-    @media (min-width: 600px) {
+    @media (min-width: 730px) {
         .as__tab__wrap {
             grid-column: 1/17;
-            width: 580px;
+            width: 710px;
             margin: 0 auto;
 
         }
@@ -596,6 +604,77 @@
                 <div class="bluemark_input_wrap">
                     <input type="text" class="bluemark_serialcode" placeholder="BLUE MARK 시리얼 코드">
                     <button class="as__black__btn" style="width: 33%;" onclick="asSearch(this)">검색</button>
+                </div>
+                <div class="bluemark_search_return" style="display: none;">
+                    <div class="as__contents__table">
+                        <div class="pc__view">
+                            <table>
+                                <colsgroup>
+                                    <col style="width:120px;">
+                                    <col style="width:120px;">
+                                    <col style="width:120px;">
+                                    <col style="width:110px;">
+                                    <col style="width:120px;">
+                                    <col style="width:120px;">
+                                </colsgroup>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png"
+                                                class="as_img_fixed">
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>Product name</p>
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>Color</p>
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>A2</p>
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>000,000</p>
+                                        </td>
+                                        <td style="padding-bottom: 10px;">
+                                            <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mobile__view">
+                            <table>
+                                <colsgroup>
+                                    <col style="width:27%;">
+                                    <col style="width:39%;">
+                                    <col style="width:34%;">
+                                </colsgroup>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <img src="/images/mypage/sample_product/BLAFWBZ05BG_12.png"
+                                                class="as_img_fixed">
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>Product name</p>
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>Color</p>
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>A2</p>
+                                        </td>
+                                        <td class="table_colspan_td">
+                                            <p>000,000</p>
+                                        </td>
+                                        <td style="padding-bottom: 10px;">
+                                            <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class='bluemark_mini_title'>
                     <ul>Bluemark 인증 내역</ul>
@@ -1353,8 +1432,17 @@
     }
 
     function asSearch(obj) {
-        $('.as__black__btn').text('취소');
-
+        if ($('.bluemark_search_return').css('display') == 'none') {
+            $('.bluemark_search_return').show();
+            $('.as__black__btn').text('취소');
+            $('.bluemark_input_wrap').css('border-bottom', 'none');
+            $('.bluemark_input_wrap').css('margin-bottom', '0');
+            $('.bluemark_search_return').css('margin-bottom', '59.5px');
+        }
+        else {
+            $('.bluemark_search_return').hide();
+            $('.as__black__btn').text('검색');
+        }
     }
 
     function asStepBtn(obj) {

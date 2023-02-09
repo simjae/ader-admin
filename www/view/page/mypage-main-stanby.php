@@ -20,8 +20,12 @@
     width:100%;
     margin: 0;
 }
-.stanby__wrap .title{
+.stanby__apply__form__wrap .title{
     margin-bottom: 10px;
+    margin-top: 0 !important;
+}
+.stanby__notice__wrap .title{
+    margin-bottom: 30px;
     margin-top: 0 !important;
 }
 .stanby__notice__wrap{
@@ -134,6 +138,12 @@
         margin-top:50px;
     }
     .orderlist__tab__contents{width:950px;}
+}
+.stanby__wrap .stanby_product_name {
+    width: 70px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 </style>
 <div class="stanby__wrap">
@@ -343,9 +353,12 @@ function getEntryStandby(){
                                                         <img src="http://116.124.128.246:81${row.img_location}">
                                                     </td>
                                                     <td>
-                                                        <p>${row.product_name}</p>
+                                                        <p class="stanby_product_name">${row.product_name}</p>
                                                         <p>${parseInt(row.sales_price).toLocaleString('ko-KR')}</p>
-                                                        <p>${row.color}</p>
+                                                        <div class="color_wrap">
+                                                            <p>${row.color}</p>
+                                                            <div class="color_chip" style="background-color:${row.color_rgb}"></div>
+                                                         </div>
                                                         <p>${row.option_name}</p>
                                                     </td>
                                                     <td class="vertical__top">
@@ -428,7 +441,10 @@ function getEntryStandby(){
                                                     <td>
                                                         <p>${row.product_name}</p>
                                                         <p>${parseInt(row.sales_price).toLocaleString('ko-KR')}</p>
-                                                        <p>${row.color}</p>
+                                                        <div class="color_wrap">
+                                                            <p>${row.color}</p>
+                                                            <div class="color_chip" style="background-color:${row.color_rgb}"></div>
+                                                        </div>
                                                         <p>${row.option_name}</p>
                                                     </td>
                                                     <td>

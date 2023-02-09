@@ -50,6 +50,9 @@
 }
 .preorder__item img{
     width:100%;
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0); 
+    backface-visibility: hidden;
 }
 .preorder__item .item__title{
     margin-top:15px;
@@ -402,7 +405,10 @@ function getEntryPreorder(){
                                                         <p>${row.product_name}</p>
                                                     </td>
                                                     <td>
-                                                        <p>${row.color}</p>
+                                                        <div class="color_wrap">
+                                                            <p>${row.color}</p>
+                                                            <div class="color_chip" style="background-color:${row.color_rgb}"></div>
+                                                        </div>
                                                     </td>
                                                     <td>
                                                         <p>${row.option_name}</p>
@@ -482,7 +488,10 @@ function getEntryPreorder(){
                                                     <td class="preorder_info_mob">
                                                         <p class="preorder_product_name">${row.product_name}</p>
                                                         <p>${parseInt(row.sales_price).toLocaleString('ko-KR')}</p>
-                                                        <p>${row.color}</p>
+                                                        <div class="color_wrap">
+                                                            <p>${row.color}</p>
+                                                            <div class="color_chip" style="background-color:${row.color_rgb}"></div>
+                                                        </div>
                                                         <p>${row.option_name}</p>
                                                     </td>
                                                     <td>

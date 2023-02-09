@@ -2,6 +2,7 @@
     .profile__wrap {
         margin-top: 40px;
         width: 100%;
+        color: #343434;
     }
 
     .profile__tab__btn__container {
@@ -11,9 +12,12 @@
         place-items: center;
         grid-template-columns: 80px 80px 80px 90px 80px;
     }
+
     .profile__wrap .contents__table {
         border: none;
         width: 470px;
+        padding: 0;
+        margin: 0;
     }
 
     .profile__wrap .contents__table td {
@@ -26,11 +30,12 @@
         line-height: normal;
         letter-spacing: normal;
         text-align: left;
-        color: #343434;
     }
 
-    .profile__tab__wrap .footer {
-        margin-bottom: 100px;
+    .list__delivery__wrap {
+        display: block;
+        font-size: 11px;
+        color: #343434;
     }
 
     .input__form__wrap {
@@ -92,7 +97,6 @@
         line-height: normal;
         letter-spacing: normal;
         text-align: left;
-        color: #343434;
         margin-bottom: 10px;
     }
 
@@ -172,15 +176,19 @@
     .contents_margin p {
         margin-bottom: 10px;
     }
+
     .delivery_table_wrap {
         display: flex;
         flex-direction: column;
     }
+
     .profile__wrap .default_destination {
-        width:100%;
+        width: 100%;
         display: flex;
         flex-direction: column;
+        margin: 0;
     }
+
     .profile__wrap .other_destination {
         height: auto;
         width: auto;
@@ -189,23 +197,29 @@
         border-bottom: solid 1px #dcdcdc;
         margin-bottom: 20px;
     }
+
     .keyword_label {
         display: none;
     }
+
     .code6 {
         display: none;
     }
+
     .code5 {
         font-size: 11px;
         font-family: var(--ft-fu);
-        width:34px;
+        width: 34px;
     }
+
     .order__to__update__wrap {
         width: 470px;
     }
+
     .profile__wrap .keyword {
         height: 40px;
     }
+
     .profile__wrap .search_button {
         width: 110px;
         height: 40px;
@@ -214,102 +228,172 @@
         font-size: 11px;
         text-align: center;
         color: #fff;
-        cursor:pointer;
+        cursor: pointer;
         border-radius: 1px;
         background-color: #191919;
-        float:right;
+        float: right;
     }
+
     .postcode_search_status {
         font-family: var(--ft-no);
         font-size: 11px;
         border: solid 1px #dcdcdc;
         padding: 23px 19px;
     }
+
     .postcode_search_controls {
         display: flex;
         align-items: flex-end;
         justify-content: flex-start;
         gap: 10px;
     }
+
     .post_change_result {
         width: 350px;
         max-height: 285px;
-        margin: 0!important;
+        margin: 0 !important;
         background-color: #fff;
         overflow: auto;
         border: 1px solid #808080;
         border-top: 0px;
         top: -32px;
     }
+
     .postcodify_search_result {
         font-family: var(--ft-no);
         font-size: 11px;
-        height:95px;
+        height: 95px;
         border-bottom: solid 1px #dcdcdc;
         padding: 23px 19px;
     }
+
     .extra_info {
         display: none;
     }
+
     .old_addr-row span {
         color: #dcdcdc;
     }
-    .addr-row > span {
+
+    .addr-row>span {
         color: #dcdcdc;
     }
-    .black__full__width__btn.new__delivery{width:100%}
-    .profile__tab {width:100%;height:100%;padding-top:20px;}
-    @media (max-width: 1024px){
-        
+
+    .black__full__width__btn.new__delivery {
+        width: 100%
+    }
+
+    .profile__tab {
+        width: 100%;
+        height: 100%;
+    }
+
+    .btn__area.profile {
+        margin-top: 10px;
+    }
+
+    .black__full__width__btn.profile_save_btn,
+    .white__full__width__btn.profile_save_btn {
+        margin: 20px 0;
+    }
+
+    .btn_padding {
+        border-bottom: 1px solid #dcdcdc;
+    }
+
+
+    .default_destination td,
+    .other_destination td {
+        padding-bottom: 0;
+    }
+
+    @media (max-width: 1024px) {
+
         .profile__tab__wrap {
             width: 100%;
             margin: 0 auto;
-            margin-top: 60px;
+            margin-top: 40px;
         }
-        .profile__wrap .contents__table{
+
+        .profile__wrap .contents__table {
             width: 100%;
         }
-        .profile__tab__wrap table{width:100%;}
-        .btn__area.profile{
+
+        .profile__tab__wrap table {
             width: 100%;
         }
-        .profile__pw__update__wrap{
+
+        .btn__area.profile {
             width: 100%;
         }
-        .pw_form input{width:100%;}
-        .profile__tel__update__wrap{width:100%;}
-        .profile__tel__update__wrap .black__btn{width:100%;}
-        .profile__delivery__wrap{width:100%}
-        .profile__account__delete__wrap{width:100%;height:100%;}
-        .profile__tab.profile__set__wrap .contents__table{margin-top:0px;padding-top:0px}
+
+        .profile__pw__update__wrap {
+            width: 100%;
+        }
+
+        .pw_form input {
+            width: 100%;
+        }
+
+        .profile__tel__update__wrap {
+            width: 100%;
+        }
+
+        .profile__tel__update__wrap .black__btn {
+            width: 100%;
+        }
+
+        .profile__delivery__wrap {
+            width: 100%
+        }
+
+        .profile__account__delete__wrap {
+            width: 100%;
+            height: 100%;
+        }
+
+        .black__full__width__btn.profile_save_btn,
+        .white__full__width__btn.profile_save_btn {
+            margin: 10px 0;
+        }
+
+        .notice_br {
+            display: inline;
+        }
     }
+
     @media (min-width: 600px) {
         .profile__tab__wrap {
-            width:580px;
-            margin:0 auto;
-            margin-top: 60px;
-        }
-    }
-    @media (min-width: 1024px) {
-        .profile__tab__wrap {
-            width: 490px;
+            width: 580px;
             margin: 0 auto;
             margin-top: 60px;
         }
     }
+
+    @media (min-width: 1024px) {
+        .profile__tab__wrap {
+            width: 470px;
+            margin: 0 auto;
+            margin-top: 80px;
+        }
+
+        .notice_br {
+            display: none;
+        }
+    }
+
     @media (max-width: 445px) {
         .profile__tab__btn__container {
-            display:none;
+            display: none;
         }
     }
+
     @media (min-width: 445px) {
         .profile__wrap .swiper.tab__btn {
-            display:none;
+            display: none;
         }
     }
-    /* .address_info {
-        color: #191919;
-    } */
+
 </style>
 <div class="profile__wrap">
     <div class="profile__tab__btn__container">
@@ -340,10 +424,12 @@
             <div class="swiper-slide tab__btn__item" style="width:60px;" form-id="profile__customize__purchase__wrap">
                 <span>맞춤구매</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__delivery__wrap" onclick="getOrderToList()">
+            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__delivery__wrap"
+                onclick="getOrderToList()">
                 <span>배송지목록</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
+            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__marketing__wrap"
+                onclick="getMarketingCheck()">
                 <span>마케팅설정</span>
             </div>
         </div>
@@ -366,7 +452,9 @@
                         </tr>
                         <tr>
                             <td>이메일</td>
-                            <td><?= $_SESSION['MEMBER_EMAIL'] ?></td>
+                            <td>
+                                <?= $_SESSION['MEMBER_EMAIL'] ?>
+                            </td>
                         </tr>
                         <tr>
                             <td>비밀번호</td>
@@ -374,7 +462,8 @@
                                 <input class="user_update_pw" type="hidden">
                             </td>
                             <td>
-                                <button class="update_btn" action-type="pw_update" onclick="buttonAction(this)">수정</button>
+                                <button class="update_btn" action-type="pw_update"
+                                    onclick="buttonAction(this)">수정</button>
                             </td>
                         </tr>
                         <tr>
@@ -384,32 +473,37 @@
                                 <input class="user_update_tel" type="hidden">
                             </td>
                             <td>
-                                <button class="update_btn" action-type="tel_update" onclick="buttonAction(this)">수정</button>
+                                <button class="update_btn" action-type="tel_update"
+                                    onclick="buttonAction(this)">수정</button>
                             </td>
                         </tr>
                         <tr>
                             <td>생년월일</td>
-                            <td><?= $_SESSION['MEMBER_BIRTH'] ?></td>
+                            <td>
+                                <?= $_SESSION['MEMBER_BIRTH'] ?>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="btn__area profile">
-                <div style="padding:30px 0 20px 0;border-bottom:1px solid #dcdcdc">
-                    <button class="black__btn" action-type="to_main" onclick="putMemberPwAndTel()">저장</button>
+                <div class="btn_padding">
+                    <button class="black__full__width__btn profile_save_btn" action-type="to_main"
+                        onclick="putMemberPwAndTel()">저장</button>
                 </div>
-                <div style="padding-top:20px;">
-                    <button class="white__btn" action-type="move_account_del" onclick="buttonAction(this)">계정삭제</button>
+                <div>
+                    <button class="white__full__width__btn profile_save_btn" action-type="move_account_del"
+                        onclick="buttonAction(this)">계정삭제</button>
                 </div>
             </div>
             <div class="footer"></div>
         </div>
-		
+
         <div class="profile__tab profile__pw__update__wrap">
             <div class="title" style="height:20px;">
                 <p style="font-size: 13px; margin-bottom: 20px;">비밀번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_pw_update">
-                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                    <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div class="description pw_update_error" style="width:100%;height:16.5px;">
@@ -420,18 +514,18 @@
                 <input class="tmp_update_pw" type="password" placeholder="새로운 비밀번호">
                 <input class="tmp_update_pw_check none_margin_bottom" type="password" placeholder="새로운 비밀번호 확인">
             </div>
-			
+
             <div style="margin-top:10px;" class="contents_margin">
                 <p>비밀번호 입력 조건</p>
             </div>
-			
+
             <div class="contents_margin" style="margin-bottom:5px;">
                 <p>·&nbsp;&nbsp;대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자</p>
                 <p>·&nbsp;&nbsp;입력 가능 특수문자</p>
                 <p>&nbsp;&nbsp;&nbsp;!@#$%^()_-={}[]|;:<>,.?/</p>
                 <p>·&nbsp;&nbsp;공백 입력 불가능</p>
             </div>
-			
+
             <div>
                 <button class="black__btn" action-type="fin_pw_update" style="margin-top: 15px;"
                     onclick="checkMemberPw()">변경</button>
@@ -441,7 +535,7 @@
             <div class="title">
                 <p style="font-size: 13px; margin-bottom: 40px;">휴대전화 번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_tel_update">
-                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                    <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div>
@@ -473,7 +567,7 @@
             <div class="title" style="margin-bottom: 14px;">
                 <p style="font-size: 13px;">휴대전화 번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_tel_update_confirm">
-                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                    <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div>
@@ -499,7 +593,7 @@
             <div class="title" style="height:19px;">
                 <p style="font-size: 13px;">계정삭제</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_account_delete">
-                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                    <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div class="contents_margin">
@@ -518,14 +612,14 @@
                 <p class="alertms_del" style="color:red;">&nbsp;</p>
             </div>
             <div>
-                <button class="white__btn" style="margin: 10px 0 10px 0;" action-type="del_cancel"
+                <button class="white__btn" style="margin: 10px 0;" action-type="del_cancel"
                     onclick="buttonAction(this)">취소</button>
                 <button class="black__btn" action-type="account_del" onclick="buttonAction(this)">계정삭제</button>
             </div>
         </div>
         <div class="profile__tab profile__credit__update__wrap">
             <div class="title">
-                <p>결제수단 저장</p>
+                <p style="margin-bottom: 10px;">결제수단 저장</p>
             </div>
             <div class="description">
                 <p>&nbsp;&nbsp;빠른 주문 결제를 위해 결제수단을 미리 입력해두세요.</p>
@@ -533,17 +627,36 @@
             <div class="input__form__wrap" style="margin-top:20px;">
                 <div class="input__form__rows">
                     <div class="rows__title">카드 명의</div>
-                    <input></input>
+                    <input placeholder="이름"></input>
                 </div>
                 <div class="input__form__rows">
                     <div class="rows__title">카드번호</div>
-                    <input></input>
+                    <input placeholder="( - ) 없이 숫자만 입력"></input>
                 </div>
                 <div class="input__form__rows">
                     <div class="rows__title">유효기간</div>
-                    <div class="rows__contnets">
-                        <select class="rows__item"></select>
-                        <select class="rows__item"></select>
+                    <div style="display:flex; margin-bottom:10px;">
+                        <select id="inquiry__type" name="inquiry__type" style="margin-right:10px;">
+                            <option name="inquiry__type" selected>1</option>
+                            <option name="inquiry__type">2</option>
+                            <option name="inquiry__type">3</option>
+                            <option name="inquiry__type">4</option>
+                            <option name="inquiry__type">5</option>
+                            <option name="inquiry__type">6</option>
+                            <option name="inquiry__type">7</option>
+                            <option name="inquiry__type">8</option>
+                            <option name="inquiry__type">9</option>
+                            <option name="inquiry__type">10</option>
+                            <option name="inquiry__type">11</option>
+                            <option name="inquiry__type">12</option>
+                        </select>
+                        <select id="inquiry__type" name="inquiry__type">
+                            <option name="inquiry__type" selected>2022</option>
+                            <option name="inquiry__type">2023</option>
+                            <option name="inquiry__type">2024</option>
+                            <option name="inquiry__type">2025</option>
+                            <option name="inquiry__type">2026</option>
+                        </select>
                     </div>
                 </div>
                 <div class="input__form__rows">
@@ -552,7 +665,7 @@
                         <span>기본 결제수단으로 저장</span>
                     </label>
                 </div>
-                <div class="" style="padding-top:40px;">
+                <div style="padding-top:40px;">
                     <button class="black__full__width__btn account">저장</button>
                 </div>
                 <div class="footer"></div>
@@ -562,7 +675,7 @@
         </div>
         <div class="profile__tab profile__customize__purchase__wrap">
             <div class="title">
-                <p>구매 맞춤 정보 설정</p>
+                <p style="margin-bottom: 10px;">구매 맞춤 정보 설정</p>
             </div>
             <div class="description">
                 <p>&nbsp;&nbsp;구매 전 사이즈를 선택할 수 있도록 사이즈 정보를 제공해 주세요.</p>
@@ -601,7 +714,7 @@
             </div>
         </div>
         <div class="profile__tab profile__delivery__wrap">
-            <div class="list__delivery__wrap" style="display: block;">
+            <div class="list__delivery__wrap">
                 <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
                     <p style="font-size: 13px; padding-bottom: 9.5px">기본 배송지</p>
                 </div>
@@ -618,60 +731,62 @@
                         </tbody>
                     </table>
                 </div>
-                <button class="black__full__width__btn new__delivery" action-type="update_order_to" onclick="buttonAction(this)">새로운 배송지 추가</button>
+                <button class="black__full__width__btn new__delivery" action-type="update_order_to"
+                    onclick="buttonAction(this)">새로운 배송지 추가</button>
             </div>
         </div>
 
         <div class="profile__tab input__form__wrap order__to__update__wrap" style="display:none; margin-top:20px;">
-			<div class="close" onclick="closeTab(this)" action-type="close_order_to_update" style="float: right;">
-				<img src="/images/mypage/tmp_img/X-12.svg"/>
-			</div>
+            <div class="close" onclick="closeTab(this)" action-type="close_order_to_update" style="float: right;">
+                <img src="/images/mypage/tmp_img/X-12.svg" />
+            </div>
             <div class="description delivery_regist_error" style="width:100%;height:16.5px;margin-bottom: 4px;">
                 <p style="clear:both;color:red;text-align:right;">&nbsp;</p>
             </div>
-			<div class="input__form__rows">
-				<input class="hidden_order_to_idx" type="hidden" value="0">
-				<div class="rows__title">배송지명</div>
-				<input class="order_to_place"></input>
-			</div>
-			<div class="input__form__rows">
-				<div class="rows__title">이름</div>
-				<input class="order_to_name"></input>
-			</div>
-			<div class="input__form__rows">
-				<div class="rows__title">전화번호</div>
-				<input class="order_to_mobile"></input>
-			</div>
-			<div class="input__form__rows">
-				<div class="rows__title" style="margin-top: 3px;">주소</div>
-				<div id="postcodify" class="input_row"></div>
-				<div class="input_row" style="clear: both; position: absolute;">
-					<div class="post_change_result"></div>    
-				</div>
-				<div class="rows__contnets" style="margin: 10px 0 0 0;">
-					<input type="hidden" class="order_to_zipcode" name="zipcode">
-					<input type="hidden" class="order_to_lot_addr" name="lot_addr">
-					<input type="hidden" class="order_to_road_addr" name="road_addr">
-					<input type="text" class="order_to_detail_addr" placeholder="상세주소" style="margin-top:0px;margin-bottom:10px;"></input>
-				</div>
-			</div>
-			<div class="input__form__rows">
-				<label style="display: flex; align-items: center;">
-					<input class="order_to_default_flg" type="checkbox">
-					<span style="margin-left: 10px;">기본 배송지로 저장</span>
-				</label>
-			</div>
-			<div style="padding-top:40px;">
-				<button class="black__full__width__btn" onclick="checkOrderToAction()">저장</button>
-			</div>
-			<div class="footer"></div>
+            <div class="input__form__rows">
+                <input class="hidden_order_to_idx" type="hidden" value="0">
+                <div class="rows__title">배송지명</div>
+                <input class="order_to_place"></input>
+            </div>
+            <div class="input__form__rows">
+                <div class="rows__title">이름</div>
+                <input class="order_to_name"></input>
+            </div>
+            <div class="input__form__rows">
+                <div class="rows__title">전화번호</div>
+                <input class="order_to_mobile"></input>
+            </div>
+            <div class="input__form__rows">
+                <div class="rows__title" style="margin-top: 3px;">주소</div>
+                <div id="postcodify" class="input_row"></div>
+                <div class="input_row" style="clear: both; position: absolute;">
+                    <div class="post_change_result"></div>
+                </div>
+                <div class="rows__contnets" style="margin: 10px 0 0 0;">
+                    <input type="hidden" class="order_to_zipcode" name="zipcode">
+                    <input type="hidden" class="order_to_lot_addr" name="lot_addr">
+                    <input type="hidden" class="order_to_road_addr" name="road_addr">
+                    <input type="text" class="order_to_detail_addr" placeholder="상세주소"
+                        style="margin-top:0px;margin-bottom:10px;"></input>
+                </div>
+            </div>
+            <div class="input__form__rows">
+                <label style="display: flex; align-items: center;">
+                    <input class="order_to_default_flg" type="checkbox">
+                    <span style="margin-left: 10px;">기본 배송지로 저장</span>
+                </label>
+            </div>
+            <div style="padding-top:40px;">
+                <button class="black__full__width__btn" onclick="checkOrderToAction()">저장</button>
+            </div>
+            <div class="footer"></div>
         </div>
 
         <div class="profile__tab profile__delivery__lsit__wrap">
         </div>
         <div class="profile__tab profile__marketing__wrap">
             <div class="title">
-                <p>마케팅 정보 수신 및 활용 동의</p>
+                <p style="margin-bottom: 10px;">마케팅 정보 수신 및 활용 동의</p>
             </div>
             <div class="description">
                 <p>&nbsp;&nbsp;제품, 할인 정보, 멤버 혜택 관련 최신 소식을 받아보세요.</p>
@@ -702,9 +817,10 @@
                     </label>
                 </div>
             </div>
-            <div class="description" style="margin-bottom:30px;">
-                <p>&nbsp;·&nbsp;귀하의 개인정보를 이용하는 방법 및 귀하의 개인정보 접근, 변경 및 삭제 요청 방법에 대한<br>
-                    자세한 정보는 <span class="underline" style="cursor:pointer" onclick="mypageTabBtnClick('service', 3)">개인정보취급방침</span>을 확인하시기 바랍니다.
+            <div class="description" style="margin-bottom:40px; width: 420px;">
+                <p> · 귀하의 개인정보를 이용하는 방법 및 귀하의 개인정보 접근,<br class="notice_br">변경 및 삭제 요청 방법에 대한
+                    자세한 정보는<br class="notice_br"><span class="underline" style="cursor:pointer"
+                        onclick="mypageTabBtnClick('service', 3)">개인정보취급방침</span>을 확인하시기 바랍니다.
                 </p>
             </div>
             <button class="black__full__width__btn" onclick="putMarketingCheck()">저장</button>
@@ -713,32 +829,32 @@
     </div>
 </div>
 <script>
-    $(function() {
+    $(function () {
         $('#postcodify').postcodify({
-            insertPostcode5 : ".order_to_zipcode",
-            insertAddress : ".order_to_road_addr",
-            insertDetails : ".order_to_detail_addr",
-            insertJibeonAddress : ".order_to_lot_addr",
-			hideOldAddresses: false,
-			results:".post_change_result",
-			hideSummary:true,
-			useFullJibeon:true,
-            onReady: function() {
+            insertPostcode5: ".order_to_zipcode",
+            insertAddress: ".order_to_road_addr",
+            insertDetails: ".order_to_detail_addr",
+            insertJibeonAddress: ".order_to_lot_addr",
+            hideOldAddresses: false,
+            results: ".post_change_result",
+            hideSummary: true,
+            useFullJibeon: true,
+            onReady: function () {
                 $('.post_change_result').hide();
-                $(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
+                $(".postcodify_search_controls .keyword").attr("placeholder", "예) 성동구 연무장길 53, 성수동2가 315-57");
             },
-            onSuccess: function() {
+            onSuccess: function () {
                 $('.post_change_result').show();
                 $("#postcodify div.postcode_search_status.too_many").hide();
             },
-            afterSelect: function(selectedEntry) {
+            afterSelect: function (selectedEntry) {
                 $("#postcodify div.postcode_search_result").remove();
-				$("#postcodify div.postcode_search_status.too_many").hide();
-				$("#postcodify div.postcode_search_status.summary").hide();
+                $("#postcodify div.postcode_search_status.too_many").hide();
+                $("#postcodify div.postcode_search_status.summary").hide();
                 $('.post_change_result').hide();
                 $("#entry_box").show();
-				$("#entry_details").focus();
-				$(".postcodify_search_controls .keyword").val($('.order_to_road_addr').val());
+                $("#entry_details").focus();
+                $(".postcodify_search_controls .keyword").val($('.order_to_road_addr').val());
             }
         })
     })
@@ -775,12 +891,12 @@
                 $('.profile__set__wrap').show();
                 break;
             case 'send_code':
-                if($('input[name="tel_certificate"]').val() == ''){
+                if ($('input[name="tel_certificate"]').val() == '') {
                     $('.profile__tel__update__wrap').show();
                     tel_err_str = '휴대전화 번호를 입력해주세요';
                 }
-                else{
-                    if($('#ck_sendcode_phone').is(':checked') == true) {
+                else {
+                    if ($('#ck_sendcode_phone').is(':checked') == true) {
                         sendCode();
                     }
                     else {
@@ -827,31 +943,31 @@
                 type: 'POST',
                 data: {
                     'country': country,
-                    'member_idx':member_idx
+                    'member_idx': member_idx
                 },
                 error: function (data) {
-                    exceptionHandling("계정","계정 탈퇴를 수행하지 못했습니다.");
+                    exceptionHandling("계정", "계정 탈퇴를 수행하지 못했습니다.");
                 },
                 success: function (data) {
 
                     if (data.code == "200") {
-                        exceptionHandling("계정","계정탈퇴를 완료했습니다.");
+                        exceptionHandling("계정", "계정탈퇴를 완료했습니다.");
                         $('.alertms_del').html('');
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
-                    else{
+                    else {
                         let err_str = '계정 탈퇴를 수행하지 못했습니다.';
-                        if(d.msg != null){
+                        if (d.msg != null) {
                             err_str = d.msg;
                         }
-                        exceptionHandling("계정",err_str);
-                        if(d.code = 401){
+                        exceptionHandling("계정", err_str);
+                        if (d.code = 401) {
                             $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                         }
                     }
                 },
                 complete: function (data) {
-                    
+
                 },
                 dataType: 'json'
             }
@@ -873,63 +989,63 @@
         var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)`!^\-_<>@\#$%\=\(]{8,16}/;
         //  공백 입력 불가능
         var space_reg = /\s/g;
-        
+
         // if문 정리 ajax는 현재 비밀번호와 체크하는 것만 / 나머지는 뷰 쪽에서 처리 하도록
-        if(current_pw.length == 0 || tmp_update_pw.length == 0 || tmp_update_pw_check.length == 0) {
+        if (current_pw.length == 0 || tmp_update_pw.length == 0 || tmp_update_pw_check.length == 0) {
             $('.pw_update_error p').text('모든 항목을 기입해야만 비밀번호 변경이 가능합니다.');
             return false;
         }
 
-        if(space_reg.test(tmp_update_pw) == true) {
+        if (space_reg.test(tmp_update_pw) == true) {
             $('.pw_update_error p').text('변경하려는 비밀번호의 공백을 확인해주세요.');
             return false;
         }
 
-        if(password_reg.test(tmp_update_pw) == false) {
+        if (password_reg.test(tmp_update_pw) == false) {
             $('.pw_update_error p').text('변경하려는 비밀번호의 형식을 확인해주세요.');
             return false;
         }
 
-        if(tmp_update_pw != tmp_update_pw_check) {
+        if (tmp_update_pw != tmp_update_pw_check) {
             $('.pw_update_error p').text('비밀번호 확인란에 동일한 비밀번호를 입력해주세요.');
             return false;
         }
 
-        if(current_pw == tmp_update_pw || current_pw == tmp_update_pw_check) {
+        if (current_pw == tmp_update_pw || current_pw == tmp_update_pw_check) {
             $('.pw_update_error p').text('현재 비밀번호와 다르게 설정해주세요.');
             return false;
-        }	
-		
+        }
+
         $.ajax({
             type: "post",
             data: {
-				"member_pw": current_pw
+                "member_pw": current_pw
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/account/check",
             error: function () {
-                exceptionHandling("계정",'회원정보가 올바르지 않습니다.');
+                exceptionHandling("계정", '회원정보가 올바르지 않습니다.');
             },
             success: function (d) {
                 let code = d.code;
                 if (code == 200) {
                     $('.user_update_pw').val(tmp_update_pw);
-					$('.current_pw').val('');
-					$('.tmp_update_pw').val('');
-					$('.tmp_update_pw_check').val('');
-					$('.profile__pw__update__wrap').hide();
-					$('.profile__set__wrap').show();
+                    $('.current_pw').val('');
+                    $('.tmp_update_pw').val('');
+                    $('.tmp_update_pw_check').val('');
+                    $('.profile__pw__update__wrap').hide();
+                    $('.profile__set__wrap').show();
                 } else {
                     let err_str = '회원정보가 올바르지 않습니다.';
-                    if(d.msg != null){
+                    if (d.msg != null) {
                         err_str = d.msg;
                     }
-                    exceptionHandling("계정",err_str);
-                    if(d.code = 401){
+                    exceptionHandling("계정", err_str);
+                    if (d.code = 401) {
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                     return false;
-				}
+                }
             }
         });
     }
@@ -937,7 +1053,7 @@
     function putMemberPwAndTel() {
         let user_update_pw = $('.user_update_pw').val();
         let user_update_tel = $('.user_update_tel').val();
-        if(user_update_pw.length > 0 || user_update_tel.length > 0){
+        if (user_update_pw.length > 0 || user_update_tel.length > 0) {
             $.ajax({
                 type: "post",
                 data: {
@@ -947,34 +1063,34 @@
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/account/put",
                 error: function () {
-                    exceptionHandling("계정","계정정보 변경에 실패했습니다.");
+                    exceptionHandling("계정", "계정정보 변경에 실패했습니다.");
                 },
                 success: function (d) {
                     let code = d.code;
                     if (code == 200) {
-						$('.user_update_pw').val('');
+                        $('.user_update_pw').val('');
                         $('.user_update_tel').val('');
                     }
-                    else{
+                    else {
                         let err_str = '회원정보가 올바르지 않습니다.';
-                        if(d.msg != null){
+                        if (d.msg != null) {
                             err_str = d.msg;
                         }
-                        exceptionHandling("계정",err_str);
-                        if(d.code = 401){
+                        exceptionHandling("계정", err_str);
+                        if (d.code = 401) {
                             $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                         }
                     }
                 }
             });
         } else {
-            exceptionHandling("계정","수정된 정보가 없습니다.");
-			return false;
+            exceptionHandling("계정", "수정된 정보가 없습니다.");
+            return false;
         }
     }
     function getOrderToList() {
         $('.order__to__update__wrap').hide();
-        
+
         let delivery_table = $('.delivery_table_wrap');
         delivery_table.html('');
         $.ajax({
@@ -982,41 +1098,41 @@
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/list/get",
             error: function () {
-                exceptionHandling("계정","배송지 목록을 불어오는데 실패했습니다.");
+                exceptionHandling("계정", "배송지 목록을 불어오는데 실패했습니다.");
             },
             success: function (d) {
                 let code = d.code;
                 if (code == 200) {
                     let data = d.data;
                     if (data != null) {
-                        if(data.length <= 1) {
+                        if (data.length <= 1) {
                             $('.other_list_wrap').hide();
                             $('.profile__wrap .default__list').css('margin-bottom', '0px');
                         } else {
                             $('.other_list_wrap').show();
-                            $('.profile__wrap .default__list').css('margin-bottom', '90px');
+                            $('.profile__wrap .default__list').css('margin-bottom', '100px');
                         }
                         let headData = data[0];
                         let tailData = data.slice(1);
                         let defaultList = $('.default__list');
                         let otherList = $('.other__list');
                         let strDiv = '';
-                        
+
                         defaultList.html('');
                         strDiv += '<tr class="default_destination">';
-                        strDiv +=     '<td>' + headData.to_place + '</td>';
-                        strDiv +=     '<td>' + headData.to_name + '</td>';
-                        strDiv +=     '<td>' + headData.to_mobile + '</td>';
+                        strDiv += '<td>' + headData.to_place + '</td>';
+                        strDiv += '<td>' + headData.to_name + '</td>';
+                        strDiv += '<td>' + headData.to_mobile + '</td>';
                         let addr = headData.to_road_addr ? headData.to_road_addr : headData.to_lot_addr;
                         let detailAddr = headData.to_detail_addr ? (' ' + headData.to_detail_addr) : '';
-                        strDiv +=     '<td>' + addr + detailAddr + '</td>';
-                        strDiv +=     '<td>' + headData.to_zipcode + '</td>';
-                        strDiv +=     '<td style="padding-right: 0;">';
-                        strDiv +=     '     <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
-                        strDiv +=         '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
-                        strDiv +=         '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
-                        strDiv +=         '</div>';
-                        strDiv +=    '</td>';
+                        strDiv += '<td>' + addr + detailAddr + '</td>';
+                        strDiv += '<td>' + headData.to_zipcode + '</td>';
+                        strDiv += '<td style="padding-right: 0; margin-top: 20px;">';
+                        strDiv += '     <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
+                        strDiv += '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
+                        strDiv += '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
+                        strDiv += '</div>';
+                        strDiv += '</td>';
                         strDiv += '</tr>';
                         defaultList.append(strDiv);
 
@@ -1024,40 +1140,40 @@
                         otherList.html('');
                         tailData.forEach((row) => {
                             strDiv += '<tr class="other_destination">';
-                            strDiv +=     '<td style="display: flex; justify-content: space-between; padding-right: 0;">';
-                            strDiv +=          '<div>' + row.to_place + '</div>';
+                            strDiv += '<td style="display: flex; justify-content: space-between; padding-right: 0;">';
+                            strDiv += '<div>' + row.to_place + '</div>';
                             // strDiv +=          '<div class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)">';
                             // strDiv +=              '<img src="/images/mypage/tab/select_delivery_default_change_btn.svg">';
                             // strDiv +=          '</div>';
-                            strDiv +=          '<button class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)" style="text-decoration: underline;">기본 배송지로 설정</button>';
-                            strDiv +=     '</td>';
-                            strDiv +=     '<td>' + row.to_name + '</td>';
-                            strDiv +=     '<td>' + row.to_mobile + '</td>';
+                            strDiv += '<button class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)" style="text-decoration: underline;">기본 배송지로 설정</button>';
+                            strDiv += '</td>';
+                            strDiv += '<td>' + row.to_name + '</td>';
+                            strDiv += '<td>' + row.to_mobile + '</td>';
                             let addr = row.to_road_addr ? row.to_road_addr : row.to_lot_addr;
                             let detailAddr = row.to_detail_addr ? (' ' + row.to_detail_addr) : '';
-                            strDiv +=     '<td>' + addr + detailAddr + '</td>';
-                            strDiv +=     '<td>' + row.to_zipcode + '</td>';
-                            strDiv +=     '<td style="padding-right: 0; padding-bottom: 20px;">';
-                            strDiv +=         '<div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
-                            strDiv +=         '     <button class="gray__mypage__btn" idx="' + row.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
-                            strDiv +=         '     <button class="white__full__width__btn" idx="' + row.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
-                            strDiv +=         '</div>';
-                            strDiv +=    '</td>';
+                            strDiv += '<td>' + addr + detailAddr + '</td>';
+                            strDiv += '<td>' + row.to_zipcode + '</td>';
+                            strDiv += '<td style="padding-right: 0; margin-top: 20px; padding-bottom: 20px;">';
+                            strDiv += '<div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
+                            strDiv += '     <button class="gray__mypage__btn" idx="' + row.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
+                            strDiv += '     <button class="white__full__width__btn" idx="' + row.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
+                            strDiv += '</div>';
+                            strDiv += '</td>';
                             strDiv += '</tr>';
                         });
                         otherList.append(strDiv);
                     }
-                    else{
+                    else {
                         $('.other_list_wrap').hide();
                     }
                 }
-                else{
+                else {
                     let err_str = '회원정보가 올바르지 않습니다.';
-                    if(d.msg != null){
+                    if (d.msg != null) {
                         err_str = d.msg;
                     }
-                    exceptionHandling("계정",err_str);
-                    if(d.code = 401){
+                    exceptionHandling("계정", err_str);
+                    if (d.code = 401) {
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
@@ -1067,7 +1183,7 @@
 
     function getOrderTo() {
         let order_to_idx = $('.hidden_order_to_idx').val();
-        if(order_to_idx != '' || order_to_idx != null) {
+        if (order_to_idx != '' || order_to_idx != null) {
             $.ajax({
                 type: "post",
                 data: {
@@ -1075,14 +1191,14 @@
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/get",
-                error: function() {
-                    exceptionHandling("계정",'배송지 개별정보 조회에 실패했습니다');
+                error: function () {
+                    exceptionHandling("계정", '배송지 개별정보 조회에 실패했습니다');
                 },
-                success: function(d) {
+                success: function (d) {
                     let code = d.code;
-                    if(code == 200) {
+                    if (code == 200) {
                         let data = d.data;
-                        if(data != null) {
+                        if (data != null) {
                             let row = data[0];
                             $('.order_to_place').val(row.to_place);
                             $('.order_to_name').val(row.to_name);
@@ -1097,13 +1213,13 @@
                             $('.order_to_default_flg').prop('checked', flg);
                         }
                     }
-                    else{
+                    else {
                         let err_str = '회원정보가 올바르지 않습니다.';
-                        if(d.msg != null){
+                        if (d.msg != null) {
                             err_str = d.msg;
                         }
-                        exceptionHandling("계정",err_str);
-                        if(d.code = 401){
+                        exceptionHandling("계정", err_str);
+                        if (d.code = 401) {
                             $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                         }
                     }
@@ -1114,7 +1230,7 @@
 
     function deleteOrderTO(obj) {
         let order_to_idx = $(obj).attr('idx');
-        if(order_to_idx != '' || order_to_idx != null) {
+        if (order_to_idx != '' || order_to_idx != null) {
             $.ajax({
                 type: "post",
                 data: {
@@ -1122,21 +1238,21 @@
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/delete",
-                error: function() {
-                    exceptionHandling("계정",'배송지 삭제에 실패했습니다.');
+                error: function () {
+                    exceptionHandling("계정", '배송지 삭제에 실패했습니다.');
                 },
-                success: function(d) {
+                success: function (d) {
                     let code = d.code;
-                    if(code == 200) {
+                    if (code == 200) {
                         getOrderToList();
                     }
-                    else{
+                    else {
                         let err_str = '회원정보가 올바르지 않습니다.';
-                        if(d.msg != null){
+                        if (d.msg != null) {
                             err_str = d.msg;
                         }
-                        exceptionHandling("계정",err_str);
-                        if(d.code = 401){
+                        exceptionHandling("계정", err_str);
+                        if (d.code = 401) {
                             $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                         }
                     }
@@ -1149,7 +1265,7 @@
         // let changeConfirm = confirm("기본 배송지를 변경하시겠습니까?");
         let order_to_idx = $(obj).attr('idx');
         let default_flg = true;
-        if(order_to_idx != '' || order_to_idx != null) {
+        if (order_to_idx != '' || order_to_idx != null) {
             $.ajax({
                 type: "post",
                 data: {
@@ -1158,22 +1274,22 @@
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/put",
-                error: function() {
-                    exceptionHandling("계정",'기본 배송지 변경에 실패했습니다.');
+                error: function () {
+                    exceptionHandling("계정", '기본 배송지 변경에 실패했습니다.');
                 },
-                success: function(d) {
+                success: function (d) {
                     let code = d.code;
-                    if(code == 200) {
+                    if (code == 200) {
                         getOrderToList();
                         // $('.profile__delivery__wrap').show();
                     }
-                    else{
+                    else {
                         let err_str = '회원정보가 올바르지 않습니다.';
-                        if(d.msg != null){
+                        if (d.msg != null) {
                             err_str = d.msg;
                         }
-                        exceptionHandling("계정",err_str);
-                        if(d.code = 401){
+                        exceptionHandling("계정", err_str);
+                        if (d.code = 401) {
                             $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                         }
                     }
@@ -1183,7 +1299,7 @@
     }
 
     function checkOrderToAction() {
-		let order_to_idx = $('.hidden_order_to_idx').val();
+        let order_to_idx = $('.hidden_order_to_idx').val();
         if (order_to_idx > 0) {
             putOrderToInfo(order_to_idx);
         } else {
@@ -1195,34 +1311,34 @@
         $('.delivery_regist_error p').html('&nbsp');
 
         let to_place = $('.order_to_place').val();
-        if(to_place == '' || to_place == null) {
+        if (to_place == '' || to_place == null) {
             $('.delivery_regist_error p').text("배송지명을 작성해주세요.");
             return false;
         }
         let to_name = $('.order_to_name').val();
-        if(to_name == '' || to_name == null) {
+        if (to_name == '' || to_name == null) {
             $('.delivery_regist_error p').text("이름을 작성해주세요.");
             return false;
         }
         let to_mobile = $('.order_to_mobile').val();
-        if(to_mobile == '' || to_mobile == null) {
+        if (to_mobile == '' || to_mobile == null) {
             $('.delivery_regist_error p').text("전화번호를 작성해주세요.");
             return false;
         }
         let to_zipcode = $('.order_to_zipcode').val();
-        if(to_zipcode == '' || to_zipcode == null) {
+        if (to_zipcode == '' || to_zipcode == null) {
             $('.delivery_regist_error p').text("우편번호를 작성해주세요.");
             return false;
         }
-    
+
         let to_lot_addr = $('.order_to_lot_addr').val();
-        if(to_lot_addr == '' || to_lot_addr == null) {
+        if (to_lot_addr == '' || to_lot_addr == null) {
             $('.delivery_regist_error p').text("지번명주소를 작성해주세요.");
             return false;
         }
 
         let to_road_addr = $('.order_to_road_addr').val();
-        if(to_road_addr == '' || to_road_addr == null) {
+        if (to_road_addr == '' || to_road_addr == null) {
             $('.delivery_regist_error p').text("도로명주소를 작성해주세요.");
             return false;
         }
@@ -1244,12 +1360,12 @@
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/add",
-            error: function() {
+            error: function () {
                 exceptionHandling("배송지 추가에 실패했습니다.");
             },
-            success: function(d) {
+            success: function (d) {
                 let code = d.code;
-                if(code == 200) {
+                if (code == 200) {
                     $('.order_to_place').val('');
                     $('.order_to_name').val('');
                     $('.order_to_mobile').val('');
@@ -1260,19 +1376,19 @@
                     $('.order_to_detail_addr').val('');
                     $('.order_to_default_flg').prop('checked', false);
                     $('.order__to__update__wrap').hide();
-                    
+
                     getOrderToList();
-                    
+
                     $('.other_list_wrap').show();
                     $('.profile__delivery__wrap').show();
                 }
-                else{
+                else {
                     let err_str = '배송지정보가 올바르지 않습니다.';
-                    if(d.msg != null){
+                    if (d.msg != null) {
                         err_str = d.msg;
                     }
-                    exceptionHandling("계정",err_str);
-                    if(d.code = 401){
+                    exceptionHandling("계정", err_str);
+                    if (d.code = 401) {
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
@@ -1282,38 +1398,38 @@
 
     function putOrderToInfo(order_to_idx) {
         let to_place = $('.order_to_place').val();
-        if(to_place == '' || to_place == null) {
+        if (to_place == '' || to_place == null) {
             console.log("배송지명을 작성해주세요.");
             return false;
         }
         let to_name = $('.order_to_name').val();
-        if(to_name == '' || to_name == null) {
+        if (to_name == '' || to_name == null) {
             console.log("이름을 작성해주세요.");
             return false;
         }
         let to_mobile = $('.order_to_mobile').val();
-        if(to_mobile == '' || to_mobile == null) {
+        if (to_mobile == '' || to_mobile == null) {
             console.log("전화번호를 작성해주세요.");
             return false;
         }
         let to_zipcode = $('.order_to_zipcode').val();
-        if(to_zipcode == '' || to_zipcode == null) {
+        if (to_zipcode == '' || to_zipcode == null) {
             console.log("우편번호를 작성해주세요.");
             return false;
         }
         let to_lot_addr = $('.order_to_lot_addr').val();
-        if(to_lot_addr == '' || to_lot_addr == null) {
+        if (to_lot_addr == '' || to_lot_addr == null) {
             console.log("지번주소를 작성해주세요.");
             return false;
         }
         let to_road_addr = $('.order_to_road_addr').val();
-        if(to_road_addr == '' || to_road_addr == null) {
+        if (to_road_addr == '' || to_road_addr == null) {
             console.log("도로명주소를 작성해주세요.");
             return false;
         }
         let to_detail_addr = $('.order_to_detail_addr').val();
         let default_flg = $('.order_to_default_flg').is(':checked');
-        
+
         $.ajax({
             type: "post",
             data: {
@@ -1329,12 +1445,12 @@
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/put",
-            error: function() {
-                exceptionHandling("계정","배송지 정보 변경에 실패했습니다.");
+            error: function () {
+                exceptionHandling("계정", "배송지 정보 변경에 실패했습니다.");
             },
-            success: function(d) {
+            success: function (d) {
                 let code = d.code;
-                if(code == 200) {
+                if (code == 200) {
                     $('.hidden_order_to_idx').val(0);
                     $('.order_to_place').val('');
                     $('.order_to_name').val('');
@@ -1346,19 +1462,19 @@
                     $('.order_to_detail_addr').val('');
                     $('.order_to_default_flg').prop('checked', false);
                     $('.order__to__update__wrap').hide();
-                    
+
                     getOrderToList();
-                    
+
                     $('.other_list_wrap').show();
                     $('.profile__delivery__wrap').show();
                 }
-                else{
+                else {
                     let err_str = '배송지정보가 올바르지 않습니다.';
-                    if(d.msg != null){
+                    if (d.msg != null) {
                         err_str = d.msg;
                     }
-                    exceptionHandling("계정",err_str);
-                    if(d.code = 401){
+                    exceptionHandling("계정", err_str);
+                    if (d.code = 401) {
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
@@ -1367,7 +1483,7 @@
     }
     function marketingCheckAll() {
         let all_check_flg = $('.all_check').is(':checked');
-        if(all_check_flg == true) {
+        if (all_check_flg == true) {
             $('.mkt_check').prop('checked', true);
         } else {
             $('.mkt_check').prop('checked', false);
@@ -1375,7 +1491,7 @@
     }
     function marketingCheckOne() {
         let checkCnt = $('.mkt_check:checked').length;
-        if(checkCnt == 3) {
+        if (checkCnt == 3) {
             $('.all_check').prop('checked', true);
         } else {
             $('.all_check').prop('checked', false);
@@ -1386,14 +1502,14 @@
             type: "post",
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/marketing/get",
-            error: function() {
-                exceptionHandling("계정","마케팅 정보 조회에 실패했습니다.");
+            error: function () {
+                exceptionHandling("계정", "마케팅 정보 조회에 실패했습니다.");
             },
-            success: function(d) {
+            success: function (d) {
                 let code = d.code;
-                if(code == 200) {
+                if (code == 200) {
                     let data = d.data;
-                    if(data != null) {
+                    if (data != null) {
                         let mktData = data[0];
                         let emailFlg = mktData.receive_email_flg == 1 ? true : false;
                         let smsFlg = mktData.receive_sms_flg == 1 ? true : false;
@@ -1404,13 +1520,13 @@
                         marketingCheckOne();
                     }
                 }
-                else{
+                else {
                     let err_str = '배송지정보가 올바르지 않습니다.';
-                    if(d.msg != null){
+                    if (d.msg != null) {
                         err_str = d.msg;
                     }
-                    exceptionHandling("계정",err_str);
-                    if(d.code = 401){
+                    exceptionHandling("계정", err_str);
+                    if (d.code = 401) {
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
@@ -1431,20 +1547,20 @@
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/marketing/put",
-            error: function() {
-                exceptionHandling("계정","마케팅 정보 변경에 실패했습니다.");
+            error: function () {
+                exceptionHandling("계정", "마케팅 정보 변경에 실패했습니다.");
             },
-            success: function(d) {
+            success: function (d) {
                 let code = d.code;
-                if(code == 200) {
+                if (code == 200) {
                 }
-                else{
+                else {
                     let err_str = '회원정보가 올바르지 않습니다.';
-                    if(d.msg != null){
+                    if (d.msg != null) {
                         err_str = d.msg;
                     }
-                    exceptionHandling("계정",err_str);
-                    if(d.code = 401){
+                    exceptionHandling("계정", err_str);
+                    if (d.code = 401) {
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }

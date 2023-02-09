@@ -153,6 +153,7 @@
 
     .verify__list__wrap .contents__table {
         border-bottom: none;
+        padding-top: 0px;
     }
 
     table.border__bottom td {
@@ -165,7 +166,7 @@
 
     .vertical__top {
         padding-left: 10px;
-        padding-top: 9.5px;
+        padding-top: 10px;
     }
 
     .vertical__top p {
@@ -202,9 +203,9 @@
         margin: 0 auto;
         background-color: #fff;
         display: none;
-        z-index: 1;
+        z-index: 2;
         left: 50%;
-        top: 0;
+        top: -10%;
         transform: translate(-50%,50%);
         overflow: auto;
 
@@ -270,6 +271,7 @@
 
     .description_transfer {
         margin-top: 20px;
+        margin-bottom: 20px;
         font-size: 11px;
     }
 
@@ -340,7 +342,7 @@
     .same-as-selected {
         background-color: #f5f5f5;
         border: solid 1px #808080;
-	border-top: none;
+	    border-top: none;
     }
     .form input{
         margin-top:0px;
@@ -375,11 +377,14 @@
     .description.fail_mobile{ display:block;}
     .description.verify_pc{ display:none; }
     .description.verify_mobile{ display:block;}
-    .voucher__handover__wrap {width:100%;padding-left:10px;padding-right:10px;}
+    .voucher__handover__wrap {width:90%;padding-left:10px;padding-right:10px;}
     .form {display: block;}
     #handover_id{width:100%}
     .bluemark_country{width:100%;position:none;margin-bottom:10px;}
     .bluemark__tab .notice_br {
+        display: inline;
+    }
+    .bluemark__tab .notice_br_explain {
         display: none;
     }
     .bluemark_explain {
@@ -405,6 +410,9 @@
     .description.verify_pc{ display:block; width:100%;}
     .description.verify_mobile{ display:none; }
     .bluemark__tab .notice_br {
+        display: none;
+    }
+    .bluemark__tab .notice_br_explain {
         display: inline;
     }
     .bluemark_explain {
@@ -434,7 +442,7 @@
                 <p class="title_name">Bluemark</p>
             </div>
             <div class="description">
-                <p class="bluemark_explain">&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.<br class="notice_br">
+                <p class="bluemark_explain">&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.<br class="notice_br_explain">
                 ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여 적극적으로 대응중입니다.</p>
                 <div class="bluemark__err__msg" style="width:100%;height:16.5px;">
                     <p style="color:red;text-align:right;"></p>
@@ -451,6 +459,9 @@
         <div class="bluemark__tab verify__success__wrap">
             <div class="title">
                 <p>Bluemark</p>
+                <div class="close" onclick="closeResultTab()">
+                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                </div>
             </div>
             <div class="description">
                 <p>BLUE MARK가 인증 된 해당 제품은 ADER 브랜드의 정품입니다.</p>
@@ -462,6 +473,9 @@
         <div class="bluemark__tab verify__fail__wrap">
             <div class="title">
                 <p>Bluemark</p>
+                <div class="close" onclick="closeResultTab()">
+                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                </div>
             </div>
             <div class="description fail_pc">
                 <p>BLUE MARK가 인증되지 않은 해당 제품은 ADER 브랜드의 정품이 아닌 가품입니다.</p>
@@ -584,7 +598,6 @@ $(document).ready(function() {
         }
     })
 })
-    
 
 function getBluemarkInfo(obj) {
     $('.bluemark__tab').not('.verify__list__wrap').hide();
@@ -652,8 +665,10 @@ function verifyBluemark() {
                 let code = d.code;
                 if (code == 200) {
                     $('.verify__success__wrap').show();
+                    $('.bluemark_serial_code').val('');
                 } else {
                     $('.verify__fail__wrap').show();
+                    $('.bluemark_serial_code').val('');
                 }
             }
         });
@@ -663,6 +678,13 @@ function verifyBluemark() {
             $('.bluemark__err__msg p').text('시리얼 코드를 입력해주세요');
         }
     }
+}
+
+function closeResultTab() {
+    $('.close').on('click', function() {
+        $('.bluemark__tab').hide();
+        $('.verify__form__wrap').show();
+    });
 }
 
 function getBluemarkList() {
@@ -720,7 +742,7 @@ function getBluemarkList() {
                         strDiv += `
                             <tr class="bluemark_list_tr">
                                 <td>
-                                    <img src="http://116.124.128.246:81${row.img_location}" style="object-fit:contain">
+                                    <img style="cursor: default;" src="http://116.124.128.246:81${row.img_location}" style="object-fit:contain">
                                 </td>
                                 <td class="vertical__top">
                                     <p style="white-space:nowrap;">${row.product_name}</p>

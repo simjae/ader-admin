@@ -120,13 +120,20 @@
     }
     .search {
         position: relative;
+        display: flex;
     }
-
     .search__small {
         position: relative;
         width: 110px;
+        display: flex;
     }
-
+    .inquiry__wrap .close {
+        border-bottom: 1px solid #dcdcdc;
+    }
+    .inquiry__wrap .close img {
+        width: 14px;
+        height: 14px;
+    }
     .search input {
         width: 100%;
         height: 20px;
@@ -180,24 +187,7 @@
         margin-top: 20px;
     }
 
-    .faq__category__btn {
-        cursor: pointer;
-        width: 100%;
-        height: 30px;
-        background-color: white;
-        font-size: 11px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: normal;
-        letter-spacing: normal;
-        color: #343434;
-        font-family: var(--ft-no-fu);
-        text-align: center;
-        line-height: 30px;
-        border-radius: 1px;
-        border: 1px solid #dcdcdc;
-    }
+    
 
     .faq__category__btn.click__btn {
         background-color: #dcdcdc;
@@ -310,6 +300,24 @@
         .inquiry__info.inquiry__title select{width:100px;}
         .inquiry__info.inquiry__title input{width:100%;}
         .black__full__width__btn.inquiry__btn {width: 100%;margin-top:10px;}
+        .faq__category__btn {
+            cursor: pointer;
+            width: 100%;
+            height: 40px;
+            background-color: white;
+            font-size: 11px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #343434;
+            font-family: var(--ft-no-fu);
+            text-align: center;
+            line-height: 40px;
+            border-radius: 1px;
+            border: 1px solid #dcdcdc;
+        }
     }
     @media (min-width: 600px) {
         .inquiry__tab__wrap {
@@ -320,12 +328,36 @@
         }
     }
     @media (min-width: 1024px) {
+        .faq__category__btn {
+            cursor: pointer;
+            width: 100%;
+            height: 30px;
+            background-color: white;
+            font-size: 11px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #343434;
+            font-family: var(--ft-no-fu);
+            text-align: center;
+            line-height: 30px;
+            border-radius: 1px;
+            border: 1px solid #dcdcdc;
+        }
         .inquiry__tab__wrap {
             grid-column: 1/17;
             width:950px;
             margin:0 auto;
             margin-top: 50px;
         }
+    }
+    .inquiry__wrap .select-items div, .select-selected {
+        margin-bottom: -1px;
+    }
+    .inquiry__wrap .select-hide {
+        margin-top: -1px;
     }
 </style>
 <div class="inquiry__wrap">
@@ -343,7 +375,7 @@
     <div class="inquiry__tab__wrap">
         <div class="inquiry__tab inquiry__faq__wrap">
             <div class="search">
-                <input class="search__keyword" type="text">
+                <input class="search__keyword" type="text" placeholder="무엇을 도와드릴까요?">
                 <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchAction(this)">
             </div>
             <div class="category"></div>
@@ -354,8 +386,10 @@
                 <div class="inquiry__faq__detail__area">
                     <div class="search__small">
                         <input class="search__keyword" type="text">
-                        <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg"
-                            onclick="searchAction(this)">
+                        <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchAction(this)">
+                        <div class="close" onclick="deleteResult()">
+                            <img src="/images/mypage/tmp_img/X-12.svg"/>
+                        </div>
                     </div>
                     <div class="pc__view">
                         <div class="category__small"></div>
@@ -445,7 +479,7 @@
                 </p>
             </div>
             <div style="width:100%">
-                <button class="black__full__width__btn inquiry__btn">문의하기</button>
+                <button class="black__full__width__btn inquiry__btn" onclick="goToInquiryForm()">문의하기</button>
             </div>
         </div>
     </div>
@@ -508,7 +542,15 @@
             }
         })
     })
-
+    function deleteResult() {
+        $('.search__keyword').val('');
+    }
+    function goToInquiryForm() {
+        $('.inquiry__tab').hide();
+        $('.inquiry__action__wrap').show();
+        $('div[form-id=inquiry__list__wrap]').removeClass('selected');
+        $('div[form-id=inquiry__action__wrap]').addClass('selected');
+    }
     function getFaqList(type, param) {
         var country = 'KR';
         var param_json = {};

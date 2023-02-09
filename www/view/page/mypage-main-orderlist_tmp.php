@@ -68,7 +68,7 @@
 	<input id="param_status" type="hidden" value="ALL">
 	
 	<div class="orderlist__tab__wrap tab_ALL">
-		<div class="orderlist__tab order__list order_list_ALL">
+		<div class="order__list order_list_ALL">
 			<input type="hidden" name="rows" value="5">
 			<input type="hidden" name="page" value="1">
 				
@@ -85,7 +85,7 @@
 	</div>
 	
 	<div class="orderlist__tab__wrap tab_OC" style="display:none;">
-		<div class="orderlist__tab order__list order_list_OC">
+		<div class="order__list order_list_OC">
 			<input type="hidden" name="rows" value="5">
 			<input type="hidden" name="page" value="1">
 				
@@ -102,7 +102,7 @@
 	</div>
 	
 	<div class="orderlist__tab__wrap tab_OE" style="display:none;">
-		<div class="orderlist__tab order__list order_list_OE">
+		<div class="order__list order_list_OE">
 			<input type="hidden" name="rows" value="5">
 			<input type="hidden" name="page" value="1">
 			
@@ -119,7 +119,7 @@
 	</div>
 	
 	<div class="orderlist__tab__wrap tab_OR" style="display:none;">
-		<div class="orderlist__tab order__list order_list_OR">
+		<div class="order__list order_list_OR">
 			<input type="hidden" name="rows" value="5">
 			<input type="hidden" name="page" value="1">
 			
@@ -147,16 +147,16 @@ function viewOrderList(obj) {
 	// let param_status = $('#param_status').val();
 	let action = $(obj).attr('action-type');
 	$('#param_status').val(action);
-	console.log(action);
 	$('.orderlist__tab__wrap').hide();
-	// $('.orderlist__tab').hide();
+	//$('.orderlist__tab').hide();
 	$('.tab_' + action).show();
-	// $('.order__list.order_list_' + action).show();
+	$('.order_list_' + action).show();
 }
 
 function viewDetailOrder(order_idx) {
-	$('.orderlist__tab').hide();
-	$('.orderlist__tab.order__detail').show();
+	let now = $('#param_status').val();
+	$('.order_list_' + now).hide();
+	$('.order__detail').show();
 	
 	getOrderInfo(order_idx);
 }
@@ -195,7 +195,6 @@ function setOrderInfoList(param_status,data) {
 	let page = order_list.find('input[name="page"]').val();
 	
 	let str_div = "";
-	
 	let slicedData = data.slice(parseInt(page - 1) * rows, rows * page);
 	slicedData.forEach(function(row) {
 		str_div += '<div class="orderlist__tab__contents">';
@@ -234,7 +233,7 @@ function setOrderInfoList(param_status,data) {
 			let display = "";
 			if (order_status == "PCP" || order_status == "POP" || order_status == "PPR") {
 				display = "flex";
-				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\');">주문취소</button>';
+				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
 				order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
 			} else if (order_status == "DPR" || order_status == "DPG") {
 				display = "block";
@@ -313,7 +312,7 @@ function setOrderInfoListM(param_status,data) {
 		str_div += '            <span class="info__title">주문일</span>';
 		str_div += '            <span class="info__value">' + row.order_date + '</span>';
 		str_div += '        </div>';
-		str_div += '        <div class="detail__btn" onclick="viewDetailOrder(\'' + param_status + '\',' + row.order_idx + ')"><span>자세히보기</span></div>';
+		str_div += '        <div class="detail__btn" onclick="viewDetailOrder(' + row.order_idx + ')"><span>자세히보기</span></div>';
 		str_div += '    </div>';
 		str_div += '    <div class="contents__table">';
 		str_div += '        <table>';
@@ -334,13 +333,13 @@ function setOrderInfoListM(param_status,data) {
 			let order_cancel_msg = "";
 			
 			if (order_status == "PCP" || order_status == "POP" || order_status == "POP") {
-				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\');">주문취소</button>';
+				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
 				order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
 			} else if (order_status == "DPR" || order_status == "DCP") {
 				order_btn = '<p class="delivery_num">' + row.company_name + '<br>' + row.row.delivery_num + '</p>';
 			}
 			
-			str_div += '        <tr id="order_product_' + product.order_product_idx + '">';
+			str_div += '        <tr id="order_product_' + product.order_product_idx + '_m">';
 			str_div += '            <td>';
 			str_div += '                <img src=' + img_root + product.img_location + ' style="cursor: default;">';
 			str_div += '            </td>';
@@ -421,13 +420,21 @@ function putOrderInfo(order_idx,order_product_idx,order_status) {
 
 function getOrderInfoByIdx(order_idx,order_product_idx) {
 	let div_order_product = $('#order_product_' + order_product_idx);
+	let div_order_product_m = $('#order_product_' + order_product_idx + '_m');
+	let div_order_product_d = $('#order_product_' + order_product_idx + '_detail');
+	let div_order_product_m_d = $('#order_product_' + order_product_idx + '_m_detail');
+
 	div_order_product.html('');
+	div_order_product_m.html('');
+	div_order_product_d.html('');
+	div_order_product_m_d.html('');
 	
 	$.ajax({
 		type: "post",
 		url: "http://116.124.128.246:80/_api/mypage/order/product/get",
 		data:{
-			'order_idx' : order_idx
+			'order_idx' : order_idx,
+			'order_product_idx' : order_product_idx
 		},
 		dataType: "json",
 		error: function(d) {
@@ -436,34 +443,70 @@ function getOrderInfoByIdx(order_idx,order_product_idx) {
 			if (d.code == 200) {
 				let data = d.data;
 				if (data != null) {
-					let strDiv = "";
+					let str_div = "";
+					let str_div_m = "";
 					data.forEach(function(row) {
-						str_div += '<tr>';
-						str_div += '    <td>';
-						str_div += '        <img src=' + img_root + product.img_location + ' style="cursor: default;">';
-						str_div += '    </td>';
-						str_div += '    <td class="product_info_mob">';
-						str_div += '        <p class="product_name_mob">' + product.product_name + '</p>';
-						str_div += '        <p>' + product.product_price + '</p>';
-						str_div += '        <div class="color_wrap">';
-						str_div += '            <p>' + product.color + '</p>';
-						str_div += '            <div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>';
-						str_div += '        </div>';
-						str_div += '        <p>' + product.option_name + '</p>';
-						str_div += '    </td>';
-						str_div += '    <td>';
-						str_div += '        <p>Qty: ' + product.product_qty + '</p>';
-						str_div += '    </td>';
-						str_div += '    <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">';
-						str_div += '        <div style="padding-bottom:13px;">';
-						str_div += '            <div style="display:flex;align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>'
-						str_div += '        ' + order_cancel_msg;
-						str_div += '        </div>';
-						str_div += '    </td>';
-						str_div += '</tr>';
+						let order_status = row.order_status;
+						let txt_order_status = getOrderStatus(order_status);
+
+						let order_btn = "";
+						
+						// let display = "";
+						// if (order_status == "PCP" || order_status == "POP" || order_status == "PPR") {
+						// 	display = "flex";
+						// 	order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + row.order_product_idx + ',\'' + order_status + '\');">주문취소</button>';
+						// 	order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+						// } else if (order_status == "DPR" || order_status == "DPG") {
+						// 	display = "block";
+						// 	order_btn = '<div class="delivery_num" style="margin-top:10px;"><p style="margin-bottom:3px;">' + row.company_name + '</p><p>652013628816</p></div>';
+						// } else if (order_status == "DCP" && row.update_flg == 'FALSE') {
+						// 	order_btn = '<button class="order_status_box" onclick="">반품접수</button>';
+						// }
+
+						str_div_m += '    <td>';
+						str_div_m += '        <img src=' + img_root + row.img_location + ' style="cursor: default;">';
+						str_div_m += '    </td>';
+						str_div_m += '    <td class="product_info_mob">';
+						str_div_m += '        <p class="product_name_mob">' + row.product_name + '</p>';
+						str_div_m += '        <p>' + row.product_price + '</p>';
+						str_div_m += '        <div class="color_wrap">';
+						str_div_m += '            <p>' + row.color + '</p>';
+						str_div_m += '            <div class="color_chip" style="background-color: ' + row.color_rgb + '"></div>';
+						str_div_m += '        </div>';
+						str_div_m += '        <p>' + row.option_name + '</p>';
+						str_div_m += '    </td>';
+						str_div_m += '    <td>';
+						str_div_m += '        <p>Qty: ' + row.product_qty + '</p>';
+						str_div_m += '    </td>';
+						str_div_m += '    <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">';
+						str_div_m += '        <div style="padding-bottom:13px;">';
+						str_div_m += '            <div style="display:flex;align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>'
+						str_div_m += '        </div>';
+						str_div_m += '    </td>';
+
+						str_div += '            <td>';
+						str_div += '                <img src=' + img_root + row.img_location + ' style="cursor: default;">';
+						str_div += '            </td>';
+						str_div += '            <td><p>' + row.product_name + '</p></td>';
+						str_div += '            <td>';
+						str_div += '                <div class="color_wrap">';
+						str_div += '                    <p>' + row.color + '</p>';
+						str_div += '                    <div class="color_chip" style="background-color: ' + row.color_rgb + '"></div>';
+						str_div += '                </div>';
+						str_div += '            </td>';
+						str_div += '            <td><p>' + row.option_name + '</p></td>';
+						str_div += '            <td><p>Qty: ' + row.product_qty + '</p></td>';
+						str_div += '            <td><p>' + row.product_price.toLocaleString('ko-KR') + '</p></td>';
+						str_div += '            <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+						str_div += '                <div style="padding-bottom:13px;">';
+						str_div += '                    <div style="display:flex;align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>';
+						str_div += '                </div>';
+						str_div += '            </td>'
 					});
-					
-					div_order_product.append(strDiv);
+					div_order_product.append(str_div);
+					div_order_product_m.append(str_div_m);
+					div_order_product_d.append(str_div);
+					div_order_product_m_d.append(str_div);
 				}
 			}
 		}
@@ -536,13 +579,13 @@ function setOrderInfo(data) {
 			let order_cancel_msg = "";
 			
 			if (order_status == "PCP" || order_status == "POP" || order_status == "POP") {
-				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\');">주문취소</button>';
+				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
 				order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
 			} else if (order_status == "DPR" || order_status == "DCP") {
-				order_btn = '<p class="delivery_num">' + row.company_name + '<br>' + row.row.delivery_num + '</p>';
+				order_btn = '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>';
 			}
 			
-			str_div += '             <tr>';
+			str_div += '             <tr id="order_product_' + product.order_product_idx + '_detail">';
 			str_div += '                 <td>';
 			str_div += '                     <img src=' + img_root + product.img_location + ' style="cursor: default;">';
 			str_div += '                 </td>';
@@ -637,15 +680,12 @@ function setOrderInfo(data) {
 	});
 	
 	div_list_pc.append(str_div);
-	
-	$('.orderlist__tab__wrap').hide();
-	$('.tab_' + param_status).show();
 }
 
 function setOrderInfoM(data) {
 	let param_status = $('#param_status').val();
 	
-	let div_list_mobile = $('.m_detail_view');
+	let div_list_mobile = $('.m_detail_view_' + param_status);
 	div_list_mobile.html('');
 	
 	let str_div;
@@ -683,13 +723,13 @@ function setOrderInfoM(data) {
 			let order_cancel_msg = "";
 			
 			if (order_status == "PCP" || order_status == "POP" || order_status == "POP") {
-				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\');">주문취소</button>';
+				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
 				order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
 			} else if (order_status == "DPR" || order_status == "DCP") {
-				order_btn = '<p class="delivery_num">' + row.company_name + '<br>' + row.row.delivery_num + '</p>';
+				order_btn = '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>';
 			}
 			
-			str_div += '            <tr>';
+			str_div += '            <tr id="order_product_' + product.order_product_idx + '_m_detail">';
 			str_div += '                <td>';
 			str_div += '                    <img src=' + img_root + product.img_location + ' style="cursor: default;">';
 			str_div += '                </td>';
@@ -779,9 +819,6 @@ function setOrderInfoM(data) {
 	});
 	
 	div_list_mobile.append(str_div);
-	
-	$('.orderlist__tab__wrap').hide();
-	$('.tab_' + param_status).show();
 }
 
 function getOrderStatus(param_status) {

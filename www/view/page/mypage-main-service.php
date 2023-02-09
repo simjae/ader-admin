@@ -1,127 +1,154 @@
 <style>
-.service__wrap{
-    margin-top:40px;
-    width:100%;
-}
-.service__tab__btn__container{
-    margin: 0 auto;
-    width:405px;
-    display:grid;
-    gap:10px;
-    place-items: center;
-    grid-template-columns: 70px 134px 70px 100px;
-}
-.service__tab__wrap .title{
-    margin-bottom:30px;
-}
-.service__wrap .description{
-    width:710px;
-    height:470px;
-    overflow-y:scroll;
-}
-.service__wrap .description::-webkit-scrollbar{
-    width:5px;
-}
-.service__wrap .description::-webkit-scrollbar-track {
-    background-color: transparent;
-}
-.service__wrap .description::-webkit-scrollbar-thumb {
-    background-color: #dcdcdc;
-}
-.service__wrap .description h2{
-    font-family:var(--ft-no-fu); 
-    font-size: 13px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.15;
-    letter-spacing: normal;
-    text-align: left;
-    color: #343434;
-    margin-top:30px;
-    margin-bottom:10px;
-}
-.service__wrap .description ul{
-    font-family:var(--ft-no-fu); 
-    font-size: 11px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #343434;
-    margin-top:10px;
-    line-height: 2;
-}
-.service__wrap .description p{
-    font-family:var(--ft-no-fu); 
-    font-size: 11px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #343434;
-    line-height: 2;
-}
-.service__tab__wrap .request{
-    padding-left:20px;
-    font-family:var(--ft-no-fu); 
-    font-size: 11px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    letter-spacing: normal;
-    text-align: left;
-    color: #343434;
-    line-height: 2;
-}
-.service__tab__wrap .request p{
-    margin-bottom:10px;
-}
-.service__tab__wrap .toggle__item{
-    margin-bottom:10px!important;
-}
-.service__wrap .footer{
-    margin-bottom:100px;
-}
+    .service__wrap {
+        margin-top: 40px;
+        width: 100%;
+    }
 
-@media (max-width: 1024px){
-    .service__tab__wrap{width:100%;margin-top:37px;}
-    .service__wrap .description{width:100%}
-    .toggle__list{width:100%}
-}
-@media (min-width: 600px) {
-    .service__tab__wrap {
-        width:580px;
-        margin:0 auto;
-        margin-top:37px;
-    }
-}
-@media (min-width: 1024px) {
-    .service__tab__wrap{
-        width:710px;
-        margin:0 auto;
-        margin-top:50px;
-    }
-}
-@media (max-width: 445px) {
     .service__tab__btn__container {
-        display:none;
+        margin: 0 auto;
+        width: 405px;
+        display: grid;
+        gap: 10px;
+        place-items: center;
+        grid-template-columns: 70px 134px 70px 100px;
     }
-}
-@media (min-width: 445px) {
-    .service__wrap .swiper.tab__btn {
-        display:none;
+
+    .service__tab__wrap .title {
+        margin-bottom: 30px;
     }
-}
+
+    .service__wrap .description {
+        width: 710px;
+        height: 470px;
+        overflow-y: scroll;
+    }
+
+    .service__wrap .description::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .service__wrap .description::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    .service__wrap .description::-webkit-scrollbar-thumb {
+        background-color: #dcdcdc;
+    }
+
+    .service__wrap .description h2 {
+        font-family: var(--ft-no-fu);
+        font-size: 13px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.15;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .service__wrap .description ul {
+        font-family: var(--ft-no-fu);
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+        margin-top: 10px;
+        line-height: 2;
+    }
+
+    .service__wrap .description p {
+        font-family: var(--ft-no-fu);
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+        line-height: 2;
+    }
+
+    .service__tab__wrap .request {
+        padding-left: 20px;
+        font-family: var(--ft-no-fu);
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+        line-height: 2;
+    }
+
+    .service__tab__wrap .request p {
+        margin-bottom: 10px;
+    }
+
+    .service__tab__wrap .toggle__item {
+        margin-bottom: 10px !important;
+    }
+
+
+    @media (max-width: 1024px) {
+        .mypage__tab__container {
+            margin-bottom: 60px;
+        }
+
+        .service__tab__wrap {
+            width: 100%;
+            margin-top: 37px;
+        }
+
+        .service__wrap .description {
+            width: 100%
+        }
+
+        .toggle__list {
+            width: 100%
+        }
+    }
+
+    @media (min-width: 600px) {
+        .service__tab__wrap {
+            width: 580px;
+            margin: 0 auto;
+            margin-top: 37px;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .service__tab__wrap {
+            width: 710px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+    }
+
+    @media (max-width: 445px) {
+        .service__tab__btn__container {
+            display: none;
+        }
+    }
+
+    @media (min-width: 445px) {
+        .service__wrap .swiper.tab__btn {
+            display: none;
+        }
+    }
 </style>
 <div class="service__wrap">
     <div class="service__tab__btn__container">
         <div class="tab__btn__item" form-id="service__notice__wrap">
             <span>공지사항</span>
         </div>
-        <div class="tab__btn__item"  form-id="service__guide__wrap">
+        <div class="tab__btn__item" form-id="service__guide__wrap">
             <span>온라인스토어 이용가이드</span>
         </div>
         <div class="tab__btn__item" form-id="service__terms__wrap">
@@ -133,16 +160,16 @@
     </div>
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
-            <div class="swiper-slide tab__btn__item" style="width:56px;" form-id="service__notice__wrap">
+            <div class="swiper-slide tab__btn__item" form-id="service__notice__wrap">
                 <span>공지사항</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:124px;" form-id="service__guide__wrap">
+            <div class="swiper-slide tab__btn__item" form-id="service__guide__wrap">
                 <span>온라인스토어 이용가이드</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:56px;" form-id="service__terms__wrap">
+            <div class="swiper-slide tab__btn__item" form-id="service__terms__wrap">
                 <span>이용약관</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:94px;" form-id="service__policy__wrap">
+            <div class="swiper-slide tab__btn__item" form-id="service__policy__wrap">
                 <span>개인정보처리방침</span>
             </div>
         </div>
@@ -153,7 +180,6 @@
                 <div class="toggle__list__tab 01">
                 </div>
             </div>
-            <div class="footer"></div>
         </div>
         <div class="service__tab service__guide__wrap">
             <div class="title">
@@ -162,7 +188,7 @@
             <div class="description">
                 <h2 style="margin-top:0px;">회원가입 안내</h2>
                 <p>
-                &nbsp;&nbsp;회원가입 메뉴를 통해 이용약관, 개인정보보호정책 동의 및 일정 양식의 가입항목을 기입함으로써 회원에 가입되며,<br> 
+                    &nbsp;&nbsp;회원가입 메뉴를 통해 이용약관, 개인정보보호정책 동의 및 일정 양식의 가입항목을 기입함으로써 회원에 가입되며,<br>
                     가입 즉시 서비스를 무료로 이용하실 수 있습니다. 주문하실 때에 입력해야하는 각종 정보들을 일일이 입력하지 않으셔도 됩니다.<br>
                     공동구매, 경매행사에 항상 참여하실 수 있습니다. 회원을 위한 이벤트 및 각종 할인행사에 참여하실 수 있습니다.
                 </p>
@@ -178,57 +204,59 @@
                     <li>Step6: 주문 성공 화면 (주문번호)</li>
                 </ul>
                 <p>
-                &nbsp;&nbsp;비회원 주문인경우 6단계에서 주문번호와 승인번호(카드결제시)를 꼭 메모해 두시기 바랍니다.<br> 
+                    &nbsp;&nbsp;비회원 주문인경우 6단계에서 주문번호와 승인번호(카드결제시)를 꼭 메모해 두시기 바랍니다.<br>
                     단, 회원인 경우 자동 저장되므로 따로 관리하실 필요가 없습니다.
                 </p>
-                
+
 
                 <h2>결제안내</h2>
                 <p>
-                &nbsp;&nbsp;고액결제의 경우 안전을 위해 카드사에서 확인전화를 드릴 수도 있습니다.<br>
+                    &nbsp;&nbsp;고액결제의 경우 안전을 위해 카드사에서 확인전화를 드릴 수도 있습니다.<br>
                     확인과정에서 도난 카드의 사용이나 타인 명의의 주문등 정상적인 주문이 아니라고 판단될 경우 임의로 주문을 보류 또는 취소할 수 있습니다.
                 </p>
 
                 <h2>배송안내</h2>
-                    <ul>
-                        <li>배송 방법 : 택배</li>
-                        <li>배송 지역 : 전국지역</li>
-                        <li>배송 비용 : 조건부 무료 : 주문 금액 80,000원 미만일 때 배송비 2,500원을 추가합니다.</li>
-                        <li>배송 기간 : 3일 ~ 7일</li>
-                        <li>배송 안내 : - 산간벽지나 도서지방은 별도의 추가금액을 지불하셔야 하는 경우가 있습니다.<br>
+                <ul>
+                    <li>배송 방법 : 택배</li>
+                    <li>배송 지역 : 전국지역</li>
+                    <li>배송 비용 : 조건부 무료 : 주문 금액 80,000원 미만일 때 배송비 2,500원을 추가합니다.</li>
+                    <li>배송 기간 : 3일 ~ 7일</li>
+                    <li>배송 안내 : - 산간벽지나 도서지방은 별도의 추가금액을 지불하셔야 하는 경우가 있습니다.<br>
                         고객님께서 주문하신 상품은 입금 확인후 배송해 드립니다. 다만, 상품종류에 따라서 상품의 배송이 다소 지연될 수 있습니다.</li>
-                    </ul>
+                </ul>
                 <h2>교환/반품안내</h2>
-                    <ul>
-                        <li>
-                            <h3>교환 및 반품 주소</h3>
-                            - [04782] 서울특별시 성동구 연무장길 53 (성수동2가) 삼영빌딩 3층
-                        </li>
-                        <li>
-                            <h3>교환 및 반품이 가능한 경우</h3>
-                            - 상품을 공급 받으신 날로부터 7일이내 단, 가전제품의 경우 포장을 개봉하였거나 포장이 훼손되어 상품가치가 상실된 경우에는<br>
-                            &nbsp;&nbsp;교환/반품이 불가능합니다.<br>
-                            - 공급받으신 상품 및 용역의 내용이 표시.광고 내용과 다르거나 다르게 이행된 경우에는 공급받은 날로부터 3월이내,<br>
-                            &nbsp;&nbsp;그사실을 알게 된 날로부터 30일이내<br></li>
-                        <li>
-                            <h3>교환 및 반품이 불가능한 경우</h3>
-                            - 고객님의 책임 있는 사유로 상품등이 멸실 또는 훼손된 경우. 단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외<br>
-                            - 포장을 개봉하였거나 포장이 훼손되어 상품가치가 상실된 경우<br>
-                            - 홈페이지 상 교환 및 반품 불가 안내가 고지된 제품<br>    
-                            - 제품 특성상 교환 및 반품 불가로 안내가 고지되어 있는 제품의 경우 <br>
-                            &nbsp;&nbsp;(예 : 가전제품, 식품, 음반 등, 단 액정화면이 부착된 노트북, LCD모니터, 디지털 카메라 등의 불량화소에 따른 반품/교환은 제조사 기준에 따릅니다.)<br>
-                            - 고객님의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우 단, 화장품등의 경우 시용제품을 제공한 경우에 한 합니다.<br>
-                            - 시간의 경과에 의하여 재판매가 곤란할 정도로 상품등의 가치가 현저히 감소한 경우<br>
-                            - 복제가 가능한 상품등의 포장을 훼손한 경우<br>
-                            &nbsp;&nbsp;(자세한 내용은 고객만족센터 1:1 E-MAIL상담을 이용해 주시기 바랍니다.)
-                        </li>
-                    </ul>
-                    ※ 고객님의 마음이 바뀌어 교환, 반품을 하실 경우 상품반송 비용은 고객님께서 부담하셔야 합니다. (색상 교환, 사이즈 교환 등 포함)
-                
+                <ul>
+                    <li>
+                        <h3>교환 및 반품 주소</h3>
+                        - [04782] 서울특별시 성동구 연무장길 53 (성수동2가) 삼영빌딩 3층
+                    </li>
+                    <li>
+                        <h3>교환 및 반품이 가능한 경우</h3>
+                        - 상품을 공급 받으신 날로부터 7일이내 단, 가전제품의 경우 포장을 개봉하였거나 포장이 훼손되어 상품가치가 상실된 경우에는<br>
+                        &nbsp;&nbsp;교환/반품이 불가능합니다.<br>
+                        - 공급받으신 상품 및 용역의 내용이 표시.광고 내용과 다르거나 다르게 이행된 경우에는 공급받은 날로부터 3월이내,<br>
+                        &nbsp;&nbsp;그사실을 알게 된 날로부터 30일이내<br>
+                    </li>
+                    <li>
+                        <h3>교환 및 반품이 불가능한 경우</h3>
+                        - 고객님의 책임 있는 사유로 상품등이 멸실 또는 훼손된 경우. 단, 상품의 내용을 확인하기 위하여 포장 등을 훼손한 경우는 제외<br>
+                        - 포장을 개봉하였거나 포장이 훼손되어 상품가치가 상실된 경우<br>
+                        - 홈페이지 상 교환 및 반품 불가 안내가 고지된 제품<br>
+                        - 제품 특성상 교환 및 반품 불가로 안내가 고지되어 있는 제품의 경우 <br>
+                        &nbsp;&nbsp;(예 : 가전제품, 식품, 음반 등, 단 액정화면이 부착된 노트북, LCD모니터, 디지털 카메라 등의 불량화소에 따른 반품/교환은 제조사 기준에
+                        따릅니다.)<br>
+                        - 고객님의 사용 또는 일부 소비에 의하여 상품의 가치가 현저히 감소한 경우 단, 화장품등의 경우 시용제품을 제공한 경우에 한 합니다.<br>
+                        - 시간의 경과에 의하여 재판매가 곤란할 정도로 상품등의 가치가 현저히 감소한 경우<br>
+                        - 복제가 가능한 상품등의 포장을 훼손한 경우<br>
+                        &nbsp;&nbsp;(자세한 내용은 고객만족센터 1:1 E-MAIL상담을 이용해 주시기 바랍니다.)
+                    </li>
+                </ul>
+                ※ 고객님의 마음이 바뀌어 교환, 반품을 하실 경우 상품반송 비용은 고객님께서 부담하셔야 합니다. (색상 교환, 사이즈 교환 등 포함)
+
 
                 <h2>환불안내</h2>
                 <p>
-                &nbsp;&nbsp;환불시 반품 확인여부를 확인한 후 3영업일 이내에 결제 금액을 환불해 드립니다. <br>
+                    &nbsp;&nbsp;환불시 반품 확인여부를 확인한 후 3영업일 이내에 결제 금액을 환불해 드립니다. <br>
                     신용카드로 결제하신 경우는 신용카드 승인을 취소하여 결제 대금이 청구되지 않게 합니다.<br>
                     (단, 신용카드 결제일자에 맞추어 대금이 청구 될수 있으면 이경우 익월 신용카드 대금청구시 카드사에서 환급처리됩니다.)
                 </p>
@@ -254,7 +282,6 @@
                     </li>
                 </ul>
             </div>
-            <div class="footer"></div>
         </div>
         <div class="service__tab service__terms__wrap">
             <div class="title">
@@ -262,21 +289,21 @@
             </div>
             <div class="description">
                 <p>
-                &nbsp;&nbsp;제1조(목적)<br>
+                    &nbsp;&nbsp;제1조(목적)<br>
                     이 약관은 (주)파이브스페이스(전자상거래 사업자)가 운영하는 사이버 몰(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스<br>
                     (이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.<br>
                     ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
                 </p>
                 <p>
-                &nbsp;&nbsp;제2조(정의)<br>
-                    ① “몰”이란 회사가 재화 또는 용역(이하 “재화 등”이라 함)을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을<br> 
+                    &nbsp;&nbsp;제2조(정의)<br>
+                    ① “몰”이란 회사가 재화 또는 용역(이하 “재화 등”이라 함)을 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 등을<br>
                     거래할 수 있도록 설정한 가상의 영업장을 말하며, 아울러 사이버몰을 운영하는 사업자의 의미로도 사용합니다.<br>
                     ② “이용자”란 “몰”에 접속하여 이 약관에 따라 “몰”이 제공하는 서비스를 받는 회원 및 비회원을 말합니다.<br>
                     ③ ‘회원’이라 함은 “몰”에 회원등록을 한 자로서, 계속적으로 “몰”이 제공하는 서비스를 이용할 수 있는 자를 말합니다.<br>
                     ④ ‘비회원’이라 함은 회원에 가입하지 않고 “몰”이 제공하는 서비스를 이용하는 자를 말합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제3조 (약관 등의 명시와 설명 및 개정)<br>
+                    &nbsp;&nbsp;제3조 (약관 등의 명시와 설명 및 개정)<br>
                     ① “몰”은 이 약관의 내용과 상호 및 대표자 성명, 영업소 소재지 주소(소비자의 불만을 처리할 수 있는 곳의 주소를 포함),<br>
                     전화번호․모사전송번호․전자우편주소, 사업자등록번호, 통신판매업 신고번호, 개인정보보호책임자등을 이용자가 쉽게 알 수 있도록<br>
                     www.adererror.com의 초기 서비스화면(전면)에 게시합니다. 다만, 약관의 내용은 이용자가 연결화면을 통하여 볼 수 있도록 할 수 있습니다.<br>
@@ -297,7 +324,7 @@
                     약관의 규제 등에 관한 법률, 공정거래위원회가 정하는 전자상거래 등에서의 소비자 보호지침 및 관계법령 또는 상관례에 따릅니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제4조(서비스의 제공 및 변경) <br>
+                    &nbsp;&nbsp;제4조(서비스의 제공 및 변경) <br>
                     ① “몰”은 다음과 같은 업무를 수행합니다.<br>
                     &nbsp; 1. 재화 또는 용역에 대한 정보 제공 및 구매계약의 체결<br>
                     &nbsp; 2. 구매계약이 체결된 재화 또는 용역의 배송<br>
@@ -311,7 +338,7 @@
                     다만, “몰”이 고의 또는 과실이 없음을 입증하는 경우에는 그러하지 아니합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제5조(서비스의 중단) <br>
+                    &nbsp;&nbsp;제5조(서비스의 중단) <br>
                     ① “몰”은 컴퓨터 등 정보통신설비의 보수점검․교체 및 고장, 통신의 두절 등의 사유가 발생한 경우에는<br>
                     서비스의 제공을 일시적으로 중단할 수 있습니다.<br>
                     ② “몰”은 제1항의 사유로 서비스의 제공이 일시적으로 중단됨으로 인하여 이용자 또는 제3자가 입은 손해에 대하여 배상합니다.<br>
@@ -322,7 +349,7 @@
                     이용자들의 마일리지 또는 적립금 등을 “몰”에서 통용되는 통화가치에 상응하는 현물 또는 현금으로 이용자에게 지급합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제6조(회원가입) <br>
+                    &nbsp;&nbsp;제6조(회원가입) <br>
                     ① 이용자는 “몰”이 정한 가입 양식에 따라 회원정보를 기입한 후 이 약관에 동의한다는 의사표시를 함으로서 회원가입을 신청합니다.<br>
                     ② “몰”은 제1항과 같이 회원으로 가입할 것을 신청한 이용자 중 다음 각 호에 해당하지 않는 한 회원으로 등록합니다.<br>
                     &nbsp; 1. 가입신청자가 이 약관 제7조제3항에 의하여 이전에 회원자격을 상실한 적이 있는 경우,<br>
@@ -334,7 +361,7 @@
                     상당한 기간 이내에 “몰”에 대하여 회원정보 수정 등의 방법으로 그 변경사항을 알려야 합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제7조(회원 탈퇴 및 자격 상실 등) <br>
+                    &nbsp;&nbsp;제7조(회원 탈퇴 및 자격 상실 등) <br>
                     ① 회원은 “몰”에 언제든지 탈퇴를 요청할 수 있으며 “몰”은 즉시 회원탈퇴를 처리합니다.<br>
                     ② 회원이 다음 각 호의 사유에 해당하는 경우, “몰”은 회원자격을 제한 및 정지시킬 수 있습니다.<br>
                     &nbsp; 1. 가입 신청 시에 허위 내용을 등록한 경우<br>
@@ -347,10 +374,11 @@
                     회원등록 말소 전에 최소한 30일 이상의 기간을 정하여 소명할 기회를 부여합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제8조(회원에 대한 통지)<br>
+                    &nbsp;&nbsp;제8조(회원에 대한 통지)<br>
                     ① “몰”이 회원에 대한 통지를 하는 경우, 회원이 “몰”과 미리 약정하여 지정한 전자우편 주소로 할 수 있습니다.<br>
                     ② “몰”은 불특정다수 회원에 대한 통지의 경우 1주일이상 “몰” 게시판에 게시함으로서 개별 통지에 갈음할 수 있습니다.<br>
-                    다만, 회원 본인의 거래와 관련하여 중대한 영향을 미치는 사항에 대하여는 개별통지를 합니다.</p><p>제9조(구매신청) <br>
+                    다만, 회원 본인의 거래와 관련하여 중대한 영향을 미치는 사항에 대하여는 개별통지를 합니다.</p>
+                <p>제9조(구매신청) <br>
                     ① “몰”이용자는 “몰”상에서 다음 또는 이와 유사한 방법에 의하여 구매를 신청하며,<br>
                     “몰”은 이용자가 구매신청을 함에 있어서 다음의 각 내용을 알기 쉽게 제공하여야 합니다. <br>
                     &nbsp; 1. 재화 등의 검색 및 선택<br>
@@ -366,7 +394,7 @@
                     관련 법령에 달리 정함이 있는 경우에는 그에 따릅니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제10조 (계약의 성립)<br>
+                    &nbsp;&nbsp;제10조 (계약의 성립)<br>
                     ① “몰”은 제9조와 같은 구매신청에 대하여 다음 각 호에 해당하면 승낙하지 않을 수 있습니다.<br>
                     다만, 미성년자와 계약을 체결하는 경우에는 법정대리인의 동의를 얻지 못하면<br>
                     미성년자 본인 또는 법정대리인이 계약을 취소할 수 있다는 내용을 고지하여야 합니다.<br>
@@ -378,7 +406,7 @@
                     구매신청의 정정 취소 등에 관한 정보 등을 포함하여야 합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제11조(지급방법)<br>
+                    &nbsp;&nbsp;제11조(지급방법)<br>
                     “몰”에서 구매한 재화 또는 용역에 대한 대금지급방법은 다음 각 호의 방법중 가용한 방법으로 할 수 있습니다.<br>
                     단, “몰”은 이용자의 지급방법에 대하여 재화 등의 대금에 어떠한 명목의 수수료도 추가하여 징수할 수 없습니다.<br>
                     1. 폰뱅킹, 인터넷뱅킹, 메일 뱅킹 등의 각종 계좌이체 <br>
@@ -390,14 +418,14 @@
                     7. 기타 전자적 지급 방법에 의한 대금 지급 등
                 </p>
                 <p>
-                &nbsp;&nbsp;제12조(수신확인통지․구매신청 변경 및 취소)<br>
+                    &nbsp;&nbsp;제12조(수신확인통지․구매신청 변경 및 취소)<br>
                     ① “몰”은 이용자의 구매신청이 있는 경우 이용자에게 수신확인통지를 합니다.<br>
                     ② 수신확인통지를 받은 이용자는 의사표시의 불일치 등이 있는 경우에는 수신확인통지를 받은 후<br>
                     즉시 구매신청 변경 및 취소를 요청할 수 있고 “몰”은 배송 전에 이용자의 요청이 있는 경우에는<br>
                     지체 없이 그 요청에 따라 처리하여야 합니다. 다만 이미 대금을 지불한 경우에는 제15조의 청약철회 등에 관한 규정에 따릅니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제13조(재화 등의 공급)<br>
+                    &nbsp;&nbsp;제13조(재화 등의 공급)<br>
                     ① “몰”은 이용자와 재화 등의 공급시기에 관하여 별도의 약정이 없는 이상,<br>
                     이용자가 청약을 한 날부터 7일 이내에 재화 등을 배송할 수 있도록 주문제작, 포장 등 기타의 필요한 조치를 취합니다.<br>
                     다만, “몰”이 이미 재화 등의 대금의 전부 또는 일부를 받은 경우에는<br>
@@ -408,13 +436,13 @@
                     다만 “몰”이 고의․과실이 없음을 입증한 경우에는 그러하지 아니합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제14조(환급)<br>
+                    &nbsp;&nbsp;제14조(환급)<br>
                     “몰”은 이용자가 구매신청한 재화 등이 품절 등의 사유로 인도 또는 제공을 할 수 없을 때에는<br>
                     지체 없이 그 사유를 이용자에게 통지하고 사전에 재화 등의 대금을 받은 경우에는<br>
                     대금을 받은 날부터 3영업일 이내에 환급하거나 환급에 필요한 조치를 취합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제15조(청약철회 등)<br>
+                    &nbsp;&nbsp;제15조(청약철회 등)<br>
                     ① “몰”과 재화등의 구매에 관한 계약을 체결한 이용자는 「전자상거래 등에서의 소비자보호에 관한 법률」<br>
                     제13조 제2항에 따른 계약내용에 관한 서면을 받은 날<br>
                     (그 서면을 받은 때보다 재화 등의 공급이 늦게 이루어진 경우에는 재화 등을 공급받거나 재화 등의 공급이 시작된 날을 말합니다)<br>
@@ -432,7 +460,7 @@
                     당해 재화 등을 공급받은 날부터 3월 이내, 그 사실을 안 날 또는 알 수 있었던 날부터 30일 이내에 청약철회 등을 할 수 있습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제16조(청약철회 등의 효과)<br>
+                    &nbsp;&nbsp;제16조(청약철회 등의 효과)<br>
                     ① “몰”은 이용자로부터 재화 등을 반환받은 경우 3영업일 이내에 이미 지급받은 재화 등의 대금을 환급합니다.<br>
                     이 경우 “몰”이 이용자에게 재화등의 환급을 지연한때에는 그 지연기간에 대하여<br>
                     「전자상거래 등에서의 소비자보호에 관한 법률 시행령」제21조의2에서 정하는 지연이자율(괄호 부분 삭제)을 곱하여 산정한 지연이자를 지급합니다.<br>
@@ -446,7 +474,7 @@
                     그 비용을 누가 부담하는지를 이용자가 알기 쉽도록 명확하게 표시합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제17조(개인정보보호)<br>
+                    &nbsp;&nbsp;제17조(개인정보보호)<br>
                     ① “몰”은 이용자의 개인정보 수집시 서비스제공을 위하여 필요한 범위에서 최소한의 개인정보를 수집합니다. <br>
                     ② “몰”은 회원가입시 구매계약이행에 필요한 정보를 미리 수집하지 않습니다.<br>
                     다만, 관련 법령상 의무이행을 위하여<br>
@@ -473,7 +501,7 @@
                     필수수집항목이 아닌 개인정보의 수집•이용•제공에 관한 이용자의 동의 거절을 이유로 회원가입 등 서비스 제공을 제한하거나 거절하지 않습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제18조(“몰“의 의무)<br>
+                    &nbsp;&nbsp;제18조(“몰“의 의무)<br>
                     ① “몰”은 법령과 이 약관이 금지하거나 공서양속에 반하는 행위를 하지 않으며 이 약관이 정하는 바에 따라 지속적이고,<br>
                     안정적으로 재화․용역을 제공하는데 최선을 다하여야 합니다.<br>
                     ② “몰”은 이용자가 안전하게 인터넷 서비스를 이용할 수 있도록 이용자의 개인정보(신용정보 포함)보호를 위한 보안 시스템을 갖추어야 합니다.<br>
@@ -482,13 +510,13 @@
                     ④ “몰”은 이용자가 원하지 않는 영리목적의 광고성 전자우편을 발송하지 않습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제19조(회원의 ID 및 비밀번호에 대한 의무)<br>
+                    &nbsp;&nbsp;제19조(회원의 ID 및 비밀번호에 대한 의무)<br>
                     ① 제17조의 경우를 제외한 ID와 비밀번호에 관한 관리책임은 회원에게 있습니다.<br>
                     ② 회원은 자신의 ID 및 비밀번호를 제3자에게 이용하게 해서는 안됩니다.<br>
                     ③ 회원이 자신의 ID 및 비밀번호를 도난당하거나 제3자가 사용하고 있음을 인지한 경우에는 바로 “몰”에 통보하고 “몰”의 안내가 있는 경우에는<br>그에 따라야 합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제20조(이용자의 의무)<br>
+                    &nbsp;&nbsp;제20조(이용자의 의무)<br>
                     이용자는 다음 행위를 하여서는 안 됩니다.<br>
                     1. 신청 또는 변경시 허위 내용의 등록<br>
                     2. 타인의 정보 도용<br>
@@ -499,21 +527,21 @@
                     7. 외설 또는 폭력적인 메시지, 화상, 음성, 기타 공서양속에 반하는 정보를 몰에 공개 또는 게시하는 행위
                 </p>
                 <p>
-                &nbsp;&nbsp;제21조(연결“몰”과 피연결“몰” 간의 관계)<br>
+                    &nbsp;&nbsp;제21조(연결“몰”과 피연결“몰” 간의 관계)<br>
                     ① 상위 “몰”과 하위 “몰”이 하이퍼링크(예: 하이퍼링크의 대상에는 문자, 그림 및 동화상 등이 포함됨)방식 등으로 연결된 경우,<br>
                     전자를 연결 “몰”(웹 사이트)이라고 하고 후자를 피연결 “몰”(웹사이트)이라고 합니다.<br>
                     ② 연결“몰”은 피연결“몰”이 독자적으로 제공하는 재화 등에 의하여 이용자와 행하는 거래에 대해서 보증 책임을 지지 않는다는 뜻을<br>
                     연결“몰”의 초기화면 또는 연결되는 시점의 팝업화면으로 명시한 경우에는 그 거래에 대한 보증 책임을 지지 않습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제22조(저작권의 귀속 및 이용제한)<br>
+                    &nbsp;&nbsp;제22조(저작권의 귀속 및 이용제한)<br>
                     ① “몰“이 작성한 저작물에 대한 저작권 기타 지적재산권은 ”몰“에 귀속합니다.<br>
                     ② 이용자는 “몰”을 이용함으로써 얻은 정보 중 “몰”에게 지적재산권이 귀속된 정보를 “몰”의 사전 승낙 없이<br>
                     복제, 송신, 출판, 배포, 방송 기타 방법에 의하여 영리목적으로 이용하거나 제3자에게 이용하게 하여서는 안됩니다.<br>
                     ③ “몰”은 약정에 따라 이용자에게 귀속된 저작권을 사용하는 경우 당해 이용자에게 통보하여야 합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제23조(분쟁해결)<br>
+                    &nbsp;&nbsp;제23조(분쟁해결)<br>
                     ① “몰”은 이용자가 제기하는 정당한 의견이나 불만을 반영하고 그 피해를 보상처리하기 위하여 피해보상처리기구를 설치․운영합니다.<br>
                     ② “몰”은 이용자로부터 제출되는 불만사항 및 의견은 우선적으로 그 사항을 처리합니다. 다만, 신속한 처리가 곤란한 경우에는<br>
                     이용자에게 그 사유와 처리일정을 즉시 통보해 드립니다.<br>
@@ -521,14 +549,13 @@
                     시•도지사가 의뢰하는 분쟁조정기관의 조정에 따를 수 있습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;제24조(재판권 및 준거법)<br>
+                    &nbsp;&nbsp;제24조(재판권 및 준거법)<br>
                     ① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는<br>
                     지방법원의 전속관할로 합니다.<br>
                     다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.<br>
                     ② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.
                 </p>
             </div>
-            <div class="footer"></div>
         </div>
         <div class="service__tab service__policy__wrap">
             <div class="title">
@@ -536,28 +563,28 @@
             </div>
             <div class="description">
                 <p>
-                &nbsp;&nbsp;(주)파이브스페이스는 (이하 "회사"는) 고객님의 개인정보를 중요시하며, "정보통신망 이용촉진 및 정보보호"에 관한 법률을 준수하고 있습니다.
+                    &nbsp;&nbsp;(주)파이브스페이스는 (이하 "회사"는) 고객님의 개인정보를 중요시하며, "정보통신망 이용촉진 및 정보보호"에 관한 법률을 준수하고 있습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;회사는 개인정보취급방침을 통하여 고객님께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며,<br>
+                    &nbsp;&nbsp;회사는 개인정보취급방침을 통하여 고객님께서 제공하시는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며,<br>
                     개인정보보호를 위해 어떠한 조치가 취해지고 있는지 알려드립니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 수집하는 개인정보 항목 및 수집방법<br>
+                    &nbsp;&nbsp;■ 수집하는 개인정보 항목 및 수집방법<br>
                     가. 수집하는 개인정보의 항목<br>
                     o 회사는 회원가입, 상담, 서비스 신청 등을 위해 아래와 같은 개인정보를 수집하고 있습니다.<br>
                     - 회원가입시 : 로그인ID , 비밀번호 , 이름 , 이메일 , 자택 전화번호 , 휴대전화번호 , 주소 , SNS정보<br>
                     - 서비스 신청시 : 주소, 결제 정보
                 </p>
                 <p>
-                &nbsp;&nbsp;o 서비스 이용 과정이나 사업 처리 과정에서 서비스이용기록, 접속로그, 쿠키, 접속 IP, 결제 기록, 불량이용 기록이 생성되어 수집될 수 있습니다.
+                    &nbsp;&nbsp;o 서비스 이용 과정이나 사업 처리 과정에서 서비스이용기록, 접속로그, 쿠키, 접속 IP, 결제 기록, 불량이용 기록이 생성되어 수집될 수 있습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;나. 수집방법<br>
+                    &nbsp;&nbsp;나. 수집방법<br>
                     - 홈페이지, 서면양식, 게시판, 이메일, 이벤트 응모, 배송요청, 전화, 팩스, 생성 정보 수집 툴을 통한 수집
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 개인정보의 수집 및 이용목적<br>회사는 수집한 개인정보를 다음의 목적을 위해 활용합니다.<br>
+                    &nbsp;&nbsp;■ 개인정보의 수집 및 이용목적<br>회사는 수집한 개인정보를 다음의 목적을 위해 활용합니다.<br>
                     o 서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 요금정산<br>
                     콘텐츠 제공 , 구매 및 요금 결제 , 물품배송 또는 청구지 등 발송 , 금융거래 본인 인증 및 금융 서비스<br>
                     o 회원 관리<br>
@@ -567,17 +594,17 @@
                     이벤트 등 광고성 정보 전달 , 접속 빈도 파악 또는 회원의 서비스 이용에 대한 통계
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 개인정보의 보유 및 이용기간<br>
+                    &nbsp;&nbsp;■ 개인정보의 보유 및 이용기간<br>
                     원칙적으로, 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기합니다.<br>
                     단, 다음의 정보에 대해서는 아래의 이유로 명시한 기간 동안 보존합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;가. 회사 내부방침에 의한 정보보유 사유<br>
+                    &nbsp;&nbsp;가. 회사 내부방침에 의한 정보보유 사유<br>
                     &nbsp;회원이 탈퇴한 경우에도 불량회원의 부정한 이용의 재발을 방지, 분쟁해결 및 수사기관의 요청에 따른 협조를 위하여,<br>
-                    이용계약 해지일로부터 5년간 회원의 정보를 보유할 수 있습니다. 
+                    이용계약 해지일로부터 5년간 회원의 정보를 보유할 수 있습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;나. 관련 법령에 의한 정보 보유 사유 <br>
+                    &nbsp;&nbsp;나. 관련 법령에 의한 정보 보유 사유 <br>
                     전자상거래등에서의소비자보호에관한법률 등 관계법령의 규정에 의하여 보존할 필요가 있는 경우<br>
                     회사는 아래와 같이 관계법령에서 정한 일정한 기간 동안 회원정보를 보관합니다.<br>
                     o 계약 또는 청약철회 등에 관한 기록<br>
@@ -594,7 +621,7 @@
                     -보존기간 : 3개월
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 개인정보의 파기절차 및 방법<br>
+                    &nbsp;&nbsp;■ 개인정보의 파기절차 및 방법<br>
                     회사는 원칙적으로 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체없이 파기합니다.<br>
                     파기절차 및 방법은 다음과 같습니다.<br>
                     o 파기절차<br>
@@ -605,13 +632,13 @@
                     전자적 파일형태로 저장된 개인정보는 기록을 재생할 수 없는 기술적 방법을 사용하여 삭제합니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 개인정보 제공<br>
+                    &nbsp;&nbsp;■ 개인정보 제공<br>
                     회사는 이용자의 개인정보를 원칙적으로 외부에 제공하지 않습니다. 다만, 아래의 경우에는 예외로 합니다.<br>
                     o 이용자들이 사전에 동의한 경우<br>
                     o 법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 수집한 개인정보의 위탁<br>
+                    &nbsp;&nbsp;■ 수집한 개인정보의 위탁<br>
                     회사는 서비스 이행을 위해 아래와 같이 외부 전문업체에 위탁하여 운영하고 있습니다.<br>
                     o 위탁 대상자 : CJ대한통운<br>
                     o 위탁업무 내용 : 제품 배송<br>
@@ -621,7 +648,7 @@
                     o 위탁업무 내용 : 휴대폰 결제
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 이용자 및 법정대리인의 권리와 그 행사방법<br>
+                    &nbsp;&nbsp;■ 이용자 및 법정대리인의 권리와 그 행사방법<br>
                     o 이용자는 언제든지 등록되어 있는 자신의 개인정보를 조회하거나 수정할 수 있으며 가입해지를 요청할 수도 있습니다.<br>
                     o 이용자들의 개인정보 조회,수정을 위해서는 "개인정보변경"(또는 "회원정보수정" 등)을 가입해지(동의철회)를 위해서는<br>
                     "회원탈퇴"를 클릭하여 본인 확인 절차를 거치신 후 직접 열람, 정정 또는 탈퇴가 가능합니다.<br>
@@ -633,7 +660,7 @@
                     o 만 14세 미만 아동의 경우, 법정대리인이 아동의 개인정보를 수집하거나 수정할 권리, 수집 및 이용 동의를 철회할 권리를 가집니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 개인정보 자동수집 장치의 설치, 운영 및 그 거부에 관한 사항<br>
+                    &nbsp;&nbsp;■ 개인정보 자동수집 장치의 설치, 운영 및 그 거부에 관한 사항<br>
                     회사는 귀하의 정보를 수시로 저장하고 찾아내는 "쿠키(cookie)" 등을 운용합니다.<br>
                     쿠키란 웹사이트를 운영하는데 이용되는 서버가 귀하의 브라우저에 보내는 아주 작은 텍스트 파일로서 귀하의 컴퓨터 하드디스크에 저장됩니다.<br>
                     회사은(는) 다음과 같은 목적을 위해 쿠키를 사용합니다.<br>
@@ -649,7 +676,7 @@
                     3. 단, 귀하께서 쿠키 설치를 거부하였을 경우 서비스 제공에 어려움이 있을 수 있습니다.
                 </p>
                 <p>
-                &nbsp;&nbsp;■ 개인정보에 관한 민원서비스<br>
+                    &nbsp;&nbsp;■ 개인정보에 관한 민원서비스<br>
                     회사는 고객의 개인정보를 보호하고 개인정보와 관련한 불만을 처리하기 위하여 아래와 같이 관련 부서 및 개인정보관리책임자를 지정하고 있습니다.<br>
                     o 개인정보관리담당부서<br>
                     소속 : 고객센터<br>
@@ -657,13 +684,13 @@
                     이메일 : customer_care@adererror.com
                 </p>
                 <p>
-                &nbsp;&nbsp;o 개인정보관리책임자 <br>
+                    &nbsp;&nbsp;o 개인정보관리책임자 <br>
                     성명 : 정승환<br>
                     전화번호 : 02-792-2232<br>
                     이메일 : customer_care@adererror.com
                 </p>
                 <p>
-                &nbsp;&nbsp;o 귀하께서는 회사의 서비스를 이용하시며 발생하는 모든 개인정보보호 관련 민원을 개인정보관리책임자 혹은 담당부서로 신고하실 수 있습니다.<br>
+                    &nbsp;&nbsp;o 귀하께서는 회사의 서비스를 이용하시며 발생하는 모든 개인정보보호 관련 민원을 개인정보관리책임자 혹은 담당부서로 신고하실 수 있습니다.<br>
                     o 회사는 이용자들의 신고사항에 대해 신속하게 충분한 답변을 드릴 것입니다.<br>
                     o 기타 개인정보침해에 대한 신고나 상담이 필요하신 경우에는 아래 기관에 문의하시기 바랍니다.<br>
                     개인정보침해신고센터 (privacy.kisa.or.kr / 국번 없이 118)<br>
@@ -671,41 +698,40 @@
                     경찰청 사이버안전국 (<a href="%5C%22http%3A//www.ctrc.go.kr/%5C%22">www.ctrc.go.kr/</a> 국번 없이 182)
                 </p>
             </div>
-            <div class="footer"></div>
         </div>
     </div>
 </div>
 
 <script>
-$(document).ready(function(){
-    $('.service__tab').hide();
-    $('.service__notice__wrap').show();
-    var country = 'KR';
-    $.ajax({
-        type: "post",
-        data: {
-            "country": country
-        },
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/mypage/notice/get",
-        error: function(d) {
-            exceptionHandling("공지사항",'공지사항을 불러오지 못했습니다.');
-        },
-        success: function(d) {
-            if(d.code == 200){
-                if(d.data != null && d.data.length > 0){
-                    $('.toggle__list__tab.01').html('');
-                    d.data.forEach(function(row){
-                        var fix_btn = '';
-                        strDiv = '';
+    $(document).ready(function () {
+        $('.service__tab').hide();
+        $('.service__notice__wrap').show();
+        var country = 'KR';
+        $.ajax({
+            type: "post",
+            data: {
+                "country": country
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/mypage/notice/get",
+            error: function (d) {
+                exceptionHandling("공지사항", '공지사항을 불러오지 못했습니다.');
+            },
+            success: function (d) {
+                if (d.code == 200) {
+                    if (d.data != null && d.data.length > 0) {
+                        $('.toggle__list__tab.01').html('');
+                        d.data.forEach(function (row) {
+                            var fix_btn = '';
+                            strDiv = '';
 
-                        if(row.fix_flg == 1){
-                            fix_btn = `<img src="/images/mypage/mypage_fixed_icon.svg" style="float:left;margin-right:5px;">`;
-                        }
-                        else{
-                            fix_btn = '';
-                        }
-                        strDiv = `
+                            if (row.fix_flg == 1) {
+                                fix_btn = `<img src="/images/mypage/mypage_fixed_icon.svg" style="float:left;margin-right:5px;">`;
+                            }
+                            else {
+                                fix_btn = '';
+                            }
+                            strDiv = `
                             <div class="toggle__item">
                                 <div class="question">
                                     ${fix_btn}
@@ -717,37 +743,37 @@ $(document).ready(function(){
                                 </div>
                             </div>
                         `;
-                        $('.toggle__list__tab.01').append(strDiv);
-                    })
+                            $('.toggle__list__tab.01').append(strDiv);
+                        })
+                    }
+                    $('.service__tab__wrap .request p').css('text-align', 'left');
+                    $('.service__tab__wrap .request img').css('width', '670px');
                 }
-                $('.service__tab__wrap .request p').css('text-align','left');
-                $('.service__tab__wrap .request img').css('width','670px');
+                else {
+                    let err_str = '공지사항을 불러오지 못했습니다.';
+                    if (d.msg != null) {
+                        err_str = d.msg;
+                    }
+                    exceptionHandling("공지사항", err_str);
+                    if (d.code = 401) {
+                        $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+                    }
+                }
+                $('.question').on('click', function () {
+                    $('.request').not($(this).next()).hide();
+                    $('.question').find('img.down__up__icon').attr('src', '/images/mypage/mypage_down_tab_btn.svg');
+
+                    if ($(this).next().css('display') == 'none') {
+                        $(this).find('img.down__up__icon').attr('src', '/images/mypage/mypage_up_tab_btn.svg');
+                    }
+                    else {
+                        $(this).find('img.down__up__icon').attr('src', '/images/mypage/mypage_down_tab_btn.svg');
+                    }
+                    $(this).next().toggle();
+                })
+
             }
-            else{
-                let err_str = '공지사항을 불러오지 못했습니다.';
-                if(d.msg != null){
-                    err_str = d.msg;
-                }
-                exceptionHandling("공지사항",err_str);
-                if(d.code = 401){
-                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
-                }
-            }
-            $('.question').on('click', function(){
-                $('.request').not($(this).next()).hide();
-                $('.question').find('img.down__up__icon').attr('src','/images/mypage/mypage_down_tab_btn.svg');
-                
-                if($(this).next().css('display') == 'none'){
-                    $(this).find('img.down__up__icon').attr('src','/images/mypage/mypage_up_tab_btn.svg');
-                }
-                else{
-                    $(this).find('img.down__up__icon').attr('src','/images/mypage/mypage_down_tab_btn.svg');
-                }
-                $(this).next().toggle();
-            })
-            
-        }
-    });
-})
-   
+        });
+    })
+
 </script>
