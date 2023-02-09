@@ -6,8 +6,48 @@ header {
     max-width: 2560px;
     margin: 0 auto;
 }
-
-
+header .wishlist__btn{
+	position: relative;
+}
+header .wishlist__btn:after{
+	content: attr(data-cnt);
+    position: absolute;
+    top: 27px;
+    left: 14px;
+    display: flex;
+    text-align: center;
+    background-color: #0000c5;
+    border-radius: 50%;
+    padding: 1px;
+    height: 18px;
+    width: 18px;
+    font-size: 11px;
+    color: #ffffff!important;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+header .basket__btn{
+	position: relative;
+}
+header .basket__btn:after{
+	content: attr(data-cnt);
+    position: absolute;
+    top: 27px;
+    left: 9px;
+    display: flex;
+    text-align: center;
+    background-color: #0000c5;
+    border-radius: 50%;
+    padding: 1px;
+    height: 18px;
+    width: 18px;
+    font-size: 11px;
+    color: #ffffff!important;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
 
 header .alg__c {
     margin-top: 26px;
@@ -1286,11 +1326,15 @@ header .menu-ul:hover::after{
         margin-top: 20px!important;
     }
 	
+	#sidebar.open.M,
 	#sidebar.open.L,
+	#sidebar.open.E,
 	#sidebar.open.S{
 		display:none;
 	}
 	
+	body[data-sb-type="M"] #dimmer.show,
+	body[data-sb-type="E"] #dimmer.show,
 	body[data-sb-type="L"] #dimmer.show,
 	body[data-sb-type="S"] #dimmer.show{
 		display:none;
