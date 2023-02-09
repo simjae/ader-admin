@@ -4,9 +4,9 @@ let order_param = null;
 
 window.addEventListener('DOMContentLoaded', function() {
     getProductList();
-    
 	getFilterInfo();
 	toggleSortBtn();
+    $("#quickview").removeClass("hidden");
 });
 
 window.addEventListener("scroll", function () {
