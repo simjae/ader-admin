@@ -71,13 +71,55 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 		<div class="info__wrap product"></div>
 		
 	</section>
-	<!-- <aside class="style__wrapper">
-		<div class="left__title"><span>Styling with ></span></div>
-		<div class="style-wrap">
-			<div class="style-swiper swiper">
+	<section class="rM-detail-containner">
+		<div class="detail__btn__wrap">
+			<div class="detail__btn__box">
+				<div class="detail__btn__row mobile">
+					<div class="img-box">
+						<img src="/images/svg/sizeguide.svg" alt="">
+					</div>
+					<div class="btn-title">사이즈가이드</div>
+				</div>
+				<div class="detail__btn__row mobile">
+					<div class="img-box">
+						<img src="/images/svg/material.svg" alt="">
+					</div>
+					<div class="btn-title">소재</div>
+				</div>
+				<div class="detail__btn__row mobile">
+					<div class="img-box">
+						<img src="/images/svg/information.svg" alt="">
+					</div>
+					<div class="btn-title">상세정보</div>
+				</div>
+				<div class="detail__btn__row mobile">
+					<div class="img-box">
+						<img src="/images/svg/precaution.svg" alt="">
+					</div>
+					<div class="btn-title">취급 유의사항</div>
+				</div>
+			</div>
+			<div class="detail__content__box">
+				<div class="detail-content precaution">
+					<div class="content-header"><span>제품 취급 유의사항</span></div>
+					<div class="content-body">
+						<div class="content-list">
+							<ul>
+								<li>이 제품은 반드시 손세탁 하십시오.</li>
+								<li>드라이클리닝을 하지 마십시오.</li>
+								<li>이 제품은 회전식 건조기를 사용하지 마십시오.</li>
+								<li>중온의 아이론을 권장합니다.</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="detail__btn__control">
+					<div class="detail-btn-prev"><img src="/images/svg/arrow-left.svg" alt=""></div>
+					<div class="detail-btn-next"><img src="/images/svg/arrow-left.svg" alt=""></div>
+				</div>
 			</div>
 		</div>
-	</aside> -->
+	</section>
 	<section class="styling-with-wrap"></section>
 	<section class="recommend-wrap"></section>
 </main>

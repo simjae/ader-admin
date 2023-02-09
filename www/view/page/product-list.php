@@ -42,15 +42,15 @@
                         <span>필터</span>
                     </li>
                     <li class="sort-btn type-btn" onClick="clickImgTypeBtn();">
-                        <img src="/images/svg/cloth.svg" alt="">
+                        <div class="d-i-b"><img src="/images/svg/cloth.svg" alt=""></div>
                         <span id="img_type_text">착용컷</span>
                     </li>
                     <div class="sort-btn web rW sort__grid" data-grid="4">
-						<img src="/images/svg/grid-cols-2.svg" alt="">
+						<div class="d-i-b"><img src="/images/svg/grid-cols-2.svg" alt=""></div>
 						<span>2칸보기</span>
                     </div>
                     <div class="sort-btn mobile rM sort__grid" data-grid="3">
-						<img src="/images/svg/grid-cols-2.svg" alt="">
+                        <div class="d-i-b"><img src="/images/svg/grid-cols-2.svg" alt=""></div>
 						<span>2칸보기</span>
 					</div>
                 </div>
