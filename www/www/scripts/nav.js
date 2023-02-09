@@ -40,6 +40,8 @@ import {User} from '/scripts/module/user.js';
 	const webWriteNavHtml = (d) => {
 		let data = d.data
 		let member_info = d.member_info
+		let  whishCnt = member_info?.whish_cnt;
+		let  basketCnt = member_info?.basket_cnt;
 		let menuList = document.createElement("ul")
 		menuList.classList.add("header__grid");
 		let menuHtml="";
@@ -237,8 +239,8 @@ import {User} from '/scripts/module/user.js';
 				<li class="web search__li side-bar" data-type="S">					
 					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
 				</li>
-				<li class="flex wishlist__btn"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
-				<li class="flex basket__btn side-bar" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
+				<li class="flex wishlist__btn" data-cnt="${whishCnt === undefined?"0":whishCnt}"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+				<li class="flex basket__btn side-bar" data-cnt="${basketCnt === undefined?"0":basketCnt}" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
 				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
 					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
 					<span>` + userName + `</span>
@@ -626,31 +628,18 @@ import {User} from '/scripts/module/user.js';
 		});
 	};
 	$(document).ready(function(){
-		$(".header__wrap").hover(function() {
-			headerHover(true);
-			// headerHoberCheck();
+		if(!checkMobileDevice()){
+			$(".header__wrap").hover(function() {
+				headerHover(true);
+				// headerHoberCheck();
 
-		},function(){
-			headerHover(false);
-			// headerHoberCheck();
-
-		});
+			},function(){
+				headerHover(false);
+				// headerHoberCheck();
+			});
+		}
 		
 	})
-	
-	
-	/*디바이스 체크*/
-	function checkMobileDevice() {
-		var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
-		for (var info in mobileKeyWords) {
-			if (navigator.userAgent.match(mobileKeyWords[info]) != null) {
-				//mobile
-				return true;
-			}
-		}
-		//web
-		return false;
-	}
 
 	function windowResponsive() {
 		const $body = document.querySelector("body");
