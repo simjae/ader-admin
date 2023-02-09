@@ -8,6 +8,7 @@ window.addEventListener('DOMContentLoaded', function () {
     let product_idx = document.querySelector("main").dataset.productidx;
     getProduct(product_idx);
     responsiveSwiper();
+    mobileDetailBtnHanddler();
 });
 
 window.addEventListener('resize', function () {
@@ -17,6 +18,154 @@ window.addEventListener('resize', function () {
         responsiveSwiper();
     }, delay);
 });
+function mobileDetailBtnHanddler() {
+    let $$btn = document.querySelectorAll(".rM-detail-containner .detail__btn__row");
+    let controllBtn = document.querySelector(".rM-detail-containner .detail__btn__control");
+    let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
+    let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
+    const productDetailInfoArr = getProductDetailInfo(productIdx);
+    let currentIdx = 0;
+    $$btn.forEach((btn , idx) => {
+        btn.addEventListener("click", function(e){
+            if(e.currentTarget.classList.contains("select")){
+                e.currentTarget.offsetParent.classList.remove("open");
+                e.currentTarget.classList.remove("select");
+            }else {
+                $$btn.forEach(el => el.classList.remove("select"));
+                btn.classList.add("select");
+                e.currentTarget.offsetParent.classList.add("open");
+            }
+            currentIdx = clickControllBtnEvent();
+            updateControllBtnCss(idx);
+            mobileSizeGuideContentBody(idx);
+        })
+    });
+
+    prevBtn.addEventListener("click", function(e){
+        if(currentIdx == 0) {return false;}
+        console.log(currentIdx--);
+        updateSelectElem(currentIdx);
+        updateControllBtnCss(currentIdx);
+        mobileSizeGuideContentBody(currentIdx);
+    });
+    nextBtn.addEventListener("click", function(e){
+        if(currentIdx == 4){return false;}
+        console.log(currentIdx++);
+        updateSelectElem(currentIdx);
+        updateControllBtnCss(currentIdx);
+        mobileSizeGuideContentBody(currentIdx);
+    });
+
+    function updateSelectElem(current){
+        $$btn.forEach(el => el.classList.remove("select"));
+        document.querySelectorAll(".rM-detail-containner .detail__btn__row")[current].classList.add("select");
+    }
+    //컨트롤러 버튼 css 갱신
+    function updateControllBtnCss(idx) {
+        let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
+        let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
+        if(idx == 0){
+            prevBtn.style.opacity = "0";
+        }else if(idx == 3){
+            nextBtn.style.opacity = "0";
+        } else{
+            nextBtn.style.opacity = "inherit";
+            prevBtn.style.opacity = "inherit";
+        }
+    }
+    //선택되어있는 idx불러오기
+    function clickControllBtnEvent(){
+        let currentIdx;
+        [...$$btn].find((el , idx)=> {
+            if(el.classList.contains("select")){currentIdx = idx;}
+        });
+        return currentIdx;
+    }
+    function mobileSizeGuideContentBody(idx){
+        let contentHeader = document.querySelector(".rM-detail-containner .content-header span");
+        let contentBody = document.querySelector(".rM-detail-containner .content-body");
+        contentBody.innerHTML = productDetailInfoArr[idx];
+        if(idx == 0 ){
+            contentHeader.innerHTML = "사이즈가이드";
+        } else if(idx == 1){
+            contentHeader.innerHTML = "소재";
+        } else if(idx == 1){
+            contentHeader.innerHTML = "제품 상세 정보";
+        } else if(idx == 1){
+            contentHeader.innerHTML = "취급 유의 사항";
+        }
+    }
+}
+const getProductDetailInfo = (product_idx) => {
+    const main = document.querySelector("main");
+    let country = main.dataset.country;
+    let sizeGuideArr = new Array();
+    $.ajax({
+        type: "post",
+        data: {
+            "product_idx": product_idx,
+            "country": country,
+        },
+        async:false,
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/product/get",
+        error: function () {
+            alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
+        },
+        success: function (d) {
+            let {sizeGuide,care,detail,material} = d.data[0];
+            sizeGuide = `
+            <div class="sizeguide-box">
+                    <div class="sizeguide-btn ">A1</div>
+                    <div class="sizeguide-btn">A2</div>
+                    <div class="sizeguide-btn select">A3</div>
+                    <div class="sizeguide-btn">A4</div>
+                    <div class="sizeguide-btn">A5</div>
+                </div>
+                <div class="sizeguide-noti">모델신장 179cm,착용사이즈는 A3입니다.</div>
+                <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
+                <div class="sizeguide-dct">
+                    <div class="dct-row">
+                        <span>A.총장</span>
+                        <span>옆목점에서 끝단까지의 수직길이</span>
+                        <span class="dct-value">103.5</span>
+                    </div>
+                    <div class="dct-row">
+                        <span>B. 목너비</span>
+                        <span>옆목점 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </div>
+                    <div class="dct-row">
+                        <span>C. 어깨너비</span>
+                        <span>옆어깨점 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </div>
+                    <div class="dct-row">
+                        <span>D. 가슴단면</span>
+                        <span>암홀점에서 1cm아래 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </div>
+                    <div class="dct-row">
+                        <span>E. 소매통</span>
+                        <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
+                        <span class="dct-value">103.5</span>
+                    </div>
+                    <div class="dct-row">
+                        <span>F. 소매장</span>
+                        <span>어깨점부터 소매끝단까지의 길이</span>
+                        <span class="dct-value">103.5</span>
+                    </div>
+                </div>
+            </div>`
+
+            sizeGuideArr.push(sizeGuide);
+            sizeGuideArr.push(material);
+            sizeGuideArr.push(detail);
+            sizeGuideArr.push(care);
+        }
+    });
+    return sizeGuideArr;
+}
 const getProduct = (product_idx) => {
     const main = document.querySelector("main");
     // let product_idx = main.dataset.productidx;
@@ -206,7 +355,7 @@ const getProduct = (product_idx) => {
                 </div>
                 
                 `
-                document.querySelector(".detail__wrapper").appendChild(mobileBasketBtnWrap)
+                document.querySelector(".rM-detail-containner").appendChild(mobileBasketBtnWrap)
 
             });
             let relevant_idx = data[0].relevant_idx;
@@ -411,10 +560,10 @@ function followScrollBtn() {
         let thumbIdx = (this.dataset.type) - 1;
         let result = [...detailProduct].find((el, idx) => idx === thumbIdx)
         let scrollTo = result.offsetTop
-        toScroll(scrollTo)
-        if (mainSwiper.__swiper__ == true) {
-            mainSwiper.slideTo(thumbIdx)
-        }
+        toScroll(scrollTo);
+        // if (mainSwiper.__swiper__ == true) {
+        //     mainSwiper.slideTo(thumbIdx)
+        // }
     }));
 
     // let typeO = [...detailProduct].filter(el => el.dataset.imgtype==="O")
