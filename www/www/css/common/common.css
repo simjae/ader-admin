@@ -163,7 +163,20 @@ input[type="checkbox"]{cursor: pointer;}
 body.sidebar_open{
 	overflow:hidden;
 }
+.cusc::-webkit-scrollbar{
+    width: 4px;
+}
 
+/* 스크롤바 막대 설정*/
+.cusc::-webkit-scrollbar-thumb{
+    background-color: #dcdcdc;
+    border-radius: 10px;  
+}
+
+/* 스크롤바 뒷 배경 설정*/
+.cusc::-webkit-scrollbar-track{
+    background-color: rgb(255 255 255 / 0%);
+}
 /* close 버튼 */
 .close__btn .line {
     width: 10px;
