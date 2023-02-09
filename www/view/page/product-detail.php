@@ -17,46 +17,6 @@ $page_url = $_SERVER['REQUEST_URI'];
 $product_idx = getUrlParamter($page_url, 'product_idx');
 ?>
 <main data-productidx="<?= $product_idx ?>" data-country="KR">
-	<div class="detail__sidebar__wrap">
-		<div class="sidebar__background" data-modal="detail">
-			<div class="sidebar__wrap" data-modal="detail">
-				<div class="detail--box--btn">
-					<div class="top" id="detail-top"></div>
-					<div class="middle">
-						<div class="detail__btn__wrap">
-							<div class="detail__btn__row">
-								<div class="img-box">
-									<img src="/images/svg/sizeguide.svg" alt="">
-								</div>
-							</div>
-							<div class="detail__btn__row">
-								<div class="img-box select">
-									<img src="/images/svg/material.svg" alt="">
-								</div>
-							</div>
-							<div class="detail__btn__row">
-								<div class="img-box">
-									<img src="/images/svg/information.svg" alt="">
-								</div>
-							</div>
-							<div class="detail__btn__row">
-								<div class="img-box">
-									<img src="/images/svg/precaution.svg" alt="">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="bottom"></div>
-				</div>
-				<div class="sidebar__box" data-modal="detail">
-					<div class="sidebar__header">
-						<img class="sidebar__close__btn" src="/images/svg/close.svg" alt="">
-					</div>
-					<div class="sidebar__body"></div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<section class="detail__wrapper">
 		<div class="detail__box">
 			<div class="navigation__wrap"></div>
@@ -100,18 +60,9 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 				</div>
 			</div>
 			<div class="detail__content__box">
-				<div class="detail-content precaution">
-					<div class="content-header"><span>제품 취급 유의사항</span></div>
-					<div class="content-body">
-						<div class="content-list">
-							<ul>
-								<li>이 제품은 반드시 손세탁 하십시오.</li>
-								<li>드라이클리닝을 하지 마십시오.</li>
-								<li>이 제품은 회전식 건조기를 사용하지 마십시오.</li>
-								<li>중온의 아이론을 권장합니다.</li>
-							</ul>
-						</div>
-					</div>
+				<div class="detail-content">
+					<div class="content-header"><span></span></div>
+					<div class="content-body"></div>
 				</div>
 				<div class="detail__btn__control">
 					<div class="detail-btn-prev"><img src="/images/svg/arrow-left.svg" alt=""></div>

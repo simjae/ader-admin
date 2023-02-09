@@ -2,7 +2,7 @@ var delay = 300;
 var timer = null;
 const urlParams = new URL(location.href).searchParams;
 const productIdx = urlParams.get('product_idx');
-
+const productDetailInfoArr = getProductDetailInfo(productIdx);
 
 window.addEventListener('DOMContentLoaded', function () {
     let product_idx = document.querySelector("main").dataset.productidx;
@@ -14,158 +14,11 @@ window.addEventListener('DOMContentLoaded', function () {
 window.addEventListener('resize', function () {
     clearTimeout(timer);
     timer = setTimeout(function () {
-        detailBtnHandler();
+        // detailBtnHandler();
         responsiveSwiper();
     }, delay);
 });
-function mobileDetailBtnHanddler() {
-    let $$btn = document.querySelectorAll(".rM-detail-containner .detail__btn__row");
-    let controllBtn = document.querySelector(".rM-detail-containner .detail__btn__control");
-    let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
-    let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
-    const productDetailInfoArr = getProductDetailInfo(productIdx);
-    let currentIdx = 0;
-    $$btn.forEach((btn , idx) => {
-        btn.addEventListener("click", function(e){
-            if(e.currentTarget.classList.contains("select")){
-                e.currentTarget.offsetParent.classList.remove("open");
-                e.currentTarget.classList.remove("select");
-            }else {
-                $$btn.forEach(el => el.classList.remove("select"));
-                btn.classList.add("select");
-                e.currentTarget.offsetParent.classList.add("open");
-            }
-            currentIdx = clickControllBtnEvent();
-            updateControllBtnCss(idx);
-            mobileSizeGuideContentBody(idx);
-        })
-    });
 
-    prevBtn.addEventListener("click", function(e){
-        if(currentIdx == 0) {return false;}
-        console.log(currentIdx--);
-        updateSelectElem(currentIdx);
-        updateControllBtnCss(currentIdx);
-        mobileSizeGuideContentBody(currentIdx);
-    });
-    nextBtn.addEventListener("click", function(e){
-        if(currentIdx == 4){return false;}
-        console.log(currentIdx++);
-        updateSelectElem(currentIdx);
-        updateControllBtnCss(currentIdx);
-        mobileSizeGuideContentBody(currentIdx);
-    });
-
-    function updateSelectElem(current){
-        $$btn.forEach(el => el.classList.remove("select"));
-        document.querySelectorAll(".rM-detail-containner .detail__btn__row")[current].classList.add("select");
-    }
-    //컨트롤러 버튼 css 갱신
-    function updateControllBtnCss(idx) {
-        let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
-        let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
-        if(idx == 0){
-            prevBtn.style.opacity = "0";
-        }else if(idx == 3){
-            nextBtn.style.opacity = "0";
-        } else{
-            nextBtn.style.opacity = "inherit";
-            prevBtn.style.opacity = "inherit";
-        }
-    }
-    //선택되어있는 idx불러오기
-    function clickControllBtnEvent(){
-        let currentIdx;
-        [...$$btn].find((el , idx)=> {
-            if(el.classList.contains("select")){currentIdx = idx;}
-        });
-        return currentIdx;
-    }
-    function mobileSizeGuideContentBody(idx){
-        let contentHeader = document.querySelector(".rM-detail-containner .content-header span");
-        let contentBody = document.querySelector(".rM-detail-containner .content-body");
-        contentBody.innerHTML = productDetailInfoArr[idx];
-        if(idx == 0 ){
-            contentHeader.innerHTML = "사이즈가이드";
-        } else if(idx == 1){
-            contentHeader.innerHTML = "소재";
-        } else if(idx == 1){
-            contentHeader.innerHTML = "제품 상세 정보";
-        } else if(idx == 1){
-            contentHeader.innerHTML = "취급 유의 사항";
-        }
-    }
-}
-const getProductDetailInfo = (product_idx) => {
-    const main = document.querySelector("main");
-    let country = main.dataset.country;
-    let sizeGuideArr = new Array();
-    $.ajax({
-        type: "post",
-        data: {
-            "product_idx": product_idx,
-            "country": country,
-        },
-        async:false,
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/product/get",
-        error: function () {
-            alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
-        },
-        success: function (d) {
-            let {sizeGuide,care,detail,material} = d.data[0];
-            sizeGuide = `
-            <div class="sizeguide-box">
-                    <div class="sizeguide-btn ">A1</div>
-                    <div class="sizeguide-btn">A2</div>
-                    <div class="sizeguide-btn select">A3</div>
-                    <div class="sizeguide-btn">A4</div>
-                    <div class="sizeguide-btn">A5</div>
-                </div>
-                <div class="sizeguide-noti">모델신장 179cm,착용사이즈는 A3입니다.</div>
-                <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
-                <div class="sizeguide-dct">
-                    <div class="dct-row">
-                        <span>A.총장</span>
-                        <span>옆목점에서 끝단까지의 수직길이</span>
-                        <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>B. 목너비</span>
-                        <span>옆목점 양끝의 수평길이</span>
-                        <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>C. 어깨너비</span>
-                        <span>옆어깨점 양끝의 수평길이</span>
-                        <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>D. 가슴단면</span>
-                        <span>암홀점에서 1cm아래 양끝의 수평길이</span>
-                        <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>E. 소매통</span>
-                        <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
-                        <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>F. 소매장</span>
-                        <span>어깨점부터 소매끝단까지의 길이</span>
-                        <span class="dct-value">103.5</span>
-                    </div>
-                </div>
-            </div>`
-
-            sizeGuideArr.push(sizeGuide);
-            sizeGuideArr.push(material);
-            sizeGuideArr.push(detail);
-            sizeGuideArr.push(care);
-        }
-    });
-    return sizeGuideArr;
-}
 const getProduct = (product_idx) => {
     const main = document.querySelector("main");
     // let product_idx = main.dataset.productidx;
@@ -176,7 +29,7 @@ const getProduct = (product_idx) => {
             "product_idx": product_idx,
             "country": country,
         },
-        async:false,
+        async: false,
         dataType: "json",
         url: "http://116.124.128.246:80/_api/product/get",
         error: function () {
@@ -195,8 +48,8 @@ const getProduct = (product_idx) => {
                 let imgThumbnailHtml = "";
 
                 img_thumbnail.forEach((thumbnail) => {
-                    
-                    imgThumbnailHtml = `<img src="${img_root}${thumbnail.img_location}"/><span>${thumbnail.display_num ==1 ? "착용이미지":"디테일"}</span>`;
+
+                    imgThumbnailHtml = `<img src="${img_root}${thumbnail.img_location}"/><span>${thumbnail.display_num == 1 ? "착용이미지" : "디테일"}</span>`;
                     const thumbnailBox = document.createElement("div");
                     thumbnailBox.classList.add("thumb__box");
                     thumbnailBox.dataset.type = thumbnail.display_num;
@@ -260,23 +113,23 @@ const getProduct = (product_idx) => {
                 let whish_function = "";
 
                 let whish_flg = `${el.whish_flg}`;
-				let login_status = getLoginStatus();
-				
-				if (login_status == "true") {
-                    
-					if (whish_flg == 'true') {
-						whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-						whish_function = "deleteWhishListBtn(this);";
-					} else if (whish_flg == 'false') {
-						whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-						whish_function = "setWhishListBtn(this);";
-                        
-					}
-				} else {
-					whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-					whish_function = "return false;";
-                    
-				}
+                let login_status = getLoginStatus();
+
+                if (login_status == "true") {
+
+                    if (whish_flg == 'true') {
+                        whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
+                        whish_function = "deleteWhishListBtn(this);";
+                    } else if (whish_flg == 'false') {
+                        whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+                        whish_function = "setWhishListBtn(this);";
+
+                    }
+                } else {
+                    whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+                    whish_function = "return false;";
+
+                }
 
 
                 infoBoxHtml = `
@@ -303,29 +156,29 @@ const getProduct = (product_idx) => {
                                 </div>
 							</div>
 						</div>
-				
-						<div class="detail__btn__wrap">
-							<div class="detail__btn__row">
+
+						<div class="detail__btn__wrap web">
+							<div class="detail__btn__row web">
 								<div class="img-box">
 									<img src="/images/svg/sizeguide.svg" alt="">
 								</div>
 								<div class="btn-title">사이즈가이드</div>
 								<div class="detail__content__box"></div>
 							</div>
-							<div class="detail__btn__row">
+							<div class="detail__btn__row web">
 								<div class="img-box">
 									<img src="/images/svg/material.svg" alt=""></div>
 								<div class="btn-title">소재</div>
 								<div class="detail__content__box"></div>
 							</div>
-							<div class="detail__btn__row">
+							<div class="detail__btn__row web">
 								<div class="img-box">
 									<img src="/images/svg/information.svg" alt="">
 								</div>
 								<div class="btn-title">상세정보</div>
 								<div class="detail__content__box"></div>
 							</div>
-							<div class="detail__btn__row">
+							<div class="detail__btn__row web">
 								<div class="img-box">
 									<img src="/images/svg/precaution.svg" alt="">
 								</div>
@@ -342,7 +195,7 @@ const getProduct = (product_idx) => {
                 let whishlistTitle = "<div class='whislist-tilte'>whislist</div>"
                 mobileBasketBtnWrap.className = "basket__wrap--btn nav";
 
-                mobileBasketBtnWrap.innerHTML =`
+                mobileBasketBtnWrap.innerHTML = `
                 <div class="basket__box--btn">
                     <div class="basket-btn" >
                         <img src="/images/svg/basket.svg" alt="">
@@ -350,7 +203,7 @@ const getProduct = (product_idx) => {
                     </div>
                     <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
                         ${whish_img}
-                        ${whish_flg == 'true'? whishlistTitle : ""}
+                        ${whish_flg == 'true' ? whishlistTitle : ""}
                     </div>
                 </div>
                 
@@ -370,7 +223,6 @@ const getProduct = (product_idx) => {
             prdInfo.innerHTML = infoBoxHtml;
             domFrag.appendChild(prdInfo);
             infoWrap.appendChild(domFrag);
-
             // sizeNodeCheck();
             colorNodeCheck();
             sizeBtnHandler();
@@ -378,8 +230,11 @@ const getProduct = (product_idx) => {
             // 컬러 표기
             followScrollBtn();
             viewportImg();
-            detailBtnHandler();
+            // detailBtnHandler();
             //디테일 설명
+            
+            innerSideBar();
+            webDetailBtnHanddler();
         }
 
     });
@@ -393,33 +248,33 @@ let pagingSwiper = null;
 function responsiveSwiper() {
     let breakpoint = window.matchMedia('screen and (min-width:1025px)');
     if (breakpoint.matches === true) {
-        if(mainSwiper !== null){
+        if (mainSwiper !== null) {
             mainSwiper.destroy();
             mainSwiper = null;
         }
-        if(pagingSwiper !== null){
+        if (pagingSwiper !== null) {
             pagingSwiper.destroy();
             pagingSwiper = null;
         }
     } else if (breakpoint.matches === false) {
-        if(pagingSwiper == null){
+        if (pagingSwiper == null) {
             pagingSwiper = initPagingSwiper();
         }
-        if(mainSwiper == null){
+        if (mainSwiper == null) {
             mainSwiper = initMainSwiper();
-			mainSwiper.on('slideChange', function(){
-				$(".swiper-pagination-detail-fraction .swiper-pagination-current").html(mainSwiper.activeIndex + 1);
-			});
+            mainSwiper.on('slideChange', function () {
+                $(".swiper-pagination-detail-fraction .swiper-pagination-current").html(mainSwiper.activeIndex + 1);
+            });
         }
         pagingSwiper.controller.control = mainSwiper;
-    } 
+    }
 
 };
 function initMainSwiper() {
     return new Swiper('#main__swiper-detail', {
         pagination: {
             el: ".swiper-pagination-detail-bullets",
-			dynamicBullets: true,
+            dynamicBullets: true,
             clickable: true,
         },
     });
@@ -594,10 +449,10 @@ function viewportImg() {
         imageWrap.appendChild(img);
         imageWrap.appendChild(closebtn);
         document.body.appendChild(imageWrap);
-        document.body.style.overflow ="hidden";
+        document.body.style.overflow = "hidden";
     }))
     closebtn.addEventListener("click", function () {
-        document.body.style.overflow ="inherit";
+        document.body.style.overflow = "inherit";
         document.querySelector(".viewport__wrap--img").remove();
     })
 }
@@ -607,45 +462,45 @@ function basketStatusBtn() {
     const sizeResult = sizeStatusCheck();
     const $$productBtn = document.querySelectorAll(".basket-btn");
     const $$size = document.querySelectorAll(".detail__wrapper .size");
-    
+
     $$productBtn.forEach(el => el.addEventListener("click", (e) => {
         let { status } = e.currentTarget.dataset;
         if (status == 2) {
-			let option_idx = [];
+            let option_idx = [];
             let selectResult = [...$$size].map(size => {
-                if(size.classList.contains("select") == true){
+                if (size.classList.contains("select") == true) {
                     option_idx.push(size.dataset.optionidx);
                 }
             });
             console.log("🏂 ~ file: detail.js:444 ~ selectResult ~ option_idx", option_idx)
-            if(option_idx.length == 0){
+            if (option_idx.length == 0) {
                 basketBtnStatusChange($$productBtn, 4);
             }
-			if (option_idx.length > 0) {
-				$.ajax({
-					type: "post",
-					url: "http://116.124.128.246:80/_api/order/basket/add",
-					data: {
-						'add_type' : 'product',
-						'product_idx' : productIdx,
-						'option_idx' : option_idx
-					},
-					dataType: "json",
-					error: function () {
-						alert("쇼핑백 추가처리에 실패했습니다.");
-					},
-					success: function (d) {
-						if (d.code == 200){
-							location.href='/order/basket/list';
-						} else {
-							exceptionHandling("[ 디자인 필요 ]",d.msg);
-						}
-					}
-				});
-			}
+            if (option_idx.length > 0) {
+                $.ajax({
+                    type: "post",
+                    url: "http://116.124.128.246:80/_api/order/basket/add",
+                    data: {
+                        'add_type': 'product',
+                        'product_idx': productIdx,
+                        'option_idx': option_idx
+                    },
+                    dataType: "json",
+                    error: function () {
+                        alert("쇼핑백 추가처리에 실패했습니다.");
+                    },
+                    success: function (d) {
+                        if (d.code == 200) {
+                            location.href = '/order/basket/list';
+                        } else {
+                            exceptionHandling("[ 디자인 필요 ]", d.msg);
+                        }
+                    }
+                });
+            }
         }
     }));
-	
+
     basketBtnStatusChange($$productBtn, sizeResult);
 }
 function basketBtnStatusChange(el, idx) {
@@ -763,190 +618,510 @@ function colorNodeCheck() {
     });
 }
 //디테일 내용 함수
-function detailBtnHandler() {
-    let breakpoint = window.matchMedia('screen and (min-width:1025px)');
-    let $$detailBtn = document.querySelectorAll(".detail__wrapper .detail__btn__row");
-    const $sidebarBody = document.querySelector(".detail__sidebar__wrap .sidebar__body")
-    
-    if (breakpoint.matches === true) {
-        //사이드바 탭버튼 기존 위치와 맞춤 &리사이징시에도
-        let btnHeight = document.querySelector(".detail__wrapper .detail__btn__wrap").offsetTop;
-        document.getElementById('detail-top').style.height = `${btnHeight}px`;
+// function detailBtnHandler() {
+//     let breakpoint = window.matchMedia('screen and (min-width:1025px)');
+//     let $$detailBtn = document.querySelectorAll(".detail__wrapper .detail__btn__row");
+//     const $sidebarBody = document.querySelector(".detail__sidebar__wrap .sidebar__body")
 
-        $$detailBtn.forEach((el,idx) => {
-            el.classList.add("web");
-            el.classList.remove("mobile");
-            el.querySelector(".detail__content__box").innerHTML = "";
-            el.addEventListener("click", function(ev) {
-                if(el.classList.contains("web")){
-                    detailSidebar(ev,idx);
-                }
-            })
-        })
+//     if (breakpoint.matches === true) {
+//         //사이드바 탭버튼 기존 위치와 맞춤 &리사이징시에도
+//         let btnHeight = document.querySelector(".detail__wrapper .detail__btn__wrap").offsetTop;
+//         document.getElementById('detail-top').style.height = `${btnHeight}px`;
 
-    } else if (breakpoint.matches === false) {
-         //-------------------------동적으로 추가될 정보들 -------------------------//
-        let sizeguideContent = () => {
-            let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
-            let header = document.createElement("div");
-            let body = document.createElement("div");
-            header.className = "sidebar__header";
-            header.innerHTML = `<img class="sidebar__close__btn" src="/images/svg/close.svg" alt="">`;
+//         $$detailBtn.forEach((el, idx) => {
+//             el.classList.add("web");
+//             el.classList.remove("mobile");
+//             el.querySelector(".detail__content__box").innerHTML = "";
+//             el.addEventListener("click", function (ev) {
+//                 if (el.classList.contains("web")) {
+//                     detailSidebar(ev, idx);
+//                 }
+//             })
+//         })
 
-            body.className = "sidebar__body";
+//     } else if (breakpoint.matches === false) {
+//         //-------------------------동적으로 추가될 정보들 -------------------------//
+//         let sizeguideContent = () => {
+//             let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
+//             let header = document.createElement("div");
+//             let body = document.createElement("div");
+//             header.className = "sidebar__header";
+//             header.innerHTML = `<img class="sidebar__close__btn" src="/images/svg/close.svg" alt="">`;
+
+//             body.className = "sidebar__body";
 
 
-            let content = document.createElement("div");
-            content.className = "detail-content sizeguide";
-            content.innerHTML =`
-                <div class="content-header"><span>사이즈 가이드</span></div>
-                <div class="content-body">
-                    <div class="sizeguide-box">
-                        <div class="sizeguide-btn ">A1</div>
-                        <div class="sizeguide-btn">A2</div>
-                        <div class="sizeguide-btn select">A3</div>
-                        <div class="sizeguide-btn">A4</div>
-                        <div class="sizeguide-btn">A5</div>
-                    </div>
-                    <div class="sizeguide-noti">모델신장 179cm,착용사이즈는 A3입니다.</div>
-                    <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
-                    <div class="sizeguide-dct">
-                        <div class="dct-row">
-                            <span>A.총장</span>
-                            <span>옆목점에서 끝단까지의 수직길이</span>
-                            <span class="dct-value">103.5</span>
-                        </div>
-                        <div class="dct-row">
-                            <span>B. 목너비</span>
-                            <span>옆목점 양끝의 수평길이</span>
-                            <span class="dct-value">103.5</span>
-                        </div>
-                        <div class="dct-row">
-                            <span>C. 어깨너비</span>
-                            <span>옆어깨점 양끝의 수평길이</span>
-                            <span class="dct-value">103.5</span>
-                        </div>
-                        <div class="dct-row">
-                            <span>D. 가슴단면</span>
-                            <span>암홀점에서 1cm아래 양끝의 수평길이</span>
-                            <span class="dct-value">103.5</span>
-                        </div>
-                        <div class="dct-row">
-                            <span>E. 소매통</span>
-                            <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
-                            <span class="dct-value">103.5</span>
-                        </div>
-                        <div class="dct-row">
-                            <span>F. 소매장</span>
-                            <span>어깨점부터 소매끝단까지의 길이</span>
-                            <span class="dct-value">103.5</span>
-                        </div>
-                    </div>
-                </div>`
-            $mobileContentBox[0].appendChild(content)
-        }
-        let materialContent = () => {
-            let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
-            let content = document.createElement("div");
-            content.className = "detail-content material";
-            content.innerHTML = `
-                <div class="content-header"><span>소재</span></div>
-                <div class="content-body">
-                    <div class="content-list">
-                        <div class="content-list-title">Main</div>
-                        <ul>
-                            <li>아크릴 70</li>
-                            <li>폴리에스터 30</li>
-                        </ul>
-                    </div>
-                    <div class="content-list">
-                        <div class="content-list-title">Lining</div>
-                        <ul>
-                            <li>폴리에스터 55</li>
-                            <li>비스코스 45</li>
-                        </ul>
-                    </div>
-                    <div class="content-list">
-                        <div class="content-list-title">Filling</div>
-                        <ul>
-                            <li>폴리에스터 100</li>
-                            <li>(심지, 보강재, 상표, 자수, 장식, 단추, 밴드 제외)</li>
-                        </ul>
-                    </div>
-                </div>`
-                $mobileContentBox[1].appendChild(content)
-        }
-        let productinfoContent = () => {
-            let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
-            let content = document.createElement("div");
-            content.className = "detail-content productinfo";
-            content.innerHTML = `
-                <div class="content-header"><span>제품 상세 정보</span></div>
-                <div class="content-body">
-                    <div class="content-list">
-                        <ul>
-                            <li>오버사이즈 핏</li>
-                            <li>앞 중심이 미세하게 돌아간 후드</li>
-                            <li>후드 안감 배색</li>
-                            <li>매듭 스트링 디테일</li>
-                            <li>전면 하트 자수패치</li>
-                            <li>후면 밑단 3단 레이어드 라벨</li>
-                            <li>오버사이즈 핏 앞 중심이 미세하게 돌아간후드 안감 배색<br>매듭 스트링 디테일 전면 하트 자수패치 후면 밑단 3단 레이어드 라벨</li>
-                        </ul>
-                    </div>
-                </div>`
-                $mobileContentBox[2].appendChild(content)
-        }
-        let precautionContent = () => {
-            let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
-            let content = document.createElement("div");
-            content.className = "detail-content precaution";
-            content.innerHTML =`
-                <div class="content-header"><span>제품 취급 유의사항</span></div>
-                <div class="content-body">
-                    <div class="content-list">
-                        <ul>
-                            <li>이 제품은 반드시 손세탁 하십시오.</li>
-                            <li>드라이클리닝을 하지 마십시오.</li>
-                            <li>이 제품은 회전식 건조기를 사용하지 마십시오.</li>
-                            <li>중온의 아이론을 권장합니다.</li>
-                        </ul>
-                    </div>
-                </div>`
-                $mobileContentBox[3].appendChild(content)
-        }
-       
-        $$detailBtn.forEach((el,idx) => {
-            el.classList.add("mobile");
-            el.classList.remove("web");
-            el.querySelector(".detail__content__box").innerHTML = "";
-            el.addEventListener("click", function(ev) {
-                if(el.classList.contains("mobile")){
-                    addSelectbtn(ev,idx);
-                }
-            })
-        })
-        sizeguideContent();
-        materialContent();
-        productinfoContent();
-        precautionContent();
+//             let content = document.createElement("div");
+//             content.className = "detail-content sizeguide";
+//             content.innerHTML = `
+//                 <div class="content-header"><span>사이즈 가이드</span></div>
+//                 <div class="content-body">
+//                     <div class="sizeguide-box">
+//                         <div class="sizeguide-btn ">A1</div>
+//                         <div class="sizeguide-btn">A2</div>
+//                         <div class="sizeguide-btn select">A3</div>
+//                         <div class="sizeguide-btn">A4</div>
+//                         <div class="sizeguide-btn">A5</div>
+//                     </div>
+//                     <div class="sizeguide-noti">모델신장 179cm,착용사이즈는 A3입니다.</div>
+//                     <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
+//                     <div class="sizeguide-dct">
+//                         <div class="dct-row">
+//                             <span>A.총장</span>
+//                             <span>옆목점에서 끝단까지의 수직길이</span>
+//                             <span class="dct-value">103.5</span>
+//                         </div>
+//                         <div class="dct-row">
+//                             <span>B. 목너비</span>
+//                             <span>옆목점 양끝의 수평길이</span>
+//                             <span class="dct-value">103.5</span>
+//                         </div>
+//                         <div class="dct-row">
+//                             <span>C. 어깨너비</span>
+//                             <span>옆어깨점 양끝의 수평길이</span>
+//                             <span class="dct-value">103.5</span>
+//                         </div>
+//                         <div class="dct-row">
+//                             <span>D. 가슴단면</span>
+//                             <span>암홀점에서 1cm아래 양끝의 수평길이</span>
+//                             <span class="dct-value">103.5</span>
+//                         </div>
+//                         <div class="dct-row">
+//                             <span>E. 소매통</span>
+//                             <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
+//                             <span class="dct-value">103.5</span>
+//                         </div>
+//                         <div class="dct-row">
+//                             <span>F. 소매장</span>
+//                             <span>어깨점부터 소매끝단까지의 길이</span>
+//                             <span class="dct-value">103.5</span>
+//                         </div>
+//                     </div>
+//                 </div>`
+//             $mobileContentBox[0].appendChild(content)
+//         }
+//         let materialContent = () => {
+//             let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
+//             let content = document.createElement("div");
+//             content.className = "detail-content material";
+//             content.innerHTML = `
+//                 <div class="content-header"><span>소재</span></div>
+//                 <div class="content-body">
+//                     <div class="content-list">
+//                         <div class="content-list-title">Main</div>
+//                         <ul>
+//                             <li>아크릴 70</li>
+//                             <li>폴리에스터 30</li>
+//                         </ul>
+//                     </div>
+//                     <div class="content-list">
+//                         <div class="content-list-title">Lining</div>
+//                         <ul>
+//                             <li>폴리에스터 55</li>
+//                             <li>비스코스 45</li>
+//                         </ul>
+//                     </div>
+//                     <div class="content-list">
+//                         <div class="content-list-title">Filling</div>
+//                         <ul>
+//                             <li>폴리에스터 100</li>
+//                             <li>(심지, 보강재, 상표, 자수, 장식, 단추, 밴드 제외)</li>
+//                         </ul>
+//                     </div>
+//                 </div>`
+//             $mobileContentBox[1].appendChild(content)
+//         }
+//         let productinfoContent = () => {
+//             let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
+//             let content = document.createElement("div");
+//             content.className = "detail-content productinfo";
+//             content.innerHTML = `
+//                 <div class="content-header"><span>제품 상세 정보</span></div>
+//                 <div class="content-body">
+//                     <div class="content-list">
+//                         <ul>
+//                             <li>오버사이즈 핏</li>
+//                             <li>앞 중심이 미세하게 돌아간 후드</li>
+//                             <li>후드 안감 배색</li>
+//                             <li>매듭 스트링 디테일</li>
+//                             <li>전면 하트 자수패치</li>
+//                             <li>후면 밑단 3단 레이어드 라벨</li>
+//                             <li>오버사이즈 핏 앞 중심이 미세하게 돌아간후드 안감 배색<br>매듭 스트링 디테일 전면 하트 자수패치 후면 밑단 3단 레이어드 라벨</li>
+//                         </ul>
+//                     </div>
+//                 </div>`
+//             $mobileContentBox[2].appendChild(content)
+//         }
+//         let precautionContent = () => {
+//             let $mobileContentBox = document.querySelectorAll(".detail__btn__row.mobile .detail__content__box");
+//             let content = document.createElement("div");
+//             content.className = "detail-content precaution";
+//             content.innerHTML = `
+//                 <div class="content-header"><span>제품 취급 유의사항</span></div>
+//                 <div class="content-body">
+//                     <div class="content-list">
+//                         <ul>
+//                             <li>이 제품은 반드시 손세탁 하십시오.</li>
+//                             <li>드라이클리닝을 하지 마십시오.</li>
+//                             <li>이 제품은 회전식 건조기를 사용하지 마십시오.</li>
+//                             <li>중온의 아이론을 권장합니다.</li>
+//                         </ul>
+//                     </div>
+//                 </div>`
+//             $mobileContentBox[3].appendChild(content)
+//         }
+
+//         $$detailBtn.forEach((el, idx) => {
+//             el.classList.add("mobile");
+//             el.classList.remove("web");
+//             el.querySelector(".detail__content__box").innerHTML = "";
+//             el.addEventListener("click", function (ev) {
+//                 if (el.classList.contains("mobile")) {
+//                     addSelectbtn(ev, idx);
+//                 }
+//             })
+//         })
+//         sizeguideContent();
+//         materialContent();
+//         productinfoContent();
+//         precautionContent();
+//     }
+//     //-------------------------동적으로 추가될 정보들 -------------------------//
+//     let sizeguideContent = () => {
+//         let header = document.createElement("div");
+//         let body = document.createElement("div");
+//         header.className = "sidebar__header";
+//         header.innerHTML = `<img class="sidebar__close__btn" src="/images/svg/close.svg" alt="">`;
+
+//         body.className = "sidebar__body";
+
+
+//         let content = document.createElement("div");
+//         content.className = "detail-content sizeguide";
+//         content.innerHTML = `
+//             <div class="content-header"><span>사이즈 가이드</span></div>
+//             <div class="content-body">
+//                 <div class="sizeguide-box">
+//                     <div class="sizeguide-btn ">A1</div>
+//                     <div class="sizeguide-btn">A2</div>
+//                     <div class="sizeguide-btn select">A3</div>
+//                     <div class="sizeguide-btn">A4</div>
+//                     <div class="sizeguide-btn">A5</div>
+//                 </div>
+//                 <div class="sizeguide-noti">모델신장 179cm,착용사이즈는 A3입니다.</div>
+//                 <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
+//                 <div class="sizeguide-dct">
+//                     <div class="dct-row">
+//                         <span>A.총장</span>
+//                         <span>옆목점에서 끝단까지의 수직길이</span>
+//                         <span class="dct-value">103.5</span>
+//                     </div>
+//                     <div class="dct-row">
+//                         <span>B. 목너비</span>
+//                         <span>옆목점 양끝의 수평길이</span>
+//                         <span class="dct-value">103.5</span>
+//                     </div>
+//                     <div class="dct-row">
+//                         <span>C. 어깨너비</span>
+//                         <span>옆어깨점 양끝의 수평길이</span>
+//                         <span class="dct-value">103.5</span>
+//                     </div>
+//                     <div class="dct-row">
+//                         <span>D. 가슴단면</span>
+//                         <span>암홀점에서 1cm아래 양끝의 수평길이</span>
+//                         <span class="dct-value">103.5</span>
+//                     </div>
+//                     <div class="dct-row">
+//                         <span>E. 소매통</span>
+//                         <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
+//                         <span class="dct-value">103.5</span>
+//                     </div>
+//                     <div class="dct-row">
+//                         <span>F. 소매장</span>
+//                         <span>어깨점부터 소매끝단까지의 길이</span>
+//                         <span class="dct-value">103.5</span>
+//                     </div>
+//                 </div>
+//             </div>`
+//         $sidebarBody.appendChild(content);
+//     }
+//     let materialContent = () => {
+//         let content = document.createElement("div");
+//         content.className = "detail-content material";
+//         content.innerHTML = `
+//             <div class="content-header"><span>소재</span></div>
+//             <div class="content-body">
+//                 <div class="content-list">
+//                     <div class="content-list-title">Main</div>
+//                     <ul>
+//                         <li>아크릴 70</li>
+//                         <li>폴리에스터 30</li>
+//                     </ul>
+//                 </div>
+//                 <div class="content-list">
+//                     <div class="content-list-title">Lining</div>
+//                     <ul>
+//                         <li>폴리에스터 55</li>
+//                         <li>비스코스 45</li>
+//                     </ul>
+//                 </div>
+//                 <div class="content-list">
+//                     <div class="content-list-title">Filling</div>
+//                     <ul>
+//                         <li>폴리에스터 100</li>
+//                         <li>(심지, 보강재, 상표, 자수, 장식, 단추, 밴드 제외)</li>
+//                     </ul>
+//                 </div>
+//             </div>`
+//         $sidebarBody.appendChild(content);
+//     }
+//     let productinfoContent = () => {
+//         let content = document.createElement("div");
+//         content.className = "detail-content productinfo";
+//         content.innerHTML = `
+//             <div class="content-header"><span>제품 상세 정보</span></div>
+//             <div class="content-body">
+//                 <div class="content-list">
+//                     <ul>
+//                         <li>오버사이즈 핏</li>
+//                         <li>앞 중심이 미세하게 돌아간 후드</li>
+//                         <li>후드 안감 배색</li>
+//                         <li>매듭 스트링 디테일</li>
+//                         <li>전면 하트 자수패치</li>
+//                         <li>후면 밑단 3단 레이어드 라벨</li>
+//                         <li>오버사이즈 핏 앞 중심이 미세하게 돌아간후드 안감 배색<br>매듭 스트링 디테일 전면 하트 자수패치 후면 밑단 3단 레이어드 라벨</li>
+//                     </ul>
+//                 </div>
+//             </div>`
+//         $sidebarBody.appendChild(content);
+//     }
+//     let precautionContent = () => {
+//         let content = document.createElement("div");
+//         content.className = "detail-content precaution";
+//         content.innerHTML = `
+//             <div class="content-header"><span>제품 취급 유의사항</span></div>
+//             <div class="content-body">
+//                 <div class="content-list">
+//                     <ul>
+//                         <li>이 제품은 반드시 손세탁 하십시오.</li>
+//                         <li>드라이클리닝을 하지 마십시오.</li>
+//                         <li>이 제품은 회전식 건조기를 사용하지 마십시오.</li>
+//                         <li>중온의 아이론을 권장합니다.</li>
+//                     </ul>
+//                 </div>
+//             </div>`
+//         $sidebarBody.appendChild(content);
+//     }
+//     //-------------------------동적으로 추가될 정보들 -------------------------//
+
+//     function openContent(idx) {
+//         $sidebarBody.innerHTML = "";
+//         switch (idx) {
+//             case 0:
+//                 sizeguideContent()
+//                 break;
+//             case 1:
+//                 materialContent()
+//                 break;
+//             case 2:
+//                 productinfoContent()
+//                 break;
+//             case 3:
+//                 precautionContent()
+//                 break;
+//         }
+//     }
+//     function detailSidebar(ev, index) {
+//         let currentEv = ev;
+//         let currentIdx = index;
+//         const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
+//         const $sidebarBg = document.querySelector(".detail__sidebar__wrap .sidebar__background");
+//         const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
+//         const $detailInfoWrap = document.querySelector(".detail__btn__wrap");
+//         const $detailInfobtn = document.querySelectorAll(".sidebar__wrap .detail__btn__row");
+//         const $sidebarCloseBtn = document.querySelector(".sidebar__close__btn");
+//         $sidebarCloseBtn.addEventListener("click", sideBarClose);
+//         sideBarOpen();
+//         // 스와이프 탭버튼 기능
+//         $detailInfobtn.forEach((el, idx) => {
+//             //초기 클릭한 값 select 표기
+//             if (idx === currentIdx) {
+//                 el.classList.add("select");
+//             }
+//             el.addEventListener("click", function () {
+//                 $detailInfobtn.forEach((el, idx) => el.classList.remove("select"));
+//                 this.classList.add("select");
+//                 openContent(idx)
+//             });
+//         });
+//         openContent(currentIdx);
+//         window.addEventListener('resize', function () {
+//             clearTimeout(timer);
+//             timer = setTimeout(function () {
+//                 let breakpoint = window.matchMedia('screen and (min-width:1025px)');
+//                 if (breakpoint.matches === false) {
+//                     sideBarClose();
+//                 }
+//             }, 100);
+//         });
+
+//         function sideBarOpen() {
+//             $detailSidebarWrap.classList.add("open")
+//             $sidebarBg.classList.add("open");
+//             $sidebarWrap.classList.add("open");
+//             $detailInfoWrap.classList.add("select")
+//         }
+//         function sideBarClose() {
+//             $detailSidebarWrap.classList.remove("open")
+//             $sidebarBg.classList.remove("open");
+//             $sidebarWrap.classList.remove("open");
+//             // $detailInfoWrap.classList.remove("select");
+//             $detailInfobtn.forEach((el, idx) => el.classList.remove("select"));
+//         }
+//         //sidebar__wrap 외부 클릭 종료
+//         $sidebarBg.addEventListener("mouseup", function (e) {
+//             if (!$sidebarWrap.contains(e.target)) {
+//                 sideBarClose();
+//             }
+//         });
+//     }
+//     function addSelectbtn(ev, index) {
+//         let currentEv = ev.currentTarget;
+//         console.log("🏂 ~ file: detail.js:745 ~ addSelectbtn ~ currentEv", currentEv.currentTarget)
+//         let currentIdx = index;
+//         if (currentEv.classList.contains("select")) {
+//             currentEv.parentNode.classList.remove("open");
+//             currentEv.classList.remove("select");
+//         } else {
+//             currentEv.parentNode.classList.add("open");
+//             $$detailBtn.forEach(el => el.classList.remove("select"))
+//             currentEv.classList.add("select");
+//         }
+
+//     }
+// }
+
+
+/**
+ * @author SIMJAE  
+ * @description 모바일 상품 상세정보 이벤트 핸들러 
+ */
+function mobileDetailBtnHanddler() {
+    let $$btn = document.querySelectorAll(".rM-detail-containner .detail__btn__row");
+    let controllBtn = document.querySelector(".rM-detail-containner .detail__btn__control");
+    let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
+    let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
+    let currentIdx = 0;
+    $$btn.forEach((btn, idx) => {
+        btn.addEventListener("click", function (e) {
+            if (e.currentTarget.classList.contains("select")) {
+                document.querySelector(".rM-detail-containner .content-body").innerHTML = "";
+                document.querySelector(".rM-detail-containner .content-header").innerHTML = "";
+                e.currentTarget.classList.remove("select");
+                e.currentTarget.offsetParent.classList.remove("open");
+            } else {
+                $$btn.forEach(el => el.classList.remove("select"));
+                btn.classList.add("select");
+                e.currentTarget.offsetParent.classList.add("open");
+                mobileSizeGuideContentBody(idx);
+            }
+            currentIdx = clickControllBtnEvent();
+            updateControllBtnCss(idx);
+            sizeguideBtnEvent();
+        });
+    });
+
+    prevBtn.addEventListener("click", function (e) {
+        if (currentIdx == 0) { return false; }
+        console.log(currentIdx--);
+        updateSelectElem(currentIdx);
+        updateControllBtnCss(currentIdx);
+        mobileSizeGuideContentBody(currentIdx);
+    });
+    nextBtn.addEventListener("click", function (e) {
+        if (currentIdx == 4) { return false; }
+        console.log(currentIdx++);
+        updateSelectElem(currentIdx);
+        updateControllBtnCss(currentIdx);
+        mobileSizeGuideContentBody(currentIdx);
+    });
+
+    function updateSelectElem(current) {
+        $$btn.forEach(el => el.classList.remove("select"));
+        document.querySelectorAll(".rM-detail-containner .detail__btn__row")[current].classList.add("select");
     }
-    //-------------------------동적으로 추가될 정보들 -------------------------//
-    let sizeguideContent = () => {
-        let header = document.createElement("div");
-        let body = document.createElement("div");
-        header.className = "sidebar__header";
-        header.innerHTML = `<img class="sidebar__close__btn" src="/images/svg/close.svg" alt="">`;
-
-        body.className = "sidebar__body";
-
-
-        let content = document.createElement("div");
-        content.className = "detail-content sizeguide";
-        content.innerHTML =`
-            <div class="content-header"><span>사이즈 가이드</span></div>
-            <div class="content-body">
-                <div class="sizeguide-box">
+    //컨트롤러 버튼 css 갱신
+    function updateControllBtnCss(idx) {
+        let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
+        let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
+        if (idx == 0) {
+            prevBtn.style.opacity = "0";
+        } else if (idx == 3) {
+            nextBtn.style.opacity = "0";
+        } else {
+            nextBtn.style.opacity = "inherit";
+            prevBtn.style.opacity = "inherit";
+        }
+    }
+    //선택되어있는 idx불러오기
+    function clickControllBtnEvent() {
+        let currentIdx;
+        [...$$btn].find((el, idx) => {
+            if (el.classList.contains("select")) { currentIdx = idx; }
+        });
+        return currentIdx;
+    }
+    function mobileSizeGuideContentBody(idx) {
+        let contentHeader = document.querySelector(".rM-detail-containner .content-header span");
+        let contentBody = document.querySelector(".rM-detail-containner .content-body");
+        contentBody.innerHTML = productDetailInfoArr[idx];
+        let detailContentWrap = document.querySelector(".rM-detail-containner .detail-content");
+        if (idx == 0) {
+            detailContentWrap.className = "detail-content sizeguide";
+            contentHeader.innerHTML = "사이즈가이드";
+        } else if (idx == 1) {
+            detailContentWrap.className = "detail-content material";
+            contentHeader.innerHTML = "소재";
+        } else if (idx == 2) {
+            detailContentWrap.className = "detail-content productinfo";
+            contentHeader.innerHTML = "제품 상세 정보";
+        } else if (idx == 3) {
+            detailContentWrap.className = "detail-content precaution";
+            contentHeader.innerHTML = "취급 유의 사항";
+        }
+    }
+    function sizeguideBtnEvent() {
+        let $$sizeBtn = document.querySelectorAll(".rM-detail-containner .sizeguide-btn");
+        $$sizeBtn.forEach((el, idx) => el.addEventListener("click", function () {
+            $$sizeBtn.forEach(el => el.classList.remove("select"));
+            this.classList.add("select");
+        }));
+    }
+}
+/**
+ * @author SIMJAE  
+ * @description 모바일 상품 상세정보 데이터 요청
+ */
+function getProductDetailInfo (product_idx){
+    const main = document.querySelector("main");
+    let country = main.dataset.country;
+    let sizeGuideArr = new Array();
+    $.ajax({
+        type: "post",
+        data: {
+            "product_idx": product_idx,
+            "country": country,
+        },
+        async: false,
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/product/get",
+        error: function () {
+            alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
+        },
+        success: function (d) {
+            let { sizeGuide, care, detail, material } = d.data[0];
+            sizeGuide = `
+            <div class="sizeguide-box">
                     <div class="sizeguide-btn ">A1</div>
                     <div class="sizeguide-btn">A2</div>
                     <div class="sizeguide-btn select">A3</div>
@@ -988,152 +1163,123 @@ function detailBtnHandler() {
                     </div>
                 </div>
             </div>`
-        $sidebarBody.appendChild(content);
-    }
-    let materialContent = () => {
-        let content = document.createElement("div");
-        content.className = "detail-content material";
-        content.innerHTML = `
-            <div class="content-header"><span>소재</span></div>
-            <div class="content-body">
-                <div class="content-list">
-                    <div class="content-list-title">Main</div>
-                    <ul>
-                        <li>아크릴 70</li>
-                        <li>폴리에스터 30</li>
-                    </ul>
+
+            sizeGuideArr.push(sizeGuide);
+            sizeGuideArr.push(material);
+            sizeGuideArr.push(detail);
+            sizeGuideArr.push(care);
+        }
+    });
+    return sizeGuideArr;
+}
+/**
+ * @author SIMJAE
+ * @description 웹 상품정보 사이드바 
+ */
+function innerSideBar(){
+
+    let sideWrap = document.createElement("div");
+    sideWrap.className = "detail__sidebar__wrap"
+    sideWrap.innerHTML = `
+        <div class="sidebar__background" data-modal="detail">
+            <div class="sidebar__wrap" data-modal="detail">
+                <div class="detail--box--btn"></div>
+                <div class="sidebar__box" data-modal="detail">
+                    <div class="sidebar__header">
+                        <img class="sidebar__close__btn" src="/images/svg/close.svg" alt="">
+                    </div>
+                    <div class="sidebar__body">
+                        <div class="detail__content__box">
+                            <div class="detail-content precaution">
+                                <div class="content-header"><span></span></div>
+                                <div class="content-body"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="content-list">
-                    <div class="content-list-title">Lining</div>
-                    <ul>
-                        <li>폴리에스터 55</li>
-                        <li>비스코스 45</li>
-                    </ul>
-                </div>
-                <div class="content-list">
-                    <div class="content-list-title">Filling</div>
-                    <ul>
-                        <li>폴리에스터 100</li>
-                        <li>(심지, 보강재, 상표, 자수, 장식, 단추, 밴드 제외)</li>
-                    </ul>
-                </div>
-            </div>`
-        $sidebarBody.appendChild(content);  
-    }
-    let productinfoContent = () => {
-        let content = document.createElement("div");
-        content.className = "detail-content productinfo";
-        content.innerHTML = `
-            <div class="content-header"><span>제품 상세 정보</span></div>
-            <div class="content-body">
-                <div class="content-list">
-                    <ul>
-                        <li>오버사이즈 핏</li>
-                        <li>앞 중심이 미세하게 돌아간 후드</li>
-                        <li>후드 안감 배색</li>
-                        <li>매듭 스트링 디테일</li>
-                        <li>전면 하트 자수패치</li>
-                        <li>후면 밑단 3단 레이어드 라벨</li>
-                        <li>오버사이즈 핏 앞 중심이 미세하게 돌아간후드 안감 배색<br>매듭 스트링 디테일 전면 하트 자수패치 후면 밑단 3단 레이어드 라벨</li>
-                    </ul>
-                </div>
-            </div>`
-        $sidebarBody.appendChild(content);  
-    }
-    let precautionContent = () => {
-        let content = document.createElement("div");
-        content.className = "detail-content precaution";
-        content.innerHTML =`
-            <div class="content-header"><span>제품 취급 유의사항</span></div>
-            <div class="content-body">
-                <div class="content-list">
-                    <ul>
-                        <li>이 제품은 반드시 손세탁 하십시오.</li>
-                        <li>드라이클리닝을 하지 마십시오.</li>
-                        <li>이 제품은 회전식 건조기를 사용하지 마십시오.</li>
-                        <li>중온의 아이론을 권장합니다.</li>
-                    </ul>
-                </div>
-            </div>`
-        $sidebarBody.appendChild(content);  
-    }
-    //-------------------------동적으로 추가될 정보들 -------------------------//
+            </div>
+        </div>
+    `
+    document.querySelector(".info__wrap").appendChild(sideWrap);
     
-    function openContent(idx) {
-        $sidebarBody.innerHTML = "";
-        switch (idx) {
-            case 0:
-                sizeguideContent()
-            break;
-            case 1:
-                materialContent()
-            break;
-            case 2:
-                productinfoContent()
-            break;
-            case 3:
-                precautionContent()
-            break;
+    
+   
+}
+function webDetailBtnHanddler(){
+    let $$detailBtn = document.querySelectorAll(".info__box .detail__btn__row");
+    let currentIdx = 0;
+    $$detailBtn.forEach((btn, idx) => {
+        btn.addEventListener("click", function (e) {
+            if (e.currentTarget.classList.contains("select")) {
+                // unSelectBtn(btn,e);
+            } else {
+                sideBarOpen();
+                selectBtn(btn);
+            }
+            currentIdx = clickControllBtnEvent();
+            console.log("🏂 ~ file: detail.js:1220 ~ currentIdx", currentIdx)
+            mobileSizeGuideContentBody(idx);
+        });
+    });
+    //선택되어있는 idx불러오기
+    function clickControllBtnEvent() {
+        let currentIdx;
+        [...$$detailBtn].find((el, idx) => {
+            if (el.classList.contains("select")) { currentIdx = idx; }
+        });
+        return currentIdx;
+    }
+    const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
+    const $sidebarBg = document.querySelector(".detail__sidebar__wrap .sidebar__background");
+    const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
+    const $sidebarCloseBtn = document.querySelector(".detail__sidebar__wrap .sidebar__close__btn");
+
+    function unSelectBtn(btn,e){
+        e.currentTarget.offsetParent.classList.remove("open");
+        e.currentTarget.classList.remove("select");
+    }
+    function selectBtn(btn){
+        $$detailBtn.forEach(el => el.classList.remove("select"));
+        btn.classList.add("select");
+    }
+    function mobileSizeGuideContentBody(idx) {
+        let contentHeader = document.querySelector(".detail__sidebar__wrap .content-header span");
+        let contentBody = document.querySelector(".detail__sidebar__wrap .content-body");
+        contentBody.innerHTML = productDetailInfoArr[idx];
+        let detailContentWrap = document.querySelector(".detail__sidebar__wrap .detail-content");
+        if (idx == 0) {
+            detailContentWrap.className = "detail-content sizeguide";
+            contentHeader.innerHTML = "사이즈가이드";
+            sizeguideBtnEvent();
+        } else if (idx == 1) {
+            detailContentWrap.className = "detail-content material";
+            contentHeader.innerHTML = "소재";
+        } else if (idx == 2) {
+            detailContentWrap.className = "detail-content productinfo";
+            contentHeader.innerHTML = "제품 상세 정보";
+        } else if (idx == 3) {
+            detailContentWrap.className = "detail-content precaution";
+            contentHeader.innerHTML = "취급 유의 사항";
         }
     }
-    function detailSidebar(ev,index) {
-        let currentEv = ev;
-        let currentIdx = index;
-        const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
-        const $sidebarBg = document.querySelector(".detail__sidebar__wrap .sidebar__background");
-        const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
-        const $detailInfoWrap = document.querySelector(".detail__btn__wrap");
-        const $detailInfobtn = document.querySelectorAll(".sidebar__wrap .detail__btn__row");
-        const $sidebarCloseBtn = document.querySelector(".sidebar__close__btn");
-        $sidebarCloseBtn.addEventListener("click",sideBarClose);
-        sideBarOpen();
-        // 스와이프 탭버튼 기능
-        $detailInfobtn.forEach((el, idx) => {
-        //초기 클릭한 값 select 표기
-            if(idx === currentIdx ){
-                el.classList.add("select");
-            }
-            el.addEventListener("click", function() {
-                $detailInfobtn.forEach((el,idx) => el.classList.remove("select"));
-                this.classList.add("select");
-                openContent(idx)
-            });
-        });
-        openContent(currentIdx);
-        
-        
-        function sideBarOpen() {
-            $detailSidebarWrap.classList.add("open")
-            $sidebarBg.classList.add("open");
-            $sidebarWrap.classList.add("open");
-            $detailInfoWrap.classList.add("select")
-        }
-        function sideBarClose() {
-            $detailSidebarWrap.classList.remove("open")
-            $sidebarBg.classList.remove("open");
-            $sidebarWrap.classList.remove("open");
-            // $detailInfoWrap.classList.remove("select");
-            $detailInfobtn.forEach((el,idx) => el.classList.remove("select"));
-        }
-         //sidebar__wrap 외부 클릭 종료
-        $sidebarBg.addEventListener("mouseup", function (e) {
-            if (!$sidebarWrap.contains(e.target)) {
-                sideBarClose();
-            }
-        });
+     //이벤트 달기
+    function sideBarOpen() {
+        $detailSidebarWrap.classList.add("open")
+        $sidebarBg.classList.add("open");
+        $sidebarWrap.classList.add("open");
+        $sidebarCloseBtn.addEventListener("click",sideBarClose)
     }
-    function addSelectbtn(ev,index) {
-        let currentEv = ev.currentTarget;
-        console.log("🏂 ~ file: detail.js:745 ~ addSelectbtn ~ currentEv", currentEv.currentTarget)
-        let currentIdx = index;
-        if (currentEv.classList.contains("select")) {
-            currentEv.parentNode.classList.remove("open");
-            currentEv.classList.remove("select");
-        } else {
-            currentEv.parentNode.classList.add("open");
-            $$detailBtn.forEach(el => el.classList.remove("select"))
-            currentEv.classList.add("select");
-        }
-        
+    function sideBarClose() {
+        $detailSidebarWrap.classList.remove("open")
+        $sidebarBg.classList.remove("open");
+        $sidebarWrap.classList.remove("open");
+        $$detailBtn.forEach(el => el.classList.remove("select"));
+    }
+    function sizeguideBtnEvent() {
+        let $$sizeBtn = document.querySelectorAll(".detail__sidebar__wrap .sizeguide-btn");
+        $$sizeBtn.forEach((el, idx) => el.addEventListener("click", function () {
+            $$sizeBtn.forEach(el => el.classList.remove("select"));
+            this.classList.add("select");
+        }));
     }
 }

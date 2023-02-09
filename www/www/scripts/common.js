@@ -277,3 +277,19 @@ function getScrollBarWidth () {
 $.fn.hasScrollBar = function() {
 	return (this.prop("scrollHeight") == 0 && this.prop("clientHeight") == 0) || (this.prop("scrollHeight") > this.prop("clientHeight"));
 };
+
+/**
+ * @author 김성식
+ * @description 디바이스 체크
+ */
+function checkMobileDevice() {
+	var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
+	for (var info in mobileKeyWords) {
+		if (navigator.userAgent.match(mobileKeyWords[info]) != null) {
+			//mobile
+			return true;
+		}
+	}
+	//web
+	return false;
+}
