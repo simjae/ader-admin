@@ -188,7 +188,7 @@ export function Basket(el, useSidebar) {
 							<input class="prd__cb self__cb" type="checkbox" name="stock">
 							<div class="cb__mark"></div>
 						</label>
-						<div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div>
+						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content" data-sales_price="${el.sales_price}" >
 							<div class="prd__title">${el.product_name}</div>
 							<div class="price">${sales_price}</div>
@@ -302,7 +302,7 @@ export function Basket(el, useSidebar) {
 							<input class="prd__cb self__cb" type="checkbox" name="sold">
 							<div class="cb__mark"></div>
 						</label>
-						<div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div>
+						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content">
 							<div class="prd__title">${el.product_name}</div>
 							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
