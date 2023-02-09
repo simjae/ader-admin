@@ -5,9 +5,9 @@
 
     header {
         color: var(--wh);
-        background-color: RGBA(255,255,255,0);
+        background-color: RGBA(255, 255, 255, 0);
         border-bottom: 0px;
-		transition: background 0.3s;
+        transition: background 0.3s;
     }
 
     header .logo {
@@ -21,10 +21,10 @@
     header .earth-svg {
         content: url("/images/svg/earth-wh.svg");
     }
-	
-	header .alg__c {
-		color: #FFF;
-	}
+
+    header .alg__c {
+        color: #FFF;
+    }
 
     header .wishlist-svg {
         content: url("/images/svg/wishlist-wh.svg");
@@ -45,87 +45,68 @@
     header .header__grid {
         color: var(--wh);
     }
-	body.sidebar_open header,
-	body.m_menu_open header,
-    header.hover, header.scroll {
+
+    header.hover,
+    header.scroll {
         background-color: #fff;
         color: var(--bk);
         border-bottom: 1px solid #eeeeee;
-		transition: background 0.3s;
+        transition: background 0.3s;
     }
-	body.sidebar_open header .logo,
-	body.m_menu_open header .logo,
-	body.sidebar_open header .logo,
-    header.hover .logo, header.scroll .logo {
+
+    header.hover .logo,
+    header.scroll .logo {
         content: url("/images/svg/logo-bk.svg");
     }
 
-	body.sidebar_open header .search-svg,
-	body.m_menu_open header .search-svg,
-    header.hover .search-svg, header.scroll .search-svg {
+    header.hover .search-svg,
+    header.scroll .search-svg {
         content: url("/images/svg/search-bk.svg");
     }
 
-	body.sidebar_open header .earth-svg,
-	body.m_menu_open header .earth-svg,
-    header.hover .earth-svg, header.scroll .earth-svg {
+    header.hover .earth-svg,
+    header.scroll .earth-svg {
         content: url("/images/svg/earth-bk.svg");
     }
 
-	body.sidebar_open header .alg__c,
-	body.m_menu_open header .alg__c,
-	header.hover .alg__c, header.scroll .alg__c {
-		color: #000;
-	}
-	body.sidebar_open header .wishlist-svg,
-	body.m_menu_open header .wishlist-svg,
+    header.hover .alg__c,
+    header.scroll .alg__c {
+        color: #000;
+    }
+
     header.hover .wishlist-svg,
-	header.scroll .wishlist-svg {
+    header.scroll .wishlist-svg {
         content: url("/images/svg/wishlist-bk-line.svg");
     }
-	
-	body.sidebar_open header .wishlist__btn.open .wishlist-svg,
-	body.m_menu_open header .wishlist__btn.open .wishlist-svg,
-	header .wishlist__btn.open .wishlist-svg {
-		margin-top: 28px;
-		content: url("/images/svg/wishlist-wh-fill.svg");
-	}
 
-	body.sidebar_open header .wishlist__btn.open .wishlist-svg,
-	body.m_menu_open header .wishlist__btn.open .wishlist-svg,
-	header.hover .wishlist__btn.open .wishlist-svg,
-	header.scroll .wishlist__btn.open .wishlist-svg {
-		margin-top: 28px;
-		content: url("/images/svg/wishlist-fill.svg");
-	}
-
-	body.sidebar_open header .basket-svg,
-	body.m_menu_open header .basket-svg,
-    header.hover .basket-svg, header.scroll .basket-svg {
+    header.hover .basket-svg,
+    header.scroll .basket-svg {
         content: url("/images/svg/basket-bk.svg");
     }
 
-	body.sidebar_open header .bluemark-svg,
-	body.m_menu_open header .bluemark-svg,
-    header.hover .bluemark-svg, header.scroll .bluemark-svg {
+    header.hover .bluemark-svg,
+    header.scroll .bluemark-svg {
         content: url("/images/svg/bluemark-bk.svg");
     }
 
-	body.sidebar_open header .user-svg,
-	body.m_menu_open header .user-svg,
-    header.hover .user-svg, header.scroll .user-svg {
+    header.hover .user-svg,
+    header.scroll .user-svg {
         content: url("/images/svg/user-bk.svg");
     }
 
-	body.sidebar_open header .header__grid,
-	body.m_menu_open header .header__grid,
-    header.hover .header__grid, header.scroll .header__grid {
+    header.scroll {
+        background-color: #fff;
+        color: var(--bk);
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    header.hover .header__grid,
+    header.scroll .header__grid {
         color: var(--bk);
     }
 
-	body.sidebar_open header .hamburger .line,
-	body.m_menu_open header .hamburger .line,
-    header.hover .hamburger .line, header.scroll .hamburger .line {
+    header.hover .hamburger .line,
+    header.scroll .hamburger .line {
         background-color: var(--bk);
     }
 
@@ -187,9 +168,12 @@
         overflow-x: hidden;
         position: relative;
     }
-    .swiper-button-next,.swiper-button-prev{
+
+    .swiper-button-next,
+    .swiper-button-prev {
         z-index: 9;
     }
+
     .new__project__swiper .swiper-button-next,
     .swiper-button-prev {
         top: 82%;
@@ -242,6 +226,7 @@
         display: flex;
         width: 100%;
     }
+
     .exhibtion__wrap>div {
         width: 50%;
     }
@@ -252,7 +237,8 @@
         background-color: #ffffff;
         align-items: flex-end;
     }
-    .exhibtion__wrap:hover .exhibtion__content{
+
+    .exhibtion__wrap:hover .exhibtion__content {
         background-color: #fbfbfb;
     }
 
@@ -415,7 +401,7 @@
     }
 
     .foryou-wrap {
-        display:block;
+        display: block;
         padding-bottom: 200px;
         position: relative;
     }
@@ -460,7 +446,7 @@
         width: 100%;
         background-color: #fbfbfb;
     }
-    
+
     .foryou-wrap .prd-title {
         height: 40px;
         background-color: #ffffff;
@@ -474,6 +460,7 @@
         text-align: center;
         color: var(--bk);
     }
+
     .foryou-wrap .whish_img {
         width: 15px;
         height: 12.5px;
@@ -512,7 +499,7 @@
     }
 
     .re-swiper .navigation .swiper-button-prev {
-        width: 13px;
+        display: none;
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 50%);
@@ -520,7 +507,7 @@
     }
 
     .styling-swiper .navigation .swiper-button-next {
-        
+
         top: auto;
         height: 110px;
         right: 0;
@@ -530,22 +517,23 @@
     }
 
     .styling-swiper .navigation .swiper-button-next::after {
-        visibility:visible;
+        visibility: visible;
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(0deg);
         position: relative;
     }
 
     .styling-swiper .navigation .swiper-button-prev {
-        
+
         transform: rotate(180deg);
         left: 0;
         top: auto;
         bottom: 0;
         color: var(--bk);
     }
+
     .styling-swiper .navigation .swiper-button-prev::after {
-        visibility:visible;
+        visibility: visible;
         content: url('/images/svg/sw-ar-bk.svg');
         position: relative;
     }
@@ -559,18 +547,21 @@
     }
 
     .foryou-swiper .navigation .swiper-button-prev {
-        width: 13px;
+        display: none;
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 50%);
         color: var(--bk);
     }
-    .foryou-wrap .swiper-slide:first-child{
-        border-left:1px solid #dcdcdc;
+
+    .foryou-wrap .swiper-slide:first-child {
+        border-left: 1px solid #dcdcdc;
     }
+
     .swiper-button-prev.swiper-button-disabled {
         opacity: 0;
     }
+
     /* .styling-swiper .swiper-button-prev.swiper-button-disabled {
     } */
     .recommand-mobile {
@@ -586,14 +577,17 @@
     .recommand-mobile .slide-box.half .center-box {
         width: 50%;
     }
+
     @media (max-width: 1441px) {
-        .new__project__content .cnt-box{
+        .new__project__content .cnt-box {
             grid-template-columns: repeat(14, 1fr);
         }
-        .ex__box{
+
+        .ex__box {
             grid-template-columns: repeat(7, 1fr);
         }
     }
+
     @media (max-width: 1025px) {
 
         .under-line.bk::after {
@@ -790,9 +784,11 @@
         .styling-swiper .swiper-slide .btn__wrap {
             gap: 0;
         }
-        .styling-swiper .btn__wrap{
+
+        .styling-swiper .btn__wrap {
             padding-left: 10px;
         }
+
         .styling-text {
             padding: 0 0 10px 10px;
         }
@@ -830,11 +826,13 @@
         .styling-swiper .navigation .swiper-button-next::before {
             background-color: #ffffff;
         }
+
         .styling-swiper .navigation .swiper-button-next::after {
-            visibility:hidden;
+            visibility: hidden;
         }
+
         .styling-swiper .navigation .swiper-button-prev::after {
-            visibility:hidden;
+            visibility: hidden;
         }
 
         .styling-swiper .navigation .swiper-button-next {
@@ -863,10 +861,12 @@
         .foryou-wrap .wish__btn {
             padding: 15px 12px;
         }
-        .foryou-wrap .whish_img{
+
+        .foryou-wrap .whish_img {
             width: 14.4px;
             height: 12px;
         }
+
         .foryou-wrap .prd-title {
             font-family: var(--ft-fu);
             font-size: 1rem;
@@ -1170,11 +1170,6 @@
             <div class="foryou-text"><span>For you</span>></div>
             <div class="foryou-swiper">
                 <div class="swiper-wrapper product_recommend_wrapper">
-
-                </div>
-                <div class="navigation">
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
                 </div>
             </div>
         </div>
@@ -1287,7 +1282,7 @@
         },
         // centeredSlides: true,
         on: {
-            activeIndexChange: function() {
+            activeIndexChange: function () {
                 if (1 == this.realIndex) {
 
                 }
@@ -1324,11 +1319,11 @@
             }
         },
         on: {
-            init: function() {
+            init: function () {
                 console.log('swiper 초기화 될때 실행');
 
             },
-            destroy: function() {
+            destroy: function () {
                 console.log("파괴됨")
             }
         }
@@ -1397,10 +1392,10 @@
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/order/whish/add",
-                error: function() {
+                error: function () {
                     alert("위시리스트 등록/해제 처리에 실패했습니다.");
                 },
-                success: function(d) {
+                success: function (d) {
                     let code = d.code;
                     let msg = d.msg;
 
@@ -1426,10 +1421,10 @@
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/order/whish/delete",
-                error: function() {
+                error: function () {
                     alert("위시리스트 등록/해제 처리에 실패했습니다.");
                 },
-                success: function(d) {
+                success: function (d) {
                     let code = d.code;
                     let msg = d.msg;
 
@@ -1448,10 +1443,10 @@
             type: "post",
             dataType: "json",
             url: "http://116.124.128.246:80/_api/common/recommend/get",
-            error: function() {
+            error: function () {
                 alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
             },
-            success: function(d) {
+            success: function (d) {
                 let imgUrl = "http://116.124.128.246:81";
 
                 let data = d.data;
@@ -1481,16 +1476,16 @@
                     }
 
                     productRecommendListHtml = `
-						<div>
-							<div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
-								${whish_img}
-							</div>
-							<div onClick="location.href='${product_link}'">
-								<img src="${imgUrl}${el.product_img}" alt="">
-								<div class="prd-title">${el.product_name}</div>
-							</div>
-						</div>
-					`;
+                        <div>
+                            <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
+                                ${whish_img}
+                            </div>
+                            <div onClick="location.href='${product_link}'">
+                                <img src="${imgUrl}${el.product_img}" alt="">
+                                <div class="prd-title">${el.product_name}</div>
+                            </div>
+                        </div>
+                    `;
 
                     prdListSlide.innerHTML = productRecommendListHtml;
                     domFrag.appendChild(prdListSlide);
