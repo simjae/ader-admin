@@ -56,7 +56,7 @@ import {User} from '/scripts/module/user.js';
 				<img class="logo"src="/images/landing/logo.png" alt="">
 			</li>
 			<li class="header__menu">
-				<ul class="menu__wrap left">`;
+				<ul class="hover_bg_act menu__wrap left">`;
 		data.forEach((el, idx) => {
 			let lrgDiv = document.createElement("div");
 			let lrg = el.menu_lrg;
@@ -140,10 +140,10 @@ import {User} from '/scripts/module/user.js';
 		});
 		menuHtml +=`
 				</ul>
-				<ul class="menu__wrap right">`
+				<ul class="hover_bg_act menu__wrap right">`
 		menuHtml +=`
 				<li class="drop web story" data-type="ST" data-large="6">
-					<a class="menu-ul lrg menu-ul" href="#">스토리</a>
+					<a class="menu-ul lrg" href="#">스토리</a>
 					<div class="drop__menu">
 						<ul class="cont st__menu">
 							<li></li>
@@ -239,8 +239,8 @@ import {User} from '/scripts/module/user.js';
 				<li class="web search__li side-bar" data-type="S">					
 					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
 				</li>
-				<li class="flex wishlist__btn" data-cnt="${whishCnt === undefined?"0":whishCnt}"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
-				<li class="flex basket__btn side-bar" data-cnt="${basketCnt === undefined?"0":basketCnt}" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
+				<li class="flex wishlist__btn" data-cnt="${whishCnt === undefined?"":whishCnt}"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+				<li class="flex basket__btn side-bar" data-cnt="${basketCnt === undefined?"":basketCnt}" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
 				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
 					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
 					<span>` + userName + `</span>
@@ -257,6 +257,18 @@ import {User} from '/scripts/module/user.js';
 				</li>`;
 		menuList.innerHTML = menuHtml;
 		document.querySelector(".header__wrap").appendChild(domfrag);
+		
+		
+		if(!checkMobileDevice()){
+			console.log($(".hover_bg_act").attr("class"));
+			$(".hover_bg_act").hover(function() {
+				headerHover(true);
+
+			},function(){
+				headerHover(false);
+			});
+		}
+		
 		mobileMenu();
 		
 		
@@ -627,19 +639,6 @@ import {User} from '/scripts/module/user.js';
 			mobileSearch.addSearchEvent();
 		});
 	};
-	$(document).ready(function(){
-		if(!checkMobileDevice()){
-			$(".header__wrap").hover(function() {
-				headerHover(true);
-				// headerHoberCheck();
-
-			},function(){
-				headerHover(false);
-				// headerHoberCheck();
-			});
-		}
-		
-	})
 
 	function windowResponsive() {
 		const $body = document.querySelector("body");
@@ -845,15 +844,16 @@ import {User} from '/scripts/module/user.js';
 		}
 		function navWhishlistBtn(){
 			let $wishlistBtn  = document.querySelector(".wishlist__btn");
-			if($("html").hasScrollBar()){
+			if($("body").hasScrollBar()){
 				$("#quickview .quickview__box").css("padding-right",getScrollBarWidth());
 			}
 			else{
-					$("#quickview .quickview__box").css("padding-right","");
+				$("#quickview .quickview__box").css("padding-right","");
 			}
 			$wishlistBtn.addEventListener("click", function(){
 				if(this.classList.contains("open")){
-					whishlistClose();
+//					whishlistClose();
+					location.href="/order/whish";
 				}else {
 					if($(".side-bar.open").length !== 0){
 						sidebarClose();

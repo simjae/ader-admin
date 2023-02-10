@@ -6,23 +6,27 @@ header {
     max-width: 2560px;
     margin: 0 auto;
 }
+header .wishlist__btn[data-cnt="0"]:after{
+    display: none;
+}
+header .basket__btn[data-cnt="0"]:after{
+    display: none;
+}
 header .wishlist__btn{
 	position: relative;
 }
 header .wishlist__btn:after{
 	content: attr(data-cnt);
     position: absolute;
-    top: 27px;
+    bottom: 7px;
     left: 14px;
     display: flex;
     text-align: center;
-    background-color: #0000c5;
     border-radius: 50%;
     padding: 1px;
     height: 18px;
     width: 18px;
     font-size: 11px;
-    color: #ffffff!important;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -33,17 +37,15 @@ header .basket__btn{
 header .basket__btn:after{
 	content: attr(data-cnt);
     position: absolute;
-    top: 27px;
+    bottom: 7px;
     left: 9px;
     display: flex;
     text-align: center;
-    background-color: #0000c5;
     border-radius: 50%;
     padding: 1px;
     height: 18px;
     width: 18px;
     font-size: 11px;
-    color: #ffffff!important;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -659,10 +661,12 @@ transform: translateY(-6px) rotate(-45deg);
     grid-column: 14 / 16;
 }
 .header__grid .cont.pr__menu .swiper-li{
-	padding-right:28px!important;
+	padding-right:20%!important;
 }
 .header__grid .cont.pr__menu .swiper-li .swiper__box{
     width: 100%;
+    min-width: 90px;
+    max-width: 135px;
 	margin-left: 0;
 	padding-bottom: 25px;
 }
@@ -727,6 +731,9 @@ transform: translateY(-6px) rotate(-45deg);
     font-size: 13px;
     font-weight: 500;
     color: #343434!important;
+}
+.header__grid .cont.pr__menu li .mid-a{
+    font-size: 12px;
 }
 .header__grid .cont.pr__menu li .sma__wrap {
     padding-top: 28px;

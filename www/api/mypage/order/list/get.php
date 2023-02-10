@@ -19,21 +19,12 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-$order_idx = 0;
-if (isset($_POST['order_idx'])) {
-	$order_idx = $_POST['order_idx'];
-}
-
 $order_status = null;
 if (isset($_POST['order_status'])) {
 	$order_status = $_POST['order_status'];
 }
 
 $where = " OI.MEMBER_IDX = ".$member_idx." ";
-
-if ($order_idx > 0) {
-	$where .= " AND (OI.IDX = ".$order_idx.") ";
-}
 
 if ($order_status != "ALL" && $order_status != null) {
 	switch ($order_status) {
@@ -164,24 +155,24 @@ if ($member_idx > 0) {
 				);
 			}
 		}
-	}
-	
-	$json_result['data'][] = array(
-		'order_idx'				=>$order_data['ORDER_IDX'],
-		'order_code'			=>$order_data['ORDER_CODE'],
-		'order_title'			=>$order_data['ORDER_TITLE'],
-		'order_status'			=>$order_data['ORDER_STATUS'],
-		'preorder_flg'			=>$order_data['PREORDER_FLG'],
-		'order_date'			=>$order_data['ORDER_DATE'],
-		'cancel_date'			=>$order_data['CANCEL_DATE'],
-		'exchange_date'			=>$order_data['EXCHANGE_DATE'],
-		'refund_date'			=>$order_data['REFUND_DATE'],
-		'company_name'			=>$order_data['COMPANY_NAME'],
-		'company_tel'			=>$order_data['COMPANY_TEL'],
-		'update_flg'			=>$update_flg,
 		
-		'order_product'			=>$order_product
-	);
+		$json_result['data'][] = array(
+			'order_idx'				=>$order_data['ORDER_IDX'],
+			'order_code'			=>$order_data['ORDER_CODE'],
+			'order_title'			=>$order_data['ORDER_TITLE'],
+			'order_status'			=>$order_data['ORDER_STATUS'],
+			'preorder_flg'			=>$order_data['PREORDER_FLG'],
+			'order_date'			=>$order_data['ORDER_DATE'],
+			'cancel_date'			=>$order_data['CANCEL_DATE'],
+			'exchange_date'			=>$order_data['EXCHANGE_DATE'],
+			'refund_date'			=>$order_data['REFUND_DATE'],
+			'company_name'			=>$order_data['COMPANY_NAME'],
+			'company_tel'			=>$order_data['COMPANY_TEL'],
+			'update_flg'			=>$update_flg,
+			
+			'order_product'			=>$order_product
+		);
+	}
 } else {
 	$json_result['code'] = 301;
 	$json_result['msg'] = "로그인 정보가 없습니다. 로그인 후 다시 시도해주세요.";
