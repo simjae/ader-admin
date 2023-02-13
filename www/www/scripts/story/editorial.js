@@ -7,39 +7,8 @@ window.addEventListener('DOMContentLoaded', function(){
         loadEditorialData();  
     }
     scrollTop();
-    videoController();
 })
-function videoController(){
-    const mute = document.querySelector(".v-controll .mute");
-    const controller = document.querySelector(".v-controll");
-    controller.addEventListener("click", function(e) {
-        let clickTarget = e.target.classList.value;
-        if (clickTarget === "play") {
-            console.log("play")
-        } else if (clickTarget === "pause") {
-            console.log("pause")
-        } else if (clickTarget === "mute") {
-            console.log("mute")
-        } else if (clickTarget === "full") {
-            console.log("full")
-        }
-    })
 
-    function videoCustomEvent(idx){
-        let video = document.querySelector(`#video-custom-${idx}`);
-        video.addEventListener('play', (event) => {
-            console.log('play');
-        });
-        video.addEventListener('pause', (event) => {
-            console.log('pause');
-        });
-        mute.addEventListener('ended', (event) => {
-            console.log('ended');
-        });
-    }
-        
-    
-}
 function loadEditorialData() {
     $.ajax({
         type: "post",
@@ -56,7 +25,6 @@ function loadEditorialData() {
                 let cnt = 0;
                 if(d.data != null){
                     d.data.forEach(function(row){
-                        console.log(row);
                         appendThumbnailTitle(row.page_title, row.page_idx , row.size_type);
                         appendThumbnailBackground(row.contents_location, row.page_title, row.page_idx, cnt++, row.size_type)
                         asideClickEvent();
@@ -101,16 +69,6 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
     if (backgroundType === "mp4") {
         backgroundHtml = `
         <video id="video-coustom-${idx}" autoplay muted loop playsinline src="${url}${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')"></video>
-        <div class="v-controll">
-            <ul>
-                <li class="play">Play  ></li>
-                <li class="pause">Pause ||</li>
-            </ul>
-            <ul>
-                <li class="mute">Mute</li>
-                <li class="full">Full screen</li>
-            </ul>
-        </div>
         `
     } else {
         backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')">`

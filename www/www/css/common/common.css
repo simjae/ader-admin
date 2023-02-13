@@ -177,7 +177,8 @@ div::-webkit-scrollbar-track{ background-color: rgb(255 255 255 / 0%); }
 /* 스크롤바 뒷 배경 설정*/
 .cusc::-webkit-scrollbar-track{ background-color: rgb(255 255 255 / 0%);}
 
-/* 비디오 컨트롤러 커스텀  */
+
+
 .vplayer video::-webkit-media-controls { display: none !important; }
 .vplayer { position: relative; }
 .vplayer video{ width: 100%; }
