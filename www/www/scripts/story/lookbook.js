@@ -284,13 +284,32 @@ const getLookbookListApi = (project_idx, last_idx) => {
     })
     return result;
 }
-const getRelateApi = (project_idx) => {
+const getdetailApi = (project_idx) => {
     let result;
     $.ajax({
         type: "post",
         url: "http://116.124.128.246/_api/posting/lookbook/product/get",
         data: {
             'project_idx': project_idx
+        },
+        async: false,
+        dataType: "json",
+        error: function () {
+            alert('실패');
+        },
+        success: function (d) {
+            result = d.data;
+        }
+    })
+    return result;
+}
+const getRelevantApi = (c_product_idx) => {
+    let result;
+    $.ajax({
+        type: "post",
+        url: "http://116.124.128.246/_api/posting/lookbook/relevant/get",
+        data: {
+            'c_product_idx': c_product_idx
         },
         async: false,
         dataType: "json",
@@ -358,15 +377,22 @@ function appendDetailSwiper(data) {
 function appendRelated(data) {
     let relatedSwiperWrapper = document.querySelector(".related-product-swiper .swiper-wrapper");
     relatedSwiperWrapper.innerHTML= "";
-    data.forEach(el => {
-        let {
-            c_product_idx,
-            img_location,
-            relevant_flg
-        } = el;
-        let slide = makeRelatedSlide(c_product_idx,img_location, relevant_flg);
-        relatedSwiperWrapper.appendChild(slide);
-    })
+    console.log("🏂 ~ file: lookbook.js:378 ~ appendRelated ~ data", data)
+    if(data !== undefined){
+        data.forEach(el => {
+            let {
+                product_idx,
+                img_location,
+                product_name,
+                sold_out_flg
+            } = el;
+            let slide = makeRelatedSlide(product_idx,img_location, product_name,sold_out_flg);
+            relatedSwiperWrapper.appendChild(slide);
+        })
+    } else {
+        console.log("관련상품이 없습니다.")
+    }
+
 }
 
 //html make 관련 
@@ -405,10 +431,10 @@ function makeDetailSlide(c_product_idx ,src, title) {
     detailSwiperSlide.innerHTML = imgHtml;
     return detailSwiperSlide;
 }
-function makeRelatedSlide(c_product_idxm,src, title) {
+function makeRelatedSlide(product_idx,src, title,sold_out_flg) {
     let relatedSwiperSlide = document.createElement("div");
     let imgHtml = ` <div class="related-box">
-                        <img src="${src}" alt="">
+                        <img src="http://116.124.128.246:81${src}" alt="">
                     </div>
                     <span class="related-title">${title}</span>
     `;
@@ -441,18 +467,11 @@ function lookbookClickEvent() {
     // let relatedSwiperWrapper = document.querySelector(".related-product-swiper .swiper-wrapper");
     lbResult.addEventListener('click', function (ev) {
         let project_idx = document.querySelector(".lookCategory-swiper .swiper-slide.select").dataset.projectidx;
-        let data = getRelateApi(project_idx)
-        appendDetailSwiper(data);
-        // 관련상품
-        // data.forEach(el => {
-        //     let {
-        //         c_product_idx,
-        //         img_location,
-        //         relevant_flg
-        //     } = el;
-        //     let slide = makeRelatedSlide(c_product_idx,img_location, relevant_flg);
-        //     relatedSwiperWrapper.appendChild(slide);
-        // })
+        let product_idx = ev.target.offsetParent.getAttribute("product");
+        let detailData = getdetailApi(project_idx);
+        let relevantData = getRelevantApi(product_idx);
+        appendDetailSwiper(detailData);
+        appendRelated(relevantData)
         let target = ev.target.offsetParent;
         let productIdx = target.getAttribute('product');
         lookbookWrap.classList.remove("open");
@@ -564,6 +583,15 @@ let lookbookDetailSwiper = new Swiper(".lookbook-detail-swiper", {
     pagination: {
         el: '.lookbook-detail-wrap .swiper-pagination',
         type: 'fraction',
+    },
+    on:{
+        activeIndexChange: function () {
+            let idx = this.realIndex;
+            let current_idx = this.slides[idx].querySelector('.lookbook-detail').getAttribute("product");
+            let data = getRelevantApi(current_idx);
+            console.log(data)
+            appendRelated(data);
+        }
     }
 })
 let relatedSwiper = new Swiper(".related-product-swiper", {
