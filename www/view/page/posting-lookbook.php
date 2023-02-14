@@ -1,7 +1,65 @@
 <link rel="stylesheet" href="/css/story/lookbook.css">
+<style>
+    .skeleton {
+        padding: 0.5rem;
+        list-style: none;
+    }
+    
+    .card__image {
+        display: block;
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+    .skeleton__content__box{
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        padding: 10px 0;
+        height: 40px;
+        justify-content: center;
+        text-align: center;
+        background: #fff;
+        font-size: 0.9rem;
+        align-content: center;
+    }
+    .skeleton__content{
+        width: 30%;
+        height: 10px;
+        animation: skeleton-gradient 3s linear infinite;
+    }
+    .skeleton__text {
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        background: #fff;
+        font-size: 0.9rem;
+    }
+
+    .skeleton__image {
+        width: 100%;
+        height: 20em;
+        animation: skeleton-gradient 3s linear infinite;
+    }
+
+    @keyframes skeleton-gradient {
+        0% {
+            background: rgb(212, 212, 212);
+        }
+
+        50% {
+            background: rgb(128, 128, 128);
+        }
+
+        100% {
+            background: rgb(212, 212, 212);
+        }
+    }
+</style>
 <main>
     <section class="lookbook-wrap open">
-        <div class="look-header-wrap">
+        <div class="look-header-wrap scroll-motion">
             <div class="arrow-wrap">
                 <div class="lookCategory-swiper swiper">
                     <div class="swiper-wrapper"></div>

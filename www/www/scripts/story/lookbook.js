@@ -1,270 +1,465 @@
-const related = [{
-    img_location: "/images/sample/22-fw-001.jpg",
-    img_type: "P",
-    title: "Ortei blazer"
-},
-{
-    img_location: "/images/sample/22-fw-002.jpg",
-    img_type: "P",
-    title: "Small calliotote bag"
-},
-{
-    img_location: "/images/sample/22-fw-003.jpg",
-    img_type: "P",
-    title: "Ation slacks"
-},
-{
-    img_location: "/images/sample/22-fw-004.jpg",
-    img_type: "P",
-    title: "Ortei blazer"
-},
-{
-    img_location: "/images/sample/22-fw-005.jpg",
-    img_type: "P",
-    title: "Small calliotote bag"
-},
-{
-    img_location: "/images/sample/22-fw-006.jpg",
-    img_type: "P",
-    title: "Ation slacks"
-}
-]
-const lookbook = [{
-    img_location: "/images/sample/22-fw-001.jpg",
-    img_type: "P",
-    title: "2022 Fall Winter Collection<br>Phenomenon Communication"
-},
-{
-    img_location: "/images/sample/22-fw-002.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-003.jpg",
-    img_type: "P",
-    title: "2022 Fall Winter Collection<br>Phenomenon Communication"
-},
-{
-    img_location: "/images/sample/22-fw-004.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-005.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-006.jpg",
-    img_type: "P",
-    title: "2022 Fall Winter Collection<br>Phenomenon Communication"
-},
-{
-    img_location: "/images/sample/22-fw-007.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-008.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-009.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-010.jpg",
-    img_type: "P",
-    title: "2022 Fall Winter Collection<br>Phenomenon Communication"
-},
-{
-    img_location: "/images/sample/22-fw-011.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-012.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-013.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-014.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-015.jpg",
-    img_type: "P",
-    title: "2022 Fall Winter Collection<br>Phenomenon Communication"
-},
-{
-    img_location: "/images/sample/22-fw-016.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-017.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-018.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-001.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-002.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-003.jpg",
-    img_type: "P",
-    title: "2022 Fall Winter Collection<br>Phenomenon Communication"
-},
-{
-    img_location: "/images/sample/22-fw-004.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-005.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-006.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-007.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-008.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-009.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-010.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-011.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-012.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-013.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-014.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-015.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-016.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-017.jpg",
-    img_type: "P"
-},
-{
-    img_location: "/images/sample/22-fw-018.jpg",
-    img_type: "P"
-}
-]
-const lookbookCate = [{
-    img_location: "/images/svg/Project1.svg",
-    img_title: "product 1"
-},
-{
-    img_location: "/images/svg/Project2.svg",
-    img_title: "product 2"
-},
-{
-    img_location: "/images/svg/Project3.svg",
-    img_title: "product 3"
-},
-{
-    img_location: "/images/svg/Project4.svg",
-    img_title: "product 4"
-},
-{
-    img_location: "/images/svg/Project5.svg",
-    img_title: "product 5"
-},
-{
-    img_location: "/images/svg/Project6.svg",
-    img_title: "product 6"
-},
-{
-    img_location: "/images/svg/Project7.svg",
-    img_title: "product 7"
-},
-{
-    img_location: "/images/svg/Project8.svg",
-    img_title: "product 8"
-},
-{
-    img_location: "/images/svg/Project9.svg",
-    img_title: "product 9"
-},
-{
-    img_location: "/images/svg/Project10.svg",
-    img_title: "product 10"
-},
-{
-    img_location: "/images/svg/Project11.svg",
-    img_title: "product 11"
-},
-{
-    img_location: "/images/svg/Project12.svg",
-    img_title: "product 12"
-},
-{
-    img_location: "/images/svg/Project13.svg",
-    img_title: "product 13"
-},
-{
-    img_location: "/images/svg/Project14.svg",
-    img_title: "product 14"
-},
-{
-    img_location: "/images/svg/Project15.svg",
-    img_title: "product 15"
-}
-]
-let reverseLookbook = lookbook.reverse();
-let reverseLookbookCate = lookbookCate.reverse();
-
-document.addEventListener("DOMContentLoaded", function () {
-    loadLookbook();
-    imgTypeBtn();
-    loadLookbookDetail();
-    scrollTop();
-    backBtn();
-    lookbookClickEvent()
-    loadLookbookCategory();
-    loadRelated();
-    slideClickEvent();
-    titleFooterObserver();
-    responsive();
-
-});
+// const related = [{
+//     img_location: "/images/sample/22-fw-001.jpg",
+//     img_type: "P",
+//     title: "Ortei blazer"
+// },
+// {
+//     img_location: "/images/sample/22-fw-002.jpg",
+//     img_type: "P",
+//     title: "Small calliotote bag"
+// },
+// {
+//     img_location: "/images/sample/22-fw-003.jpg",
+//     img_type: "P",
+//     title: "Ation slacks"
+// },
+// {
+//     img_location: "/images/sample/22-fw-004.jpg",
+//     img_type: "P",
+//     title: "Ortei blazer"
+// },
+// {
+//     img_location: "/images/sample/22-fw-005.jpg",
+//     img_type: "P",
+//     title: "Small calliotote bag"
+// },
+// {
+//     img_location: "/images/sample/22-fw-006.jpg",
+//     img_type: "P",
+//     title: "Ation slacks"
+// }
+// ]
+// const lookbook = [{
+//     img_location: "/images/sample/22-fw-001.jpg",
+//     img_type: "P",
+//     title: "2022 Fall Winter Collection<br>Phenomenon Communication"
+// },
+// {
+//     img_location: "/images/sample/22-fw-002.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-003.jpg",
+//     img_type: "P",
+//     title: "2022 Fall Winter Collection<br>Phenomenon Communication"
+// },
+// {
+//     img_location: "/images/sample/22-fw-004.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-005.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-006.jpg",
+//     img_type: "P",
+//     title: "2022 Fall Winter Collection<br>Phenomenon Communication"
+// },
+// {
+//     img_location: "/images/sample/22-fw-007.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-008.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-009.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-010.jpg",
+//     img_type: "P",
+//     title: "2022 Fall Winter Collection<br>Phenomenon Communication"
+// },
+// {
+//     img_location: "/images/sample/22-fw-011.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-012.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-013.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-014.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-015.jpg",
+//     img_type: "P",
+//     title: "2022 Fall Winter Collection<br>Phenomenon Communication"
+// },
+// {
+//     img_location: "/images/sample/22-fw-016.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-017.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-018.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-001.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-002.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-003.jpg",
+//     img_type: "P",
+//     title: "2022 Fall Winter Collection<br>Phenomenon Communication"
+// },
+// {
+//     img_location: "/images/sample/22-fw-004.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-005.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-006.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-007.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-008.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-009.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-010.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-011.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-012.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-013.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-014.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-015.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-016.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-017.jpg",
+//     img_type: "P"
+// },
+// {
+//     img_location: "/images/sample/22-fw-018.jpg",
+//     img_type: "P"
+// }
+// ]
+// const lookbookCate = [{
+//     img_location: "/images/svg/Project1.svg",
+//     img_title: "product 1"
+// },
+// {
+//     img_location: "/images/svg/Project2.svg",
+//     img_title: "product 2"
+// },
+// {
+//     img_location: "/images/svg/Project3.svg",
+//     img_title: "product 3"
+// },
+// {
+//     img_location: "/images/svg/Project4.svg",
+//     img_title: "product 4"
+// },
+// {
+//     img_location: "/images/svg/Project5.svg",
+//     img_title: "product 5"
+// },
+// {
+//     img_location: "/images/svg/Project6.svg",
+//     img_title: "product 6"
+// },
+// {
+//     img_location: "/images/svg/Project7.svg",
+//     img_title: "product 7"
+// },
+// {
+//     img_location: "/images/svg/Project8.svg",
+//     img_title: "product 8"
+// },
+// {
+//     img_location: "/images/svg/Project9.svg",
+//     img_title: "product 9"
+// },
+// {
+//     img_location: "/images/svg/Project10.svg",
+//     img_title: "product 10"
+// },
+// {
+//     img_location: "/images/svg/Project11.svg",
+//     img_title: "product 11"
+// },
+// {
+//     img_location: "/images/svg/Project12.svg",
+//     img_title: "product 12"
+// },
+// {
+//     img_location: "/images/svg/Project13.svg",
+//     img_title: "product 13"
+// },
+// {
+//     img_location: "/images/svg/Project14.svg",
+//     img_title: "product 14"
+// },
+// {
+//     img_location: "/images/svg/Project15.svg",
+//     img_title: "product 15"
+// }
+// ]
+// let reverseLookbook = lookbook.reverse();
+// let reverseLookbookCate = lookbookCate.reverse();
 let timer = null;
-window.addEventListener('resize', function () {
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-        responsive();
-    }, 300);
-});
+//api 관련 
+const getThumbLogoApi = () => {
+    let result;
+    $.ajax({
+        type: "post",
+        url: "http://116.124.128.246/_api/posting/lookbook/project/get",
+        data: {
+            'page_idx': 46
+        },
+        async: false,
+        dataType: "json",
+        error: function () {
+            alert('실패');
+        },
+        success: function (d) {
+            result = d.data;
+        }
+    })
+    return result;
+}
+const getLookbookListApi = (project_idx, last_idx) => {
+    let result;
+    $.ajax({
+        type: "post",
+        url: "http://116.124.128.246/_api/posting/lookbook/product/list/get",
+        data: {
+            'project_idx': project_idx,
+            'last_idx': last_idx
+        },
+        async: false,
+        dataType: "json",
+        error: function () {
+            alert('실패');
+        },
+        success: function (d) {
+            result = d.data;
+        }
+    })
+    return result;
+}
+const getRelateApi = (project_idx) => {
+    let result;
+    $.ajax({
+        type: "post",
+        url: "http://116.124.128.246/_api/posting/lookbook/product/get",
+        data: {
+            'project_idx': project_idx
+        },
+        async: false,
+        dataType: "json",
+        error: function () {
+            alert('실패');
+        },
+        success: function (d) {
+            result = d.data;
+        }
+    })
+    return result;
+}
+
+// append 관련
+function appendLookbookCategory() {
+    let lookbookSwiperWrapper = document.querySelector(".lookCategory-swiper .swiper-wrapper");
+    let data = getThumbLogoApi();
+    data.forEach((el, idx) => {
+        let { project_desc, project_idx, project_name, project_title, thumb_location } = el;
+        let slide = makeCategorySlide(project_idx, thumb_location, project_name, idx);
+        lookbookSwiperWrapper.appendChild(slide);
+    });
+}
+function appendLookbook(projectIdx, last_idx) {
+    let lookbookResult = document.querySelector(".lookbook-result");
+    let data = getLookbookListApi(projectIdx, last_idx);
+    if (data === undefined) return;
+    data.forEach(el => {
+        let { c_product_idx, img_location, relevant_flg } = el;
+        let list = makeLookbookHtml(c_product_idx, img_location);
+        lookbookResult.appendChild(list);
+    });
+    const items = document.querySelectorAll('.lookbook-result .lookbook');
+    const ioCallback = (entries, io) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                let lastIdx = document.querySelectorAll('.lookbook-result .lookbook').length;
+                io.unobserve(entry.target);
+                appendLookbook(projectIdx, lastIdx);
+                observeLastItem(io, document.querySelectorAll('.lookbook-result .lookbook'));
+            }
+        });
+    };
+    const observeLastItem = (io, items) => {
+        const lastItem = items[items.length - 1];
+        io.observe(lastItem);
+        return lastItem;
+    };
+    const lookbookObserve = new IntersectionObserver(ioCallback, { threshold: 0.7 });
+    observeLastItem(lookbookObserve, items);
+}
+function appendDetailSwiper(data) {
+    let lookbookDetailSwiperWrapper = document.querySelector(".lookbook-detail-swiper .swiper-wrapper");
+    lookbookDetailSwiperWrapper.innerHTML= "";
+    data.forEach(el => {
+        let {
+            c_product_idx,
+            img_url,
+            relevant_flg
+        } = el;
+        let slide = makeDetailSlide(c_product_idx, img_url);
+        lookbookDetailSwiperWrapper.appendChild(slide);
+    })
+}
+function appendRelated(data) {
+    let relatedSwiperWrapper = document.querySelector(".related-product-swiper .swiper-wrapper");
+    relatedSwiperWrapper.innerHTML= "";
+    data.forEach(el => {
+        let {
+            c_product_idx,
+            img_location,
+            relevant_flg
+        } = el;
+        let slide = makeRelatedSlide(c_product_idx,img_location, relevant_flg);
+        relatedSwiperWrapper.appendChild(slide);
+    })
+}
+
+//html make 관련 
+function makeLookbookHtml(c_product_idx, src, title) {
+    let lookbook = document.createElement("div");
+    let titleText = title !== undefined ? title : "";
+    let imgHtml = ` <img idx="${c_product_idx}" src="http://116.124.128.246:81/${src}" alt="">`;
+    lookbook.className = "lookbook";
+    lookbook.innerHTML = imgHtml;
+    lookbook.setAttribute('product', c_product_idx);
+    return lookbook;
+}
+function makeCategorySlide(project_idx, src, title, idx) {
+    let categorySwiperSlide = document.createElement("div");
+    let imgHtml = ` <div class="lookCategory-box">
+                        <img src="http://116.124.128.246:81${src}" alt="">
+                    </div>
+                    <span>${title}</span>
+    `;
+    categorySwiperSlide.className = "swiper-slide";
+    categorySwiperSlide.dataset.projectidx = project_idx;
+    if (idx == 0) {
+        categorySwiperSlide.classList.add("select");
+    }
+    categorySwiperSlide.innerHTML = imgHtml;
+    return categorySwiperSlide;
+}
+function makeDetailSlide(c_product_idx ,src, title) {
+    let detailSwiperSlide = document.createElement("div");
+    let titleText = title !== undefined ? title : "";
+    let imgHtml = ` <div class="lookbook-detail" product=${c_product_idx}>
+                        <img src="${src}" alt="">
+                    </div>
+    `;
+    detailSwiperSlide.className = "swiper-slide";
+    detailSwiperSlide.innerHTML = imgHtml;
+    return detailSwiperSlide;
+}
+function makeRelatedSlide(c_product_idxm,src, title) {
+    let relatedSwiperSlide = document.createElement("div");
+    let imgHtml = ` <div class="related-box">
+                        <img src="${src}" alt="">
+                    </div>
+                    <span class="related-title">${title}</span>
+    `;
+    relatedSwiperSlide.className = "swiper-slide";
+    relatedSwiperSlide.innerHTML = imgHtml;
+    return relatedSwiperSlide;
+}
+
+//이벤트 관련 
+function slideClickEvent() {
+    let slide = document.querySelectorAll(".lookCategory-swiper .swiper-slide");
+    let lookCategory = document.querySelector(".lookCategory-swiper");
+    let lookbookTitle = document.querySelectorAll(".lookbook-title");
+    lookCategory.addEventListener("click", function (e) {
+        e.preventDefault();
+        slide.forEach(el => { el.classList.remove("select") });
+        e.target.offsetParent.classList.add("select");
+
+        let projectIdx = e.target.offsetParent.dataset.projectidx;
+        document.querySelector(".lookbook-result").innerHTML = "";
+        appendLookbook(projectIdx)
+    })
+}
+function lookbookClickEvent() {
+    let lookbookWrap = document.querySelector(".lookbook-wrap");
+    let lookbookDetailWrap = document.querySelector(".lookbook-detail-wrap");
+    let lookbooks = document.querySelectorAll(".lookbook-wrap .lookbook");
+    let lbResult = document.querySelector('.lookbook-result');
+    let lookbookDetailSwiperWrapper = document.querySelector(".lookbook-detail-swiper .swiper-wrapper");
+    // let relatedSwiperWrapper = document.querySelector(".related-product-swiper .swiper-wrapper");
+    lbResult.addEventListener('click', function (ev) {
+        let project_idx = document.querySelector(".lookCategory-swiper .swiper-slide.select").dataset.projectidx;
+        let data = getRelateApi(project_idx)
+        appendDetailSwiper(data);
+        // 관련상품
+        // data.forEach(el => {
+        //     let {
+        //         c_product_idx,
+        //         img_location,
+        //         relevant_flg
+        //     } = el;
+        //     let slide = makeRelatedSlide(c_product_idx,img_location, relevant_flg);
+        //     relatedSwiperWrapper.appendChild(slide);
+        // })
+        let target = ev.target.offsetParent;
+        let productIdx = target.getAttribute('product');
+        lookbookWrap.classList.remove("open");
+        lookbookDetailWrap.classList.add("open");
+        // lookbookDetailSwiper.slideTo(idx);
+    });
+}
 function imgTypeBtn() {
     let imgBtn = document.querySelector(".image-type-btn");
     imgBtn.addEventListener("click", function () {
@@ -287,123 +482,6 @@ function imgTypeBtn() {
         }
     })
 }
-
-function loadLookbookCategory() {
-    let lookbookSwiperWrapper = document.querySelector(".lookCategory-swiper .swiper-wrapper");
-    lookbookCate.forEach((el, idx) => {
-        let {
-            img_location,
-            img_title
-        } = el;
-        let slide = appendCategorySlide(img_location, img_title, idx);
-        lookbookSwiperWrapper.appendChild(slide);
-    })
-}
-
-function loadRelated() {
-    let relatedSwiperWrapper = document.querySelector(".related-product-swiper .swiper-wrapper");
-    related.forEach(el => {
-        let {
-            img_location,
-            title
-        } = el;
-        let slide = appendRelatedSlide(img_location, title);
-        relatedSwiperWrapper.appendChild(slide);
-    })
-}
-
-function loadLookbook() {
-    let lookbookResult = document.querySelector(".lookbook-result");
-
-    reverseLookbook.forEach(el => {
-        let {
-            img_location,
-            img_type,
-            title
-        } = el;
-        let data = appendLookbookHtml(img_location, title);
-        lookbookResult.appendChild(data);
-    })
-}
-
-function loadLookbookDetail() {
-    let lookbookDetailSwiperWrapper = document.querySelector(".lookbook-detail-swiper .swiper-wrapper");
-    reverseLookbook.forEach(el => {
-        let {
-            img_location,
-            img_type,
-            title
-        } = el;
-        let slide = appendDetailSlide(img_location, title);
-
-        lookbookDetailSwiperWrapper.appendChild(slide);
-    })
-}
-
-function appendLookbookHtml(src, title) {
-    let lookbook = document.createElement("div");
-    let titleText = title !== undefined ? title : "";
-    let imgHtml = ` <img src="${src}" alt="">`;
-    lookbook.className = "lookbook";
-    lookbook.innerHTML = imgHtml;
-    return lookbook;
-}
-
-function appendCategorySlide(src, title, idx) {
-    let categorySwiperSlide = document.createElement("div");
-    let imgHtml = ` <div class="lookCategory-box">
-                        <img src="${src}" alt="">
-                    </div>
-                    <span>${title}</span>
-    `;
-    categorySwiperSlide.className = "swiper-slide";
-    if (idx == 0) {
-        categorySwiperSlide.classList.add("select");
-    }
-    categorySwiperSlide.innerHTML = imgHtml;
-    return categorySwiperSlide;
-}
-
-function appendDetailSlide(src, title) {
-    let detailSwiperSlide = document.createElement("div");
-    let titleText = title !== undefined ? title : "";
-    let imgHtml = ` <div class="lookbook-detail">
-                        <img src="${src}" alt="">
-                    </div>
-    `;
-    detailSwiperSlide.className = "swiper-slide";
-    detailSwiperSlide.innerHTML = imgHtml;
-    return detailSwiperSlide;
-}
-
-function appendRelatedSlide(src, title) {
-    let relatedSwiperSlide = document.createElement("div");
-    let imgHtml = ` <div class="related-box">
-                        <img src="${src}" alt="">
-                    </div>
-                    <span class="related-title">${title}</span>
-    `;
-    relatedSwiperSlide.className = "swiper-slide";
-    relatedSwiperSlide.innerHTML = imgHtml;
-    return relatedSwiperSlide;
-}
-
-function slideClickEvent() {
-    let slide = document.querySelectorAll(".lookCategory-swiper .swiper-slide");
-    let lookbookTitle = document.querySelectorAll(".lookbook-title");
-    slide.forEach(el => el.addEventListener("click", function () {
-        slide.forEach(el => {
-            el.classList.remove("select")
-        });
-        this.classList.add("select");
-        let title = this.children[1].innerHTML;
-        let click = lookbookCategorySwiper.clickedIndex;
-        console.log("🏂 ~ file: lookbook.js:368 ~ slide.forEach ~ click", click)
-        lookbookTitle.forEach(el => el.innerHTML = title)
-    }))
-}
-
-
 function scrollTop() {
     let topBtn = document.querySelector(".lookbook-top-btn");
     topBtn.addEventListener("click", function () {
@@ -414,8 +492,6 @@ function scrollTop() {
         });
     })
 }
-
-
 function backBtn() {
     let backBtn = document.querySelectorAll(".back-btn");
     let lookbookWrap = document.querySelector(".lookbook-wrap");
@@ -427,53 +503,6 @@ function backBtn() {
         })
     })
 }
-
-function lookbookClickEvent() {
-    let lookbookWrap = document.querySelector(".lookbook-wrap");
-    let lookbookDetailWrap = document.querySelector(".lookbook-detail-wrap");
-    let lookbooks = document.querySelectorAll(".lookbook-wrap .lookbook");
-    lookbooks.forEach((el, idx) => el.addEventListener("click", function () {
-        lookbookWrap.classList.remove("open");
-        lookbookDetailWrap.classList.add("open");
-        lookbookDetailSwiper.slideTo(idx);
-    }))
-}
-
-
-
-
-
-let lookbookCategorySwiper = new Swiper(".lookCategory-swiper", {
-    // slidesPerView:'auto',
-    slidesPerView: 'auto',
-    spaceBetween: 10,
-    navigation: {
-        nextEl: ".look-header-wrap .swiper-button-next",
-        prevEl: ".look-header-wrap .swiper-button-prev",
-    }
-
-})
-let lookbookDetailSwiper = new Swiper(".lookbook-detail-swiper", {
-    slidesPerView: 'auto',
-    slidesPerView: 1,
-    navigation: {
-        nextEl: ".lookbook-detail-wrap .swiper-button-next",
-        prevEl: ".lookbook-detail-wrap .swiper-button-prev",
-    },
-    pagination: {
-        el: '.lookbook-detail-wrap .swiper-pagination',
-        type: 'fraction',
-    }
-})
-let relatedSwiper = new Swiper(".related-product-swiper", {
-    slidesPerView: 'auto',
-    slidesPerView: 3.5,
-    spaceBetween: 10,
-    navigation: {
-        nextEl: "#related-wrap .swiper-button-next",
-        prevEl: "#related-wrap .swiper-button-prev",
-    }
-})
 function titleFooterObserver() {
     let observer;
     let options = {
@@ -513,3 +542,59 @@ function responsive() {
         document.getElementById("related-wrap").classList.remove("mobile");
     }
 }
+
+//스와이프 인스턴스  관련 
+let lookbookCategorySwiper = new Swiper(".lookCategory-swiper", {
+    // slidesPerView:'auto',
+    slidesPerView: 'auto',
+    spaceBetween: 10,
+    navigation: {
+        nextEl: ".look-header-wrap .swiper-button-next",
+        prevEl: ".look-header-wrap .swiper-button-prev",
+    }
+
+})
+let lookbookDetailSwiper = new Swiper(".lookbook-detail-swiper", {
+    slidesPerView: 'auto',
+    slidesPerView: 1,
+    navigation: {
+        nextEl: ".lookbook-detail-wrap .swiper-button-next",
+        prevEl: ".lookbook-detail-wrap .swiper-button-prev",
+    },
+    pagination: {
+        el: '.lookbook-detail-wrap .swiper-pagination',
+        type: 'fraction',
+    }
+})
+let relatedSwiper = new Swiper(".related-product-swiper", {
+    slidesPerView: 'auto',
+    slidesPerView: 3.5,
+    spaceBetween: 10,
+    navigation: {
+        nextEl: "#related-wrap .swiper-button-next",
+        prevEl: "#related-wrap .swiper-button-prev",
+    }
+})
+
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URL(location.href).searchParams;
+    const param_value = urlParams.get('page_idx');
+
+    appendLookbookCategory();
+    imgTypeBtn();
+    appendLookbook(param_value);
+    // appendLookbookDetail();
+    scrollTop();
+    backBtn();
+    lookbookClickEvent()
+    // appendRelated();
+    slideClickEvent();
+    titleFooterObserver();
+    responsive();
+});
+window.addEventListener('resize', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+        responsive();
+    }, 300);
+});
