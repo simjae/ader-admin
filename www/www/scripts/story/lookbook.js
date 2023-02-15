@@ -247,11 +247,12 @@ let timer = null;
 //api 관련 
 const getThumbLogoApi = () => {
     let result;
+    let page_idx = getUrlParamValue('page_idx');
     $.ajax({
         type: "post",
         url: "http://116.124.128.246/_api/posting/lookbook/project/get",
         data: {
-            'page_idx': 46
+            'page_idx': page_idx
         },
         async: false,
         dataType: "json",
@@ -280,6 +281,10 @@ const getLookbookListApi = (project_idx, last_idx) => {
         },
         success: function (d) {
             result = d.data;
+            console.log(result)
+            if (result == undefined) {
+                return false ;
+            }
         }
     })
     return result;
@@ -331,6 +336,12 @@ function appendLookbookCategory() {
         let { project_desc, project_idx, project_name, project_title, thumb_location } = el;
         let slide = makeCategorySlide(project_idx, thumb_location, project_name, idx);
         lookbookSwiperWrapper.appendChild(slide);
+        if(idx === lookbookCategorySwiper.activeIndex){
+            let $lookbookResult = document.querySelector(".lookbook-result");
+            let titleBox = makeTitleBox(project_idx,project_name,project_title);
+            $lookbookResult.insertBefore(titleBox, $lookbookResult.firstChild);
+            projectTitleBoxChange(project_name, project_title)
+        }
     });
 }
 function appendLookbook(projectIdx, last_idx) {
@@ -379,6 +390,7 @@ function appendRelated(data) {
     relatedSwiperWrapper.innerHTML= "";
     console.log("🏂 ~ file: lookbook.js:378 ~ appendRelated ~ data", data)
     if(data !== undefined){
+        document.querySelector("#related-wrap").style.display="block";
         data.forEach(el => {
             let {
                 product_idx,
@@ -391,6 +403,7 @@ function appendRelated(data) {
         })
     } else {
         console.log("관련상품이 없습니다.")
+        document.querySelector("#related-wrap").style.display="none";
     }
 
 }
@@ -414,7 +427,7 @@ function makeCategorySlide(project_idx, src, title, idx) {
     `;
     categorySwiperSlide.className = "swiper-slide";
     categorySwiperSlide.dataset.projectidx = project_idx;
-    if (idx == 0) {
+    if (categorySwiperSlide.dataset.projectidx == getUrlParamValue('page_idx')) {
         categorySwiperSlide.classList.add("select");
     }
     categorySwiperSlide.innerHTML = imgHtml;
@@ -436,11 +449,24 @@ function makeRelatedSlide(product_idx,src, title,sold_out_flg) {
     let imgHtml = ` <div class="related-box">
                         <img src="http://116.124.128.246:81${src}" alt="">
                     </div>
-                    <span class="related-title">${title}</span>
+                    <span class="related-title" >${title}</span>
     `;
     relatedSwiperSlide.className = "swiper-slide";
     relatedSwiperSlide.innerHTML = imgHtml;
     return relatedSwiperSlide;
+}
+function makeTitleBox(project_idx,project_name, project_title) {
+    let titleBox = document.createElement("div");
+    let imgHtml = ` 
+        <div class="lookbook-main__title">${project_name}</div>
+        <div class="lookbook-sub__title">
+            ${project_title}
+        </div>
+    `;
+    titleBox.className = "lookbook-title-box";
+    titleBox.innerHTML = imgHtml;
+    titleBox.dataset.project = project_idx;
+    return titleBox;
 }
 
 //이벤트 관련 
@@ -449,13 +475,47 @@ function slideClickEvent() {
     let lookCategory = document.querySelector(".lookCategory-swiper");
     let lookbookTitle = document.querySelectorAll(".lookbook-title");
     lookCategory.addEventListener("click", function (e) {
+        let $lookbookResult = document.querySelector(".lookbook-result");
         e.preventDefault();
         slide.forEach(el => { el.classList.remove("select") });
         e.target.offsetParent.classList.add("select");
-
+        let title = document.querySelector(".lookCategory-swiper .swiper-slide.select").querySelector('span').innerHTML;
+        let thumbIdx = lookbookCategorySwiper.clickedIndex;
+        
+        //카테고리 
+        let thumData = getThumbLogoApi();
+        let {project_idx,project_name,project_title} = thumData[thumbIdx];
         let projectIdx = e.target.offsetParent.dataset.projectidx;
-        document.querySelector(".lookbook-result").innerHTML = "";
-        appendLookbook(projectIdx)
+        
+        $lookbookResult.innerHTML = "";
+        lookbookDetailSwiper.removeAllSlides();
+        lookbookDetailSwiper = new Swiper(".lookbook-detail-swiper", {
+            slidesPerView: 'auto',
+            slidesPerView: 1,
+            navigation: {
+                nextEl: ".lookbook-detail-wrap .swiper-button-next",
+                prevEl: ".lookbook-detail-wrap .swiper-button-prev",
+            },
+            pagination: {
+                el: '.lookbook-detail-wrap .swiper-pagination',
+                type: 'fraction',
+            },
+            on:{
+                activeIndexChange: function () {
+                    let idx = this.realIndex;
+                    let current_idx = this.slides[idx].querySelector('.lookbook-detail').getAttribute("product");
+                    let data = getRelevantApi(current_idx);
+                    console.log(data)
+                    appendRelated(data);
+                }
+            }
+        });
+        
+        appendLookbook(projectIdx);
+        
+        let titleBox = makeTitleBox(project_idx,project_name,project_title);
+        $lookbookResult.insertBefore(titleBox, $lookbookResult.firstChild);
+        projectTitleBoxChange(project_name, project_title)
     })
 }
 function lookbookClickEvent() {
@@ -562,6 +622,14 @@ function responsive() {
     }
 }
 
+function mobileTilteChange(project_idx,project_name,project_title){
+    let projectName = document.querySelector(".back-btn.mobile .lookbook-title");
+}
+function projectTitleBoxChange(project_name, project_title) {
+    document.querySelector(".back-btn.mobile .lookbook-title").innerHTML = project_name;
+    document.querySelectorAll('.lookbook-main__title').forEach(el => el.innerHTML = project_name);
+    document.querySelectorAll('.lookbook-sub__title').forEach(el => el.innerHTML = project_title);
+}
 //스와이프 인스턴스  관련 
 let lookbookCategorySwiper = new Swiper(".lookCategory-swiper", {
     // slidesPerView:'auto',
@@ -605,9 +673,7 @@ let relatedSwiper = new Swiper(".related-product-swiper", {
 })
 
 document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URL(location.href).searchParams;
-    const param_value = urlParams.get('page_idx');
-
+    let param_value = getUrlParamValue('page_idx');
     appendLookbookCategory();
     imgTypeBtn();
     appendLookbook(param_value);
