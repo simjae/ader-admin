@@ -143,8 +143,16 @@ var editorialControllerSwiper = new Swiper(".editorial-controller-swiper", {
             spaceBetween: 10,
             slidesPerView: 14.2
         }
-    }
-
+    },
+    pagination: {
+        el: '.controller-swiper-wrap .swiper-pagination',
+        type: 'fraction'
+        // renderFraction: function (currentClass, totalClass) { // type이 fraction일 때 사용
+        //     console.log(currentClass)
+        //     return '<span class="' + currentClass + '"></span>' +
+        //            '<span class="' + totalClass + '"></span>';
+        //   }
+    },
 });
 var editorialPreviewSwiper = new Swiper(".editorial-preview-swiper", {
     slidesPerView: 1,
@@ -157,7 +165,20 @@ var editorialPreviewSwiper = new Swiper(".editorial-preview-swiper", {
     },
     pagination: {
         el: '.preview-swiper-wrap .swiper-pagination',
-        type: 'fraction',
+        type: 'fraction'
+        // renderFraction: function (currentClass, totalClass) { // type이 fraction일 때 사용
+        //     console.log(currentClass)
+        //     return '<span class="' + currentClass + '"></span>' +
+        //            '<span class="' + totalClass + '"></span>';
+        //   }
+    },
+    on : {
+        afterInit : function () {
+            console.log('swiper 초기화 될때 실행');
+        },
+        imagesReady : function () { // 모든 내부 이미지가 로드 된 직후 이벤트가 시작됩니다.
+            console.log('슬라이드 이미지 로드 후 실행');
+        }
     }
 });
 
@@ -187,7 +208,7 @@ function addBtn() {
 }
 function scrollTop() {
     let topBtn = document.querySelector(".top-btn");
-    if(!topBtn == null){
+    if(topBtn !== null){
         topBtn.addEventListener("click", function (){
             window.scrollTo({ top: 0,left: 0,behavior: 'smooth'});
         })
