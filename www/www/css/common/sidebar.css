@@ -15,9 +15,20 @@
 #sidebar .sidebar-close-btn{
     cursor: pointer;
     position: absolute;
+    border: solid 5px #ffffff;
     top: 100px;
     right: 15%;
     z-index: 2;
+}
+#sidebar .sidebar-close-btn svg {
+    width: 15px;
+    height: 15px;
+    background-color: #ffffff;
+	transition:transform 0.5s;
+}
+#sidebar .sidebar-close-btn svg:hover {
+    transform: rotate(90deg);
+	transition:transform 0.5s;
 }
 #sidebar.open{
     visibility:visible;
@@ -39,6 +50,18 @@
     transform: translateX(100%);
     grid-column: 13/17;
 }
+#sidebar .side__wrap[data-module="basket"],
+#sidebar .side__wrap[data-module="bluemark"],
+#sidebar .side__wrap[data-module="user"],
+#sidebar .side__wrap[data-module="language"],
+#sidebar .side__wrap[data-module="login"]{
+    background-color: white;
+    height: 100vh;
+    gap: 10px;
+    transform: translateX(100%);
+    grid-column: 14/17;
+}
+
 #sidebar .side__wrap.open{
     transform: translateX(0%);
     transition-duration: 1s;
@@ -48,8 +71,25 @@
 #sidebar .side__wrap.open[data-module="search"]{
     width: 960px;
 }
+#sidebar .side__wrap.open[data-module="basket"],
+#sidebar .side__wrap.open[data-module="bluemark"],
+#sidebar .side__wrap.open[data-module="user"],
+#sidebar .side__wrap.open[data-module="language"],
+#sidebar .side__wrap.open[data-module="login"]{
+    width: 480px;
+}
 #sidebar .side__wrap.open[data-module="basket"] .side__box{
     height: 100vh;
+}
+#sidebar .side__wrap.open[data-module="login"] .side__box,
+#sidebar .side__wrap.open[data-module="search"] .side__box{
+    overflow-y: auto;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+#sidebar .side__wrap.open[data-module="login"] .side__box::-webkit-scrollbar,
+#sidebar .side__wrap.open[data-module="search"] .side__box::-webkit-scrollbar{
+    display: none;
 }
 .side__box {
     height: 100%;
@@ -70,6 +110,20 @@
 }
 #sidebar .bluemark-logo{
     margin-bottom: 40px;
+}
+#sidebar .bluemark-title {
+    display: flex;
+    align-items: center;
+}
+#sidebar .bluemark-square {
+    width: 6px;
+    height: 6px;
+    background-color: #0000c5;
+}
+#sidebar .bluemark-name {
+    padding-left: 5px;
+    font-size: 15px;
+    color: #0000c5;
 }
 #sidebar .bluemark-content{
     margin-bottom:70px;
@@ -176,11 +230,11 @@
 }
 /*검색*/
 #sidebar .search-wrap{
-    top: 50%;
+    /* top: 50%; */
     width: 70%;
     left: 50%;
     position: absolute;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 30%);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -211,7 +265,9 @@
 #sidebar .search-content.hidden{
     display: none;
 }
-
+#sidebar .search-header .search-svg{
+    height: 14px;
+}
 #sidebar .search-recommend{
     display: flex;
     flex-direction: column;
@@ -223,6 +279,9 @@
     font-size: 13px;
     text-align: left;
     color: #343434;
+}
+#sidebar .search-recommend-title {
+    padding-bottom: 30px;
 }
 #sidebar .search-recommend-title, #sidebar .search-result-title{
     font-family: NotoSansKR;
@@ -343,9 +402,14 @@
     flex-direction: column;
     gap: 10px;
 }
-
 #sidebar .login__card {
     width: 100%!important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 #sidebar .login__card input[type="text"]{
     width: 100%!important;

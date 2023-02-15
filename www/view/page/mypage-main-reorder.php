@@ -2,6 +2,8 @@
     .reorder__wrap {
         margin-top: 40px;
         width: 100%;
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
     }
 
     .reorder__wrap .title {
@@ -9,12 +11,18 @@
     }
 
     .reorder__tab__btn__container {
+        grid-column: 1/17;
         margin: 0 auto;
-        width: 230px;
         display: grid;
-        place-items: center;
         gap: 10px;
         grid-template-columns: 70px 70px 70px;
+        font-size: 11px;
+    }
+
+    .reorder__tab__wrap {
+        grid-column: 1/17;
+        width: 470px;
+        margin: 0 auto;
     }
 
     .reorder__tab__wrap .contents__table {
@@ -83,9 +91,11 @@
     @media (max-width: 1024px) {
         .reorder__wrap {
             width: 100%;
+            margin-top: 20px;
         }
 
         .reorder__tab__wrap {
+            grid-column: 1/17;
             width: 100%;
             margin-top: 40px;
         }
@@ -116,6 +126,7 @@
             display: grid;
             justify-items: center;
         }
+        .reorder__wrap .title {margin-top: 0;}
     }
 
     @media (min-width: 600px) {

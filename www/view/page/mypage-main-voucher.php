@@ -18,14 +18,13 @@
         grid-column: 1/17;
         margin: 0 auto;
         display: grid;
-        place-items: center;
         gap: 10px;
+        font-size: 11px;
         grid-template-columns: 84px 84px 84px 70px;
     }
 
     .voucher__tab {
         width: 100%;
-        margin: 0 auto;
         margin-top: 50px;
         font-family: var(--ft-no-fu);
         font-size: 11px;
@@ -93,7 +92,12 @@
     @media (max-width: 1024px) {
         .voucher__tab__wrap {
             grid-column: 1/17;
-            width: 100%
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .voucher__tab__btn__container {
+            grid-template-columns: 74px 74px 74px 60px;
         }
 
         .voucher__wrap {
@@ -107,8 +111,11 @@
         }
 
         .voucher__tab {
-            width: 100%;
-            margin-top: 40px;
+            margin-top: 0;
+        }
+
+        .voucher__wrap .title {
+            margin-top: 0;
         }
 
         .info__wrap table {
@@ -137,11 +144,6 @@
 
         .notice_br {
             display: inline;
-        }
-
-        .tab__btn__item.selected {
-            padding: 0 10px;
-            width: auto;
         }
 
         .use__voucher__form__wrap .table__wrap {
@@ -183,7 +185,6 @@
 
     .voucher__regist__form__wrap .title {
         margin-bottom: 30px;
-        height: 19px;
     }
 
     .voucher__amount__form__wrap .title {
@@ -264,7 +265,7 @@
             <div class="form voucher_input_wrap">
                 <input type="text" id="voucher_issue_code">
                 <button class="black__full__width__btn" onclick="voucherIssue()">받기</button>
-               
+
             </div> <span id="voucher_err_msg" style="float:right;color:red;display:none;">존재하지 않는 바우처 코드입니다.</span>
             <div class="footer">
                 <p>· 바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p>

@@ -2,8 +2,11 @@
 <link rel=stylesheet href='/css/module/styling.css' type='text/css'>
 <link rel=stylesheet href='/css/module/foryou.css' type='text/css'>
 <style>
-main {overflow-x: initial;}
-.quickview__box {display: none;}
+	main {
+		overflow-x: initial;
+	}
+
+	/* .quickview__box {display: none;} */
 </style>
 <?php
 function getUrlParamter($url, $sch_tag)
@@ -29,7 +32,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 			</div>
 		</div>
 		<div class="info__wrap product"></div>
-		
+
 	</section>
 	<section class="rM-detail-containner">
 		<div class="detail__btn__wrap">
@@ -75,30 +78,29 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 	<section class="recommend-wrap"></section>
 </main>
 <script src="/scripts/product/detail.js"></script>
-<script type="module"></script> 
+<script type="module"></script>
 <script type="module">
 	import StylingRender from '/scripts/module/styling.js';
 	import ForyouRender from '/scripts/module/foryou.js';
 	const foryou = new ForyouRender();
 	let main = document.querySelector("main");
-    let country = main.dataset.country;
+	let country = main.dataset.country;
 	let urlParams = new URL(location.href).searchParams;
 	let productIdx = urlParams.get('product_idx');
-    $.ajax({
-        type: "post",
-        data: {
-            "product_idx": productIdx,
-            "country": country,
-        },
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/product/get",
-        error: function () {
-            alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
-        },
-        success: function (d) {
+	$.ajax({
+		type: "post",
+		data: {
+			"product_idx": productIdx,
+			"country": country,
+		},
+		dataType: "json",
+		url: "http://116.124.128.246:80/_api/product/get",
+		error: function () {
+			alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
+		},
+		success: function (d) {
 			let relevant_idx = d.data[0].relevant_idx;
 			const styling = new StylingRender(relevant_idx);
 		}
 	})
-</script> 
-	
+</script>

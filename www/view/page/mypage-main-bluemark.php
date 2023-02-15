@@ -2,18 +2,20 @@
     .bluemark__wrap {
         margin-top: 40px;
         width: 100%;
-        display:grid;
-        grid-template-columns:repeat(16,1fr);
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
     }
+
     .bluemark__wrap .title {
         color: #0000c5;
     }
+
     .bluemark__tab__btn__container {
         grid-column: 1/17;
         margin: 0 auto;
         display: grid;
-        place-items: center;
-        gap:10px;
+        gap: 10px;
+        font-size: 11px;
         grid-template-columns: 50px 50px;
     }
 
@@ -75,7 +77,7 @@
         color: #343434;
         margin-top: 60px;
         padding-bottom: 40px;
-        padding-left:6px;
+        padding-left: 6px;
     }
 
     .verify__success__wrap .button {
@@ -176,7 +178,8 @@
     .pc__view .bluemark_list_tr {
         height: 156px;
     }
-    .mobile__view  .bluemark_list_tr {
+
+    .mobile__view .bluemark_list_tr {
         height: 119px;
     }
 
@@ -197,7 +200,7 @@
     }
 
     .voucher__handover__wrap {
-        position:fixed;
+        position: fixed;
         border: 1px solid #808080;
         padding: 20px;
         margin: 0 auto;
@@ -206,10 +209,11 @@
         z-index: 2;
         left: 50%;
         top: -10%;
-        transform: translate(-50%,50%);
+        transform: translate(-50%, 50%);
         overflow: auto;
 
     }
+
     .certified__wrap {
         height: 86px;
         width: 100%;
@@ -342,17 +346,20 @@
     .same-as-selected {
         background-color: #f5f5f5;
         border: solid 1px #808080;
-	    border-top: none;
+        border-top: none;
     }
-    .form input{
-        margin-top:0px;
+
+    .form input {
+        margin-top: 0px;
     }
-    .flex__row{
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:10px;
+
+    .flex__row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
     }
-    .flex__row p{
+
+    .flex__row p {
         height: 11px;
         font-size: 11px;
         font-weight: normal;
@@ -360,72 +367,167 @@
         font-style: normal;
         line-height: 1.36;
     }
-    .handover__btn{text-align:center;}
-    .description.fail_pc p{ width:100%; text-align: center;margin-bottom:0px;}
-    .description.fail_mobile p{ width:100%; text-align: center;margin-bottom:0px;}
-    .description.verify_pc{padding-left:6px;}
-    .description.verify_pc p{ margin-bottom:0px; }
-    .description.verify_mobile p{ margin-bottom:0px; }
-    .bluemark_country{width: 140px;position: relative;}
-    #handover_id{width:300px;}
-@media (max-width: 1024px){
-    .bluemark__tab__wrap{grid-column:1/17;width:100%}
-    .verify__form__wrap .description{
-        width:100%; 
+
+    .handover__btn {
+        text-align: center;
     }
-    .description.fail_pc{ display:none; }
-    .description.fail_mobile{ display:block;}
-    .description.verify_pc{ display:none; }
-    .description.verify_mobile{ display:block;}
-    .voucher__handover__wrap {width:90%;padding-left:10px;padding-right:10px;}
-    .form {display: block;}
-    #handover_id{width:100%}
-    .bluemark_country{width:100%;position:none;margin-bottom:10px;}
-    .bluemark__tab .notice_br {
-        display: inline;
+
+    .description.fail_pc p {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0px;
     }
-    .bluemark__tab .notice_br_explain {
-        display: none;
+
+    .description.fail_mobile p {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0px;
     }
-    .bluemark_explain {
-        white-space: normal;
+
+    .description.verify_pc {
+        padding-left: 6px;
     }
-}
-@media (min-width: 600px) {
-    .bluemark__tab__wrap {
-        grid-column: 1/17;
-        width:580px;
-        margin:0 auto;
+
+    .description.verify_mobile p {
+        margin-bottom: 0px;
     }
-    .voucher__handover__wrap {width:580px;}
-}
-@media (min-width: 1024px){
-    .bluemark__tab__wrap{
-        grid-column:1/17;
-        width:470px;
-        margin: 0 auto;
+
+    .bluemark_country {
+        width: 140px;
+        position: relative;
     }
-    .description.fail_pc{ display:block; }
-    .description.fail_mobile{ display:none; }
-    .description.verify_pc{ display:block; width:100%;}
-    .description.verify_mobile{ display:none; }
-    .bluemark__tab .notice_br {
-        display: none;
+
+    #handover_id {
+        width: 300px;
     }
-    .bluemark__tab .notice_br_explain {
-        display: inline;
+
+    @media (max-width: 1024px) {
+        .bluemark__tab__wrap {
+            grid-column: 1/17;
+            width: 100%
+        }
+
+        .verify__form__wrap .description {
+            margin-top: 10px;
+        }
+
+        .bluemark__wrap {
+            margin-top: 20px;
+        }
+
+        .description.fail_pc {
+            display: none;
+        }
+
+        .description.fail_mobile {
+            display: block;
+        }
+
+        .description.verify_pc {
+            display: none;
+        }
+
+        .description.verify_mobile {
+            display: block;
+        }
+
+        .voucher__handover__wrap {
+            width: 90%;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .form {
+            display: block;
+        }
+
+        #handover_id {
+            width: 100%
+        }
+
+        .bluemark_country {
+            width: 100%;
+            position: none;
+            margin-bottom: 10px;
+        }
+
+        .bluemark__tab .notice_br {
+            display: inline;
+        }
+
+        .bluemark__tab .notice_br_explain {
+            display: none;
+        }
+
+        .bluemark_explain {
+            white-space: normal;
+        }
+        .verify__list__wrap .description {
+            margin: 10px 0 30px;
+        }
     }
-    .bluemark_explain {
-        white-space: nowrap;
+
+    @media (min-width: 600px) {
+        .bluemark__tab__wrap {
+            grid-column: 1/17;
+            width: 580px;
+            margin: 0 auto;
+        }
+
+        .voucher__handover__wrap {
+            width: 580px;
+        }
     }
-    .voucher__handover__wrap {width:470px;}
-}
-.bluemark__wrap .select-items div, .select-selected {
-    margin-bottom: -1px;
-}
-.bluemark__wrap .select-hide {
-    margin-top: -1px;
-}
+
+    @media (min-width: 1024px) {
+        .bluemark__tab__wrap {
+            grid-column: 1/17;
+            width: 470px;
+            margin: 0 auto;
+        }
+
+        .description.fail_pc {
+            display: block;
+        }
+
+        .description.fail_mobile {
+            display: none;
+        }
+
+        .description.verify_pc {
+            display: block;
+            width: 100%;
+        }
+
+        .description.verify_mobile {
+            display: none;
+        }
+
+        .bluemark__tab .notice_br {
+            display: none;
+        }
+
+        .bluemark__tab .notice_br_explain {
+            display: inline;
+        }
+
+        .bluemark_explain {
+            white-space: nowrap;
+        }
+
+        .voucher__handover__wrap {
+            width: 470px;
+        }
+    }
+
+    .bluemark__wrap .select-items div,
+    .select-selected {
+        margin-bottom: -1px;
+    }
+
+    .bluemark__wrap .select-hide {
+        margin-top: -1px;
+    }
 </style>
 <div class="bluemark__wrap">
     <div class="bluemark__tab__btn__container">
@@ -442,12 +544,13 @@
                 <p class="title_name">Bluemark</p>
             </div>
             <div class="description">
-                <p class="bluemark_explain">&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.<br class="notice_br_explain">
-                ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여 적극적으로 대응중입니다.</p>
+                <p class="bluemark_explain">&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증
+                    서비스입니다.<br class="notice_br_explain">
+                    ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여 적극적으로 대응중입니다.</p>
                 <div class="bluemark__err__msg" style="width:100%;height:16.5px;">
                     <p style="color:red;text-align:right;"></p>
                 </div>
-                
+
             </div>
             <div class="verify_form">
                 <input class="bluemark_serial_code" type="text" name="serial_code" placeholder="BLUE MARK 시리얼 코드">
@@ -460,7 +563,7 @@
             <div class="title">
                 <p>Bluemark</p>
                 <div class="close" onclick="closeResultTab()">
-                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                    <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div class="description">
@@ -474,7 +577,7 @@
             <div class="title">
                 <p>Bluemark</p>
                 <div class="close" onclick="closeResultTab()">
-                    <img src="/images/mypage/tmp_img/X-12.svg"/>
+                    <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div class="description fail_pc">
@@ -495,13 +598,13 @@
                 <p>customer_care@adererror.com</p>
             </div>
         </div>
-        <div class="bluemark__tab verify__list__wrap" accesskey=""style="position:relative">
-            <div class="position__area" >
+        <div class="bluemark__tab verify__list__wrap" accesskey="" style="position:relative">
+            <div class="position__area">
                 <div class="title">
                     <p>Bluemark</p>
                 </div>
             </div>
-            
+
             <div class="description verify_pc">
                 <p>·&nbsp;인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
                 <p style="white-space: nowrap;">·&nbsp;블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여 정보 등록을 완료해 주시길 바랍니다.</p>
@@ -581,49 +684,49 @@
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    makeSelect('bluemark_country');
-    
-    $('.bluemark__tab').not('.verify__form__wrap').hide();
+    $(document).ready(function () {
+        makeSelect('bluemark_country');
 
-    $('.handover__btn').on('click', function () {
-        $('.bluemark__tab').hide();
-        $('.voucher__handover__wrap').show();
-    });
-    $('.bluemark_country').on('click', function() {
-        if($('.bluemark_country').find('.select-hide').is(':visible') == true) {
-            $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_up_tab_btn.svg');
-        } else {
-            $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_down_tab_btn.svg');
-        }
+        $('.bluemark__tab').not('.verify__form__wrap').hide();
+
+        $('.handover__btn').on('click', function () {
+            $('.bluemark__tab').hide();
+            $('.voucher__handover__wrap').show();
+        });
+        $('.bluemark_country').on('click', function () {
+            if ($('.bluemark_country').find('.select-hide').is(':visible') == true) {
+                $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_up_tab_btn.svg');
+            } else {
+                $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_down_tab_btn.svg');
+            }
+        })
     })
-})
 
-function getBluemarkInfo(obj) {
-    $('.bluemark__tab').not('.verify__list__wrap').hide();
-    $('.voucher__handover__wrap').show();
+    function getBluemarkInfo(obj) {
+        $('.bluemark__tab').not('.verify__list__wrap').hide();
+        $('.voucher__handover__wrap').show();
 
-    var idx = $(obj).attr('bluemark_idx');
-    var country = 'KR';
-    $.ajax({
-        type: "post",
-        url: "http://116.124.128.246:80/_api/product/bluemark/get",
-        data: {
-            'bluemark_idx': idx,
-            'country': country
-        },
-        dataType: "json",
-        error: function () {
-            alert("블루마크 인증내역 조회에 실패했습니다.");
-        },
-        success: function (d) {
+        var idx = $(obj).attr('bluemark_idx');
+        var country = 'KR';
+        $.ajax({
+            type: "post",
+            url: "http://116.124.128.246:80/_api/product/bluemark/get",
+            data: {
+                'bluemark_idx': idx,
+                'country': country
+            },
+            dataType: "json",
+            error: function () {
+                alert("블루마크 인증내역 조회에 실패했습니다.");
+            },
+            success: function (d) {
 
-            let code = d.code;
-            if (code == 200) {
-                $('#handover__info__area').html('');
-                let data = d.data[0];
-                $('.bluemark_idx').attr('bluemark_idx', data.bluemark_idx);
-                var strDiv = `
+                let code = d.code;
+                if (code == 200) {
+                    $('#handover__info__area').html('');
+                    let data = d.data[0];
+                    $('.bluemark_idx').attr('bluemark_idx', data.bluemark_idx);
+                    var strDiv = `
                         <div class="flex__row">
                             <p>${data.product_name}</p>
                             <p>${data.member_id}</p>
@@ -637,109 +740,108 @@ function getBluemarkInfo(obj) {
                             <p>${data.serial_code}</p>
                         </div>
                 `;
-                $('#handover__info__area').append(strDiv);
-            }
-        }
-    });
-}
-
-function verifyBluemark() {
-    let bluemark_serial_code = $('.bluemark_serial_code').val();
-
-    if (bluemark_serial_code != "" && bluemark_serial_code != null) 
-    {
-        $.ajax({
-            type: "post",
-            url: "http://116.124.128.246:80/_api/product/bluemark/put",
-            data: {
-                "country": "KR",
-                "serial_code": bluemark_serial_code
-            },
-            dataType: "json",
-            error: function () {
-                alert("블루마크 인증처리에 실패했습니다.");
-            },
-            success: function (d) {
-                $('.bluemark__tab').hide();
-
-                let code = d.code;
-                if (code == 200) {
-                    $('.verify__success__wrap').show();
-                    $('.bluemark_serial_code').val('');
-                } else {
-                    $('.verify__fail__wrap').show();
-                    $('.bluemark_serial_code').val('');
+                    $('#handover__info__area').append(strDiv);
                 }
             }
         });
     }
-    else{
-        if(bluemark_serial_code == "" || bluemark_serial_code == null){
-            $('.bluemark__err__msg p').text('시리얼 코드를 입력해주세요');
+
+    function verifyBluemark() {
+        let bluemark_serial_code = $('.bluemark_serial_code').val();
+
+        if (bluemark_serial_code != "" && bluemark_serial_code != null) {
+            $.ajax({
+                type: "post",
+                url: "http://116.124.128.246:80/_api/product/bluemark/put",
+                data: {
+                    "country": "KR",
+                    "serial_code": bluemark_serial_code
+                },
+                dataType: "json",
+                error: function () {
+                    alert("블루마크 인증처리에 실패했습니다.");
+                },
+                success: function (d) {
+                    $('.bluemark__tab').hide();
+
+                    let code = d.code;
+                    if (code == 200) {
+                        $('.verify__success__wrap').show();
+                        $('.bluemark_serial_code').val('');
+                    } else {
+                        $('.verify__fail__wrap').show();
+                        $('.bluemark_serial_code').val('');
+                    }
+                }
+            });
+        }
+        else {
+            if (bluemark_serial_code == "" || bluemark_serial_code == null) {
+                $('.bluemark__err__msg p').text('시리얼 코드를 입력해주세요');
+            }
         }
     }
-}
 
-function closeResultTab() {
-    $('.close').on('click', function() {
-        $('.bluemark__tab').hide();
-        $('.verify__form__wrap').show();
-    });
-}
+    function closeResultTab() {
+        $('.close').on('click', function () {
+            $('.bluemark__tab').hide();
+            $('.verify__form__wrap').show();
+        });
+    }
 
-function getBluemarkList() {
-    var use_form = $('#frm-bluemark-list');
-    let listTable = $('.bluemark_list_table');
-    let listTableMobile = $('.bluemark_list_table_mobile');
+    function getBluemarkList() {
+        var use_form = $('#frm-bluemark-list');
+        let listTable = $('.bluemark_list_table');
+        let listTableMobile = $('.bluemark_list_table_mobile');
 
-    $('.verify__form__wrap').hide();
-    $('.verify__list__wrap').show();
+        $('.verify__form__wrap').hide();
+        $('.verify__list__wrap').show();
 
-    
-    listTable.html('');
-    listTableMobile.html('');
 
-    listTable.append(`
+        listTable.html('');
+        listTableMobile.html('');
+
+        listTable.append(`
         <tr>
             <td colspan="4" style="text-align:center">
                 <p>조회결과가 없습니다.</p>
             </td>
         </tr>
     `);
-    listTableMobile.append(`
+        listTableMobile.append(`
         <tr>
             <td colspan="3" style="text-align:center">
                 <p>조회결과가 없습니다.</p>
             </td>
         </tr>
     `);
-    var rows = use_form.find('input[name="rows"]').val();
-	var page = use_form.find('input[name="page"]').val();
+        var rows = use_form.find('input[name="rows"]').val();
+        var page = use_form.find('input[name="page"]').val();
 
-    $.ajax({
-        type: "post",
-        data: {
-            "country": "KR",
-            'rows': rows,
-            'page': page 
-        },
-        dataType: "json",
-        url: "http://116.124.128.246:80/_api/product/bluemark/list/get",
-        error: function () {
-            alert("블루마크 내역 조회처리에 실패했습니다.");
-        },
-        success: function (d) {
-            let code = d.code;
-            if (code == 200) {
-                let data = d.data;
-                if (data != null) {
+        $.ajax({
+            type: "post",
+            data: {
+                "country": "KR",
+                'rows': rows,
+                'page': page
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/product/bluemark/list/get",
+            error: function () {
+                alert("블루마크 내역 조회처리에 실패했습니다.");
+            },
+            success: function (d) {
+                let code = d.code;
+                if (code == 200) {
+                    let data = d.data;
+                    if (data != null) {
 
-                    listTable.html('');
-                    listTableMobile.html('');
-                    let strDiv = '';
-                    let strMobileDiv = '';
-                    data.forEach((row) => {
-                        strDiv += `
+                        listTable.html('');
+                        listTableMobile.html('');
+                        let strDiv = '';
+                        let strMobileDiv = '';
+                        data.forEach((row) => {
+                            strDiv += `
                             <tr class="bluemark_list_tr">
                                 <td>
                                     <img style="cursor: default;" src="http://116.124.128.246:81${row.img_location}" style="object-fit:contain">
@@ -761,8 +863,8 @@ function getBluemarkList() {
                                 </td>
                             </tr>
                         `;
-                        
-                        strMobileDiv += `
+
+                            strMobileDiv += `
                             <tr class="bluemark_list_tr">
                                 <td>
                                     <img src="http://116.124.128.246:81${row.img_location}" style="object-fit:contain">
@@ -782,158 +884,158 @@ function getBluemarkList() {
                                 </td>
                             </tr>
                         `;
-                    })
-                    listTable.append(strDiv);
-                    listTableMobile.append(strMobileDiv);
-                    var showing_page = Math.ceil(d.total/rows);
-                    bluemarkPaging({
-                        total : d.total,
-                        el : use_form.find(".mypage__paging"),
-                        page : page,
-                        row : rows,
-                        show_paging : showing_page,
-                        use_form : use_form
-                    });
-                }
-            }
-            else{
-                
-            }
-        }
-    })
-}
-function handoverBluemark(obj) {
-    let bluemark_idx = $(obj).attr('bluemark_idx');
-    let handover_id = $('#handover_id').val();
-    let country = $('#handover_country').val();
-
-    if (
-        (handover_id != "" && handover_id != null) &&
-        (country != "" && country != null)
-    ) {
-        $.ajax({
-            type: "post",
-            url: "http://116.124.128.246:80/_api/product/bluemark/put",
-            data: {
-                "bluemark_idx": bluemark_idx,
-                "handover_id": handover_id,
-                "country": country
-            },
-            dataType: "json",
-            error: function () {
-                alert("블루마크 양도처리에 실패했습니다.");
-            },
-            success: function (d) {
-
-                let code = d.code;
-                if (code == 200) {
-                    $('.voucher__handover__wrap').show();
-                }
-                else{
-                    let err_msg = '블루마크 양도처리에 실패했습니다.';
-                    if(d.msg != null){
-                        err_msg = d.msg;
+                        })
+                        listTable.append(strDiv);
+                        listTableMobile.append(strMobileDiv);
+                        var showing_page = Math.ceil(d.total / rows);
+                        bluemarkPaging({
+                            total: d.total,
+                            el: use_form.find(".mypage__paging"),
+                            page: page,
+                            row: rows,
+                            show_paging: showing_page,
+                            use_form: use_form
+                        });
                     }
-                    exceptionHandling("블루마크 양도",err_msg);
+                }
+                else {
+
                 }
             }
-        });
+        })
     }
-}
+    function handoverBluemark(obj) {
+        let bluemark_idx = $(obj).attr('bluemark_idx');
+        let handover_id = $('#handover_id').val();
+        let country = $('#handover_country').val();
 
+        if (
+            (handover_id != "" && handover_id != null) &&
+            (country != "" && country != null)
+        ) {
+            $.ajax({
+                type: "post",
+                url: "http://116.124.128.246:80/_api/product/bluemark/put",
+                data: {
+                    "bluemark_idx": bluemark_idx,
+                    "handover_id": handover_id,
+                    "country": country
+                },
+                dataType: "json",
+                error: function () {
+                    alert("블루마크 양도처리에 실패했습니다.");
+                },
+                success: function (d) {
 
-function tabClickTmp() {
-    $('.verify__list__wrap').hide();
-    $('.verify__form__wrap').show();
-
-    $('.bluemark__err__msg p').text(' ');
-}
-
-function closeAllSelect(elmnt) {
-
-    var x, y, i, xl, yl, arrNo = [];
-    x = document.getElementsByClassName("select-items");
-    y = document.getElementsByClassName("select-selected");
-    xl = x.length;
-    yl = y.length;
-    for (i = 0; i < yl; i++) {
-        if (elmnt == y[i]) {
-            arrNo.push(i)
-        } else {
-            y[i].classList.remove("select-arrow-active");
+                    let code = d.code;
+                    if (code == 200) {
+                        $('.voucher__handover__wrap').show();
+                    }
+                    else {
+                        let err_msg = '블루마크 양도처리에 실패했습니다.';
+                        if (d.msg != null) {
+                            err_msg = d.msg;
+                        }
+                        exceptionHandling("블루마크 양도", err_msg);
+                    }
+                }
+            });
         }
     }
-    for (i = 0; i < xl; i++) {
-        if (arrNo.indexOf(i)) {
-            x[i].classList.add("select-hide");
+
+
+    function tabClickTmp() {
+        $('.verify__list__wrap').hide();
+        $('.verify__form__wrap').show();
+
+        $('.bluemark__err__msg p').text(' ');
+    }
+
+    function closeAllSelect(elmnt) {
+
+        var x, y, i, xl, yl, arrNo = [];
+        x = document.getElementsByClassName("select-items");
+        y = document.getElementsByClassName("select-selected");
+        xl = x.length;
+        yl = y.length;
+        for (i = 0; i < yl; i++) {
+            if (elmnt == y[i]) {
+                arrNo.push(i)
+            } else {
+                y[i].classList.remove("select-arrow-active");
+            }
+        }
+        for (i = 0; i < xl; i++) {
+            if (arrNo.indexOf(i)) {
+                x[i].classList.add("select-hide");
+            }
         }
     }
-}
 
-document.addEventListener("click", closeAllSelect);
+    document.addEventListener("click", closeAllSelect);
 
 
-// 닫기버튼
-$('.close').on("click", function () {
-    $('.voucher__handover__wrap').hide();
-});
+    // 닫기버튼
+    $('.close').on("click", function () {
+        $('.voucher__handover__wrap').hide();
+    });
 
-function bluemarkPaging(obj) {
-	if(typeof obj != 'object' || 'total' in obj == false || 'el' in obj == false) {
-		return;
-	}
-	if('page' in obj == false) obj.page = 1;
-	if('row' in obj == false) obj.row = 10;
-	if('show_paging' in obj == false) obj.show_paging = 9;
-	
-	let total_page = Math.ceil(obj.total/obj.row);
+    function bluemarkPaging(obj) {
+        if (typeof obj != 'object' || 'total' in obj == false || 'el' in obj == false) {
+            return;
+        }
+        if ('page' in obj == false) obj.page = 1;
+        if ('row' in obj == false) obj.row = 10;
+        if ('show_paging' in obj == false) obj.show_paging = 9;
 
-	// 이전 페이징
-	let prev = obj.page - obj.show_paging;
-	if(prev < 1) prev = 1;
+        let total_page = Math.ceil(obj.total / obj.row);
 
-	// 다음 페이징
-	let next = obj.page + obj.show_paging;
-	if(next > total_page) next = total_page;
+        // 이전 페이징
+        let prev = obj.page - obj.show_paging;
+        if (prev < 1) prev = 1;
 
-	// 페이지 시작 번호
-	let start = obj.page - Math.ceil(obj.show_paging / 2 ) + 1;
-	if(start < 1) start = 1;
+        // 다음 페이징
+        let next = obj.page + obj.show_paging;
+        if (next > total_page) next = total_page;
 
-	// 페이지 끝 번호
-	let end = start + obj.show_paging - 1;
-	if(end > total_page) {
-		end = total_page;
-		start = end - obj.show_paging + 1;
-		if(start < 1) start = 1;
-	}
-	if(end < 1) {
-		total_page = 1;
-		end = 1;
-		next = 1;
-		prev = 1;
-		start = 1;
-	}
-	let paging = [];
-	for(var i = start ; i <= end ; i++) {
-		paging.push(`<div class="page ${((i==obj.page)?'now':'')}" data-page="${i}" style="${((i == obj.page) ? 'color: black' : 'color: #dcdcdc')}">${i}</div>`);
-	}
-	$(obj.el).html(`
+        // 페이지 시작 번호
+        let start = obj.page - Math.ceil(obj.show_paging / 2) + 1;
+        if (start < 1) start = 1;
+
+        // 페이지 끝 번호
+        let end = start + obj.show_paging - 1;
+        if (end > total_page) {
+            end = total_page;
+            start = end - obj.show_paging + 1;
+            if (start < 1) start = 1;
+        }
+        if (end < 1) {
+            total_page = 1;
+            end = 1;
+            next = 1;
+            prev = 1;
+            start = 1;
+        }
+        let paging = [];
+        for (var i = start; i <= end; i++) {
+            paging.push(`<div class="page ${((i == obj.page) ? 'now' : '')}" data-page="${i}" style="${((i == obj.page) ? 'color: black' : 'color: #dcdcdc')}">${i}</div>`);
+        }
+        $(obj.el).html(`
             <div class="mypage--paging">
                 <div class="page prev" data-page="${prev}"><</div>
-				${paging.join("")}
-				<div class="page next" data-page="${next}">></div>
-			</div>
-		`);
-    $(obj.el).find(".mypage--paging .page").click(function() {
-        var new_page = $(this).data("page");
-        $(obj.use_form).find('input[name="page"]').val(new_page);
-        getBluemarkList();
-        initHandoverWrap();
-        $('html, body').scrollTop(0);
-    });
-}
-function initHandoverWrap(){
-    $('.voucher__handover__wrap').hide();
-}
+                ${paging.join("")}
+                <div class="page next" data-page="${next}">></div>
+            </div>
+        `);
+        $(obj.el).find(".mypage--paging .page").click(function () {
+            var new_page = $(this).data("page");
+            $(obj.use_form).find('input[name="page"]').val(new_page);
+            getBluemarkList();
+            initHandoverWrap();
+            $('html, body').scrollTop(0);
+        });
+    }
+    function initHandoverWrap() {
+        $('.voucher__handover__wrap').hide();
+    }
 </script>

@@ -1,6 +1,7 @@
 <style>
-.orderlist__tab__wrap {grid-column: 1/17;width: 950px;margin: 0 auto;}
-.orderlist__tab__btn__container {grid-column: 1/17;margin: 0 auto;display: grid;gap: 10px;place-items: center;grid-template-columns: 50px 50px 50px 50px;}
+.orderlist__tab__wrap {grid-column: 1/17;width: 950px;margin: 0 auto; font-size: 11px;}
+.orderlist__tab__btn__container {grid-column: 1/17; margin: 0 auto;
+display: grid; gap: 10px; font-size: 11px; grid-template-columns: 50px 50px 50px 50px;}
 .info__title {margin-right: 10px;}
 .info__value {margin-right: 30px;}
 .orderlist__wrap table {width: 100%;}
@@ -19,11 +20,12 @@
 @media (max-width: 1024px) {
 	.orderlist__tab__wrap {width: 100%;}
 	.orderlist__tab__btn__container {grid-column: 1/17;}
-	.orderlist__tab__contents {width: 100%;}
-	.contents__info .info span {font-size: 10px;}
+	.title p {font-size:11px;}
+	.contents__info .info span {font-size: 11px;}
 	.oderlist_info_table {margin-top: 30px;display: flex;flex-direction: column;align-items: center;}
 	.orderlist__wrap {margin-top: 20px;width: 100%;display: grid;grid-template-columns: repeat(16, 1fr);}
-	.orderlist__tab__contents {margin: 0 auto;grid-column: 1/17;padding-top: 30px;padding-bottom: 20px;}
+	.orderlist__tab__contents {margin: 0 auto; padding-bottom: 40px;}
+	.mobile__view { margin-top: 40px;}
 }
 
 @media (min-width: 600px) {
@@ -34,7 +36,7 @@
 	.orderlist__wrap {margin-top: 40px;width: 100%;display: grid;grid-template-columns: repeat(16, 1fr);}
 	.orderlist__tab__wrap {width: 100%;}
 	.oderlist_info_table {margin-top: 40px;display: grid;grid-template-columns: 600px 350px;}
-	.orderlist__tab__contents {margin: 0 auto;grid-column: 1/17;padding-top: 50px;padding-bottom: 50px;}
+	.orderlist__tab__contents {margin: 0 auto;grid-column: 1/17; margin-top: 53px;}
 }
 
 .orderlist__wrap .detail__btn {cursor : pointer;}
@@ -43,7 +45,7 @@
 .product_name_mob {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 68px;}
 .product_info_mob {vertical-align: top;}
 .product_info_mob p {margin-bottom: 6px;}
-.orderlist__wrap .delivery_num {text-decoration: underline;font-size: 10px;width: 110px;cursor: pointer;}
+.orderlist__wrap .delivery_num {text-decoration: underline;font-size: 11px;width: 110px;cursor: pointer;}
 </style>
 
 <div class="orderlist__wrap">
@@ -341,7 +343,7 @@ function setOrderInfoListM(param_status,data) {
 			str_div += '            </td>';
 			str_div += '            <td class="product_info_mob">';
 			str_div += '                <p class="product_name_mob">' + product.product_name + '</p>';
-			str_div += '                <p>' + product.product_price + '</p>';
+			str_div += '                <p>' + product.product_price.toLocaleString('ko-KR') + '</p>';
 			str_div += '                <div class="color_wrap">';
 			str_div += '                    <p>' + product.color + '</p>';
 			str_div += '                    <div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>';
@@ -453,7 +455,7 @@ function getOrderInfoByIdx(order_idx,order_product_idx) {
 						str_div_m += '    </td>';
 						str_div_m += '    <td class="product_info_mob">';
 						str_div_m += '        <p class="product_name_mob">' + row.product_name + '</p>';
-						str_div_m += '        <p>' + row.product_price + '</p>';
+						str_div_m += '        <p>' + row.product_price.toLocaleString('ko-KR') + '</p>';
 						str_div_m += '        <div class="color_wrap">';
 						str_div_m += '            <p>' + row.color + '</p>';
 						str_div_m += '            <div class="color_chip" style="background-color: ' + row.color_rgb + '"></div>';
@@ -590,7 +592,7 @@ function setOrderInfo(data) {
 			str_div += '                     <p>Qty: ' + product.product_qty + '</p>';
 			str_div += '                 </td>';
 			str_div += '                 <td>';
-			str_div += '                     <p>' + product.product_price + '</p>';
+			str_div += '                     <p>' + product.product_price.toLocaleString('ko-KR') + '</p>';
 			str_div += '                 </td>';
 			str_div += '                 <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">';
 			str_div += '                     <div style="padding-bottom:13px;">';

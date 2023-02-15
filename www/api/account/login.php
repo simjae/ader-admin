@@ -50,6 +50,11 @@ if($member_pw == '' || $member_pw == null) {
 	return $json_result;
 }
 
+$r_url = null;
+if (isset($_POST['r_url'])) {
+	$r_url = $_POST['r_url'];
+}
+
 $member_cnt = $db->count("dev.MEMBER_".$country,"MEMBER_ID = '".$member_id."'");
 
 if ($member_cnt > 0) {
@@ -192,6 +197,11 @@ if ($member_cnt > 0) {
 			if(strtotime($start_date_param) < $now_param && strtotime($end_date_param) > $now_param){
 				brithVoucherIssue($db, $country, $data['MEMBER_IDX'], $start_date_param, $end_date_param);
 			}
+
+			if($r_url != null){
+				$json_result['data'] = $r_url;
+			}
+			
 		} else {
 			$json_result['result'] = false;
 			$json_result['code'] = 301;

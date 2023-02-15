@@ -13,9 +13,9 @@
     .mileage__tab__btn__container {
         grid-column: 1/17;
         margin: 0 auto;
-        gap: 10px;
         display: grid;
-        place-items: center;
+        gap: 10px;
+        font-size: 11px;
         grid-template-columns: 50px 50px 50px 70px;
     }
 
@@ -79,6 +79,10 @@
     }
 
     @media (max-width: 1024px) {
+        .mileage__wrap {
+            margin-top: 20px;
+        }
+
         .mileage__tab__wrap {
             grid-column: 1/17;
             width: 100%;
@@ -87,6 +91,27 @@
 
         .notice_br {
             display: inline;
+        }
+
+        .mileage__wrap .title {
+            margin-top: 0;
+        }
+
+        .mileage__tab__wrap .contents__table {
+            margin-top: 30px;
+        }
+
+        .description.tab__notice {
+            margin: 0;
+        }
+    }
+
+    @media (min-width: 600px) {
+        .mileage__tab__wrap {
+            grid-column: 1/17;
+            width: 580px;
+            margin: 0 auto;
+            margin-top: 40px;
         }
     }
 

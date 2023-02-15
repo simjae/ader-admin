@@ -10,6 +10,10 @@
         transition: background 0.3s;
     }
 
+    header .WH{
+        color: var(--bl);
+    }
+	
     header .logo {
         content: url("/images/svg/logo.svg");
     }
@@ -34,8 +38,8 @@
         content: url("/images/svg/basket-wh.svg");
     }
 
-    header .bluemark-svg {
-        content: url("/images/svg/bluemark-wh.svg");
+    header .bluemark__icon .bluebox {
+		border: solid 1px #fff;
     }
 
     header .user-svg {
@@ -56,26 +60,31 @@
 	body.sidebar_open header .logo,
 	body.m_menu_open header .logo,
 	body.sidebar_open header .logo,
+	header.WH .logo,
     header.hover .logo, header.scroll .logo {
         content: url("/images/svg/logo-bk.svg");
     }
 	body.sidebar_open header .search-svg,
 	body.m_menu_open header .search-svg,
+	header.WH .search-svg,
     header.hover .search-svg, header.scroll .search-svg {
         content: url("/images/svg/search-bk.svg");
     }
 	body.sidebar_open header .earth-svg,
 	body.m_menu_open header .earth-svg,
+	header.WH .earth-svg,
     header.hover .earth-svg, header.scroll .earth-svg {
         content: url("/images/svg/earth-bk.svg");
     }
 	body.sidebar_open header .alg__c,
 	body.m_menu_open header .alg__c,
+	header.WH .alg__c,
 	header.hover .alg__c, header.scroll .alg__c {
 		color: #000;
 	}
 	body.sidebar_open header .wishlist-svg,
 	body.m_menu_open header .wishlist-svg,
+	header.WH .wishlist-svg,
     header.hover .wishlist-svg,
     header.scroll .wishlist-svg {
         content: url("/images/svg/wishlist-bk-line.svg");
@@ -89,6 +98,7 @@
 	}
 	body.sidebar_open header .wishlist__btn.open .wishlist-svg,
 	body.m_menu_open header .wishlist__btn.open .wishlist-svg,
+	header.WH .wishlist__btn.open .wishlist-svg,
 	header.hover .wishlist__btn.open .wishlist-svg,
 	header.scroll .wishlist__btn.open .wishlist-svg {
 		margin-top: 28px;
@@ -96,26 +106,32 @@
 	}
 	body.sidebar_open header .basket-svg,
 	body.m_menu_open header .basket-svg,
+	header.WH .basket-svg,
     header.hover .basket-svg, header.scroll .basket-svg {
         content: url("/images/svg/basket-bk.svg");
     }
-	body.sidebar_open header .bluemark-svg,
-	body.m_menu_open header .bluemark-svg,
-    header.hover .bluemark-svg, header.scroll .bluemark-svg {
-        content: url("/images/svg/bluemark-bk.svg");
+	body.sidebar_open header .bluemark__icon .bluebox,
+	body.m_menu_open header .bluemark__icon .bluebox,
+	header.WH .bluemark__icon .bluebox,
+    header.hover .bluemark__icon .bluebox, header.scroll .bluemark__icon .bluebox {
+        border: none;
     }
+	
 	body.sidebar_open header .user-svg,
 	body.m_menu_open header .user-svg,
+	header.WH .user-svg,
     header.hover .user-svg, header.scroll .user-svg {
         content: url("/images/svg/user-bk.svg");
     }
 	body.sidebar_open header .header__grid,
 	body.m_menu_open header .header__grid,
+	header.WH .header__grid,
     header.hover .header__grid, header.scroll .header__grid {
         color: var(--bk);
     }
 	body.sidebar_open header .hamburger .line,
 	body.m_menu_open header .hamburger .line,
+	header.WH .hamburger .line,
     header.hover .hamburger .line, header.scroll .hamburger .line {
         background-color: var(--bk);
     }
@@ -477,6 +493,15 @@
     }
 
     /* 스와이프 네비게이션 */
+    .swiper-button-next, .swiper-button-prev {
+        opacity: 1;
+        transition: 0.5s ease-in-out;
+    }
+    .swiper-button-disabled {
+        visibility: hidden;
+        opacity: 0 !important;
+        transition: 0.5s ease-in-out;
+    }
     .new__project__swiper .navigation .swiper-button-next {
         width: 13px;
         content: url("/images/svg/sw-ar-wh.svg");
@@ -509,10 +534,12 @@
     }
 
     .re-swiper .navigation .swiper-button-prev {
-        display: none;
+        /* display: none; */
+        width: 1.2rem;
         content: url('/images/svg/sw-ar-bk.svg');
         transform: rotate(180deg);
         top: calc(100% - 50%);
+        left: 2%;
         color: var(--bk);
     }
 
@@ -532,7 +559,6 @@
         transform: rotate(0deg);
         position: relative;
     }
-
     .styling-swiper .navigation .swiper-button-prev {
 
         transform: rotate(180deg);
@@ -912,7 +938,7 @@
                     <!-- </div> -->
                 </div>
                 <div class="swiper-slide">
-                    <img class="" src="/images/sample/section1.jpg" alt="">
+                    <img class="" src="/images/sample/section1-2.jpg" alt="">
                     <div class="new__project__content">
                         <div class="cnt-box">
                             <div class="season__title">2022 Spring Summer Collection</div>
@@ -1245,6 +1271,14 @@
         },
         grabCursor: true,
         slidesPerView: 1
+    });
+	
+	//슬라이더별 헤더색상 변경
+	let headerColor = ["BL","WH","BL"];
+	newSwiper.on('slideChange', function () {
+        $("header").removeClass("BL");
+        $("header").removeClass("WH");
+        $("header").addClass(headerColor[newSwiper.activeIndex]);
     });
     let recommendSwiper = new Swiper(".recommend-swiper", {
         navigation: {

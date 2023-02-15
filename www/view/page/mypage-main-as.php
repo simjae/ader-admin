@@ -25,14 +25,15 @@
         width: 72px;
         height: 24px;
         cursor: pointer;
-        margin-right: 10px;
         font-size: 11px;
-        color: #dcdcdc;
+        color: #343434;
+        opacity: 0.5;
     }
 
     .as_tab_btn li.on {
         border: 1px solid #808080;
         color: #343434;
+        opacity: 1;
     }
 
     .as__tab__wrap {
@@ -56,7 +57,6 @@
         border: 1px solid #dcdcdc;
         height: 40px;
         width: 100%;
-        margin-right: 10px;
         font-size: 11px;
         display: flex;
         justify-content: center;
@@ -233,7 +233,7 @@
 
     .as__tab__wrap .title {
         font-size: 13px;
-        margin: 50px 0 30px;
+        margin: 0 0 30px;
     }
 
     .as__tab__wrap .description p {
@@ -261,6 +261,9 @@
         text-align: left;
     }
 
+    .as__wrap__content__container .description {
+        padding-left: 6px;
+    }
 
     @media (max-width: 1024px) {
         .as__tab__wrap {
@@ -269,8 +272,15 @@
         }
 
         .as__wrap__content__container {
-            margin: 0 auto;
             margin-top: 40px;
+        }
+
+        .as_status_title {
+            margin: 40px 0 20px;
+        }
+
+        .as_container {
+            margin-top: 20px;
         }
 
         .as__wrap__content__container p {
@@ -308,50 +318,35 @@
             width: 80px !important;
             max-width: initial;
         }
-        .as_contents_list_wrap{
+
+        .as_contents_list_wrap {
             margin-bottom: 52.5px;
         }
-        .as__tab__wrap .title{
-            margin-top: 40px 0 20px;
+
+        .as__tab__wrap .title {
+            margin: 0 0 20px;
         }
 
+        .as_payment_container {
+            margin-top: 30px;
+        }
+    }
+
+    @media (min-width: 600px) {
+        .as__tab__wrap {
+            width: 580px;
+            margin: 0 auto;
+        }
     }
 
     @media (min-width: 1024px) {
         .as__tab__wrap {
             grid-column: 1/17;
-            width: 470px;
-            margin: 0 auto;
-        }
-    }
-
-    @media (min-width: 730px) {
-        .as__tab__wrap {
-            grid-column: 1/17;
             width: 710px;
             margin: 0 auto;
-
-        }
-
-        .as_buying_wrap {
-            width: 100%;
-            grid-column: 1/17;
-            margin: 0 auto;
         }
     }
 
-    @media (min-width: 360px) {
-        .as__tab__wrap {
-            grid-column: 1/17;
-
-        }
-
-        .as_buying_wrap {
-            width: 100%;
-            grid-column: 1/17;
-            margin: 0 auto;
-        }
-    }
 </style>
 
 <div class="as_container">
@@ -1302,7 +1297,7 @@
                     <p>· 정품 인증이 어려운 제품의 경우, AS 비용이 상이할 수 있습니다.</p>
                 </div>
             </div>
-            <div>
+            <div class="as_payment_container">
                 <div class="title">A/S 요금표</div>
                 <div class="contents__table_as_payment">
                     <table>

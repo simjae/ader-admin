@@ -248,6 +248,9 @@
         transform: rotate(270deg);
         left: 5px;
     }
+    .quickview-swiper .swiper-slide {
+        width: 80px;
+    }
     @media (max-width: 1024px) {
         .swiper-containner{
             min-height: auto;

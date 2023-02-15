@@ -1,6 +1,9 @@
 /* main {
     overflow: visible;
 } */
+.basket_title {
+    font-size: 13px;    
+}
 .basket__wrap{
     display: grid;
     grid-template-columns: repeat(16, 1fr);
@@ -327,8 +330,8 @@ position: relative;
     margin: 5px;
 }
 .basket__wrap .cb__mark {
-    height: 13px;
-    width: 13px;
+    height: 10px;
+    width: 10px;
     border-radius: 2px;
     background-color: #fff;
     border: 1px solid #343434;

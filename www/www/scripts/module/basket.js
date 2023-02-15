@@ -18,7 +18,7 @@ export function Basket(el, useSidebar) {
 					<div class="list__header">
 						<div class="icon__box">
 							<img src="/images/svg/basket.svg" alt="">
-							<div>쇼핑백</div>
+							<div class="basket_title">쇼핑백</div>
 						</div>
 						<div class="checkbox__box">
 							<label class="cb__custom all" for="">
@@ -64,7 +64,7 @@ export function Basket(el, useSidebar) {
 						<div class="list__header">
 							<div class="icon__box">
 								<img src="/images/svg/basket.svg" alt="">
-								<div>쇼핑백</div>
+								<div class="basket_title">쇼핑백</div>
 							</div>
 							<div class="checkbox__box">
 								<label class="cb__custom all" for="">

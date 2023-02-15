@@ -19,9 +19,9 @@
         grid-column: 1/17;
         margin: 0 auto;
         display: grid;
-        place-items: center;
         gap: 10px;
         grid-template-columns: 70px 50px 60px 50px 60px;
+        font-size: 11px;
     }
 
     .draw__tab.draw__apply__form__wrap {
@@ -30,6 +30,10 @@
 
     .draw__apply__form__wrap {
         margin: 0 auto;
+    }
+
+    .draw__tab .description {
+        padding-left: 6px;
     }
 
     .draw__container {
@@ -138,6 +142,10 @@
             display: grid;
             place-items: center;
             grid-template-columns: repeat(2, 1fr);
+        }
+
+        .draw__wrap {
+            margin-top: 20px;
         }
 
         .contents__info .info span {

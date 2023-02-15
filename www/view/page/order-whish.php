@@ -613,7 +613,7 @@
 	if ($member_idx == 0) {
 		echo "
 			<script>
-				location.href='/login';
+				location.href='/login?r_url=/order/whish';
 			</script>
 		";
 	}
@@ -767,7 +767,7 @@ function whishListWrite(whishlist) {
 					<div class="info-box">
 						<div class="info-row">
 							<div class="name" data-soldout=""><span>${el.product_name}</span></div>
-							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
+							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price.toLocaleString('ko-KR')}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price.toLocaleString('ko-KR')}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
 						</div>
 						<div class="info-row">
 							<div class="color-title"><span>${el.color}</span></div>

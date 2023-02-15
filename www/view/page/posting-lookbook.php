@@ -76,13 +76,6 @@
         </div>
         <div class="look-body">
             <div class="lookbook-result">
-                <div class="lookbook-title-box">
-                    <div class="lookbook-main__title">Project 1</div>
-                    <div class="lookbook-sub__title">
-                        2022 Fall Winter Collection<br>
-                        Phenomenon Communication
-                    </div>
-                </div>
             </div>
         </div>
         <div class="look-footer">

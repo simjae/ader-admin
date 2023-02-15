@@ -113,6 +113,7 @@ $menu_lrg_sql = "
 						SELECT
 							CONCAT(
 								S_PPR.PAGE_URL,
+								S_PPR.IDX,
 								'&menu_sort=L&menu_idx=',
 								ML.IDX
 							)
@@ -126,7 +127,10 @@ $menu_lrg_sql = "
 				THEN
 					(
 						SELECT
-							S_PPO.PAGE_URL
+							CONCAT(
+								S_PPO.PAGE_URL,
+								S_PPO.IDX
+							)
 						FROM
 							dev.PAGE_POSTING S_PPO
 						WHERE
@@ -157,6 +161,7 @@ foreach($db->fetch() as $lrg_data) {
 								SELECT
 									CONCAT(
 										S_PPR.PAGE_URL,
+										S_PPR.IDX,
 										'&menu_sort=L&menu_idx=',
 										ME.IDX
 									)
@@ -170,7 +175,10 @@ foreach($db->fetch() as $lrg_data) {
 						THEN
 							(
 								SELECT
-									S_PPO.PAGE_URL
+									CONCAT(
+										S_PPO.PAGE_URL,
+										S_PPO.IDX
+									)
 								FROM
 									dev.PAGE_POSTING S_PPO
 								WHERE
@@ -215,6 +223,7 @@ foreach($db->fetch() as $lrg_data) {
 									SELECT
 										CONCAT(
 											S_PPR.PAGE_URL,
+											S_PPR.IDX,
 											'&menu_sort=M&menu_idx=',
 											MM.IDX
 										)
@@ -229,7 +238,10 @@ foreach($db->fetch() as $lrg_data) {
 							THEN
 								(
 									SELECT
-										S_PPO.PAGE_URL
+										CONCAT(
+											S_PPO.PAGE_URL,
+											S_PPO.IDX
+										)
 									FROM
 										dev.PAGE_POSTING S_PPO
 									WHERE
@@ -264,6 +276,7 @@ foreach($db->fetch() as $lrg_data) {
 										SELECT
 											CONCAT(
 												S_PPR.PAGE_URL,
+												S_PPR.IDX,
 												'&menu_sort=S&menu_idx=',
 												MS.IDX
 											)

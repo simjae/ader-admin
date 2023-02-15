@@ -2,20 +2,27 @@
     .profile__wrap {
         margin-top: 40px;
         width: 100%;
-        color: #343434;
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
     }
 
     .profile__tab__btn__container {
+        grid-column: 1/17;
         margin: 0 auto;
-        width: 410px;
         display: grid;
-        place-items: center;
+        gap: 10px;
         grid-template-columns: 80px 80px 80px 90px 80px;
+        font-size: 11px;
+    }
+
+    .profile__tab__wrap {
+        width: 470px;
+        margin: 0 auto;
     }
 
     .profile__wrap .contents__table {
         border: none;
-        width: 470px;
+        width: 100%;
         padding: 0;
         margin: 0;
     }
@@ -100,7 +107,7 @@
         margin-bottom: 10px;
     }
 
-    .title {
+    .profile__tab .title {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
@@ -301,18 +308,30 @@
         border-bottom: 1px solid #dcdcdc;
     }
 
-
     .default_destination td,
     .other_destination td {
         padding-bottom: 0;
     }
 
+    .profile_btn_padding {
+        padding-top: 40px;
+    }
+
     @media (max-width: 1024px) {
 
         .profile__tab__wrap {
+            grid-column: 1/17;
             width: 100%;
-            margin: 0 auto;
             margin-top: 40px;
+        }
+
+        .profile__wrap {
+            margin-top: 20px;
+        }
+
+        .profile__tab__btn__container {
+            gap: 5px;
+            grid-template-columns: 60px 60px 60px 70px 70px;
         }
 
         .profile__wrap .contents__table {
@@ -360,11 +379,19 @@
         .notice_br {
             display: inline;
         }
+
+        .profile__tab .title {
+            margin-top: 0;
+        }
+
+        .profile_btn_padding {
+            padding-top: 30px;
+        }
     }
 
     @media (min-width: 600px) {
         .profile__tab__wrap {
-            width: 580px;
+            width: 470px;
             margin: 0 auto;
             margin-top: 60px;
         }
@@ -372,6 +399,7 @@
 
     @media (min-width: 1024px) {
         .profile__tab__wrap {
+            grid-column: 1/17;
             width: 470px;
             margin: 0 auto;
             margin-top: 80px;
@@ -382,18 +410,11 @@
         }
     }
 
-    @media (max-width: 445px) {
-        .profile__tab__btn__container {
-            display: none;
-        }
-    }
-
     @media (min-width: 445px) {
         .profile__wrap .swiper.tab__btn {
             display: none;
         }
     }
-
 </style>
 <div class="profile__wrap">
     <div class="profile__tab__btn__container">
@@ -665,7 +686,7 @@
                         <span>기본 결제수단으로 저장</span>
                     </label>
                 </div>
-                <div style="padding-top:40px;">
+                <div class="profile_btn_padding">
                     <button class="black__full__width__btn account">저장</button>
                 </div>
                 <div class="footer"></div>
@@ -707,7 +728,7 @@
                     <div class="rows__title">신발 사이즈</div>
                     <select></select>
                 </div>
-                <div class="" style="padding-top:40px;">
+                <div class="profile_btn_padding">
                     <button class="black__full__width__btn" style="font-size: 11px;">저장</button>
                 </div>
                 <div class="footer"></div>
@@ -776,7 +797,7 @@
                     <span style="margin-left: 10px;">기본 배송지로 저장</span>
                 </label>
             </div>
-            <div style="padding-top:40px;">
+            <div class="profile_btn_padding">
                 <button class="black__full__width__btn" onclick="checkOrderToAction()">저장</button>
             </div>
             <div class="footer"></div>

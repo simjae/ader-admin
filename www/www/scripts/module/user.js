@@ -103,7 +103,7 @@ export function User() {
                         <div class="checkbox__label">
                             <input type="checkbox" id="member_id_flg">
                             <label for="member_id_flg"></label>
-                        </div>
+                            </div>
                         <span class="font__small">이메일 저장</span>
                         <span class="font__underline" style="cursor:pointer;" onclick="location.href='/login/check'">비밀번호 찾기</span>
                     </div>

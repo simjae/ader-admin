@@ -95,7 +95,7 @@
                         ?>
                 </div>
             </div>
-
+            <div class="swiper-pagination"></div>
         </article>
         <article class="preview-swiper-wrap">
             <div class="lock-wrap">
@@ -125,8 +125,8 @@
                     ?>
                     </div>
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
+            <div class="swiper-pagination"></div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-button-next"></div>
         </article>

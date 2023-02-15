@@ -73,15 +73,15 @@ import {User} from '/scripts/module/user.js';
 											<div class="swiper-wrapper">
 												${
 													lrg.menu_slide.map((el, idx) => {
-													return`<div class="swiper-slide">
+														return`<div class="swiper-slide" data-title="${el.slide_name}">
 																<div>
 																	<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
-																	<span class="swiper__title">${el.slide_name}</span>
 																</div>
 															</div>`
 													}).join("")
 												}
 											</div>
+											<div class="swiper__title"></div>
 											<div class="swiper-pagination swiper-pagination-${idx}"></div>
 										</div>  
 									</li>
@@ -234,7 +234,12 @@ import {User} from '/scripts/module/user.js';
 				<li class="drop web search_shop" >
 					<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
 				</li>
-				<li class="web bluemark__btn side-bar" data-type="M"><img class="bluemark-svg" src="/images/svg/bluemark.svg" alt=""></li>
+				<li class="web bluemark__btn side-bar" data-type="M">
+					<div class="bluemark__icon lrg">
+						<div class="bluebox"></div>
+						<div class="text">Bluemark</div>
+					</div>
+				</li>
 				<li class="web alg__c side-bar" data-type="E"><span class="language-text">KR</span></li>
 				<li class="web search__li side-bar" data-type="S">					
 					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
@@ -245,12 +250,12 @@ import {User} from '/scripts/module/user.js';
 					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
 					<span>` + userName + `</span>
 				</li>
-				<li class="web"></li>
 				<li class="flex pr-3 lg:hidden mobileMenu">
 					<div class="hamburger" id="hamburger">
-						<span class="line"></span>
-						<span class="line"></span>
-						<span class="line"></span>
+						<div class="line"></div>
+						<div class="line"></div>
+						<div class="line"></div>
+						<div class="line"></div>
 					</div>
 				</li>`;
 		menuHtml +=`</ul>
@@ -303,20 +308,37 @@ import {User} from '/scripts/module/user.js';
 				}
 			});
 			$(this).find(".drop__menu").fadeIn(showRate);
-			if(!headerSwiperArr[idx]){
-				headerSwiperArr[idx] = new Swiper("#menuSwiper"+idx, {
-					observer:true,
-					observeParents:true,
-					pagination: {
-						el: ".swiper-pagination-"+idx,
-						dynamicBullets: true
-					},
-					autoplay: {
-						delay: 2000,
-						disableOnInteraction: false,
-					}
-				}); 
+			if(headerSwiperArr[idx]){
+				headerSwiperArr[idx].destroy();
+				headerSwiperArr[idx] = null;
 			}
+			headerSwiperArr[idx] = new Swiper("#menuSwiper"+idx, {
+				observer:true,
+				observeParents:true,
+				pagination: {
+					el: ".swiper-pagination-"+idx,
+					dynamicBullets: true
+				},
+				autoplay: {
+					delay: 2000,
+					disableOnInteraction: false,
+				}
+			});
+			var swiper__box = $(this).find(".swiper__box");
+			var swiper_title_obj = $(swiper__box).find(".swiper__title")
+			var titleArr = new Array();
+			$(swiper__box).find(".swiper-slide").each(function(idx,el){
+				titleArr.push($(el).attr("data-title"));
+			});
+			if(titleArr.length > 0){
+				$(swiper_title_obj).html(titleArr[0]);
+			}
+			if(titleArr.length == 1){
+				$(".swiper-pagination-"+idx).hide();
+			}
+			headerSwiperArr[idx].on('slideChange', function () {
+				$(swiper_title_obj).html(titleArr[headerSwiperArr[idx].activeIndex]);
+			});
 		},function(){
 			$(this).find(".drop__menu").fadeOut(100);
 		});
@@ -418,7 +440,7 @@ import {User} from '/scripts/module/user.js';
 		`
 		</ul>
 		<ul class="mid">
-			<li class="lrg" data-lrg="6">
+			<li class="lrg" data-lrg="6" data-type="ST">
 				<div class="lrg__back__btn"></div>
 				<div class="lrg__title non_underline"><span>스토리</span></div>
 				<div class="mdlBox">
@@ -502,21 +524,25 @@ import {User} from '/scripts/module/user.js';
 								</li>
 							</ul>
 						</li>
-						<li class="div__line last">
-						</li>
 					</ul>
 				</div>
 			</li>
-			<li><span>매장찾기</span></li>
+			<li class="mobile-store-search-wrap"><span>매장찾기</span></li>
 		</ul>
 		<ul class="bottom">
-			<li class="flex" onclick="location.href='/mypage'"><img src="/images/svg/user-bk.svg" style="width:18px" alt=""><span>` + userName + `</span></li>
-			<li class="mobile-search-wrap">
-				<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:18px" alt=""><span>검색</span></div>
-				<div class="mdlBox"></div>
+			<li class="flex" onclick="location.href='/mypage'">
+				<img src="/images/svg/user-bk.svg" style="width:14px" alt=""><span>` + userName + `</span>
 			</li>
-			<li class="flex bluemark" onclick="location.href='/mypage?mypage_type=bluemark_verify'"><div class="bluemark-icon"></div><span>Bluemark</span></li>
-			<li class="flex language"><span>KR</span><span>Language</span></li>
+			<li class="mobile-search-wrap">
+				<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:14px" alt=""><span>검색</span></div>
+			</li>
+			<li class="mobile-customer-wrap">
+				<div class="mobile__customer__btn lrg__title non_underline"><img src="/images/svg/customer-bk.svg" style="width:14px" alt=""><span>고객서비스</span></div>
+			</li>
+			<li class="flex bluemark" onclick="location.href='/mypage?mypage_type=bluemark_verify'">
+				<div class="bluemark-icon"></div><span>Bluemark</span>
+			</li>
+			<li class="flex language"><div style="width:14px;text-align:center;">KR</div><span>Language</span></li>
 			<li class="flex logout"><span>로그아웃[임시]</span></li>
 		</ul>
 		<div class="mobile__search">
@@ -551,6 +577,7 @@ import {User} from '/scripts/module/user.js';
 			if($(mdlBox_obj).css("display") != "block"){
 				$(this).closest(".side__menu").addClass("lrg__on");
 				let lrg_idx = $(this).parent().attr("data-lrg") - 1;
+				let lrg_type = $(this).parent().attr("data-type");
 				$(".mobile__menu .lrg").each(function(idx,el){
 					if($(el).attr("data-lrg") < lrg_idx){
 						$(el).hide();
@@ -561,30 +588,36 @@ import {User} from '/scripts/module/user.js';
 				});
 				$(".mobile__menu .lrg__title").removeClass("open");
 				$(".mobile__menu .lrg__back__btn").removeClass("open");
+				if(lrg_type == "ST"){
+					$(".mobile-store-search-wrap").hide();
+					$(".bottom").hide();
+				}
 				$(this).addClass("open");
 				$(lrg__back__btn_obj).addClass("open");
-				$(".mdlBox").slideUp(150);
-				$(mdlBox_obj).slideDown(300);
+				$(".mdlBox").slideUp(500);
+				$(mdlBox_obj).slideDown(500);
 				mobileMdlSwipe();
 			}
 		});
 		$(".mobile__menu .lrg__back__btn").click(function(){
-			$(".mdlBox").slideUp(150);
+			$(".mdlBox").slideUp(500);
 			$(".mobile__menu .lrg__title").removeClass("open");
 			$(".mobile__menu .lrg__back__btn").removeClass("open");
 			$(this).closest(".side__menu").removeClass("lrg__on");
-			$(".mobile__menu .lrg").slideDown(200);
+			$(".mobile-store-search-wrap").show();
+			$(".bottom").show();
+			$(".mobile__menu .lrg").slideDown(500);
 		});
 		
 		$(".mobile__search__btn").click(function(){
-			$(".top, .mid, .bottom").slideUp(150);
-			$(".mobile__search").slideDown(200);
+			$(".top, .mid, .bottom").slideUp(500);
+			$(".mobile__search").slideDown(500);
 			$(this).closest(".side__menu").addClass("lrg__on");
 			$(".mobile__search .search__back__btn").addClass("open");
 		});
 		$(".mobile__search .search__back__btn").click(function(){
-			$(".mobile__search").slideUp(150);
-			$(".top, .mid, .bottom").slideDown(150);
+			$(".mobile__search").slideUp(500);
+			$(".top, .mid, .bottom").slideDown(500);
 			$(this).closest(".side__menu").removeClass("lrg__on");
 			$(".mobile__search .search__back__btn").removeClass("open");
 		});
@@ -772,10 +805,8 @@ import {User} from '/scripts/module/user.js';
 						if(path.includes("basket")){
 							e.stopImmediatePropagation();
 						}
-						console.log("베스킷");
 					}
 				}else if(typeTarget === "M"){
-					console.log("블루마켓");
 					let bluemark = new Bluemark();
 					bluemark.writeHtml();
 					if(path.includes("mypage")){
@@ -787,13 +818,11 @@ import {User} from '/scripts/module/user.js';
 					if(path.includes("mypage")){
 						e.stopImmediatePropagation();
 					}
-					console.log("마이페이지");
 				}else if(typeTarget === "W"){
 					if(path.includes("whish")){
 						e.stopImmediatePropagation();
 					}
 					
-					console.log("위시리스트");
 				}
 				sideBarToggleEvent(target);
 			});

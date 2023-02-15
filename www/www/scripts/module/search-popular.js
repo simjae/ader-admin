@@ -8,7 +8,7 @@ export function Search() {
         searchContent.innerHTML = 
             `
                 <div class="search-header">
-                    <img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
+                    <img class="search-svg" src="/images/svg/search.svg" alt="">
                     <input id="search-input" type="search" placeholder="검색 해주세요!">
                 </div>
                 <div class="search-body">
@@ -21,6 +21,7 @@ export function Search() {
                             <li>The new is not new</li>
                             <li>버켄스탁 콜라보레이션</li>
                         </ul>
+                        <div class="search-recommend-title">실시간 인기 제품</div>
                         <div class="popular-wrap">
                             <div class="popular-box">
                                 <img src="http://116.124.128.246:81//images/product/img_BLAFWKV01BL_05_P_M_202210210000.jpg" alt="">
@@ -138,7 +139,7 @@ export function Search() {
         mdlBox.innerHTML = 
             `
                     <div class="search-header">
-                        <img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
+                        <img class="search-svg" src="/images/svg/search.svg" alt="">
                         <input id="search-input" type="search" placeholder="검색 해주세요!">
                     </div>
                     <div class="search-body">

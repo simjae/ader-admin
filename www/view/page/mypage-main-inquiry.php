@@ -2,7 +2,12 @@
     .inquiry__wrap .description::-webkit-scrollbar {
         width: 5px;
     }
-    .inquiry__wrap .title{margin-top:0px;margin-bottom:30px;}
+
+    .inquiry__wrap .title {
+        margin-top: 0px;
+        margin-bottom: 30px;
+    }
+
     .inquiry__wrap .description::-webkit-scrollbar-track {
         background-color: transparent;
     }
@@ -24,14 +29,15 @@
         padding: 12px 0 12px 10px;
         border: solid 1px #808080;
         cursor: pointer;
-        border-top:none;
+        border-top: none;
     }
 
-    .inquiry__category .select-items.select-hide{
-        height:175px;
-        overflow-y:scroll;
-        border-bottom:1px solid;
+    .inquiry__category .select-items.select-hide {
+        height: 175px;
+        overflow-y: scroll;
+        border-bottom: 1px solid;
     }
+
     /* Style items (options): */
     .select-items {
         position: absolute;
@@ -48,13 +54,14 @@
     .select-items div:hover {
         background-color: #dcdcdc;
         border: solid 1px #808080;
-        border-top:none;
+        border-top: none;
     }
 
     .mobile__view select {
         display: none;
     }
-    .inquiry__title .title{
+
+    .inquiry__title .title {
         font-size: 11px;
         font-weight: normal;
         font-stretch: normal;
@@ -62,13 +69,18 @@
         line-height: 1.36;
         letter-spacing: normal;
         text-align: left;
-        margin-bottom:0px;
+        margin-bottom: 0px;
     }
+
     .inquiry__wrap {
         margin-top: 40px;
         display: grid;
         grid-template-columns: repeat(16, 1fr);
         width: 100%;
+    }
+
+    .inquiry__tab.title p {
+        font-size: 13px;
     }
 
     textarea {
@@ -83,18 +95,21 @@
         grid-column: 1/17;
         margin: 0 auto;
         display: grid;
-        gap:10px;
-        place-items: center;
+        gap: 10px;
+        font-size: 11px;
         grid-template-columns: 86px 70px 70px;
     }
+
     .inquiry__faq__wrap {
-        width:470px;
+        width: 470px;
         margin: 0 auto;
     }
-    .inquiry__action__wrap{
-        width:710px;
+
+    .inquiry__action__wrap {
+        width: 710px;
         margin: 0 auto;
     }
+
     .inquiry__faq__detail__wrap {
         width: 100%;
         margin: 0 auto;
@@ -111,29 +126,36 @@
         width: 710px;
         margin: 0 auto;
     }
-    .inquiry__list__wrap .description{
-        padding-left:6px;
+
+    .inquiry__list__wrap .description {
+        padding-left: 6px;
     }
-    .inquiry__list__wrap .description p{    
+
+    .inquiry__list__wrap .description p {
         text-indent: -6px;
         word-break: break-all;
     }
+
     .search {
         position: relative;
         display: flex;
     }
+
     .search__small {
         position: relative;
         width: 110px;
         display: flex;
     }
+
     .inquiry__wrap .close {
         border-bottom: 1px solid #dcdcdc;
     }
+
     .inquiry__wrap .close img {
         width: 14px;
         height: 14px;
     }
+
     .search input {
         width: 100%;
         height: 20px;
@@ -187,7 +209,7 @@
         margin-top: 20px;
     }
 
-    
+
 
     .faq__category__btn.click__btn {
         background-color: #dcdcdc;
@@ -204,6 +226,7 @@
     .inquiry__tab__wrap .footer {
         margin-bottom: 100px;
     }
+
     .inquiry__info {
         margin-bottom: 20px;
     }
@@ -263,13 +286,18 @@
 
     .black__full__width__btn.inquiry__btn {
         width: 110px;
-        float:right;
+        float: right;
     }
+
     @media (max-width: 1024px) {
         .inquiry__tab__wrap {
             grid-column: 1/17;
-            width:100%;
-            margin-top:40px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .inquiry__wrap {
+            margin-top: 20px;
         }
 
         .search__small {
@@ -294,12 +322,35 @@
             display: flex;
             gap: 10px;
         }
-        .inquiry__faq__wrap {width:100%;margin:0 auto;}
-        .inquiry__action__wrap{width:100%;margin: 0 auto;}
-        .inquiry__list__wrap {width:100%;margin: 0 auto;}
-        .inquiry__info.inquiry__title select{width:100px;}
-        .inquiry__info.inquiry__title input{width:100%;}
-        .black__full__width__btn.inquiry__btn {width: 100%;margin-top:10px;}
+
+        .inquiry__faq__wrap {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .inquiry__action__wrap {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .inquiry__list__wrap {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .inquiry__info.inquiry__title select {
+            width: 100px;
+        }
+
+        .inquiry__info.inquiry__title input {
+            width: 100%;
+        }
+
+        .black__full__width__btn.inquiry__btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
         .faq__category__btn {
             cursor: pointer;
             width: 100%;
@@ -318,15 +369,18 @@
             border-radius: 1px;
             border: 1px solid #dcdcdc;
         }
+
     }
+
     @media (min-width: 600px) {
         .inquiry__tab__wrap {
             grid-column: 1/17;
-            width:580px;
-            margin:0 auto;
-            margin-top:40px;
+            width: 470px;
+            margin: 0 auto;
+            margin-top: 40px;
         }
     }
+
     @media (min-width: 1024px) {
         .faq__category__btn {
             cursor: pointer;
@@ -346,16 +400,20 @@
             border-radius: 1px;
             border: 1px solid #dcdcdc;
         }
+
         .inquiry__tab__wrap {
             grid-column: 1/17;
-            width:950px;
-            margin:0 auto;
+            width: 470px;
+            margin: 0 auto;
             margin-top: 50px;
         }
     }
-    .inquiry__wrap .select-items div, .select-selected {
+
+    .inquiry__wrap .select-items div,
+    .select-selected {
         margin-bottom: -1px;
     }
+
     .inquiry__wrap .select-hide {
         margin-top: -1px;
     }
@@ -386,9 +444,10 @@
                 <div class="inquiry__faq__detail__area">
                     <div class="search__small">
                         <input class="search__keyword" type="text">
-                        <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchAction(this)">
+                        <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg"
+                            onclick="searchAction(this)">
                         <div class="close" onclick="deleteResult()">
-                            <img src="/images/mypage/tmp_img/X-12.svg"/>
+                            <img src="/images/mypage/tmp_img/X-12.svg" />
                         </div>
                     </div>
                     <div class="pc__view">
@@ -414,7 +473,7 @@
         <div class="inquiry__tab inquiry__action__wrap">
             <form id="frm-inquiry">
                 <div class="title">
-                    <p>문의하기</p>
+                    <p font-size: 13px;>문의하기</p>
                 </div>
                 <div class="inquiry__info inquiry__title">
                     <span>
@@ -461,9 +520,7 @@
         </div>
         <div class="inquiry__tab inquiry__list__wrap">
             <div class="title">
-                <p>
-                    나의 문의내역
-                </p>
+                <p font-size: 13px;>나의 문의내역</p>
             </div>
             <div class="description">
                 <p>
@@ -534,8 +591,8 @@
                 }
             }
         });
-        $('.inquiry__category').on('click', function() {
-            if($('.inquiry__category').find('.select-hide').is(':visible') == true) {
+        $('.inquiry__category').on('click', function () {
+            if ($('.inquiry__category').find('.select-hide').is(':visible') == true) {
                 $('.inquiry__category').find('img').prop('src', '/images/mypage/mypage_up_tab_btn.svg');
             } else {
                 $('.inquiry__category').find('img').prop('src', '/images/mypage/mypage_down_tab_btn.svg');
@@ -593,7 +650,7 @@
 
     function searchAction(obj) {
         var keyword = $(obj).parent().find('input').eq(0).val();
-        if(keyword.length == 0 || keyword == ''){
+        if (keyword.length == 0 || keyword == '') {
             return false;
         }
 
@@ -626,7 +683,7 @@
             $('.category__small').find('.faq__category__btn').removeClass('click__btn');
             $(obj).addClass('click__btn');
 
-            var cate_name = $('#inq_cate option[value='+ cate_no +']').text();
+            var cate_name = $('#inq_cate option[value=' + cate_no + ']').text();
             $('.inquiry__category .select-items div:contains("' + cate_name + '")').click();
             $('.inquiry__category img').attr('src', '/images/mypage/mypage_down_tab_btn.svg');
             $('.inquiry__category .select-items.select-hide').css('display', 'none');
@@ -653,39 +710,39 @@
         $(obj).next().toggle();
     }
 /*
-    function makeSelect(divId) {
-        var selectDiv = $('.' + divId);
-        selectDiv.css('position', 'relative');
-        var SelLen = selectDiv.find('select option').length;
-
-        var selectedDiv = ` <div class="select-selected">${selectDiv.find('select option:selected').text()}</div>`;
-        selectDiv.append(selectedDiv);
-
-        var selectHideDiv = `<div class="select-items select-hide">`;
-        for (var i = 0; i < SelLen; i++) {
-            selectHideDiv += `  
-                            <div>${selectDiv.find(`select option:eq(${i})`).text()}</div>
-                        `;
+        function makeSelect(divId) {
+            var selectDiv = $('.' + divId);
+            selectDiv.css('position', 'relative');
+            var SelLen = selectDiv.find('select option').length;
+    
+            var selectedDiv = ` <div class="select-selected">${selectDiv.find('select option:selected').text()}</div>`;
+            selectDiv.append(selectedDiv);
+    
+            var selectHideDiv = `<div class="select-items select-hide">`;
+            for (var i = 0; i < SelLen; i++) {
+                selectHideDiv += `  
+                                <div>${selectDiv.find(`select option:eq(${i})`).text()}</div>
+                            `;
+            }
+            selectHideDiv += `  </div>`;
+            selectDiv.append(selectHideDiv);
+    
+            selectDiv.find('.select-items').find('div').on('click', function () {
+                var clickCountryText = $(this).text();
+    
+                var sameCountryOption = selectDiv.find(`select option:contains("${clickCountryText}")`);
+                sameCountryOption.prop('selected', true);
+    
+                selectDiv.find('.select-selected').text(clickCountryText);
+    
+                selectDiv.find('.select-items').toggle();
+    
+                getFaqList('click', $('#inq_cate').val());
+            })
+    
+            selectDiv.find('.select-selected').on('click', function () {
+                selectDiv.find('.select-items').toggle();
+            });
         }
-        selectHideDiv += `  </div>`;
-        selectDiv.append(selectHideDiv);
-
-        selectDiv.find('.select-items').find('div').on('click', function () {
-            var clickCountryText = $(this).text();
-
-            var sameCountryOption = selectDiv.find(`select option:contains("${clickCountryText}")`);
-            sameCountryOption.prop('selected', true);
-
-            selectDiv.find('.select-selected').text(clickCountryText);
-
-            selectDiv.find('.select-items').toggle();
-
-            getFaqList('click', $('#inq_cate').val());
-        })
-
-        selectDiv.find('.select-selected').on('click', function () {
-            selectDiv.find('.select-items').toggle();
-        });
-    }
-    */
+        */
 </script>

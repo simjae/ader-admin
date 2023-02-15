@@ -1,16 +1,24 @@
 <style>
     .service__wrap {
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
         margin-top: 40px;
         width: 100%;
     }
 
     .service__tab__btn__container {
+        grid-column: 1/17;
         margin: 0 auto;
-        width: 405px;
         display: grid;
         gap: 10px;
-        place-items: center;
         grid-template-columns: 70px 134px 70px 100px;
+        font-size: 11px;
+    }
+
+    .service__tab__wrap {
+        grid-column: 1/17;
+        width: 470px;
+        margin: 0 auto;
     }
 
     .service__tab__wrap .title {
@@ -101,9 +109,19 @@
             margin-bottom: 60px;
         }
 
+        .service__tab__btn__container {
+            gap: 3px;
+            grid-template-columns: 56px 124px 56px 94px;
+        }
+
         .service__tab__wrap {
+            grid-column: 1/17;
             width: 100%;
-            margin-top: 37px;
+            margin-top: 40px;
+        }
+
+        .service__wrap {
+            margin-top: 20px;
         }
 
         .service__wrap .description {
@@ -125,15 +143,10 @@
 
     @media (min-width: 1024px) {
         .service__tab__wrap {
+            grid-column: 1/17;
             width: 710px;
             margin: 0 auto;
             margin-top: 50px;
-        }
-    }
-
-    @media (max-width: 445px) {
-        .service__tab__btn__container {
-            display: none;
         }
     }
 

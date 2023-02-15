@@ -1,6 +1,11 @@
 <style>
 input{outline: none;}
-
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
 .content__wrap{
     margin-top:10px;
     margin-bottom:10px;
@@ -36,16 +41,13 @@ input{outline: none;}
   border: 1px solid gray;
   width: 10px;
   height: 10px;
-  margin: 0px;
+  margin: 2px 0 0 0;
   padding: 0px;
 }
 .login__card [type="checkbox"]:checked {
     background-color: #000000;
 }
-.login__card label{
-    padding-right: 10px;
-    vertical-align: middle;
-}
+
 .login__card label p,label span{
     font-size: 11px;
     font-family:var(--ft-no-fu);
@@ -100,6 +102,18 @@ input{outline: none;}
     margin-top:20px;
 }
 @media (min-width: 1024px){
+    .login__card label {
+        padding-right: 10px;
+        vertical-align: middle;
+    }
+    .content__row .email_checkbox {
+        display: flex;
+        justify-content: space-between;
+    }
+    .email_checkbox .checkbox__label {
+        display: flex;
+        align-items: center;
+    }
     input[type="password"], input[type="text"]{
         width: 470px;
         height: 40px;
@@ -164,6 +178,19 @@ input{outline: none;}
     }
 }
 @media (max-width: 1024px){
+    .login__card label {
+        padding-right: 4px;
+        vertical-align: middle;
+    }
+    .content__row .email_checkbox {
+        display: flex;
+        justify-content: space-between;
+    }
+    .email_checkbox .checkbox__label {
+        display: flex;
+        align-items: center;
+    }
+
     input[type="password"], input[type="text"]{
         width: 340px;
         height: 40px;
@@ -227,6 +254,12 @@ input{outline: none;}
 }
 </style>
 <?php
+    function getUrlParamter($url, $sch_tag) {
+        $parts = parse_url($url);
+        parse_str($parts['query'], $query);
+        return $query[$sch_tag];
+    }
+
 	if (isset($_SESSION['MEMBER_IDX'])) {
 		echo "
 			<script>
@@ -234,7 +267,10 @@ input{outline: none;}
 			</script>
 		";
 	}
-	
+
+    $page_url = $_SERVER['REQUEST_URI'];
+    $r_url = getUrlParamter($page_url, 'r_url');
+
 ?>
 <main>
     <div class="login__card">
@@ -246,6 +282,7 @@ input{outline: none;}
             <form id="frm-login">
                 <input type="hidden" name="country" value="KR">
                 <input type="hidden" name="member_ip" value="0.0.0.0">
+                <input type="hidden" name="r_url" value="<?=$r_url?>">
                 <div class="content__wrap">
                     <div class="content__title">이메일
                     <p class="font__underline font__red member_id_msg"></p>
@@ -267,12 +304,12 @@ input{outline: none;}
                 </div>
             </form>
             <div class="content__wrap">
-                <div class="content__row">
+                <div class="content__row email_checkbox">
                     <div class="checkbox__label">
                         <input type="checkbox" id="member_id_flg">
                         <label for="member_id_flg"></label>
+                        <span class="font__small">이메일 저장</span>
                     </div>
-                    <span class="font__small">이메일 저장</span>
                     <span class="font__underline" style="cursor:pointer;" onclick="location.href='/login/check'">비밀번호 찾기</span>
                 </div>
             </div>

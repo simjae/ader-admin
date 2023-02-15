@@ -146,7 +146,7 @@
                 <p class="service">Office hour Mon - Fri AM 10:00 - PM 5:00</p>
             </div>
         </li>
-        <li class="footer__content" style="grid-column: 14/17;">
+        <li class="footer__content" style="grid-column: 14/17; padding-left: 50px;">
             <div class="f__title">
                 <span >회사정보</span >
             </div>

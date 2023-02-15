@@ -243,7 +243,8 @@
     .point__item {
         display: grid;
         place-items: center;
-        padding: 0 29.5px;
+        /* padding: 0 29.5px; */
+        width: 110px;
         height: 32px;
     }
 
@@ -300,7 +301,7 @@
         text-align: center;
         font-size: 13px;
         font-family: var(--ft-no-fu);
-        width: 51px;
+        width: 90px;
         height: 17px;
     }
 
@@ -312,6 +313,10 @@
     .point__item.center__contents {
         border-right: 1px solid;
         border-color: #dcdcdc;
+    }
+
+    .point__item.right__contents {
+        margin-left: -10px;
     }
 
     .non__display__tab {
@@ -487,6 +492,7 @@
 
     .swiper.icon .swiper-slide {
         width: 70px !important;
+        margin-right: 10px;
     }
 
     .swiper.icon {
@@ -510,37 +516,21 @@
     }
 
     .tab__btn__item {
-        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
         height: 24px;
-        border: none;
-        text-align: center
+        cursor: pointer;
+        font-size: 11px;
+        color: #343434;
+        opacity: 0.5;
     }
 
     .tab__btn__item.selected {
-        cursor: pointer;
-        height: 24px;
-        border: 1px solid;
-        width: 100%
-    }
-
-    .tab__btn__item span {
-        color: #B6B6B6;
-        line-height: 24px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
-        text-align: center;
-    }
-
-    .tab__btn__item.selected span {
-        color: black;
-        line-height: 24px;
-        font-weight: normal;
-        font-stretch: normal;
-        font-style: normal;
-        letter-spacing: normal;
-        text-align: center;
+        border: 1px solid #808080;
+        color: #343434;
+        opacity: 1;
     }
 
     .mypage--paging .page {
@@ -595,17 +585,6 @@
 
         .mobile__view {
             display: none
-        }
-
-        .tab__btn__item span {
-            color: #B6B6B6;
-            line-height: 24px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            font-size: 11px;
-            letter-spacing: normal;
-            text-align: center;
         }
     }
 
@@ -671,7 +650,8 @@
         }
 
         .point__item {
-            padding: 0 19.5px;
+            /* padding: 0 19.5px; */
+            width: 90px;
         }
 
         .icon__item .icon,

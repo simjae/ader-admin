@@ -375,3 +375,13 @@ function Vctrbox(el) {
         });
     })();
 }
+/**
+ * @author SIMJAE
+ * @param {String} key 
+ * @description location.href 주소값의 파라미터 키값
+ */
+function getUrlParamValue(key) {
+    const urlParams = new URL(location.href).searchParams;
+    const param_value = urlParams.get(`${key}`);
+    return param_value;
+}

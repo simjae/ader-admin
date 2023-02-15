@@ -74,7 +74,7 @@
             </a>
         </div>
         <div class="story__item" seq="3">
-            <a href="http://116.124.128.246/posting/lookbook">
+            <a href="http://116.124.128.246/posting/lookbook?page_idx=46">
                 <img src="/images/story/Collection.jpg" alt="collection">
                 <p>Collection</p>
             </a>
@@ -105,7 +105,7 @@
             <div>Runway</div>
         </div>
         <div class="story__moblie__item">
-            <a href="http://116.124.128.246/posting/lookbook">
+            <a href="http://116.124.128.246/posting/lookbook?page_idx=46">
                 <img src="/images/story/moblie_collection_story.png" alt="collection">
             </a>
         </div>
