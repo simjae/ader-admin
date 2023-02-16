@@ -1,6 +1,6 @@
 let delay = 300;
 let timer = null;
-let breakpoint = window.matchMedia('screen and (min-width:1025px)');
+var breakpoint = window.matchMedia('screen and (min-width:1025px)');
 const urlParams = new URL(location.href).searchParams;
 const productIdx = urlParams.get('product_idx');
 const productDetailInfoArr = getProductDetailInfo(productIdx);
@@ -129,11 +129,21 @@ const getProduct = (product_idx) => {
                     whish_function = "return false;";
 
                 }
-
+                let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
 
                 infoBoxHtml = `
 						<div class="product__title">${el.product_name}</div>
-						<div class="product__price">${el.sales_price.toLocaleString('ko-KR')}</div>
+                        ${el.discount == 0 ? 
+                            `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">
+                                <span>${el.price.toLocaleString('ko-KR')}</span>
+                            </div>` 
+                            : 
+                            `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-dis="true">
+                                <span class="sp">${saleprice}</span>
+                                <span class="cp" data-discount="${el.discount}" >${el.price.toLocaleString('ko-KR')}</span>
+                                <span class="di">${el.discount}%</span>
+                            </div>`
+                        } 
 						<div class="color__box">
 							${productColorHtml}
 						</div>
@@ -266,6 +276,7 @@ function responsiveSwiper() {
             });
         }
         pagingSwiper.controller.control = mainSwiper;
+    
     }
 
 };
@@ -286,105 +297,6 @@ function initPagingSwiper() {
         },
     });
 }
-
-//스타일링 스와이프	
-// const getRelevantProductList = (relevant_idx, country) => {
-//     $.ajax({
-//         type: "post",
-//         data: {
-//             "relevant_idx": relevant_idx,
-//             "country": country
-//         },
-//         dataType: "json",
-//         url: "http://116.124.128.246:80/_api/common/relevant/get",
-//         error: function () {
-//             alert("관련상품정보 불러오기 처리에 실패했습니다.");
-//         },
-//         success: function (d) {
-//             let data = d.data;
-
-//             let productRelevantListHtml = "";
-//             let imgDiv = "";
-//             const domFrag = document.createDocumentFragment();
-
-//             const styleWrap = document.querySelector(".style-swiper");
-//             const prdListSlide = document.createElement("div");
-//             prdListSlide.classList.add("swiper-wrapper");
-//             data.forEach(el => {
-//                 let product_link = "/product/detail?product_idx=" + `${el.product_idx}`;
-
-//                 let whish_img = "";
-//                 let whish_function = "";
-
-//                 let whish_flg = `${el.whish_flg}`;
-//                 if (whish_flg == 'true') {
-//                     whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
-//                     whish_function = "deleteWhishListBtn(this);";
-//                 } else if (whish_flg == 'false') {
-//                     whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-//                     whish_function = "setWhishListBtn(this);";
-//                 }
-
-//                 let product_size = el.product_size;
-
-//                 let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
-//                 let colorCtn = el.product_color.length;
-
-
-//                 let productSizeHtml = "";
-//                 product_size.forEach(size => {
-//                     productSizeHtml += `
-// 							<div class="product__size">${size.option_name}</div>
-// 						`;
-//                 });
-
-//                 productRelevantListHtml +=
-//                     `<div class="swiper-slide">
-// 						<div class="product">
-// 							<div class="wish__btn" product_idx="${el.product_idx}" onClick="${whish_function}">
-// 								${whish_img}
-// 							</div>
-// 							<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
-// 								<div class="product-img swiper">
-// 									<img class="prd-img" cnt="${el.product_idx}" src="${img_root}${el.product_img}" alt="">
-// 								</div>
-// 							</a>
-// 							<div class="product-info">
-// 								<div class="info-row">
-// 									<div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
-// 									${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
-// 								</div>
-// 								<div class="color-title"><span>${el.color}</span></div>
-// 								<div class="info-row">
-// 									<div class="color__box" data-maxcount="${colorCtn < 6 ? "" : "over"}" data-colorcount="${colorCtn < 6 ? colorCtn : colorCtn - 5}">
-// 										${el.product_color.map((color, idx) => {
-//                         let maxCnt = 5;
-//                         if (idx < maxCnt) {
-//                             return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-//                         }
-//                     }).join("")
-//                     }
-// 									</div>
-// 									<div class="size__box">
-// 										${el.product_size.map((size) => {
-//                         return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-//                     }).join("")
-//                     }  
-// 									</div>
-// 								</div>
-// 							</div>
-// 						</div>
-// 					</div>
-// 					`;
-
-//                 prdListSlide.innerHTML = productRelevantListHtml;
-//             });
-//             domFrag.appendChild(prdListSlide);
-//             styleWrap.appendChild(domFrag);
-//             styleSwiper();
-//         }
-//     });
-// }
 function styleSwiper() {
     return new Swiper(".style-swiper", {
         navigation: {
@@ -419,10 +331,6 @@ function followScrollBtn() {
             mainSwiper.slideTo(thumbIdx)
         }
     }));
-
-    // let typeO = [...detailProduct].filter(el => el.dataset.imgtype==="O")
-    // let typeP = [...detailProduct].filter(el => el.dataset.imgtype==="P")
-    // let typeD = [...detailProduct].filter(el => el.dataset.imgtype==="D")
     function toScroll(targetValue) {
         window.scrollTo({
             top: targetValue,
@@ -434,28 +342,44 @@ function followScrollBtn() {
 //이미지 확대 함수
 function viewportImg() {
     let img = new Image();
-    let slide = document.querySelectorAll(".detail__img__wrap .swiper-slide img");
+    let $$slide = document.querySelectorAll(".detail__img__wrap .swiper-slide img");
     let closebtn = document.createElement("div");
-    closebtn.append("[X]")
+    closebtn.innerHTML =`
+        <img src="http://116.124.128.246:80/images/svg/img-close-btn.svg">
+    `
     closebtn.className = "viewport__closebtn"
     let imageWrap = document.createElement("div");
     imageWrap.className = "viewport__wrap--img";
-    slide.forEach(el => el.addEventListener("click", function (e) {
-
-        let src = e.target.getAttribute("src");
-        img.className = "viewport-img";
-        img.setAttribute("src", src)
-        imageWrap.appendChild(img);
-        imageWrap.appendChild(closebtn);
-        document.body.appendChild(imageWrap);
-        document.body.style.overflow = "hidden";
-    }))
+    $$slide.forEach(el => {
+        el.addEventListener("click", function (e) {
+            let src = e.target.getAttribute("src");
+            img.className = "viewport-img";
+            img.setAttribute("src", src)
+            imageWrap.appendChild(img);
+            imageWrap.appendChild(closebtn);
+            document.body.appendChild(imageWrap);
+            document.body.style.overflow = "hidden";
+            let $viewportWrap = document.querySelector(".viewport__wrap--img")
+            if(window.matchMedia('screen and (min-width:1025px)').matches){
+                $viewportWrap.addEventListener("click",webImgClose);
+            }else {
+                $viewportWrap.removeEventListener("click",webImgClose);    
+            }
+        });
+      
+        function webImgClose(){
+            document.body.style.overflow = "inherit";
+            this.remove();
+        }
+    })
+    
     closebtn.addEventListener("click", function () {
         document.body.style.overflow = "inherit";
         document.querySelector(".viewport__wrap--img").remove();
-    })
-}
+    });
 
+    
+}
 //쇼핑백 관련 함수들
 function basketStatusBtn() {
     const sizeResult = sizeStatusCheck();
@@ -543,7 +467,6 @@ function basketBtnStatusChange(el, idx) {
     })
 
 }
-
 //사이즈 상태 체크 함수
 function sizeBtnHandler() {
     const $$productBtn = document.querySelectorAll(".basket-btn");
@@ -791,7 +714,6 @@ function getProductDetailInfo (product_idx){
  * @description 웹 상품정보 사이드바 
  */
 function innerSideBar(){
-
     let sideWrap = document.createElement("div");
     sideWrap.className = "detail__sidebar__wrap"
     sideWrap.innerHTML = `
@@ -821,17 +743,18 @@ function innerSideBar(){
 }
 function webDetailBtnHanddler(){
     let $$detailBtn = document.querySelectorAll(".info__box .detail__btn__row");
+    let $detailWrap = document.querySelector(".info__box .detail__btn__wrap.web");
     let currentIdx = 0;
     $$detailBtn.forEach((btn, idx) => {
         btn.addEventListener("click", function (e) {
             if (e.currentTarget.classList.contains("select")) {
                 // unSelectBtn(btn,e);
+                sideBarClose();
             } else {
-                sideBarOpen();
+                sideBarOpen(e);
                 selectBtn(btn);
             }
             currentIdx = clickControllBtnEvent();
-            console.log("🏂 ~ file: detail.js:1220 ~ currentIdx", currentIdx)
             mobileSizeGuideContentBody(idx);
         });
     });
@@ -877,14 +800,16 @@ function webDetailBtnHanddler(){
         }
     }
      //이벤트 달기
-    function sideBarOpen() {
-        $detailSidebarWrap.classList.add("open")
+    function sideBarOpen(e) {
+        e.target.offsetParent.classList.add("open");
+        $detailSidebarWrap.classList.add("open");
         $sidebarBg.classList.add("open");
         $sidebarWrap.classList.add("open");
         $sidebarCloseBtn.addEventListener("click",sideBarClose)
     }
     function sideBarClose() {
-        $detailSidebarWrap.classList.remove("open")
+        $detailWrap.classList.remove("open");
+        $detailSidebarWrap.classList.remove("open");
         $sidebarBg.classList.remove("open");
         $sidebarWrap.classList.remove("open");
         $$detailBtn.forEach(el => el.classList.remove("select"));

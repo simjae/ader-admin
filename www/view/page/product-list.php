@@ -57,7 +57,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                 </div>
             </div>
             <div class="line"></div>
-            <div class="prd__category__wrap" style="display:none;">
+            <div class="prd__category__wrap">
                 <div class="prd__meun__category">
                 </div>
             </div>

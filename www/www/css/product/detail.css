@@ -13,6 +13,15 @@ ul,li{
     right: 0;
     z-index: 10;
     position: fixed;
+
+    /* max-width: 2580px;
+    width: 100vw;
+    top: 0;
+    left: auto;
+    bottom: 0;
+    right: auto;
+    z-index: 10;
+    position: fixed; */
 }
 .detail__sidebar__wrap.open{
     visibility:visible;
@@ -31,8 +40,11 @@ ul,li{
     background-color: #ffffff;
     gap: 10px;
     transform: translateX(100%);
+    position: relative;
+    left: -15px;
     grid-column: 10/17;
     height: 100vh;
+    overflow-y: auto;
 }
 .detail__sidebar__wrap .sidebar__wrap.open{
     transform: translateX(0%);
@@ -40,9 +52,9 @@ ul,li{
 }
 .detail__sidebar__wrap .detail--box--btn {
     position: absolute;
-    width: 40px;
+    width: 45px;
     height: 100vh;
-    background-color: #ffffff;
+    border-right: 1px solid #dcdcdc;
 }
 .detail__sidebar__wrap .top {
     background-color: #ffffff;
@@ -60,8 +72,18 @@ ul,li{
     justify-content: flex-end;
     padding: 120px 80px 0 10px;
 }
+.sidebar__close__btn{
+    padding: 10px;
+    transform: rotate(0deg);
+    transition: transform 0.5s;
+}
+.sidebar__close__btn:hover{
+    transform: rotate(90deg);
+    transition: transform 0.5s;
+}
+
 .sidebar__body{
-    padding: 77px 0 40px 10px;
+    padding: 50px 0 40px 10px;
     margin-left: 40px;
 }
 .content__btn__wrap{
@@ -203,6 +225,52 @@ ul,li{
     padding-top: 13px;
     padding-bottom: 60px;
 }
+
+/* 가격 */
+.info__box .product__price{
+    position: relative;
+}
+.info__box .product__price[data-dis="true"]{
+    position: relative;
+    color: #34343494;
+}
+.info__box .product__price[data-dis="true"] .sp{
+    position: relative;
+    margin-right: 14px;
+    color: #343434;
+}
+.info__box .product__price[data-dis="true"] .cp{
+    text-decoration: line-through #000000;
+    color: #34343494;
+    font-size: 10px;
+}
+.info__box .product__price[data-dis="true"] .di{
+    font-size: 10px;
+    color: #343434;
+}
+
+.info__box .product__price[data-soldout="STSO"]::after {
+    text-decoration: none;
+    content: "Sold out"!important;
+    font-family: FuturaLTPro;
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: #343434;
+}
+.info__box .product__price[data-soldout="STSO"] .cp{
+    text-decoration: line-through #343434;
+    color: #34343494;
+    font-size: 13px;
+}
+.info__box .product__price[data-soldout="STSO"] .sp,
+.info__box .product__price[data-soldout="STSO"] .di{
+    display: none;
+}
+/* 가격 */
+
+
+
+
 .info__wrap .product__color {
     display: none;
     font-family: var(--ft-no-fu);
@@ -298,7 +366,7 @@ ul,li{
     top: -2px;
 }
 .size__box .size.select {
-    border-bottom: 2px solid #343434;
+    border-bottom: 1px solid #343434;
 }
 .size__box .size[data-soldout="STSC"].select {
     border-bottom: 0px;
@@ -380,7 +448,7 @@ ul,li{
 .basket__wrap--btn.nav {
     display: none;
 }
-.basket__box--btn{display: grid;grid-template-columns: 2fr 1fr;border: solid 1px #808080;height: 35px;align-items: center;border-radius: 0px;height: 40px;}
+.basket__box--btn{display: grid;grid-template-columns: 2fr 1fr;border: solid 1px #808080;align-items: center;border-radius: 2px;height: 36px;}
 
 .basket__box--btn .basket-btn:hover {
     background-color: #0c0c0c;
@@ -404,8 +472,8 @@ ul,li{
 
 
 .basket__box--btn .basket-btn img{
-    width:17px;
-    height:13px;
+    width:9px;
+    height:14px;
 }
 .basket__box--btn .basket-btn[data-status="2"]:hover {
     background-color: #0c0c0c;
@@ -459,7 +527,7 @@ ul,li{
 .basket__box--btn .basket-btn{
     cursor: pointer;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
     height: 100%;
     align-items: center;
@@ -472,6 +540,10 @@ ul,li{
     justify-content: center;
     height: 100%;
     gap: 5px;
+}
+.basket__box--btn .whish-btn .whish_img {
+    width: 14.4px;
+    height: 12px;
 }
 /* .basket__box--btn .basket-btn img {
     width: 10px;
@@ -698,9 +770,12 @@ ul,li{
 }
 
 .detail__content__box .sizeguide-btn {
-    padding: 7px 15px 6px;
+    padding: 3px 15px;
     border-radius: 2px;
     border: solid 1px #dcdcdc;
+    vertical-align: middle;
+    box-sizing: border-box;
+    height: 24px;
 }
 
 
@@ -748,8 +823,16 @@ ul,li{
     max-height: 100%;
 }
 .detail__btn__row.select .img-box {
-    transition: all 3s;
+    transition: all 1.5s;
     background-color: #000000;
+}
+.detail__btn__wrap.web.open .detail__btn__row .img-box{
+    border: 1px solid #dcdcdc;
+    box-sizing: border-box;
+    border-bottom: 0;
+}
+.detail__btn__wrap.web.open:last-of-type .detail__btn__row .img-box{
+    border-bottom: 1px solid #dcdcdc;
 }
 .detail__btn__row.select .img-box img{
     filter: var(--filter-wh);
@@ -799,9 +882,11 @@ ul,li{
     left: -15px;
 }
 .rM-detail-containner{
-display: none;
+    display: none;
 }
-
+.styling-with-wrap{
+    padding-top: 0!important;
+}
 @media (max-width: 1025px){
     .size__box li[data-soldout="STCL"]:hover::before{
         left: -30px;
