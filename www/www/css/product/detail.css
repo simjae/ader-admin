@@ -376,7 +376,7 @@ ul,li{
     border-radius: 50%;
 }
 
-.basket__wrap--btn{padding-bottom: 60px;}
+.basket__wrap--btn{padding-bottom: 45px;}
 .basket__wrap--btn.nav {
     display: none;
 }
@@ -795,6 +795,8 @@ ul,li{
 }
 .detail__wrapper .detail__btn__wrap{
     display: block;
+    position: relative;
+    left: -15px;
 }
 .rM-detail-containner{
 display: none;
