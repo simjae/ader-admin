@@ -133,7 +133,12 @@ ul,li{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.navigation__wrap .thumb__box img{
+    width: 100%;
     max-width: 80px;
+    min-width: 54px;
+    height: 100%;
     max-height: 100px;
     min-width: 54px;
 }
@@ -155,6 +160,7 @@ ul,li{
     height: 100%;
     object-fit: cover;
     object-position: 50% 50%;
+    cursor: zoom-in;
 }
 
 /* .main__swiper img{
@@ -213,7 +219,7 @@ ul,li{
     display: flex;
     gap: 3.5rem;
     flex-wrap: wrap;
-    margin-bottom: 70px;
+    margin-bottom: 60px;
     font-family: var(--ft-no-fu);
     font-size: 11px;
     text-align: left;
@@ -494,7 +500,7 @@ ul,li{
 }
 .detail__btn__row .img-box {
     z-index: 11;
-    width: 40px;
+    width: 45px;
     height: 45px;
     display: flex;
     align-items: center;
@@ -572,8 +578,10 @@ ul,li{
     width: 100%;
     background-color: #f8f8f8;
     overflow: hidden;
+    cursor:url('http://116.124.128.246:80/images/svg/img-close-btn.svg'), auto;
 }
 .viewport__closebtn{
+    display: none;
     position: absolute;
     top: 10%;
     left: 80%;
@@ -786,7 +794,7 @@ ul,li{
     display: none;
 }
 .detail__wrapper .detail__btn__wrap{
-display: block;
+    display: block;
 }
 .rM-detail-containner{
 display: none;
@@ -832,6 +840,10 @@ display: none;
     }
     .viewport__wrap--img .viewport-img{
         height: 100%;
+        cursor: auto;
+    }
+    .viewport__closebtn{
+        display: block;
     }
     .detail__wrapper {
         display: flex;
