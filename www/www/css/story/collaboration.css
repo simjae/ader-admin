@@ -23,7 +23,7 @@
 }
 .collaboration-wrap .banner .banner-logo {
     position: absolute;
-    top: 75%;
+    top: 85%;
     left: 50%;
     transform: translate(-50%, -50%);
     
@@ -44,7 +44,6 @@ hover
 
 @media(max-width:1025px){ 
     .collaboration-wrap {
-        margin-top: 20px;
         display: grid;
         grid-template-columns: repeat(3,1fr);
     }

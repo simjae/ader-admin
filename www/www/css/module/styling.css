@@ -16,6 +16,7 @@
 }
 .styling-wrap .left__title span{
     text-decoration: underline;
+    font-size: 13px;
 }
 .styling-wrap .swiper-grid{
     grid-column: 2/17;

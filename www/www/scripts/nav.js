@@ -179,7 +179,7 @@ import {User} from '/scripts/module/user.js';
 										<a href="/story/main" class="menu-ul">아카이브</a>
 										<ul class="list__grid">
 											<li class="st__box">
-												<div class="mid-a archiveTitle"><a href="/posting/lookbook" class="menu-ul">프로젝트</a></div>
+												<div class="mid-a archiveTitle"><a href="/posting/lookbook?page_idx=46" class="menu-ul">프로젝트</a></div>
 												<div class="archiveBox">
 													<ul>
 														<li class="archiveList link">2022 SS  'After blue'</li>
@@ -189,7 +189,7 @@ import {User} from '/scripts/module/user.js';
 													</ul>
 													<ul>
 														<li class="archiveList dot"></li>
-														<li class="archiveList allBtn"><a href="/posting/lookbook" class="menu-ul">+  전체보기</a></li>
+														<li class="archiveList allBtn"><a href="/posting/lookbook?page_idx=46" class="menu-ul">+  전체보기</a></li>
 													</ul>
 												</div>
 											</li>
@@ -483,14 +483,14 @@ import {User} from '/scripts/module/user.js';
 							<div class="sub__title"><a href="http://116.124.128.246/story/main">아카이브</a></div>
 							<ul class="list__grid">
 								<li class="st__box">
-									<div class="mid-a archiveTitle" onclick="location.href='/posting/lookbook'">프로젝트</div>
+									<div class="mid-a archiveTitle" onclick="location.href='/posting/lookbook?page_idx=46'">프로젝트</div>
 									<div class="archiveBox">
 										<ul>
 											<li class="archiveList" onclick="location.href='/posting/lookbook'">2022 SS  'After blue'</li>
 											<li class="archiveList" onclick="location.href='/posting/lookbook'">2022 Origin 'Cinder'</li>
 											<li class="archiveList" onclick="location.href='/posting/lookbook'">2021 AW 'Un nouveau système'</li>
 											<li class="archiveList" onclick="location.href='/posting/lookbook'">2021 SS 'Layering time'</li>
-											<li class="archiveList allBtn" onclick="location.href='/posting/lookbook'">+  전체보기</li>
+											<li class="archiveList allBtn" onclick="location.href='/posting/lookbook?page_idx=46'">+  전체보기</li>
 										</ul>
 									</div>
 								</li>

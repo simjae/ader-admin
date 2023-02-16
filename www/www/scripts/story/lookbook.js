@@ -281,10 +281,6 @@ const getLookbookListApi = (project_idx, last_idx) => {
         },
         success: function (d) {
             result = d.data;
-            console.log(result)
-            if (result == undefined) {
-                return false ;
-            }
         }
     })
     return result;
@@ -427,7 +423,10 @@ function makeCategorySlide(project_idx, src, title, idx) {
     `;
     categorySwiperSlide.className = "swiper-slide";
     categorySwiperSlide.dataset.projectidx = project_idx;
-    if (categorySwiperSlide.dataset.projectidx == getUrlParamValue('page_idx')) {
+    // if (categorySwiperSlide.dataset.projectidx == getUrlParamValue('page_idx')) {
+    //     categorySwiperSlide.classList.add("select");
+    // }
+    if (idx == 0) {
         categorySwiperSlide.classList.add("select");
     }
     categorySwiperSlide.innerHTML = imgHtml;

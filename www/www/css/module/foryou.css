@@ -16,6 +16,7 @@
 }
 .foryou-wrap .left__title span{
     text-decoration: underline;
+    font-size: 13px;
 }
 .foryou-wrap .swiper-grid{
     grid-column: 2/17;

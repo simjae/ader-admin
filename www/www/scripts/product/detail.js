@@ -751,6 +751,7 @@ function webDetailBtnHanddler(){
                 // unSelectBtn(btn,e);
                 sideBarClose();
             } else {
+                stylingOversever();
                 sideBarOpen(e);
                 selectBtn(btn);
             }
@@ -820,5 +821,20 @@ function webDetailBtnHanddler(){
             $$sizeBtn.forEach(el => el.classList.remove("select"));
             this.classList.add("select");
         }));
+    }
+    function stylingOversever(){
+        const target = document.querySelector('.styling-with-wrap');
+        const ioCallback = (entries, io) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    console.log("나타남")
+                    sideBarClose();
+                }else{
+                    console.log("사라짐")
+                }
+            });
+        };
+        const stylingObserve = new IntersectionObserver(ioCallback, { threshold: 0.4 });
+        stylingObserve.observe(target);
     }
 }

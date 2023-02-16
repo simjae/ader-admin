@@ -381,23 +381,23 @@
 }
 #sidebar .user-body{
     display: flex;
-    gap: 40px;
-}
-#sidebar .user-content ul{
-    display: flex;
     flex-direction: column;
+    align-items: center;
+    /* gap: 10px; */
+}
+#sidebar .user-content {
+    display: flex;
+    font-size: 11px;
     gap: 10px;
 }
 #sidebar .content-row {
-    display: flex;
-    gap: 10px;
-}
-#sidebar .content-row-title{
+    font-size: 11px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
 }
-#sidebar .content-row-value{
+#sidebar .content-row-title{
     display: flex;
     flex-direction: column;
     gap: 10px;

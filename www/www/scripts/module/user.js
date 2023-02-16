@@ -37,23 +37,27 @@ export function User() {
                 <div class="user-logo">
                     <img src="/images/mypage/mypage_member_icon.svg" style="padding-top:8px;padding-left:6px;">
                 </div>
+                <div class="content-row">
+                    <div>
+                        <p>${member_name}</p>
+                    </div>
+                    <div>
+                        <p>${member_id}</p>
+                    </div>
+                </div>
                 <div class="user-content">
-                    <ul>
-                        <li>${member_id}</li>
-                        <li>${member_name}</li>
-                        <div class="content-row">
-                            <div class="content-row-title">
-                                <li>적립포인트</li>
-                                <li>바우처</li>
-                                <li>충전포인트</li>
-                            </div>
-                            <div class="content-row-value">
-                                <li  class="user-mileage">${member_mileage}</li>
-                                <li  class="user-voucher">${member_voucher}</li>
-                                <li  class="user-point">600,000</li>
-                            </div>
-                        </div>
-                    </ul>
+                    <div>
+                        <div>적립포인트</div>
+                        <div class="user-mileage">${member_mileage}</div>
+                    </div>
+                    <div>
+                        <div>바우처</div>
+                        <div class="user-voucher">${member_voucher}</div>
+                    </div>
+                    <div>
+                        <div>충전포인트</div>
+                        <div class="user-point">600,000</div>
+                    </div>
                 </div>
             </div>
         </a>

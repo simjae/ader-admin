@@ -26,8 +26,6 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 			<div class="detail__img__wrap">
 				<div id="main__swiper-detail" class="main__swiper swiper">
 					<div class="swiper-wrapper main_img_wrapper"></div>
-					<div class="swiper-pagination-detail-fraction"></div>
-					<div class="swiper-pagination-detail-bullets"></div>
 				</div>
 			</div>
 		</div>

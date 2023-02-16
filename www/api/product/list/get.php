@@ -13,7 +13,7 @@
  | 
  +=============================================================================
 */
-$tmp_sql = "";
+
 include_once("/var/www/www/api/common/common.php");
 
 error_reporting(E_ALL^ E_WARNING); 
@@ -213,7 +213,6 @@ if ($page_idx != null && $country != null) {
 			$select_grid_sql .= " LIMIT 0,12 ";
 		}
 		
-		$tmp_sql = $select_grid_sql;
 		$db->query($select_grid_sql);
 		
 		$grid_info = array();
@@ -431,8 +430,7 @@ if ($page_idx != null && $country != null) {
 		$json_result['data'] = array(
 			'menu_info'		=>$menu_info,
 			'filter_info'	=>$filter_info,
-			'grid_info'		=>$grid_info,
-			'tmp_sql'		=>$tmp_sql
+			'grid_info'		=>$grid_info
 		);
 	} else {
 		$json_result['code'] = 402;
@@ -468,6 +466,7 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 								SELECT
 									CONCAT(
 										S_PPR.PAGE_URL,
+										S_PPR.IDX,
 										'&menu_sort=".$menu_sort."&menu_idx=".$menu_idx."'
 									)
 								FROM
@@ -480,7 +479,10 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 						THEN
 							(
 								SELECT
-									PAGE_URL
+									CONCAT(
+										S_PPO.PAGE_URL,
+										S_PPO.IDX
+									)
 								FROM
 									dev.PAGE_POSTING S_PPO
 								WHERE
@@ -497,6 +499,7 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 					SELECT
 						CONCAT(
 							S_PPR.PAGE_URL,
+							S_PPR.IDX,
 							'&menu_sort=".$menu_sort."&menu_idx=".$menu_idx."'
 						)
 					FROM
