@@ -667,38 +667,38 @@ function getProductDetailInfo (product_idx){
                 </div>
                 <div class="sizeguide-noti">모델신장 179cm,착용사이즈는 A3입니다.</div>
                 <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
-                <div class="sizeguide-dct">
-                    <div class="dct-row">
-                        <span>A.총장</span>
+                <ul class="sizeguide-dct">
+                    <li class="dct-row">
+                        <span>A. 총장</span>
                         <span>옆목점에서 끝단까지의 수직길이</span>
                         <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
+                    </li>
+                    <li class="dct-row">
                         <span>B. 목너비</span>
                         <span>옆목점 양끝의 수평길이</span>
                         <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
+                    </li>
+                    <li class="dct-row">
                         <span>C. 어깨너비</span>
                         <span>옆어깨점 양끝의 수평길이</span>
                         <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>D. 가슴단면</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>B. 가슴단면</span>
                         <span>암홀점에서 1cm아래 양끝의 수평길이</span>
                         <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>E. 소매통</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>D. 소매통</span>
                         <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
                         <span class="dct-value">103.5</span>
-                    </div>
-                    <div class="dct-row">
-                        <span>F. 소매장</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>E. 소매장</span>
                         <span>어깨점부터 소매끝단까지의 길이</span>
                         <span class="dct-value">103.5</span>
-                    </div>
-                </div>
+                    </li>
+                </ul>
             </div>`
 
             sizeGuideArr.push(sizeGuide);
