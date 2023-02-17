@@ -553,7 +553,7 @@ function mobileDetailBtnHanddler() {
         btn.addEventListener("click", function (e) {
             if (e.currentTarget.classList.contains("select")) {
                 document.querySelector(".rM-detail-containner .content-body").innerHTML = "";
-                document.querySelector(".rM-detail-containner .content-header").innerHTML = "";
+                document.querySelector(".rM-detail-containner .content-header span").innerHTML = "";
                 e.currentTarget.classList.remove("select");
                 e.currentTarget.offsetParent.classList.remove("open");
             } else {
