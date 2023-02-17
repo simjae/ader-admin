@@ -1,6 +1,6 @@
 let delay = 300;
 let timer = null;
-var breakpoint = window.matchMedia('screen and (min-width:1025px)');
+let breakpoint = window.matchMedia('screen and (min-width:1025px)');
 const urlParams = new URL(location.href).searchParams;
 const productIdx = urlParams.get('product_idx');
 const productDetailInfoArr = getProductDetailInfo(productIdx);
@@ -8,14 +8,14 @@ const productDetailInfoArr = getProductDetailInfo(productIdx);
 window.addEventListener('DOMContentLoaded', function () {
     let product_idx = document.querySelector("main").dataset.productidx;
     getProduct(product_idx);
-    responsiveSwiper();
+    pdResponsiveSwiper();
     mobileDetailBtnHanddler();
 });
 
 window.addEventListener('resize', function () {
     clearTimeout(timer);
     timer = setTimeout(function () {
-        responsiveSwiper();
+        pdResponsiveSwiper();
     }, delay);
 });
 
@@ -252,30 +252,30 @@ const getProduct = (product_idx) => {
 //메인 스와이프 관련 함수 
 // let mainSwiper = initMainSwiper();
 // let pagingSwiper = initPagingSwiper();
-let mainSwiper = null;
-let pagingSwiper = null;
-function responsiveSwiper() {
+let pd_mainSwiper = null;
+let pd_pagingSwiper = null;
+function pdResponsiveSwiper() {
     let breakpoint = window.matchMedia('screen and (min-width:1025px)');
     if (breakpoint.matches === true) {
-        if (mainSwiper !== null) {
-            mainSwiper.destroy();
-            mainSwiper = null;
+        if (pd_mainSwiper !== null) {
+            pd_mainSwiper.destroy();
+            pd_mainSwiper = null;
         }
-        if (pagingSwiper !== null) {
-            pagingSwiper.destroy();
-            pagingSwiper = null;
+        if (pd_pagingSwiper !== null) {
+            pd_pagingSwiper.destroy();
+            pd_pagingSwiper = null;
         }
     } else if (breakpoint.matches === false) {
-        if (pagingSwiper == null) {
-            pagingSwiper = initPagingSwiper();
+        if (pd_pagingSwiper == null) {
+            pd_pagingSwiper = initPagingSwiper();
         }
-        if (mainSwiper == null) {
-            mainSwiper = initMainSwiper();
-            mainSwiper.on('slideChange', function () {
-                $(".swiper-pagination-detail-fraction .swiper-pagination-current").html(mainSwiper.activeIndex + 1);
+        if (pd_mainSwiper == null) {
+            pd_mainSwiper = initMainSwiper();
+            pd_mainSwiper.on('slideChange', function () {
+                $(".swiper-pagination-detail-fraction .swiper-pagination-current").html(pd_mainSwiper.activeIndex + 1);
             });
         }
-        pagingSwiper.controller.control = mainSwiper;
+        pd_pagingSwiper.controller.control = pd_mainSwiper;
     
     }
 
@@ -327,8 +327,8 @@ function followScrollBtn() {
         let result = [...detailProduct].find((el, idx) => idx === thumbIdx)
         let scrollTo = result.offsetTop
         toScroll(scrollTo);
-        if (mainSwiper.__swiper__ == true) {
-            mainSwiper.slideTo(thumbIdx)
+        if (pd_mainSwiper.__swiper__ == true) {
+            pd_mainSwiper.slideTo(thumbIdx)
         }
     }));
     function toScroll(targetValue) {
