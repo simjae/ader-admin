@@ -12,6 +12,8 @@ export default function ForyouRender() {
                         <div class="swiper-wrapper">
         
                         </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
                 </div>
             `
@@ -118,6 +120,7 @@ export default function ForyouRender() {
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
+                disabledClass:'swiper-button-disabled'
             },
             grabCursor: true,
             breakpoints: {

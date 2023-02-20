@@ -1,4 +1,3 @@
-
 export default function StylingRender(relevant_idx) {
     let relevantIdx = relevant_idx;
     console.log("🏂 ~ file: styling.js:4 ~ StylingRender ~ relevantIdx", relevantIdx)
@@ -14,6 +13,8 @@ export default function StylingRender(relevant_idx) {
                         <div class="swiper-wrapper">
         
                         </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
                 </div>
             `
@@ -38,10 +39,10 @@ export default function StylingRender(relevant_idx) {
 				let data = d.data;
 				
 				let productRecommendListHtml = "";
+				const stylingSwiper = document.querySelector(".styling-swiper ");
 				const swiperWrap = document.querySelector(".styling-swiper .swiper-wrapper");
                 const domFrag = document.createDocumentFragment();
-               
-                
+
                 data.forEach(el => {
                     let prdListSlide = document.createElement("div");
                     prdListSlide.classList.add("swiper-slide");
@@ -123,6 +124,7 @@ export default function StylingRender(relevant_idx) {
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
+                disabledClass:'swiper-button-disabled'
             },
             grabCursor: true,
             breakpoints: {
