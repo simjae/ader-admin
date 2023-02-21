@@ -31,37 +31,186 @@ export function User() {
         let {member_id,member_mileage,member_name,member_voucher,whish_cnt,basket_cnt} = data
         userContent.className = "user-wrap";
         userContent.innerHTML = 
-        `<div class="user-header"></div>
-        <a href="http://116.124.128.246/mypage">
-            <div class="user-body">
-                <div class="user-logo">
-                    <img src="/images/mypage/mypage_member_icon.svg" style="padding-top:8px;padding-left:6px;">
+        `
+        <div class="user-body">
+            <div class="user-logo">
+                <img src="/images/mypage/mypage_member_icon.svg">
+            </div>
+            <div class="content-row">
+                <div>
+                    <p>${member_name}</p>
                 </div>
-                <div class="content-row">
-                    <div>
-                        <p>${member_name}</p>
-                    </div>
-                    <div>
-                        <p>${member_id}</p>
-                    </div>
-                </div>
-                <div class="user-content">
-                    <div>
-                        <div>적립포인트</div>
-                        <div class="user-mileage">${member_mileage}</div>
-                    </div>
-                    <div>
-                        <div>바우처</div>
-                        <div class="user-voucher">${member_voucher}</div>
-                    </div>
-                    <div>
-                        <div>충전포인트</div>
-                        <div class="user-point">600,000</div>
-                    </div>
+                <div>
+                    <p>${member_id}</p>
                 </div>
             </div>
-        </a>
-        <div class="logoutBtn" onclick="logout()">로그아웃</div>
+            <div class="user-content">
+                <div class="content-point left">
+                    <div>적립포인트</div>
+                    <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=mileage_first">
+                        <div class="user-mileage">${member_mileage}</div>
+                    </a>
+                </div>
+                <div class="content-point center">
+                    <div>충전포인트</div>
+                    <a class="content-link" href="http://116.124.128.246/mypage">
+                        <div class="user-point">600,000</div>
+                    </a>
+                </div>
+                <div class="content-point right">
+                    <div>바우처</div>
+                    <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=voucher_first">
+                        <div class="user-voucher">${member_voucher}</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="user-mypage-area">
+            <div class="icon__item" btn-type="orderlist">
+                <a href="http://116.124.128.246/mypage?mypage_type=orderlist">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_orderlist_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>주문조회</p>
+                </div>
+            </div>
+            <div id="mileage_icon" class="icon__item" btn-type="mileage">
+                <a href="http://116.124.128.246/mypage?mypage_type=mileage_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_point_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>적립포인트</p>
+                </div>
+            </div>
+            <div id="charging_icon" class="icon__item" btn-type="charging">
+                <div class="icon">
+                    <img src="/images/mypage/mypage_charging_point_icon.png">
+                </div>
+                <div class="icon__title">
+                    <p>충전포인트</p>
+                </div>
+            </div>
+            <div id="voucher_icon" class="icon__item" btn-type="voucher">
+                <a href="http://116.124.128.246/mypage?mypage_type=voucher_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_voucher_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>바우처</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="bluemark">
+                <a href="http://116.124.128.246/mypage?mypage_type=bluemark_verify">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_bluemark_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>블루마크</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="stanby">
+                <a href="http://116.124.128.246/mypage?mypage_type=stanby_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_stanby_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>스탠바이</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="preorder">
+                <a href="http://116.124.128.246/mypage?mypage_type=preorder_first">
+                    <div id="preorder_icon" class="icon">
+                        <img src="/images/mypage/mypage_preorder_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>프리오더</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="reorder">
+                <a href="http://116.124.128.246/mypage?mypage_type=reorder_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_reorder_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>재입고알림</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="draw">
+                <a href="http://116.124.128.246/mypage?mypage_type=draw_first">
+                    <div id="draw_icon" class="icon">
+                        <img src="/images/mypage/mypage_draw_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>드로우</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="membership">
+                <a href="http://116.124.128.246/mypage?mypage_type=membership_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_membership_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>멤버쉽</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="inquiry">
+                <a href="http://116.124.128.246/mypage?mypage_type=inquiry_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_inquiry_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>문의</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="as">
+                <a href="http://116.124.128.246/mypage?mypage_type=as_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_as_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>A/S</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="service">
+                <a href="http://116.124.128.246/mypage?mypage_type=service_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_service_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>고객서비스</p>
+                </div>
+            </div>
+            <div class="icon__item" btn-type="profile">
+                <a href="http://116.124.128.246/mypage?mypage_type=profile_first">
+                    <div class="icon">
+                        <img src="/images/mypage/mypage_profile_icon.svg">
+                    </div>
+                </a>
+                <div class="icon__title">
+                    <p>회원정보</p>
+                </div>
+            </div>
+        </div>
+        <div class="user-button-area">
+            <a href="http://116.124.128.246/mypage">
+                <div class="user-button mypageBtn">마이페이지 홈 가기</div>
+            </a>
+            <div class="user-button logoutBtn" onclick="logout()">로그아웃</div>
+        </div>
         `
         sideBox.appendChild(userContent);
     };
@@ -131,7 +280,7 @@ export function User() {
             </div>
             <div class="customer-title">고객서비스</div>
             <div class="customer-btn-box">
-                <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=online_store'"><span>공지사항</span></div>
+                <div class="customer-btn" onclick="location.href='/login/service'"><span>공지사항</span></div>
                 <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=terms_of_use'"><span>자주 묻는 질문</span></div>
                 <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=privacy_policy'"><span>문의하기</span></div>
             </div>

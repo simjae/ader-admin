@@ -8,6 +8,7 @@
         grid-template-columns: repeat(16, 1fr);
         margin-top: 40px;
         width: 100%;
+        color: #343434;
     }
 
     .voucher__wrap.title p {
@@ -28,6 +29,10 @@
         margin-top: 50px;
         font-family: var(--ft-no-fu);
         font-size: 11px;
+    }
+
+    .voucher__tab__wrap .title p {
+        font-size: 13px;
     }
 
     .voucher__tab__wrap .description {
@@ -87,6 +92,10 @@
     .voucher__notice__form__wrap .non__border p {
         text-indent: -6px;
         word-break: break-all;
+    }
+
+    .info .non__usable__info {
+        color: #dcdcdc;
     }
 
     @media (max-width: 1024px) {
@@ -156,6 +165,7 @@
             grid-column: 1/17;
             width: 580px;
             margin: 0 auto;
+            margin-top: 40px;
         }
     }
 
@@ -197,8 +207,7 @@
     }
 
     .use__voucher__form__wrap .title {
-        padding-bottom: 23.5px;
-        margin-bottom: 0;
+        padding-bottom: 20px;
     }
 
     .use__voucher__form__wrap .info {
@@ -233,6 +242,7 @@
 
     .info.non__usable__info {
         font-size: 11px;
+        color: #dcdcdc;
     }
 
     .info.non__border p {

@@ -17,7 +17,7 @@
     position: absolute;
     border: solid 5px #ffffff;
     top: 100px;
-    right: 15%;
+    right: 10%;
     z-index: 2;
 }
 #sidebar .sidebar-close-btn svg {
@@ -82,13 +82,15 @@
     height: 100vh;
 }
 #sidebar .side__wrap.open[data-module="login"] .side__box,
-#sidebar .side__wrap.open[data-module="search"] .side__box{
+#sidebar .side__wrap.open[data-module="search"] .side__box,
+#sidebar .side__wrap.open[data-module="user"] .side__box{
     overflow-y: auto;
     -ms-overflow-style: none; /* 인터넷 익스플로러 */
     scrollbar-width: none; /* 파이어폭스 */
 }
 #sidebar .side__wrap.open[data-module="login"] .side__box::-webkit-scrollbar,
-#sidebar .side__wrap.open[data-module="search"] .side__box::-webkit-scrollbar{
+#sidebar .side__wrap.open[data-module="search"] .side__box::-webkit-scrollbar,
+#sidebar .side__wrap.open[data-module="user"] .side__box::-webkit-scrollbar{
     display: none;
 }
 .side__box {
@@ -377,18 +379,41 @@
     background-color: #ffffff;
 }
 #sidebar .side__wrap.open[data-module="user"] .user-wrap{
-    top: 20%; transform: translate(-50%, -60%);
+    top: 0; 
+    transform: translate(-50%, -40%);
 }
 #sidebar .user-body{
+    margin-top: 700px;
     display: flex;
     flex-direction: column;
     align-items: center;
     /* gap: 10px; */
 }
+#sidebar .user-body .user-logo img {
+    cursor: default;
+}
 #sidebar .user-content {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 110px);
+    justify-items: center;
+    margin-top: 30px;
     font-size: 11px;
     gap: 10px;
+}
+#sidebar .user-content .content-point {
+    width: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#sidebar .content-point .content-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#sidebar .user-content .center {
+    border-left: solid 1px #dcdcdc;
+    border-right: solid 1px #dcdcdc;
 }
 #sidebar .content-row {
     font-size: 11px;
@@ -397,10 +422,60 @@
     flex-direction: column;
     align-items: center;
 }
+#sidebar .user-content .user-mileage,
+#sidebar .user-content .user-point,
+#sidebar .user-content .user-voucher {
+    text-decoration: underline;
+}
 #sidebar .content-row-title{
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+#sidebar .user-mypage-area {
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    gap: 30px;
+    justify-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+#sidebar .user-mypage-area .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border: solid 1px #dcdcdc;
+    border-radius: 25px;
+    cursor: pointer;
+}
+#sidebar .user-mypage-area .icon__title {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 11px;
+    width: 51px;
+}
+#sidebar #charging_icon img {
+    width: 18px;
+}
+#sidebar #draw_icon , #sidebar #preorder_icon {
+    padding-left: 7px;
+}
+#sidebar .user-button-area {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#sidebar .user-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border: solid 1px #dcdcdc;
+    height: 40px;
+    cursor: pointer;
 }
 #sidebar .login__card {
     width: 100%!important;
@@ -510,10 +585,32 @@ input:-webkit-autofill:active {
     /* #sidebar .side__wrap.open[data-module="basket"]{
         grid-column: 1/17;	
     } */
+    #sidebar .side__wrap.open[data-module="basket"] {
+        width: 85vw;
+    }
+    #sidebar .sidebar-close-btn {
+        top: 9%;
+        right: 5%;
+    }
 	#sidebar .side__background.open {
 		grid-template-columns: var(--m-g);
 	}
 	#sidebar .side__wrap{
 		grid-column: 2/9;	
 	}
+    #sidebar .basket__wrap {
+        left: 50%;
+        width: 95%;
+        top: 8%;
+    }
+    #sidebar .basket__wrap .prd__qty {
+        gap: 15px;
+    }
+    #sidebar .basket__wrap .product__box .prd__img {
+        width: 90px;
+        height: 112.5px;
+    }
+    #sidebar .basket__wrap .product__box .prd__content {
+        gap: 3px;
+    }
 }

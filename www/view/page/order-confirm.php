@@ -1,915 +1,385 @@
 <style>
-:root {
-	--order-header--height: 150px;
-	--header--content--gap: 50px;
+	:root {
+		--order-header--height: 150px;
+		--header--content--gap: 50px;
+
+		--solid-bk: #808080;
+	}
+
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input {
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	ul,
+	li {
+		padding: 0;
+		margin: 0;
+	}
+
+	input:focus {
+		border: 0;
+	}
+
+	.content.rigth input:focus {
+		caret-color: #343434;
+		outline: 0;
+	}
+
+	body {
+		font-family: var(--ft-no-fu);
+		/* background-color: #222; */
+		/* color: #ffffff; */
+		color: var(--bk);
+	}
 
-	--solid-bk: #808080;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
-
-input {
-	padding: 0;
-	box-sizing: border-box;
-}
-
-ul,
-li {
-	padding: 0;
-	margin: 0;
-}
-
-input:focus {
-	border: 0;
-}
-
-.content.rigth input:focus {
-	caret-color: #343434;
-	outline: 0;
-}
-
-body {
-	font-family: var(--ft-no-fu);
-	/* background-color: #222; */
-	/* color: #ffffff; */
-	color: var(--bk);
-}
-
-.mobile {
-	display: none;
-}
-
-.hidden {
-	display: none !important;
-}
-
-.tui-select-box-highlight {
-	background: #f8f8f8 !important;
-}
-
-.tui-select-box-placeholder {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	letter-spacing: normal;
-	color: #dcdcdc;
-}
-
-.tui-selected {color:#343434;}
-
-.tui-select-box-input:focus {
-	outline: 0px;
-}
-
-.tui-select-box-input {
-	border: 1px solid #808080;
-}
-
-#tmp_order_memo {
-	border-top: 0px;
-	padding: 10px;
-	height: 90px;
-	outline: none;
-	resize: none;
-	border-bottom: 1px solid #808080;
-	border-left: 1px solid #808080;
-	border-right: 1px solid #808080;
-}
-
-.tui-select-box-item {
-	color: var(--bk);
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	padding: 0 10px;
-	border-bottom: 1px solid #eeeeee;
-}
-
-.order-section {
-	display: grid;
-	grid-template-columns: repeat(16, 1fr);
-	margin-bottom: 200px;
-}
-
-.cn-box p {
-	margin: 0;
-}
-
-.body-wrap {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.content.left {
-	display: block;
-	position: sticky;
-	padding-top: var(--order-header--height);
-	align-self: start;
-	grid-column: 4/9;
-	top: 50px;
-}
-
-/* 주문상품내역 */
-.order-product .hd-title {
-	font-family: var(--ft-no-fu);
-	font-size: 13px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.order-product .header-wrap {
-	position: sticky;
-}
-
-.order-product .header-list {
-	position: sticky;
-	display: grid;
-	grid-template-columns: 3fr 1fr 1fr 1fr;
-	padding-bottom: 20px;
-}
-
-.order-product .header-col {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.product .product-info .info-row .name {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.55;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.product .color-title {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.product .list-row {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.55;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.product .size__box li {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: 500;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.order-product .product-wrap {
-	max-height: 410px;
-	overflow-y: auto;
-}
-
-.order-product .body-list {
-	display: grid;
-	grid-template-columns: 3fr 1fr 1fr 1fr;
-	width: 100%;
-	max-height: 96px;
-	border-bottom: 1px solid #dcdcdc;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
-}
-
-.order-product .product-info {
-	display: flex;
-	padding: 0px;
-	gap: 10px;
-}
-
-.order-product .product-info .info-row[data-refund="true"]::after {
-	content: "교환 반품 불가";
-	font-family: var(--ft-no-fu);
-	font-size: 10px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.7;
-	letter-spacing: normal;
-	text-decoration: underline;
-	text-align: left;
-	color: #808080;
-}
-
-.order-product .product-info .info-box {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	justify-content: flex-start;
-}
-
-.order-product .product-info .info-row {
-	gap: 3px;
-	justify-content: flex-start;
-}
-
-.order-product .product-info .info-row.mobile-saleprice {
-	display: none;
-}
-
-.order-product .web-saleprice {
-	display: block;
-}
-
-.order-product .prd-img {
-	/* max-width: 3.65vw; */
-	max-width: 70px;
-	max-height: 86px;
-}
-
-.order-product .product-toggle-btn {
-	display: none;
-}
-
-.calculation-box {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	padding: 30px 0;
-	border-bottom: 1px solid #dcdcdc;
-}
-
-.calculation-box .point-box {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-
-.calculation-row {
-	display: flex;
-	justify-content: space-between;
-}
-
-.price_total {
-	text-decoration: underline;
-}
-
-.total-price-wrap {
-	display: flex;
-	justify-content: space-between;
-	padding-top: 30px;
-}
-
-
-.content.rigth {
-	/* background-color: brown; */
-	background-color: #ffffff;
-	padding-top: var(--order-header--height);
-	/* margin-top: var(--header--content--gap); */
-	grid-column: 10/14;
-	display: grid;
-}
-
-.content.rigth li,
-.content.rigth liul {
-	list-style: disc;
-}
-
-.content.rigth input {
-	border: 1px solid #808080;
-}
-
-
-.wrapper {
-	width: 100%;
-}
-
-.wrapper[data-group="1"] {
-	border-bottom: 1px solid #dcdcdc;
-	padding-bottom: 10px;
-	margin-bottom: 40px;
-	display: none;
-}
-
-.wrapper[data-group="1"].next {
-	display: block;
-}
-
-.wrapper[data-group="1"] .header-wrap {
-	border: 0px;
-}
-
-.wrapper[data-group="1"] .point-row {
-	padding-bottom: 10px;
-}
-
-.wrapper[data-group="1"] .get-point {
-	padding-bottom: 10px;
-}
-
-.header-wrap {
-	display: flex;
-	justify-content: space-between;
-	border-bottom: 1px solid #dcdcdc;
-	margin-bottom: 10px;
-	align-items: center;
-}
-
-.header-box-btn {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 10px;
-}
-
-.header-box {
-	padding-bottom: 10px;
-	font-family: var(--ft-no-fu);
-	font-size: 13px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.header-btn {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--bk);
-	height: 24px;
-	padding: 0 15px;
-	border-radius: 2px;
-	border: solid 1px #dcdcdc;
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-
-}
-
-.banner-wrap {
-	display: grid;
-	grid-template-columns: repeat(16, 1fr);
-	position: fixed;
-	width: 100%;
-	height: var(--order-header--height);
-	background-color: #ffffff;
-	z-index: 10;
-}
-
-.banner-wrap .banner-box {
-	display: flex;
-	align-items: center;
-	grid-column: 4/17;
-	font-family: var(--ft-no-fu);
-	font-size: 13px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-
-}
-
-.cn-box {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-
-.check-row {
-	display: flex;
-	gap: 10px;
-	margin-bottom: 10px;
-	justify-content: space-between;
-}
-
-.check-row input[type="checkbox"] {
-	width: 10px;
-	height: 10px;
-	cursor: pointer;
-}
-
-.calculation-wrap {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.55;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-/* 바우처 */
-.voucher-info {
-	margin-bottom: 40px;
-}
-
-.voucher-info-list {
-	display: flex;
-	gap: 10px;
-	flex-direction: column;
-	padding: 10px 14px;
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.64;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-/* 포인트 */
-.point-row {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 10px;
-}
-
-.point-row input {
-	grid-column: 1/4;
-}
-
-.point-row .mileage_point_btn {
-	cursor: pointer;
-	grid-column: 4/5;
-}
-
-.point-row .point-btn {
-	cursor: pointer;
-	grid-column: 4/5;
-}
-
-.mileage_point_btn {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 40px;
-	border-radius: 1px;
-	background-color: #dcdcdc;
-}
-
-.charge_point_btn {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 40px;
-	border-radius: 1px;
-	background-color: #dcdcdc;
-}
-
-.reserves-info-list {
-	display: flex;
-	gap: 10px;
-	flex-direction: column;
-	padding: 10px 14px;
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.36;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.charge-info .body-wrap {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-.charge-btn {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 99%;
-	max-width: 100%;
-	height: 40px;
-	margin-bottom: 10px;
-	border-radius: 1px;
-	border: solid 1px #dcdcdc;
-	font-family: var(--ft-no-fu);
-	font-size: 12px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-/* 주문자정보 */
-.wrapper.member_info {
-	margin-bottom: 70px;
-}
-
-/* 배송지정보 */
-.address-info {
-	padding-bottom: 40px;
-}
-
-.address-info .header-box-btn {
-	padding-bottom: 10px;
-}
-
-.address-info .message-box {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-}
-
-.address-info .cn-box {
-	padding-bottom: 20px;
-}
-
-.address-info .confirm-text.check::after {
-	content: attr(data-content);
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: right;
-	position: absolute;
-	right: 0;
-	bottom: 40px;
-	color: #ff0000;
-	text-decoration: underline;
-}
-
-.edit-box .input-row {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	margin-bottom: 10px;
-	position: relative;
-}
-
-.edit-box .input-row.addr-search {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	gap: 10px;
-	align-items: end;
-}
-
-.edit-box .input-row.addr-search .input-text {
-	grid-column: 1/4;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	margin-bottom: 0px;
-}
-
-.edit-box .input-row.addr-search .input-text input {
-	height: 40px;
-}
-
-.addr-search-btn {
-	cursor: pointer;
-	grid-column: 4/5;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--bk);
-	height: 40px;
-	padding: 0 15px;
-	border-radius: 2px;
-	border: solid 1px #dcdcdc;
-}
-
-.keyword_label {
-	display: none;
-}
-
-.search_button {
-	grid-column: 4/5;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--bk);
-	height: 40px;
-	padding: 0 15px;
-	border-radius: 2px;
-	border: solid 1px #dcdcdc;
-}
-
-.edit-box .input-row input {
-	height: 40px;
-	padding-left: 10px;
-	border-radius: 1px;
-	border: solid 1px #808080;
-	vertical-align: middle;
-}
-
-.edit-box .check-row {
-	display: flex;
-	gap: 10px;
-	margin-bottom: 10px;
-	justify-content: space-between;
-}
-
-.save-btn {
-	cursor: pointer;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: var(--bk);
-	height: 24px;
-	padding: 0 15px;
-	border-radius: 2px;
-	border: solid 1px #dcdcdc;
-}
-
-.to-place {
-	margin-bottom: 20px;
-}
-
-.check-text {
-	display: flex;
-	gap: 10px;
-	align-items: center;
-}
-
-.tmp_order_memo {
-	display: none;
-	width: 100%;
-}
-
-
-/* 약관동의 */
-
-.terms-info-list {
-	display: flex;
-	gap: 10px;
-	flex-direction: column;
-	padding: 10px 14px;
-}
-
-.terms-service {
-	font-family: var(--ft-no-fu);
-	font-size: 11px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: 1.64;
-	letter-spacing: normal;
-	text-align: left;
-	color: #343434;
-}
-
-/* 스탭 버튼 */
-
-
-.step-btn-wrap {
-	display: flex;
-	justify-content: space-between;
-	gap: 10px;
-}
-
-.step-btn {
-	cursor: pointer;
-	height: 40px;
-	width: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-family: var(--ft-no-fu);
-	font-size: 12px;
-	font-weight: normal;
-	font-stretch: normal;
-	font-style: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: left;
-
-}
-
-.step-btn.pre {
-	background-color: var(--wh);
-	color: var(--bk);
-	border: solid 1px var(--solid-bk);
-}
-
-.step-btn.next {
-	background-color: var(--bk-dark);
-	color: var(--wh);
-	border: solid 1px var(--bk-dark);
-}
-
-
-#postcodify {
-	margin: 0;
-	max-height: 400px;
-	overflow: auto;
-}
-
-#postcodify .keyword {
-	grid-column: 1/4;
-}
-
-#postcodify .search_button {
-	grid-column: 4/5;
-}
-
-.post-change-result {
-	width: 74.5%;
-	margin: 0 !important;
-	background-color: #fff;
-	overflow: auto;
-	max-height: 300px;
-	border: 1px solid #808080;
-	border-top: 0px;
-	top: -32px;
-}
-
-.postcodify_search_controls {
-	display: grid;
-	gap: 10px;
-	grid-template-columns: repeat(4, 1fr);
-}
-
-.postcodify_search_result .code5 {
-	color: var(--bk);
-}
-
-.postcodify_search_result .addr-row {
-	color: #dcdcdc;
-}
-
-.postcodify_search_result .old_addr-row {
-	color: #dcdcdc;
-}
-/**배송지 목록---------------------------------- */
-.list-box.hidden{
-	display: none;
-}
-.list-box{
-	
-	position: relative;
-	top: -10px;
-	border: 1px solid #808080;
-	background-color: #ffffff;
-}
-
-.list-box .cn-box{
-	position: relative;
-	margin-top: 8px;
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-
-}
-.list-box .addrList-content{
-	padding: 30px;
-	cursor:pointer;
-}
-.list-box .addrList-content:hover{
-	background-color: #f8f8f8;
-}
-.list-box .addrList-header{
-	padding: 20px;
-	display: flex;
-	justify-content: space-between;
-	font-size: 11px;
-	color: #343434;
-}
-.list-box .addrList-row{
-	align-items: center;
-	display: flex;
-	gap: 3px;
-}
-.list-box .delete_addr_btn{
-	position: absolute;
-	bottom: 0;
-	right: 0;
-}
-/**배송지 목록---------------------------------- */
-@media (max-width: 1025px) {
 	.mobile {
-		display: inline-block;
-	}
-
-	.banner-wrap {
-		display: flex;
-		height: 37px;
-		top: 40px;
-		padding-left: 10px;
-	}
-
-	.product .product-info {
-		height: auto;
-	}
-
-	.order-section {
-		display: flex;
-		flex-direction: column;
-		padding: 0 10px;
-	}
-
-	.content.left {
-		position: static;
-		width: 100%;
 		display: none;
 	}
 
-	.content.rigth {
-		padding-top: 47px;
+	.hidden {
+		display: none !important;
 	}
 
-	.content.mobile {
-		margin-bottom: 40px;
+	.tui-select-box-highlight {
+		background: #f8f8f8 !important;
 	}
 
-	.content.mobile li,
-	ul {
-		list-style: none;
+	.tui-select-box-placeholder {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		letter-spacing: normal;
+		color: #dcdcdc;
 	}
 
-	.terms-service {
-		order: 7;
+	.tui-selected {
+		color: #343434;
 	}
 
-	.step-btn-wrap {
-		order: 8;
+	.tui-select-box-input:focus {
+		outline: 0px;
 	}
 
-	.order-product .header-box {
+	.tui-select-box-input {
+		border: 1px solid #808080;
+	}
+
+	#tmp_order_memo {
+		border-top: 0px;
+		padding: 10px;
+		height: 90px;
+		outline: none;
+		resize: none;
+		border-bottom: 1px solid #808080;
+		border-left: 1px solid #808080;
+		border-right: 1px solid #808080;
+	}
+
+	.tui-select-box-item {
+		color: var(--bk);
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		padding: 0 10px;
+		border-bottom: 1px solid #eeeeee;
+	}
+
+	.order-section {
+		display: grid;
+		grid-template-columns: repeat(16, 1fr);
+		margin-bottom: 200px;
+	}
+
+	.cn-box p {
+		margin: 0;
+	}
+
+	.body-wrap {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.content.left {
+		display: block;
+		position: sticky;
+		padding-top: var(--order-header--height);
+		align-self: start;
+		grid-column: 4/9;
+		top: 50px;
+	}
+
+	/* 주문상품내역 */
+	.order-product .hd-title {
+		font-family: var(--ft-no-fu);
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.order-product .header-wrap {
+		position: sticky;
+	}
+
+	.order-product .header-list {
+		position: sticky;
+		display: grid;
+		grid-template-columns: 3fr 1fr 1fr 1fr;
+		padding-bottom: 20px;
+	}
+
+	.order-product .header-col {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+	.product .product-info {
+		border: 0;
+	}
+	.product .product-info .info-row .name {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.55;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.product .color-title {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: 500;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.product .list-row {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.55;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.product .size__box li {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: 500;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.order-product .product-wrap {
+		max-height: 410px;
+		overflow-y: auto;
+	}
+
+	.order-product .body-list {
+		display: grid;
+		grid-template-columns: 3fr 1fr 1fr 1fr;
+		width: 100%;
+		max-height: 96px;
+		border-bottom: 1px solid #dcdcdc;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
+	}
+
+	.order-product .product-info {
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-grow: 1;
+		padding: 0px;
+		gap: 10px;
+	}
+
+	.order-product .product-info .info-row[data-refund="true"]::after {
+		content: "교환 반품 불가";
+		font-family: var(--ft-no-fu);
+		font-size: 10px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.7;
+		letter-spacing: normal;
+		text-decoration: underline;
+		text-align: left;
+		color: #808080;
+	}
+
+	.order-product .product-info .info-box {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		justify-content: flex-start;
+	}
+
+	.order-product .product-info .info-row {
+		gap: 3px;
+		justify-content: flex-start;
+	}
+
+	.order-product .product-info .info-row.mobile-saleprice {
+		display: none;
+	}
+
+	.order-product .web-saleprice {
+		display: block;
+	}
+
+	.order-product .prd-img {
+		/* max-width: 3.65vw; */
+		max-width: 70px;
+		max-height: 86px;
 	}
 
 	.order-product .product-toggle-btn {
+		display: none;
+	}
+
+	.calculation-box {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding: 30px 0;
+		border-bottom: 1px solid #dcdcdc;
+	}
+
+	.calculation-box .point-box {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.calculation-row {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.price_total {
+		text-decoration: underline;
+	}
+
+	.total-price-wrap {
+		display: flex;
+		justify-content: space-between;
+		padding-top: 30px;
+	}
+
+
+	.content.rigth {
+		/* background-color: brown; */
+		background-color: #ffffff;
+		padding-top: var(--order-header--height);
+		/* margin-top: var(--header--content--gap); */
+		grid-column: 10/14;
+		display: grid;
+	}
+
+	.content.rigth li,
+	.content.rigth liul {
+		list-style: disc;
+	}
+
+	.content.rigth input {
+		border: 1px solid #808080;
+	}
+
+
+	.wrapper {
+		width: 100%;
+	}
+
+	.wrapper[data-group="1"] {
+		border-bottom: 1px solid #dcdcdc;
+		padding-bottom: 10px;
+		margin-bottom: 40px;
+		display: none;
+	}
+
+	.wrapper[data-group="1"].next {
+		display: block;
+	}
+
+	.wrapper[data-group="1"] .header-wrap {
+		border: 0px;
+	}
+
+	.wrapper[data-group="1"] .point-row {
+		padding-bottom: 10px;
+	}
+
+	.wrapper[data-group="1"] .get-point {
+		padding-bottom: 10px;
+	}
+
+	.header-wrap {
+		display: flex;
+		justify-content: space-between;
+		border-bottom: 1px solid #dcdcdc;
+		margin-bottom: 10px;
+		align-items: center;
+	}
+
+	.header-box-btn {
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.header-box {
+		padding-bottom: 10px;
+		font-family: var(--ft-no-fu);
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.header-btn {
 		cursor: pointer;
 		display: flex;
 		justify-content: center;
@@ -926,88 +396,630 @@ body {
 		font-style: normal;
 		line-height: normal;
 		letter-spacing: normal;
+
 	}
 
-	.order-product .body-list {
-		grid-template-columns: 4fr 1fr 1fr;
+	.banner-wrap {
+		display: grid;
+		grid-template-columns: repeat(16, 1fr);
+		position: fixed;
+		width: 100%;
+		height: var(--order-header--height);
+		background-color: #ffffff;
+		z-index: 10;
 	}
 
-	.order-product .product-info .info-row.mobile-saleprice {
-		display: block;
+	.banner-wrap .banner-box {
+		display: flex;
+		align-items: center;
+		grid-column: 4/17;
+		font-family: var(--ft-no-fu);
+		font-size: 13px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+
 	}
 
-	.order-product .web-saleprice {
+	.cn-box {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.check-row {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 10px;
+		justify-content: space-between;
+	}
+
+	.check-row input[type="checkbox"] {
+		width: 10px;
+		height: 10px;
+		cursor: pointer;
+	}
+
+	.calculation-wrap {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.55;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	/* 바우처 */
+	.voucher-info {
+		margin-bottom: 40px;
+	}
+
+	.voucher-info-list {
+		display: flex;
+		gap: 10px;
+		flex-direction: column;
+		padding: 10px 14px;
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.64;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	/* 포인트 */
+	.point-row {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 10px;
+	}
+
+	.point-row input {
+		grid-column: 1/4;
+	}
+
+	.point-row .mileage_point_btn {
+		cursor: pointer;
+		grid-column: 4/5;
+	}
+
+	.point-row .point-btn {
+		cursor: pointer;
+		grid-column: 4/5;
+	}
+
+	.mileage_point_btn {
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 40px;
+		border-radius: 1px;
+		background-color: #dcdcdc;
+	}
+
+	.charge_point_btn {
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 40px;
+		border-radius: 1px;
+		background-color: #dcdcdc;
+	}
+
+	.reserves-info-list {
+		display: flex;
+		gap: 10px;
+		flex-direction: column;
+		padding: 10px 14px;
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.36;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.charge-info .body-wrap {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	.charge-btn {
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 99%;
+		max-width: 100%;
+		height: 40px;
+		margin-bottom: 10px;
+		border-radius: 1px;
+		border: solid 1px #dcdcdc;
+		font-family: var(--ft-no-fu);
+		font-size: 12px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	/* 주문자정보 */
+	.wrapper.member_info {
+		margin-bottom: 70px;
+	}
+
+	/* 배송지정보 */
+	.address-info {
+		padding-bottom: 40px;
+	}
+
+	.address-info .header-box-btn {
+		padding-bottom: 10px;
+	}
+
+	.address-info .message-box {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.address-info .cn-box {
+		padding-bottom: 20px;
+	}
+
+	.address-info .confirm-text.check::after {
+		content: attr(data-content);
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: right;
+		position: absolute;
+		right: 0;
+		bottom: 40px;
+		color: #ff0000;
+		text-decoration: underline;
+	}
+
+	.edit-box .input-row {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-bottom: 10px;
+		position: relative;
+	}
+
+	.edit-box .input-row.addr-search {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 10px;
+		align-items: end;
+	}
+
+	.edit-box .input-row.addr-search .input-text {
+		grid-column: 1/4;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-bottom: 0px;
+	}
+
+	.edit-box .input-row.addr-search .input-text input {
+		height: 40px;
+	}
+
+	.addr-search-btn {
+		cursor: pointer;
+		grid-column: 4/5;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: var(--bk);
+		height: 40px;
+		padding: 0 15px;
+		border-radius: 2px;
+		border: solid 1px #dcdcdc;
+	}
+
+	.keyword_label {
 		display: none;
 	}
 
-	.order-product .product-wrap {
+	.search_button {
+		grid-column: 4/5;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: var(--bk);
+		height: 40px;
+		padding: 0 15px;
+		border-radius: 2px;
+		border: solid 1px #dcdcdc;
+	}
+
+	.edit-box .input-row input {
+		height: 40px;
+		padding-left: 10px;
+		border-radius: 1px;
+		border: solid 1px #808080;
+		vertical-align: middle;
+	}
+
+	.edit-box .check-row {
+		display: flex;
+		gap: 10px;
+		margin-bottom: 10px;
+		justify-content: space-between;
+	}
+
+	.save-btn {
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: var(--bk);
+		height: 24px;
+		padding: 0 15px;
+		border-radius: 2px;
+		border: solid 1px #dcdcdc;
+	}
+
+	.to-place {
 		margin-bottom: 20px;
 	}
 
-	.order-product .product-count {
+	.check-text {
 		display: flex;
-		height: 100%;
-		align-items: flex-end;
-		justify-content: flex-end;
+		gap: 10px;
+		align-items: center;
 	}
 
-	.order-product .price_total {
-		display: flex;
-		height: 100%;
-		align-items: flex-end;
-		justify-content: flex-end;
-	}
-
-	.order-product .product-count::before {
-		content: "Qty:";
-	}
-
-	.calculation-box {
-		padding: 0;
-		border-bottom: 0px;
-	}
-
-	.total-price-wrap {
-		padding-top: 10px;
-	}
-
-	.post-change-result {
+	.tmp_order_memo {
+		display: none;
 		width: 100%;
 	}
 
-	.price_total {
-		text-decoration: underline;
+
+	/* 약관동의 */
+
+	.terms-info-list {
+		display: flex;
+		gap: 10px;
+		flex-direction: column;
+		padding: 10px 14px;
 	}
-}
+
+	.terms-service {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: 1.64;
+		letter-spacing: normal;
+		text-align: left;
+		color: #343434;
+	}
+
+	/* 스탭 버튼 */
+
+
+	.step-btn-wrap {
+		display: flex;
+		justify-content: space-between;
+		gap: 10px;
+	}
+
+	.step-btn {
+		cursor: pointer;
+		height: 40px;
+		width: 50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-family: var(--ft-no-fu);
+		font-size: 12px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
+		text-align: left;
+
+	}
+
+	.step-btn.pre {
+		background-color: var(--wh);
+		color: var(--bk);
+		border: solid 1px var(--solid-bk);
+	}
+
+	.step-btn.next {
+		background-color: var(--bk-dark);
+		color: var(--wh);
+		border: solid 1px var(--bk-dark);
+	}
+
+
+	#postcodify {
+		margin: 0;
+		max-height: 400px;
+		overflow: auto;
+	}
+
+	#postcodify .keyword {
+		grid-column: 1/4;
+	}
+
+	#postcodify .search_button {
+		grid-column: 4/5;
+	}
+
+	.post-change-result {
+		width: 74.5%;
+		margin: 0 !important;
+		background-color: #fff;
+		overflow: auto;
+		max-height: 300px;
+		border: 1px solid #808080;
+		border-top: 0px;
+		top: -32px;
+	}
+
+	.postcodify_search_controls {
+		display: grid;
+		gap: 10px;
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	.postcodify_search_result .code5 {
+		color: var(--bk);
+	}
+
+	.postcodify_search_result .addr-row {
+		color: #dcdcdc;
+	}
+
+	.postcodify_search_result .old_addr-row {
+		color: #dcdcdc;
+	}
+
+	/**배송지 목록---------------------------------- */
+	.list-box.hidden {
+		display: none;
+	}
+
+	.list-box {
+
+		position: relative;
+		top: -10px;
+		border: 1px solid #808080;
+		background-color: #ffffff;
+	}
+
+	.list-box .cn-box {
+		position: relative;
+		margin-top: 8px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+
+	}
+
+	.list-box .addrList-content {
+		padding: 30px;
+		cursor: pointer;
+	}
+
+	.list-box .addrList-content:hover {
+		background-color: #f8f8f8;
+	}
+
+	.list-box .addrList-header {
+		padding: 20px;
+		display: flex;
+		justify-content: space-between;
+		font-size: 11px;
+		color: #343434;
+	}
+
+	.list-box .addrList-row {
+		align-items: center;
+		display: flex;
+		gap: 3px;
+	}
+
+	.list-box .delete_addr_btn {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+	}
+
+	/**배송지 목록---------------------------------- */
+	@media (max-width: 1025px) {
+		.mobile {
+			display: inline-block;
+		}
+
+		.banner-wrap {
+			display: flex;
+			height: 37px;
+			top: 40px;
+			padding-left: 10px;
+		}
+
+		.product .product-info {
+			height: auto;
+		}
+
+		.order-section {
+			display: flex;
+			flex-direction: column;
+			padding: 0 10px;
+		}
+
+		.content.left {
+			position: static;
+			width: 100%;
+			display: none;
+		}
+
+		.content.rigth {
+			padding-top: 47px;
+		}
+
+		.content.mobile {
+			margin-bottom: 40px;
+		}
+
+		.content.mobile li,
+		ul {
+			list-style: none;
+		}
+
+		.terms-service {
+			order: 7;
+		}
+
+		.step-btn-wrap {
+			order: 8;
+		}
+
+		.order-product .header-box {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			flex-grow: 1;
+		}
+
+		.order-product .product-toggle-btn {
+			cursor: pointer;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: var(--bk);
+			height: 24px;
+			padding: 0 15px;
+			border-radius: 2px;
+			border: solid 1px #dcdcdc;
+			font-family: var(--ft-no-fu);
+			font-size: 11px;
+			font-weight: normal;
+			font-stretch: normal;
+			font-style: normal;
+			line-height: normal;
+			letter-spacing: normal;
+		}
+
+		.order-product .body-list {
+			grid-template-columns: 4fr 1fr 1fr;
+		}
+
+		.order-product .product-info .info-row.mobile-saleprice {
+			display: block;
+		}
+
+		.order-product .web-saleprice {
+			display: none;
+		}
+
+		.order-product .product-wrap {
+			margin-bottom: 20px;
+		}
+
+		.order-product .product-count {
+			display: flex;
+			height: 100%;
+			align-items: flex-end;
+			justify-content: flex-end;
+		}
+
+		.order-product .price_total {
+			display: flex;
+			height: 100%;
+			align-items: flex-end;
+			justify-content: flex-end;
+		}
+
+		.order-product .product-count::before {
+			content: "Qty:";
+		}
+
+		.calculation-box {
+			padding: 0;
+			border-bottom: 0px;
+		}
+
+		.total-price-wrap {
+			padding-top: 10px;
+		}
+
+		.post-change-result {
+			width: 100%;
+		}
+
+		.price_total {
+			text-decoration: underline;
+		}
+	}
 </style>
 <?php
-	$member_idx = 0;
-	if (isset($_SESSION['MEMBER_IDX'])) {
-		$member_idx = $_SESSION['MEMBER_IDX'];
-	}
-	
-	if ($member_idx == 0 || $basket_idx == null) {
-		echo "
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+if ($member_idx == 0 || $basket_idx == null) {
+	echo "
 			<script>
 				location.href='/main';
 			</script>
 		";
-	} else {
-		$basket_cnt = $db->count("dev.BASKET_INFO","IDX IN (".$basket_idx.") AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
-		
-		$tmp_arr = explode(",",$basket_idx);
-		
-		if ($basket_cnt == 0 || count($tmp_arr) != $basket_cnt) {
-			echo "
+} else {
+	$basket_cnt = $db->count("dev.BASKET_INFO", "IDX IN (" . $basket_idx . ") AND MEMBER_IDX = " . $member_idx . " AND DEL_FLG = FALSE");
+
+	$tmp_arr = explode(",", $basket_idx);
+
+	if ($basket_cnt == 0 || count($tmp_arr) != $basket_cnt) {
+		echo "
 				<script>
 					location.href='/main';
 				</script>
 			";
-		}
 	}
+}
 ?>
 <link rel=stylesheet href='/scripts/static/postcodify-master/api/search.css' type='text/css'>
-<main data-basketStr="<?=$basket_idx?>">
+<main data-basketStr="<?= $basket_idx ?>">
 	<div class="banner-wrap">
 		<div class="banner-box">
 			<span>결제하기</span>
@@ -1036,7 +1048,7 @@ body {
 								<span>제품 합계</span>
 								<span class="price_product" data-price_product="0">0</span>
 							</div>
-							
+
 							<div class="point-box hidden">
 								<div class="calculation-row">
 									<span>바우처 사용</span>
@@ -1051,7 +1063,7 @@ body {
 									<span class="price_charge_point" data-price_charge_point="0">0</span>
 								</div>
 							</div>
-							
+
 							<div class="calculation-row">
 								<span>배송비</span>
 								<span class="price_delivery" data-price_delivery="5000">5,000</span>
@@ -1092,7 +1104,8 @@ body {
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요." style="padding-left:10px;">
+						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요."
+							style="padding-left:10px;">
 						<div class="mileage_point_btn" onclick="getTotalMileage(true)"><span>모두적용</span></div>
 					</div>
 					<div class="get-point reserves">
@@ -1153,8 +1166,8 @@ body {
 					</div>
 
 					<div class="header-box-btn">
-						<div class="header-btn edit-btn"><span>수정</span></div>
-						<div class="header-btn list_addr_btn"><span>배송지목록</span></div>
+						<div class="header-btn edit-btn">수정</div>
+						<div class="header-btn list_addr_btn">배송지목록</div>
 					</div>
 				</div>
 				<div class="body-wrap">
@@ -1169,26 +1182,27 @@ body {
 						</div>
 						<div class="input-row">
 							<span data-content="휴대전화 번호를 정확하게 기입해주세요" class="confirm-text">휴대전화</span>
-							<input oninput="phoneAutoHyphen(this);" maxlength="13" type="text" class="tmp_to_mobile" name="tmp_to_mobile" placeholder="(-)없이 숫자만 입력">
+							<input oninput="phoneAutoHyphen(this);" maxlength="13" type="text" class="tmp_to_mobile"
+								name="tmp_to_mobile" placeholder="(-)없이 숫자만 입력">
 						</div>
-						
+
 						<div class="input-row addr-search">
 							<div class="input-text">
 								<span>배송지 검색</span>
 							</div>
 						</div>
-						
+
 						<div id="postcodify" class="input-row"></div>
 						<div class="input-row">
 							<div class="post-change-result"></div>
 							<span>상세주소</span>
 							<input class="tmp_to_detail_addr" value="" />
 						</div>
-						
+
 						<input type="hidden" class="tmp_to_zipcode" value="">
 						<input type="hidden" class="tmp_to_road_addr" value="">
 						<input type="hidden" class="tmp_to_lot_addr" value="">
-						
+
 						<div class="check-row">
 							<div class="check-text">
 								<input type="checkbox" class="add_flg">
@@ -1197,10 +1211,10 @@ body {
 							<div class="save-btn"><span>저장</span></div>
 						</div>
 					</div>
-					
+
 					<div class="save-box">
 						<div class="to-place"></div>
-						
+
 						<!-- 배송지 정보 표시 -->
 						<div class="cn-box">
 							<p class="to_place"></p>
@@ -1210,7 +1224,7 @@ body {
 							<p class="to_addr"></p>
 							<p class="to_detail_addr"></p>
 						</div>
-						
+
 						<div class="message-box">
 							<span class="hd-title">배송메시지</span>
 							<div class="edit-message-box">
@@ -1223,11 +1237,11 @@ body {
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="list-box hidden">
 						<div class="addrList-header">
 							<div>배송지 목록</div>
-							<div>X</div>
+							<div class="close" onClick="closeBox()"><img src="/images/mypage/tmp_img/X-12.svg"></div>
 						</div>
 						<div class="addrList-body"></div>
 					</div>
@@ -1248,8 +1262,11 @@ body {
 				<div class="check-row">
 					<div class="check-text">
 						<input onclick="essentialCheckBox(this)" type="checkbox" class="check-self essential">
-						<span style="text-decoration: underline;" onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=terms_of_use');">이용약관</span>,<span
-							style="text-decoration: underline;" onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=privacy_policy');">개인정보처리방침</span><span>에 동의합니다. (필수)</span>
+						<span style="text-decoration: underline;"
+							onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=terms_of_use');">이용약관</span>,<span
+							style="text-decoration: underline;"
+							onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=privacy_policy');">개인정보처리방침</span><span>에
+							동의합니다. (필수)</span>
 					</div>
 				</div>
 				<div class="check-row">
@@ -1271,8 +1288,8 @@ body {
 </main>
 
 <form id="frm-check" action="/order/check" style="display:none;" method="POST">
-	<input id="basket_idx" type="hidden" name="basket_idx" value="<?=$basket_idx?>">
-	
+	<input id="basket_idx" type="hidden" name="basket_idx" value="<?= $basket_idx ?>">
+
 	<input id="to_place" type="hidden" name="to_place" value="">
 	<input id="to_name" type="hidden" name="to_name" value="">
 	<input id="to_mobile" type="hidden" name="to_mobile" value="">
@@ -1281,839 +1298,849 @@ body {
 	<input id="to_road_addr" type="hidden" name="to_road_addr" value="">
 	<input id="to_detail_addr" type="hidden" name="to_detail_addr" value="">
 	<input id="order_memo" type="hidden" name="order_memo" value="">
-	
+
 	<input id="voucher_idx" type="hidden" name="voucher_idx" value="0">
-	
+
 	<input id="price_mileage_point" type="hidden" name="price_mileage_point" value="0">
 	<input id="price_charge_point" type="hidden" name="price_charge_point" value="0">
 </form>
 
 <script>
-let total_qty = 0;
-window.addEventListener("resize", function () {
-	resizeEvent();
-});
+	let total_qty = 0;
+	window.addEventListener("resize", function () {
+		resizeEvent();
+	});
 
-function resizeEvent() {
-	const chageOrderWrap = document.querySelector(".content .order-product");
-	const webContent = document.querySelector(".content.web");
-	const mobileContent = document.querySelector(".content.mobile");
-	const bodyWidth = document.querySelector("body").offsetWidth;
-	if (1024 <= bodyWidth) {
-		webContent.appendChild(chageOrderWrap);
-		prdToggleBtn.classList.add("hidden");
-		document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
-	} else if (1024 >= bodyWidth) {
-		document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
-		prdToggleBtn.classList.remove("hidden");
-		mobileContent.appendChild(chageOrderWrap);
-	}
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-	const urlParams = new URL(location.href).searchParams;
-	const param_value = urlParams.get('basket_idx');
-	let basket_idx = param_value.split(",");
-
-	const postResult = document.createElement("div")
-	postResult.classList.add("post-result");
-	document.getElementById("postcodify").appendChild(postResult);
-
-	$.ajax({
-		type: "post",
-		url: "http://116.124.128.246/_api/order/pg/get",
-		data: {
-			"basket_idx": basket_idx,
-		},
-		dataType: "json",
-		error: function () {
-			console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let data = d.data[0];
-				
-				getOrderPgInfoList(data.product_info);
-				getMemberInfo(data.member_info);
-				getAddrInfo(data.order_to_info);
-				getVoucherInfoList(data.voucher_cnt,data.voucher_info);
-				
-				getTotalMileage(false);
-			} else {
-				exceptionHandling("디자인 필요",d.msg);
-			}
+	function resizeEvent() {
+		const chageOrderWrap = document.querySelector(".content .order-product");
+		const webContent = document.querySelector(".content.web");
+		const mobileContent = document.querySelector(".content.mobile");
+		const bodyWidth = document.querySelector("body").offsetWidth;
+		if (1024 <= bodyWidth) {
+			webContent.appendChild(chageOrderWrap);
+			prdToggleBtn.classList.add("hidden");
+			document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
+		} else if (1024 >= bodyWidth) {
+			document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
+			prdToggleBtn.classList.remove("hidden");
+			mobileContent.appendChild(chageOrderWrap);
 		}
-	});
-
-	orderMemoChangeEvent();
-	resizeEvent();
-});
-
-function getOrderPgInfoList(product) {
-	let domFrag = document.createDocumentFragment();
-	const orderWrapBody = document.querySelector(".order-product .body-wrap");
-	let wrap = document.createElement("div");
-	wrap.classList.add("product-wrap");
-	
-	let listHtml = "";
-	product.forEach(el => {
-		let product_qty = parseInt(el.product_qty);
-		total_qty += product_qty;
-		
-		let sales_price = el.sales_price.toLocaleString('ko-KR')
-		let total_price = el.total_price.toLocaleString('ko-KR')
-		
-		listHtml += "";
-		listHtml += '<div class="body-list product">';
-		listHtml += '    <div class="product-info">';
-		listHtml += '        <a href="" class="docs-creator"><img class="prd-img" cnt="1" src="' + img_root + el.img_location + '" alt=""></a>';
-		listHtml += '        <div class="info-box">';
-		listHtml += '            <div class="info-row" data-refund="' + el.refund_flg + '">';
-		listHtml += '                <div class="name" data-soldout=""><span>' + el.product_name + '</span></div>';
-		listHtml += '            </div>';
-		listHtml += '            <div class="info-row mobile-saleprice">';
-		listHtml += '                <div class="product-price">' + sales_price + '</div>';
-		listHtml += '            </div>';
-		listHtml += '            <div class="info-row">';
-		listHtml += '                <div class="color-title"><span>' + el.color +'</span></div>';
-		listHtml += '                <div class="color__box" data-maxcount="" data-colorcount="1">';
-		listHtml += '                    <div class="color" data-color="' + el.color_rgb + '" data-productidx="1" data-soldout="STIN" style="background-color:' + el.color_rgb + '"></div>';
-		listHtml += '                </div>';
-		listHtml += '            </div>';
-		listHtml += '            <div class="info-row">';
-		listHtml += '                <div class="size__box">';
-		listHtml += '                    <li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">' + el.option_name + '</li>';
-		listHtml += '                </div>';
-		listHtml += '            </div>';
-		listHtml += '        </div>';
-		listHtml += '    </div>';
-
-		listHtml += '    <div class="list-row web-saleprice"><span class="product-price">' + sales_price + '</span></div>';
-		listHtml += '    <div class="list-row"><span class="product-count">' + el.product_qty + '</span></div>';
-		listHtml += '    <div class="list-row"><span class="price_total">' + total_price + '</span></div>';
-		listHtml += '</div>';
-	});
-	
-	wrap.innerHTML = listHtml;
-	domFrag.appendChild(wrap);
-	orderWrapBody.prepend(domFrag);
-	calcPriceProduct();
-}
-
-function getMemberInfo(member_info) {
-	let member = member_info[0];
-	
-	document.querySelector(".member_info .member_name").innerHTML = member.member_name;
-	document.querySelector(".member_info .member_mobile").innerHTML = member.member_mobile;
-	document.querySelector(".member_info .member_email").innerHTML = member.member_email;
-	
-	$('#member_name').val(member.member_name);
-	$('#member_mobile').val(member.member_mobile);
-	$('#member_email').val(member.member_email);
-}
-
-function getAddrInfo(order_to_info) {
-	let order_to = order_to_info[0];
-	
-	document.querySelector(".address-info .save-box .to_place").innerHTML = order_to.to_place;
-	document.querySelector(".address-info .save-box .to_name").innerHTML = order_to.to_name;
-	document.querySelector(".address-info .save-box .to_mobile").innerHTML = order_to.to_mobile;
-	document.querySelector(".address-info .save-box .to_zipcode").innerHTML = order_to.to_zipcode;
-	
-	let to_addr = null;
-	if (order_to.to_road_addr == "" || order_to.to_road_addr == "" == null) {
-		to_addr = order_to.to_lot_addr;
-	} else {
-		to_addr = order_to.to_road_addr;
-	}
-	
-	document.querySelector(".address-info .save-box .to_addr").innerHTML = to_addr;
-	document.querySelector(".address-info .save-box .to_detail_addr").innerHTML = order_to.to_detail_addr;
-	
-	$('#to_place').val(order_to.to_place);
-	$('#to_name').val(order_to.to_name);
-	$('#to_mobile').val(order_to.to_mobile);
-	$('#to_zipcode').val(order_to.to_zipcode);
-	$('#to_road_addr').val(order_to.to_road_addr);
-	$('#to_lot_addr').val(order_to.to_lot_addr);
-	$('#to_detail_addr').val(order_to.to_detail_addr);
-}
-
-const put_addr_wrap = document.querySelector(".edit-box");
-const get_addr_wrap = document.querySelector(".save-box");
-const list_addr_wrap = document.querySelector(".list-box");
-
-const list_addr_btn = document.querySelector(".list_addr_btn");
-list_addr_btn.addEventListener("click", function () {
-	$.ajax({
-		type: "post",
-		dataType: "json",
-		url: "http://116.124.128.246/_api/order/pg/to/get",
-		error: function () {
-			console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let data = d.data;
-				
-				if (data != null) {
-					let addrListBody = document.querySelector(".addrList-body");
-					addrListBody.innerHTML = "";
-					
-					data.forEach(function(row) {
-						let addrListContent = document.createElement("div");
-						addrListContent.className = "addrList-content";
-						
-						let strDiv = "";
-						strDiv += '<div class="to-place">' + row.to_place + '</div>';
-						strDiv += '<div class="cn-box" onClick="getOrderToInfo(' + row.order_to_idx + ')">';
-						strDiv += '    <div class="addrList-row">';
-						strDiv += '        <span class="to-name">' + row.to_name + '</span>/<span class="to-phone">' + row.to_mobile + '</span>';
-						strDiv += '    </div>';
-						strDiv += '    <div class="addrList-row">';
-						strDiv += '        (<span class="to-zipcode">' + row.to_zipcode + '</span>)<span class="to-addr">' + row.to_road_addr + '</span><span class="to-detail">' + row.to_detail_addr + '</span>';
-						strDiv += '    </div>';
-						strDiv += '    <div class="delete_addr_btn"><u>삭제하기</u></div>';
-						strDiv += '</div>';
-						
-						addrListContent.innerHTML = strDiv;
-						addrListBody.appendChild(addrListContent)
-					});
-					
-					get_addr_wrap.classList.add("hidden");
-					put_addr_wrap.classList.add("hidden");
-					list_addr_wrap.classList.remove("hidden");
-				}
-			} else {
-				exceptionHandling("디자인 필요",d.msg);
-			}
-		}
-	});
-});
-
-function getOrderToInfo(order_to_idx) {
-	$.ajax({
-		type: "post",
-		data: {
-			'order_to_idx':order_to_idx
-		},
-		dataType: "json",
-		url: "http://116.124.128.246/_api/order/pg/to/get",
-		error: function () {
-			console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let data = d.data;
-				
-				if (data != null) {
-					data.forEach(function(row) {
-						get_addr_wrap.querySelector(".to_place").innerHTML = row.to_place;
-						get_addr_wrap.querySelector(".to_name").innerHTML = row.to_name;
-						get_addr_wrap.querySelector(".to_mobile").innerHTML = row.to_mobile;
-						get_addr_wrap.querySelector(".to_zipcode").innerHTML = row.to_zipcode;
-						
-						let to_addr = null;
-						if (row.to_road_addr == "" || row.to_road_addr == null) {
-							to_addr = row.to_lot_addr;
-						} else {
-							to_addr = row.to_lot_addr;
-						}
-						
-						get_addr_wrap.querySelector(".to_addr").innerHTML = to_addr;
-						get_addr_wrap.querySelector(".to_detail_addr").innerHTML = row.to_detail_addr;
-						
-						$('#to_place').val(row.to_place);
-						$('#to_name').val(row.to_name);
-						$('#to_mobile').val(row.to_mobile);
-						$('#to_zipcode').val(row.to_zipcode);
-						$('#to_road_addr').val(row.to_road_addr);
-						$('#to_lot_addr').val(row.to_lot_addr);
-						$('#to_detail_addr').val(row.to_detail_addr);
-						
-						get_addr_wrap.classList.remove("hidden");
-						put_addr_wrap.classList.add("hidden");
-						list_addr_wrap.classList.add("hidden");
-					});
-				}
-			} else {
-				exceptionHandling("디자인 필요",d.msg);
-			}
-		}
-	});
-}
-
-$(function () {
-	$("#postcodify").postcodify({
-		insertPostcode: ".tmp_to_zipcode",
-		insertAddress: ".tmp_to_road_addr",
-		insertExtraInfo: ".tmp_to_lot_addr",
-		hideOldAddresses: false,
-		results: ".post-change-result",
-		hideSummary: true,
-		useFullJibeon: true,
-		onReady: function () {
-			document.querySelector(".post-change-result").style.display = "none";
-			$(".postcodify_search_controls .keyword").attr("placeholder", "예) 성동구 연무장길 53, 성수동2가 315-57");
-			// $(".post-change-result").hide();
-		},
-		onSuccess: function () {
-			document.querySelector(".post-change-result").style.display = "block";
-			$("#postcodify div.postcode_search_status.too_many").hide();
-			// $(".post-change-result").hide();
-		},
-		afterSelect: function (selectedEntry) {
-			$("#postcodify div.postcode_search_result").remove();
-			$("#postcodify div.postcode_search_status.too_many").hide();
-			$("#postcodify div.postcode_search_status.summary").hide();
-			
-			document.querySelector(".post-change-result").style.display = "none";
-			$("#entry_box").show();
-			$("#entry_details").focus();
-			$(".postcodify_search_controls .keyword").val($(".tmp_to_road_addr").val());
-		}
-	});
-});
-
-const update_addr_btn = document.querySelector(".address-info .edit-btn");
-update_addr_btn.addEventListener("click", function () {
-	get_addr_wrap.classList.toggle("hidden");
-	put_addr_wrap.classList.toggle("hidden");
-	list_addr_wrap.classList.add("hidden");
-});
-
-const add_addr_btn = document.querySelector(".address-info .save-btn");
-add_addr_btn.addEventListener("click", function () {
-	let to_place = document.querySelector(".tmp_to_place");
-	let to_name = document.querySelector(".tmp_to_name");
-	let to_mobile = document.querySelector(".tmp_to_mobile");
-	let addrSearch = document.querySelector(".postcodify_search_controls .keyword");
-
-	if (to_place.value === "" || to_place.value == null) {
-		to_place.previousElementSibling.classList.add("check");
-		return false;
-	} else {
-		to_place.previousElementSibling.classList.remove("check")
-	}
-	
-	if (to_name.value === "" || to_name.value == null) {
-		to_name.previousElementSibling.classList.add("check");
-		return false;
-	} else {
-		to_name.previousElementSibling.classList.remove("check");
-	}
-	
-	if (to_mobile.value === "" || to_mobile == null) {
-		to_mobile.previousElementSibling.classList.add("check");
-		return false;
-	} else {
-		to_mobile.previousElementSibling.classList.remove("check");
 	}
 
-	if (addrSearch.value.length == 0) {
-		if (document.querySelector(".tmp_to_zipcode").value === document.querySelector(".postcodify_search_controls .keyword").value) {
-			exceptionHandling("디자인 필요","배송지를 선택해주세요");
-		}
-		return false;
-	}
+	document.addEventListener("DOMContentLoaded", function () {
+		const urlParams = new URL(location.href).searchParams;
+		const param_value = urlParams.get('basket_idx');
+		let basket_idx = param_value.split(",");
 
-	addOrderToInfo();
-	
-	let resetInput = document.querySelectorAll(".edit-box .input-row input");
-	resetInput.forEach((el) => {
-		el.value = "";
-	});
-	$('.add_flg').prop('checked',false);
-	
-	get_addr_wrap.classList.remove("hidden");
-	put_addr_wrap.classList.add("hidden");
-	list_addr_wrap.classList.add("hidden");
-});
+		const postResult = document.createElement("div")
+		postResult.classList.add("post-result");
+		document.getElementById("postcodify").appendChild(postResult);
 
-function addOrderToInfo() {
-	let to_place = put_addr_wrap.querySelector(".tmp_to_place").value;
-	let to_name = put_addr_wrap.querySelector(".tmp_to_name").value;
-	let to_mobile = put_addr_wrap.querySelector(".tmp_to_mobile").value;
-	let to_zipcode = put_addr_wrap.querySelector(".tmp_to_zipcode").value;
-	let to_road_addr = put_addr_wrap.querySelector(".tmp_to_road_addr").value;
-	let to_lot_addr = put_addr_wrap.querySelector(".tmp_to_lot_addr").value;
-	let to_detail_addr = put_addr_wrap.querySelector(".tmp_to_detail_addr").value;
-	
-	//변경된 주소 박스 
-	let to_place_text = document.querySelector(".save-box .to_place");
-	let to_name_text = document.querySelector(".save-box .to_name");
-	let to_mobile_text = document.querySelector(".save-box .to_mobile");
-	let to_zipcode_text = document.querySelector(".save-box .to_zipcode");
-	let to_road_addr_text = document.querySelector(".save-box .to_addr");
-	let to_detail_addr_text = document.querySelector(".save-box .to_detail_addr");
-	
-	to_place_text.innerHTML = to_place;
-	to_name_text.innerHTML = to_name;
-	to_mobile_text.innerHTML = to_mobile;
-	to_zipcode_text.innerHTML = to_zipcode;
-	to_road_addr_text.innerHTML = to_road_addr;
-	to_detail_addr_text.innerHTML = to_detail_addr;
-	
-	if ($('.add_flg').prop('checked') == true) {
 		$.ajax({
-			type: "POST",
+			type: "post",
+			url: "http://116.124.128.246/_api/order/pg/get",
 			data: {
-				'to_place':to_place,
-				'to_name':to_name,
-				'to_mobile':to_mobile,
-				'to_zipcode':to_zipcode,
-				'to_road_addr':to_road_addr,
-				'to_lot_addr':to_lot_addr,
-				'to_detail_addr':to_detail_addr,
+				"basket_idx": basket_idx,
 			},
 			dataType: "json",
-			url: "http://116.124.128.246/_api/order/pg/to/add",
 			error: function () {
-				alert('배송지 저장처리중 오류가 발생했습니다.');
+				console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
 			},
 			success: function (d) {
-				
-			}
-		});
-	}
-}
+				let code = d.code;
+				if (code == 200) {
+					let data = d.data[0];
 
-// 배송메모 셀렉트 박스 설정
-let orderMemoSelectBox = new tui.SelectBox('.addr-message-select-box', {
-	placeholder: '배송시 요청사항을 선택해주세요',
-	data: [
-		{
-			label: '부재시 문앞에 놓아주세요.',
-			value: '1'
-		},
-		{
-			label: '택배함에 넣어 주세요.',
-			value: '2'
-		},
-		{
-			label: '파손위험상품입니다. 배송시 주의해주세요.',
-			value: '3'
-		},
-		{
-			label: '배송전 연락주세요.',
-			value: '4'
-		},
-		{
-			label: '(최근)문 앞에 두고가주에요~',
-			value: '5'
-		},
-		{
-			label: '직접입력',
-			value: 'direct'
-		}
-	],
-	autofocus: false
-});
+					getOrderPgInfoList(data.product_info);
+					getMemberInfo(data.member_info);
+					getAddrInfo(data.order_to_info);
+					getVoucherInfoList(data.voucher_cnt, data.voucher_info);
 
-function orderMemoChangeEvent() {
-	orderMemoSelectBox.on('change', ev => {
-		let tmp_order_memo = document.querySelector("#tmp_order_memo");
-		let massageValue = document.querySelector(".message-content");
-		
-		let select_label = ev.curr.getLabel();
-		let select_value = ev.curr.getValue();
-		
-		$('.edit-message-box').find('.tui-select-box-placeholder').addClass('tui-selected');
-		
-		document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
-		
-		if (ev.curr.getValue() === "direct") {
-			tmp_order_memo.style.display = "block";
-		} else {
-			tmp_order_memo.style.display = "none";
-		}
-	});
-}
-
-// 바우처 정보 셀렉트 박스 설정
-function getVoucherInfoList(voucher_cnt,voucher_info) {
-	let toast_data = [
-		{
-			'label': '선택안함',
-			'value': false
-		}
-	];
-	
-	let voucherInfoSelectBox = null;
-	if (voucher_info != null) {
-		voucher_info.forEach(function(voucher) {
-			let tmp_val = {
-				'voucher_idx' : voucher.voucher_idx,
-				'sale_price' : voucher.sale_price,
-				'mileage_flg' : voucher.mileage_flg
-			};
-			
-			let tmp_arr =
-			{
-				'label':voucher.voucher_name,
-				'value': JSON.stringify(tmp_val)
-			};
-			
-			toast_data.push(tmp_arr);
-		});
-		
-		let usable_cnt = voucher_info.length;
-		voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
-			{
-				placeholder: '사용가능 쿠폰 ' + voucher_cnt + '장 / 보유 ' + usable_cnt + '장',
-				data: toast_data
-			}
-		);
-	} else {
-		// 배송메모 셀렉트 박스 기본값 설정
-		voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
-			{
-				placeholder: '사용가능 가능한 쿠폰이 없습니다',
-				data: [{
-					'label': '선택안함',
-					'value': false
-				}]
-			}
-		);
-	}
-	
-	voucherInfoSelectBox.on('change', ev => {
-		$('.voucher-select-box').find('.tui-select-box-placeholder').addClass('tui-selected');
-		
-		let select_label = ev.curr.getLabel();
-		let select_value = ev.curr.getValue();
-		
-		let voucher_info = null
-		if (select_value != "false") {
-			voucher_info = JSON.parse(select_value);
-			
-			$('#voucher_idx').val(voucher_info['voucher_idx']);
-			
-			let tmp_discount = voucher_info['sale_price'];
-			let price_discount = document.querySelector(".calculation-wrap .price_discount");
-			price_discount.innerHTML = tmp_discount.toLocaleString('ko-KR');
-			price_discount.dataset.price_discount = tmp_discount;
-			
-			
-			let mileage_flg = voucher_info['mileage_flg'];
-			if (mileage_flg == false) {
-				$('#use_mileage').attr('disabled',false);
-				$('.mileage_point_btn').attr('onClick','getTotalMileage(true);');
-			} else {
-				$('#use_mileage').val(0);
-				$('#use_mileage').attr('disabled',true);
-				$('.mileage_point_btn').attr('onClick','return false;');
-				
-				let price_mileage_point = document.querySelector(".price_mileage_point");
-				price_mileage_point.dataset.price_mileage_point = 0;
-				price_mileage_point.innerHTML = 0;
-			}
-		} else {
-			$('#voucher_idx').val(0);
-			$('#use_mileage').attr('disabled',false);
-			$('.mileage_point_btn').attr('onClick','return false;');
-			
-			let price_discount = document.querySelector(".price_discount");
-			price_discount.dataset.price_discount = 0;
-			price_discount.innerHTML = 0;
-			
-			let price_mileage_point = document.querySelector(".price_mileage_point");
-			price_mileage_point.dataset.price_mileage_point = 0;
-			price_mileage_point.innerHTML = 0;
-			
-			$('#use_mileage').attr('disabled',false);
-			$('.mileage_point_btn').attr('onClick','getTotalMileage(true);');
-		}
-		
-		calcPriceTotal();
-	});
-}
-
-function getTotalMileage(calc_flg){
-	$.ajax({
-		type: "post",
-		dataType: "json",
-		url: "http://116.124.128.246/_api/mileage/get",
-		error: function () {
-			console.log("적립 포인트 불러오기에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let mileage_point = d.data;
-				$('#txt_total_mileage').text(mileage_point.toLocaleString('ko-KR'));
-				$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
-				
-				let price_mileage_point = document.querySelector(".price_mileage_point");
-				price_mileage_point.dataset.price_mileage_point = mileage_point;
-				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
-				
-				if (calc_flg == true) {
-					calcPriceTotal();
+					getTotalMileage(false);
+				} else {
+					exceptionHandling("디자인 필요", d.msg);
 				}
-			} else {
-				exceptionHandling("디자인 필요",d.msg);
 			}
-		}
-	});
-}
-
-$('#use_mileage').keyup(function () {
-	var write_mileage = parseInt($('#use_mileage').val().replace(',', ''));
-	var temp_meileage = "";
-
-	if (isNaN(write_mileage)) {
-		temp_meileage = "";
-	} else {
-		temp_meileage = write_mileage;
-	}
-
-	$.ajax({
-		type: "post",
-		url: "http://116.124.128.246/_api/mileage/check",
-		data: {
-			'input_mileage' : temp_meileage
-		},
-		dataType: "json",
-		error: function () {
-			console.log("적립 포인트 불러오기에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let mileage_point = d.data;
-				$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
-				
-				let price_mileage_point = document.querySelector(".price_mileage_point");
-				price_mileage_point.dataset.price_mileage_point = mileage_point;
-				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
-				
-				calcPriceTotal();
-			} else if (code == 403) {
-				exceptionHandling("디자인 필요",d.msg);
-			}
-		}
-	});
-});
-
-/* 다음단계, 이전단계 */
-//버튼
-const calculationWrap = document.querySelector(".calculation-wrap");
-const prdToggleBtn = document.querySelector(".product-toggle-btn");
-const next_step_btn = document.querySelector(".step-btn.next");
-const prev_step_btn = document.querySelector(".step-btn.pre");
-
-const $$wrapper = document.querySelectorAll(".wrapper");
-const $$group1 = document.querySelectorAll(".wrapper[data-group='1']");
-const $group2 = document.querySelector(".wrapper[data-group='2']");
-const $group3 = document.querySelector(".wrapper[data-group='3']");
-const $group4 = document.querySelector(".terms-service[data-group='4']");
-const calPointBox = document.querySelector(".calculation-box .point-box");
-
-prev_step_btn.addEventListener("click", function () {
-	let next_step_level = next_step_btn.dataset.step;
-	
-	next_step_btn.dataset.step = "1";
-	calculationWrap.dataset.step = "1";
-	next_step_btn.querySelector("span").innerHTML = "다음 단계";
-	
-	header_box_btn = document.querySelector('.header-box-btn');
-	header_box_btn.classList.remove("hidden");
-	update_addr_btn.classList.remove("hidden");
-	list_addr_btn.classList.remove("hidden");
-	
-	$$group1.forEach(el => {
-		el.classList.remove("next");
-	});
-	
-	//terms-service
-	$group4.classList.add("hidden");
-	
-	if (next_step_level > 2) {
-		document.querySelector(".address-info.next .header-box-btn").classList.remove("hidden");
-	}
-
-	//배송메시지 박스 
-	document.querySelector(".edit-message-box").classList.remove("hidden");
-	document.querySelector(".save-message-box").classList.add("hidden");
-
-	calPointBox.classList.add("hidden");
-	calcPriceTotal();
-});
-
-next_step_btn.addEventListener("click", function () {
-	let next_step_level = next_step_btn.dataset.step;
-	
-	let checkBoxEssential = document.querySelectorAll("essential");
-	let orderSection = document.querySelector(".order-section");
-	
-	if (next_step_level == 2) {
-		if (orderSection.dataset.status === "F") {
-			exceptionHandling("디자인 필요","이용약관에 동의가 필요합니다.");
-		} else if (orderSection.dataset.status === "T") {
-			$('#frm-check').submit();
-		}
-	} else {
-		next_step_btn.dataset.step = "2";
-		calculationWrap.dataset.step = "2";
-		orderSection.dataset.status = "F";
-		if (next_step_btn.dataset.step === "2") {
-			next_step_btn.querySelector("span").innerHTML = "결제";
-		}
-		
-		$$group1.forEach(el => {
-			el.classList.add("next");
 		});
-		
-		$group2.classList.add("next");
-		
-		$group3.classList.add("next");
-		if ($group3.classList.contains("next")) {
-			document.querySelector(".address-info.next .header-box-btn").classList.add("hidden");
+
+		orderMemoChangeEvent();
+		resizeEvent();
+	});
+
+	function getOrderPgInfoList(product) {
+		let domFrag = document.createDocumentFragment();
+		const orderWrapBody = document.querySelector(".order-product .body-wrap");
+		let wrap = document.createElement("div");
+		wrap.classList.add("product-wrap");
+
+		let listHtml = "";
+		product.forEach(el => {
+			let product_qty = parseInt(el.product_qty);
+			total_qty += product_qty;
+
+			let sales_price = el.sales_price.toLocaleString('ko-KR')
+			let total_price = el.total_price.toLocaleString('ko-KR')
+
+			listHtml += "";
+			listHtml += '<div class="body-list product">';
+			listHtml += '    <div class="product-info">';
+			listHtml += '        <a href="" class="docs-creator"><img class="prd-img" cnt="1" src="' + img_root + el.img_location + '" alt=""></a>';
+			listHtml += '        <div class="info-box">';
+			listHtml += '            <div class="info-row" data-refund="' + el.refund_flg + '">';
+			listHtml += '                <div class="name" data-soldout=""><span>' + el.product_name + '</span></div>';
+			listHtml += '            </div>';
+			listHtml += '            <div class="info-row mobile-saleprice">';
+			listHtml += '                <div class="product-price">' + sales_price + '</div>';
+			listHtml += '            </div>';
+			listHtml += '            <div class="info-row">';
+			listHtml += '                <div class="color-title"><span>' + el.color + '</span></div>';
+			listHtml += '                <div class="color__box" data-maxcount="" data-colorcount="1">';
+			listHtml += '                    <div class="color" data-color="' + el.color_rgb + '" data-productidx="1" data-soldout="STIN" style="background-color:' + el.color_rgb + '"></div>';
+			listHtml += '                </div>';
+			listHtml += '            </div>';
+			listHtml += '            <div class="info-row">';
+			listHtml += '                <div class="size__box">';
+			listHtml += '                    <li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">' + el.option_name + '</li>';
+			listHtml += '                </div>';
+			listHtml += '            </div>';
+			listHtml += '        </div>';
+			listHtml += '    </div>';
+
+			listHtml += '    <div class="list-row web-saleprice"><span class="product-price">' + sales_price + '</span></div>';
+			listHtml += '    <div class="list-row"><span class="product-count">' + el.product_qty + '</span></div>';
+			listHtml += '    <div class="list-row"><span class="price_total">' + total_price + '</span></div>';
+			listHtml += '</div>';
+		});
+
+		wrap.innerHTML = listHtml;
+		domFrag.appendChild(wrap);
+		orderWrapBody.prepend(domFrag);
+		calcPriceProduct();
+	}
+
+	function getMemberInfo(member_info) {
+		let member = member_info[0];
+
+		document.querySelector(".member_info .member_name").innerHTML = member.member_name;
+		document.querySelector(".member_info .member_mobile").innerHTML = member.member_mobile;
+		document.querySelector(".member_info .member_email").innerHTML = member.member_email;
+
+		$('#member_name').val(member.member_name);
+		$('#member_mobile').val(member.member_mobile);
+		$('#member_email').val(member.member_email);
+	}
+
+	function getAddrInfo(order_to_info) {
+		let order_to = order_to_info[0];
+
+		document.querySelector(".address-info .save-box .to_place").innerHTML = order_to.to_place;
+		document.querySelector(".address-info .save-box .to_name").innerHTML = order_to.to_name;
+		document.querySelector(".address-info .save-box .to_mobile").innerHTML = order_to.to_mobile;
+		document.querySelector(".address-info .save-box .to_zipcode").innerHTML = order_to.to_zipcode;
+
+		let to_addr = null;
+		if (order_to.to_road_addr == "" || order_to.to_road_addr == "" == null) {
+			to_addr = order_to.to_lot_addr;
+		} else {
+			to_addr = order_to.to_road_addr;
 		}
-		
-		//terms-service
-		$group4.classList.remove("hidden");
-		
-		//배송메시지 박스 
-		document.querySelector(".edit-message-box").classList.add("hidden");
-		document.querySelector(".save-message-box").classList.remove("hidden");
-		calPointBox.classList.remove("hidden");
+
+		document.querySelector(".address-info .save-box .to_addr").innerHTML = to_addr;
+		document.querySelector(".address-info .save-box .to_detail_addr").innerHTML = order_to.to_detail_addr;
+
+		$('#to_place').val(order_to.to_place);
+		$('#to_name').val(order_to.to_name);
+		$('#to_mobile').val(order_to.to_mobile);
+		$('#to_zipcode').val(order_to.to_zipcode);
+		$('#to_road_addr').val(order_to.to_road_addr);
+		$('#to_lot_addr').val(order_to.to_lot_addr);
+		$('#to_detail_addr').val(order_to.to_detail_addr);
+	}
+
+	const put_addr_wrap = document.querySelector(".edit-box");
+	const get_addr_wrap = document.querySelector(".save-box");
+	const list_addr_wrap = document.querySelector(".list-box");
+
+	const list_addr_btn = document.querySelector(".list_addr_btn");
+	list_addr_btn.addEventListener("click", function () {
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			url: "http://116.124.128.246/_api/order/pg/to/get",
+			error: function () {
+				console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let data = d.data;
+
+					if (data != null) {
+						let addrListBody = document.querySelector(".addrList-body");
+						addrListBody.innerHTML = "";
+
+						data.forEach(function (row) {
+							let addrListContent = document.createElement("div");
+							addrListContent.className = "addrList-content";
+
+							let strDiv = "";
+							strDiv += '<div class="to-place">' + row.to_place + '</div>';
+							strDiv += '<div class="cn-box" onClick="getOrderToInfo(' + row.order_to_idx + ')">';
+							strDiv += '    <div class="addrList-row">';
+							strDiv += '        <span class="to-name">' + row.to_name + '</span>/<span class="to-phone">' + row.to_mobile + '</span>';
+							strDiv += '    </div>';
+							strDiv += '    <div class="addrList-row">';
+							strDiv += '        (<span class="to-zipcode">' + row.to_zipcode + '</span>)<span class="to-addr">' + row.to_road_addr + '</span><span class="to-detail">' + row.to_detail_addr + '</span>';
+							strDiv += '    </div>';
+							strDiv += '    <div class="delete_addr_btn"><u>삭제하기</u></div>';
+							strDiv += '</div>';
+
+							addrListContent.innerHTML = strDiv;
+							addrListBody.appendChild(addrListContent)
+						});
+
+						get_addr_wrap.classList.add("hidden");
+						put_addr_wrap.classList.add("hidden");
+						list_addr_wrap.classList.remove("hidden");
+					}
+				} else {
+					exceptionHandling("디자인 필요", d.msg);
+				}
+			}
+		});
+	});
+
+	function getOrderToInfo(order_to_idx) {
+		$.ajax({
+			type: "post",
+			data: {
+				'order_to_idx': order_to_idx
+			},
+			dataType: "json",
+			url: "http://116.124.128.246/_api/order/pg/to/get",
+			error: function () {
+				console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let data = d.data;
+
+					if (data != null) {
+						data.forEach(function (row) {
+							get_addr_wrap.querySelector(".to_place").innerHTML = row.to_place;
+							get_addr_wrap.querySelector(".to_name").innerHTML = row.to_name;
+							get_addr_wrap.querySelector(".to_mobile").innerHTML = row.to_mobile;
+							get_addr_wrap.querySelector(".to_zipcode").innerHTML = row.to_zipcode;
+
+							let to_addr = null;
+							if (row.to_road_addr == "" || row.to_road_addr == null) {
+								to_addr = row.to_lot_addr;
+							} else {
+								to_addr = row.to_lot_addr;
+							}
+
+							get_addr_wrap.querySelector(".to_addr").innerHTML = to_addr;
+							get_addr_wrap.querySelector(".to_detail_addr").innerHTML = row.to_detail_addr;
+
+							$('#to_place').val(row.to_place);
+							$('#to_name').val(row.to_name);
+							$('#to_mobile').val(row.to_mobile);
+							$('#to_zipcode').val(row.to_zipcode);
+							$('#to_road_addr').val(row.to_road_addr);
+							$('#to_lot_addr').val(row.to_lot_addr);
+							$('#to_detail_addr').val(row.to_detail_addr);
+
+							get_addr_wrap.classList.remove("hidden");
+							put_addr_wrap.classList.add("hidden");
+							list_addr_wrap.classList.add("hidden");
+						});
+					}
+				} else {
+					exceptionHandling("디자인 필요", d.msg);
+				}
+			}
+		});
+	}
+
+	$(function () {
+		$("#postcodify").postcodify({
+			insertPostcode: ".tmp_to_zipcode",
+			insertAddress: ".tmp_to_road_addr",
+			insertExtraInfo: ".tmp_to_lot_addr",
+			hideOldAddresses: false,
+			results: ".post-change-result",
+			hideSummary: true,
+			useFullJibeon: true,
+			onReady: function () {
+				document.querySelector(".post-change-result").style.display = "none";
+				$(".postcodify_search_controls .keyword").attr("placeholder", "예) 성동구 연무장길 53, 성수동2가 315-57");
+				// $(".post-change-result").hide();
+			},
+			onSuccess: function () {
+				document.querySelector(".post-change-result").style.display = "block";
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				// $(".post-change-result").hide();
+			},
+			afterSelect: function (selectedEntry) {
+				$("#postcodify div.postcode_search_result").remove();
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				$("#postcodify div.postcode_search_status.summary").hide();
+
+				document.querySelector(".post-change-result").style.display = "none";
+				$("#entry_box").show();
+				$("#entry_details").focus();
+				$(".postcodify_search_controls .keyword").val($(".tmp_to_road_addr").val());
+			}
+		});
+	});
+
+	const update_addr_btn = document.querySelector(".address-info .edit-btn");
+	update_addr_btn.addEventListener("click", function () {
+		get_addr_wrap.classList.toggle("hidden");
+		put_addr_wrap.classList.toggle("hidden");
+		list_addr_wrap.classList.add("hidden");
+		$(".edit_box").removeClass("hidden");
+	});
+
+	const add_addr_btn = document.querySelector(".address-info .save-btn");
+	add_addr_btn.addEventListener("click", function () {
+		let to_place = document.querySelector(".tmp_to_place");
+		let to_name = document.querySelector(".tmp_to_name");
+		let to_mobile = document.querySelector(".tmp_to_mobile");
+		let addrSearch = document.querySelector(".postcodify_search_controls .keyword");
+
+		if (to_place.value === "" || to_place.value == null) {
+			to_place.previousElementSibling.classList.add("check");
+			return false;
+		} else {
+			to_place.previousElementSibling.classList.remove("check")
+		}
+
+		if (to_name.value === "" || to_name.value == null) {
+			to_name.previousElementSibling.classList.add("check");
+			return false;
+		} else {
+			to_name.previousElementSibling.classList.remove("check");
+		}
+
+		if (to_mobile.value === "" || to_mobile == null) {
+			to_mobile.previousElementSibling.classList.add("check");
+			return false;
+		} else {
+			to_mobile.previousElementSibling.classList.remove("check");
+		}
+
+		if (addrSearch.value.length == 0) {
+			if (document.querySelector(".tmp_to_zipcode").value === document.querySelector(".postcodify_search_controls .keyword").value) {
+				exceptionHandling("디자인 필요", "배송지를 선택해주세요");
+			}
+			return false;
+		}
+
+		addOrderToInfo();
+
+		let resetInput = document.querySelectorAll(".edit-box .input-row input");
+		resetInput.forEach((el) => {
+			el.value = "";
+		});
+		$('.add_flg').prop('checked', false);
 
 		get_addr_wrap.classList.remove("hidden");
 		put_addr_wrap.classList.add("hidden");
+		list_addr_wrap.classList.add("hidden");
+	});
 
-		// 직접입력 배송메시지
-		let tmp_order_memo = document.querySelector("#tmp_order_memo").value;
-		if (tmp_order_memo.length > 0) {
-			document.querySelector(".save-message-box .message-content").innerHTML = tmp_order_memo;
-			$('#order_memo').val(tmp_order_memo);
+	function addOrderToInfo() {
+		let to_place = put_addr_wrap.querySelector(".tmp_to_place").value;
+		let to_name = put_addr_wrap.querySelector(".tmp_to_name").value;
+		let to_mobile = put_addr_wrap.querySelector(".tmp_to_mobile").value;
+		let to_zipcode = put_addr_wrap.querySelector(".tmp_to_zipcode").value;
+		let to_road_addr = put_addr_wrap.querySelector(".tmp_to_road_addr").value;
+		let to_lot_addr = put_addr_wrap.querySelector(".tmp_to_lot_addr").value;
+		let to_detail_addr = put_addr_wrap.querySelector(".tmp_to_detail_addr").value;
+
+		//변경된 주소 박스 
+		let to_place_text = document.querySelector(".save-box .to_place");
+		let to_name_text = document.querySelector(".save-box .to_name");
+		let to_mobile_text = document.querySelector(".save-box .to_mobile");
+		let to_zipcode_text = document.querySelector(".save-box .to_zipcode");
+		let to_road_addr_text = document.querySelector(".save-box .to_addr");
+		let to_detail_addr_text = document.querySelector(".save-box .to_detail_addr");
+
+		to_place_text.innerHTML = to_place;
+		to_name_text.innerHTML = to_name;
+		to_mobile_text.innerHTML = to_mobile;
+		to_zipcode_text.innerHTML = to_zipcode;
+		to_road_addr_text.innerHTML = to_road_addr;
+		to_detail_addr_text.innerHTML = to_detail_addr;
+
+		if ($('.add_flg').prop('checked') == true) {
+			$.ajax({
+				type: "POST",
+				data: {
+					'to_place': to_place,
+					'to_name': to_name,
+					'to_mobile': to_mobile,
+					'to_zipcode': to_zipcode,
+					'to_road_addr': to_road_addr,
+					'to_lot_addr': to_lot_addr,
+					'to_detail_addr': to_detail_addr,
+				},
+				dataType: "json",
+				url: "http://116.124.128.246/_api/order/pg/to/add",
+				error: function () {
+					alert('배송지 저장처리중 오류가 발생했습니다.');
+				},
+				success: function (d) {
+
+				}
+			});
+		}
+	}
+
+	// 배송메모 셀렉트 박스 설정
+	let orderMemoSelectBox = new tui.SelectBox('.addr-message-select-box', {
+		placeholder: '배송시 요청사항을 선택해주세요',
+		data: [
+			{
+				label: '부재시 문앞에 놓아주세요.',
+				value: '1'
+			},
+			{
+				label: '택배함에 넣어 주세요.',
+				value: '2'
+			},
+			{
+				label: '파손위험상품입니다. 배송시 주의해주세요.',
+				value: '3'
+			},
+			{
+				label: '배송전 연락주세요.',
+				value: '4'
+			},
+			{
+				label: '(최근)문 앞에 두고가주에요~',
+				value: '5'
+			},
+			{
+				label: '직접입력',
+				value: 'direct'
+			}
+		],
+		autofocus: false
+	});
+
+	function orderMemoChangeEvent() {
+		orderMemoSelectBox.on('change', ev => {
+			let tmp_order_memo = document.querySelector("#tmp_order_memo");
+			let massageValue = document.querySelector(".message-content");
+
+			let select_label = ev.curr.getLabel();
+			let select_value = ev.curr.getValue();
+
+			$('.edit-message-box').find('.tui-select-box-placeholder').addClass('tui-selected');
+
+			document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
+
+			if (ev.curr.getValue() === "direct") {
+				tmp_order_memo.style.display = "block";
+			} else {
+				tmp_order_memo.style.display = "none";
+			}
+		});
+	}
+
+	// 바우처 정보 셀렉트 박스 설정
+	function getVoucherInfoList(voucher_cnt, voucher_info) {
+		let toast_data = [
+			{
+				'label': '선택안함',
+				'value': false
+			}
+		];
+
+		let voucherInfoSelectBox = null;
+		if (voucher_info != null) {
+			voucher_info.forEach(function (voucher) {
+				let tmp_val = {
+					'voucher_idx': voucher.voucher_idx,
+					'sale_price': voucher.sale_price,
+					'mileage_flg': voucher.mileage_flg
+				};
+
+				let tmp_arr =
+				{
+					'label': voucher.voucher_name,
+					'value': JSON.stringify(tmp_val)
+				};
+
+				toast_data.push(tmp_arr);
+			});
+
+			let usable_cnt = voucher_info.length;
+			voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
+				{
+					placeholder: '사용가능 쿠폰 ' + voucher_cnt + '장 / 보유 ' + usable_cnt + '장',
+					data: toast_data
+				}
+			);
+		} else {
+			// 배송메모 셀렉트 박스 기본값 설정
+			voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
+				{
+					placeholder: '사용가능 가능한 쿠폰이 없습니다',
+					data: [{
+						'label': '선택안함',
+						'value': false
+					}]
+				}
+			);
+		}
+
+		voucherInfoSelectBox.on('change', ev => {
+			$('.voucher-select-box').find('.tui-select-box-placeholder').addClass('tui-selected');
+
+			let select_label = ev.curr.getLabel();
+			let select_value = ev.curr.getValue();
+
+			let voucher_info = null
+			if (select_value != "false") {
+				voucher_info = JSON.parse(select_value);
+
+				$('#voucher_idx').val(voucher_info['voucher_idx']);
+
+				let tmp_discount = voucher_info['sale_price'];
+				let price_discount = document.querySelector(".calculation-wrap .price_discount");
+				price_discount.innerHTML = tmp_discount.toLocaleString('ko-KR');
+				price_discount.dataset.price_discount = tmp_discount;
+
+
+				let mileage_flg = voucher_info['mileage_flg'];
+				if (mileage_flg == false) {
+					$('#use_mileage').attr('disabled', false);
+					$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
+				} else {
+					$('#use_mileage').val(0);
+					$('#use_mileage').attr('disabled', true);
+					$('.mileage_point_btn').attr('onClick', 'return false;');
+
+					let price_mileage_point = document.querySelector(".price_mileage_point");
+					price_mileage_point.dataset.price_mileage_point = 0;
+					price_mileage_point.innerHTML = 0;
+				}
+			} else {
+				$('#voucher_idx').val(0);
+				$('#use_mileage').attr('disabled', false);
+				$('.mileage_point_btn').attr('onClick', 'return false;');
+
+				let price_discount = document.querySelector(".price_discount");
+				price_discount.dataset.price_discount = 0;
+				price_discount.innerHTML = 0;
+
+				let price_mileage_point = document.querySelector(".price_mileage_point");
+				price_mileage_point.dataset.price_mileage_point = 0;
+				price_mileage_point.innerHTML = 0;
+
+				$('#use_mileage').attr('disabled', false);
+				$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
+			}
+
+			calcPriceTotal();
+		});
+	}
+
+	function getTotalMileage(calc_flg) {
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			url: "http://116.124.128.246/_api/mileage/get",
+			error: function () {
+				console.log("적립 포인트 불러오기에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let mileage_point = d.data;
+					$('#txt_total_mileage').text(mileage_point.toLocaleString('ko-KR'));
+					$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
+
+					let price_mileage_point = document.querySelector(".price_mileage_point");
+					price_mileage_point.dataset.price_mileage_point = mileage_point;
+					price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
+
+					if (calc_flg == true) {
+						calcPriceTotal();
+					}
+				} else {
+					exceptionHandling("디자인 필요", d.msg);
+				}
+			}
+		});
+	}
+
+	$('#use_mileage').keyup(function () {
+		var write_mileage = parseInt($('#use_mileage').val().replace(',', ''));
+		var temp_meileage = "";
+
+		if (isNaN(write_mileage)) {
+			temp_meileage = "";
+		} else {
+			temp_meileage = write_mileage;
+		}
+
+		$.ajax({
+			type: "post",
+			url: "http://116.124.128.246/_api/mileage/check",
+			data: {
+				'input_mileage': temp_meileage
+			},
+			dataType: "json",
+			error: function () {
+				console.log("적립 포인트 불러오기에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let mileage_point = d.data;
+					$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
+
+					let price_mileage_point = document.querySelector(".price_mileage_point");
+					price_mileage_point.dataset.price_mileage_point = mileage_point;
+					price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
+
+					calcPriceTotal();
+				} else if (code == 403) {
+					exceptionHandling("디자인 필요", d.msg);
+				}
+			}
+		});
+	});
+
+	/* 다음단계, 이전단계 */
+	//버튼
+	const calculationWrap = document.querySelector(".calculation-wrap");
+	const prdToggleBtn = document.querySelector(".product-toggle-btn");
+	const next_step_btn = document.querySelector(".step-btn.next");
+	const prev_step_btn = document.querySelector(".step-btn.pre");
+
+	const $$wrapper = document.querySelectorAll(".wrapper");
+	const $$group1 = document.querySelectorAll(".wrapper[data-group='1']");
+	const $group2 = document.querySelector(".wrapper[data-group='2']");
+	const $group3 = document.querySelector(".wrapper[data-group='3']");
+	const $group4 = document.querySelector(".terms-service[data-group='4']");
+	const calPointBox = document.querySelector(".calculation-box .point-box");
+
+	prev_step_btn.addEventListener("click", function () {
+		let next_step_level = next_step_btn.dataset.step;
+
+		next_step_btn.dataset.step = "1";
+		calculationWrap.dataset.step = "1";
+		next_step_btn.querySelector("span").innerHTML = "다음 단계";
+
+		header_box_btn = document.querySelector('.header-box-btn');
+		header_box_btn.classList.remove("hidden");
+		update_addr_btn.classList.remove("hidden");
+		list_addr_btn.classList.remove("hidden");
+
+		$$group1.forEach(el => {
+			el.classList.remove("next");
+		});
+
+		//terms-service
+		$group4.classList.add("hidden");
+
+		if (next_step_level > 2) {
+			document.querySelector(".address-info.next .header-box-btn").classList.remove("hidden");
+		}
+
+		//배송메시지 박스 
+		document.querySelector(".edit-message-box").classList.remove("hidden");
+		document.querySelector(".save-message-box").classList.add("hidden");
+
+		calPointBox.classList.add("hidden");
+		calcPriceTotal();
+	});
+
+	next_step_btn.addEventListener("click", function () {
+		let next_step_level = next_step_btn.dataset.step;
+
+		let checkBoxEssential = document.querySelectorAll("essential");
+		let orderSection = document.querySelector(".order-section");
+
+		if (next_step_level == 2) {
+			if (orderSection.dataset.status === "F") {
+				exceptionHandling("디자인 필요", "이용약관에 동의가 필요합니다.");
+			} else if (orderSection.dataset.status === "T") {
+				$('#frm-check').submit();
+			}
+		} else {
+			next_step_btn.dataset.step = "2";
+			calculationWrap.dataset.step = "2";
+			orderSection.dataset.status = "F";
+			if (next_step_btn.dataset.step === "2") {
+				next_step_btn.querySelector("span").innerHTML = "결제";
+			}
+
+			$$group1.forEach(el => {
+				el.classList.add("next");
+			});
+
+			$group2.classList.add("next");
+
+			$group3.classList.add("next");
+			if ($group3.classList.contains("next")) {
+				document.querySelector(".address-info.next .header-box-btn").classList.add("hidden");
+			}
+
+			//terms-service
+			$group4.classList.remove("hidden");
+
+			//배송메시지 박스 
+			document.querySelector(".edit-message-box").classList.add("hidden");
+			document.querySelector(".save-message-box").classList.remove("hidden");
+			calPointBox.classList.remove("hidden");
+
+			get_addr_wrap.classList.remove("hidden");
+			put_addr_wrap.classList.add("hidden");
+
+			// 직접입력 배송메시지
+			let tmp_order_memo = document.querySelector("#tmp_order_memo").value;
+			if (tmp_order_memo.length > 0) {
+				document.querySelector(".save-message-box .message-content").innerHTML = tmp_order_memo;
+				$('#order_memo').val(tmp_order_memo);
+			}
+
+			calcPriceTotal();
+		}
+	});
+
+	function checkboxAll(allCheck) {
+		let selfChecks = document.querySelectorAll(".terms-service .check-self");
+		let essentialCheckBox = document.querySelector(".terms-service .check-self.essential");
+		let orderSection = document.querySelector(".order-section");
+		selfChecks.forEach(el => {
+			el.checked = allCheck.checked;
+		});
+		if (essentialCheckBox.checked) {
+			orderSection.dataset.status = "T";
+		} else {
+			orderSection.dataset.status = "F";
+		}
+	}
+	function essentialCheckBox(check) {
+		let orderSection = document.querySelector(".order-section");
+		if (check.checked) {
+			orderSection.dataset.status = "T";
+		} else {
+			orderSection.dataset.status = "F";
+		}
+	}
+
+	function calcPriceProduct() {
+		let price_total = document.querySelectorAll(".product .price_total");
+		let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product");
+		let price_delivery = document.querySelector(".calculation-wrap .price_delivery");
+
+		let product_qty = document.querySelector(".calculation-wrap .product-qty");
+		let product_len = price_total.length;
+
+		let product_sum = [...price_total].map((el) => {
+			let sum = + el.innerHTML.replace(/,/g, '');
+			return sum;
+		});
+		//합산
+		const sum = product_sum.reduce(function add(sum, currenValue) {
+			return sum + currenValue;
+		})
+
+		price_product.dataset.price_product = sum;
+		price_product.innerHTML = sum.toLocaleString("ko-KR");
+		//product_qty.innerHTML = product_len;
+		product_qty.innerHTML = total_qty;
+
+		//배송비 처리
+		if (product_sum < 50000) {
+			let set = 5000;
+			price_delivery.dataset.price_delivery = set;
+			price_delivery.innerHTML = set.toLocaleString("ko-KR");;
+		} else {
+			price_delivery.dataset.price_delivery = 0;
+			price_delivery.innerHTML = 0;
 		}
 
 		calcPriceTotal();
 	}
-});
 
-function checkboxAll(allCheck) {
-	let selfChecks = document.querySelectorAll(".terms-service .check-self");
-	let essentialCheckBox = document.querySelector(".terms-service .check-self.essential");
-	let orderSection = document.querySelector(".order-section");
-	selfChecks.forEach(el => {
-		el.checked = allCheck.checked;
-	});
-	if (essentialCheckBox.checked) {
-		orderSection.dataset.status = "T";
-	} else {
-		orderSection.dataset.status = "F";
-	}
-}
-function essentialCheckBox(check) {
-	let orderSection = document.querySelector(".order-section");
-	if (check.checked) {
-		orderSection.dataset.status = "T";
-	} else {
-		orderSection.dataset.status = "F";
-	}
-}
+	function calcPriceTotal() {
+		let step = calculationWrap.dataset.step;
 
-function calcPriceProduct() {
-	let price_total = document.querySelectorAll(".product .price_total");
-	let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product");
-	let price_delivery = document.querySelector(".calculation-wrap .price_delivery");
-	
-	let product_qty = document.querySelector(".calculation-wrap .product-qty");
-	let product_len = price_total.length;
-	
-	let product_sum = [...price_total].map((el) => {
-		let sum = + el.innerHTML.replace(/,/g, '');
-		return sum;
-	});
-	//합산
-	const sum = product_sum.reduce(function add(sum, currenValue) {
-		return sum + currenValue;
-	})
+		let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
+		let price_discount = document.querySelector(".calculation-wrap .price_discount").dataset.price_discount;
+		let price_mileage_point = document.querySelector(".calculation-wrap .price_mileage_point").dataset.price_mileage_point;
+		console.log(price_mileage_point);
+		let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
+		let price_delivery = document.querySelector(".calculation-wrap .price_delivery").dataset.price_delivery;
 
-	price_product.dataset.price_product = sum;
-	price_product.innerHTML = sum.toLocaleString("ko-KR");
-	//product_qty.innerHTML = product_len;
-	product_qty.innerHTML = total_qty;
+		let price_total = document.querySelector(".calculation-wrap .price_total");
 
-	//배송비 처리
-	if (product_sum < 50000) {
-		let set = 5000;
-		price_delivery.dataset.price_delivery = set;
-		price_delivery.innerHTML = set.toLocaleString("ko-KR");;
-	} else {
-		price_delivery.dataset.price_delivery = 0;
-		price_delivery.innerHTML = 0;
-	}
-	
-	calcPriceTotal();
-}
+		let result = 0;
+		//상품, 배송, 바우처, 적립, 충전 객체
+		let calWrap = [
+			{
+				"title": "price_product",
+				"price": price_product
+			},
+			{
+				"title": "price_discount",
+				"price": price_discount
+			},
+			{
+				"title": "price_mileage_point",
+				"price": price_mileage_point
+			},
+			{
+				"title": "price_charge_point",
+				"price": price_charge_point
+			},
+			/*{
+				"title": "price_delivery",
+				"price": price_delivery
+			}*/
+		]
 
-function calcPriceTotal() {
-	let step = calculationWrap.dataset.step;
-	
-	let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
-	let price_discount = document.querySelector(".calculation-wrap .price_discount").dataset.price_discount;
-	let price_mileage_point = document.querySelector(".calculation-wrap .price_mileage_point").dataset.price_mileage_point;
-	console.log(price_mileage_point);
-	let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
-	let price_delivery = document.querySelector(".calculation-wrap .price_delivery").dataset.price_delivery;
-	
-	let price_total = document.querySelector(".calculation-wrap .price_total");
-	
-	let result = 0;
-	//상품, 배송, 바우처, 적립, 충전 객체
-	let calWrap = [
-		{
-			"title":"price_product",
-			"price": price_product
-		},
-		{
-			"title":"price_discount",
-			"price": price_discount
-		},
-		{
-			"title": "price_mileage_point",
-			"price": price_mileage_point
-		},
-		{
-			"title": "price_charge_point",
-			"price": price_charge_point
-		},
-		/*{
-			"title": "price_delivery",
-			"price": price_delivery
+		/*if (step === "1") {
+		} else if (step === "2") {
 		}*/
-	]
-	
-	/*if (step === "1") {
-	} else if (step === "2") {
-	}*/
-	
-	result = calWrap.map(item => item.price).reduce(
-		(prev, curr) => parseInt(prev) - parseInt(curr)
-	);
-	result = result + parseInt(price_delivery);
-	price_total.innerHTML = result.toLocaleString("ko-KR");
-}
 
-(function () {
-	let orderWrap = document.querySelector(".product-toggle-btn").offsetParent;
-	prdToggleBtn.addEventListener("click", function () {
+		result = calWrap.map(item => item.price).reduce(
+			(prev, curr) => parseInt(prev) - parseInt(curr)
+		);
+		result = result + parseInt(price_delivery);
+		price_total.innerHTML = result.toLocaleString("ko-KR");
+	}
 
-		document.querySelector(".order-product").querySelector(".product-wrap").classList.toggle("hidden");
-	});
-})();
+	(function () {
+		let orderWrap = document.querySelector(".product-toggle-btn").offsetParent;
+		prdToggleBtn.addEventListener("click", function () {
 
-//전화번호 하이푼 자동 입렵
-const phoneAutoHyphen = (target) => {
-	target.value = target.value
-		.replace(/[^0-9]/g, '')
-		.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-}
+			document.querySelector(".order-product").querySelector(".product-wrap").classList.toggle("hidden");
+		});
+	})();
+
+	//전화번호 하이푼 자동 입렵
+	const phoneAutoHyphen = (target) => {
+		target.value = target.value
+			.replace(/[^0-9]/g, '')
+			.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+	}
+
+	//창 닫기
+	function closeBox() {
+        $('.close').on('click', function () {
+            $('.list-box').hide();
+			document.querySelector(".save-box").classList.remove("hidden");
+        });
+    }
+
 </script>

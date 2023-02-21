@@ -160,6 +160,7 @@
     display: flex;
     gap: 30px;
     justify-content: right;
+    align-items: center;
 }
 .basket__wrap .prd__qty .count__val {
     width: 10px;
@@ -173,6 +174,9 @@
 }
 .basket__wrap .count__val:focus{
 outline: none;
+}
+.basket__wrap .price_total {
+    width: 60px;
 }
 .basket__wrap .disableBtn {
     pointer-events: none;

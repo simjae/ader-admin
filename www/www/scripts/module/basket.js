@@ -200,9 +200,9 @@ export function Basket(el, useSidebar) {
 							</div>
 							<div class="prd__qty">
 								<div>Qty</div>
-								<div class="minus__btn">-</div>
+								<div class="minus__btn"><img src="/images/svg/minus-basket.svg"></div>
 								<input class="count__val" type="text" value="${el.basket_qty}" readonly>
-								<div class="plus__btn">+</div>
+								<div class="plus__btn"><img src="/images/svg/plus-basket.svg"></div>
 								<div class="price_total" data-price_total="${el.sales_price * el.basket_qty}" data-stock_status="${el.stock_status}">${sales_price}</div>
 							</div>
 						</div>
@@ -522,6 +522,8 @@ export function Basket(el, useSidebar) {
 				let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g ,''));
 				price_total -= parseInt(this.parentNode.dataset.init);
 				
+				this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
+				
 				let tmp_cnt = this.parentNode.querySelector(".count__val").value;
 				tmp_cnt = parseInt(tmp_cnt) - 1;
 				let basket_qty = tmp_cnt;
@@ -538,8 +540,8 @@ export function Basket(el, useSidebar) {
 				
 				let price_product = calcCheckedPrice();
 				payBoxSumPrice(price_product);
-				
 				putBasketQty(basket_idx,basket_qty,product_idx);
+				
 			});
 		});
 		
@@ -556,6 +558,8 @@ export function Basket(el, useSidebar) {
 				let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g , ''));
 				price_total += parseInt(this.parentNode.dataset.init);
 				
+				this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
+				
 				let tmp_cnt = this.parentNode.querySelector(".count__val").value;
 				tmp_cnt = parseInt(tmp_cnt) + 1;
 				let basket_qty = tmp_cnt;
@@ -568,10 +572,10 @@ export function Basket(el, useSidebar) {
 				} else {
 					$minus_btn.classList.remove('disableBtn');
 				}
-				
+			
 				let price_product = calcCheckedPrice();
-				payBoxSumPrice(price_product);
 				
+				payBoxSumPrice(price_product);
 				putBasketQty(basket_idx,basket_qty,product_idx);
 			});
 		});
@@ -610,10 +614,15 @@ export function Basket(el, useSidebar) {
 					if(e.target.checked){
 						//체크시
 						if(checkbox_name == "stock") {
+							let checked_stin = document.querySelectorAll("input[name='stock']:checked");
+							if($stin_checkbox.length == checked_stin.length) {
+								$all_stin_checkbox.checked = true;
+							}
 							price_total += price_total;
 						}
 					} else {
 						//체크 해제됬을떄
+						$all_stin_checkbox.checked = false;
 						price_total -= price_total;
 					}
 					
@@ -671,7 +680,7 @@ export function Basket(el, useSidebar) {
 		}
 		
 		if (price_total == 0 ) {
-			price_delivery = 0 ;
+			price_delivery = 0;
 		}
 		
 		$txt_price_product.textContent = price_product.toLocaleString('ko-KR');;

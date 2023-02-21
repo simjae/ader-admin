@@ -1095,7 +1095,6 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
 
             var tab_class = $('#btn_type').val() + '__tab';
             var form_id = $(this).attr('form-id');
-            console.log(form_id);
             if (form_id != '') {
                 $('.' + tab_class).hide();
                 $('.' + form_id).show();
@@ -1110,7 +1109,6 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         })
         $('.question').on('click', function () {
             if ($(this).next().css('display') == 'none') {
-                //console.log($(this).find('img.top__down__icon'));
                 $(this).find('img.down__up__icon').attr('src', '/images/mypage/mypage_up_tab_btn.svg');
             }
             else {
@@ -1157,7 +1155,6 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         });
         var mypage_type = $('#mypage_type').val();
         if (mypage_type != null && mypage_type.length > 0) {
-            //console.log(mypage_type);
             switch (mypage_type) {
                 case 'bluemark_verify':
                     mypageTabBtnClick('bluemark', 0);
@@ -1168,12 +1165,44 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                 case 'orderlist':
                     mypageTabBtnClick('orderlist', 0);
                     break;
+                case 'mileage_first':
+                    mypageTabBtnClick('mileage', 0);
+                    break;
+                case 'voucher_first':
+                    mypageTabBtnClick('voucher', 0);
+                    break;
+                case 'stanby_first':
+                    mypageTabBtnClick('stanby', 0);
+                    break;
+                case 'preorder_first':
+                    mypageTabBtnClick('preorder', 0);
+                    break;
+                case 'reorder_first':
+                    mypageTabBtnClick('reorder', 0);
+                    break;
+                case 'draw_first':
+                    mypageTabBtnClick('draw', 0);
+                    break;
+                case 'membership_first':
+                    mypageTabBtnClick('membership', 0);
+                    break;
+                case 'inquiry_first':
+                    mypageTabBtnClick('inquiry', 0);
+                    break;
+                case 'as_first':
+                    mypageTabBtnClick('as', 0);
+                    break;
+                case 'service_first':
+                    mypageTabBtnClick('service', 0);
+                    break;
+                case 'profile_first':
+                    mypageTabBtnClick('profile', 0);
+                    break;
             }
         }
     });
 
     function mypageTabBtnClick(type, tab_idx) {
-        console.log(type);
         $('#btn_type').val(type);
 
         $('.menu__tab').addClass('non__display__tab');

@@ -68,6 +68,8 @@ if ($product_idx > 0 && $country != null) {
 		$product_color = array();
 		$product_size = array();
 		
+		$stock_status = null;
+		
 		if ($product_idx != null) {
 			$img_thumbnail_sql = "
 				(
@@ -176,20 +178,25 @@ if ($product_idx > 0 && $country != null) {
 			$product_color = getProductColor($db,$product_idx);
 			
 			$product_size = getProductSize($db,$product_idx);
+			
+			$soldout_cnt = 0;
+			for ($i=0; $i<count($product_size); $i++) {
+				if ($product_size[$i]['stock_status'] == "STSO") {
+					$soldout_cnt++;
+				}
+			}
+			
+			if (count($product_size) == $soldout_cnt) {
+				$stock_status = "STSO";
+			}
 		}
 		
 		$option_info = array();
 		if (!empty($ordersheet_idx)) {
 			$select_option_sql = "
 				SELECT
-					OO.OPTION_NAME		AS OPTION_NAME,
-					OO.SIZE_CATEGORY	AS SIZE_CATEGORY,
-					OO.OPTION_SIZE_1	AS OPTION_SIZE_1,
-					OO.OPTION_SIZE_2	AS OPTION_SIZE_2,
-					OO.OPTION_SIZE_3	AS OPTION_SIZE_3,
-					OO.OPTION_SIZE_4	AS OPTION_SIZE_4,
-					OO.OPTION_SIZE_5	AS OPTION_SIZE_5,
-					OO.OPTION_SIZE_6	AS OPTION_SIZE_6
+					OO.IDX				AS OPTION_IDX,
+					OO.OPTION_NAME		AS OPTION_NAME
 				FROM
 					dev.ORDERSHEET_OPTION OO
 				WHERE
@@ -201,14 +208,9 @@ if ($product_idx > 0 && $country != null) {
 			foreach($db->fetch() as $option_data) {
 				$option_name = $option_data['OPTION_NAME'];
 				
-				$option_info[$option_name][] = array(
-					'size_category'		=>$option_data['SIZE_CATEGORY'],
-					'option_size_1'		=>$option_data['OPTION_SIZE_1'],
-					'option_size_2'		=>$option_data['OPTION_SIZE_2'],
-					'option_size_3'		=>$option_data['OPTION_SIZE_3'],
-					'option_size_4'		=>$option_data['OPTION_SIZE_4'],
-					'option_size_5'		=>$option_data['OPTION_SIZE_5'],
-					'option_size_6'		=>$option_data['OPTION_SIZE_6']
+				$option_info[] = array(
+					'option_idx'		=>$option_data['OPTION_IDX'],
+					'option_name'		=>$option_data['OPTION_NAME']
 				);
 			}
 		}
@@ -230,6 +232,7 @@ if ($product_idx > 0 && $country != null) {
 			'relevant_idx'		=>$product_data['RELEVANT_IDX'],
 			'product_color'		=>$product_color,
 			'product_size'		=>$product_size,
+			'stock_status'		=>$stock_status,
 			'whish_flg'			=>$whish_flg,
 			
 			'option_info'		=>$option_info

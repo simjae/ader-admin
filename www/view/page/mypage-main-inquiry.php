@@ -403,7 +403,7 @@
 
         .inquiry__tab__wrap {
             grid-column: 1/17;
-            width: 470px;
+            width: 950px;
             margin: 0 auto;
             margin-top: 50px;
         }
@@ -535,9 +535,6 @@
                     ·&nbsp;답변이 완료된 문의내역은 수정이 불가능합니다.
                 </p>
             </div>
-            <div style="width:100%">
-                <button class="black__full__width__btn inquiry__btn" onclick="goToInquiryForm()">문의하기</button>
-            </div>
         </div>
     </div>
 </div>
@@ -602,12 +599,7 @@
     function deleteResult() {
         $('.search__keyword').val('');
     }
-    function goToInquiryForm() {
-        $('.inquiry__tab').hide();
-        $('.inquiry__action__wrap').show();
-        $('div[form-id=inquiry__list__wrap]').removeClass('selected');
-        $('div[form-id=inquiry__action__wrap]').addClass('selected');
-    }
+
     function getFaqList(type, param) {
         var country = 'KR';
         var param_json = {};
