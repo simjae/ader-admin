@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', function () {
     getProduct(product_idx);
     pdResponsiveSwiper();
     mobileDetailBtnHanddler();
+    $('#quickview').removeClass("hidden");
 });
 
 window.addEventListener('resize', function () {
@@ -458,8 +459,8 @@ function basketBtnStatusChange(el, idx) {
                 break;
             case 4:
                 btn.querySelector("span").innerHTML = "옵션을 선택해주세요";
-                btn.querySelector("img").setAttribute("src", "");
-                btn.querySelector("img").classList.add("hidden");
+                btn.querySelector("img").setAttribute("src", "/images/svg/pd-unoption.svg");
+                btn.querySelector("img").classList.remove("hidden");
                 btn.parentNode.dataset.status = 4;
                 btn.dataset.status = 4;
                 break;
@@ -471,21 +472,25 @@ function basketBtnStatusChange(el, idx) {
 function sizeBtnHandler() {
     const $$productBtn = document.querySelectorAll(".basket-btn");
     const sizes = document.querySelectorAll(".detail__wrapper .size__box .size");
-
+    let basketBtn = document.querySelector('.rM-detail-containner .basket-btn');
     sizes.forEach(el => {
         el.addEventListener("click", function (e) {
             let { productidx, optionidx, status } = e.currentTarget.dataset;
             if (status == 2) {
+                sizes.forEach(el => { if(el.dataset.status !== "2"){ el.classList.remove("select")}; })
                 e.currentTarget.classList.toggle("select");
+                basketBtn.className = "basket-btn basket"
                 basketBtnStatusChange($$productBtn, status);
             } else if (status == 1) {
-                sizes.forEach(el => el.classList.remove("select"))
+                sizes.forEach(el => {
+                    if(el.dataset.status !== "1"){ el.classList.remove("select")};
+                })
+                basketBtn.className = "basket-btn reorder"
+                e.currentTarget.classList.toggle("select");
                 basketBtnStatusChange($$productBtn, status);
             } else if (status == 0) {
                 basketBtnStatusChange($$productBtn, status);
-            }
-
-
+            } 
         });
     });
 }
@@ -549,6 +554,8 @@ function mobileDetailBtnHanddler() {
     let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
     let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
     let currentIdx = 0;
+  
+
     $$btn.forEach((btn, idx) => {
         btn.addEventListener("click", function (e) {
             if (e.currentTarget.classList.contains("select")) {
@@ -556,12 +563,15 @@ function mobileDetailBtnHanddler() {
                 document.querySelector(".rM-detail-containner .content-header span").innerHTML = "";
                 e.currentTarget.classList.remove("select");
                 e.currentTarget.offsetParent.classList.remove("open");
+            
             } else {
                 $$btn.forEach(el => el.classList.remove("select"));
                 btn.classList.add("select");
                 e.currentTarget.offsetParent.classList.add("open");
+                
                 mobileSizeGuideContentBody(idx);
             }
+            
             currentIdx = clickControllBtnEvent();
             updateControllBtnCss(idx);
             sizeguideBtnEvent();
