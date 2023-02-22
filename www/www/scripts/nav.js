@@ -847,11 +847,13 @@
 						basket.writeHtml();
 					}, 100);
 					if(sideContainer.classList.contains("open")){
+						$("#dimmer").removeClass("show");
 						sidebarClose();	
 					} else {
 						sideBg.classList.add("open");
 						sideWrap.classList.add("open");
 						sideContainer.classList.add("open");
+						$("#dimmer").addClass("show");
 					}
 					
 				}
