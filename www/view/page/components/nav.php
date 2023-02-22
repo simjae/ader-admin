@@ -24,6 +24,6 @@
 <nav class="lg:hidden" id="mobile">
     <div class="lg:hidden side__menu"></div>
 </nav>
-<script type="module" src="/scripts/nav.js"></script>
+<script src="/scripts/nav.js"></script>
 
 <script>sessionStorage.setItem('login_session', <?php echo $session ?>);</script>

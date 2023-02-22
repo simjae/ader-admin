@@ -1,9 +1,9 @@
-import {Sidebar} from '/scripts/module/sidebar.js';
-import {Basket} from '/scripts/module/basket.js';
-import {Bluemark} from '/scripts/module/bluemark.js';
-import {Language} from '/scripts/module/language.js';
-import {Search} from '/scripts/module/search-popular.js';
-import {User} from '/scripts/module/user.js';
+// import {Sidebar} from '/scripts/module/sidebar.js';
+// import {Basket} from '/scripts/module/basket.js';
+// import {Bluemark} from '/scripts/module/bluemark.js';
+// import {Language} from '/scripts/module/language.js';
+// import {Search} from '/scripts/module/search-popular.js';
+// import {User} from '/scripts/module/user.js';
 	var headerSwiperArr = new Array();
 	
 	window.addEventListener('DOMContentLoaded', function() {
