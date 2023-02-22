@@ -42,7 +42,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                         <span>필터</span>
                     </li>
                     <li class="sort-btn type-btn" onClick="clickImgTypeBtn();">
-                        <div class="d-i-b"><img src="/images/svg/cloth.svg" alt="" style="width:8px;height: 17px;">
+                        <div class="d-i-b"><img src="/images/svg/cloth.svg" alt="">
                         </div>
                         <span id="img_type_text">착용컷</span>
                     </li>
@@ -50,9 +50,9 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                         <div class="d-i-b"><img src="/images/svg/grid-cols-2.svg" alt=""></div>
                         <span style="white-space: nowrap;">2칸 보기</span>
                     </div>
-                    <div class="sort-btn mobile rM sort__grid" data-grid="3">
-                        <div class="d-i-b"><img src="/images/svg/grid-cols-2.svg" alt=""></div>
-                        <span>2칸</span>
+                    <div class="sort-btn mobile rM sort__grid" data-grid="2">
+                        <div class="d-i-b"><img src="/images/svg/grid-cols-3.svg" alt=""></div>
+                        <span>3칸</span>
                     </div>
                 </div>
             </div>
@@ -153,9 +153,6 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="show_more_btn" onClick="getMoreProduct();">
-            <span class="add-btn">더보기 +</span>
         </div>
     </section>
 </main>

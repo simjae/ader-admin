@@ -396,6 +396,8 @@ export function Login() {
         });
     });
     $(function() {
+        /*
+        if($('#postcodify').find('postcodify_search_controls').length == 0){
             $("#postcodify").postcodify({
                 insertPostcode5 : "#zipcode",
                 insertAddress : "#road_addr",
@@ -426,7 +428,16 @@ export function Login() {
                     $(".postcodify_search_controls .keyword").val($("#road_addr").val());
                 }
             });
-        });
+            $('.postcodify_search_controls .keyword').keyup(function(){
+                $('.postcodify_search_controls .keyword').attr('chk-flg', 'false');
+            });
+            
+            $('.post-change-result.postcodify_search_form.postcode_search_form').on('click',function(){
+                $('.postcodify_search_controls .keyword').attr('chk-flg', 'true');
+            });
+        }
+        */
+    });
     function selectAllClick(obj) {
         if ($(obj).prop('checked') == true) {
             $(obj).prop('checked',true);

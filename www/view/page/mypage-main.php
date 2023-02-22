@@ -222,9 +222,10 @@
         grid-column: 1/17;
         display: grid;
         place-items: center;
-        grid-template-columns: repeat(3, 110px);
+        grid-template-columns: repeat(3, auto);
         margin: 0 auto;
         margin-top: 30px;
+        padding-right: 25px;
     }
 
     .mypage__tab__container {
@@ -241,11 +242,7 @@
     }
 
     .point__item {
-        display: grid;
-        place-items: center;
-        /* padding: 0 29.5px; */
-        width: 110px;
-        height: 32px;
+        padding: 0 29.5px;
     }
 
     .profile__member__name {
@@ -286,8 +283,7 @@
         text-align: center;
         font-size: 11px;
         font-family: var(--ft-no-fu);
-        width: 51px;
-        height: 13px;
+        width: auto;
     }
 
     .icon__title.underline {
@@ -301,22 +297,12 @@
         text-align: center;
         font-size: 13px;
         font-family: var(--ft-no-fu);
-        width: 90px;
-        height: 17px;
+        width: auto;
     }
 
-    .point__item.left__contents {
+    .point__item {
         border-right: 1px solid;
         border-color: #dcdcdc;
-    }
-
-    .point__item.center__contents {
-        border-right: 1px solid;
-        border-color: #dcdcdc;
-    }
-
-    .point__item.right__contents {
-        margin-left: -10px;
     }
 
     .non__display__tab {
@@ -609,7 +595,7 @@
             grid-column: 1/9;
             display: grid;
             place-items: center;
-            grid-template-columns: repeat(3, 90px);
+            grid-template-columns: repeat(3, auto);
             margin: 0 auto;
             margin-top: 20px;
         }
@@ -650,8 +636,7 @@
         }
 
         .point__item {
-            /* padding: 0 19.5px; */
-            width: 90px;
+            padding: 0 19.5px;
         }
 
         .icon__item .icon,
@@ -699,19 +684,16 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                 </div>
             </div>
             <div class="mypage__items profile_info">
-                <div class="point__item left__contents" style="cursor:pointer" info-type="mileage"
-                    onclick="memberInfoClick(this)">
+                <div class="point__item" style="cursor:pointer" info-type="mileage" onclick="memberInfoClick(this)">
                     <div class="point__title">적립포인트</div>
                     <div class="point__value" id="mileage_value"></div>
 
                 </div>
-                <div class="point__item center__contents" style="cursor:pointer" info-type="charging"
-                    onclick="memberInfoClick(this)">
+                <div class="point__item" style="cursor:pointer" info-type="charging" onclick="memberInfoClick(this)">
                     <div class="point__title">충전포인트</div>
                     <div class="point__value" id="charging_value"></div>
                 </div>
-                <div class="point__item right__contents" style="cursor:pointer" info-type="voucher"
-                    onclick="memberInfoClick(this)">
+                <div class="point__item" style="cursor:pointer" info-type="voucher" onclick="memberInfoClick(this)">
                     <div class="point__title">바우처</div>
                     <div class="point__value" id="voucher_cnt"></div>
                 </div>

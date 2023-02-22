@@ -582,53 +582,57 @@ input::placeholder{
 <script src="/scripts/member/login.js"></script>
 
 <script>
-$(function() {
-	$("#postcodify").postcodify({
-		insertPostcode5 : "#zipcode",
-		insertAddress : "#road_addr",
-		insertDetails : "#detail_ddr",
-		insertJibeonAddress : "#lot_addr",
-		hideOldAddresses: false,
-		results:".post-change-result",
-		hideSummary:true,
-		useFullJibeon:true,
-		onReady:function(){
-			document.querySelector(".post-change-result").style.display="none";
-			$(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
-			$('.postcodify_search_controls .keyword').attr('chk-flg','false');
-            // $(".post-change-result").hide();
-		},
-		onSuccess:function(){
-			document.querySelector(".post-change-result").style.display="block";
-			$("#postcodify div.postcode_search_status.too_many").hide();
-			// $(".post-change-result").hide();
-			
-			$('.input-row').css('position','relative');
-			$('.post-change-result').css('position','absolute');
-			$('.post-change-result').css('top','0px');
-		},
-		afterSelect: function(selectedEntry) {
+$(document).ready(function(){
+    
+    if($('#postcodify').find('postcodify_search_controls').length == 0){
+        $("#postcodify").postcodify({
+            insertPostcode5 : "#zipcode",
+            insertAddress : "#road_addr",
+            insertDetails : "#detail_ddr",
+            insertJibeonAddress : "#lot_addr",
+            hideOldAddresses: false,
+            results:".post-change-result",
+            hideSummary:true,
+            useFullJibeon:true,
+            onReady:function(){
+                document.querySelector(".post-change-result").style.display="none";
+                $(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
+                $('.postcodify_search_controls .keyword').attr('chk-flg','false');
+                // $(".post-change-result").hide();
+            },
+            onSuccess:function(){
+                document.querySelector(".post-change-result").style.display="block";
+                $("#postcodify div.postcode_search_status.too_many").hide();
+                // $(".post-change-result").hide();
+                
+                $('.input-row').css('position','relative');
+                $('.post-change-result').css('position','absolute');
+                $('.post-change-result').css('top','0px');
+            },
+            afterSelect: function(selectedEntry) {
 
-			$("#postcodify div.postcode_search_result").remove();
-			$("#postcodify div.postcode_search_status.too_many").hide();
-			$("#postcodify div.postcode_search_status.summary").hide();
-			document.querySelector(".post-change-result").style.display="none";
-			$("#entry_box").show();
-			$("#entry_details").focus();
-			$(".postcodify_search_controls .keyword").val($("#road_addr").val());
-			
-			$('.input-row').css('position','relative');
-			$('.post-change-result').css('position','absolute');
-			$('.post-change-result').css('top','0px');
-		}
-	});
-	
-    $('.postcodify_search_controls .keyword').keyup(function(){
-        $('.postcodify_search_controls .keyword').attr('chk-flg', 'false');
-    });
-	
-    $('.post-change-result.postcodify_search_form.postcode_search_form').on('click',function(){
-        $('.postcodify_search_controls .keyword').attr('chk-flg', 'true');
-    });
-});
+                $("#postcodify div.postcode_search_result").remove();
+                $("#postcodify div.postcode_search_status.too_many").hide();
+                $("#postcodify div.postcode_search_status.summary").hide();
+                document.querySelector(".post-change-result").style.display="none";
+                $("#entry_box").show();
+                $("#entry_details").focus();
+                $(".postcodify_search_controls .keyword").val($("#road_addr").val());
+                
+                $('.input-row').css('position','relative');
+                $('.post-change-result').css('position','absolute');
+                $('.post-change-result').css('top','0px');
+            }
+        });
+        
+        $('.postcodify_search_controls .keyword').keyup(function(){
+            $('.postcodify_search_controls .keyword').attr('chk-flg', 'false');
+        });
+        
+        $('.post-change-result.postcodify_search_form.postcode_search_form').on('click',function(){
+            $('.postcodify_search_controls .keyword').attr('chk-flg', 'true');
+        });
+    }
+    
+})
 </script>

@@ -36,7 +36,6 @@ hover
     transform: initial;
     object-fit: cover;
     height: 100%;
-    transition: all 1s ;
 }
 .collaboration-wrap .banner:hover .banner-logo img{
     filter: var(--filter-wh);

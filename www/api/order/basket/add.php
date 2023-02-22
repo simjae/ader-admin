@@ -260,7 +260,7 @@ function checkWhishListDuplicate($db,$member_idx,$whish_info) {
 	for ($i=0; $i<count($whish_info); $i++) {
 		$whish_idx = $whish_info[$i]['whish_idx'];
 		
-		$check_basket_cnt = $db->count("dev.BASKET_INFO BI","BI.MEMBER_IDX = ".$member_idx." AND BI.PRODUCT_IDX = (SELECT PRODUCT_IDX FROM dev.WHISH_LIST WHERE IDX = ".$whish_idx.")");
+		$check_basket_cnt = $db->count("dev.BASKET_INFO BI","BI.MEMBER_IDX = ".$member_idx." AND BI.PRODUCT_IDX = (SELECT PRODUCT_IDX FROM dev.WHISH_LIST WHERE IDX = ".$whish_idx.") AND BI.DEL_FLG = FALSE");
 		
 		if ($check_basket_cnt > 0) {
 			$err_cnt++;

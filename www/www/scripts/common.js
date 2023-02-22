@@ -1,6 +1,4 @@
 
-
-
 /**
  * @author SIMJAE
  * @param {String} elem 해당레이아웃 클래스나 , id

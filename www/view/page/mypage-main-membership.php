@@ -311,7 +311,7 @@
                 <div class="level__title">
                     <p>
                         ADER<br>
-                        VIPP MEMBER
+                        VVIP MEMBER
                     </p>
                 </div>
                 <div class="level__info">

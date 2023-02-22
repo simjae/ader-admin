@@ -98,6 +98,10 @@
         color: #dcdcdc;
     }
 
+    .info__wrap.possession {
+        border-bottom: 1px solid #dcdcdc;
+    }
+
     @media (max-width: 1024px) {
         .voucher__tab__wrap {
             grid-column: 1/17;
@@ -199,7 +203,6 @@
 
     .voucher__amount__form__wrap .title {
         padding-bottom: 29.5px;
-        border-bottom: 1px solid #dcdcdc;
     }
 
     .voucher__amount__form__wrap .info {
@@ -393,8 +396,8 @@
                                                 <col width="40%"></col>
                                             </colsgroup>
                                             <tbody>
-                                                <tr>
-                                                    <td style="width:100%; padding: 10px 0 19.5px;">
+                                                <tr style="border-top: 1px solid #dcdcdc;">
+                                                    <td style="width:100%; padding: 9.5px 0 39.5px;">
                                                         <div style="display:flex;justify-content: space-between; margin-bottom: -1px">
                                                             <p>${row.voucher_issue_code}</p>
                                                             <p>${row.usable_start_date} - ${row.usable_end_date}</p>
@@ -406,7 +409,6 @@
                                                         <p>${row.sale_price_type}</p>
                                                         <p>· 바우처 대상 제품 ${parseInt(row.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
                                                     </td>
-                                                    
                                                 </tr>
                                             </tbody>
                                         </table>

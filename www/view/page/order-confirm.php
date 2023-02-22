@@ -1882,9 +1882,10 @@ if ($member_idx == 0 || $basket_idx == null) {
 	$('#use_mileage').keyup(function () {
 		var write_mileage = parseInt($('#use_mileage').val().replace(',', ''));
 		var temp_meileage = "";
-
+	
 		if (isNaN(write_mileage)) {
-			temp_meileage = "";
+			// temp_meileage = "";
+			temp_meileage = 0;
 		} else {
 			temp_meileage = write_mileage;
 		}
@@ -1901,14 +1902,18 @@ if ($member_idx == 0 || $basket_idx == null) {
 			},
 			success: function (d) {
 				let code = d.code;
-				if (code == 200) {
+				
+				if (code == 200 || code == 301) {
 					let mileage_point = d.data;
+					if(code == 301) {
+						mileage_point = 0;
+					}
+					
 					$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
 
 					let price_mileage_point = document.querySelector(".price_mileage_point");
 					price_mileage_point.dataset.price_mileage_point = mileage_point;
 					price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
-
 					calcPriceTotal();
 				} else if (code == 403) {
 					exceptionHandling("디자인 필요", d.msg);

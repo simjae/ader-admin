@@ -907,7 +907,20 @@ ul,li{
     display: none;
 }
 
-
+.basket-btn.basket[data-status="2"] {
+    background-color: #000000!important;
+    color: #ffffff!important;
+}
+.basket-btn.basket[data-status="2"] img {
+    content: url('/images/svg/basket-wh.svg');
+}
+.basket-btn.reorder[data-status="1"] {
+    background-color: #000000!important;
+    color: #ffffff!important;
+}
+.basket-btn.reorder[data-status="1"] img {
+    content: url('/images/svg/reflesh-wh.svg');
+}
 /* 장바구니버튼 초기화  */
 .basket-btn[data-status="4"]{ pointer-events: none; }
 @media (max-width: 1025px){
@@ -1353,22 +1366,6 @@ ul,li{
     .rM-detail-containner .detail__btn__wrap.open .detail__btn__control{
         display: flex;
     }
-    .rM-detail-containner .basket-btn.basket[data-status="2"] {
-        background-color: #000000!important;
-        color: #ffffff!important;
-    }
-    .rM-detail-containner .basket-btn.basket[data-status="2"] img {
-        content: url('/images/svg/basket-wh.svg');
-    }
-    .rM-detail-containner .basket-btn.reorder[data-status="1"] {
-        background-color: #000000!important;
-        color: #ffffff!important;
-    }
-    .rM-detail-containner .basket-btn.reorder[data-status="1"] img {
-        content: url('/images/svg/reflesh-wh.svg');
-    }
-
-    
 }
 
 @keyframes pd_info_left {

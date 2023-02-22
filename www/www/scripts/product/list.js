@@ -14,7 +14,7 @@ window.addEventListener("scroll", function () {
     const windowHeight = window.innerHeight;
     const docTotalHeight = document.body.offsetHeight;
     const isBottom = windowHeight + scrollHeight >= (docTotalHeight - 1);
-
+    
     let more_flg = $('#more_flg').val();
 
     if (more_flg == "false") {
@@ -176,6 +176,7 @@ function productWriteHtml(grid_info) {
 					<a href="http://116.124.128.246:80/${el.link_url}">
 						<div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
 							<div class="swiper-wrapper">
+                            
 							${el.product_img.product_p_img.map((img) => {
                     imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
 										<img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
@@ -329,7 +330,11 @@ const imgSwiper = (move) => {
         slidesPerView: 1,
         observer: true,
         observeParents: true,
-        allowTouchMove: move
+        allowTouchMove: move,
+        navigation: {
+            nextEl: "#swiper-goods .swiper-button-next",
+            prevEl: "#swiper-goods .swiper-button-prev",
+        },
     });
 }
 
@@ -534,13 +539,13 @@ function clickImgTypeBtn() {
     if (img_param.val() == "O") {
         img_param.val('P');
         img_type_text = "아이템";
-        $(".type-btn img").attr("src", "/images/svg/item.svg").css("width", "16px");
+        $(".type-btn img").attr("src", "/images/svg/item.svg").css({ "width": "16px", "height": "12px" });
         items.forEach(el => el.style.display = "none");
         outfits.forEach(el => el.style.display = "block");
     } else if (img_param.val() == "P") {
         img_param.val('O');
         img_type_text = "착용컷";
-        $(".type-btn img").attr("src", "/images/svg/cloth.svg");
+        $(".type-btn img").attr("src", "/images/svg/cloth.svg").css({ "width": "8px", "height": "17px" });
         items.forEach(el => el.style.display = "block");
         outfits.forEach(el => el.style.display = "none");
     }
@@ -589,6 +594,8 @@ function getProductListByScroll(last_idx, more_flg) {
                     }
                 } else {
                     $('.show_more_btn').remove();
+                    let product_body = document.querySelector(".product__list__body");
+                    product_body.classList.add("no_more");
                 }
             } else {
                 alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
@@ -844,7 +851,10 @@ function toggleSortBtn() {
     sort_btn.addEventListener("click", function (e) {
         let sort_container = document.querySelector(".sort-containner");
         sort_container.classList.toggle("open");
-
+        if ($('.oder-btn-motion').hasClass('rotate') == false) {
+            $('.oder-btn-motion').addClass('rotate');
+        }else{$('.oder-btn-motion').removeClass('rotate');}
+        
         document.querySelector(".filter-containner").classList.remove("open");
         document.querySelector(".filter-body").classList.remove("open");
 
@@ -853,19 +863,9 @@ function toggleSortBtn() {
 
 
 $('.prd__meun__grid .prd__meun__box').click(function (e) {
-    $('.prd__meun__grid .swiper-slide .prd__meun__box .prd__img__wrap').css('border','1px solid #808080');
-    $('.prd__meun__grid .prd__meun__box .prd__title').css('opacity','1');
+    $('.prd__meun__grid .swiper-slide .prd__meun__box .prd__img__wrap').css('border', '1px solid #808080');
+    $('.prd__meun__grid .prd__meun__box .prd__title').css('opacity', '1');
 })
-
-$('#order-btn-toggle').click(function () {
-    if($('.oder-btn-motion')== true){
-        $('.oder-btn-motion').removeClass('rotate');
-    }
-    else{
-        $('.oder-btn-motion').addClass('rotate');
-    }
-})
-
 
 function sortProductList(obj) {
     $('#last_idx').val(0);

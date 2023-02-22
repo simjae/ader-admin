@@ -281,8 +281,8 @@ export function User() {
             <div class="customer-title">고객서비스</div>
             <div class="customer-btn-box">
                 <div class="customer-btn" onclick="location.href='/login/service'"><span>공지사항</span></div>
-                <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=terms_of_use'"><span>자주 묻는 질문</span></div>
-                <div class="customer-btn" onclick="location.href='/notice/privacy?notice_type=privacy_policy'"><span>문의하기</span></div>
+                <div class="customer-btn" onclick="location.href='/login/faq'"><span>자주 묻는 질문</span></div>
+                <div class="customer-btn" onclick="location.href='/login'"><span>문의하기</span></div>
             </div>
         </div>
         

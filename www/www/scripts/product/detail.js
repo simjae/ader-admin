@@ -415,7 +415,8 @@ function basketStatusBtn() {
                     },
                     success: function (d) {
                         if (d.code == 200) {
-                            location.href = '/order/basket/list';
+                            console.log('1')
+                            // location.href = '/order/basket/list';
                         } else {
                             exceptionHandling("[ 디자인 필요 ]", d.msg);
                         }
@@ -473,20 +474,33 @@ function sizeBtnHandler() {
     const $$productBtn = document.querySelectorAll(".basket-btn");
     const sizes = document.querySelectorAll(".detail__wrapper .size__box .size");
     let basketBtn = document.querySelector('.rM-detail-containner .basket-btn');
+    let webBasketBtn = document.querySelector('.info__box .basket-btn');
     sizes.forEach(el => {
         el.addEventListener("click", function (e) {
             let { productidx, optionidx, status } = e.currentTarget.dataset;
             if (status == 2) {
                 sizes.forEach(el => { if(el.dataset.status !== "2"){ el.classList.remove("select")}; })
                 e.currentTarget.classList.toggle("select");
-                basketBtn.className = "basket-btn basket"
+                if(basketBtn.classList.contains("basket")){
+                    basketBtn.className = "basket-btn"
+                    webBasketBtn.className = "basket-btn"
+                } else{
+                    basketBtn.className = "basket-btn basket"
+                    webBasketBtn.className = "basket-btn basket"
+                }
                 basketBtnStatusChange($$productBtn, status);
             } else if (status == 1) {
                 sizes.forEach(el => {
                     if(el.dataset.status !== "1"){ el.classList.remove("select")};
                 })
-                basketBtn.className = "basket-btn reorder"
                 e.currentTarget.classList.toggle("select");
+                if(basketBtn.classList.contains("reorder")){
+                    basketBtn.className = "basket-btn"
+                    webBasketBtn.className = "basket-btn"
+                } else{
+                    basketBtn.className = "basket-btn reorder"
+                    webBasketBtn.className = "basket-btn reorder"
+                }
                 basketBtnStatusChange($$productBtn, status);
             } else if (status == 0) {
                 basketBtnStatusChange($$productBtn, status);

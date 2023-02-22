@@ -827,6 +827,50 @@ import {User} from '/scripts/module/user.js';
 				sideBarToggleEvent(target);
 			});
 		})
+		if(path ==='/product/list' ){
+
+		}
+		if(path ==='/product/detail' ){
+			$('.basket-btn').on("click", function(){
+				let sideContainer = document.querySelector("#sidebar");
+				let sideBg = document.querySelector(".side__background");
+				let sideWrap = document.querySelector(".side__wrap");
+				if(getLoginStatus() == 'false'){
+					location.href='/login';
+					return 
+				} else {
+					console.log('2')
+					setTimeout(() => {
+						let sideBarCloseBtn = document.querySelector('.sidebar-close-btn');
+						sideBarCloseBtn.addEventListener("click",sidebarClose);
+						const basket = new Basket("basket",true);
+						basket.writeHtml();
+					}, 100);
+					if(sideContainer.classList.contains("open")){
+						sidebarClose();	
+					} else {
+						sideBg.classList.add("open");
+						sideWrap.classList.add("open");
+						sideContainer.classList.add("open");
+					}
+					
+				}
+			})
+			
+			$('.whish-btn').on("click", function(){
+				$('#quickview_observer').val('open');
+				$quickview.classList.remove("hidden");
+				$titleBoxSpan.innerText = "위시리스트";
+				$titleBoxImg.src = "/images/svg/wish-list-bk.svg";
+				$contentWrap.classList.add("open");
+				$listBtn.classList.add("select");
+				$whishlistBtn.classList.add("open");
+				setTimeout(() => {
+					getWhishlistProductList();
+				}, 100);
+			})
+		}
+		
 		function sideBarToggleEvent(target){
 			// layoutClick(target);
 			const $body = document.querySelector("body");
@@ -841,7 +885,6 @@ import {User} from '/scripts/module/user.js';
 					whishlistClose();
 				}
 				target.classList.add("open");
-				
 				$("header").addClass("hover");
 				$body.classList.add("sidebar_open");
 				$body.dataset.sbType = target.dataset.type;
@@ -851,8 +894,6 @@ import {User} from '/scripts/module/user.js';
 				sideWrap.classList.add("open");
 				headerHover(true);
 			}
-
-
 		}
 		function sidebarClose() {
 			const $body = document.querySelector("body");
@@ -884,16 +925,17 @@ import {User} from '/scripts/module/user.js';
 //					whishlistClose();
 					location.href="/order/whish";
 				}else {
-					if($(".side-bar.open").length !== 0){
-						sidebarClose();
-					}
-					$quickview.classList.remove("hidden");
-					$titleBoxSpan.innerText = "위시리스트";
-					$titleBoxImg.src = "/images/svg/wish-list-bk.svg";
-					$contentWrap.classList.add("open");
-					$listBtn.classList.add("select");
-					getWhishlistProductList();
-					$whishlistBtn.classList.add("open");
+					location.href="/order/whish";
+					// if($(".side-bar.open").length !== 0){
+					// 	sidebarClose();
+					// }
+					// $quickview.classList.remove("hidden");
+					// $titleBoxSpan.innerText = "위시리스트";
+					// $titleBoxImg.src = "/images/svg/wish-list-bk.svg";
+					// $contentWrap.classList.add("open");
+					// $listBtn.classList.add("select");
+					// getWhishlistProductList();
+					// $whishlistBtn.classList.add("open");
 				}
 			})
 		}

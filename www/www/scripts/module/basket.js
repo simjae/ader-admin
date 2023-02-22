@@ -47,7 +47,7 @@ export function Basket(el, useSidebar) {
 						<div class="pay__total__price">0</div>
 					</div>
 					<div class="pay__btn"><span>결제하기</span></div>
-					<p class="pay__notiy">품절제품을 삭제 후 결제를 진행해주세요.</p> 
+					<p class="pay__notiy">&nbsp;</p> 
 				</div>
 			`;
 			
@@ -93,7 +93,7 @@ export function Basket(el, useSidebar) {
 							<div class="pay__total__price">0</div>
 						</div>
 						<div class="pay__btn"><span>결제하기</span></div>
-						<p class="pay__notiy">품절제품을 삭제 후 결제를 진행해주세요.</p> 
+						<p class="pay__notiy">&nbsp;</p> 
 					</div>
 				</section>
 			`;
@@ -465,14 +465,26 @@ export function Basket(el, useSidebar) {
 		let payBtn = document.querySelector(".pay__box .pay__btn");
 		payBtn.addEventListener("click", function() {
 			let selfBox = document.querySelectorAll(".self__cb[name='stock']");
+			let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']");
+			let msgBox = document.querySelector(".pay__notiy");
 			let selectArr =[];
+			let checkCnt = 0;
 			let country = "KR";
+			
 			selfBox.forEach(el => {
 				if(el.checked){
+					checkCnt++;
 					selectArr.push(el.parentNode.parentNode.dataset.basket_idx);
 				}
 			})
-			
+
+			if(soldSelfBox.length > 0) {
+				msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요';
+			}
+			if(checkCnt == 0) {
+				msgBox.innerText = '결제하실 상품을 선택해주세요.';
+			}
+
 			if (selectArr.length > 0) {
 				location.href="/order/confirm?&basket_idx=" + selectArr;
 			}
@@ -607,7 +619,7 @@ export function Basket(el, useSidebar) {
 			el.addEventListener("click", (e) => {
 				let input_name = e.currentTarget.getAttribute("name");
 				if(input_name == "stock"){
-					console.log(e);
+					
 					let product_box = e.currentTarget.parentNode.parentNode;
 					let price_total = parseInt(product_box.querySelector(".price_total").dataset.price_total);
 					

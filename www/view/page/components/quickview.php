@@ -3,7 +3,7 @@
         position: absolute;
         transition-duration: 0.3s;
     }
-
+    
     .remove-btn {
         display: flex;
         position: relative;
@@ -20,10 +20,11 @@
     .quickview__box {
         position: fixed;
         margin: 0 auto;
+        margin-right: 0;
         bottom: 0;
         left: 0;
         max-width: 2560px;
-        width: 100vw;
+        width: 30vw;
         right: 0;
         z-index: 10;
         /* height: 200px; */
@@ -31,7 +32,11 @@
         justify-content: flex-end;
         overflow: hidden;
     }
-
+    .wish-msg {
+        display: flex;
+        justify-content: center;
+        margin-left: 20px;
+    }
     .quickview__box.on {
         position: absolute;
     }
@@ -73,10 +78,14 @@
 
     .swiper-containner {
         /* max-width: 400px; */
-        min-height: 118px;
+        min-height: 150px;
         overflow-x: hidden;
         margin-right: 30px;
         margin-left: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .content-header {
@@ -94,7 +103,8 @@
     .quickview__btn__wrap .btn__box {
         display: flex;
         flex-direction: column;
-        height: 45px;
+        width:60px;
+        height: 50px;
         border-bottom: solid 1px #000;
         padding: 7px 0 0px 7px;
         justify-content: space-evenly;
@@ -268,8 +278,41 @@
     .quickview-swiper .swiper-slide {
         width: 80px;
     }
-
+    .close-swiper {
+        max-width: 0;
+    }
     @media (max-width: 1024px) {
+        .quickview__btn__wrap .btn__box p {
+            visibility: hidden;
+            margin: 2px 0 0 1px;
+            font-family: FuturaLTPro;
+            font-size: 10px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.1;
+            text-align: left;
+            color: #343434;
+        }
+        .btn__box .btn_icon_wrap {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .quickview__box {
+            position: fixed;
+            margin: 0 auto;
+            bottom: 0;
+            left: 0;
+            max-width: 2560px;
+            width: 100vw;
+            right: 0;
+            z-index: 10;
+            /* height: 200px; */
+            display: flex;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
         .swiper-containner {
             min-height: auto;
         }
@@ -324,7 +367,7 @@
             display: flex;
             flex: auto;
             flex-direction: row !important;
-            align-items: center;
+            /* align-items: center; */
             border-bottom: none !important;
             justify-content: flex-start !important;
             margin-left: 10px;
@@ -342,6 +385,7 @@
 
         .quickview__btn__wrap .btn__box {
             padding: 0;
+            height: 45px;
         }
 
         .quickview__btn__wrap .btn__box p {
@@ -360,22 +404,31 @@
 </style>
 <div id="quickview" class="hidden">
     <div class="quickview__box">
+        <input id="quickview_observer" type="hidden" />
         <div class="quickview__btn__wrap open">
             <div class="btn__box recent__btn" data-quick="recent">
-                <img src="/images/svg/wish-recent.svg" alt="">
-                <p>Recently<br>viewed</p>
+                <div class="btn_icon_wrap recent_view">
+                    <img src="/images/svg/wish-recent.svg" alt="">
+                    <p>Recently<br>viewed</p>
+                </div>
             </div>
             <div class="btn__box real__btn" data-quick="real">
-                <img src="/images/svg/wish-real.svg" alt="">
-                <p>Top</p>
+                <div class="btn_icon_wrap">    
+                    <img src="/images/svg/wish-real.svg" alt="">
+                    <p>Top</p>
+                </div>
             </div>
             <div class="btn__box list__btn" data-quick="list">
-                <img src="/images/svg/wish-list.svg" alt="">
-                <p>Wishlist</p>
+                <div class="btn_icon_wrap">
+                    <img src="/images/svg/wish-list.svg" alt="">
+                    <p>Wishlist</p>
+                </div>
             </div>
             <div class="btn__box faq__btn" data-quick="faq">
-                <img src="/images/svg/wish-faq.svg" alt="">
-                <p>Livechat</p>
+                <div class="btn_icon_wrap">
+                    <img src="/images/svg/wish-faq.svg" alt="">
+                    <p>Livechat</p>
+                </div>
             </div>
         </div>
         <div class="quickview__content__wrap">
@@ -402,6 +455,44 @@
 </div>
 
 <script>
+    let target = document.getElementById("quickview_observer");
+    let btnWrap = document.querySelector(".quickview__btn__wrap");
+    let contentWrap = document.querySelector(".quickview__content__wrap");
+    let quickViewWarp = document.querySelector(".quickview__box");
+    let swiperContainer = document.querySelector(".swiper-containner");
+    
+    let observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            if(target.value == 'close') {
+                setTimeout(function() {
+                contentWrap.classList.remove('open');
+                swiperContainer.classList.add('close-swiper');
+                btnWrap.classList.remove('open');
+            }, 3000);
+            } else {
+                contentWrap.classList.add('open');
+                swiperContainer.classList.remove('close-swiper');
+                btnWrap.classList.add('open');
+            }
+        })
+    })
+
+    let obConfig = {
+        attributes: true
+    }
+
+    observer.observe(target, obConfig);
+
+    btnWrap.addEventListener('mouseenter', function() {
+        target.value = 'open';
+    })
+    contentWrap.addEventListener('mouseenter', function() {
+        target.value = 'open';
+    })
+    quickViewWarp.addEventListener('mouseleave', function() {
+        target.value = 'close';
+    })
+    
     let quickviewBreakpoint = window.matchMedia('screen and (min-width:1025px)');//미디어 쿼리 
     let sideQuickSwiper; //스와이퍼 변수 
     const webSideQuickSwiperOption = {
@@ -481,15 +572,19 @@
         let $titleBox = document.querySelector(".title__box");
         let $titleBoxSpan = document.querySelector(".title__box span");
         let $titleBoxImg = document.querySelector(".title__box img");
-
+        let swiper = document.querySelector(".swiper-containner");
+        
         let $contentWrap = document.querySelector(".quickview__content__wrap");
         const whishSwiperWrap = document.querySelector(".quickview-swiper");
+        
         $$btnBox.forEach((el) => {
             el.addEventListener("click", function (e) {
                 let $currentTarget = e.currentTarget;
                 let $target = e.target;
                 let targetData = e.currentTarget.dataset.quick;
                 let $$allBtn = document.querySelectorAll(".quickview__box .all-btn");
+                
+                swiper.classList.remove("close-swiper");
 
                 if (e.currentTarget.classList.contains("select")) {
                     e.currentTarget.classList.remove("select");
@@ -567,6 +662,19 @@
                 let data = d.data;
                 if (data != null) {
                     writeWishlistSwiperHtml(data);
+                } else {
+                    // let quickviewWrap = document.querySelector(".quickview__content__wrap");
+                    const whishDomFlag = document.createDocumentFragment();
+                    const swiperWrapper = document.createElement("div");
+                    const nextBtn = document.createElement("div");
+                    nextBtn.className = "swiper-button-next"
+                    swiperWrapper.className = "swiper-wrapper";
+                    let quickviewWrap = document.querySelector(".quickview-swiper");
+                    let msgDiv = `<div class="wish-msg">위시리스트가 비어있습니다.</div>`;
+                    quickviewWrap.innerHTML = msgDiv;
+                    whishDomFlag.appendChild(swiperWrapper);
+                    quickviewWrap.appendChild(whishDomFlag);
+                    quickviewWrap.appendChild(nextBtn);
                 }
             }
         });
@@ -634,8 +742,8 @@
                                     </div>
                                 </a>
                             </div>`;
-
         });
+        
         swiperWrapper.innerHTML = slideDiv;
         whishDomFlag.appendChild(swiperWrapper);
         whishSwiperWrap.innerHTML = "";
