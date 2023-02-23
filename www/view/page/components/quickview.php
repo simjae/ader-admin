@@ -556,7 +556,7 @@
             return sideQuickSwiper = new Swiper(el, option);
         }
     }
-    function responsiveSwiper(el) {
+    function responsiveQuickSwiper(el) {
         if (quickviewBreakpoint.matches === true) {
             return initSideQuickSwiper(el, webSideQuickSwiperOption);
         } else if (quickviewBreakpoint.matches === false) {
@@ -722,7 +722,7 @@
         whishSwiperWrap.appendChild(nextBtn);
         resizeWidth(dataCnt);
         let el = ".quickview-swiper";
-        responsiveSwiper(el);
+        responsiveQuickSwiper(el);
     }
     function writeWishlistSwiperHtml(data) {
         let dataCnt = data.length;
@@ -751,7 +751,7 @@
         whishSwiperWrap.appendChild(nextBtn);
         resizeWidth(dataCnt);
         let el = ".quickview-swiper";
-        responsiveSwiper(el);
+        responsiveQuickSwiper(el);
 
     }
 
@@ -764,7 +764,7 @@
         timer = setTimeout(function () {
             let breakpoint = window.matchMedia('screen and (min-width:1025px)');
             let el = ".quickview-swiper";
-            responsiveSwiper(el);
+            responsiveQuickSwiper(el);
         }, delay);
     });
     window.addEventListener('DOMContentLoaded', function () {

@@ -1075,7 +1075,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling4.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1090,7 +1090,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1105,7 +1105,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling3.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1120,7 +1120,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1135,7 +1135,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling4.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1150,7 +1150,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1165,7 +1165,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling3.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1180,7 +1180,7 @@
                                 <a href="">
                                     <img class="styling__img" src="/images/styling/styling1.jpg" alt="">
                                     <div class="t-box">
-                                        <p class="title">Metal line</p>
+                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
                                         <div class="btn__wrap">
                                             <a href="" class="under-line bk">자세히보기</a>
                                         </div>
@@ -1260,7 +1260,7 @@
 
         });
     }
-    let newSwiper = new Swiper(".new__project__swiper", {
+    let main_newSwiper = new Swiper(".new__project__swiper", {
         navigation: {
             nextEl: ".new__project__swiper .swiper-button-next",
             prevEl: ".new__project__swiper .swiper-button-prev",
@@ -1275,12 +1275,12 @@
 	
 	//슬라이더별 헤더색상 변경
 	let headerColor = ["BL","WH","BL"];
-	newSwiper.on('slideChange', function () {
+	main_newSwiper.on('slideChange', function () {
         $("header").removeClass("BL");
         $("header").removeClass("WH");
-        $("header").addClass(headerColor[newSwiper.activeIndex]);
+        $("header").addClass(headerColor[main_newSwiper.activeIndex]);
     });
-    let recommendSwiper = new Swiper(".recommend-swiper", {
+    let main_recommendSwiper = new Swiper(".recommend-swiper", {
         navigation: {
             nextEl: ".recommend-swiper .swiper-button-next",
             prevEl: ".recommend-swiper .swiper-button-prev",
@@ -1303,7 +1303,7 @@
             }
         }
     });
-    let stylingSwiper = new Swiper(".styling-swiper", {
+    let main_stylingSwiper = new Swiper(".styling-swiper", {
         navigation: {
             nextEl: ".styling-swiper .swiper-button-next",
             prevEl: ".styling-swiper .swiper-button-prev",
@@ -1331,12 +1331,12 @@
 
                 }
                 if (1 <= this.realIndex) {
-                    // stylingSwiper.extendDefaults({
+                    // main_stylingSwiper.extendDefaults({
                     //     centeredSlides: true
                     // });
-                    console.log(stylingSwiper.passedParams.centeredSlides);
-                    stylingSwiper.passedParams.centeredSlides = true;
-                    console.log(stylingSwiper.passedParams.centeredSlides);
+                    console.log(main_stylingSwiper.passedParams.centeredSlides);
+                    main_stylingSwiper.passedParams.centeredSlides = true;
+                    console.log(main_stylingSwiper.passedParams.centeredSlides);
                     this.update();
                     this.updateSize();
                     this.updateSlides();
@@ -1372,7 +1372,7 @@
             }
         }
     }
-    let ex = new Swiper(".re-swiper", colaboSetting);
+    let main_reSwiper = new Swiper(".re-swiper", colaboSetting);
 
     (() => {
         let $slide = document.querySelectorAll('.recommend-swiper .swiper-slide');
@@ -1387,7 +1387,7 @@
         let screenWidth = document.querySelector(".styling-wrap").offsetWidth
         let nextbtn = document.querySelector(".styling-swiper .navigation .swiper-button-next");
         let prevbtn = document.querySelector(".styling-swiper .navigation .swiper-button-prev");
-        let styleTboxHeight = stylingSwiper.el.querySelector(".t-box").offsetHeight;
+        let styleTboxHeight = main_stylingSwiper.el.querySelector(".t-box").offsetHeight;
         let oneGridSize = 0;
         let mobileOneGridSize = 0;
 
@@ -1397,7 +1397,7 @@
             nextbtn.style.height = `${styleTboxHeight}px`;
             prevbtn.style.width = `${oneGridSize}px`;
             prevbtn.style.height = `${styleTboxHeight}px`;
-            ex.update();
+            main_reSwiper.update();
         } else {
 
             // let screenWidth = window.screen.width;
@@ -1539,7 +1539,7 @@
             }
         });
 
-        let foryou = new Swiper(".foryou-swiper", {
+        let main_foryouSwiper = new Swiper(".foryou-swiper", {
             navigation: {
                 nextEl: ".foryou-swiper .swiper-button-next",
                 prevEl: ".foryou-swiper .swiper-button-prev",

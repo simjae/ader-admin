@@ -139,8 +139,9 @@ function login() {
                 url: "http://116.124.128.246:80/_api/account/logout",
                 type: 'POST',
                 success:function(){
-                    exceptionHandling("",'로그아웃');
-                    $('#exception-modal .close-btn').attr('onclick', 'location.href="/main"');
+                    // exceptionHandling("",'로그아웃');
+                    // $('#exception-modal .close-btn').attr('onclick', 'location.href="/main"');
+										location.replace("/main");
                 }
             }
         )

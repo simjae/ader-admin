@@ -118,7 +118,7 @@ export default function ForyouRender() {
                 prevEl: ".foryou-swiper .swiper-button-prev",
             },
             pagination: {
-                el: ".swiper-pagination",
+                el: ".foryou-swiper .swiper-pagination",
                 clickable: true,
                 disabledClass:'swiper-button-disabled'
             },

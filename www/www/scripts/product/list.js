@@ -101,15 +101,14 @@ const getProductList = () => {
                         </div>`;
             });
 
-            menuHtml += `
-                    </div>
-                <div class="swiper-scrollbar"></div>
-                <div class="navigation">
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                </div>
-                    
-            </div>`;
+                menuHtml += `
+                    <div>
+                        <div class="swiper-scrollbar"></div>
+                        <div class="navigation">
+                            <div class=".product-img .swiper-button-prev"></div>
+                            <div class=".product-img .swiper-button-next"></div>
+                        </div>   
+                    </div>`;
             menuList.innerHTML = menuHtml;
 
             makeLowerFilterHtml(menu_info.lower_filter)
@@ -332,8 +331,8 @@ const imgSwiper = (move) => {
         observeParents: true,
         allowTouchMove: move,
         navigation: {
-            nextEl: "#swiper-goods .swiper-button-next",
-            prevEl: "#swiper-goods .swiper-button-prev",
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
         },
     });
 }

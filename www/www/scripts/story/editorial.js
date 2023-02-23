@@ -109,7 +109,7 @@ function asideClickEvent() {
 function bannerClickEvent(page_idx, size_type) {
 
 }
-var editorialControllerSwiper = new Swiper(".editorial-controller-swiper", {
+var editorial_ControllerSwiper = new Swiper(".editorial-controller-swiper", {
     spaceBetween: 10,
     slidesPerView: 16.5,
     freeMode: true,
@@ -154,10 +154,10 @@ var editorialControllerSwiper = new Swiper(".editorial-controller-swiper", {
         //   }
     },
 });
-var editorialPreviewSwiper = new Swiper(".editorial-preview-swiper", {
+var editorial_PreviewSwiper = new Swiper(".editorial-preview-swiper", {
     slidesPerView: 1,
     thumbs: {
-        swiper: editorialControllerSwiper,
+        swiper: editorial_ControllerSwiper,
     },
     navigation: {
         nextEl: ".preview-swiper-wrap .swiper-button-next",

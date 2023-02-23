@@ -122,7 +122,7 @@ export default function StylingRender(relevant_idx) {
                 prevEl: ".styling-swiper .swiper-button-prev",
             },
             pagination: {
-                el: ".swiper-pagination",
+                el: ".styling-swiper .swiper-pagination",
                 clickable: true,
                 disabledClass:'swiper-button-disabled'
             },

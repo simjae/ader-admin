@@ -42,9 +42,13 @@ hover
 }
 
 @media(max-width:1025px){ 
+    header {
+        border-bottom: 1px solid #dcdcdc;
+    }
     .collaboration-wrap {
         display: grid;
         grid-template-columns: repeat(3,1fr);
+        margin-top: 15px;
     }
     .collaboration-wrap .banner {
         justify-content: normal;

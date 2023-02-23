@@ -29,7 +29,7 @@ $option_idx		= $_POST['option_idx'];
 
 if ($member_idx == 0 || $member_id == null) {
 	$json_result['code'] = 401;
-	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
+	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";/
 	return $json_result;
 }
 
