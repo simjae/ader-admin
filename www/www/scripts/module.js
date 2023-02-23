@@ -1247,6 +1247,8 @@ function Search() {
     }
 }
 
+
+
 function Login() {
     (()=>{
 
@@ -2136,6 +2138,8 @@ function User() {
         })
     }
 }
+
+
 /**
  * @author SIMJAE
  * @param {String} el 필수값(.vplayer) 비디오태그를 감싸고 있는 부모 wrapper

@@ -157,6 +157,9 @@ ul,li{
     align-items: center;
 }
 .navigation__wrap .thumb__box img{
+    min-width: 54px;
+    min-height: 67.5px;
+    width: 100%;
     max-width: 80px;
     max-height: 100px;
 }
@@ -363,7 +366,9 @@ ul,li{
 }
 .size__box .size.select {
     border-bottom: 1px solid #343434;
+    margin-bottom: -1px;
 }
+
 .size__box .size[data-soldout="STSC"].select {
     border-bottom: 0px;
 }
@@ -923,18 +928,24 @@ ul,li{
 }
 /* 장바구니버튼 초기화  */
 .basket-btn[data-status="4"]{ pointer-events: none; }
+
+
+.info__wrap[data-soldflg='1'] .size{
+    pointer-events: none    ;
+}
+
 @media (max-width: 1025px){
     .size__box li[data-soldout="STCL"]:hover::before{
         left: -30px;
         bottom: -20px;
     }
 	#main__swiper-detail .swiper-pagination-bullet{
-		left:0px!important;
-		display:none;
-		border-radius: 0;
+		width: 25px;
+		height: 1px;
+		transform: scale(1)!important;
 	}
-    #main__swiper-detail .swiper-pagination-bullet-active{  width: 25px;
-		display:block;
+    #main__swiper-detail .swiper-pagination-bullet-active{  
+		width: 25px;
 		height: 1px;
 		margin: 0 3px;
         background: #343434;
@@ -943,7 +954,6 @@ ul,li{
     }
      #main__swiper-detail .swiper-pagination-bullet-active-prev,
      #main__swiper-detail .swiper-pagination-bullet-active-next{
-		display:block;
 		width: 25px;
 		height: 1px;
 		margin: 0 3px;
@@ -953,7 +963,6 @@ ul,li{
     }
      #main__swiper-detail .swiper-pagination-bullet-active-prev-prev,
      #main__swiper-detail .swiper-pagination-bullet-active-next-next{
-		display:block;
         width: 25px;
 		height: 1px;
 		margin: 0 3px;
@@ -1026,16 +1035,14 @@ ul,li{
     .main__swiper .swiper-pagination-detail-fraction{
         display: block;
         position: absolute;
-        bottom: 50px;
+        bottom: 55px;
         left: 20px;
         z-index: 9;
     }
     .detail__wrapper .swiper-pagination-detail-bullets{
-        padding: 20px;
-		margin:auto;
-		width:232px!important;
-		transform: translateX(0%)!important;
-		display:flex;
+		width:160px!important;
+		display:inline;
+		margin-bottom: 12px;
     }
    
      #main__swiper-detail .swiper-pagination-fraction {
@@ -1045,6 +1052,7 @@ ul,li{
     }
     .main_img_wrapper {
         display: flex;
+		margin-bottom: 45px;
     }
 
     .mobile-bullet {
@@ -1300,6 +1308,7 @@ ul,li{
         width: 45px;
         height: 45px;
         flex-shrink: 0;
+        z-index: 0;
     }
     .rM-detail-containner .detail__btn__row .img-box.select {
         background-color: #000000;
@@ -1368,19 +1377,21 @@ ul,li{
     }
 }
 
-@keyframes pd_info_left {
-    /* keyframe */
-    from {
-      left: 0;
-    }
-    /* keyframe */
-    to {
-      left: 300px;
-    }
-  }
+
 
 
 
 @media(hover:hover){
-
+    .size__box .size:hover {
+        width: 0px;
+        background: #343434;
+        margin-bottom: -1px;
+        animation-name: moveRight;
+    }
+    .whish-btn .whish_img:hover{
+        content: url('/images/svg/wishlist-bk.svg');
+    }
 }
+
+
+@keyframes moveRight { 0% { width: 0px; } 100%{ width: 100%; } }

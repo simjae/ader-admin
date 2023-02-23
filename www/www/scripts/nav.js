@@ -755,6 +755,10 @@
 	}
 
 	function disableUrlBtn() {
+
+
+
+
 		const pageUrl = new URL(document.location);
 		let path = pageUrl.pathname; 
 		let sideBarBtn = document.querySelectorAll('.side-bar');
@@ -827,38 +831,10 @@
 				sideBarToggleEvent(target);
 			});
 		})
-		if(path ==='/product/list' ){
+		if(path ==='/product/list'){
 
 		}
-		if(path ==='/product/detail' ){
-			$('.basket-btn').on("click", function(){
-				let sideContainer = document.querySelector("#sidebar");
-				let sideBg = document.querySelector(".side__background");
-				let sideWrap = document.querySelector(".side__wrap");
-				if(getLoginStatus() == 'false'){
-					location.href='/login';
-					return 
-				} else {
-					console.log('2')
-					setTimeout(() => {
-						let sideBarCloseBtn = document.querySelector('.sidebar-close-btn');
-						sideBarCloseBtn.addEventListener("click",sidebarClose);
-						const basket = new Basket("basket",true);
-						basket.writeHtml();
-					}, 100);
-					if(sideContainer.classList.contains("open")){
-						$("#dimmer").removeClass("show");
-						sidebarClose();	
-					} else {
-						sideBg.classList.add("open");
-						sideWrap.classList.add("open");
-						sideContainer.classList.add("open");
-						$("#dimmer").addClass("show");
-					}
-					
-				}
-			})
-			
+		if(path ==='/product/detail'){
 			$('.whish-btn').on("click", function(){
 				$('#quickview_observer').val('open');
 				$quickview.classList.remove("hidden");
@@ -957,6 +933,11 @@
 			} )
 
 		}
+		return {
+			sidebarClose:sidebarClose
+		}
+
+	
 	}
 	
 	

@@ -44,6 +44,8 @@ const getProduct = (product_idx) => {
             const mainImgWrap = document.querySelector(".main_img_wrapper");
             let infoBoxHtml = "";
             data.forEach((el) => {
+                let sold_out_flg = el.sold_out_flg;
+                infoWrap.dataset.soldflg = sold_out_flg;
                 let img_thumbnail = el.img_thumbnail;
                 let imgThumbnailHtml = "";
 
@@ -245,6 +247,11 @@ const getProduct = (product_idx) => {
             
             innerSideBar();
             webDetailBtnHanddler();
+            if(infoWrap.dataset.soldflg == 1){
+                let $$productBtn = document.querySelectorAll(".basket-btn");
+                basketBtnStatusChange($$productBtn, 0);
+            }
+
         }
 
     });
@@ -287,6 +294,7 @@ function initMainSwiper() {
             el: ".swiper-pagination-detail-bullets",
             dynamicBullets: true,
             clickable: true,
+			bulletWidth: 280, 
         },
     });
 }
@@ -381,7 +389,10 @@ function viewportImg() {
 
     
 }
-//쇼핑백 관련 함수들
+/**
+ * @author SIMJAE  
+ * @description 쇼핑백에 추가하고 사이드바 오픈
+ */
 function basketStatusBtn() {
     const sizeResult = sizeStatusCheck();
     const $$productBtn = document.querySelectorAll(".basket-btn");
@@ -414,9 +425,39 @@ function basketStatusBtn() {
                         alert("쇼핑백 추가처리에 실패했습니다.");
                     },
                     success: function (d) {
-                        if (d.code == 200) {
-                            console.log('1')
-                            // location.href = '/order/basket/list';
+                        if (d.code == 200 && $('.basket-btn').data('status') == 2) {
+                            // 사이드바
+                            let sideContainer = document.querySelector("#sidebar");
+                            let sideBg = document.querySelector(".side__background");
+                            let sideWrap = document.querySelector(".side__wrap");
+
+                            if(getLoginStatus() == 'false'){
+                                location.href='/login';
+                                return 
+                            } else {
+                                let sideBarCloseBtn = document.querySelector('.sidebar-close-btn');
+                                sideBarCloseBtn.addEventListener("click",sidebarClose);
+                                const basket = new Basket("basket",true);
+                                basket.writeHtml();
+                                if(sideContainer.classList.contains("open")){
+                                    sidebarClose();
+                                } else {
+                                    sidebarOpen();
+                                }
+                                function sidebarClose(){
+                                    sideContainer.classList.remove("open");
+                                    sideWrap.classList.remove("open");
+                                    sideBg.classList.remove("open");
+                                    $("#dimmer").removeClass("show");
+                                }	
+                                function sidebarOpen(){
+                                    sideContainer.classList.add("open");
+                                    sideWrap.classList.add("open");
+                                    sideBg.classList.add("open");
+                                    $("#dimmer").addClass("show");
+                                }	
+                                
+                            }
                         } else {
                             exceptionHandling("[ 디자인 필요 ]", d.msg);
                         }
@@ -469,8 +510,12 @@ function basketBtnStatusChange(el, idx) {
     })
 
 }
-//사이즈 상태 체크 함수
+/**
+ * @author SIMJAE  
+ * @description 사이즈 선택 이벤트
+ */
 function sizeBtnHandler() {
+    let infoWrap = document.querySelector('.info__wrap');
     const $$productBtn = document.querySelectorAll(".basket-btn");
     const sizes = document.querySelectorAll(".detail__wrapper .size__box .size");
     let basketBtn = document.querySelector('.rM-detail-containner .basket-btn');
@@ -481,33 +526,36 @@ function sizeBtnHandler() {
             if (status == 2) {
                 sizes.forEach(el => { if(el.dataset.status !== "2"){ el.classList.remove("select")}; })
                 e.currentTarget.classList.toggle("select");
-                if(basketBtn.classList.contains("basket")){
-                    basketBtn.className = "basket-btn"
-                    webBasketBtn.className = "basket-btn"
-                } else{
-                    basketBtn.className = "basket-btn basket"
-                    webBasketBtn.className = "basket-btn basket"
+                if($(".size.select[data-status='2']").length == 0){
+                    basketBtn.className = 'basket-btn';
+                    webBasketBtn.className = 'basket-btn';
+                }else {
+                    basketBtn.className = 'basket-btn basket';
+                    webBasketBtn.className = 'basket-btn basket';
                 }
                 basketBtnStatusChange($$productBtn, status);
             } else if (status == 1) {
-                sizes.forEach(el => {
-                    if(el.dataset.status !== "1"){ el.classList.remove("select")};
-                })
+                sizes.forEach(el => {if(el.dataset.status !== "1"){ el.classList.remove("select")};})
                 e.currentTarget.classList.toggle("select");
-                if(basketBtn.classList.contains("reorder")){
-                    basketBtn.className = "basket-btn"
-                    webBasketBtn.className = "basket-btn"
-                } else{
-                    basketBtn.className = "basket-btn reorder"
-                    webBasketBtn.className = "basket-btn reorder"
-                }
-                basketBtnStatusChange($$productBtn, status);
+                if($(".size.select[data-status='1']").length == 0){
+                    basketBtn.className = 'basket-btn';
+                    webBasketBtn.className = 'basket-btn';
+                    basketBtnStatusChange($$productBtn, 2);
+                }else {
+                    basketBtn.className = 'basket-btn reorder';
+                    webBasketBtn.className = 'basket-btn reorder';
+                    basketBtnStatusChange($$productBtn, status);
+                } 
             } else if (status == 0) {
                 basketBtnStatusChange($$productBtn, status);
             } 
         });
     });
 }
+/**
+ * @author SIMJAE
+ * @description 사이즈 상태를 숫자로 반환
+ */
 function sizeStatusCheck() {
     let stockStatus = 0;
     const sizes = document.querySelectorAll(".detail__wrapper .size__box .size");
@@ -526,6 +574,12 @@ function sizeStatusCheck() {
     })
     return statusArrCheck(result);
 }
+/**
+ * @author SIMJAE
+ * @param {Array} list 사이즈 status 배열
+ * @description 사이즈 상태에서 구매가능한 사이즈가 있을시 리턴값 max값
+ * @returns result
+ */
 const statusArrCheck = (list) => {
     console.log("🏂 ~ file: product-detail.php:770 ~ statusArrCheck ~ list", list)
     // 0 : 완전품절 || 1: 리오더가능 || 2: 재고 선택가능 || 3: commin-soon
@@ -661,6 +715,107 @@ function mobileDetailBtnHanddler() {
 }
 /**
  * @author SIMJAE  
+ * @description 웹 상품 상세정보 이벤트 핸들러 
+ */
+function webDetailBtnHanddler(){
+    let $$detailBtn = document.querySelectorAll(".info__box .detail__btn__row");
+    let $detailWrap = document.querySelector(".info__box .detail__btn__wrap.web");
+    let currentIdx = 0;
+    $$detailBtn.forEach((btn, idx) => {
+        btn.addEventListener("click", function (e) {
+            if (e.currentTarget.classList.contains("select")) {
+                // unSelectBtn(btn,e);
+                sideBarClose();
+            } else {
+                stylingOversever();
+                sideBarOpen(e);
+                selectBtn(btn);
+            }
+            currentIdx = clickControllBtnEvent();
+            mobileSizeGuideContentBody(idx);
+        });
+    });
+    //선택되어있는 idx불러오기
+    function clickControllBtnEvent() {
+        let currentIdx;
+        [...$$detailBtn].find((el, idx) => {
+            if (el.classList.contains("select")) { currentIdx = idx; }
+        });
+        return currentIdx;
+    }
+    const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
+    const $sidebarBg = document.querySelector(".detail__sidebar__wrap .sidebar__background");
+    const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
+    const $sidebarCloseBtn = document.querySelector(".detail__sidebar__wrap .sidebar__close__btn");
+
+    function unSelectBtn(btn,e){
+        e.currentTarget.offsetParent.classList.remove("open");
+        e.currentTarget.classList.remove("select");
+    }
+    function selectBtn(btn){
+        $$detailBtn.forEach(el => el.classList.remove("select"));
+        btn.classList.add("select");
+    }
+    function mobileSizeGuideContentBody(idx) {
+        let contentHeader = document.querySelector(".detail__sidebar__wrap .content-header span");
+        let contentBody = document.querySelector(".detail__sidebar__wrap .content-body");
+        contentBody.innerHTML = productDetailInfoArr[idx];
+        let detailContentWrap = document.querySelector(".detail__sidebar__wrap .detail-content");
+        if (idx == 0) {
+            detailContentWrap.className = "detail-content sizeguide";
+            contentHeader.innerHTML = "사이즈가이드";
+            sizeguideBtnEvent();
+        } else if (idx == 1) {
+            detailContentWrap.className = "detail-content material";
+            contentHeader.innerHTML = "소재";
+        } else if (idx == 2) {
+            detailContentWrap.className = "detail-content productinfo";
+            contentHeader.innerHTML = "제품 상세 정보";
+        } else if (idx == 3) {
+            detailContentWrap.className = "detail-content precaution";
+            contentHeader.innerHTML = "취급 유의 사항";
+        }
+    }
+     //이벤트 달기
+    function sideBarOpen(e) {
+        e.target.offsetParent.classList.add("open");
+        $detailSidebarWrap.classList.add("open");
+        $sidebarBg.classList.add("open");
+        $sidebarWrap.classList.add("open");
+        $sidebarCloseBtn.addEventListener("click",sideBarClose)
+    }
+    function sideBarClose() {
+        $detailWrap.classList.remove("open");
+        $detailSidebarWrap.classList.remove("open");
+        $sidebarBg.classList.remove("open");
+        $sidebarWrap.classList.remove("open");
+        $$detailBtn.forEach(el => el.classList.remove("select"));
+    }
+    function sizeguideBtnEvent() {
+        let $$sizeBtn = document.querySelectorAll(".detail__sidebar__wrap .sizeguide-btn");
+        $$sizeBtn.forEach((el, idx) => el.addEventListener("click", function () {
+            $$sizeBtn.forEach(el => el.classList.remove("select"));
+            this.classList.add("select");
+        }));
+    }
+    function stylingOversever(){
+        const target = document.querySelector('.styling-with-wrap');
+        const ioCallback = (entries, io) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    console.log("나타남")
+                    sideBarClose();
+                }else{
+                    console.log("사라짐")
+                }
+            });
+        };
+        const stylingObserve = new IntersectionObserver(ioCallback, { threshold: 0.4 });
+        stylingObserve.observe(target);
+    }
+}
+/**
+ * @author SIMJAE  
  * @description 모바일 상품 상세정보 데이터 요청
  */
 function getProductDetailInfo (product_idx){
@@ -765,100 +920,4 @@ function innerSideBar(){
     
    
 }
-function webDetailBtnHanddler(){
-    let $$detailBtn = document.querySelectorAll(".info__box .detail__btn__row");
-    let $detailWrap = document.querySelector(".info__box .detail__btn__wrap.web");
-    let currentIdx = 0;
-    $$detailBtn.forEach((btn, idx) => {
-        btn.addEventListener("click", function (e) {
-            if (e.currentTarget.classList.contains("select")) {
-                // unSelectBtn(btn,e);
-                sideBarClose();
-            } else {
-                stylingOversever();
-                sideBarOpen(e);
-                selectBtn(btn);
-            }
-            currentIdx = clickControllBtnEvent();
-            mobileSizeGuideContentBody(idx);
-        });
-    });
-    //선택되어있는 idx불러오기
-    function clickControllBtnEvent() {
-        let currentIdx;
-        [...$$detailBtn].find((el, idx) => {
-            if (el.classList.contains("select")) { currentIdx = idx; }
-        });
-        return currentIdx;
-    }
-    const $detailSidebarWrap = document.querySelector(".detail__sidebar__wrap");
-    const $sidebarBg = document.querySelector(".detail__sidebar__wrap .sidebar__background");
-    const $sidebarWrap = document.querySelector(".detail__sidebar__wrap .sidebar__wrap");
-    const $sidebarCloseBtn = document.querySelector(".detail__sidebar__wrap .sidebar__close__btn");
 
-    function unSelectBtn(btn,e){
-        e.currentTarget.offsetParent.classList.remove("open");
-        e.currentTarget.classList.remove("select");
-    }
-    function selectBtn(btn){
-        $$detailBtn.forEach(el => el.classList.remove("select"));
-        btn.classList.add("select");
-    }
-    function mobileSizeGuideContentBody(idx) {
-        let contentHeader = document.querySelector(".detail__sidebar__wrap .content-header span");
-        let contentBody = document.querySelector(".detail__sidebar__wrap .content-body");
-        contentBody.innerHTML = productDetailInfoArr[idx];
-        let detailContentWrap = document.querySelector(".detail__sidebar__wrap .detail-content");
-        if (idx == 0) {
-            detailContentWrap.className = "detail-content sizeguide";
-            contentHeader.innerHTML = "사이즈가이드";
-            sizeguideBtnEvent();
-        } else if (idx == 1) {
-            detailContentWrap.className = "detail-content material";
-            contentHeader.innerHTML = "소재";
-        } else if (idx == 2) {
-            detailContentWrap.className = "detail-content productinfo";
-            contentHeader.innerHTML = "제품 상세 정보";
-        } else if (idx == 3) {
-            detailContentWrap.className = "detail-content precaution";
-            contentHeader.innerHTML = "취급 유의 사항";
-        }
-    }
-     //이벤트 달기
-    function sideBarOpen(e) {
-        e.target.offsetParent.classList.add("open");
-        $detailSidebarWrap.classList.add("open");
-        $sidebarBg.classList.add("open");
-        $sidebarWrap.classList.add("open");
-        $sidebarCloseBtn.addEventListener("click",sideBarClose)
-    }
-    function sideBarClose() {
-        $detailWrap.classList.remove("open");
-        $detailSidebarWrap.classList.remove("open");
-        $sidebarBg.classList.remove("open");
-        $sidebarWrap.classList.remove("open");
-        $$detailBtn.forEach(el => el.classList.remove("select"));
-    }
-    function sizeguideBtnEvent() {
-        let $$sizeBtn = document.querySelectorAll(".detail__sidebar__wrap .sizeguide-btn");
-        $$sizeBtn.forEach((el, idx) => el.addEventListener("click", function () {
-            $$sizeBtn.forEach(el => el.classList.remove("select"));
-            this.classList.add("select");
-        }));
-    }
-    function stylingOversever(){
-        const target = document.querySelector('.styling-with-wrap');
-        const ioCallback = (entries, io) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    console.log("나타남")
-                    sideBarClose();
-                }else{
-                    console.log("사라짐")
-                }
-            });
-        };
-        const stylingObserve = new IntersectionObserver(ioCallback, { threshold: 0.4 });
-        stylingObserve.observe(target);
-    }
-}
