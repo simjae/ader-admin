@@ -45,7 +45,13 @@ const getProduct = (product_idx) => {
             let infoBoxHtml = "";
             data.forEach((el) => {
                 let sold_out_flg = el.sold_out_flg;
+                let refund_msg_flg = el.refund_msg_flg;
+                let refund = el.refund;
+                
                 infoWrap.dataset.soldflg = sold_out_flg;
+                infoWrap.dataset.refund_msg_flg = refund_msg_flg;
+
+
                 let img_thumbnail = el.img_thumbnail;
                 let imgThumbnailHtml = "";
 
@@ -107,7 +113,11 @@ const getProduct = (product_idx) => {
                 let productSizeHtml = "";
                 product_size.forEach(size => {
                     productSizeHtml += `
-							<li class="size" data-sizetype="${size.size_type}" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>
+							<li class="size" data-sizetype="${size.size_type}" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">
+                                ${size.option_name}
+                                ${size.stock_status == 'STCL'? '<div class="red-dot"></div>' :''}
+                                ${size.stock_status == 'STSC'? '<div class="sold-line"></div>' :''}
+                            </li>
 						`;
                 });
 
@@ -118,14 +128,12 @@ const getProduct = (product_idx) => {
                 let login_status = getLoginStatus();
 
                 if (login_status == "true") {
-
                     if (whish_flg == 'true') {
                         whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
                         whish_function = "deleteWhishListBtn(this);";
                     } else if (whish_flg == 'false') {
                         whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
                         whish_function = "setWhishListBtn(this);";
-
                     }
                 } else {
                     whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
@@ -133,75 +141,90 @@ const getProduct = (product_idx) => {
 
                 }
                 let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
-
                 infoBoxHtml = `
-						<div class="product__title">${el.product_name}</div>
-                        ${el.discount == 0 ? 
-                            `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">
-                                <span>${el.price.toLocaleString('ko-KR')}</span>
-                            </div>` 
-                            : 
-                            `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-dis="true">
-                                <span class="sp">${saleprice}</span>
-                                <span class="cp" data-discount="${el.discount}" >${el.price.toLocaleString('ko-KR')}</span>
-                                <span class="di">${el.discount}%</span>
-                            </div>`
-                        } 
-						<div class="color__box">
-							${productColorHtml}
-						</div>
-						<div class="product__size">
-							<div>Size</div>
-							<div class="size__box">
-								${productSizeHtml}
-							</div>
-						</div>
-						
-						<div class="basket__wrap--btn">
-							<div class="basket__box--btn">
-								<div class="basket-btn" >
-                                    <img src="/images/svg/basket.svg" alt="">
-									<span class="basket-title">쇼핑백에 담기</span>
-								</div>
-                                <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
-                                    ${whish_img}
+                    <div class="product__title">${el.product_name}</div>
+                    ${el.discount == 0 ? 
+                        `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">
+                            <span>${el.price.toLocaleString('ko-KR')}</span>
+                        </div>` 
+                        : 
+                        `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-dis="true">
+                            <span class="sp">${saleprice}</span>
+                            <span class="cp" data-discount="${el.discount}" >${el.price.toLocaleString('ko-KR')}</span>
+                            <span class="di">${el.discount}%</span>
+                        </div>`
+                    } 
+                    <div class="color__box">
+                        ${productColorHtml}
+                    </div>
+                    <div class="product__size">
+                        <div>Size</div>
+                        <div class="size__box">
+                            ${productSizeHtml}
+                        </div>
+                    </div>
+                    
+                    <div class="basket__wrap--btn">
+                        <div class="basket__box--btn">
+                            <div class="basket-btn" >
+                                <img src="/images/svg/basket.svg" alt="">
+                                <span class="basket-title">쇼핑백에 담기</span>
+                            </div>
+                            <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
+                                ${whish_img}
+                            </div>
+                        </div>
+                        ${refund_msg_flg == 1?
+                            `<div class="detail__refund__box"> 
+                                <div class='close-box'>
+                                    <div class="close-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="12.707" height="12.707" viewBox="0 0 12.707 12.707">
+                                            <path data-name="선 1772" transform="rotate(135 6.103 2.736)" style="fill:none;stroke:#343434" d="M16.969 0 0 .001"></path>
+                                            <path data-name="선 1787" transform="rotate(45 -.25 .606)" style="fill:none;stroke:#343434" d="M16.969.001 0 0"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-							</div>
-						</div>
+                                <div class='refund__msg'>제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
+                                <div class="refund-basket-btn"> 
+                                    <img src="/images/svg/basket.svg" alt=""> 
+                                    <span class="basket-title">내용 확인 후 쇼핑백에 담기</span> 
+                                </div> 
+                            </div>`
+                            :''}
+                    </div>
 
-						<div class="detail__btn__wrap web">
-							<div class="detail__btn__row web">
-								<div class="img-box">
-									<img src="/images/svg/sizeguide.svg" alt="">
-								</div>
-								<div class="btn-title">사이즈가이드</div>
-								<div class="detail__content__box"></div>
-							</div>
-							<div class="detail__btn__row web">
-								<div class="img-box">
-									<img src="/images/svg/material.svg" alt=""></div>
-								<div class="btn-title">소재</div>
-								<div class="detail__content__box"></div>
-							</div>
-							<div class="detail__btn__row web">
-								<div class="img-box">
-									<img src="/images/svg/information.svg" alt="">
-								</div>
-								<div class="btn-title">상세정보</div>
-								<div class="detail__content__box"></div>
-							</div>
-							<div class="detail__btn__row web">
-								<div class="img-box">
-									<img src="/images/svg/precaution.svg" alt="">
-								</div>
-								<div class="btn-title">취급 유의사항</div>
-								<div class="detail__content__box"></div>
-							</div>
-						</div>
-                        
-					`;
-
-
+                    <div class="detail__btn__wrap web">
+                        <div class="detail__btn__row web">
+                            <div class="img-box">
+                                <img src="/images/svg/sizeguide.svg" alt="">
+                            </div>
+                            <div class="btn-title">사이즈가이드</div>
+                            <div class="detail__content__box"></div>
+                        </div>
+                        <div class="detail__btn__row web">
+                            <div class="img-box">
+                                <img src="/images/svg/material.svg" alt=""></div>
+                            <div class="btn-title">소재</div>
+                            <div class="detail__content__box"></div>
+                        </div>
+                        <div class="detail__btn__row web">
+                            <div class="img-box">
+                                <img src="/images/svg/information.svg" alt="">
+                            </div>
+                            <div class="btn-title">상세정보</div>
+                            <div class="detail__content__box"></div>
+                        </div>
+                        <div class="detail__btn__row web">
+                            <div class="img-box">
+                                <img src="/images/svg/precaution.svg" alt="">
+                            </div>
+                            <div class="btn-title">취급 유의사항</div>
+                            <div class="detail__content__box"></div>
+                        </div>
+                    </div>
+                    <div class="detail__refund__msg"></div>
+                    
+                `;
                 //모바일 전용 쇼핑백담기버튼 추가
                 let mobileBasketBtnWrap = document.createElement("div");
                 let whishlistTitle = "<div class='whislist-tilte'>whislist</div>"
@@ -218,23 +241,44 @@ const getProduct = (product_idx) => {
                         ${whish_flg == 'true' ? whishlistTitle : ""}
                     </div>
                 </div>
+                ${refund_msg_flg == 1?
+                    `<div class="detail__refund__box"> 
+                        <div class='close-box'>
+                            <div class="close-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12.707" height="12.707" viewBox="0 0 12.707 12.707">
+                                    <path data-name="선 1772" transform="rotate(135 6.103 2.736)" style="fill:none;stroke:#343434" d="M16.969 0 0 .001"></path>
+                                    <path data-name="선 1787" transform="rotate(45 -.25 .606)" style="fill:none;stroke:#343434" d="M16.969.001 0 0"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class='refund__msg'>제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
+                        <div class="refund-basket-btn"> 
+                            <img src="/images/svg/basket.svg" alt=""> 
+                            <span class="basket-title">내용 확인 후 쇼핑백에 담기</span> 
+                        </div> 
+                    </div>`
+                    :''}
                 
                 `
-                document.querySelector(".rM-detail-containner").appendChild(mobileBasketBtnWrap)
+                document.querySelector(".rM-detail-containner").appendChild(mobileBasketBtnWrap);
 
+
+                const prdInfo = document.createElement("div");
+                prdInfo.classList.add("info__box");
+                prdInfo.innerHTML = infoBoxHtml;
+                domFrag.appendChild(prdInfo);
+                infoWrap.appendChild(domFrag);
+
+                if(infoWrap.dataset.refund_msg_flg == 1){
+                    document.querySelectorAll(".detail__refund__msg").forEach(el => el.innerHTML = refund);
+                }        
             });
             let relevant_idx = data[0].relevant_idx;
+
             if (relevant_idx != null) {
                 // getRelevantProductList(relevant_idx, country);
             }
             // getProductRecommendList();
-
-
-            const prdInfo = document.createElement("div");
-            prdInfo.classList.add("info__box");
-            prdInfo.innerHTML = infoBoxHtml;
-            domFrag.appendChild(prdInfo);
-            infoWrap.appendChild(domFrag);
             // sizeNodeCheck();
             colorNodeCheck();
             sizeBtnHandler();
@@ -243,15 +287,15 @@ const getProduct = (product_idx) => {
             followScrollBtn();
             viewportImg();
             // detailBtnHandler();
-            //디테일 설명
             
+            //디테일 설명
             innerSideBar();
             webDetailBtnHanddler();
+
             if(infoWrap.dataset.soldflg == 1){
                 let $$productBtn = document.querySelectorAll(".basket-btn");
                 basketBtnStatusChange($$productBtn, 0);
             }
-
         }
 
     });
@@ -395,79 +439,116 @@ function viewportImg() {
  */
 function basketStatusBtn() {
     const sizeResult = sizeStatusCheck();
+    console.log("🏂 ~ file: detail.js:404 ~ basketStatusBtn ~ sizeResult:", sizeResult)
     const $$productBtn = document.querySelectorAll(".basket-btn");
     const $$size = document.querySelectorAll(".detail__wrapper .size");
-
-    $$productBtn.forEach(el => el.addEventListener("click", (e) => {
-        let { status } = e.currentTarget.dataset;
-        if (status == 2) {
-            let option_idx = [];
-            let selectResult = [...$$size].map(size => {
-                if (size.classList.contains("select") == true) {
-                    option_idx.push(size.dataset.optionidx);
-                }
-            });
-            console.log("🏂 ~ file: detail.js:444 ~ selectResult ~ option_idx", option_idx)
-            if (option_idx.length == 0) {
-                basketBtnStatusChange($$productBtn, 4);
-            }
-            if (option_idx.length > 0) {
-                $.ajax({
-                    type: "post",
-                    url: "http://116.124.128.246:80/_api/order/basket/add",
-                    data: {
-                        'add_type': 'product',
-                        'product_idx': productIdx,
-                        'option_idx': option_idx
-                    },
-                    dataType: "json",
-                    error: function () {
-                        alert("쇼핑백 추가처리에 실패했습니다.");
-                    },
-                    success: function (d) {
-                        if (d.code == 200 && $('.basket-btn').data('status') == 2) {
-                            // 사이드바
-                            let sideContainer = document.querySelector("#sidebar");
-                            let sideBg = document.querySelector(".side__background");
-                            let sideWrap = document.querySelector(".side__wrap");
-
-                            if(getLoginStatus() == 'false'){
-                                location.href='/login';
-                                return 
-                            } else {
-                                let sideBarCloseBtn = document.querySelector('.sidebar-close-btn');
-                                sideBarCloseBtn.addEventListener("click",sidebarClose);
-                                const basket = new Basket("basket",true);
-                                basket.writeHtml();
-                                if(sideContainer.classList.contains("open")){
-                                    sidebarClose();
-                                } else {
-                                    sidebarOpen();
-                                }
-                                function sidebarClose(){
-                                    sideContainer.classList.remove("open");
-                                    sideWrap.classList.remove("open");
-                                    sideBg.classList.remove("open");
-                                    $("#dimmer").removeClass("show");
-                                }	
-                                function sidebarOpen(){
-                                    sideContainer.classList.add("open");
-                                    sideWrap.classList.add("open");
-                                    sideBg.classList.add("open");
-                                    $("#dimmer").addClass("show");
-                                }	
-                                
-                            }
-                        } else {
-                            exceptionHandling("[ 디자인 필요 ]", d.msg);
-                        }
+    basketBtnStatusChange($$productBtn, sizeResult);
+    $$productBtn.forEach(el => {
+        el.addEventListener("click", (e) => {
+            let { status } = e.currentTarget.dataset;
+            if (status == 2) {
+                let option_idx = [];
+                let selectResult = [...$$size].map(size => {
+                    if (size.classList.contains("select") == true) {
+                        option_idx.push(size.dataset.optionidx);
                     }
                 });
-            }
-        }
-    }));
+                console.log("🏂 ~ file: detail.js:444 ~ selectResult ~ option_idx", option_idx)
+                if (option_idx.length == 0) {
+                    basketBtnStatusChange($$productBtn, 4);
+                }
+                if (option_idx.length > 0) {
+                    if($('.info__wrap').data('refund_msg_flg') == 1){
+                        $('.detail__refund__box').addClass('open');
+                        $('.detail__refund__box .close-btn').on("click",function(){
+                            $('.detail__refund__box').removeClass('open');
+                        })
+                        $('.detail__refund__box .refund-basket-btn').on("click",function(){
+                            addBasketApi();
+                            $('.detail__refund__box').removeClass('open');
+                        })
+                    } else{
+                        addBasketApi();
+                    }
 
-    basketBtnStatusChange($$productBtn, sizeResult);
+                    function addBasketApi(){
+                        console.log("🏂 ~ file: detail.js:454 ~ $ ~ option_idx:123123", option_idx)
+                        $.ajax({
+                            type: "post",
+                            url: "http://116.124.128.246:80/_api/order/basket/add",
+                            data: {
+                                'add_type': 'product',
+                                'product_idx': productIdx,
+                                'option_idx': option_idx
+                            },
+                            dataType: "json",
+                            error: function () {
+                                alert("쇼핑백 추가처리에 실패했습니다.");
+                            },
+                            success: function (d) {
+                                if (d.code == 200 && $('.basket-btn').data('status') == 2) {
+                                    // 사이드바
+                                    let sideContainer = document.querySelector("#sidebar");
+                                    let sideBg = document.querySelector(".side__background");
+                                    let sideWrap = document.querySelector(".side__wrap");
+    
+                                    if(getLoginStatus() == 'false'){
+                                        location.href='/login';
+                                        return 
+                                    } else {
+                                        let sideBarCloseBtn = document.querySelector('.sidebar-close-btn');
+                                        sideBarCloseBtn.addEventListener("click",sidebarClose);
+                                        const basket = new Basket("basket",true);
+                                        basket.writeHtml();
+                                        if(sideContainer.classList.contains("open")){
+                                            sidebarClose();
+                                        } else {
+                                            sidebarOpen();
+                                        }
+                                        function sidebarClose(){
+                                            sideContainer.classList.remove("open");
+                                            sideWrap.classList.remove("open");
+                                            sideBg.classList.remove("open");
+                                            $("#dimmer").removeClass("show");
+                                        }	
+                                        function sidebarOpen(){
+                                            sideContainer.classList.add("open");
+                                            sideWrap.classList.add("open");
+                                            sideBg.classList.add("open");
+                                            $("#dimmer").addClass("show");
+                                        }	
+                                        
+                                    }
+                                } else {
+                                    exceptionHandling("[ 디자인 필요 ]", d.msg);
+                                }
+                            }
+                        });
+                    }
+                    
+                }
+            }
+        })
+        el.addEventListener("mouseenter", (e) => {
+            let { status } = e.currentTarget.dataset;
+            let sizeSelectResult = $('.size__box .select').length;
+            if(status == 2 && sizeSelectResult == 0){
+                e.currentTarget.querySelector("span").innerHTML = "옵션을 선택해주세요";
+                e.currentTarget.querySelector("img").setAttribute("src", "/images/svg/pd-unoption.svg");
+                e.currentTarget.querySelector("img").classList.remove("hidden");
+            }
+        })
+        el.addEventListener("mouseleave", (e) => {
+            let { status } = e.currentTarget.dataset;
+            let sizeSelectResult = $('.size__box .select').length;
+            if(status == 2 && sizeSelectResult == 0){
+                e.currentTarget.querySelector("span").innerHTML = "쇼핑백에 담기";
+                e.currentTarget.querySelector("img").classList.remove("hidden");
+                e.currentTarget.querySelector("img").setAttribute("src", "/images/svg/basket.svg");
+            }   
+        })
+    });
+
 }
 function basketBtnStatusChange(el, idx) {
     el.forEach(btn => {
@@ -622,7 +703,6 @@ function mobileDetailBtnHanddler() {
     let prevBtn = document.querySelector(".rM-detail-containner .detail-btn-prev");
     let nextBtn = document.querySelector(".rM-detail-containner .detail-btn-next");
     let currentIdx = 0;
-  
 
     $$btn.forEach((btn, idx) => {
         btn.addEventListener("click", function (e) {
