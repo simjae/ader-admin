@@ -77,22 +77,31 @@ ul,li{ list-style: none; }
 
 
 .product__size .size__box .size { cursor: pointer; }
-.size__box li[data-soldout="STSO"]::after { top: -2px; }
-.size__box .size[data-soldout="STSC"].select { border-bottom: 0px; }
-.size__box li[data-soldout="STCL"]::before { content: "Only a few left"; position: absolute; width: 200px; bottom: -15px; left: -90px; color: red; transform: scaleX(0); transform-origin: left; transition: transform 450ms ease-in-out; }
-.size__box li[data-soldout="STCL"]:hover::before { transform: scaleX(1); }
+.size__box .size[data-soldout="STSO"]::after { top: -2px; }
+.size__box .size[data-soldout="STSC"].select { border-bottom: 0px; opacity: 1;}
+.size__box .size[data-soldout="STCL"]::before { content: "Only a few left"; position: absolute; width: 200px; bottom: -15px; left: -90px; color: red; transform: scaleX(0); transform-origin: left; transition: transform 450ms ease-in-out; }
 .size__box .size.select[data-soldout="STSC"]{ border-bottom: 1px solid #000000; }
-.size__box li[data-soldout="STSC"]:hover .sold-line{ content: url('/images/svg/sold-line.svg'); position: absolute; top: -2px; }
-.size__box li[data-soldout="STSC"]:hover::before { content: "Re-order"; position: absolute; width: 50px; bottom: -15px; left: -5px; }
-.size__box li[data-soldout="STSC"]:hover { color: #808080; opacity: 1; display: flex; align-items: center; justify-content: center; }
-.size__box li[data-soldout="STCL"]::after { display: none; }
-.size__box li::after { content: ''!important; position: inherit!important; bottom: auto!important; right: auto!important; display: block!important; border-bottom: solid 1px #343434; transform: scaleX(0); transform-origin: left; transition: transform 250ms ease-in-out; }
-.size__box li:hover::after { transform: scaleX(1); }
-.size__box li[data-soldout="STCL"] .red-dot { /* 품절임박 */ content: url('/images/svg/wish-redsold.svg'); position: absolute; top: -2px; right: -4px; }
+.size__box .size[data-soldout="STCL"]::after { display: none; }
+.size__box .size::after { content: ''!important; position: inherit!important; bottom: auto!important; right: auto!important; display: block!important; border-bottom: solid 1px #343434; transform: scaleX(0); transform-origin: left; transition: transform 250ms ease-in-out; }
+.size__box .size[data-soldout="STCL"] .red-dot { /* 품절임박 */ content: url('/images/svg/wish-redsold.svg'); position: absolute; top: -2px; right: -4px; }
 .size__box .size.select { border-bottom: 1px solid #343434; margin-bottom: -1px; }
-.size__box .size.select:hover:after{ transform: scaleX(0); } 
 .size__box .size.select:after{ border-bottom: 0px; }
 .info__wrap .product__size__guide { display: flex; gap:10px; align-items: center; margin-bottom: 50px; font-family: var(--ft-no-fu); font-size: 11px; text-align: left; color: var(--bk); }
+
+
+@media(hover:hover){
+    .size__box .size[data-soldout="STSC"]:hover{opacity: 1;}
+    .size__box .size[data-soldout="STSC"]:hover .sold-line{ content: url('/images/svg/sold-line.svg'); position: absolute; top: -2px; }
+    .size__box .size[data-soldout="STSC"]:hover::before { content: "Re-order"; position: absolute; width: 50px; bottom: -15px; left: -15px; opacity: 0.5;}
+    .size__box .size[data-soldout="STSC"]:hover { color: #808080; opacity: 1; display: flex; align-items: center; justify-content: center; }
+    .size__box .size[data-soldout="STCL"]:hover::before { transform: scaleX(1); }
+    .size__box .size:hover::after { transform: scaleX(1); }
+    .size__box .size.select:hover:after{ transform: scaleX(0); } 
+}
+
+
+
+
 
 .detail__info__wrap{ display: flex; width: 100%; justify-content: space-between; gap: 15px; visibility: visible; }
 .detail__info__wrap.open{ visibility: hidden; }
@@ -227,19 +236,23 @@ ul,li{ list-style: none; }
 .refund-basket-btn{ cursor: pointer; display: flex; gap: 8px; justify-content: center; align-items: center; margin: 0px 0px 14px 10px; border: 1px solid #dcdcdc; width: 70%; height: 34px; border-radius: 1px; border: solid 1px #808080; background-color: #fff; }
 .refund-basket-btn img{ width: 9px; height: 14.9px; }
 .refund-basket-btn span{ font-family: var(--ft-no-fu); font-size: 11px; font-weight: 300; font-stretch: normal; font-style: normal; letter-spacing: normal; text-align: left; color: #343434; }
+
+
+
+
 @media(hover:hover){
     .whish-btn .whish_img:hover{ content: url('/images/svg/wishlist-bk.svg'); }
 }
 @media (max-width: 1025px){
     header { border:1px solid #dcdcdc; }
-    .size__box li[data-soldout="STCL"]:hover::before{ left: -30px; bottom: -20px; }
+    /* .size__box .size[data-soldout="STCL"]:hover::before{ left: -30px; bottom: -20px; } */
 	#main__swiper-detail .swiper-pagination-bullet{ width: 25px; height: 1px; transform: scale(1)!important; }
     #main__swiper-detail .swiper-pagination-bullet-active{ width: 25px; height: 1px; margin: 0 3px; background: #343434; opacity: 1!important; transform: scale(1)!important; }
     #main__swiper-detail .swiper-pagination-bullet-active-prev,
     #main__swiper-detail .swiper-pagination-bullet-active-next{ width: 25px; height: 1px; margin: 0 3px; opacity: 0.5!important; background: #343434; transform: scale(1)!important; }
     #main__swiper-detail .swiper-pagination-bullet-active-prev-prev,
     #main__swiper-detail .swiper-pagination-bullet-active-next-next{ width: 25px; height: 1px; margin: 0 3px; opacity: 0.1!important; background: #343434; transform: scale(1)!important; }
-    .viewport__wrap--img .viewport-img{ height: 100vh; width: 100vw; object-fit: cover; display: block; cursor: pointer; -webkit-user-select: none; -ms-user-select: none; user-select: none; cursor: auto; }
+    .viewport__wrap--img .viewport-img{ overflow: visible; height: 100vh; max-height: 100vh; transform: scale(2.5); display: block; cursor: pointer; -webkit-user-select: none; padding-top: 65.5%; -ms-user-select: none; user-select: none; cursor: auto; }
     .viewport__closebtn{ display: block; }
     .detail__wrapper { display: flex; flex-direction: column; }
     .detail__box { display: inline; position: relative; }
@@ -317,11 +330,19 @@ ul,li{ list-style: none; }
     .rM-detail-containner .detail__btn__wrap.open .btn-title{ display: none; }
     .rM-detail-containner .detail__btn__wrap.open .detail__content__box{ max-height: 100%; width: 100%; position: relative; padding: 10px; border-left: 1px solid #dcdcdc; transition: none; padding-bottom: 65px; }
     .rM-detail-containner .detail__btn__wrap.open .detail__btn__control{ display: flex; }
-    
+    .rM-detail-containner .detail__btn__wrap.open .detail__refund__msg{display: none;}
     .info__box .detail__refund__msg{ display: none; }
     .detail__refund__msg{ margin-top: 50px; font-size: 10px; font-weight: 300; font-stretch: normal; font-style: normal; letter-spacing: normal; text-align: left; color: #808080; }
     .detail__refund__msg ul{ display: flex; flex-direction: column; gap: 10px; }
     .detail__refund__msg li{ list-style: decimal; margin-left: 28px; }
+    .size__box .size.select{border-bottom: 0px;}
+    .size__box .size.select::after { transform: scaleX(1); border-bottom: solid 1px #343434; }
+    .size__box .size.select[data-soldout="STSC"]{border-bottom: 0px;}
+    .size__box .size.select[data-soldout="STSC"] .sold-line{ content: url('/images/svg/sold-line.svg'); position: absolute; top: -2px; }
+    .size__box .size.select[data-soldout="STSC"]::before { content: "Re-order"; position: absolute; width: 50px; bottom: -15px; left: -10px; opacity: 0.5;}
+    .size__box .size.select[data-soldout="STSC"]::after { color: #808080; opacity: 1; display: flex; align-items: center; justify-content: center; }
+    .size__box .size.select[data-soldout="STCL"]::before { transform: scaleX(1); left: -30px;}
+
 }
 
 
