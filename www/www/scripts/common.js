@@ -4,11 +4,11 @@
  * @param {String} elem 해당레이아웃 클래스나 , id
  */
 function layoutOutSideClick(elem) {
-    elem.addEventListener("click" ,(e) =>{
-        if(e.target !== elem){
+    elem.addEventListener("click", (e) => {
+        if (e.target !== elem) {
             elem.classList.remove("open")
         }
-    } )
+    })
 }
 
 /**
@@ -22,16 +22,16 @@ function addBasketApi(add_type, idx, optionIdx) {
     const main = document.querySelector("main");
     let country = main.dataset.country;
     let dataResult = {};
-    if (add_type == "product"){
+    if (add_type == "product") {
         dataResult = {
-            "add_type":add_type,
+            "add_type": add_type,
             "product_idx": idx,
             "option_idx": optionIdx,
             "country": country,
         }
-    } else if(add_type == "whish") {
+    } else if (add_type == "whish") {
         dataResult = {
-            "add_type":add_type,
+            "add_type": add_type,
             "whish_idx": idx,
             "option_idx": optionIdx,
             "country": "KR",
@@ -46,7 +46,7 @@ function addBasketApi(add_type, idx, optionIdx) {
             alert("쇼핑백 담기에 실패하였습니다.");
         },
         success: function (d) {
-            if(d.code == 200){
+            if (d.code == 200) {
                 // location.href='http://116.124.128.246/order/basket/list';
             }
         }
@@ -60,7 +60,7 @@ function addBasketApi(add_type, idx, optionIdx) {
  */
 
 const elemScrollFooterUpEvent = (elem) => {
-    window.addEventListener("scroll", function() {
+    window.addEventListener("scroll", function () {
         const scrollHeight = window.scrollY;
         const windowHeight = window.innerHeight;
         const docTotalHeight = document.body.offsetHeight;
@@ -92,8 +92,8 @@ function getLoginStatus() {
  * @param {String} message 예외처리 모달 메시지
  * @description 에러띄울 모달
  */
-function exceptionHandling(page,message){
-    if(document.querySelector('#exception-modal') !== null){
+function exceptionHandling(page, message) {
+    if (document.querySelector('#exception-modal') !== null) {
         document.querySelector('#exception-modal').remove();
     }
     const body = document.body;
@@ -112,15 +112,15 @@ function exceptionHandling(page,message){
     </div>
     `
     body.appendChild(exceptionContainner)
-    
-    this.openModal = (()=>{
+
+    this.openModal = (() => {
         exceptionContainner.classList.add("open");
         modalClose();
     })();
 
-    function modalClose(){
+    function modalClose() {
         let closeBtn = document.querySelector(`#exception-modal .close-btn`);
-        closeBtn.addEventListener("click",()=> {exceptionContainner.classList.remove("open");document.querySelector('#exception-modal').remove();});
+        closeBtn.addEventListener("click", () => { exceptionContainner.classList.remove("open"); document.querySelector('#exception-modal').remove(); });
     }
 
 }
@@ -137,10 +137,10 @@ function setWhishListBtn(obj) {
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/order/whish/add",
-            error: function() {
+            error: function () {
                 alert("위시리스트 등록/해제 처리에 실패했습니다.");
             },
-            success: function(d) {
+            success: function (d) {
                 let code = d.code;
                 let msg = d.msg;
 
@@ -149,7 +149,7 @@ function setWhishListBtn(obj) {
                     whish_img.attr('src', '/images/svg/wishlist-bk.svg');
                     whish_img.attr('style', 'width:19px');
                     $(obj).attr('onClick', 'deleteWhishListBtn(this);');
-                    if(basket_wrap.hasClass("nav")){
+                    if (basket_wrap.hasClass("nav")) {
                         basket_wrap.find(".whish-btn").append("<div class='whislist-tilte'>whislist</div>")
                     }
                 }
@@ -169,10 +169,10 @@ function deleteWhishListBtn(obj) {
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/order/whish/delete",
-            error: function() {
+            error: function () {
                 alert("위시리스트 등록/해제 처리에 실패했습니다.");
             },
-            success: function(d) {
+            success: function (d) {
                 let code = d.code;
                 let msg = d.msg;
 
@@ -180,7 +180,7 @@ function deleteWhishListBtn(obj) {
                     let whish_img = $(obj).find('.whish_img');
                     whish_img.attr('src', '/images/svg/wishlist.svg');
                     $(obj).attr('onClick', 'setWhishListBtn(this);');
-                    if(basket_wrap.hasClass("nav")){
+                    if (basket_wrap.hasClass("nav")) {
                         basket_wrap.find(".whislist-tilte").remove();
                     }
                 }
@@ -198,72 +198,70 @@ function createFooterObserver() {
     }
     let target = document.querySelector("footer")
     observer = new IntersectionObserver((entries) => {
-		const $body = document.querySelector("body");
+        const $body = document.querySelector("body");
         entries.forEach(entry => {
-            if(entry.isIntersecting && !$body.classList.contains("m_menu_open")){
+            if (entry.isIntersecting && !$body.classList.contains("m_menu_open")) {
                 let footerHeight = entry.boundingClientRect.height;
-				document.querySelector("#quickview .quickview__box").classList.add("on");
-//                document.querySelector("#quickview .quickview__box").style.bottom = `${footerHeight}px`;
+                document.querySelector("#quickview .quickview__box").classList.add("on");
+                //                document.querySelector("#quickview .quickview__box").style.bottom = `${footerHeight}px`;
             } else {
-				document.querySelector("#quickview .quickview__box").classList.remove("on");
-//                document.querySelector("#quickview .quickview__box").style.bottom = `0px`;
+                document.querySelector("#quickview .quickview__box").classList.remove("on");
+                //                document.querySelector("#quickview .quickview__box").style.bottom = `0px`;
             }
         });
     }, options);
     observer.observe(target);
-	
-	/*    
-	var $w = $(window),
-	footerHei = $('footer').outerHeight(),
-	$quickview = $("#quickview .quickview__box");
 
-	$w.on('scroll', function() {
-		var sT = $w.scrollTop();
-		var val = $(document).height() - $w.height() - footerHei;
+    /*    
+    var $w = $(window),
+    footerHei = $('footer').outerHeight(),
+    $quickview = $("#quickview .quickview__box");
 
-		if (sT >= val){
-			$quickview.addClass('on');
-			$quickview.css("bottom",footerHei+"px");
-		}
-		else{
-			$quickview.removeClass('on');
-		}
-	});
+    $w.on('scroll', function() {
+        var sT = $w.scrollTop();
+        var val = $(document).height() - $w.height() - footerHei;
+
+        if (sT >= val){
+            $quickview.addClass('on');
+            $quickview.css("bottom",footerHei+"px");
+        }
+        else{
+            $quickview.removeClass('on');
+        }
+    });
 */
 }
 
-window.addEventListener("DOMContentLoaded", function() {
-    createFooterObserver();
-})
+
 
 /**
  * @author 김성식
  * @description 세로 스크롤바 사이즈 반환
  */
-function getScrollBarWidth () {
-	var inner = document.createElement('p');
-	inner.style.width = "100%";
-	inner.style.height = "200px";
+function getScrollBarWidth() {
+    var inner = document.createElement('p');
+    inner.style.width = "100%";
+    inner.style.height = "200px";
 
-	var outer = document.createElement('div');
-	outer.style.position = "absolute";
-	outer.style.top = "0px";
-	outer.style.left = "0px";
-	outer.style.visibility = "hidden";
-	outer.style.width = "200px";
-	outer.style.height = "150px";
-	outer.style.overflow = "hidden";
-	outer.appendChild (inner);
+    var outer = document.createElement('div');
+    outer.style.position = "absolute";
+    outer.style.top = "0px";
+    outer.style.left = "0px";
+    outer.style.visibility = "hidden";
+    outer.style.width = "200px";
+    outer.style.height = "150px";
+    outer.style.overflow = "hidden";
+    outer.appendChild(inner);
 
-	document.body.appendChild (outer);
-	var w1 = inner.offsetWidth;
-	outer.style.overflow = 'scroll';
-	var w2 = inner.offsetWidth;
-	if (w1 == w2) w2 = outer.clientWidth;
+    document.body.appendChild(outer);
+    var w1 = inner.offsetWidth;
+    outer.style.overflow = 'scroll';
+    var w2 = inner.offsetWidth;
+    if (w1 == w2) w2 = outer.clientWidth;
 
-	document.body.removeChild (outer);
+    document.body.removeChild(outer);
 
-	return (w1 - w2);
+    return (w1 - w2);
 };
 
 
@@ -272,8 +270,8 @@ function getScrollBarWidth () {
  * @author 김성식
  * @description 스크롤바 유무 판단
  */
-$.fn.hasScrollBar = function() {
-	return (this.prop("scrollHeight") == 0 && this.prop("clientHeight") == 0) || (this.prop("scrollHeight") > this.prop("clientHeight"));
+$.fn.hasScrollBar = function () {
+    return (this.prop("scrollHeight") == 0 && this.prop("clientHeight") == 0) || (this.prop("scrollHeight") > this.prop("clientHeight"));
 };
 
 /**
@@ -281,97 +279,15 @@ $.fn.hasScrollBar = function() {
  * @description 디바이스 체크
  */
 function checkMobileDevice() {
-	var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
-	for (var info in mobileKeyWords) {
-		if (navigator.userAgent.match(mobileKeyWords[info]) != null) {
-			//mobile
-			return true;
-		}
-	}
-	//web
-	return false;
-}
-/**
- * @author SIMJAE
- * @param {String} el 필수값(.vplayer) 비디오태그를 감싸고 있는 부모 wrapper
- * @description 비디오 커스텀 컨트롤러
- */
-function Vctrbox(el) {
-    let videoArr = new Array();
-    let elem = document.querySelectorAll(el);
-    if (elem === 1) {
-        elem = document.querySelector(el);
-    } else {
-        elem = document.querySelectorAll(el);
+    var mobileKeyWords = new Array('Android', 'iPhone', 'iPod', 'BlackBerry', 'Windows CE', 'SAMSUNG', 'LG', 'MOT', 'SonyEricsson');
+    for (var info in mobileKeyWords) {
+        if (navigator.userAgent.match(mobileKeyWords[info]) != null) {
+            //mobile
+            return true;
+        }
     }
-    console.log(elem)
-    this.el = el;
-    this.makeController = (function () {
-        elem.forEach((video, idx) => {
-            let controllbox = document.createElement("div");
-            controllbox.dataset.index = idx;
-            controllbox.classList = `vcontroll`;
-            controllbox.innerHTML =
-                `   
-                <ul>
-                    <li class="play">Play  ></li>
-                    <li class="pause">Pause ||</li>
-                </ul>
-                <ul>
-                    <li class="mute">Mute</li>
-                    <li class="full">Full screen</li>
-                </ul>
-            `
-            video.appendChild(controllbox);
-            console.log("커스텀 비디오박스 append")
-            video.addEventListener("click", function (e) {
-                let clickTarget = e.target.classList.value;
-                let videoTarget = e.currentTarget.querySelector("video")
-                if (clickTarget === "play") {
-                    videoTarget.currentTime = 0;
-                    videoTarget.play();
-                } else if (clickTarget === "pause") {
-                    togglePlay(videoTarget);
-                } else if (clickTarget === "mute") {
-                    updateVolume(videoTarget);
-                } else if (clickTarget === "full") {
-                    toggleFullScreen(videoTarget)
-                }
-            });
-            function togglePlay(target) {
-                if (target.paused || target.ended) {
-                    target.play();
-                } else {
-                    target.pause();
-                }
-            }
-
-            function updateVolume(target) {
-                if (target.muted) {
-                    target.muted = false;
-                } else {
-                    target.muted = true;
-                }
-            }
-
-            function toggleFullScreen(target) {
-                if (document.fullscreenElement) {
-                    document.exitFullscreen();
-                } else if (document.webkitFullscreenElement) {
-                    // Need this to support Safari
-                    document.webkitExitFullscreen();
-                } else if (target.webkitRequestFullscreen) {
-                    // Need this to support Safari
-                    target.webkitRequestFullscreen();
-                } else {
-                    target.requestFullscreen();
-                }
-
-            }
-            videoArr.push(video);
-            return videoArr;
-        });
-    })();
+    //web
+    return false;
 }
 /**
  * @author SIMJAE
@@ -383,3 +299,54 @@ function getUrlParamValue(key) {
     const param_value = urlParams.get(`${key}`);
     return param_value;
 }
+
+// /**
+//  * @author SIMJAE
+//  * @param {String} key 
+//  * @description 사이드바 오픈시에 전체체크박스
+//  */
+// function sidebarAllCheck() {
+//     //전체
+//     document.querySelector('#sidebar .prd_cb.all__cb').checked = true
+//     //개별 전체
+//     document.querySelectorAll('#sidebar .prd__cb.self__cb').forEach(el => el.checked = true)
+// }
+
+/**
+ * @author SIMJAE
+ * @param {String} product_idx 상품 인덱스
+ * @description 최근 본 상품 기록 10개로 갯수제한 
+ */
+function saveRecentlyViewed(product_idx) {
+    product_idx = parseInt(product_idx)
+    const keyName = "recentlyViewed";
+    let recentlyViewed = localStorage.getItem('recentlyViewed');
+    recentlyViewed = recentlyViewed ? new Set(JSON.parse(recentlyViewed)) : new Set();
+    
+    const prevValue = JSON.parse(localStorage.getItem(keyName));
+    if (recentlyViewed.has(JSON.stringify(product_idx))) {
+        // 이미 존재하는 상품이면 삭제 후 다시 추가하여 가장 최신 상품으로 보이도록 함
+        recentlyViewed.delete(JSON.stringify(product_idx));
+    }
+    recentlyViewed.add(JSON.stringify(product_idx));
+
+    if (recentlyViewed.size > 10) {
+        // 최근 본 상품이 10개를 초과하면 가장 오래된 상품 삭제
+        const iterator = recentlyViewed.values();
+        recentlyViewed.delete(iterator.next().value);
+    }
+
+    localStorage.setItem(keyName, JSON.stringify(Array.from(recentlyViewed)));
+    let recentlyresultReverse;
+    if (JSON.stringify(Array.from(recentlyViewed)) !== JSON.stringify(prevValue)) {
+        recentlyresultReverse = Array.from(recentlyViewed).reverse();
+        console.log("최신 본 상품 스와이프 초기화 필요 ");
+        console.log(recentlyresultReverse);
+    }
+    recentlyresultReverse = Array.from(recentlyViewed).reverse();
+    return  recentlyresultReverse;
+}
+
+window.addEventListener("DOMContentLoaded", function () {
+    createFooterObserver();
+})

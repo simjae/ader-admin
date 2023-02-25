@@ -14,7 +14,7 @@ window.addEventListener("scroll", function () {
     const windowHeight = window.innerHeight;
     const docTotalHeight = document.body.offsetHeight;
     const isBottom = windowHeight + scrollHeight >= (docTotalHeight - 1);
-    
+
     let more_flg = $('#more_flg').val();
 
     if (more_flg == "false") {
@@ -101,7 +101,7 @@ const getProductList = () => {
                         </div>`;
             });
 
-                menuHtml += `
+            menuHtml += `
                     <div>
                         <div class="swiper-scrollbar"></div>
                         <div class="navigation">
@@ -530,7 +530,6 @@ function deleteWhishListBtn(obj) {
 function clickImgTypeBtn() {
     let img_param = $('#img_param');
 
-
     let img_type_text = "";
     let items = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='item']");
     let outfits = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='outfit']");
@@ -552,6 +551,15 @@ function clickImgTypeBtn() {
     $('#img_type_text').text(img_type_text);
 }
 
+$("#filter-btn-toggle").click(function(){
+    $(this).toggleClass("on off");
+});
+
+function clickFilterMotion() {
+    if ($(this).attr("src", "/images/svg/filter2.svg") == false) {
+        $(this).attr("src", "/images/svg/filter2.svg")
+    } else {$(this).attr("src", "/images/svg/filter.svg") }
+}
 //상품 더 불러오기
 function getProductListByScroll(last_idx, more_flg) {
     let { country, menu_idx, menu_sort, page_idx } = document.querySelector(".product__list__wrap").dataset;
@@ -852,8 +860,8 @@ function toggleSortBtn() {
         sort_container.classList.toggle("open");
         if ($('.oder-btn-motion').hasClass('rotate') == false) {
             $('.oder-btn-motion').addClass('rotate');
-        }else{$('.oder-btn-motion').removeClass('rotate');}
-        
+        } else { $('.oder-btn-motion').removeClass('rotate'); }
+
         document.querySelector(".filter-containner").classList.remove("open");
         document.querySelector(".filter-body").classList.remove("open");
 

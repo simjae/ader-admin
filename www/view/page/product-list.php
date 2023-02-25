@@ -37,7 +37,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                         <img src="/images/svg/sort-bottom.svg" alt="" class="oder-btn-motion">
                         <span>정렬</span>
                     </li>
-                    <li class="sort-btn filter-btn">
+                    <li class="sort-btn filter-btn" id="filter-btn-toggle" onClick="clickFilterMotion();">
                         <img src="/images/svg/filter.svg" alt="" style="width:12px;height: 12px;">
                         <span>필터</span>
                     </li>

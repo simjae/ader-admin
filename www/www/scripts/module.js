@@ -32,7 +32,7 @@ function Sidebar() {
         docflag.appendChild(sideWrap);
         $sidebar.appendChild(docflag);
     })();
-    
+
 }
 
 /**
@@ -43,65 +43,65 @@ function Sidebar() {
  */
 function Basket(el, useSidebar) {
 	const prototypes = {el,useSidebar}
-	prototypes.el = el;
-	prototypes.useSidebar = useSidebar;
+    prototypes.el = el;
+    prototypes.useSidebar = useSidebar;
 
-	let parm = prototypes;
+    let parm = prototypes;
 
-	//슬라이드 사용시 
+    //슬라이드 사용시 
 	if(parm.useSidebar === true){
-		this.writeHtml = () => {
-			let sideBox = document.querySelector(`.side__box`);
-			let sideWrap = document.querySelector(`#sidebar .side__wrap`);
-			sideWrap.dataset.module = "basket";
-			const basketContent = document.createElement("section");
-			basketContent.className = "basket__wrap";
-			basketContent.innerHTML = `
-				<div class="list__box">
-					<div class="list__header">
-						<div class="icon__box">
-							<img src="/images/svg/basket.svg" alt="">
-							<div class="basket_title">쇼핑백</div>
-						</div>
-						<div class="checkbox__box">
-							<label class="cb__custom all" for="">
-								<input class="prd_cb all__cb" type="checkbox" name="stock">
-								<div class="cb__mark"></div>
-							</label>
-							<div class="flex gap-10">
-								<u class="ufont st__checked__btn" btn="stock">선택 삭제</u>
-								<u class="ufont st__all__btn" btn="stock">모두 삭제</u>
-							</div>			
-						</div>
-					</div>
-					<div class="list__body"></div>
-				</div>
-				<div class="pay__box">
-					<div class="pay__row">
-						<div>제품합계</div>
-						<div class="product__total__price">0</div>
-					</div>
-					<div class="pay__row">
-						<div>배송비</div>
-						<div class="deli__price" data-price_delivery="5000">0</div>
-					</div>
-					<div class="pay__row">
-						<div>총 합계</div>
-						<div class="pay__total__price">0</div>
-					</div>
-					<div class="pay__btn"><span>결제하기</span></div>
-					<p class="pay__notiy">&nbsp;</p> 
-				</div>
-			`;
-			
-			sideBox.appendChild(basketContent);
-		};
-		
-		this.writeHtml = () => {
-			let sideBox = document.querySelector(`.side__box`);
-			let sideWrap = document.querySelector(`#sidebar .side__wrap`);
-			sideWrap.dataset.module = "basket";
-			let contentHtml = `
+        // this.writeHtml = () => {
+        // 	let sideBox = document.querySelector(`.side__box`);
+        // 	let sideWrap = document.querySelector(`#sidebar .side__wrap`);
+        // 	sideWrap.dataset.module = "basket";
+        // 	const basketContent = document.createElement("section");
+        // 	basketContent.className = "basket__wrap";
+        // 	basketContent.innerHTML = `
+        // 		<div class="list__box">
+        // 			<div class="list__header">
+        // 				<div class="icon__box">
+        // 					<img src="/images/svg/basket.svg" alt="">
+        // 					<div class="basket_title">쇼핑백</div>
+        // 				</div>
+        // 				<div class="checkbox__box">
+        // 					<label class="cb__custom all" for="">
+        // 						<input class="prd_cb all__cb" type="checkbox" name="stock">
+        // 						<div class="cb__mark"></div>
+        // 					</label>
+        // 					<div class="flex gap-10">
+        // 						<u class="ufont st__checked__btn" btn="stock">선택 삭제</u>
+        // 						<u class="ufont st__all__btn" btn="stock">모두 삭제</u>
+        // 					</div>			
+        // 				</div>
+        // 			</div>
+        // 			<div class="list__body"></div>
+        // 		</div>
+        // 		<div class="pay__box">
+        // 			<div class="pay__row">
+        // 				<div>제품합계</div>
+        // 				<div class="product__total__price">0</div>
+        // 			</div>
+        // 			<div class="pay__row">
+        // 				<div>배송비</div>
+        // 				<div class="deli__price" data-price_delivery="5000">0</div>
+        // 			</div>
+        // 			<div class="pay__row">
+        // 				<div>총 합계</div>
+        // 				<div class="pay__total__price">0</div>
+        // 			</div>
+        // 			<div class="pay__btn"><span>결제하기</span></div>
+        // 			<p class="pay__notiy">&nbsp;</p> 
+        // 		</div>
+        // 	`;
+
+        // 	sideBox.appendChild(basketContent);
+        // };
+
+        this.writeHtml = () => {
+            let sideBox = document.querySelector(`.side__box`);
+            let sideWrap = document.querySelector(`#sidebar .side__wrap`);
+            sideWrap.dataset.module = "basket";
+            let contentHtml = `
 				<section class="basket__wrap">
 					<div class="list__box">
 						<div class="list__header">
@@ -123,32 +123,32 @@ function Basket(el, useSidebar) {
 						<div class="list__body"></div>
 					</div>
 					<div class="pay__box">
-						<div class="pay__row">
-							<div>제품합계</div>
-							<div class="product__total__price">0</div>
-						</div>
+                        <div class="pay__row" style="display:none;">
+                        <div>제품합계</div>
+                    <div class="product__total__price">0</div>
+                     </div>
 						<div class="pay__row">
 							<div>배송비</div>
 							<div class="deli__price" data-price_delivery="5000">0</div>
 						</div>
 						<div class="pay__row">
-							<div>총 합계</div>
+							<div>합계</div>
 							<div class="pay__total__price">0</div>
 						</div>
 						<div class="pay__btn"><span>결제하기</span></div>
-						<p class="pay__notiy">&nbsp;</p> 
+                        <div class="check_basket_btn" onClick="location.href='/order/basket/list'"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 					</div>
 				</section>
 			`;
-			
-			sideBox.innerHTML = contentHtml;
-		};
-	}
-	
-	//쇼핑백 상품 리스트 조회
-	getBasketProductList();
-	
-	//쇼핑백 상품 리스트 조회
+
+            sideBox.innerHTML = contentHtml;
+        };
+    }
+
+    //쇼핑백 상품 리스트 조회
+    getBasketProductList();
+
+    //쇼핑백 상품 리스트 조회
 	function getBasketProductList (){
 		$.ajax({
 			type: "post",
@@ -165,48 +165,47 @@ function Basket(el, useSidebar) {
 				
 				if (basket_so_info.length > 0 || basket_st_info.length > 0){
 					writeProductListDomTree(basket_st_info,basket_so_info);
-				} else {
-					productNull();
-				}
-			}
-		});
-		
-		function productNull() {
-			let list__body = document.querySelector(".basket__wrap .list__body");
-			let tungDiv = document.createElement("div");
-			tungDiv.className = "tung-data";
-			tungDiv.innerHTML = `<h1>쇼핑백이 비어있습니다.</h1>`
-			list__body.appendChild(tungDiv);
-		}
-	}
-	
+                } else {
+                    productNull();
+                }
+            }
+        });
+
+        function productNull() {
+            let list__body = document.querySelector(".basket__wrap .list__body");
+            let tungDiv = document.createElement("div");
+            tungDiv.className = "tung-data";
+            tungDiv.innerHTML = `<h1>쇼핑백이 비어있습니다.</h1>`
+            list__body.appendChild(tungDiv);
+        }
+    }
 	function writeProductListDomTree(st_info,so_info) {
 		$('.product__wrap').remove();
 		$('.sold__list__box').remove();
 		
 		let docFrag = document.createDocumentFragment();
 		let stin_html  = "";
-		let stso_html = "";
-		
-		let stin_product_wrap = document.createElement("div");
-		stin_product_wrap.classList.add("product__wrap");
-		
-		let stso_product_wrap = document.createElement("div");
-		stso_product_wrap.classList.add("sold__list__box");
-		
-		docFrag.appendChild(stin_product_wrap);
-		
-		//재고상품 있는 경우 
+        let stso_html = "";
+
+        let stin_product_wrap = document.createElement("div");
+        stin_product_wrap.classList.add("product__wrap");
+
+        let stso_product_wrap = document.createElement("div");
+        stso_product_wrap.classList.add("sold__list__box");
+
+        docFrag.appendChild(stin_product_wrap);
+
+        //재고상품 있는 경우 
 		if (st_info.length > 0 ) {
 			st_info.forEach( el => {
-				let color_html = "";
-				
-				let sales_price = (el.sales_price).toLocaleString('ko-KR');
-				let color_rgb = el.color_rgb;
-				
-				let multi = color_rgb.split(";");
-				if(multi.length === 2) {
-					color_html += `
+                let color_html = "";
+
+                let sales_price = (el.sales_price).toLocaleString('ko-KR');
+                let color_rgb = el.color_rgb;
+
+                let multi = color_rgb.split(";");
+                if(multi.length === 2) {
+                    color_html += `
 						<div class="color__box">
 							<div class="color-title">${el.color}</div>
 							<div class="color-line" data-basket_idx="${el.basket_idx}" style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
@@ -214,8 +213,8 @@ function Basket(el, useSidebar) {
 							</div>
 						</div>
 					`;
-				} else {
-					color_html += `
+                } else {
+                    color_html += `
 						<div class="color__box">
 							<div class="color-title">${el.color}</div>
 							<div class="color-line" data-basket_idx="${el.basket_idx}" data-title="${el.color}" style="--background-color:${multi[0]}" >
@@ -223,9 +222,9 @@ function Basket(el, useSidebar) {
 							</div>
 						</div>
 					`;
-				}
+                }
 
-				stin_html += `
+                stin_html += `
 					<div class="product__box" data-stock_status="${el.stock_status}"  data-basket_idx="${el.basket_idx}" data-basket_qty="${el.basket_qty}" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-product_qty="${el.product_qty}">
 						<label class="cb__custom self" for="">
 							<input class="prd__cb self__cb" type="checkbox" name="stock">
@@ -242,31 +241,31 @@ function Basket(el, useSidebar) {
 								</div>
 							</div>
 							<div class="prd__qty">
-								<div>Qty</div>
-								<div class="minus__btn"><img src="/images/svg/minus-basket.svg"></div>
-								<input class="count__val" type="text" value="${el.basket_qty}" readonly>
-								<div class="plus__btn"><img src="/images/svg/plus-basket.svg"></div>
-								<div class="price_total" data-price_total="${el.sales_price * el.basket_qty}" data-stock_status="${el.stock_status}">${sales_price}</div>
-							</div>
-						</div>
-					</div>
+                            <div>Qty</div>
+                            <div class="minus__btn"><img src="/images/svg/minus-basket.svg"></div>
+                            <input class="count__val" type="text" value="${el.basket_qty}" readonly>
+                            <div class="plus__btn"><img src="/images/svg/plus-basket.svg"></div>
+                            <div class="price_total" data-price_total="${el.sales_price * el.basket_qty}" data-stock_status="${el.stock_status}">${sales_price}</div>
+                        </div>
+                    </div>
+                </div>
 				`
-			});
-			
-			docFrag.querySelector('.product__wrap').innerHTML = stin_html;
-			document.querySelector('.list__box .list__body').appendChild(docFrag);
-		}
-		
-		deleteBasketInfo();
-		deleteAllBasketInfo();
-		
-		if (so_info.length > 0 ) {
-			//품절상품이 있을 경우  
-			let product_html = "";
-			let docFrag = document.createDocumentFragment();
-			docFrag.appendChild(stso_product_wrap);
-			
-			stso_html += `
+            });
+
+            docFrag.querySelector('.product__wrap').innerHTML = stin_html;
+            document.querySelector('.list__box .list__body').appendChild(docFrag);
+        }
+
+        deleteBasketInfo();
+        deleteAllBasketInfo();
+
+        if (so_info.length > 0 ) {
+            //품절상품이 있을 경우  
+            let product_html = "";
+            let docFrag = document.createDocumentFragment();
+            docFrag.appendChild(stso_product_wrap);
+
+            stso_html += `
 				<div class="list__header">
 					<div class="icon__box">
 						<img src="/images/svg/basket.svg" alt="">
@@ -286,17 +285,17 @@ function Basket(el, useSidebar) {
 				<div class="list__body">
 				</div>
 			`;
-			
-			stso_product_wrap.innerHTML = stso_html;
 
-			so_info.forEach( el => {
-				let color_html = "";
-				
-				let sales_price = (el.sales_price).toLocaleString('ko-KR');
-				let color_rgb = el.color_rgb;
-				let multi = color_rgb.split(";");
+            stso_product_wrap.innerHTML = stso_html;
+
+            so_info.forEach( el => {
+                let color_html = "";
+
+                let sales_price = (el.sales_price).toLocaleString('ko-KR');
+                let color_rgb = el.color_rgb;
+                let multi = color_rgb.split(";");
 				if(multi.length === 2){
-					color_html += `
+                    color_html += `
 						<div class="color__box">
 							<div class="color-title">${el.color}</div>
 							<div class="color-line" data-basket_idx="${el.basket_idx}" style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
@@ -304,8 +303,8 @@ function Basket(el, useSidebar) {
 							</div>
 						</div>
 					`;
-				} else {
-					color_html += `
+                } else {
+                    color_html += `
 						<div class="color__box">
 							<div class="color-title">${el.color}</div>
 							<div class="color-line" data-basket_idx="${el.basket_idx}" data-title="${el.color}" style="--background-color:${multi[0]}" >
@@ -313,33 +312,33 @@ function Basket(el, useSidebar) {
 							</div>
 						</div>
 					`;
-				}
+                }
 
-				let product_color_html = "";
-				
-				let product_color = el.product_color;
-				product_color.forEach(color => {
-					let optionColorData = color.color_rgb;
+                let product_color_html = "";
+
+                let product_color = el.product_color;
+                product_color.forEach(color => {
+                    let optionColorData = color.color_rgb;
 					let optionColorMulti= optionColorData.split(";");
 					if(optionColorMulti.length === 2){
-						product_color_html += `
+                        product_color_html += `
 						<div class="color-line" data-product_idx="${color.product_idx}" style="--background:linear-gradient(90deg, ${optionColorMulti[0]} 50%, ${optionColorMulti[1]} 50%);">
 							<div class="color multi"data-title="${color.color}"data-soldout="${color.stock_status}"></div>
 						</div>
 					`;
-					} else {
-						product_color_html += `
+                    } else {
+                        product_color_html += `
 							<div class="color-line" data-product_idx="${color.product_idx}" style="--background-color:${optionColorMulti[0]}" >
 								<div class="color"data-title="${color.color}" data-soldout="${color.stock_status}"></div>
 							</div>
 						`;
-					}
-				});
+                    }
+                });
 
-				let reorder_class = el.reorder_flg ? "" : "disaBleBtn";
-				let reorder_text  = el.reorder_flg ? "재입고 알림 신청완료" : "재입고 알림 신청하기";
+                let reorder_class = el.reorder_flg ? "" : "disaBleBtn";
+                let reorder_text  = el.reorder_flg ? "재입고 알림 신청완료" : "재입고 알림 신청하기";
 
-				product_html += `
+                product_html += `
 					<div class="product__box" data-basket_idx="${el.basket_idx}" data-stock_status="${el.stock_status}" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-reorder_flg="${el.reorder_flg}">
 						<label class="cb__custom self" for="">
 							<input class="prd__cb self__cb" type="checkbox" name="sold">
@@ -389,28 +388,28 @@ function Basket(el, useSidebar) {
 						</div>
 					</div>
 				`;
-				
-				docFrag.querySelector(".list__body").innerHTML = product_html;
-			});
-			
-			document.querySelector('.list__box .list__body').appendChild(docFrag);
-			soldCheckedDeleteBtn();
-			soldAllDeleteBtn();
-		}
-		
-		clickCheckboxSTIN();
-		clickCheckboxSTSO();
-		
-		clickCntBtn();
-		
-		optionBoxCloseBtn();
-		clickPutBasketOption();
-		setBasketOption();
-		payBtnEvent();
-		clickReorderBtn();
-	}
-	
-	const selfCheckbox = (status, checked) => {
+
+                docFrag.querySelector(".list__body").innerHTML = product_html;
+            });
+
+            document.querySelector('.list__box .list__body').appendChild(docFrag);
+            soldCheckedDeleteBtn();
+            soldAllDeleteBtn();
+        }
+
+        clickCheckboxSTIN();
+        clickCheckboxSTSO();
+
+        clickCntBtn();
+
+        optionBoxCloseBtn();
+        clickPutBasketOption();
+        setBasketOption();
+        payBtnEvent();
+        clickReorderBtn();
+    }
+
+    const selfCheckbox = (status, checked) => {
 		let $$checkedSelfBox = document.querySelectorAll(`.self__cb[name='${status}']${checked ? ":checked":""}`);
 		
 		let basket_idx = [];
@@ -456,14 +455,14 @@ function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".so__all__btn");
 		$checkedDelete.addEventListener("click", () => {
 			selfCheckbox("sold",false);
-		});
-	};
+        });
+    };
 
-	//삭제 api
-	const deleteBasketProduct = (basketIdx) => {
-		$.ajax({
-			type: "post",
-			data: {
+    //삭제 api
+    const deleteBasketProduct = (basketIdx) => {
+        $.ajax({
+            type: "post",
+            data: {
 				"basket_idx":basketIdx
 			},
 			dataType: "json",
@@ -498,14 +497,14 @@ function Basket(el, useSidebar) {
 			success: function(d) {
 				if (d.code != 200) {
 					exceptionHandling("디자인 필요",d.msg)
-				}
-			}
-		});
-	}
+                }
+            }
+        });
+    }
 
-	//쇼핑백 리스트 그려주는 함수
-	function payBtnEvent() {
-		let payBtn = document.querySelector(".pay__box .pay__btn");
+    //쇼핑백 리스트 그려주는 함수
+    function payBtnEvent() {
+        let payBtn = document.querySelector(".pay__box .pay__btn");
 		payBtn.addEventListener("click", function() {
 			let selfBox = document.querySelectorAll(".self__cb[name='stock']");
 			let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']");
@@ -522,7 +521,7 @@ function Basket(el, useSidebar) {
 			})
 
 			if(soldSelfBox.length > 0) {
-				msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요';
+				msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요.';
 			}
 			if(checkCnt == 0) {
 				msgBox.innerText = '결제하실 상품을 선택해주세요.';
@@ -530,31 +529,31 @@ function Basket(el, useSidebar) {
 
 			if (selectArr.length > 0) {
 				location.href="/order/confirm?&basket_idx=" + selectArr;
-			}
-		});
-	}
+            }
+        });
+    }
 
-	//쇼핑백 상품 수량 수량 변경
-	function clickCntBtn() {
-		let $$minus_btn = document.querySelectorAll(".minus__btn");
-		let $$plus_btn = document.querySelectorAll(".plus__btn");
-		
-		let $$basket_cnt = document.querySelectorAll(".count__val");
-		
-		let setTotalPrice = 0;
+    //쇼핑백 상품 수량 수량 변경
+    function clickCntBtn() {
+        let $$minus_btn = document.querySelectorAll(".minus__btn");
+        let $$plus_btn = document.querySelectorAll(".plus__btn");
 
-		//업 & 다운버튼 CSS 초기화 
-		$$basket_cnt.forEach(el => {
-			//el.value = 1;
-			let sales_price = el.offsetParent.querySelector(".prd__content").dataset.sales_price;
-			el.parentNode.dataset.init = sales_price;
-			
-			let basket_qty = el.offsetParent.dataset.basket_qty;
-			let price_product = sales_price * basket_qty;
-			
-			el.parentNode.querySelector(".price_total").textContent = price_product.toLocaleString('ko-KR');
+        let $$basket_cnt = document.querySelectorAll(".count__val");
 
-			let tmp_cnt = parseInt(el.value);
+        let setTotalPrice = 0;
+
+        //업 & 다운버튼 CSS 초기화 
+        $$basket_cnt.forEach(el => {
+            //el.value = 1;
+            let sales_price = el.offsetParent.querySelector(".prd__content").dataset.sales_price;
+            el.parentNode.dataset.init = sales_price;
+
+            let basket_qty = el.offsetParent.dataset.basket_qty;
+            let price_product = sales_price * basket_qty;
+
+            el.parentNode.querySelector(".price_total").textContent = price_product.toLocaleString('ko-KR');
+
+            let tmp_cnt = parseInt(el.value);
 			if(tmp_cnt == 1){
 				el.parentNode.querySelector(".minus__btn").classList.add('disableBtn');
 			}
@@ -575,17 +574,17 @@ function Basket(el, useSidebar) {
 				let product_idx = this.offsetParent.dataset.product_idx;
 				
 				let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g ,''));
-				price_total -= parseInt(this.parentNode.dataset.init);
-				
-				this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
-				
-				let tmp_cnt = this.parentNode.querySelector(".count__val").value;
-				tmp_cnt = parseInt(tmp_cnt) - 1;
-				let basket_qty = tmp_cnt;
-				
-				this.parentNode.querySelector(".count__val").value = tmp_cnt;
-				this.parentNode.querySelector(".price_total").textContent = price_total.toLocaleString('ko-KR');
-				
+                price_total -= parseInt(this.parentNode.dataset.init);
+
+                this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
+
+                let tmp_cnt = this.parentNode.querySelector(".count__val").value;
+                tmp_cnt = parseInt(tmp_cnt) - 1;
+                let basket_qty = tmp_cnt;
+
+                this.parentNode.querySelector(".count__val").value = tmp_cnt;
+                this.parentNode.querySelector(".price_total").textContent = price_total.toLocaleString('ko-KR');
+
 				if(tmp_cnt == "1"){
 					this.classList.add('disableBtn');
 					setTotalPrice = this.parentNode.dataset.init;
@@ -611,33 +610,33 @@ function Basket(el, useSidebar) {
 				let product_idx = this.offsetParent.dataset.product_idx;
 				
 				let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g , ''));
-				price_total += parseInt(this.parentNode.dataset.init);
-				
-				this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
-				
-				let tmp_cnt = this.parentNode.querySelector(".count__val").value;
-				tmp_cnt = parseInt(tmp_cnt) + 1;
-				let basket_qty = tmp_cnt;
-				
-				this.parentNode.querySelector(".count__val").value = tmp_cnt;
-				this.parentNode.querySelector(".price_total").innerText = price_total.toLocaleString('ko-KR');
-				
-				if (tmp_cnt == "9") {
-					this.classList.add('disableBtn');
-				} else {
-					$minus_btn.classList.remove('disableBtn');
-				}
-			
-				let price_product = calcCheckedPrice();
-				
-				payBoxSumPrice(price_product);
-				putBasketQty(basket_idx,basket_qty,product_idx);
-			});
-		});
-		
-	};
+                price_total += parseInt(this.parentNode.dataset.init);
 
-	//재고있음(STIN) 체크박스 클릭 이벤트
+                this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
+
+                let tmp_cnt = this.parentNode.querySelector(".count__val").value;
+                tmp_cnt = parseInt(tmp_cnt) + 1;
+                let basket_qty = tmp_cnt;
+
+                this.parentNode.querySelector(".count__val").value = tmp_cnt;
+                this.parentNode.querySelector(".price_total").innerText = price_total.toLocaleString('ko-KR');
+
+                if (tmp_cnt == "9") {
+                    this.classList.add('disableBtn');
+                } else {
+                    $minus_btn.classList.remove('disableBtn');
+                }
+
+                let price_product = calcCheckedPrice();
+
+                payBoxSumPrice(price_product);
+				putBasketQty(basket_idx,basket_qty,product_idx);
+            });
+        });
+
+    };
+
+    //재고있음(STIN) 체크박스 클릭 이벤트
 	function clickCheckboxSTIN () {
 		const $all_stin_checkbox = document.querySelector(".all__cb"); //
 		const $stin_checkbox = document.querySelectorAll(".self__cb"); 
@@ -671,51 +670,51 @@ function Basket(el, useSidebar) {
 						if(checkbox_name == "stock") {
 							let checked_stin = document.querySelectorAll("input[name='stock']:checked");
 							if($stin_checkbox.length == checked_stin.length) {
-								$all_stin_checkbox.checked = true;
-							}
-							price_total += price_total;
-						}
-					} else {
-						//체크 해제됬을떄
-						$all_stin_checkbox.checked = false;
-						price_total -= price_total;
-					}
-					
-					let price_product = calcCheckedPrice();
-					payBoxSumPrice(price_product);
-				}
-			});
-		});
-	}
+                                $all_stin_checkbox.checked = true;
+                            }
+                            price_total += price_total;
+                        }
+                    } else {
+                        //체크 해제됬을떄
+                        $all_stin_checkbox.checked = false;
+                        price_total -= price_total;
+                    }
 
-	//재고없음(STSO) 전체선택 체크박스 클릭 이벤트
+                    let price_product = calcCheckedPrice();
+                    payBoxSumPrice(price_product);
+                }
+            });
+        });
+    }
+
+    //재고없음(STSO) 전체선택 체크박스 클릭 이벤트
 	function clickCheckboxSTSO(){
 		let $all_soldout_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']"); 
 		if($all_soldout_checkbox != null){
 			$all_soldout_checkbox.addEventListener("click" , function() {
-				let soldout_list = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
-				soldout_list.forEach(el => {
-					el.checked = this.checked;
-				});  
-			});
-		}
-	}
+                let soldout_list = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
+                soldout_list.forEach(el => {
+                    el.checked = this.checked;
+                });
+            });
+        }
+    }
 
-	/************************* 공통함수 **************************/
-	//선택한 상품만 가격 합산
-	function calcCheckedPrice() {
-		let price_product = 0;
-		
-		let $$basket_checkbox = document.querySelectorAll(".self__cb[name='stock']:checked");
-		$$basket_checkbox.forEach(el => {
-			let tmp_price = parseInt(el.parentNode.parentNode.querySelector(".price_total").dataset.price_total);
-			price_product += tmp_price;
-		});
-		
-		return price_product;
-	}
+    /************************* 공통함수 **************************/
+    //선택한 상품만 가격 합산
+    function calcCheckedPrice() {
+        let price_product = 0;
 
-	//선택한 상품 결제박스 합계 표기
+        let $$basket_checkbox = document.querySelectorAll(".self__cb[name='stock']:checked");
+        $$basket_checkbox.forEach(el => {
+            let tmp_price = parseInt(el.parentNode.parentNode.querySelector(".price_total").dataset.price_total);
+            price_product += tmp_price;
+        });
+
+        return price_product;
+    }
+
+    //선택한 상품 결제박스 합계 표기
 	function payBoxSumPrice (price_product){
 		let $txt_price_product = document.querySelector(".product__total__price");
 		let $txt_price_total = document.querySelector(".pay__total__price");
@@ -763,20 +762,20 @@ function Basket(el, useSidebar) {
 				setBasketOption();
 
 				if(this.classList.contains("apply")){
-					let basket_idx = this.parentNode.parentNode.parentNode.dataset.basket_idx;
-					
-					let colorValue = [...this.parentNode.querySelectorAll(".color-line")].find(el => el.classList.contains("select"));
-					let product_idx = colorValue?.dataset.product_idx;
-					
-					let sizeValue = [...this.parentNode.querySelectorAll(".option__size")].find(el => el.classList.contains("select"));
-					let option_idx = sizeValue?.dataset.option_idx;
-					
-					if (product_idx === undefined || option_idx === undefined) {
-						return false;
-					}
-					
-					this.offsetParent.classList.add("hide");
-					
+                    let basket_idx = this.parentNode.parentNode.parentNode.dataset.basket_idx;
+
+                    let colorValue = [...this.parentNode.querySelectorAll(".color-line")].find(el => el.classList.contains("select"));
+                    let product_idx = colorValue?.dataset.product_idx;
+
+                    let sizeValue = [...this.parentNode.querySelectorAll(".option__size")].find(el => el.classList.contains("select"));
+                    let option_idx = sizeValue?.dataset.option_idx;
+
+                    if (product_idx === undefined || option_idx === undefined) {
+                        return false;
+                    }
+
+                    this.offsetParent.classList.add("hide");
+
 					putBasketOption(basket_idx,product_idx,option_idx);
 				} else if (this.classList.contains("open")) {
 					let $$option_select_box = document.querySelectorAll(".option__select__box");
@@ -806,14 +805,14 @@ function Basket(el, useSidebar) {
 					getBasketProductList();
 				} else {
 					exceptionHandling("디자인 필요",d.msg);
-				}
-			}
-		});
-	}
+                }
+            }
+        });
+    }
 
-	function setBasketOption() {
-		const $$option_color = document.querySelectorAll(".option__select__box .color-line");
-		$$option_color.forEach(el => el.addEventListener("click", (ev) => {
+    function setBasketOption() {
+        const $$option_color = document.querySelectorAll(".option__select__box .color-line");
+        $$option_color.forEach(el => el.addEventListener("click", (ev) => {
 			let {product_idx} = ev.currentTarget.dataset;
 
 			$$option_color.forEach(el => el.classList.remove("select"));
@@ -843,33 +842,33 @@ function Basket(el, useSidebar) {
 							setBasketOptionSTSC();
 						} else {
 							exceptionHandling("디자인 필요",d.msg)
-						}
-					}
-				});
-			}
-		}));
-	}
+                        }
+                    }
+                });
+            }
+        }));
+    }
 
-	function setBasketOptionSTSC() {
-		let $$option_size = document.querySelectorAll(".option__size");
-		
-		$$option_size.forEach(el => {
-			if (el.dataset.stock_status == "STSO" || el.dataset.stock_status == "STSC") { 
-				el.classList.add("disableBtn")
-			}
-		});
-		
-		$$option_size.forEach(el => el.addEventListener("click", (ev) => {
-			let event_target = ev.currentTarget;
-			
-			$$option_size.forEach(el => el.classList.remove("select"));
-			event_target.classList.add("select");
-		}));
-	}
+    function setBasketOptionSTSC() {
+        let $$option_size = document.querySelectorAll(".option__size");
 
-	function clickReorderBtn() {
-		const $$reorderBtn = document.querySelectorAll(".reorder__btn");
-		$$reorderBtn.forEach(el => {
+        $$option_size.forEach(el => {
+            if (el.dataset.stock_status == "STSO" || el.dataset.stock_status == "STSC") {
+                el.classList.add("disableBtn")
+            }
+        });
+
+        $$option_size.forEach(el => el.addEventListener("click", (ev) => {
+            let event_target = ev.currentTarget;
+
+            $$option_size.forEach(el => el.classList.remove("select"));
+            event_target.classList.add("select");
+        }));
+    }
+
+    function clickReorderBtn() {
+        const $$reorderBtn = document.querySelectorAll(".reorder__btn");
+        $$reorderBtn.forEach(el => {
 			el.addEventListener("click",(ev) => {
 				let {basket_idx,product_idx,option_idx,reorder_flg} = ev.currentTarget.offsetParent.dataset;
 				
@@ -896,18 +895,18 @@ function Basket(el, useSidebar) {
 			error: function() {
 			},
 			success: function(d) {
-				let result = d.data;
-				setReorderFlg(product_idx);
-			}
-		});
-	}
+                let result = d.data;
+                setReorderFlg(product_idx);
+            }
+        });
+    }
 
-	function setReorderFlg(productIdx) {
-		const productBox = [...document.querySelectorAll(".sold__list__box .product__box")].find(el => el.dataset.product_idx == productIdx);
-		productBox.dataset.reflg = true;
-		productBox.querySelector(".reorder__btn u").innerHTML = "재입고 알림 신청완료";
-		productBox.querySelector(".reorder__btn u").classList.add('disableBtn');
-	}
+    function setReorderFlg(productIdx) {
+        const productBox = [...document.querySelectorAll(".sold__list__box .product__box")].find(el => el.dataset.product_idx == productIdx);
+        productBox.dataset.reflg = true;
+        productBox.querySelector(".reorder__btn u").innerHTML = "재입고 알림 신청완료";
+        productBox.querySelector(".reorder__btn u").classList.add('disableBtn');
+    }
 }
 /**
  * @author SIMJAE
@@ -920,7 +919,7 @@ function Bluemark() {
         sideWrap.dataset.module = "bluemark";
         const bluemarkContent = document.createElement("section");
         bluemarkContent.className = "bluemark-wrap";
-        bluemarkContent.innerHTML = 
+        bluemarkContent.innerHTML =
             `<div class="bluemark-logo"><div class="bluemark-title"><span class="bluemark-square"></span><span class="bluemark-name">Bluemark</span></div></div>
             <p class="bluemark-content">BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해<br> 제공되는 정품 인증 서비스입니다.<br>
                 ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기<br> 위하여 적극적으로 대응중입니다.</p>
@@ -942,7 +941,7 @@ function Language() {
         sideWrap.dataset.module = "language";
         const languageContent = document.createElement("section");
         languageContent.className = "language-wrap";
-        languageContent.innerHTML = 
+        languageContent.innerHTML =
             `
             <div class="language-title">언어선택</div>
             <p class="language-content">아래 옵션에서 선택해 주세요.<br>
@@ -976,7 +975,7 @@ function Search() {
         sideWrap.dataset.module = "search";
         const searchContent = document.createElement("section");
         searchContent.className = "search-wrap";
-        searchContent.innerHTML = 
+        searchContent.innerHTML =
             `
                 <div class="search-header">
                     <img class="search-svg" src="/images/svg/search.svg" alt="">
@@ -1107,7 +1106,7 @@ function Search() {
         mobileSearchWrap.innerHTML = "";
         const mdlBox = document.createElement("div");
         mdlBox.className = "mdlSearchBox";
-        mdlBox.innerHTML = 
+        mdlBox.innerHTML =
             `
                     <div class="search-header">
                         <img class="search-svg" src="/images/svg/search.svg" alt="">
@@ -1253,185 +1252,185 @@ function Login() {
     (()=>{
 
     
-    $(document).ready(function() {
-        $('#member_id').val('');
-        var usermember_id = getCookie("usermember_id");
-        $('#member_id').val(usermember_id);
-    
-        if($('#member_id').val() != ""){
-            $("input:checkbox[id='member_id_flg']").prop("checked", true);
-        }
-    
-        $("input:checkbox[id='member_id_flg']").change(function(){
-            if($("input:checkbox[id='member_id_flg']").is(":checked")){
-                setCookie("usermember_id", $('#member_id').val(), 7);
+        $(document).ready(function() {
+            $('#member_id').val('');
+            var usermember_id = getCookie("usermember_id");
+            $('#member_id').val(usermember_id);
+        
+            if($('#member_id').val() != ""){
+                $("input:checkbox[id='member_id_flg']").prop("checked", true);
+            }
+        
+            $("input:checkbox[id='member_id_flg']").change(function(){
+                if($("input:checkbox[id='member_id_flg']").is(":checked")){
+                    setCookie("usermember_id", $('#member_id').val(), 7);
+                }
+                else{
+                    deleteCookie("usermember_id");
+                }
+            })
+        
+            $('#member_id').keyup(function(){
+                if($('input:checked[id="member_id_flg"]').is(":checked")){
+                    setCookie("usermember_id", $('#member_id').val(), 7);
+                }
+            })
+        });
+
+        function login() {
+            var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+            var member_id = $('#member_id').val();
+            var member_pw = $('#member_pw').val();
+            mail_regex.test(member_id);
+
+            $('.font__underline.font__red').text('');
+            if(member_id == ''){
+                $('.member_id_msg').text('이메일을 입력해주세요');
+            
+                return false;
             }
             else{
-                deleteCookie("usermember_id");
-            }
-        })
-    
-        $('#member_id').keyup(function(){
-            if($('input:checked[id="member_id_flg"]').is(":checked")){
-                setCookie("usermember_id", $('#member_id').val(), 7);
-            }
-        })
-    });
-    
-    function login() {
-        var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-        var member_id = $('#member_id').val();
-        var member_pw = $('#member_pw').val();
-        mail_regex.test(member_id);
-    
-        $('.font__underline.font__red').text('');
-        if(member_id == ''){
-            $('.member_id_msg').text('이메일을 입력해주세요');
+                if(!mail_regex.test(member_id)){
+                    $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
         
-            return false;
-        }
-        else{
-            if(!mail_regex.test(member_id)){
-                $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
-    
-                return false;
-            }
-        }
-    
-        if(member_pw == ''){
-            $('.member_pw_msg').text('비밀번호를 입력해주세요');
-    
-            return false;
-        }
-    
-        
-        $.ajax(
-            {
-                url: "http://116.124.128.246:80/_api/account/login",
-                type: 'POST',
-                data: $("#frm-login").serialize(),
-                error:function(jqxhr){
-                    console.warn(jqxhr.responseText)
-                    $('.result_msg').text("모듈에 문제가 발생했습니다.");
-                },
-                success:function(data){
-                    if(data.code == "200") { // 로그인 성공
-                        location.href='main';
-                        //location.href='main';
-                    }
-                    else {	// 로그인 실패
-                        var err_msg = '로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.';
-                        if(data.msg != null){
-                            err_msg = data.msg;
-                        }
-                        $('.result_msg').text(err_msg);
-                    }
-                },
-                complete:function(data){
-                    //$("#result1").html(data.responseText);
+                    return false;
                 }
             }
-        );
-    }
-
-    function setCookie(cookieName, value, exdays){
-        let exdate = new Date();
-        exdate.setDate(exdate.getDate() + exdays);
-        let cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
-        document.cookie = cookieName + "=" + cookieValue;
-    }
-    
-    //쿠키값 delete
-    function deleteCookie(cookieName){
-        let expireDate = new Date();
-        expireDate.setDate(expireDate.getDate() -1);
-        document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
-    }
-    
-    //쿠키값 get
-    function getCookie(cookieName){
-        cookieName = cookieName + "=";
-        let cookieData = document.cookie;
-        let start = cookieData.indexOf(cookieName);
-        let cookieValue = '';
-        if(start != -1){
-            start += cookieName.length;
-            let end = cookieData.indexOf(';', start);
-            if(end == -1)end = cookieData.length;
-            cookieValue = cookieData.substring(start, end);
-        }
-        return unescape(cookieValue); //unescape로 디코딩 후 값 리턴
-    }
-    
-    // search
-    function password_find() {
-        var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-        var member_id = $('#member_id').val();
-        mail_regex.test(member_id);
-    
-        $('.font__underline.font__red').css('visibility','hidden');
-        if(member_id == ''){
-            
-            $('.member_id_msg').css('visibility','visible');
-            $('.member_id_msg').text('이메일을 입력해주세요');
         
-            return false;
-        }
-        else{
-            if(!mail_regex.test(member_id)){
-                
-                $('.member_id_msg').css('visibility','visible');
-                $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
-    
+            if(member_pw == ''){
+                $('.member_pw_msg').text('비밀번호를 입력해주세요');
+
                 return false;
             }
+
+
+            $.ajax(
+                {
+                    url: "http://116.124.128.246:80/_api/account/login",
+                    type: 'POST',
+                    data: $("#frm-login").serialize(),
+                    error:function(jqxhr){
+                        console.warn(jqxhr.responseText)
+                        $('.result_msg').text("모듈에 문제가 발생했습니다.");
+                    },
+                    success:function(data){
+                        if(data.code == "200") { // 로그인 성공
+                            location.href='main';
+                            //location.href='main';
+                        }
+                        else {	// 로그인 실패
+                            var err_msg = '로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.';
+                            if(data.msg != null){
+                                err_msg = data.msg;
+                            }
+                            $('.result_msg').text(err_msg);
+                        }
+                    },
+                    complete:function(data){
+                        //$("#result1").html(data.responseText);
+                    }
+                }
+            );
         }
-    
-        //Test용 STMP APP Password : wnaqvncvlugpjdvl
-        /*
-        Email.send({
-            Host: "smtp@gmail.com",
-            Username : "dhpark3610@gmail.com",
-            Password : "psh1300411!",
-            To: "shpark@bvdev.co.kr",
-            From: "dhpark3610@gmail.com",
-            Subject: "SMTP Test",
-            Body : "SMTP Test context",
-    
-        }).then(
-            message => alert(message)
-        );
-        */
+
+        function setCookie(cookieName, value, exdays){
+            let exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            let cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
+            document.cookie = cookieName + "=" + cookieValue;
+        }
         
-        $.ajax(
-            {
-                url: "http://116.124.128.246:80/_api/account/search/get",
-                type:'POST',
-                data:$("#frm-find").serialize(),
-                error:function(data){
-                    $('.member_id_msg').css('visibility','hidden');
-                    $('.result_msg').css('visibility','visible');
-                    $('.result_msg').text("모듈에 문제가 발생했습니다.");
-                },
-                success:function(data){
-                    if(data.code == "200") { // 이메일검사 성공
+        //쿠키값 delete
+        function deleteCookie(cookieName){
+            let expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() -1);
+            document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+        }
+        
+        //쿠키값 get
+        function getCookie(cookieName){
+            cookieName = cookieName + "=";
+            let cookieData = document.cookie;
+            let start = cookieData.indexOf(cookieName);
+            let cookieValue = '';
+            if(start != -1){
+                start += cookieName.length;
+                let end = cookieData.indexOf(';', start);
+                if(end == -1)end = cookieData.length;
+                cookieValue = cookieData.substring(start, end);
+            }
+            return unescape(cookieValue); //unescape로 디코딩 후 값 리턴
+        }
+        
+        // search
+        function password_find() {
+            var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+            var member_id = $('#member_id').val();
+            mail_regex.test(member_id);
+        
+            $('.font__underline.font__red').css('visibility','hidden');
+            if(member_id == ''){
+                
+                $('.member_id_msg').css('visibility','visible');
+                $('.member_id_msg').text('이메일을 입력해주세요');
+            
+                return false;
+            }
+            else{
+                if(!mail_regex.test(member_id)){
+                    
+                    $('.member_id_msg').css('visibility','visible');
+                    $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
+
+                    return false;
+                }
+            }
+
+            //Test용 STMP APP Password : wnaqvncvlugpjdvl
+            /*
+            Email.send({
+                Host: "smtp@gmail.com",
+                Username : "dhpark3610@gmail.com",
+                Password : "psh1300411!",
+                To: "shpark@bvdev.co.kr",
+                From: "dhpark3610@gmail.com",
+                Subject: "SMTP Test",
+                Body : "SMTP Test context",
+        
+            }).then(
+                message => alert(message)
+            );
+            */
+
+            $.ajax(
+                {
+                    url: "http://116.124.128.246:80/_api/account/search/get",
+                    type:'POST',
+                    data:$("#frm-find").serialize(),
+                    error:function(data){
                         $('.member_id_msg').css('visibility','hidden');
                         $('.result_msg').css('visibility','visible');
-                        $('.result_msg').text(data.data.temp_password);
-                    }
-                    else {	// 이메일검사 실패
-                        $('.member_id_msg').css('visibility','visible');
-                        $('.member_id_msg').text('존재하지 않는 이메일입니다');
-                    }
-                },
-                complete:function(data){
-                    //$("#result1").html(data.responseText);
-                },
-                dataType:'json'
-            }
-        );
-        
-    }
+                        $('.result_msg').text("모듈에 문제가 발생했습니다.");
+                    },
+                    success:function(data){
+                        if(data.code == "200") { // 이메일검사 성공
+                            $('.member_id_msg').css('visibility','hidden');
+                            $('.result_msg').css('visibility','visible');
+                            $('.result_msg').text(data.data.temp_password);
+                        }
+                        else {	// 이메일검사 실패
+                            $('.member_id_msg').css('visibility','visible');
+                            $('.member_id_msg').text('존재하지 않는 이메일입니다');
+                        }
+                    },
+                    complete:function(data){
+                        //$("#result1").html(data.responseText);
+                    },
+                    dataType:'json'
+                }
+            );
+
+        }
     // check
     function password_find_check() {
         var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
@@ -1450,100 +1449,100 @@ function Login() {
             if(!mail_regex.test(member_id)){
                 
                 $('.member_id_msg').css('visibility','visible');
-                $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
-    
-                return false;
+                    $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
+
+                    return false;
+                }
             }
-        }
-    
-        //Test용 STMP APP Password : wnaqvncvlugpjdvl
-        /*
-        Email.send({
-            Host: "smtp@gmail.com",
-            Username : "dhpark3610@gmail.com",
-            Password : "psh1300411!",
-            To: "shpark@bvdev.co.kr",
-            From: "dhpark3610@gmail.com",
-            Subject: "SMTP Test",
-            Body : "SMTP Test context",
-    
-        }).then(
-            message => alert(message)
-        );
-        */
+
+            //Test용 STMP APP Password : wnaqvncvlugpjdvl
+            /*
+            Email.send({
+                Host: "smtp@gmail.com",
+                Username : "dhpark3610@gmail.com",
+                Password : "psh1300411!",
+                To: "shpark@bvdev.co.kr",
+                From: "dhpark3610@gmail.com",
+                Subject: "SMTP Test",
+                Body : "SMTP Test context",
         
-        $.ajax(
-            {
-                url: "http://116.124.128.246:80/_api/account/check/check",
-                type:'POST',
-                data:$("#frm-find").serialize(),
-                error:function(data){
-                    $('.member_id_msg').css('visibility','hidden');
-                    $('.result_msg').css('visibility','visible');
-                    $('.result_msg').text("모듈에 문제가 발생했습니다.");
-                },
-                success:function(data){
-                    if(data.code == "200") { // 이메일검사 성공
+            }).then(
+                message => alert(message)
+            );
+            */
+
+            $.ajax(
+                {
+                    url: "http://116.124.128.246:80/_api/account/check/check",
+                    type:'POST',
+                    data:$("#frm-find").serialize(),
+                    error:function(data){
                         $('.member_id_msg').css('visibility','hidden');
                         $('.result_msg').css('visibility','visible');
-                        $('.result_msg').text(data.data.temp_password);
-                    }
-                    else {	// 이메일검사 실패
-                        $('.member_id_msg').css('visibility','visible');
-                        $('.member_id_msg').text('존재하지 않는 이메일입니다');
-                    }
-                },
-                complete:function(data){
-                    //$("#result1").html(data.responseText);
-                },
-                dataType:'json'
+                        $('.result_msg').text("모듈에 문제가 발생했습니다.");
+                    },
+                    success:function(data){
+                        if(data.code == "200") { // 이메일검사 성공
+                            $('.member_id_msg').css('visibility','hidden');
+                            $('.result_msg').css('visibility','visible');
+                            $('.result_msg').text(data.data.temp_password);
+                        }
+                        else {	// 이메일검사 실패
+                            $('.member_id_msg').css('visibility','visible');
+                            $('.member_id_msg').text('존재하지 않는 이메일입니다');
+                        }
+                    },
+                    complete:function(data){
+                        //$("#result1").html(data.responseText);
+                    },
+                    dataType:'json'
+                }
+            );
+
+        }
+
+        //login-update
+        $(document).ready(function() {
+            $('input[name="password"]').keyup(function(){
+                if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
+                    $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
+                }
+                else{
+                    $('.font__underline.warn__msg.member_pw').css('visibility','visible');
+                };
+            });
+            urlParsing();
+        });
+        function urlParsing(){
+            var url = location.href;
+            var idx = url.indexOf("?");
+            
+            if(idx >= 0){
+                var data = url.substring( idx + 1, url.length);
+                var data_arr = data.split("=");
+                if(data_arr[0] == 'member_idx'){
+                    $('input [name="idx"]').val(data_arr[1]);
+                    console.log($('input [name="idx"]').val());
+                }
             }
-        );
+        }
+        function memberPwConfirm(str){    
+            //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
+            //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
+            var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
+            //  공백 입력 불가능
+            var space_reg = /\s/g;
+            //var password_str = $('input[name="password"]').eq(0).val();
         
-    }
-    
-    //login-update
-    $(document).ready(function() {
-        $('input[name="password"]').keyup(function(){
-            if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
-                $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
+            if(space_reg.test(str) == false){
+                return password_reg.test(str)
+                    return true;
             }
             else{
-                $('.font__underline.warn__msg.member_pw').css('visibility','visible');
-            };
-        });
-        urlParsing();
-    });
-    function urlParsing(){
-        var url = location.href;
-        var idx = url.indexOf("?");
-        
-        if(idx >= 0){
-            var data = url.substring( idx + 1, url.length);
-            var data_arr = data.split("=");
-            if(data_arr[0] == 'member_idx'){
-                $('input [name="idx"]').val(data_arr[1]);
-                console.log($('input [name="idx"]').val());
+                return false;
+                //공백 포함 예외처리
             }
         }
-    }
-    function memberPwConfirm(str){    
-        //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
-        //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
-        var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
-        //  공백 입력 불가능
-        var space_reg = /\s/g;
-        //var password_str = $('input[name="password"]').eq(0).val();
-    
-        if(space_reg.test(str) == false){
-            return password_reg.test(str)
-                return true;
-        }
-        else{
-            return false;
-            //공백 포함 예외처리
-        }
-    }
     //.css('visibility','hidden');
     function updateMemberPw(){
         var member_idx = $('input[name="member_idx"]').val();
@@ -1580,9 +1579,9 @@ function Login() {
                     //$("#result1").html(data.responseText);
                 },
                 dataType:'json'
-            }
-        );
-    }
+                }
+            );
+        }
     //login-password-pub 
     $(document).ready(function() {
         $('#pw_desciption').hide();
@@ -1610,111 +1609,111 @@ function Login() {
                 return true;
         }
         else{
-            return false;
-            //공백 포함 예외처리
+                return false;
+                //공백 포함 예외처리
+            }
         }
-    }
-    function showPwDescription(){
-        $('#pw_desciption').show();
-        $('#hide_area').hide();
-    }
-    function hidePwDescription(){
-        $('#pw_desciption').hide();
-        $('#hide_area').show();
-    }
-    
-    //join
-    $(document).ready(function() {
-        $('#pw_desciption').hide();
-        $('input[name="member_pw"]').keyup(function(){
-            if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
-                $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
-                hidePwDescription();
-            }
-            else{
-                $('.font__underline.warn__msg.member_pw').css('visibility','visible');
-                showPwDescription();
-            };
-        });
-        $('.component').click(function(){
-            var sel_cnt = $('.component:checked').length;
-            if(sel_cnt == 3){
-                $('.select__all').prop('checked',true);
-            }
-            else{
-                $('.select__all').prop('checked',false);
-            }
-        });
-    });
-    $(function() {
-        /*
-        if($('#postcodify').find('postcodify_search_controls').length == 0){
-            $("#postcodify").postcodify({
-                insertPostcode5 : "#zipcode",
-                insertAddress : "#road_addr",
-                insertDetails : "#detail_ddr",
-                insertJibeonAddress : "#lot_addr",
-                hideOldAddresses: false,
-                results:".post-change-result",
-                hideSummary:true,
-                useFullJibeon:true,
-                onReady:function(){
-                    document.querySelector(".post-change-result").style.display="none";
-                    $(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
-                    // $(".post-change-result").hide();
-                },
-                onSuccess:function(){
-                    document.querySelector(".post-change-result").style.display="block";
-                    $("#postcodify div.postcode_search_status.too_many").hide();
-                    // $(".post-change-result").hide();
-                },
-                afterSelect: function(selectedEntry) {
-    
-                    $("#postcodify div.postcode_search_result").remove();
-                    $("#postcodify div.postcode_search_status.too_many").hide();
-                    $("#postcodify div.postcode_search_status.summary").hide();
-                    document.querySelector(".post-change-result").style.display="none";
-                    $("#entry_box").show();
-                    $("#entry_details").focus();
-                    $(".postcodify_search_controls .keyword").val($("#road_addr").val());
+        function showPwDescription(){
+            $('#pw_desciption').show();
+            $('#hide_area').hide();
+        }
+        function hidePwDescription(){
+            $('#pw_desciption').hide();
+            $('#hide_area').show();
+        }
+        
+        //join
+        $(document).ready(function() {
+            $('#pw_desciption').hide();
+            $('input[name="member_pw"]').keyup(function(){
+                if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
+                    $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
+                    hidePwDescription();
+                }
+                else{
+                    $('.font__underline.warn__msg.member_pw').css('visibility','visible');
+                    showPwDescription();
+                };
+            });
+            $('.component').click(function(){
+                var sel_cnt = $('.component:checked').length;
+                if(sel_cnt == 3){
+                    $('.select__all').prop('checked',true);
+                }
+                else{
+                    $('.select__all').prop('checked',false);
                 }
             });
-            $('.postcodify_search_controls .keyword').keyup(function(){
-                $('.postcodify_search_controls .keyword').attr('chk-flg', 'false');
-            });
-            
-            $('.post-change-result.postcodify_search_form.postcode_search_form').on('click',function(){
-                $('.postcodify_search_controls .keyword').attr('chk-flg', 'true');
-            });
+        });
+        $(function() {
+            /*
+            if($('#postcodify').find('postcodify_search_controls').length == 0){
+                $("#postcodify").postcodify({
+                    insertPostcode5 : "#zipcode",
+                    insertAddress : "#road_addr",
+                    insertDetails : "#detail_ddr",
+                    insertJibeonAddress : "#lot_addr",
+                    hideOldAddresses: false,
+                    results:".post-change-result",
+                    hideSummary:true,
+                    useFullJibeon:true,
+                    onReady:function(){
+                        document.querySelector(".post-change-result").style.display="none";
+                        $(".postcodify_search_controls .keyword").attr("placeholder","예) 성동구 연무장길 53, 성수동2가 315-57");
+                        // $(".post-change-result").hide();
+                    },
+                    onSuccess:function(){
+                        document.querySelector(".post-change-result").style.display="block";
+                        $("#postcodify div.postcode_search_status.too_many").hide();
+                        // $(".post-change-result").hide();
+                    },
+                    afterSelect: function(selectedEntry) {
+        
+                        $("#postcodify div.postcode_search_result").remove();
+                        $("#postcodify div.postcode_search_status.too_many").hide();
+                        $("#postcodify div.postcode_search_status.summary").hide();
+                        document.querySelector(".post-change-result").style.display="none";
+                        $("#entry_box").show();
+                        $("#entry_details").focus();
+                        $(".postcodify_search_controls .keyword").val($("#road_addr").val());
+                    }
+                });
+                $('.postcodify_search_controls .keyword').keyup(function(){
+                    $('.postcodify_search_controls .keyword').attr('chk-flg', 'false');
+                });
+                
+                $('.post-change-result.postcodify_search_form.postcode_search_form').on('click',function(){
+                    $('.postcodify_search_controls .keyword').attr('chk-flg', 'true');
+                });
+            }
+            */
+        });
+        function selectAllClick(obj) {
+            if ($(obj).prop('checked') == true) {
+                $(obj).prop('checked',true);
+                $(".login__check__option").prop('checked',true);
+            } else {
+                $(obj).attr('checked',false);
+                $(".login__check__option").prop('checked',false);
+            }
         }
-        */
-    });
-    function selectAllClick(obj) {
-        if ($(obj).prop('checked') == true) {
-            $(obj).prop('checked',true);
-            $(".login__check__option").prop('checked',true);
-        } else {
-            $(obj).attr('checked',false);
-            $(".login__check__option").prop('checked',false);
+        function memberPwConfirm(str){    
+            //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
+            //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
+            var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
+            //  공백 입력 불가능
+            var space_reg = /\s/g;
+            //var password_str = $('input[name="password"]').eq(0).val();
+        
+            if(space_reg.test(str) == false){
+                return password_reg.test(str)
+                    return true;
+            }
+            else{
+                return false;
+                //공백 포함 예외처리
+            }
         }
-    }
-    function memberPwConfirm(str){    
-        //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
-        //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
-        var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
-        //  공백 입력 불가능
-        var space_reg = /\s/g;
-        //var password_str = $('input[name="password"]').eq(0).val();
-    
-        if(space_reg.test(str) == false){
-            return password_reg.test(str)
-                return true;
-        }
-        else{
-            return false;
-            //공백 포함 예외처리
-        }
-    }
     //.css('visibility','hidden');
     function joinAction(){
         var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
@@ -1756,44 +1755,44 @@ function Login() {
             $('.warn__msg.essential').text('필수항목을 선택해주세요');
             return false;
         }
-    
-        $.ajax(
-            {
-                url: "http://116.124.128.246:80/_api/account/add",
-                type:'POST',
-                data:$("#frm-regist").serialize(),
-                error:function(data){
-                },
-                success:function(data){
-                    if(data.code == "200") {
-                        //location.reload();
-                        location.href='/main';
-                        console.log('회원가입 성공');
-                    }
-                    else {
-                        if(data.code == "303"){
-                            $('.warn__msg.essential').css('visibility','visible');
-                            $('.warn__msg.essential').text(data.msg);
+
+            $.ajax(
+                {
+                    url: "http://116.124.128.246:80/_api/account/add",
+                    type:'POST',
+                    data:$("#frm-regist").serialize(),
+                    error:function(data){
+                    },
+                    success:function(data){
+                        if(data.code == "200") {
+                            //location.reload();
+                            location.href='/main';
+                            console.log('회원가입 성공');
                         }
-                    }
-                },
-                complete:function(data){
-                    //$("#result1").html(data.responseText);
-                },
-                dataType:'json'
-            }
-        );
-    }
-    
-    function showPwDescription(){
-        $('#pw_desciption').show();
-        $('#hide_area').hide();
-    }
-    function hidePwDescription(){
-        $('#pw_desciption').hide();
-        $('#hide_area').show();
-    }
-})();
+                        else {
+                            if(data.code == "303"){
+                                $('.warn__msg.essential').css('visibility','visible');
+                                $('.warn__msg.essential').text(data.msg);
+                            }
+                        }
+                    },
+                    complete:function(data){
+                        //$("#result1").html(data.responseText);
+                    },
+                    dataType:'json'
+                }
+            );
+        }
+        
+        function showPwDescription(){
+            $('#pw_desciption').show();
+            $('#hide_area').hide();
+        }
+        function hidePwDescription(){
+            $('#pw_desciption').hide();
+            $('#hide_area').show();
+        }
+    })();
 }
 /**
  * @author SIMJAE
@@ -1831,8 +1830,8 @@ function User() {
         const userContent = document.createElement("section");
         let {member_id,member_mileage,member_name,member_voucher,whish_cnt,basket_cnt} = data
         userContent.className = "user-wrap";
-        userContent.innerHTML = 
-        `
+        userContent.innerHTML =
+            `
         <div class="user-body">
             <div class="user-logo">
                 <img src="/images/mypage/mypage_member_icon.svg">
@@ -2090,7 +2089,7 @@ function User() {
         
         `
         sideBox.appendChild(loginContent);
-	
+
         $('#member_pw, #member_id').on('keypress', function(e){
             if(e.keyCode == '13'){
                 var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
@@ -2116,7 +2115,7 @@ function User() {
 
                     return false;
                 }
-                
+
                 $.ajax({
                     type: 'POST',
                     url: "http://116.124.128.246:80/_api/account/login",

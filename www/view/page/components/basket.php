@@ -35,7 +35,7 @@
                 <div class="pay__total__price">0</div>
             </div>
             <div class="pay__btn"><span>결제하기</span></div>
-            <p class="pay__notiy">품절제품을 삭제 후 결제를 진행해주세요.</p> 
+            <p class="pay__notiy"></p> 
         </div>
     </section>
     <section class="recommend-wrap"></section>

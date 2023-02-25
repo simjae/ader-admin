@@ -47,8 +47,10 @@ if ($product_idx > 0 && $country != null) {
 			PR.CARE_".$country."		AS CARE,
 			PR.MATERIAL_".$country."	AS MATERIAL,
 			PR.REFUND_MSG_FLG			AS REFUND_MSG_FLG,
-			PR.REFUND_".$country."		AS REFUND_MSG,
-			PR.RELEVANT_IDX				AS RELEVANT_IDX
+			PR.REFUND_MSG_".$country."	AS REFUND_MSG,
+			PR.REFUND_".$country."		AS REFUND,
+			PR.RELEVANT_IDX				AS RELEVANT_IDX,
+			PR.SOLD_OUT_FLG				AS SOLD_OUT_FLG
 		FROM
 			dev.SHOP_PRODUCT PR
 			LEFT JOIN dev.ORDERSHEET_MST OM ON
@@ -229,7 +231,9 @@ if ($product_idx > 0 && $country != null) {
 			'care'				=>$product_data['CARE'],
 			'refund_msg_flg'	=>$product_data['REFUND_MSG_FLG'],
 			'refund_msg'		=>$product_data['REFUND_MSG'],
+			'refund'			=>$product_data['REFUND'],
 			'relevant_idx'		=>$product_data['RELEVANT_IDX'],
+			'sold_out_flg'		=>$product_data['SOLD_OUT_FLG'],
 			'product_color'		=>$product_color,
 			'product_size'		=>$product_size,
 			'stock_status'		=>$stock_status,

@@ -237,7 +237,7 @@
 				<li class="web bluemark__btn side-bar" data-type="M">
 					<div class="bluemark__icon lrg">
 						<div class="bluebox"></div>
-						<div class="text">Bluemark</div>
+						<div class="text">Blue mark</div>
 					</div>
 				</li>
 				<li class="web alg__c side-bar" data-type="E"><span class="language-text">KR</span></li>

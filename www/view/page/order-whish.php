@@ -36,7 +36,38 @@
         /* color: #ffffff; */
         color: var(--bk);
     }
+    .height-eraser {
+        height: auto!important;
+    }
+    .no-whishlist-section {
+        margin-bottom: 0!important;
+        border-bottom: 0!important;
+    }
+    .no-whishlist-wrap {
+        width: 100vw;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+    }
+    .no-whishlist-msg {
 
+    }
+    .no-whishlist-btn {
+        width: 470px;
+        height: 40px;
+        margin-top: 40px;
+        border: solid 1px #000000;
+        cursor: pointer;
+        text-align: center;
+        line-height: 40px;
+    }
+    .boder-eraser {
+        border-right: 0!important;
+        border-left: 0!important;
+    }
     .hidden {
         display: none !important;
     }
@@ -50,6 +81,13 @@
         z-index: 10;
         background-color: #ffffff;
         border-bottom: 1px solid #dcdcdc;
+
+        -webkit-transition: height 0.3s;
+        -moz-transition: height 0.3s;
+        transition: height 0.3s;
+    }
+    .shrink-banner {
+        height: 40px;
     }
 
     .banner-wrap .banner-box {
@@ -85,18 +123,19 @@
         display: grid;
         grid-template-columns: repeat(16, 1fr);
         margin-bottom: 200px;
+        border-bottom: solid 1px #dcdcdc;
     }
 
     /* 상품 내용 */
     .temp-div{
         grid-column: 1/2;
-        border-bottom: 1px solid #dcdcdc;
     }
     .content.left {
         top: var(--order-header--height);
         margin-top: 150px;
         align-self: start;
         grid-column: 2/14;
+        border-right: solid 1px #dcdcdc;
     }
 
     .content.left .body-wrap.list {
@@ -111,7 +150,6 @@
         top: 200px;
         grid-column: 14/17;
         min-width: 36rem;
-        /* border-left: 1px solid #dcdcdc; */
     }
     .add-list-wrap{
         display: none;
@@ -120,11 +158,25 @@
         display: grid;
     }
     .content.right.open .add-list-wrap{
-        display: block;
+        /* display: block; */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        position: sticky;
+        width: 360px;
+        height: auto;
+        top: 200px;
+        -webkit-transition: top 0.3s;
+        -moz-transition: top 0.3s;
+        transition: top 0.3s;
+    }
+    .shrink-list {
+        top: 90px!important;
     }
     .content.right .header-wrap {
         margin-bottom: 80px;
-        padding:15px ;
+        padding: 20px 15px;
     }
 
     .content.right .body-wrap {}
@@ -138,6 +190,7 @@
 
     .whishlist-section .product .product-info {
         padding: 0px!important;
+        border-top: 0;
     }
 
     .product-info .prd-img {
@@ -165,9 +218,10 @@
 
     .info-box .option-box {
         display: flex;
+        height: 60px;
         padding: 0 10px;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
     }
 
     .info-box .option-box .info-row .size__box {
@@ -218,7 +272,7 @@
     }
 
     /* 상품 삭제 버튼 */
-    .remove-btn {
+    .whishlist-section .remove-btn {
         display: flex;
         position: absolute;
         right: 0;
@@ -271,6 +325,7 @@
         bottom: -3px;
         padding-right:5px;
     }
+    
     .product-select-btn.option span::before {
         background-color: #dcdcdc;
         content: none;
@@ -286,7 +341,10 @@
         content: url('/images/svg/reflesh-wh.svg');
         filter: none;
     }
-    .product-select-btn[data-status='2'] {}
+    .option-wrap .option {
+        background-color: #dcdcdc;
+        color: #343434;
+    }
 
     .product-select-btn.select {
         background-color: #000000;
@@ -340,8 +398,8 @@
     }
 
     .size__box li {
-        padding-bottom: 3px;
         cursor: pointer;
+        height: 15px;
         font-family: var(--ft-no-fu);
         font-size: 11px;
         font-weight: normal;
@@ -362,7 +420,8 @@
     .size__box li:hover:after {
         transform: scaleX(1);
     }
-    .size__box li:after{
+    .size__box li:after {
+        padding-bottom: 1px;
         transform-origin: 0% 50%; 
     }
 
@@ -374,9 +433,23 @@
         content: "Only a few left";
         position: absolute;
         width: 200px;
-        bottom: -15px;
+        top: 13px;
+        bottom: -10px;
         left: -90px;
         color: red;
+    }
+    .size__box li[data-soldout="STCL"]::after {
+        content: '';
+        position: unset;
+        bottom: 0;
+        right: 0;
+    }
+    .size__box li[data-soldout="STCL"] p {
+        content: url(/images/svg/wish-redsold.svg);
+        position: absolute;
+        top: -3px;
+        bottom: 15px;
+        right: -3px;
     }
 
     .size__box li[data-soldout="STSC"]:hover::after {
@@ -444,6 +517,7 @@
     }
 
     .add-list-wrap .basket-link-btn {
+        margin: 20px;
         background-color: #000000;
         color: #ffffff;
         display: flex;
@@ -457,7 +531,11 @@
         font-style: normal;
         line-height: normal;
         letter-spacing: normal;
-        color: #fff;
+        cursor: pointer;
+    }
+    .add-list-wrap .basket-link-btn-wrap {
+        display: flex;
+        flex-direction: column;
     }
 
     .color__box {
@@ -523,6 +601,31 @@
     }
 
     @media (max-width:1025px) {
+        .no-whishlist-btn {
+            width: 95vw;
+        }
+        .product .product-info .info-row .name {
+            width: 50%;
+        }
+        .info-box .info-row .name span {
+            display: block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .info-box .option-box {
+            display: flex;
+            height: 70px;
+            padding: 0 10px;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .info-box .option-box .info-row .size__box {
+            display: grid!important;
+            grid-template-columns: repeat(4, 1fr);
+            min-height: 40px;
+            align-items: center;
+            gap: 15px;
+        }
         .product-wrap{
             margin-top: 27px;
         }
@@ -647,25 +750,31 @@
     <section class="whishlist-section">
         <div class=temp-div></div>
         <div class="content left">
-            <div class="body-wrap list"></div>
+            <div class="body-wrap list">
+                <input id="wish-product-cnt" type="hidden"/>
+            </div>
         </div>
         <div class="content right">
             <div class="add-list-wrap">
-                <div class="header-wrap">
-                    <div class="header-box" onclick="removeAddListAll()">
-                        <span class="hd-title">모두 선택해제</span>
+                <div>
+                    <div class="header-wrap">
+                        <div class="header-box" onclick="removeAddListAll()">
+                            <span class="hd-title">모두 선택해제</span>
+                        </div>
+                    </div>
+                    <div class="body-wrap"></div>
+                    <div class="quick-menu-wrap">
+                        <div class="swiper mySwiper quick-swiper">
+                            <div class="swiper-wrapper"></div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
                     </div>
                 </div>
-                <div class="body-wrap"></div>
-                <div class="quick-menu-wrap">
-                    <div class="swiper mySwiper quick-swiper">
-                        <div class="swiper-wrapper"></div>
+                <div class="basket-link-btn-wrap">
+                    <div class="basket-link-btn" onclick="basketAddBtnHandler();">
+                        <span>선택 제품 쇼핑백으로 이동하기</span>
                     </div>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                </div>
-                <div class="basket-link-btn" onclick="basketAddBtnHandler();">
-                    <span>선택 제품 쇼핑백으로 이동하기</span>
                 </div>
             </div>
 
@@ -678,8 +787,26 @@ window.addEventListener('DOMContentLoaded', function() {
 	getWhishProductList();
 	
 });
+let shirinkStart = 2;
+$(window).scroll(function() {
+    let scroll = currentScroll();
+    let banner = document.querySelector(".banner-wrap");
+    let addList = document.querySelector(".add-list-wrap");
+    if(scroll >= shirinkStart) {
+        banner.classList.add("shrink-banner");
+        addList.classList.add("shrink-list");
+    } else {
+        banner.classList.remove("shrink-banner");
+        addList.classList.remove("shrink-list");
+    }
+})
+function currentScroll() {
+    return window.pageYOffset || document.documentElement.scrollTop;
+}
+
+
 let addListBox = [];
-const quickSwiper = new Swiper(".quick-swiper", {
+const wish_quickSwiper = new Swiper(".quick-swiper", {
 	observeParents: true,
 	observeSlideChildren: true,
 	slidesPerView: "auto",
@@ -702,15 +829,15 @@ const quickSwiper = new Swiper(".quick-swiper", {
 		},
 	},
 	navigation: {
-		nextEl: ".swiper-button-next",
-		prevEl: ".swiper-button-prev"
+		nextEl: ".quick-swiper .swiper-button-next",
+		prevEl: ".quick-swiper .swiper-button-prev"
 
 	}
 
 });
-quickSwiper.on('click', function() {
-	let idx = quickSwiper.clickedIndex;
-	let whishIdx = quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
+wish_quickSwiper.on('click', function() {
+	let idx = wish_quickSwiper.clickedIndex;
+	let whishIdx = wish_quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
 	elementScroll("body-list", whishIdx);
 });
 const getWhishProductList = () => {
@@ -728,11 +855,26 @@ const getWhishProductList = () => {
 		},
 		success: function(d) {
 			let data = d.data;
-			whishListWrite(data);
-			productAddBtnClickHandler();
-			sizeSelectHandler();
-			removeProductBtnHandler();
-			productBtnStatus();
+            if(data == null) {
+                let contentWrap = document.querySelector(".whishlist-section .left");
+                let bodyWrap = document.querySelector(".whishlist-section .body-wrap");
+                let wishlistSection = document.querySelector(".whishlist-section");
+                contentWrap.classList.add("boder-eraser");
+                bodyWrap.classList.add("boder-eraser");
+                wishlistSection.classList.add("no-whishlist-section");
+                contentWrap.innerHTML = `
+                    <div class="no-whishlist-wrap">
+                        <div class="no-whishlist-msg">위시리스트가 비어있습니다</div>
+                        <div class="no-whishlist-btn">쇼핑 계속하기</div>
+                    </div>
+                `;
+            } else {
+                whishListWrite(data);
+                productAddBtnClickHandler();
+                sizeSelectHandler();
+                removeProductBtnHandler();
+                productBtnStatus();
+            }
 		}
 	});
 }
@@ -767,7 +909,7 @@ function whishListWrite(whishlist) {
 		let productSizeHtml = "";
 		product_size.forEach(size => {
 			productSizeHtml += `
-				<li class="size" data-reorder="false" data-sizetype="${size.size_type}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>
+				<li class="size" data-reorder="false" data-sizetype="${size.size_type}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}<p></p></li>
 			`;
 		});
 
@@ -810,6 +952,9 @@ function whishListWrite(whishlist) {
 	});
 	productWrap.innerHTML = productHtml;
 	bodyWrap.appendChild(productWrap);
+    let productCnt = bodyWrap.querySelectorAll(".list .product").length;
+    let hiddenCnt = document.querySelector("#wish-product-cnt");
+    hiddenCnt.value = productCnt;
 }
 
 function writeAddBoxHtml(add) {
@@ -871,7 +1016,7 @@ function writeAddBoxHtml(add) {
 
 	bodyWrap.appendChild(addBoxEl);
 	swiperWrap.appendChild(slideEl);
-	quickSwiper.update();
+	wish_quickSwiper.update();
 	if (bodyWrap.querySelectorAll(".add-box").length !== 0) {
 		showAddWrapBtns();
 	}
@@ -1052,18 +1197,21 @@ const removeAddList = (whish_idx) => {
 	
 	slide.forEach((el, idx) => {
 		if (el.dataset.no == whish_idx) {
-			quickSwiper.removeSlide(idx);
-			quickSwiper.update();
+			wish_quickSwiper.removeSlide(idx);
+			wish_quickSwiper.update();
 		}
 	});
 }
 
 function removeProductBtnHandler() {
 	const removeBtn = document.querySelectorAll(".remove-btn");
+    
 	removeBtn.forEach(el => {
-		el.addEventListener("click", function(e) {
-			targetwhishIdx = e.currentTarget.offsetParent.dataset.whish;
+        el.addEventListener("click", function(e) {
+            let hiddenCnt = document.querySelector("#wish-product-cnt");
+            targetwhishIdx = e.currentTarget.offsetParent.dataset.whish;
 			removeProduct(targetwhishIdx);
+            hiddenCnt.value--;
 		});
 	});
 }
@@ -1080,11 +1228,18 @@ function removeProduct(whishIdx) {
 		url: "http://116.124.128.246:80/_api/order/whish/delete",
 		error: function() {},
 		success: function(d) {
-			let product = document.querySelectorAll(".product-wrap .product");
-			let result = [...product].find(el => el.dataset.whish === whishIdx);
-			result.remove();
-			removeAddList(whishIdx);
-
+            // let data = d.data;
+            // if(data == null) {
+            //     console.log("no-remove");
+            //     return;
+            // } else {
+                let product = document.querySelectorAll(".product-wrap .product");
+                let result = [...product].find(el => el.dataset.whish === whishIdx);
+                result.remove();
+                removeAddList(whishIdx);
+                console.log("remove");
+            // }
+            
 		}
 	});
 }
@@ -1122,8 +1277,8 @@ const removeAddListAll = ()=>{
 		
 		resetSizeBox(whish_idx);
 		
-		quickSwiper.removeAllSlides();
-		quickSwiper.update();
+		wish_quickSwiper.removeAllSlides();
+		wish_quickSwiper.update();
 		
 		showAddWrapBtns();
 	})
@@ -1237,6 +1392,39 @@ function elementScroll(el, idx) {
 	let result = elemTop - (headerHeight + bannerHeight);
 	window.scrollTo(0, result);
 }
+let cntTarget = document.getElementById("wish-product-cnt");
+let tempWrap = document.querySelector(".whishlist-section .body-wrap");
+let bodyWrapL = document.querySelector(".whishlist-section .left");
+let bodyWrapR = document.querySelector(".whishlist-section .right");
+let wishlistSection = document.querySelector(".whishlist-section");
+
+let btnObserver = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+        if(cntTarget.value === '0') {
+            // wishlistSection.innerHTML = "<div><div>위시리스트가 비어있습니다</div><div>쇼핑 계속하기</div></div>";
+            tempWrap.classList.add("boder-eraser");
+            bodyWrapL.classList.add("boder-eraser");
+            wishlistSection.classList.add("no-whishlist-section");
+            bodyWrapR.innerHTML = "";
+            bodyWrapR.classList.add("height-eraser");
+            bodyWrapL.innerHTML = `
+                <div class="no-whishlist-wrap">
+                    <div class="no-whishlist-msg">위시리스트가 비어있습니다</div>
+                    <div class="no-whishlist-btn">쇼핑 계속하기</div>
+                </div>
+            `;
+        } else {
+            tempWrap.classList.remove("boder-eraser");
+            bodyWrapL.classList.remove("boder-eraser");
+            wishlistSection.classList.remove("no-whishlist-section");
+            bodyWrapR.classList.remove("height-eraser");
+        }
+    })
+});
+let btnObConfig = {
+    attributes: true
+}
+btnObserver.observe(cntTarget, btnObConfig);
 /*------------------------- css조작 스크립트 -------------------------- */
 </script>
 

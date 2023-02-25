@@ -94,11 +94,11 @@ header .side-bar.open .bluemark__icon .bluebox {
 	left: 10px;
 	width:50px;
 	height:14px;
-	transition:all 1s
+	transition:all 0.7s
 }
 header .side-bar.open .bluemark__icon .text {
 	color:#ffffff;
-	transition:all 1s
+	transition:all 0.7s
 }
 
 header .side-bar.open .search-svg {
@@ -683,7 +683,7 @@ transform: rotate(-45deg);
 	background:#0000c5;
 	width:6px;
 	height:6px;
-	transition:all 1s;
+	transition:all 0.7s;
 }
 .header__grid  .bluemark__icon .text{
 	position:absolute;

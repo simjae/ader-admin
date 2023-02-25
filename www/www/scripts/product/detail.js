@@ -8,6 +8,7 @@ const productDetailInfoArr = getProductDetailInfo(productIdx);
 window.addEventListener('DOMContentLoaded', function () {
     let product_idx = document.querySelector("main").dataset.productidx;
     getProduct(product_idx);
+    saveRecentlyViewed(product_idx);
     pdResponsiveSwiper();
     mobileDetailBtnHanddler();
     $('#quickview').removeClass("hidden");

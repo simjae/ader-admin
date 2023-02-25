@@ -111,6 +111,19 @@ export default function ForyouRender() {
             }
         });
     })();
+    // let attrTarget = document.getElementsByClassName("wish__btn");
+    // let attrObserver = new MutationObserver(mutations => {
+    //     mutations.forEach(mutation => {
+    //         console.log('옵저버 작동');
+    //     })
+    // })
+
+    // let attrObConfig = {
+    //     attributes: true
+    // }
+
+    // attrObserver.observe(attrTarget, attrObConfig);
+
     this.swiper = (() => {
         return new Swiper(".foryou-swiper", {
             navigation: {

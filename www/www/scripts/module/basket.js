@@ -46,12 +46,13 @@ export function Basket(el, useSidebar) {
 						<div>총 합계</div>
 						<div class="pay__total__price">0</div>
 					</div>
-					<div class="pay__btn"><span>결제하기</span></div>
+					<div class="pay__btn"><span>결제</span></div>
+					<div class="check_basket_btn"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 					<p class="pay__notiy">&nbsp;</p> 
 				</div>
 			`;
-			
 			sideBox.appendChild(basketContent);
+		
 		};
 		
 		this.writeHtml = () => {
@@ -92,19 +93,19 @@ export function Basket(el, useSidebar) {
 							<div>총 합계</div>
 							<div class="pay__total__price">0</div>
 						</div>
-						<div class="pay__btn"><span>결제하기</span></div>
+						<div class="pay__btn"><span>결제</span></div>
+						<div class="check_basket_btn"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 						<p class="pay__notiy">&nbsp;</p> 
 					</div>
 				</section>
 			`;
-			
 			sideBox.innerHTML = contentHtml;
 		};
 	}
 	
 	//쇼핑백 상품 리스트 조회
 	getBasketProductList();
-	
+
 	//쇼핑백 상품 리스트 조회
 	function getBasketProductList (){
 		$.ajax({
@@ -209,7 +210,7 @@ export function Basket(el, useSidebar) {
 					</div>
 				`
 			});
-			
+
 			docFrag.querySelector('.product__wrap').innerHTML = stin_html;
 			document.querySelector('.list__box .list__body').appendChild(docFrag);
 		}

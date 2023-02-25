@@ -29,43 +29,41 @@ if ($size_type != null) {
 				EC.CONTENTS_LOCATION,
 				'/var/www/admin/www',
 				''
-			)				AS CONTENTS_LOCATION
+			)						AS CONTENTS_LOCATION
         FROM
-            (SELECT
-                IDX,
-                PAGE_TITLE
-            FROM
-                dev.PAGE_POSTING
-            WHERE
-                POSTING_TYPE = 'EDTL'
-            AND
-                NOW() BETWEEN DISPLAY_START_DATE AND DISPLAY_END_DATE
-            AND
-                DISPLAY_FLG = TRUE
-            AND
-                DEL_FLG = FALSE
-            )
-                PP
+            (
+				SELECT
+					IDX,
+					PAGE_TITLE
+				FROM
+					dev.PAGE_POSTING
+				WHERE
+					POSTING_TYPE = 'EDTL' AND
+					NOW() BETWEEN DISPLAY_START_DATE AND DISPLAY_END_DATE AND
+					DISPLAY_FLG = TRUE AND
+					DEL_FLG = FALSE
+            ) PP
         LEFT JOIN
-            (SELECT
-                IDX,
-                PAGE_IDX,
-                SIZE_TYPE,
-                THUMB_LOCATION
-            FROM
-                dev.EDITORIAL_THUMB
-            WHERE
-                DEL_FLG = FALSE
-            AND
-                DISPLAY_NUM = 1)	ET
-        ON
-            PP.IDX = ET.PAGE_IDX
-        LEFT JOIN
-            dev.EDITORIAL_CONTENTS	EC
-        ON
-            ET.IDX = EC.THUMB_IDX
+            (
+				SELECT
+					IDX,
+					PAGE_IDX,
+					SIZE_TYPE,
+					THUMB_LOCATION
+				FROM
+					dev.EDITORIAL_THUMB
+				WHERE
+					DEL_FLG = FALSE
+				AND
+					DISPLAY_NUM = 1
+			) ET ON
+		PP.IDX = ET.PAGE_IDX
+        LEFT JOIN dev.EDITORIAL_CONTENTS EC ON
+		ET.IDX = EC.THUMB_IDX
         WHERE
-            ET.SIZE_TYPE = '".$size_type."'
+			ET.SIZE_TYPE = '".$size_type."'
+		ORDER BY
+			PP.IDX DESC
 	";
 	
 	$db->query($select_editorial_sql);

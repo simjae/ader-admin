@@ -319,14 +319,20 @@ if ($page_idx != null && $country != null) {
 					
 					$stock_status = null;
 					$soldout_cnt = 0;
+					$stock_close_cnt = 0;
 					for ($i=0; $i<count($product_size); $i++) {
-						if ($product_size[$i]['stock_status'] == "STSO") {
+						$tmp_stock_status = $product_size[$i]['stock_status'];
+						if ($tmp_stock_status == "STSO") {
 							$soldout_cnt++;
+						} else if ($tmp_stock_status == "STCL") {
+							$stock_close_cnt++;
 						}
 					}
 					
 					if (count($product_size) == $soldout_cnt) {
 						$stock_status = "STSO";
+					} else if (count($product_size) == $stock_close_cnt) {
+						$stock_status = "STCL";
 					}
 					
 					$product_info = array(

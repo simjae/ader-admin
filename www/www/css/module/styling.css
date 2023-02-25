@@ -78,12 +78,14 @@
     margin-bottom: 75px;
 }
 .styling-wrap .left__title{
-        padding:10px 20px ;
+        padding:0 0 20px 10px;
         border: 0;
     }
 .styling-wrap .left__title span{
-        text-decoration: none;
-        font-size: 13px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: normal;
+    color: #343434;
     }
 .styling-wrap .styling-swiper .product .product-info{
         border-top: 1px solid #dcdcdc;
