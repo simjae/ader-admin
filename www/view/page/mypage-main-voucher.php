@@ -120,7 +120,7 @@
         .info__title__container {
             width: 100%;
             grid-template-columns: 57% 43%;
-            margin-top: 30px;
+            margin-top: 0;
         }
 
         .voucher__tab {
@@ -218,6 +218,8 @@
     }
 
     .use__voucher__form__wrap .info__title__container {
+        display: flex;
+        justify-content: space-between;
         margin-top: 10px;
         margin-left: 0;
     }
@@ -228,6 +230,7 @@
 
     .use__voucher__form__wrap td {
         padding: 0;
+        width: 100%;
     }
 
     .info .non__usable__info {

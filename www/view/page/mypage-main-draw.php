@@ -5,7 +5,9 @@
         display: grid;
         grid-template-columns: repeat(16, 1fr);
     }
-
+    .draw__wrap .title p{
+        font-size: 13px;
+    }
     .draw__wrap .title {
         margin-top: 0px;
         margin-bottom: 10px;

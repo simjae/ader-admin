@@ -350,3 +350,28 @@ function saveRecentlyViewed(product_idx) {
 window.addEventListener("DOMContentLoaded", function () {
     createFooterObserver();
 })
+
+function getLanguage() {
+	let lng = navigator.language || navigator.userLanguage;
+	
+	let country = null;
+	switch (lng) {
+		case "ko-KR":
+			country = "KR";
+			break;
+		
+		case "en-US":
+			country = "EN";
+			break;
+		
+		case "zh-CN":
+			country = "CN";
+			break;
+		
+		default :
+			country = "EN";
+			break;
+	}
+	
+	return country;
+}

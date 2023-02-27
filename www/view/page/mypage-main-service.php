@@ -6,6 +6,10 @@
         width: 100%;
     }
 
+    .service__wrap .title p {
+        font-size: 13px;
+    }
+
     .service__tab__btn__container {
         grid-column: 1/17;
         margin: 0 auto;

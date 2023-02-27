@@ -6,6 +6,10 @@
         grid-template-columns: repeat(16, 1fr);
     }
 
+    .bluemark__wrap .title p {
+        font-size: 13px;
+    }
+
     .bluemark__wrap .title {
         color: #0000c5;
     }
@@ -462,6 +466,7 @@
         .bluemark_explain {
             white-space: normal;
         }
+
         .verify__list__wrap .description {
             margin: 10px 0 30px;
         }

@@ -45,6 +45,10 @@
         margin-top: 50px;
     }
 
+    .as_buying_wrap_apply {
+        margin-top: 46px;
+    }
+
     .as__service__btn {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -265,6 +269,10 @@
         padding-left: 6px;
     }
 
+    .as_buying_wrap.one_one>p{
+        font-size: 11px;
+        margin-bottom: 30px;
+    }
     @media (max-width: 1024px) {
         .as__tab__wrap {
             width: 100%;
@@ -273,6 +281,11 @@
 
         .as__wrap__content__container {
             margin-top: 40px;
+        }
+
+        .as__table__container.first .as__contents__table .mobile__view,
+        .as__table__container .as__contents__table .mobile__view {
+            margin-top: 30px;
         }
 
         .as_status_title {
@@ -330,6 +343,10 @@
         .as_payment_container {
             margin-top: 30px;
         }
+
+        .as_buying_wrap_apply {
+            margin-top: 46.5px;
+        }
     }
 
     @media (min-width: 600px) {
@@ -346,7 +363,6 @@
             margin: 0 auto;
         }
     }
-
 </style>
 
 <div class="as_container">
@@ -359,16 +375,15 @@
     <div class="as__tab__wrap">
         <div class="tab one">
             <div class="as__wrap__content__container">
-                <div style="font-size: 13px;">A/S 서비스 접수</div>
+                <div style="font-size: 13px;">A/S 서비스 신청</div>
                 <ul class="as__service__btn">
-                    <li class="selected" onclick="clickAsServiceTab (this)" service_tab_num="one_one">구매 목록</li>
-                    <li onclick="clickAsServiceTab (this)" service_tab_num="one_two">블루마크 인증</li>
-                    <li onclick="clickAsServiceTab (this)" service_tab_num="one_three">확인 불가 제품</li>
+                    <li class="selected" onclick="clickAsServiceTab (this)" service_tab_num="one_one">주문 내역</li>
+                    <li onclick="clickAsServiceTab (this)" service_tab_num="one_two">Blue mark 인증 내역</li>
+                    <li onclick="clickAsServiceTab (this)" service_tab_num="one_three">인증 불가 제품</li>
                 </ul>
             </div>
             <div class="as_buying_wrap one_one">
-                <div style="margin-bottom: 30px; font-size: 11px;">·&nbsp; 회원님의
-                    구매 목록에서 A/S 접수할 제품을 선택해주세요.</div>
+                <p>·&nbsp; 회원님의 주문 내역에서 A/S 접수할 제품을 선택 해주세요.</p>
                 <div class="as__table__container first">
                     <div class="as__contents__table">
                         <div class="pc__view">
@@ -484,7 +499,6 @@
                 </div>
             </div>
             <div class="as_buying_wrap_apply">
-                <div style="margin-bottom: 30px; font-size: 11px;">·&nbsp;A/S 접수할 내용을 입력해주세요.</div>
                 <div class="as__table__container">
                     <div class="as__contents__table">
                         <div class="pc__view">
@@ -559,11 +573,11 @@
                 <div class="as__contents">
                     <form id="as_apply">
                         <div>
-                            <textarea placeholder="내용을 입력하세요. (최대 1,000자)" id="asTextBox" class="asTextBox"
+                            <textarea placeholder="내용을 최대한 자세하게 입력해 주세요. (최대 1,000자)" id="asTextBox" class="asTextBox"
                                 type="text"></textarea>
                         </div>
                         <div class="as__info as__photo">
-                            <p class="description">사진첨부</p>
+                            <p class="description">사진 첨부</p>
                             <div class="as__photo__container">
                                 <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
                                 <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
@@ -572,7 +586,7 @@
                                 <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg"></div>
                             </div>
                             <p class="description">
-                                ·&nbsp;A/S 필요한 해당 제품 사진을 등록 부탁드립니다.</p>
+                                ·&nbsp;제품 전체 및 상세 사진과 파손 부분의 사진을 함께 첨부해주시면 더욱 정확한 확인이 가능합니다.</p>
                             <p style="margin: 10px 0 19.5px;">
                                 ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
                         </div>
@@ -595,10 +609,10 @@
                 <div class="bluemark_mini_title">
                     <p>Bluemark 입력하기</p>
                 </div>
-                <div class="bluemark_mini_description">·&nbsp;Bluemark 시리얼 코드를 입력하여 A/S를 접수해주세요.</div>
+                <div class="bluemark_mini_description">·&nbsp;Bluemark 시리얼 코드를 입력하여 인증과 함께 A/S 신청이 가능합니다.</div>
                 <div class="bluemark_input_wrap">
-                    <input type="text" class="bluemark_serialcode" placeholder="BLUE MARK 시리얼 코드">
-                    <button class="as__black__btn" style="width: 33%;" onclick="asSearch(this)">검색</button>
+                    <input type="text" class="bluemark_serialcode" placeholder="Blue mark 시리얼 코드">
+                    <button class="as__black__btn" style="width: 33%;" onclick="asSearch(this)">코드 확인</button>
                 </div>
                 <div class="bluemark_search_return" style="display: none;">
                     <div class="as__contents__table">
@@ -675,7 +689,7 @@
                     <ul>Bluemark 인증 내역</ul>
                 </div>
                 <div class="as__table__container">
-                    <div class="bluemark_mini_description">·&nbsp;회원님의 Bluemark 인증 목록에서 A/S 접수할 제품을 선택해주세요.</div>
+                    <div class="bluemark_mini_description">·&nbsp;회원님의 Bluemark 인증 내역에서 A/S 접수할 제품을 선택해 주세요.</div>
                     <div class="as__contents__table">
                         <div class="pc__view">
                             <table>
@@ -769,7 +783,7 @@
                 </div>
             </div>
             <div class="as_buying_wrap one_three">
-                <div style="margin-bottom: 20px;">·&nbsp;확인 불가 제품은 상황에 따라 A/S가 불가할 수도 있습니다.</div>
+                <div style="margin-bottom: 20px;">·&nbsp;정품 인증이 어려운 제품은 A/S가 불가할 수 있습니다.</div>
                 <div class="as__contents__table">
                     <form id="frm-as">
                         <div class="as__info as__title">
@@ -790,14 +804,14 @@
                         </div>
 
                         <div class="as__info as__contents">
-                            <textarea placeholder="내용을 입력하세요. (최대 1,000자)" id="asTextBox" class="asTextBox"
+                            <textarea placeholder="내용을 최대한 자세하게 입력해 주세요. (최대 1,000자)" id="asTextBox" class="asTextBox"
                                 type="text"></textarea>
                         </div>
 
 
                         <div class="as__info as__photo__unconfirm">
                             <div>
-                                <p class="description">사진첨부</p>
+                                <p class="description">사진 첨부</p>
                                 <div class="as__photo__container">
                                     <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
                                     </div>
@@ -812,7 +826,7 @@
                                 </div>
                             </div>
                             <div>
-                                <p class="description">구매 이력, 증빙 이미지 첨부</p>
+                                <p class="description">구매 이력, 증빙 또는 영수증 이미지 첨부</p>
                                 <div class="as__photo__container">
                                     <div class="as__photo__item"><img src="/images/mypage/mypage_photo_btn.svg">
                                     </div>
@@ -828,7 +842,7 @@
                             </div>
                         </div>
                         <div class="description">
-                            ·&nbsp;상품 불량 및 오배송의 경우, 해당 제품 사진을 등록 부탁드립니다.</div>
+                            ·&nbsp;제품 전체 및 상세 사진과 파손 부분의 사진을 함께 첨부해주시면 더욱 정확한 확인이 가능합니다.</div>
                         <div style="margin: 10px 0 20px;">
                             ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</div>
 

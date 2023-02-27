@@ -17,7 +17,8 @@
 */
 
 	const getMenuListApi = () => {
-		let country = "KR";
+		let country = getLanguage();
+		
 		$.ajax({
 			type: "post",
 			data: {
@@ -37,229 +38,162 @@
 			}
 		});
 	}
+	
 	const webWriteNavHtml = (d) => {
-		let data = d.data
+		let menu_info = d.data.menu_info;
+		let posting_story = d.data.posting_story;
+		
 		let member_info = d.member_info
-		let  whishCnt = member_info?.whish_cnt;
-		let  basketCnt = member_info?.basket_cnt;
+		
+		let whishCnt = member_info?.whish_cnt;
+		let basketCnt = member_info?.basket_cnt;
+		
 		let menuList = document.createElement("ul")
 		menuList.classList.add("header__grid");
+		
 		let menuHtml="";
 		menuHtml = '<li class="first__space"></li>';
+		
 		let domfrag = document.createDocumentFragment(menuList);
 		domfrag.appendChild(menuList)
+		
 		let colaboImg = ["/sample/colabo1.png","/sample/colabo2.png","/sample/colabo3.png","/sample/colabo4.png","/sample/colabo5.png"];
 		
 		let userName = member_info != null ? member_info.member_name : "MY";
-		menuHtml +=
-			`<li class="header__logo" onClick="location.href='/'">
+		
+		menuHtml += `
+			<li class="header__logo" onClick="location.href='/'">
 				<img class="logo"src="/images/landing/logo.png" alt="">
 			</li>
 			<li class="header__menu">
-				<ul class="hover_bg_act menu__wrap left">`;
-		data.forEach((el, idx) => {
+				<ul class="hover_bg_act menu__wrap left">
+		`;
+		
+		menu_info.forEach((el, idx) => {
 			let lrgDiv = document.createElement("div");
-			let lrg = el.menu_lrg;
-			let mdl = lrg.menu_mdl;
-			if( el.menu_lrg.menu_type =="PR") {
-				menuHtml +=
-				`
-				<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
-					<a class="menu-ul lrg" href="${lrg.menu_link}">${lrg.menu_title}</a>
-					<div class="drop__menu">
-						<ul class="cont pr__menu">
-									<li class="swiper-li">
-										<div class="swiper swiper__box" data-id="${idx}" id="menuSwiper${idx}">
-											<div class="swiper-wrapper">
-												${
-													lrg.menu_slide.map((el, idx) => {
-														return`<div class="swiper-slide" data-title="${el.slide_name}">
-																<div>
-																	<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
-																</div>
-															</div>`
-													}).join("")
-												}
-											</div>
-											<div class="swiper__title"></div>
-											<div class="swiper-pagination swiper-pagination-${idx}"></div>
-										</div>  
-									</li>
-									${
-										mdl.map((el , idx)=> {
-										return`<li data-mdl="${idx}">
-													<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
-													<ul class="sma__wrap">
+			let mdl = el.menu_mdl;
+			if( el.menu_type =="PR") {
+				menuHtml += `
+					<li class="drop web" data-type="${el.menu_type}" data-lrg="${idx}">
+						<a class="menu-ul lrg" href="${el.menu_link}">${el.menu_title}</a>
+						<div class="drop__menu">
+							<ul class="cont pr__menu">
+										<li class="swiper-li">
+											<div class="swiper swiper__box" data-id="${idx}" id="menuSwiper${idx}">
+												<div class="swiper-wrapper">
 													${
-														el.menu_sml.map((el, idx)=> {
-															return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
+														el.menu_slide.map((el, idx) => {
+															return`<div class="swiper-slide" data-title="${el.slide_name}">
+																	<div>
+																		<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
+																	</div>
+																</div>`
 														}).join("")
 													}
-													</ul>
-												</li>`
-										}).join("")
-									}
-						</ul>
-					</div>
-				</li>`
+												</div>
+												<div class="swiper__title"></div>
+												<div class="swiper-pagination swiper-pagination-${idx}"></div>
+											</div>  
+										</li>
+										${
+											mdl.map((el , idx)=> {
+											return`<li data-mdl="${idx}">
+														<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
+														<ul class="sma__wrap">
+														${
+															el.menu_sml.map((el, idx)=> {
+																return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
+															}).join("")
+														}
+														</ul>
+													</li>`
+											}).join("")
+										}
+							</ul>
+						</div>
+					</li>
+				`;
 			}
-			if( el.menu_lrg.menu_type =="PO") {
-				menuHtml +=
-				`<li class="drop web" data-type="${lrg.menu_type}" data-lrg="${idx}">
-					<a class="menu-ul lrg" href="${lrg.menu_link}">${lrg.menu_title}</a>
-					<div class="drop__menu">
-						<ul class="cont po__menu">
-							<li></li>
-							<li>
-								<ul class="po__cont">
-									${
-										mdl.map((el , idx)=> {
-										return`<li class="pobox"  data-mdl="${idx}">
-											<div class="colaboBox">
-												<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
-												<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
-											</div>
-										</li>`
-									}).join("")
-									}
-									<li class="pobox all-view" onclick="location.href="/posting/collaboration">
-										<a href="/posting/collaboration" class="menu-ul">
-											콜라보레이션
-										</a>
-										<a href="/posting/collaboration" class="menu-ul">
-											전체보기
-										</a>
-									</li>
-								</ul>
-							</li>
-							<li></li>
-						</ul>
-					</div>
-				</li>`
+			
+			if( el.menu_type =="PO") {
+				menuHtml += `
+					<li class="drop web" data-type="${el.menu_type}" data-lrg="${idx}">
+						<a class="menu-ul lrg" href="${el.menu_link}">${el.menu_title}</a>
+						<div class="drop__menu">
+							<ul class="cont po__menu">
+								<li></li>
+								<li>
+									<ul class="po__cont">
+										${
+											mdl.map((el , idx)=> {
+											return`<li class="pobox"  data-mdl="${idx}">
+												<div class="colaboBox">
+													<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
+													<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
+												</div>
+											</li>`
+										}).join("")
+										}
+										<li class="pobox all-view" onclick="location.href="/posting/collaboration">
+											<a href="/posting/collaboration" class="menu-ul">
+												콜라보레이션
+											</a>
+											<a href="/posting/collaboration" class="menu-ul">
+												전체보기
+											</a>
+										</li>
+									</ul>
+								</li>
+								<li></li>
+							</ul>
+						</div>
+					</li>
+				`;
 			}
 		});
+		
 		menuHtml +=`
 				</ul>
 				<ul class="hover_bg_act menu__wrap right">`
+		
+		let storyHtml = webPostingStoryHtml(posting_story);
+		menuHtml += storyHtml;
+		
+		menuHtml += `
+						<li class="drop web search_shop" >
+							<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
+						</li>
+						<li class="web bluemark__btn side-bar" data-type="M">
+							<div class="bluemark__icon lrg">
+								<div class="bluebox"></div>
+								<div class="text">Blue mark</div>
+							</div>
+						</li>
+						<li class="web alg__c side-bar" data-type="E"><span class="language-text">KR</span></li>
+						<li class="web search__li side-bar" data-type="S">					
+							<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
+						</li>
+						<li class="flex wishlist__btn" data-cnt="${whishCnt === undefined?"":whishCnt}"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
+						<li class="flex basket__btn side-bar" data-cnt="${basketCnt === undefined?"":basketCnt}" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
+						<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
+							<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
+							<span>` + userName + `</span>
+						</li>
+						<li class="flex pr-3 lg:hidden mobileMenu">
+							<div class="hamburger" id="hamburger">
+								<div class="line"></div>
+								<div class="line"></div>
+								<div class="line"></div>
+								<div class="line"></div>
+							</div>
+						</li>
+		`;
+				
 		menuHtml +=`
-				<li class="drop web story" data-type="ST" data-large="6">
-					<a class="menu-ul lrg" href="#">스토리</a>
-					<div class="drop__menu">
-						<ul class="cont st__menu">
-							<li></li>
-							<li>
-								<ul class="st__cont">
-									<li>
-										<a href="#" class="menu-ul">새로운 소식</a>
-										<ul class="list__grid">
-											<li class="st__box">
-												<div class="newsBox">
-													<img src ='http://116.124.128.246:80/images/sample/news01.jpg'>
-													<div class="news-title kr" href="">시그니처 쇼퍼백 구매 신청하기</div>
-													<div class="news-m-title en" href="">Shopper bag Stand by</div>
-												</div>
-											</li>
-											<li class="st__box">
-												<div class="newsBox">
-													<img src ='http://116.124.128.246:80/images/sample/news02.jpg'>
-													<div class="news-title kr" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
-													<div class="news-m-title en" href="">22SS Origin Line<br>Og: Diagonal</div>
-												</div>
-											</li>
-											<li class="st__box">
-												<div class="newsBox">
-													<img src ='http://116.124.128.246:80/images/sample/news03.jpg'>
-													<div class="news-title kr" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
-													<div class="news-m-title en" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
-												</div>
-											</li>
-										</ul>
-									</li>
-									<li>
-										<a href="/story/main" class="menu-ul">아카이브</a>
-										<ul class="list__grid">
-											<li class="st__box">
-												<div class="mid-a archiveTitle"><a href="/posting/lookbook?page_idx=46" class="menu-ul">프로젝트</a></div>
-												<div class="archiveBox">
-													<ul>
-														<li class="archiveList link">2022 SS  'After blue'</li>
-														<li class="archiveList link">2022 Origin 'Cinder'</li>
-														<li class="archiveList link">2021 AW 'Un nouveau système'</li>
-														<li class="archiveList link">2021 SS 'Layering time'</li>
-													</ul>
-													<ul>
-														<li class="archiveList dot"></li>
-														<li class="archiveList allBtn"><a href="/posting/lookbook?page_idx=46" class="menu-ul">+  전체보기</a></li>
-													</ul>
-												</div>
-											</li>
-											<li class="st__box"  data-mdl="">
-												<div class="mid-a archiveTitle"><a href="/posting/runway" class="menu-ul">룩북</a></div>
-												<div class="archiveBox">
-													<ul>
-														<li class="archiveList link">2022 F/W 'Phenomenon comm...</li>
-														<li class="archiveList link">2022 S/S 'After blue'</li>
-														<li class="archiveList link">2022 Origin 'Cinder'</li>
-														<li class="archiveList link">2021 SS 'Layering time'</li>
-													</ul>
-													<ul>
-														<li class="archiveList dot"></li>
-														<li class="archiveList allBtn"><a href="/posting/runway" class="menu-ul">+  전체보기</a></li>
-													</ul>
-												</div>
-											</li>
-											<li class="st__box"  data-mdl="">
-												<div class="mid-a archiveTitle"><a href="/posting/editorial" class="menu-ul">에디토리얼</a></div>
-												<div class="archiveBox">
-													<ul>
-														<li class="archiveList link">Mule series 'Curve'</li>
-														<li class="archiveList link">‘Self Expression'</li>
-														<li class="archiveList link">Adererror x Puma 'Vaderon'</li>
-														<li class="archiveList link">2022ss campaign ‘After blue'</li>
-													</ul>
-													<ul>
-														<li class="archiveList dot"></li>
-														<li class="archiveList allBtn"><a href="/posting/editorial" class="menu-ul">+  전체보기</a></li>
-													</ul>
-												</div>
-											</li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li></li>
-						</ul>
-					</div>
-				</li>
-				<li class="drop web search_shop" >
-					<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
-				</li>
-				<li class="web bluemark__btn side-bar" data-type="M">
-					<div class="bluemark__icon lrg">
-						<div class="bluebox"></div>
-						<div class="text">Blue mark</div>
-					</div>
-				</li>
-				<li class="web alg__c side-bar" data-type="E"><span class="language-text">KR</span></li>
-				<li class="web search__li side-bar" data-type="S">					
-					<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
-				</li>
-				<li class="flex wishlist__btn" data-cnt="${whishCnt === undefined?"":whishCnt}"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
-				<li class="flex basket__btn side-bar" data-cnt="${basketCnt === undefined?"":basketCnt}" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
-				<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
-					<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
-					<span>` + userName + `</span>
-				</li>
-				<li class="flex pr-3 lg:hidden mobileMenu">
-					<div class="hamburger" id="hamburger">
-						<div class="line"></div>
-						<div class="line"></div>
-						<div class="line"></div>
-						<div class="line"></div>
-					</div>
-				</li>`;
-		menuHtml +=`</ul>
-				</li>`;
+				</ul>
+			</li>
+		`;
+		
 		menuList.innerHTML = menuHtml;
 		document.querySelector(".header__wrap").appendChild(domfrag);
 		
@@ -276,12 +210,10 @@
 		
 		mobileMenu();
 		
-		
-		
 		let $$webMenu = document.querySelectorAll(".web");
 		let $webMenu = document.querySelector(".web");
 		let $lrgMenu = document.querySelectorAll(".lrg");
-	/*			
+		/*
 		$$webMenu.forEach(el => {
 			el.addEventListener("mouseover", function(e) {
 				var swiper = new Swiper(".swiper__box", {
@@ -299,6 +231,7 @@
 			},{ once : true });
 		});
 		*/
+		
 		$(".drop.web").hover(function() {
 			var showRate = 200;
 			var idx = $(this).attr("data-lrg");
@@ -342,6 +275,7 @@
 		},function(){
 			$(this).find(".drop__menu").fadeOut(100);
 		});
+		
 		/*
 		$$webMenu.forEach(el => {
 			if(el.dataset.type=="PR" || el.dataset.type=="PO" || el.dataset.type=="FM"){
@@ -360,8 +294,122 @@
 		*/
 	}
 	
+	const webPostingStoryHtml = (d) => {
+		let column_NEW = d.column_NEW;
+		let column_COLC = d.column_COLC;
+		let column_RNWY = d.column_RNWY;
+		let column_EDTL = d.column_EDTL;
+		
+		let storyHtml = "";
+		storyHtml += `
+					<li class="drop web story" data-type="ST" data-large="6">
+						<a class="menu-ul lrg" href="#">스토리</a>
+						<div class="drop__menu">
+							<ul class="cont st__menu">
+								<li></li>
+								<li>
+									<ul class="st__cont">
+										<li>
+											<a href="#" class="menu-ul">새로운 소식</a>
+											<ul class="list__grid">
+		`;
+		
+		column_NEW.forEach(function(row_NEW) {
+			storyHtml += `
+												<li class="st__box" onClick="location.href='${row_NEW.page_url}'">
+													<div class="newsBox">
+														<img src ='${img_root}${row_NEW.img_location}'>
+														<div class="news-title kr" href="">${row_NEW.story_title}</div>
+														<div class="news-m-title en" href="">${row_NEW.story_sub_title}</div>
+													</div>
+												</li>
+			`;
+		});
+		
+		storyHtml += `
+											</ul>
+										</li>
+										<li>
+											<a href="/story/main" class="menu-ul">아카이브</a>
+											<ul class="list__grid">
+												<li class="st__box">
+													<div class="mid-a archiveTitle"><a href="/posting/collection" class="menu-ul">컬렉션</a></div>
+													<div class="archiveBox">
+														<ul>
+		`;
+		
+		column_COLC.forEach(function(row_COLC) {
+			storyHtml += `
+															<li class="archiveList link" onClick="location.href='${row_COLC.page_url}'">${row_COLC.story_title}</li>
+			`;
+		});
+		
+		storyHtml += `
+														</ul>
+														<ul>
+															<li class="archiveList dot"></li>
+															<li class="archiveList allBtn"><a href="/posting/collection" class="menu-ul">+  전체보기</a></li>
+														</ul>
+													</div>
+												</li>
+												<li class="st__box"  data-mdl="">
+													<div class="mid-a archiveTitle"><a href="/posting/runway" class="menu-ul">런웨이</a></div>
+													<div class="archiveBox">
+														<ul>
+		`;
+		
+		column_RNWY.forEach(function(row_RNWY) {
+			storyHtml += `
+															<li class="archiveList link" onClick="location.href='${row_RNWY.page_url}'">${row_RNWY.story_title}</li>
+			`;
+		});
+		
+		storyHtml += `
+														</ul>
+														<ul>
+															<li class="archiveList dot"></li>
+															<li class="archiveList allBtn"><a href="/posting/runway" class="menu-ul">+  전체보기</a></li>
+														</ul>
+													</div>
+												</li>
+												<li class="st__box"  data-mdl="">
+													<div class="mid-a archiveTitle"><a href="/posting/editorial" class="menu-ul">에디토리얼</a></div>
+													<div class="archiveBox">
+														<ul>
+		`;
+	
+		column_EDTL.forEach(function(row_EDTL) {
+			storyHtml += `
+															<li class="archiveList link" onClick="location.href='${row_EDTL.page_url}'">${row_EDTL.story_title}</li>
+			`;
+		});
+		
+	
+		storyHtml += `
+															</ul>
+															<ul>
+																<li class="archiveList dot"></li>
+																<li class="archiveList allBtn"><a href="/posting/editorial" class="menu-ul">+  전체보기</a></li>
+															</ul>
+														</div>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li></li>
+								</ul>
+							</div>
+						</li>
+			`;
+		
+		return storyHtml;
+	}
+	
 	const mobileWriteNavHtml = (d) => {
-		let data = d.data
+		let menu_info = d.data.menu_info;
+		let posting_story = d.data.posting_story;
+		
 		let member_info = d.member_info
 		let userName = member_info != null ? member_info.member_name : "로그인";
 		
@@ -373,187 +421,209 @@
 		let menuHtml = 
 		`<ul class="top">`
 		
-		data.forEach((el, idx) => {
-			let lrg = el.menu_lrg;
-			let mdl = lrg.menu_mdl;
+		menu_info.forEach((el, idx) => {
+			let mdl = el.menu_mdl;
 			
-			if( el.menu_lrg.menu_type =="PR") {
-				menuHtml += 
-				`<li class="lrg" data-lrg="${idx}">
-					<div class="lrg__back__btn"></div>
-					<div class="lrg__title">${lrg.menu_title}</div>
-					<div class="mdlBox">
-						<ul class="mdl">
-							<a class="mdl__title" href="${lrg.menu_link}">전체보기</a>
-							${
-							mdl.map((el,idx) => {
-									return `<a class="mdl__title"  href="${el.menu_link}">${el.menu_title}</a>`
-							}).join("")
-							}
-							<li class="swiper-li">
-								<div class="swiper m__swiper__box" data-id="${idx}" id="mobileMenuSwiper${idx}">
-									<div class="swiper-wrapper">
-										${
-											lrg.menu_slide.map((el, idx) => {
-											return`<div class="swiper-slide">
-														<div class="slide__wrap" style="display:flex">
-															<img src="${img_root}${el.slide_img}" alt="" style="width:110px">
-															<div class="swiper__title" style="margin-left:10px;margin-top:auto;margin-bottom:auto;margin-left:10px;font-size:13px;color:#343434">${el.slide_name}</div>
-														</div>
-													</div>`
-											}).join("")
-										}
-									</div>
-								</div>  
-							</li>
-						</ul>
-					</div>
-				</li>`
+			if( el.menu_type =="PR") {
+				menuHtml += `
+					<li class="lrg" data-lrg="${idx}">
+						<div class="lrg__back__btn"></div>
+						<div class="lrg__title">${el.menu_title}</div>
+						<div class="mdlBox">
+							<ul class="mdl">
+								<a class="mdl__title" href="${el.menu_link}">전체보기</a>
+								${
+								mdl.map((el,idx) => {
+										return `<a class="mdl__title"  href="${el.menu_link}">${el.menu_title}</a>`
+								}).join("")
+								}
+								<li class="swiper-li">
+									<div class="swiper m__swiper__box" data-id="${idx}" id="mobileMenuSwiper${idx}">
+										<div class="swiper-wrapper">
+											${
+												el.menu_slide.map((el, idx) => {
+												return`<div class="swiper-slide">
+															<div class="slide__wrap" style="display:flex">
+																<img src="${img_root}${el.slide_img}" alt="" style="width:110px">
+																<div class="swiper__title" style="margin-left:10px;margin-top:auto;margin-bottom:auto;margin-left:10px;font-size:13px;color:#343434">${el.slide_name}</div>
+															</div>
+														</div>`
+												}).join("")
+											}
+										</div>
+									</div>  
+								</li>
+							</ul>
+						</div>
+					</li>
+				`;
 			}
-			if( el.menu_lrg.menu_type =="PO") {
-				menuHtml += 
-				`<li class="lrg" data-lrg="${idx}">
-					<div class="lrg__back__btn"></div>
-					<div class="lrg__title">${lrg.menu_title}</div>
-					<div class="mdlBox">
-						<ul class="mdl">
-							${
-							mdl.map((el,idx) => {
-									return `<a class="mdl__title po__wrap"  href="${el.menu_link}">
-												<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}' class="po__image">
-												<div class="po__title">${el.menu_title}</div>
-											</a>`
-							}).join("")
-							}
-							<a class="mdl__title po__wrap" href="/posting/collaboration">
-								<div style="width:50px">
-									<img src="/images/svg/plus-bk.svg" style="width:12px;margin:4px auto;" alt="">
-								</div>
-								<div class="po__title__all">콜라보레이션 전체보기</div>
-							</a>
-						</ul>
-					</div>
-				</li>`
+			if( el.menu_type =="PO") {
+				menuHtml += `
+					<li class="lrg" data-lrg="${idx}">
+						<div class="lrg__back__btn"></div>
+						<div class="lrg__title">${el.menu_title}</div>
+						<div class="mdlBox">
+							<ul class="mdl">
+								${
+								mdl.map((el,idx) => {
+										return `<a class="mdl__title po__wrap"  href="${el.menu_link}">
+													<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}' class="po__image">
+													<div class="po__title">${el.menu_title}</div>
+												</a>`
+								}).join("")
+								}
+								<a class="mdl__title po__wrap" href="/posting/collaboration">
+									<div style="width:50px">
+										<img src="/images/svg/plus-bk.svg" style="width:12px;margin:4px auto;" alt="">
+									</div>
+									<div class="po__title__all">콜라보레이션 전체보기</div>
+								</a>
+							</ul>
+						</div>
+					</li>
+				</ul>
+				`;
 			}
 		});
-		menuHtml +=
-		`
-		</ul>
-		<ul class="mid">
-			<li class="lrg" data-lrg="6" data-type="ST">
-				<div class="lrg__back__btn"></div>
-				<div class="lrg__title non_underline"><span>스토리</span></div>
-				<div class="mdlBox">
-					<ul class="mdl">
-						<li>
-							<div class="sub__title">새로운 소식</div>
-							<ul class="list__grid">
-								<li class="st__box">
-									<div class="newsBox">
-										<img src ='http://116.124.128.246:80/images/sample/news01.jpg'>
-										<div class="news-title-wrap">
-											<div class="news-title" href="">시그니처 쇼퍼백 구매 신청하기</div>
-											<div class="news-m-title" href="">Shopper bag Stand by</div>
-										</div>
-									</div>
-								</li>
-								<li class="st__box">
-									<div class="newsBox">
-										<img src ='http://116.124.128.246:80/images/sample/news02.jpg'>
-										<div class="news-title-wrap">
-											<div class="news-title" href="">로고 리바이벌 오리진의 뉴 컬렉션</div>
-											<div class="news-m-title" href="">22SS Origin Line<br>Og: Diagonal</div>
-									</div>
-									</div>
-								</li>
-								<li class="st__box">
-									<div class="newsBox">
-										<img src ='http://116.124.128.246:80/images/sample/news03.jpg'>
-										<div class="news-title-wrap">
-											<div class="news-title" href="">아더에러X버켄스탁의<br>첫 번째 협업 프로젝트</div>
-											<div class="news-m-title" href="">Adererror x Birkenstock<br>Too pasionate to stop</div>
-										</div>
-									</div>
-								</li>
-							</ul>
-						</li>
-						<li class="div__line">
-						</li>
-						<li>
-							<div class="sub__title"><a href="http://116.124.128.246/story/main">아카이브</a></div>
-							<ul class="list__grid">
-								<li class="st__box">
-									<div class="mid-a archiveTitle" onclick="location.href='/posting/lookbook?page_idx=46'">프로젝트</div>
-									<div class="archiveBox">
-										<ul>
-											<li class="archiveList" onclick="location.href='/posting/lookbook'">2022 SS  'After blue'</li>
-											<li class="archiveList" onclick="location.href='/posting/lookbook'">2022 Origin 'Cinder'</li>
-											<li class="archiveList" onclick="location.href='/posting/lookbook'">2021 AW 'Un nouveau système'</li>
-											<li class="archiveList" onclick="location.href='/posting/lookbook'">2021 SS 'Layering time'</li>
-											<li class="archiveList allBtn" onclick="location.href='/posting/lookbook?page_idx=46'">+  전체보기</li>
-										</ul>
-									</div>
-								</li>
-								<li class="div__line">
-								</li>
-								<li class="st__box">
-									<div class="mid-a archiveTitle" onclick="location.href='/posting/runway'">룩북</div>
-									<div class="archiveBox">
-										<ul>
-											<li class="archiveList">2022 F/W 'Phenomenon comm...</li>
-											<li class="archiveList">2022 S/S 'After blue'</li>
-											<li class="archiveList">2022 Origin 'Cinder'</li>
-											<li class="archiveList">2021 SS 'Layering time'</li>
-											<li class="archiveList allBtn" onclick="location.href='/posting/runway'">+  전체보기</li>
-										</ul>
-									</div>
-								</li>
-								<li class="div__line">
-								</li>
-								<li class="st__box">
-									<div class="mid-a archiveTitle" onclick="location.href='/posting/editorial'">에디토리얼</div>
-									<div class="archiveBox">
-										<ul>
-											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=61&size_type=M'">Mule series 'Curve'</li>
-											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=62&size_type=M'">‘Self Expression'</li>
-											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=63&size_type=M'">Adererror x Puma 'Vaderon'</li>
-											<li class="archiveList" onclick="location.href='/posting/editorial/detail?page_idx=64&size_type=M'">2022ss campaign ‘After blue'</li>
-											<li class="archiveList allBtn" onclick="location.href='/posting/editorial'">+  전체보기</li>
-										</ul>
-									</div>
-								</li>
-							</ul>
-						</li>
-					</ul>
+		
+		let storyHtml = mobilePostingStoryHtml(posting_story);
+		menuHtml += storyHtml;
+		
+		menuHtml += `
+				<ul class="bottom">
+					<li class="flex" onclick="location.href='/mypage'">
+						<img src="/images/svg/user-bk.svg" style="width:14px" alt=""><span>` + userName + `</span>
+					</li>
+					<li class="mobile-search-wrap">
+						<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:14px" alt=""><span>검색</span></div>
+					</li>
+					<li class="mobile-customer-wrap">
+						<div class="mobile__customer__btn lrg__title non_underline"><img src="/images/svg/customer-bk.svg" style="width:14px" alt=""><span>고객서비스</span></div>
+					</li>
+					<li class="flex bluemark" onclick="location.href='/mypage?mypage_type=bluemark_verify'">
+						<div class="bluemark-icon"></div><span>Bluemark</span>
+					</li>
+					<li class="flex language"><div style="width:14px;text-align:center;">KR</div><span>Language</span></li>
+					<li class="flex logout"><span>로그아웃[임시]</span></li>
+				</ul>
+				<div class="mobile__search">
+					<div class="search__back__btn"></div>
+					<div class="search__cont"></div>
 				</div>
-			</li>
-			<li class="mobile-store-search-wrap"><span>매장찾기</span></li>
-		</ul>
-		<ul class="bottom">
-			<li class="flex" onclick="location.href='/mypage'">
-				<img src="/images/svg/user-bk.svg" style="width:14px" alt=""><span>` + userName + `</span>
-			</li>
-			<li class="mobile-search-wrap">
-				<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:14px" alt=""><span>검색</span></div>
-			</li>
-			<li class="mobile-customer-wrap">
-				<div class="mobile__customer__btn lrg__title non_underline"><img src="/images/svg/customer-bk.svg" style="width:14px" alt=""><span>고객서비스</span></div>
-			</li>
-			<li class="flex bluemark" onclick="location.href='/mypage?mypage_type=bluemark_verify'">
-				<div class="bluemark-icon"></div><span>Bluemark</span>
-			</li>
-			<li class="flex language"><div style="width:14px;text-align:center;">KR</div><span>Language</span></li>
-			<li class="flex logout"><span>로그아웃[임시]</span></li>
-		</ul>
-		<div class="mobile__search">
-			<div class="search__back__btn"></div>
-			<div class="search__cont"></div>
-		</div>`
+		`;
 		mobileMenu.innerHTML = menuHtml;
 		document.querySelector(".side__menu").appendChild(domfrag);
 		menuLrgClick();
 		logoutClick();
 	}
+	
+	const mobilePostingStoryHtml = (d) => {
+		let column_NEW = d.column_NEW;
+		let column_COLC = d.column_COLC;
+		let column_RNWY = d.column_RNWY;
+		let column_EDTL = d.column_EDTL;
+		
+		let storyHtml = "";
+		
+		storyHtml += `
+				<ul class="mid">
+					<li class="lrg" data-lrg="6" data-type="ST">
+						<div class="lrg__back__btn"></div>
+						<div class="lrg__title non_underline"><span>스토리</span></div>
+						<div class="mdlBox">
+							<ul class="mdl">
+								<li>
+									<div class="sub__title">새로운 소식</div>
+									<ul class="list__grid">
+		`;
+		
+		column_NEW.forEach(function(row_NEW) {
+			storyHtml += `
+										<li class="st__box" onClick="location.href='${row_NEW.page_url}'">
+											<div class="newsBox">
+												<img src ='${img_root}${row_NEW.img_location}'>
+												<div class="news-title-wrap">
+													<div class="news-title" href="">${row_NEW.story_title}</div>
+													<div class="news-m-title" href="">${row_NEW.story_sub_title}</div>
+												</div>
+											</div>
+										</li>
+			`;
+		});
+			
+		storyHtml += `
+									</ul>
+								</li>
+								<li class="div__line">
+								</li>
+								<li>
+									<div class="sub__title"><a href="http://116.124.128.246/story/main">아카이브</a></div>
+									<ul class="list__grid">
+										<li class="st__box">
+											<div class="mid-a archiveTitle" onclick="location.href='/posting/collection'">컬렉션</div>
+											<div class="archiveBox">
+												<ul>
+		`;
+		
+		column_COLC.forEach(function(row_COLC) {
+			storyHtml += `
+													<li class="archiveList" onclick="location.href='${row_COLC.page_url}'">${row_COLC.story_title}</li>
+			`;
+		});
+		
+		storyHtml += `
+												</ul>
+											</div>
+										</li>
+										<li class="div__line">
+										</li>
+										<li class="st__box">
+											<div class="mid-a archiveTitle" onclick="location.href='/posting/runway'">런웨이</div>
+											<div class="archiveBox">
+												<ul>
+		`;
+		
+		column_RNWY.forEach(function(row_RNWY) {
+			storyHtml += `
+													<li class="archiveList" onClick="location.href='${row_RNWY.page_url}'">${row_RNWY.story_title}</li>
+			`;
+		});
+		
+		storyHtml += `
+												</ul>
+											</div>
+										</li>
+										<li class="div__line">
+										</li>
+										<li class="st__box">
+											<div class="mid-a archiveTitle" onclick="location.href='/posting/editorial'">에디토리얼</div>
+											<div class="archiveBox">
+												<ul>
+		`;
+		
+		column_EDTL.forEach(function(row_EDTL) {
+			storyHtml += `
+													<li class="archiveList" onclick="location.href='${row_EDTL.page_url}&size_type=M'">${row_EDTL.story_title}</li>
+			`;
+		});
+		
+		storyHtml += `
+												</ul>
+											</div>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="mobile-store-search-wrap"><span>매장찾기</span></li>
+				</ul>
+		`;
+		
+		return storyHtml;
+	}
+	
 	function mobileMdlSwipe() {
 		const $$swiperBox = document.querySelectorAll(".m__swiper__box");
 		$$swiperBox.forEach((el, idx)=> {

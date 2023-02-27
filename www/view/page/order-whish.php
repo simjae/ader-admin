@@ -5,7 +5,9 @@
 
         --solid-bk: #808080;
     }
-
+    main {
+        overflow-x: unset;
+    }
     html {
         scroll-behavior: smooth;
     }
@@ -44,7 +46,7 @@
         border-bottom: 0!important;
     }
     .no-whishlist-wrap {
-        width: 100vw;
+        width: 87.6vw;
         height: 500px;
         display: flex;
         flex-direction: column;
@@ -147,7 +149,7 @@
         display: none;
         position: sticky;
         height: 100vh;
-        top: 200px;
+        top: 40px;
         grid-column: 14/17;
         min-width: 36rem;
     }
@@ -162,17 +164,17 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
+        top: 200px;
         position: sticky;
         width: 360px;
-        height: auto;
-        top: 200px;
+        height: 85vh;
         -webkit-transition: top 0.3s;
         -moz-transition: top 0.3s;
         transition: top 0.3s;
     }
     .shrink-list {
         top: 90px!important;
+        height: 93vh!important;
     }
     .content.right .header-wrap {
         margin-bottom: 80px;
@@ -237,7 +239,6 @@
     .info-box .option-box .size__box .size[data-soldout="STSC"].select {
         border-bottom: 0px;
     }
-    
 
     .info-box .option-box .count__btn__box {
         min-height: 40px;
@@ -276,7 +277,7 @@
         display: flex;
         position: absolute;
         right: 0;
-        margin: 10px;
+        margin: 20px;
         width: 13px;
     }
 
@@ -432,12 +433,22 @@
     .size__box li[data-soldout="STCL"]:hover::before {
         content: "Only a few left";
         position: absolute;
+        width: 80px;
+        top: 17px;
+        left: -35px;
+        color: red;
+        background-color: #ffffff;
+        border: solid 1px;
+    }
+    /* .size__box li[data-soldout="STCL"]::before {
+        content: "Only a few left";
+        position: absolute;
         width: 200px;
         top: 13px;
         bottom: -10px;
         left: -90px;
         color: red;
-    }
+    } */
     .size__box li[data-soldout="STCL"]::after {
         content: '';
         position: unset;
@@ -601,6 +612,9 @@
     }
 
     @media (max-width:1025px) {
+        .content.right.open .add-list-wrap {
+            position: sticky;
+        }
         .no-whishlist-btn {
             width: 95vw;
         }
@@ -787,7 +801,7 @@ window.addEventListener('DOMContentLoaded', function() {
 	getWhishProductList();
 	
 });
-let shirinkStart = 2;
+let shirinkStart = 10;
 $(window).scroll(function() {
     let scroll = currentScroll();
     let banner = document.querySelector(".banner-wrap");
@@ -800,6 +814,7 @@ $(window).scroll(function() {
         addList.classList.remove("shrink-list");
     }
 })
+
 function currentScroll() {
     return window.pageYOffset || document.documentElement.scrollTop;
 }
@@ -1234,6 +1249,7 @@ function removeProduct(whishIdx) {
             //     return;
             // } else {
                 let product = document.querySelectorAll(".product-wrap .product");
+                // [...product].find(el => el.dataset.whish === whishIdx).remove();
                 let result = [...product].find(el => el.dataset.whish === whishIdx);
                 result.remove();
                 removeAddList(whishIdx);

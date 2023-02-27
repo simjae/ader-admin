@@ -74,7 +74,7 @@
             </a>
         </div>
         <div class="story__item" seq="3">
-            <a href="http://116.124.128.246/posting/lookbook?page_idx=46">
+            <a href="http://116.124.128.246/posting/collection">
                 <img src="/images/story/Collection.jpg" alt="collection">
                 <p>Collection</p>
             </a>

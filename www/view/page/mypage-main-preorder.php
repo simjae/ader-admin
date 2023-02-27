@@ -5,7 +5,9 @@
         display: grid;
         grid-template-columns: repeat(16, 1fr);
     }
-
+    .preorder__wrap .title p {
+        font-size: 13px;
+    }
     .preorder__tab__btn__container {
         grid-column: 1/17;
         margin: 0 auto;

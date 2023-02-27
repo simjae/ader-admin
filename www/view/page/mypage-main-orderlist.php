@@ -42,7 +42,7 @@ display: grid; gap: 10px; font-size: 11px; grid-template-columns: 50px 50px 50px
 .orderlist__wrap .detail__btn {cursor : pointer;}
 .mypage--paging {gap: 10px;}
 .mypage--paging .page {font-size: 11px;cursor: pointer;}
-.product_name_mob {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 68px;}
+.product_name_mob {white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
 .product_info_mob {vertical-align: top;}
 .product_info_mob p {margin-bottom: 6px;}
 .orderlist__wrap .delivery_num {text-decoration: underline;font-size: 11px;width: 110px;cursor: pointer;}

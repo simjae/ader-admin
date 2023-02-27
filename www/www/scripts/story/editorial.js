@@ -4,16 +4,18 @@ window.addEventListener('DOMContentLoaded', function(){
         appendSlide();
     }
     else{
-        loadEditorialData();  
+        getEditorialList();  
     }
     scrollTop();
 })
 
-function loadEditorialData() {
+function getEditorialList() {
+	let country = getLanguage();
     $.ajax({
         type: "post",
         data: {
-            "size_type" : "W"
+			'country' : country,
+            'size_type' : 'W'
         },
         dataType: "json",
         url: "http://116.124.128.246:80/_api/posting/editorial/list/get",
@@ -59,6 +61,7 @@ function appendSlide() {
 
 function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, size_type) {
     let backgroundHtml;
+	console.log(thumbnail_background);
     let backgroundType = thumbnail_background.split('.', 2)[1];
     let editorialWrap = document.querySelector(".editorial-wrap");
     let article = document.createElement("article");

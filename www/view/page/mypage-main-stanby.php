@@ -6,6 +6,10 @@
         grid-template-columns: repeat(16, 1fr);
     }
 
+    .stanby__wrap .title p {
+        font-size: 13px;
+    }
+
     .stanby__wrap td p {
         height: auto;
     }
@@ -157,7 +161,11 @@
             place-items: center;
             grid-template-columns: repeat(2, 1fr);
         }
-        .stanby__item{ padding: 0;}
+
+        .stanby__item {
+            padding: 0;
+        }
+
         .contents__info .info span {
             font-size: 11px;
         }

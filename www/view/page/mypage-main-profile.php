@@ -6,6 +6,10 @@
         grid-template-columns: repeat(16, 1fr);
     }
 
+    .profile__wrap .title p {
+        font-size: 13px;
+    }
+
     .profile__tab__btn__container {
         grid-column: 1/17;
         margin: 0 auto;
@@ -522,7 +526,7 @@
 
         <div class="profile__tab profile__pw__update__wrap">
             <div class="title" style="height:20px;">
-                <p style="font-size: 13px; margin-bottom: 20px;">비밀번호 변경</p>
+                <p style="margin-bottom: 20px;">비밀번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_pw_update">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
@@ -554,7 +558,7 @@
         </div>
         <div class="profile__tab profile__tel__update__wrap">
             <div class="title">
-                <p style="font-size: 13px; margin-bottom: 40px;">휴대전화 번호 변경</p>
+                <p style="margin-bottom: 40px;">휴대전화 번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_tel_update">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
@@ -586,7 +590,7 @@
         </div>
         <div class="profile__tab profile__tel__update__confirm__wrap">
             <div class="title" style="margin-bottom: 14px;">
-                <p style="font-size: 13px;">휴대전화 번호 변경</p>
+                <p>휴대전화 번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_tel_update_confirm">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
@@ -612,7 +616,7 @@
         </div>
         <div class="profile__tab profile__account__delete__wrap">
             <div class="title" style="height:19px;">
-                <p style="font-size: 13px;">계정삭제</p>
+                <p>계정삭제</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_account_delete">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>

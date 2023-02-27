@@ -52,6 +52,8 @@ if($member_idx > 0 && $country != null){
 			PB.DEL_FLG = FALSE AND
 			PB.BOARD_TYPE = 'NTC' AND
 			PB.COUNTRY = '".$country."'
+		ORDER BY
+			PB.FIX_FLG DESC, CREATE_DATE DESC
 	";
 
 	$db->query($select_notice_sql);

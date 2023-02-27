@@ -1,4 +1,5 @@
 <style>
+
     .inquiry__wrap .description::-webkit-scrollbar {
         width: 5px;
     }
@@ -6,6 +7,11 @@
     .inquiry__wrap .title {
         margin-top: 0px;
         margin-bottom: 30px;
+
+    }
+
+    .inquiry__wrap .title p {
+        font-size: 13px;
     }
 
     .inquiry__wrap .description::-webkit-scrollbar-track {
@@ -288,7 +294,34 @@
         width: 110px;
         float: right;
     }
-
+    .category__small{
+        margin-top:20px;
+    }
+    .child__category__btn.click__btn{
+        color:#343434;
+    }
+    .child__category__btn{
+        cursor:pointer;
+        width:100%;
+        height:30px;
+        background-color: white;
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color:#999;
+        font-family:var(--ft-no-fu);
+        text-align: left;
+        line-height:30px;
+        padding-left:10px;
+        border-radius: 1px;
+        border-top:1px solid #dcdcdc;
+    }
+    .child__category__btn.click__btn{
+        color:#343434;
+    }
     @media (max-width: 1024px) {
         .inquiry__tab__wrap {
             grid-column: 1/17;
@@ -371,7 +404,7 @@
         }
 
     }
-
+    
     @media (min-width: 600px) {
         .inquiry__tab__wrap {
             grid-column: 1/17;
@@ -472,19 +505,34 @@
         </div>
         <div class="inquiry__tab inquiry__action__wrap">
             <form id="frm-inquiry">
+                <!--
+                <div style="hidden">
+                    <input type="file" class="board__image" name="board_img[]">
+                    <input type="file" class="board__image" name="board_img[]">
+                    <input type="file" class="board__image" name="board_img[]">
+                    <input type="file" class="board__image" name="board_img[]">
+                    <input type="file" class="board__image" name="board_img[]">
+                </div>
+                -->
                 <div class="title">
-                    <p font-size: 13px;>문의하기</p>
+                    <p>문의하기</p>
                 </div>
                 <div class="inquiry__info inquiry__title">
                     <span>
                         <p class="title">문의유형</p>
                         <div class="inquiry__type" style="width:110px;margin-right:10px;margin-top:10px;">
-                            <select id="inquiry__type" name="inquiry__type" style="display:none">
-                                <option name="inquiry__type" value="KR" selected>취소/환불</option>
-                                <option name="inquiry__type" value="EN">주문/결제</option>
-                                <option name="inquiry__type" value="CN">출고/배송</option>
-                                <option name="inquiry__type" value="CN">반품/교환</option>
-                                <option name="inquiry__type" value="CN">A/S</option>
+                            <select id="inquiry_type"  style="display:none">
+                                <option value="CAR" selected>취소/환불</option>
+                                <option value="OAP">주문/결제</option>
+                                <option value="OAD">출고/배송</option>
+                                <option value="RAE">반품/교환</option>
+                                <option value="AFS">A/S</option>
+                                <option value="DAE">배송/기타문의</option>
+                                <option value="RST">재입고</option>
+                                <option value="PIQ">제품문의</option>
+                                <option value="BAR">블루마크/정가품</option>
+                                <option value="VUC">바우처</option>
+                                <option value="ETC">기타서비스</option>
                             </select>
                         </div>
                     </span>
@@ -513,14 +561,14 @@
                         ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
                 </div>
                 <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
-                <button class="black__full__width__btn">등록</button>
+                <div class="black__full__width__btn" onclick="registInquiry()">등록</div>
                 <button class="white__full__width__btn">취소</button>
             </form>
             <div class="footer"></div>
         </div>
         <div class="inquiry__tab inquiry__list__wrap">
             <div class="title">
-                <p font-size: 13px;>나의 문의내역</p>
+                <p>나의 문의내역</p>
             </div>
             <div class="description">
                 <p>
@@ -564,18 +612,28 @@
                             $('#inq_cate').append(`<option value="${row.no}">${row.title}</option>`);
 
                             var cateDiv = `
-                            <div class="btn__row">
-                                <div class="faq__category__btn" category-no="${row.no}" onclick="cateBtnAction(this)">${row.title}</div>
-                            </div>
-                        `;
+                                <div class="btn__row">
+                                    <div class="faq__category__btn" category-no="${row.no}" onclick="cateBtnAction(this)">${row.title}</div>
+                                </div>
+                            `;
                             $('.category').append(cateDiv);
 
                             var smallCateDiv = `
-                            <div class="btn__row">
-                                <div class="parents__category">
-                                    <div class="faq__category__btn" category-no="${row.no}" onclick="smallCateBtnAction(this)">${row.title}</div>
-                                </div>
-                        `;
+                                <div class="btn__row">
+                                    <div class="parents__category">
+                                        <div class="faq__category__btn" category-no="${row.no}" onclick="smallCateBtnAction(this)">${row.title}</div>
+                                    </div>
+                                    <div class="children__category">
+                            `;
+                            if(row.children != null && row.children.length > 0 ){
+                                var child_data = row.children;
+                                var child_data_len = child_data.length;
+
+                                child_data.forEach(function(child_row){
+                                    var cateChildDiv = `<div class="child__category__btn" category-no="${child_row.no}" onclick="childCateBtnAction(this)">${child_row.title}</div>`;
+                                    smallCateDiv += cateChildDiv;
+                                })
+                            }
                             smallCateDiv += `
                             </div>
                         `;
@@ -671,6 +729,8 @@
         }
         else {
             var cate_no = $(obj).attr('category-no');
+            $('.category__small').find('.children__category').hide();
+            $(obj).parent().parent().find('.children__category').show();
 
             $('.category__small').find('.faq__category__btn').removeClass('click__btn');
             $(obj).addClass('click__btn');
@@ -686,6 +746,7 @@
     function childCateBtnAction(obj) {
         var cate_no = $(obj).attr('category-no');
 
+        $(obj).parent().find('.child__category__btn').removeClass('click__btn');
         $(obj).addClass('click__btn');
 
         getFaqList('click', cate_no);
@@ -701,40 +762,39 @@
         }
         $(obj).next().toggle();
     }
-/*
-        function makeSelect(divId) {
-            var selectDiv = $('.' + divId);
-            selectDiv.css('position', 'relative');
-            var SelLen = selectDiv.find('select option').length;
-    
-            var selectedDiv = ` <div class="select-selected">${selectDiv.find('select option:selected').text()}</div>`;
-            selectDiv.append(selectedDiv);
-    
-            var selectHideDiv = `<div class="select-items select-hide">`;
-            for (var i = 0; i < SelLen; i++) {
-                selectHideDiv += `  
-                                <div>${selectDiv.find(`select option:eq(${i})`).text()}</div>
-                            `;
+    function registInquiry(){
+        let inquiry_type = $('#inquiry_type').val();
+        let inquiry_title = $('#inquiry_title').val();
+        let inquiryTextBox = $('#inquiryTextBox').val();
+
+        let country = 'KR';//getLanguage();
+
+        /*
+        $.ajax({
+            type: "post",
+            data: { 'country': 'KR' },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/mypage/faq/category/get",*/
+
+
+        $.ajax({
+            type: "post",
+            data: { 
+                'country': country,
+                'inquiry_title': inquiry_title,
+                'inquiry_type': inquiry_type,
+                'inquiryTextBox': inquiryTextBox
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/mypage/inquiry/add",
+            error: function (d) {
+            },
+            success: function (d) {
+
             }
-            selectHideDiv += `  </div>`;
-            selectDiv.append(selectHideDiv);
+        })
+    }
     
-            selectDiv.find('.select-items').find('div').on('click', function () {
-                var clickCountryText = $(this).text();
     
-                var sameCountryOption = selectDiv.find(`select option:contains("${clickCountryText}")`);
-                sameCountryOption.prop('selected', true);
-    
-                selectDiv.find('.select-selected').text(clickCountryText);
-    
-                selectDiv.find('.select-items').toggle();
-    
-                getFaqList('click', $('#inq_cate').val());
-            })
-    
-            selectDiv.find('.select-selected').on('click', function () {
-                selectDiv.find('.select-items').toggle();
-            });
-        }
-        */
+
 </script>

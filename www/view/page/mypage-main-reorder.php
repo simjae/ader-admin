@@ -5,7 +5,9 @@
         display: grid;
         grid-template-columns: repeat(16, 1fr);
     }
-
+    .reorder__wrap .title p{
+        font-size: 13px;
+    }
     .reorder__wrap .title {
         margin-bottom: 10px;
     }

@@ -23,8 +23,9 @@
         margin-bottom: 30px;
     }
 
-    .title p {
+    .mileage__wrap .title p {
         margin: 0;
+        font-size: 13px !important;
     }
 
     .mileage__tab__wrap {
@@ -95,6 +96,7 @@
 
         .mileage__wrap .title {
             margin-top: 0;
+            font-size: 13px;
         }
 
         .mileage__tab__wrap .contents__table {

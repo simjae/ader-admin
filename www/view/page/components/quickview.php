@@ -468,7 +468,7 @@
                 contentWrap.classList.remove('open');
                 swiperContainer.classList.add('close-swiper');
                 btnWrap.classList.remove('open');
-            }, 3000);
+            }, 300000);
             } else {
                 contentWrap.classList.add('open');
                 swiperContainer.classList.remove('close-swiper');
@@ -500,7 +500,7 @@
             nextEl: ".quickview-swiper .swiper-button-next",
             prevEl: ".quickview-swiper .swiper-button-prev",
         },
-        breakpointsBase: "containner",
+        breakpointsBase: "container",
         grabCursor: true,
         breakpoints: {
             170: {

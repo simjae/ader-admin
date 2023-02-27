@@ -552,6 +552,11 @@
         place-items: center;
     }
 
+    /* 충전포인트 숨기기 */
+    #charging_icon {
+        display: none;
+    }
+
     @media (min-width: 1250px) {
         .swiper.icon {
             display: none;
@@ -1039,7 +1044,9 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
             slidesPerView: 'auto',
             loop: false,
             loopAdditionalSlides: 1,
-            spaceBetween: 10
+            spaceBetween: 10,
+            observer: true,
+            obseveParents: true
         });
         $(".tab__btn__item").on('click', function () {
             var ancestorObj = $(this).parents('.menu__tab');
