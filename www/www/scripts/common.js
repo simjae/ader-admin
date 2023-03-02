@@ -299,19 +299,30 @@ function getUrlParamValue(key) {
     const param_value = urlParams.get(`${key}`);
     return param_value;
 }
+function getLanguage() {
+    let lng = navigator.language || navigator.userLanguage;
 
-// /**
-//  * @author SIMJAE
-//  * @param {String} key 
-//  * @description 사이드바 오픈시에 전체체크박스
-//  */
-// function sidebarAllCheck() {
-//     //전체
-//     document.querySelector('#sidebar .prd_cb.all__cb').checked = true
-//     //개별 전체
-//     document.querySelectorAll('#sidebar .prd__cb.self__cb').forEach(el => el.checked = true)
-// }
+    let country = null;
+    switch (lng) {
+        case "ko-KR":
+            country = "KR";
+            break;
 
+        case "en-US":
+            country = "EN";
+            break;
+
+        case "zh-CN":
+            country = "CN";
+            break;
+
+        default:
+            country = "EN";
+            break;
+    }
+
+    return country;
+}
 /**
  * @author SIMJAE
  * @param {String} product_idx 상품 인덱스
@@ -322,7 +333,7 @@ function saveRecentlyViewed(product_idx) {
     const keyName = "recentlyViewed";
     let recentlyViewed = localStorage.getItem('recentlyViewed');
     recentlyViewed = recentlyViewed ? new Set(JSON.parse(recentlyViewed)) : new Set();
-    
+
     const prevValue = JSON.parse(localStorage.getItem(keyName));
     if (recentlyViewed.has(JSON.stringify(product_idx))) {
         // 이미 존재하는 상품이면 삭제 후 다시 추가하여 가장 최신 상품으로 보이도록 함
@@ -344,34 +355,89 @@ function saveRecentlyViewed(product_idx) {
         console.log(recentlyresultReverse);
     }
     recentlyresultReverse = Array.from(recentlyViewed).reverse();
-    return  recentlyresultReverse;
+    return recentlyresultReverse;
 }
+/**
+ * @author SIMJAE
+ * @description 번역할 json데이터 불러오는 fetch
+ */
+let krdata,endata,cndata;
+const lang = getLanguage(); 
+const krLnData = (() => {
+    return fetch('http://116.124.128.246/scripts/i18n/KR.json')
+    .then(response => response.json())
+    .then(data => {
+        krdata = data; 
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+})();
+const enLnData = (() => {
+    return fetch('http://116.124.128.246/scripts/i18n/EN.json')
+    .then(response => response.json())
+    .then(data => {
+        endata = data; 
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+})();
+const cnLnData = (() => {
+    return fetch('http://116.124.128.246/scripts/i18n/CN.json')
+    .then(response => response.json())
+    .then(data => {
+        cndata = data; 
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+})();
+/**
+ * @author SIMJAE
+ * @description i18next라이브러리로 불러온 json기반으로 다국어 변경
+ */
+function changeLanguage(){
+    const ln = localStorage.getItem('lang') || getLanguage();
+    i18next.init({
+        // fallbackLng: ["KR"], // 
+        lng: ln,
+        resources: {
+            KR: {
+                translation: krdata
+            },
+            EN: {
+                translation: endata
+            },
+            CN: {
+                translation: cndata
+            },
+        },
+        
+    },
+    function(){
+        console.log('i18next initialized');
+        changeText();
+    });
+    
+    i18next.on('languageChanged', function(lng) {
+        localStorage.setItem('lang', lng);
+        changeText();
+    });
+    function changeText(){
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.dataset.i18n;
+            el.textContent = i18next.t(key);
+        });
+    }
+    
+}
+
+
 
 window.addEventListener("DOMContentLoaded", function () {
     createFooterObserver();
+    changeLanguage();
 })
 
-function getLanguage() {
-	let lng = navigator.language || navigator.userLanguage;
-	
-	let country = null;
-	switch (lng) {
-		case "ko-KR":
-			country = "KR";
-			break;
-		
-		case "en-US":
-			country = "EN";
-			break;
-		
-		case "zh-CN":
-			country = "CN";
-			break;
-		
-		default :
-			country = "EN";
-			break;
-	}
-	
-	return country;
-}

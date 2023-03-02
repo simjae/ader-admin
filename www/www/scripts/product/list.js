@@ -68,62 +68,67 @@ const getProductList = () => {
             alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
         },
         success: function (d) {
-            let pageIdx = "?page_idx=" + page_idx;
+			if (d.code == 200) {
+				let pageIdx = "?page_idx=" + page_idx;
 
-            let data = d.data;
+				let data = d.data;
 
-            let productListHtml = "";
-            let imgDiv = "";
-            const domFrag = document.createDocumentFragment();
+				let productListHtml = "";
+				let imgDiv = "";
+				const domFrag = document.createDocumentFragment();
 
-            const menuList = document.querySelector(".prd__meun__grid");
+				const menuList = document.querySelector(".prd__meun__grid");
 
-            const prdListBox = document.createElement("div");
-            const prdListBody = document.querySelector(".product__list__body");
-            prdListBox.classList.add("product-wrap");
-            prdListBox.dataset.grid = "4";
-            prdListBox.dataset.webpre = "4";
-            prdListBox.dataset.mobilepre = "3";
+				const prdListBox = document.createElement("div");
+				const prdListBody = document.querySelector(".product__list__body");
+				prdListBox.classList.add("product-wrap");
+				prdListBox.dataset.grid = "4";
+				prdListBox.dataset.webpre = "4";
+				prdListBox.dataset.mobilepre = "3";
 
-            let menu_info = data.menu_info;
-            let menuHtml = `
-				<div class="prd__meun__swiper">
-                    <div class="swiper-wrapper">`
-            menu_info.upper_filter.forEach(el => {
-                menuHtml += `
-                        <div class="swiper-slide" data-url="${el.menu_link}" onClick="location.href='${el.menu_link}'">
-                            <div class="prd__meun__box">
-                                <div class="prd__img__wrap">
-                                    <img class="prd__img" src="${img_root}${el.img_location}" alt="">
-                                </div>
-                                <p class="prd__title">${el.filter_title}</p>
-                            </div>
-                        </div>`;
-            });
+				let menu_info = data.menu_info;
+				let menuHtml = `
+					<div class="prd__meun__swiper">
+						<div class="swiper-wrapper">`
+				menu_info.upper_filter.forEach(el => {
+					menuHtml += `
+							<div class="swiper-slide" data-url="${el.menu_link}" onClick="location.href='${el.menu_link}'">
+								<div class="prd__meun__box">
+									<div class="prd__img__wrap">
+										<img class="prd__img" src="${img_root}${el.img_location}" alt="">
+									</div>
+									<p class="prd__title">${el.filter_title}</p>
+								</div>
+							</div>`;
+				});
 
-            menuHtml += `
-                    <div>
-                        <div class="swiper-scrollbar"></div>
-                        <div class="navigation">
-                            <div class=".product-img .swiper-button-prev"></div>
-                            <div class=".product-img .swiper-button-next"></div>
-                        </div>   
-                    </div>`;
-            menuList.innerHTML = menuHtml;
+				menuHtml += `
+						<div>
+							<div class="swiper-scrollbar"></div>
+							<div class="navigation">
+								<div class=".product-img .swiper-button-prev"></div>
+								<div class=".product-img .swiper-button-next"></div>
+							</div>   
+						</div>`;
+				menuList.innerHTML = menuHtml;
 
-            makeLowerFilterHtml(menu_info.lower_filter)
+				makeLowerFilterHtml(menu_info.lower_filter)
 
-            let grid_info = data.grid_info;
-            let productwriteData = productWriteHtml(grid_info);
-            prdListBox.innerHTML = productwriteData;
-            domFrag.appendChild(prdListBox);
-            prdListBody.appendChild(domFrag);
+				let grid_info = data.grid_info;
+				let productwriteData = productWriteHtml(grid_info);
+				prdListBox.innerHTML = productwriteData;
+				domFrag.appendChild(prdListBox);
+				prdListBody.appendChild(domFrag);
 
-            productListSelectGrid();
-            productCategorySwiper();
-            productSml();
-            swiperStateCheck();
-            upperFilterSelectEvent();
+				productListSelectGrid();
+				productCategorySwiper();
+				productSml();
+				swiperStateCheck();
+				upperFilterSelectEvent();
+			} else {
+				alert(d.msg);
+				location.href="/main";
+			}
         }
     });
 }

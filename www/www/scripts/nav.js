@@ -158,7 +158,7 @@
 		
 		let storyHtml = webPostingStoryHtml(posting_story);
 		menuHtml += storyHtml;
-		
+		let ln = localStorage.getItem('lang') || getLanguage();
 		menuHtml += `
 						<li class="drop web search_shop" >
 							<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
@@ -166,10 +166,10 @@
 						<li class="web bluemark__btn side-bar" data-type="M">
 							<div class="bluemark__icon lrg">
 								<div class="bluebox"></div>
-								<div class="text">Blue mark</div>
+								<div class="text">Bluemark</div>
 							</div>
 						</li>
-						<li class="web alg__c side-bar" data-type="E"><span class="language-text">KR</span></li>
+						<li class="web alg__c side-bar" data-type="E"><span class="language-text">${ln}</span></li>
 						<li class="web search__li side-bar" data-type="S">					
 							<img class="search-svg" style="height: 14px;" src="/images/svg/search.svg" alt="">
 						</li>
@@ -864,8 +864,17 @@
 					language.writeHtml();
 					language.addSelectEvent();
 					let text = getLanguage();
-					console.log("🏂 ~ file: nav.js:656 ~ el.addEventListener ~ 현재 언어:", text)
-					
+					let btn = document.querySelectorAll('.side__box .language-btn');
+					btn.forEach(el => el.addEventListener("click",function(){
+						if(this.classList.contains('korea')){
+							i18next.changeLanguage("KR");
+						} else if(this.classList.contains('english')){
+							i18next.changeLanguage("EN");
+						} else if(this.classList.contains('china')){
+							i18next.changeLanguage("CN");
+						}
+						$('.header__menu .side-bar .language-text').html(localStorage.getItem('lang'))
+					}))
 					function getLanguage() {
 						return navigator.language || navigator.userLanguage;
 					}
