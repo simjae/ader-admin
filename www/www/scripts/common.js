@@ -124,7 +124,43 @@ function exceptionHandling(page, message) {
     }
 
 }
+function notiModal(main,sub) {
+    if (document.querySelector('#notimodal-modal') !== null) {
+        document.querySelector('#notimodal-modal').remove();
+    }
+    const body = document.body;
+    const notimodalContainner = document.createElement("div");
+    notimodalContainner.id = "notimodal-modal";
+    notimodalContainner.className = "notimodal-containner";
+    notimodalContainner.innerHTML = `
+    <div class="notimodal__background">
+        <div class="notimodal__wrap">
+            <div class="notimodal__box">
+                <div class="close-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12.707" height="12.707" viewBox="0 0 12.707 12.707">
+                        <path data-name="선 1772" transform="rotate(135 6.103 2.736)" style="fill:none;stroke:#343434" d="M16.969 0 0 .001"></path>
+                        <path data-name="선 1787" transform="rotate(45 -.25 .606)" style="fill:none;stroke:#343434" d="M16.969.001 0 0"></path>
+                    </svg>
+                </div>
+                <h1 class="title">${main === undefined ? "":main}</h1>
+                <p>${sub === undefined ? "":sub}</p>
+            </div>
+        </div>
+    </div>
+    `
+    body.appendChild(notimodalContainner)
 
+    this.openModal = (() => {
+        notimodalContainner.classList.add("open");
+        modalClose();
+    })();
+
+    function modalClose() {
+        let closeBtn = document.querySelector(`#notimodal-modal .close-btn`);
+        closeBtn.addEventListener("click", () => { notimodalContainner.classList.remove("open"); document.querySelector('#notimodal-modal').remove(); });
+    }
+
+}
 //위시리스트 함수 
 function setWhishListBtn(obj) {
     let product_idx = $(obj).attr('product_idx');
@@ -413,7 +449,6 @@ function changeLanguage(){
                 translation: cndata
             },
         },
-        
     },
     function(){
         console.log('i18next initialized');
@@ -432,6 +467,36 @@ function changeLanguage(){
         });
     }
     
+}
+/**
+ * @author SIMJAE
+ * @description 디바운스 구현
+ */
+function debounce(func, delay) {
+    let timerId;
+    return function(...args) {
+        if (timerId) {
+        clearTimeout(timerId);
+        }
+        timerId = setTimeout(() => {
+        func(...args);
+        timerId = null;
+        }, delay);
+    };
+}
+/**
+ * @author SIMJAE
+ * @description 스로틀링 구현
+ */
+function throttle(func, interval) {
+    let lastTime = 0;
+    return function(...args) {
+        const now = new Date().getTime();
+        if (now - lastTime >= interval) {
+        func(...args);
+        lastTime = now;
+        }
+    };
 }
 
 

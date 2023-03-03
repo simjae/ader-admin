@@ -913,66 +913,24 @@ div::-webkit-scrollbar-track {
     border-bottom: solid 1px #dcdcdc;
 } */
 
+#exception-modal { visibility: hidden; top: 0; left: 0; bottom: 0; right: 0; z-index: 19; position: fixed; } 
+#exception-modal.open { visibility: visible; } 
+#exception-modal .exception__background { background: rgba(0, 0, 0, 0); transition-duration: 1s } 
+#exception-modal .exception__wrap { background-color: white; height: 20%; width: 30%; min-width: 320px; display: flex; align-items: center; font-size: 2rem; position: relative; justify-content: center; box-shadow: 1px 1px 3px 1px #dcdcdc; border-radius: 4px; } 
+#exception-modal .title { position: absolute; font-size: 2rem; left: 0; top: 0; margin: 30px; } 
+#exception-modal .close-btn { position: absolute; font-size: 2rem; right: 0; top: 0; margin: 30px; } 
+#exception-modal.open .exception__background { display: flex; background: rgba(0, 0, 0, 0.8); transition-duration: 1s; height: 100vh; justify-content: center; align-items: center; }
 
-#exception-modal {
-    visibility: hidden;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 19;
-    position: fixed;
-}
-
-#exception-modal.open {
-    visibility: visible;
-}
-
-#exception-modal .exception__background {
-    background: rgba(0, 0, 0, 0);
-    transition-duration: 1s
-}
-
-#exception-modal .exception__wrap {
-    background-color: white;
-    height: 20%;
-    width: 30%;
-    min-width: 320px;
-    display: flex;
-    align-items: center;
-    font-size: 2rem;
-    position: relative;
-    justify-content: center;
-    box-shadow: 1px 1px 3px 1px #dcdcdc;
-    border-radius: 4px;
-
-}
-
-#exception-modal .title {
-    position: absolute;
-    font-size: 2rem;
-    left: 0;
-    top: 0;
-    margin: 30px;
-}
-
-#exception-modal .close-btn {
-    position: absolute;
-    font-size: 2rem;
-    right: 0;
-    top: 0;
-    margin: 30px;
-}
-
-#exception-modal.open .exception__background {
-    display: flex;
-    background: rgba(0, 0, 0, 0.8);
-    transition-duration: 1s;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-}
-
+#notimodal-modal { visibility: hidden; top: 0; left: 0; bottom: 0; right: 0; z-index: 19; position: fixed; } 
+#notimodal-modal.open { visibility: visible; } 
+#notimodal-modal.open .notimodal__background { display: flex; background: #00000060; transition-duration: 1s; height: 100vh; justify-content: center; align-items: center; }
+#notimodal-modal .notimodal__box { padding: 0 50px;}
+#notimodal-modal .notimodal__wrap { background-color: white; height: 17%; width: 24.5%; min-width: 320px; max-height: 320px; display: flex; align-items: center; font-size: 2rem; position: relative; justify-content: center;}
+#notimodal-modal .title { font-size: 13px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; text-align: center; color: #343434; margin-bottom: 20px;} 
+#notimodal-modal p { font-size: 11px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; text-align: center; color: #343434; } 
+#notimodal-modal .close-btn { position: absolute; font-size: 2rem; right: 0; top: 0; margin: 30px; } 
+#notimodal-modal .close-btn svg:hover { transform: rotate(90deg); transition: transform 0.5s; }
+#notimodal-modal.open .notimodal__background { display: flex; background: rgba(0, 0, 0, 0.8); transition-duration: 1s; height: 100vh; justify-content: center; align-items: center; }
 .tung-data {
     display: flex;
     width: 100%;
