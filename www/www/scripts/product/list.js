@@ -2,44 +2,6 @@ let productListSwipe;
 let windowWidth = $(window).width();
 let order_param = null;
 
-window.addEventListener('DOMContentLoaded', function () {
-    getProductList();
-    getFilterInfo();
-    toggleSortBtn();
-    $("#quickview").removeClass("hidden");
-});
-
-window.addEventListener("scroll", function () {
-    const scrollHeight = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const docTotalHeight = document.body.offsetHeight;
-    const isBottom = windowHeight + scrollHeight >= (docTotalHeight - 1);
-
-    let more_flg = $('#more_flg').val();
-
-    if (more_flg == "false") {
-        if (scrollHeight > (windowHeight - 350) && isBottom == true) {
-            let last_idx = parseInt($('#last_idx').val());
-            if (last_idx > 0) {
-                last_idx += 12;
-            } else {
-                last_idx = 12;
-            }
-
-
-            if (last_idx / 60 > 0 && last_idx % 60 == 0) {
-                more_flg = "true";
-            } else {
-                more_flg = "false";
-            }
-
-            $('#more_flg').val(more_flg);
-            $('#last_idx').val(last_idx);
-
-            getProductListByScroll(last_idx, more_flg);
-        }
-    }
-});
 
 function clickShowMore() {
     $('#more_flg').val("false");
@@ -125,6 +87,7 @@ const getProductList = () => {
 				productSml();
 				swiperStateCheck();
 				upperFilterSelectEvent();
+
 			} else {
 				alert(d.msg);
 				location.href="/main";
@@ -171,60 +134,71 @@ function productWriteHtml(grid_info) {
                 slide_product = "display:none;";
                 slide_outfit = "display:block";
             }
-
             productListHtml +=
-                `<div class="product">
-					<div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
-						${whish_img}
-					</div>
-					<a href="http://116.124.128.246:80/${el.link_url}">
-						<div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
-							<div class="swiper-wrapper">
-                            
-							${el.product_img.product_p_img.map((img) => {
-                    imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
-										<img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
-									</div>`
-                    return imgDiv;
-                }).join("")
+            `<div class="product">
+                <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
+                    ${whish_img}
+                </div>
+                <a href="http://116.124.128.246:80/${el.link_url}">
+                    <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
+                        <div class="swiper-wrapper">
+                        
+                        ${el.product_img.product_p_img.map((img) => {
+                imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
+                                    <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                </div>`
+                return imgDiv;
+            }).join("")
+            }
+                        ${el.product_img.product_o_img.map((img) => {
+                imgDiv = `<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
+                                    <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                </div>`
+                return imgDiv;
+            }).join("")
+            }
+                        </div>
+                    </div>
+                </a>
+                <div class="product-info">
+                    <div class="info-row">
+                        <div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
+                        ${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
+                    </div>
+                    <div class="color-title"><span>${el.color}</span></div>
+                    <div class="info-row">
+                        <div class="color__box" data-maxcount="${colorCnt < 6 ? "" : "over"}" data-colorcount="${colorCnt < 6 ? colorCnt : colorCnt - 5}">
+                            ${el.product_color.map((color, idx) => {
+                let maxCnt = 5;
+                if (idx < maxCnt) {
+                    return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
                 }
-							${el.product_img.product_o_img.map((img) => {
-                    imgDiv = `<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
-										<img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
-									</div>`
-                    return imgDiv;
-                }).join("")
-                }
-							</div>
-						</div>
-					</a>
-					<div class="product-info">
-						<div class="info-row">
-							<div class="name"data-soldout=${el.stock_status == "STCL" ? "STCL" : ""}><span>${el.product_name}</span></div>
-							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
-						</div>
-						<div class="color-title"><span>${el.color}</span></div>
-						<div class="info-row">
-							<div class="color__box" data-maxcount="${colorCnt < 6 ? "" : "over"}" data-colorcount="${colorCnt < 6 ? colorCnt : colorCnt - 5}">
-								${el.product_color.map((color, idx) => {
-                    let maxCnt = 5;
-                    if (idx < maxCnt) {
-                        return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-                    }
-                }).join("")
-                }
-							</div>
-							<div class="size__box">
-								${el.product_size.map((size) => {
-                    return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-                }).join("")
-                }   
-							</div>
-						</div>
-					</div>
-				</div>
-            `;
+            }).join("")
+            }
+                        </div>
+                        <div class="size__box">
+                            ${el.product_size.map((size) => {
+                return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+            }).join("")
+            }   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        } else if(el.grid_type == "IMG"){
+            let g2 = el.clip_info[0];
+            let g4 = el.clip_info[1];
+            productListHtml += `<div class="product product-inside-banner" data-g2x="${g2.location_start}" data-g2y="${g2.location_end}" data-g4x="${g4.location_start}" data-g4y="${g4.location_end}" style="width: 50%; background-image:url('http://116.124.128.246:81${el.banner_location}')"></div>`;
+        } else if(el.grid_type == 'VID'){
+            productListHtml += 
+            `<div class="product product-inside-banner" style="width: 50%;">
+                <video autoplay muted loop>
+                    <source src="http://116.124.128.246:81${el.banner_location}" type="video/mp4">
+                </video>
+            </div>`;
         }
+        
     });
 
     return productListHtml;
@@ -367,13 +341,15 @@ const productListSelectGrid = () => {
     //웹 sort 버튼 클릭
     $webSortGrid.addEventListener("click", () => {
         webGridEvent();
-        swiperStateCheck()
+        swiperStateCheck();
+        bannerHeightBySiblingElements();
     });
 
     //모바일 sort 버튼 클릭
     $mobileSortGrid.addEventListener("click", () => {
         mobileGridEvent();
-        swiperStateCheck()
+        swiperStateCheck();
+        bannerHeightBySiblingElements();
     });
 
     window.addEventListener('resize', function () {
@@ -609,6 +585,7 @@ function getProductListByScroll(last_idx, more_flg) {
                     let product_body = document.querySelector(".product__list__body");
                     product_body.classList.add("no_more");
                 }
+                bannerHeightBySiblingElements();
             } else {
                 alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
             }
@@ -944,8 +921,68 @@ function upperFilterSelectEvent() {
         }
     })
 }
-
+    
 function getCurrentUrl() {
     let url = new URL(location.href);
     return url;
 }
+function bannerHeightBySiblingElements() {
+    const elements = document.querySelectorAll(".product");
+    const targets = document.querySelectorAll(".product-inside-banner");
+    console.log("🏂 ~ file: list.js:928 ~ bannerHeightBySiblingElements ~ targets:", targets)
+    const heights = [];
+
+    elements.forEach((element) => {
+        heights.push(element.offsetHeight);
+    });
+
+    const maxHeight = Math.max(...heights);
+
+    targets.forEach((t) => {
+        t.style.height = `${maxHeight}px`;
+    });
+    console.log('targets',targets)
+}
+
+
+window.addEventListener('DOMContentLoaded', function () {
+    getProductList();
+    getFilterInfo();
+    toggleSortBtn();
+    $("#quickview").removeClass("hidden");
+});
+
+window.addEventListener("scroll", function () {
+    const scrollHeight = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const docTotalHeight = document.body.offsetHeight;
+    const isBottom = windowHeight + scrollHeight >= (docTotalHeight - 1);
+
+    let more_flg = $('#more_flg').val();
+
+    if (more_flg == "false") {
+        if (scrollHeight > (windowHeight - 350) && isBottom == true) {
+            let last_idx = parseInt($('#last_idx').val());
+            if (last_idx > 0) {
+                last_idx += 12;
+            } else {
+                last_idx = 12;
+            }
+
+
+            if (last_idx / 60 > 0 && last_idx % 60 == 0) {
+                more_flg = "true";
+            } else {
+                more_flg = "false";
+            }
+
+            $('#more_flg').val(more_flg);
+            $('#last_idx').val(last_idx);
+
+            getProductListByScroll(last_idx, more_flg);
+        }
+    }
+});
+window.addEventListener('resize', function () {
+    bannerHeightBySiblingElements();
+});
