@@ -1,5 +1,5 @@
 <style>
-    	:root {
+	:root {
 		--order-header--height: 150px;
 		--header--content--gap: 50px;
 
@@ -20,10 +20,12 @@
 	input:focus {
 		border: 0;
 	}
-	.content input:focus{
+
+	.content input:focus {
 		caret-color: #343434;
 		outline: 0;
 	}
+
 	body {
 		font-family: var(--ft-no-fu);
 		/* background-color: #222; */
@@ -48,12 +50,15 @@
 		letter-spacing: normal;
 		color: #dcdcdc;
 	}
-	.tui-select-box-input:focus{
+
+	.tui-select-box-input:focus {
 		outline: 0px;
 	}
+
 	.tui-select-box-input {
 		border: 1px solid #808080;
 	}
+
 	#addrDirectBox {
 		border-top: 0px;
 		padding: 10px;
@@ -64,6 +69,7 @@
 		border-left: 1px solid #808080;
 		border-right: 1px solid #808080;
 	}
+
 	.tui-select-box-item {
 		color: var(--bk);
 		font-family: var(--ft-no-fu);
@@ -81,6 +87,7 @@
 	.cn-box p {
 		margin: 0;
 	}
+
 	.body-wrap {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -91,18 +98,21 @@
 		letter-spacing: normal;
 		text-align: left;
 		color: #343434;
-        
+
 	}
+
 	.content {
 		display: block;
 		position: sticky;
 		align-self: start;
 		grid-column: 7/11;
 		top: 50px;
+		width: 470px;
+		margin: 0 auto;
 	}
-	
+
 	/* 주문상품내역 */
-	.order-product .hd-title{
+	.order-product .hd-title {
 		font-family: var(--ft-no-fu);
 		font-size: 13px;
 		font-weight: normal;
@@ -115,7 +125,7 @@
 	}
 
 	.order-product .header-wrap {
-		margin-top:20px;
+		margin-top: 40px;
 		position: sticky;
 	}
 
@@ -123,7 +133,7 @@
 		position: sticky;
 		display: grid;
 		grid-template-columns: 3fr 1fr 1fr 1fr;
-		padding-bottom: 20px;
+		padding: 10px 0 20px;
 	}
 
 	.order-product .header-col {
@@ -137,6 +147,7 @@
 		text-align: left;
 		color: #343434;
 	}
+
 	.product .product-info .info-row .name {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -148,7 +159,8 @@
 		text-align: left;
 		color: #343434;
 	}
-	.product .color-title{
+
+	.product .color-title {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
 		font-weight: 500;
@@ -159,6 +171,7 @@
 		text-align: left;
 		color: #343434;
 	}
+
 	.product .list-row {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -171,12 +184,15 @@
 		color: #343434;
 	}
 
-    .number-info {
-        margin-bottom: 20px;
-    }
-    .option-info {
-        padding-bottom: 10px;
-    }
+	.number-info {
+		margin-bottom: 40px;
+		border-bottom: 1px solid #eeeeee;
+	}
+
+	.option-info {
+		padding-bottom: 20px;
+		border-bottom: 1px solid #eeeeee;
+	}
 
 	.product .size__box li {
 		font-family: var(--ft-no-fu);
@@ -189,6 +205,7 @@
 		text-align: left;
 		color: #343434;
 	}
+
 	.order-product .product-wrap {
 		max-height: 410px;
 		overflow-y: auto;
@@ -198,18 +215,18 @@
 		display: grid;
 		grid-template-columns: 3fr 1fr 1fr 1fr;
 		width: 100%;
-		max-height: 96px;
-		border-bottom: 1px solid #dcdcdc;
-		padding-bottom: 10px;
-		margin-bottom: 10px;
+		border-bottom: 1px solid #eeeeee;
+		padding: 10px 0;
 	}
 
 	.order-product .product-info {
 		display: flex;
 		padding: 0px;
 		gap: 10px;
+		border: none;
 	}
-	.order-product .product-info .info-row[data-refund="true"]::after{
+
+	.order-product .product-info .info-row[data-refund="true"]::after {
 		content: "교환 반품 불가";
 		font-family: var(--ft-no-fu);
 		font-size: 10px;
@@ -234,46 +251,54 @@
 		gap: 3px;
 		justify-content: flex-start;
 	}
+
 	.order-product .product-info .info-row.mobile-saleprice {
 		display: none;
 	}
+
 	.order-product .web-saleprice {
-			display: block;
+		display: block;
 	}
+
 	.order-product .prd-img {
 		/* max-width: 3.65vw; */
 		max-width: 70px;
-    	max-height: 86px;
+		max-height: 86px;
 	}
+
 	.order-product .product-toggle-btn {
 		display: none;
 	}
+
 	.calculation-box {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
-		padding: 20px 0 10px 0;
+		gap: 20px;
+		padding: 20px 0;
 		border-bottom: 1px solid #dcdcdc;
 	}
 
 	.calculation-box .point-box {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 20px;
 	}
 
 	.calculation-row {
 		display: flex;
 		justify-content: space-between;
 	}
+
 	.total-price {
 		text-decoration: underline;
 	}
+
 	.total-price-wrap {
 		display: flex;
 		justify-content: space-between;
-		padding: 10px 0;
+		padding: 20px 0;
 	}
+
 	.content input {
 		border: 1px solid #808080;
 	}
@@ -281,11 +306,10 @@
 
 	.wrapper {
 		width: 100%;
-        border-bottom: solid 1px #dcdcdc;
 	}
 
 	.wrapper[data-group="1"] {
-		border-bottom: 1px solid #dcdcdc;
+		border-bottom: 1px solid #eeeeee;
 		padding-bottom: 10px;
 		margin-bottom: 40px;
 		display: none;
@@ -311,6 +335,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		padding-bottom: 10px;
 	}
 
 	.header-box-btn {
@@ -358,15 +383,15 @@
 		display: grid;
 		grid-template-columns: repeat(16, 1fr);
 		width: 100%;
-		height:200px;
+		height: 200px;
 		background-color: #ffffff;
 	}
 
 	.banner-wrap .banner-box {
 		display: flex;
-        justify-content: center;
+		justify-content: center;
 		align-items: center;
-        height: 100%;
+		height: 100%;
 		grid-column: 7/11;
 		font-family: var(--ft-no-fu);
 		font-size: 13px;
@@ -398,6 +423,7 @@
 		height: 10px;
 		cursor: pointer;
 	}
+
 	.calculation-wrap {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -408,6 +434,10 @@
 		letter-spacing: normal;
 		text-align: left;
 		color: #343434;
+	}
+
+	.total-price-wrap {
+		border-bottom: 1px solid #dcdcdc;
 	}
 
 	/* 바우처 */
@@ -472,7 +502,8 @@
 		text-align: left;
 		color: #343434;
 	}
-	.charge-info .body-wrap{
+
+	.charge-info .body-wrap {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
 		font-weight: normal;
@@ -513,8 +544,9 @@
 
 	/* 배송지정보 */
 	.address-info {
-		padding-bottom: 10px;
-        margin-bottom: 20px;
+		padding-bottom: 20px;
+		margin-bottom: 40px;
+		border-bottom: 1px solid #eeeeee;
 	}
 
 	.address-info .header-box-btn {
@@ -530,6 +562,7 @@
 	.address-info .cn-box {
 		padding-bottom: 15px;
 	}
+
 	.address-info .confirm-text.check::after {
 		content: attr(data-content);
 		font-family: var(--ft-no-fu);
@@ -546,6 +579,11 @@
 		bottom: 40px;
 		color: #ff0000;
 		text-decoration: underline;
+	}
+
+	.header-under {
+		text-decoration: underline;
+		padding-bottom: 10px;
 	}
 
 	.edit-box .input-row {
@@ -633,7 +671,7 @@
 
 	.to-place {
 		margin-bottom: 10px;
-        text-decoration: underline;
+		text-decoration: underline;
 	}
 
 	.check-text {
@@ -654,8 +692,9 @@
 		display: flex;
 		gap: 5px;
 		flex-direction: column;
-		padding: 10px 14px;
+		padding: 10px 0;
 	}
+
 	.terms-service {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -666,12 +705,15 @@
 		letter-spacing: normal;
 		text-align: left;
 		color: #343434;
-        padding-top: 20px;
-        margin-bottom: 40px;
+		padding-top: 20px;
+		margin-bottom: 40px;
 	}
-    .terms-service .header-title {
-        padding-top: 20px;
-    }
+
+	.terms-service .header-title {
+		padding-top: 20px;
+		font-size: 13px;
+	}
+
 	/* 스탭 버튼 */
 
 
@@ -715,17 +757,20 @@
 	#postcodify {
 		margin: 0;
 		max-height: 400px;
-    	overflow: auto;
+		overflow: auto;
 	}
-	#postcodify .keyword{
+
+	#postcodify .keyword {
 		grid-column: 1/4;
 	}
-	#postcodify .search_button{
+
+	#postcodify .search_button {
 		grid-column: 4/5;
 	}
-	.post-change-result{
+
+	.post-change-result {
 		width: 74.5%;
-		margin: 0!important;
+		margin: 0 !important;
 		background-color: #fff;
 		overflow: auto;
 		max-height: 300px;
@@ -733,32 +778,39 @@
 		border-top: 0px;
 		top: -32px;
 	}
+
 	.postcodify_search_controls {
 		display: grid;
 		gap: 10px;
-		grid-template-columns: repeat(4, 1fr);	
+		grid-template-columns: repeat(4, 1fr);
 	}
+
 	.postcodify_search_result .code5 {
 		color: var(--bk);
 	}
-	.postcodify_search_result .addr-row{
-		color: #dcdcdc;
-	}
-	.postcodify_search_result .old_addr-row{
-		color: #dcdcdc;
-	}
-	@media (max-width: 1025px) {
-        .banner-wrap {
-            display: inline-block;
-        }
-        .order-section{
-            display: inline-block;
-            padding: 10px;
-        }
 
-        .product .product-info {
+	.postcodify_search_result .addr-row {
+		color: #dcdcdc;
+	}
+
+	.postcodify_search_result .old_addr-row {
+		color: #dcdcdc;
+	}
+
+	@media (max-width: 1025px) {
+		.banner-wrap {
+			display: inline-block;
+		}
+
+		.order-section {
+			display: inline-block;
+			padding: 10px;
+		}
+
+		.product .product-info {
 			height: auto;
 		}
+
 		.order-section {
 			display: flex;
 			flex-direction: column;
@@ -770,19 +822,25 @@
 			width: 100%;
 			display: none;
 		}
-		.content.rigth{
-			padding-top:47px ;
+
+		.content.rigth {
+			padding-top: 47px;
 		}
-		.content.mobile{
+
+		.content.mobile {
 			margin-bottom: 40px;
 		}
-		.content.mobile li, ul{
+
+		.content.mobile li,
+		ul {
 			list-style: none;
 		}
-		.terms-service{
-			order: 7;
+
+		.terms-service {
+			padding: 0;
 		}
-		.step-btn-wrap{
+
+		.step-btn-wrap {
 			order: 8;
 		}
 
@@ -792,6 +850,7 @@
 			align-items: center;
 			flex-grow: 1;
 		}
+
 		.order-product .product-toggle-btn {
 			cursor: pointer;
 			display: flex;
@@ -810,69 +869,110 @@
 			line-height: normal;
 			letter-spacing: normal;
 		}
+
 		.order-product .body-list {
 			grid-template-columns: 4fr 1fr 1fr;
 		}
+
 		.order-product .product-info .info-row.mobile-saleprice {
 			display: block;
 		}
+
 		.order-product .web-saleprice {
 			display: none;
 		}
-		.order-product .product-wrap{
+
+		.order-product .product-wrap {
 			margin-bottom: 20px;
 		}
+
 		.order-product .product-count {
 			display: flex;
 			height: 100%;
 			align-items: flex-end;
 			justify-content: flex-end;
 		}
+
 		.order-product .total-price {
 			display: flex;
 			height: 100%;
 			align-items: flex-end;
 			justify-content: flex-end;
 		}
-		.order-product .product-count::before{
+
+		.order-product .product-count::before {
 			content: "Qty:";
 		}
+
 		.calculation-box {
 			padding: 0;
 			border-bottom: 0px;
+			gap: 10px;
+			margin-top: 20px;
 		}
-		.total-price-wrap{
-			padding-top: 10px;
+
+		.total-price-wrap {
+			border-bottom: 1px solid #dcdcdc;
+			border-top: 1px solid #dcdcdc;
+			padding: 10px 0;
+			margin-top: 10px;
 		}
-		.post-change-result{
+
+		.post-change-result {
 			width: 100%;
 		}
-		.total-price{
+
+		.total-price {
 			text-decoration: underline;
 		}
 
-    }
-</style>
-<main data-order_idx="<?=$order_idx?>">
-	<?php
-		$member_idx = 0;
-		if (isset($_SESSION['MEMBER_IDX'])) {
-			$member_idx = $_SESSION['MEMBER_IDX'];
+		.number-info,.address-info {
+			margin-bottom: 17.5px;
 		}
-		
-		if ($member_idx == 0 || $order_idx == null) {
-			echo "
+		.order-product .header-wrap {
+			margin: 20px 0 10px;
+		}
+		.address-info{
+			padding-bottom: 10px;
+		}
+		.calculation-box .point-box {
+			gap: 10px;
+		}
+
+		.terms-info-list {
+			padding-bottom: 0;
+		}
+		.order-product .header-list {
+			display: none;
+		}
+		.header-wrap,.option-info {
+			padding: 0;
+		}
+		.body-wrap.padding{
+			padding-bottom: 10px;
+		}
+	}
+</style>
+<main data-order_idx="<?= $order_idx ?>">
+	<?php
+	$member_idx = 0;
+	if (isset($_SESSION['MEMBER_IDX'])) {
+		$member_idx = $_SESSION['MEMBER_IDX'];
+	}
+
+	if ($member_idx == 0 || $order_idx == null) {
+		echo "
 				<script>
 					location.href='/main';
 				</script>
 			";
-		}
-		
-		if ($member_idx > 0) {
-			$order_cnt = $db->count("dev.ORDER_INFO","IDX = ".$order_idx." AND MEMBER_IDX = ".$member_idx);
-			
-			if ($order_cnt > 0) {
-				$select_order_sql = "
+	}
+
+	if ($member_idx > 0) {
+		$order_cnt = $db->count("dev.ORDER_INFO", "IDX = " . $order_idx . " AND MEMBER_IDX = " . $member_idx);
+
+		if ($order_cnt > 0) {
+			$select_order_sql = "
 					SELECT
 						OI.IDX						ORDER_IDX,
 						OI.ORDER_CODE				ORDER_CODE,
@@ -897,18 +997,18 @@
 					FROM
 						dev.ORDER_INFO OI
 					WHERE
-						OI.IDX = ".$order_idx.";
+						OI.IDX = " . $order_idx . ";
 				";
-				
-				$db->query($select_order_sql);
-				
-				$order_info = array();
-				$order_product = array();
-				foreach($db->fetch() as $order_data) {
-					$order_idx = $order_data['ORDER_IDX'];
-					
-					if (!empty($order_idx)) {
-						$select_order_product_sql = "
+
+			$db->query($select_order_sql);
+
+			$order_info = array();
+			$order_product = array();
+			foreach ($db->fetch() as $order_data) {
+				$order_idx = $order_data['ORDER_IDX'];
+
+				if (!empty($order_idx)) {
+					$select_order_product_sql = "
 							SELECT
 								(
 									SELECT
@@ -944,53 +1044,53 @@
 								LEFT JOIN dev.ORDERSHEET_MST OM ON
 								PR.ORDERSHEET_IDX = OM.IDX
 							WHERE
-								OP.ORDER_IDX = ".$order_idx."
+								OP.ORDER_IDX = " . $order_idx . "
 						";
-						
-						$db->query($select_order_product_sql);
-						
-						foreach($db->fetch() as $product_data) {
-							$order_product[] = array(
-								'img_location'		=>$product_data['IMG_LOCATION'],
-								'product_name'		=>$product_data['PRODUCT_NAME'],
-								'color'				=>$product_data['COLOR'],
-								'color_rgb'			=>$product_data['COLOR_RGB'],
-								'option_name'		=>$product_data['OPTION_NAME'],
-								'product_qty'		=>$product_data['PRODUCT_QTY'],
-								'price_product'		=>number_format($product_data['PRICE_PRODUCT']),
-								'price_total'		=>number_format($product_data['PRICE_TOTAL'])
-							);
-						}
-						
-						$order_info = array(
-							'order_code'			=>$order_data['ORDER_CODE'],
-							'to_place'				=>$order_data['TO_PLACE'],
-							'to_name'				=>$order_data['TO_NAME'],
-							'to_mobile'				=>$order_data['TO_MOBILE'],
-							'to_zipcode'			=>$order_data['TO_ZIPCODE'],
-							'to_addr'				=>$order_data['TO_ADDR'],
-							'to_detail_addr'		=>$order_data['TO_DETAIL_ADDR'],
-							'order_memo'			=>$order_data['ORDER_MEMO'],
-							'pg_payment'			=>$order_data['PG_PAYMENT'],
-							'pg_date'				=>$order_data['PG_DATA'],
-							'pg_price'				=>$order_data['PG_PRICE'],
-							'price_product'			=>number_format($order_data['PRICE_PRODUCT']),
-							'price_discount'		=>number_format($order_data['PRICE_DISCOUNT']),
-							'price_mileage_point'	=>number_format($order_data['PRICE_MILEAGE_POINT']),
-							'price_charge_point'	=>number_format($order_data['PRICE_CHARGE_POINT']),
-							'price_delivery'		=>number_format($order_data['PRICE_DELIVERY']),
-							'price_total'			=>number_format($order_data['PRICE_TOTAL'])
+
+					$db->query($select_order_product_sql);
+
+					foreach ($db->fetch() as $product_data) {
+						$order_product[] = array(
+							'img_location' => $product_data['IMG_LOCATION'],
+							'product_name' => $product_data['PRODUCT_NAME'],
+							'color' => $product_data['COLOR'],
+							'color_rgb' => $product_data['COLOR_RGB'],
+							'option_name' => $product_data['OPTION_NAME'],
+							'product_qty' => $product_data['PRODUCT_QTY'],
+							'price_product' => number_format($product_data['PRICE_PRODUCT']),
+							'price_total' => number_format($product_data['PRICE_TOTAL'])
 						);
 					}
+
+					$order_info = array(
+						'order_code' => $order_data['ORDER_CODE'],
+						'to_place' => $order_data['TO_PLACE'],
+						'to_name' => $order_data['TO_NAME'],
+						'to_mobile' => $order_data['TO_MOBILE'],
+						'to_zipcode' => $order_data['TO_ZIPCODE'],
+						'to_addr' => $order_data['TO_ADDR'],
+						'to_detail_addr' => $order_data['TO_DETAIL_ADDR'],
+						'order_memo' => $order_data['ORDER_MEMO'],
+						'pg_payment' => $order_data['PG_PAYMENT'],
+						'pg_date' => $order_data['PG_DATA'],
+						'pg_price' => $order_data['PG_PRICE'],
+						'price_product' => number_format($order_data['PRICE_PRODUCT']),
+						'price_discount' => number_format($order_data['PRICE_DISCOUNT']),
+						'price_mileage_point' => number_format($order_data['PRICE_MILEAGE_POINT']),
+						'price_charge_point' => number_format($order_data['PRICE_CHARGE_POINT']),
+						'price_delivery' => number_format($order_data['PRICE_DELIVERY']),
+						'price_total' => number_format($order_data['PRICE_TOTAL'])
+					);
 				}
-			} else {
-				echo "
+			}
+		} else {
+			echo "
 					<script>
 						location.href='/main';
 					</script>
 				";
-			}
 		}
+	}
 	?>
 	<div class="banner-wrap">
 		<div class="banner-box">
@@ -1003,7 +1103,9 @@
 				<div class="header-wrap">
 					<div class="header-box">
 						<span class="hd-title">주문번호</span>
-						<span><?=$order_info['order_code']?></span>
+						<span>
+							<?= $order_info['order_code'] ?>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -1015,17 +1117,31 @@
 				</div>
 				<div class="body-wrap">
 					<div class="save-box">
-						<div class="to-place"><?=$order_info['to_place']?></div>
+						<div class="to-place">
+							<?= $order_info['to_place'] ?>
+						</div>
 						<div class="cn-box">
-							<p class="to-name"><?=$order_info['to_name']?></p>
-							<p class="to-phone"><?=$order_info['to_mobile']?></p>
-							<p class="to-zipcode"><?=$order_info['to_zipcode']?></p>
-							<p class="to-addr"><?=$order_info['to_addr']?></p>
-							<p class="to-detail"><?=$order_info['to_detail_addr']?></p>
+							<p class="to-name">
+								<?= $order_info['to_name'] ?>
+							</p>
+							<p class="to-phone">
+								<?= $order_info['to_mobile'] ?>
+							</p>
+							<p class="to-zipcode">
+								<?= $order_info['to_zipcode'] ?>
+							</p>
+							<p class="to-addr">
+								<?= $order_info['to_addr'] ?>
+							</p>
+							<p class="to-detail">
+								<?= $order_info['to_detail_addr'] ?>
+							</p>
 						</div>
 						<div class="message-box">
 							<span class="hd-title">배송메시지</span>
-							<span class="message-content"><?=$order_info['order_memo']?></span>
+							<span class="message-content">
+								<?= $order_info['order_memo'] ?>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -1036,10 +1152,10 @@
 						<span class="hd-title">결제수단</span>
 					</div>
 					<div class="header-under">
-						<span style="text-decoration: underline;">영수증보기</span>
+						<span>영수증보기</span>
 					</div>
 				</div>
-				<div class="body-wrap">
+				<div class="body-wrap padding">
 					<div>신용카드</div>
 				</div>
 			</div>
@@ -1047,7 +1163,6 @@
 				<div class="header-wrap">
 					<div class="header-box">
 						<span class="hd-title">주문내역</span>
-						<div class="product-toggle-btn"><span>자세히보기</span></div>
 					</div>
 				</div>
 				<div class="header-list">
@@ -1058,68 +1173,96 @@
 				</div>
 				<div class="body-wrap">
 					<?php
-						foreach($order_product as $product_data) {
-					?>
-					<div class="body-list product">
-						<div class="product-info">
-							<img class="prd-img" cnt="1" src="http://116.124.128.246:81/<?=$product_data['img_location']?>" alt="">
-							<div class="info-box">
-								<div class="info-row">
-									<div class="name" data-soldout=""><span><?=$product_data['product_name']?></span></div>
-								</div>
-								<div class="info-row mobile-saleprice">
-									<div class="product-price"><?=$product_data['product_price']?></div>
-								</div>
-								<div class="info-row">
-									<div class="color-title"><span><?=$product_data['color']?></span></div>
-									<div class="color__box" data-maxcount="" data-colorcount="1">
-										<div class="color" data-color="<?=$product_data['color_rgb']?>" data-soldout="STIN" style="background-color:<?=$product_data['color_rgb']?>"></div>
+					foreach ($order_product as $product_data) {
+						?>
+						<div class="body-list product">
+							<div class="product-info">
+								<img class="prd-img" cnt="1"
+									src="http://116.124.128.246:81/<?= $product_data['img_location'] ?>" alt="">
+								<div class="info-box">
+									<div class="info-row">
+										<div class="name" data-soldout=""><span>
+												<?= $product_data['product_name'] ?>
+											</span></div>
 									</div>
-								</div>
-								<div class="info-row">
-									<div class="size__box">
-										<li class="size" data-soldout="STIN"><?=$product_data['option_name']?></li>
+									<div class="info-row mobile-saleprice">
+										<div class="product-price">
+											<?= $product_data['product_price'] ?>
+										</div>
+									</div>
+									<div class="info-row">
+										<div class="color-title"><span>
+												<?= $product_data['color'] ?>
+											</span></div>
+										<div class="color__box" data-maxcount="" data-colorcount="1">
+											<div class="color" data-color="<?= $product_data['color_rgb'] ?>"
+												data-soldout="STIN"
+												style="background-color:<?= $product_data['color_rgb'] ?>"></div>
+										</div>
+									</div>
+									<div class="info-row">
+										<div class="size__box">
+											<li class="size" data-soldout="STIN">
+												<?= $product_data['option_name'] ?>
+											</li>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 
-						<div class="list-row web-saleprice">
-							<span class="product-price"><?=$product_data['price_product']?></span>
+							<div class="list-row web-saleprice">
+								<span class="product-price">
+									<?= $product_data['price_product'] ?>
+								</span>
+							</div>
+							<div class="list-row">
+								<span class="product-count">
+									<?= $product_data['product_qty'] ?>
+								</span>
+							</div>
+							<div class="list-row">
+								<span class="total-price">
+									<?= $product_data['price_total'] ?>
+								</span>
+							</div>
 						</div>
-						<div class="list-row">
-							<span class="product-count"><?=$product_data['product_qty']?></span>
-						</div>
-						<div class="list-row">
-							<span class="total-price"><?=$product_data['price_total']?></span>
-						</div>
-					</div>
 					<?php
-						}
+					}
 					?>
-					
+
 					<div class="calculation-wrap">
 						<div class="calculation-box">
 							<div class="product-sum calculation-row">
 								<span>제품 합계</span>
-								<span class="cal-price"><?=$order_info['price_product']?></span>
+								<span class="cal-price">
+									<?= $order_info['price_product'] ?>
+								</span>
 							</div>
 							<div class="point-box">
 								<div class="calculation-row">
 									<span>바우처 사용</span>
-									<span class="voucher-point-use" data-voucher="0"><?=$order_info['price_discount']?></span>
+									<span class="voucher-point-use" data-voucher="0">
+										<?= $order_info['price_discount'] ?>
+									</span>
 								</div>
 								<div class="calculation-row">
 									<span>적립 포인트 사용</span>
-									<span class="accumulate-point-use" data-accumulate="0"><?=$order_info['price_mileage_point']?></span>
+									<span class="accumulate-point-use" data-accumulate="0">
+										<?= $order_info['price_mileage_point'] ?>
+									</span>
 								</div>
 								<div class="calculation-row">
 									<span>충전 포인트 사용</span>
-									<span class="charge-point-use" data-charge="0"><?=$order_info['price_charge_point']?></span></div>
+									<span class="charge-point-use" data-charge="0">
+										<?= $order_info['price_charge_point'] ?>
+									</span>
+								</div>
 							</div>
 							<div class="calculation-row">
 								<span>배송비</span>
-								<span data-delprice="5000" class="del-price"><?=$order_info['price_delivery']?></span>
+								<span data-delprice="5000" class="del-price">
+									<?= $order_info['price_delivery'] ?>
+								</span>
 							</div>
 						</div>
 						<div class="total-price-wrap">
@@ -1127,7 +1270,9 @@
 								<span>최종 결제금액</span>
 								<span class="product-qty hidden"></span>
 							</div>
-							<span class="total-price"><?=$order_info['price_total']?></span>
+							<span class="total-price">
+								<?= $order_info['price_total'] ?>
+							</span>
 						</div>
 					</div>
 				</div>
@@ -1135,40 +1280,40 @@
 
 			<div class="terms-service " data-group="4">
 				<div class="header-title">주문 취소 안내</div>
-				<ul class="terms-info-list">
-					<li>'주문 접수' 및 '결제 완료' 단계 : [회원정보>주문>주문상세] 에서 취소 가능
-						합니다.</li>
-					<li>'배송 준비중' 이후 단계 : 주문취소 불가하며, 제품 수령 후 '반품'으로 진행 
-						부탁드립니다.</li>
-				</ul>
+				<div class="terms-info-list">
+					<p>·&nbsp;'주문 접수' 및 '결제 완료' 단계 : [회원정보>주문>주문상세] 에서 취소 가능
+						합니다.</p>
+					<p>·&nbsp;'배송 준비중' 이후 단계 : 주문취소 불가하며, 제품 수령 후 '반품'으로 진행
+						부탁드립니다.</p>
+				</div>
 				<div class="header-title">반품 안내</div>
-				<ul class="terms-info-list">
-					
-					<li>반품 접수는 제품 수령 후 7일 이내 가능합니다.</li>
-					<li>주문 상태가 '배송 완료' 일 경우 [회원정보>주문>주문상세] 에서 반품 접수 
-						가능하며, '배송중' 으로 보여질 경우 고객 서비스팀으로 연락 주시기 바랍
-						니다.</li>
-					<li>반품 절차는 아래 링크를 참고하시기 바랍니다.</li>
-				</ul>
+				<div class="terms-info-list">
+					<p>·&nbsp;반품 접수는 제품 수령 후 7일 이내 가능합니다.</p>
+					<p>·&nbsp;주문 상태가 '배송 완료' 일 경우 [회원정보>주문>주문상세] 에서 반품 접수 가능하며,
+						'배송중' 으로 보여질 경우 고객 서비스팀으로 연락 주시기 바랍니다.</p>
+					<p>·&nbsp;반품 절차는 아래 링크를 참고하시기 바랍니다.</p>
+				</div>
 			</div>
 			<div class="step-btn-wrap">
 				<div class="step-btn pre" onClick="location.href='/order/basket/list'"><span>계속 쇼핑하기</span></div>
-				<div class="step-btn next" data-step="1" onClick="location.href='/mypage/main?mypage_type=orderlist'"><span>주문/배송조회</span></div>
+				<div class="step-btn next" data-step="1" onClick="location.href='/mypage/main?mypage_type=orderlist'">
+					<span>주문/배송조회</span>
+				</div>
 			</div>
 		</div>
 	</section>
 </main>
 <script>
-window.addEventListener("resize" , function() {
-	resizeEvent();
-});
+	window.addEventListener("resize", function () {
+		resizeEvent();
+	});
 
-function resizeEvent() {
-	const bodyWidth = document.querySelector("body").offsetWidth;
-	if ( 1024 <= bodyWidth) {
-		document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
-	} else if(1024 >= bodyWidth) {
-		document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
+	function resizeEvent() {
+		const bodyWidth = document.querySelector("body").offsetWidth;
+		if (1024 <= bodyWidth) {
+			document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
+		} else if (1024 >= bodyWidth) {
+			document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
+		}
 	}
-}
 </script>

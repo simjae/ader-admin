@@ -13,7 +13,6 @@
  | 
  +=============================================================================
 */
-
 $inquiry_type = $_POST['inquiry_type'];
 $inquiry_title = $_POST['inquiry_title'];
 $inquiryTextBox = $_POST['inquiryTextBox'];
@@ -22,6 +21,7 @@ $country = $_POST['country'];
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
+    $member_id = $_SESSION['MEMBER_ID'];
 }
 
 if ($member_idx == 0 || $country == NULL) {
@@ -69,6 +69,31 @@ if($inquiry_type != null && $inquiry_title != null && $inquiryTextBox != null){
 
     $board_idx = $db->last_id();
 
+    if(!empty($board_idx)){
+        $path = "/var/www/admin/www/images/inquiry/";
+        for($i = 1; $i <=5 ; $i++){
+            $file_obj = $_FILES['board_img'.$i];
+            if($file_obj['size'] > 0) {
+                move_uploaded_file($file_obj['tmp_name'], $path.'img_'.time().'_'.$file_obj['name']);
+                
+                $img_sql = "INSERT INTO
+                            dev.BOARD_IMAGE
+                            (
+                                BOARD_IDX,
+                                IMG_LOCATION,
+                                CREATER,
+                                UPDATER
+                            ) VALUES (
+                                ".$board_idx.",
+                                '".$path.'img_'.time().'_'.$file_obj['name']."',
+                                '".$member_id."',
+                                '".$member_id."'
+                        )";
+                $db->query($img_sql);
+            }
+        }
+    }
+    
     if(empty($board_idx)){
         $json_result['code'] = 301;
         $json_result['msg'] = '문의하기가 실패했습니다. 다시 시도해주세요';

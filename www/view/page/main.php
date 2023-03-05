@@ -918,42 +918,11 @@
     }
 </style>
 <main>
-    <!-- banner -->
+    <!-- main_banner -->
     <section class="new__project__wrap">
         <div class="new__project__swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <!-- <div class="new__project__img" style="background-image:url('/images/landing/bg.jpeg') ;"> -->
-                    <img class="" src="/images/sample/section1.jpg" alt="">
-                    <div class="new__project__content">
-                        <div class="cnt-box">
-                            <div class="season__title">2022 Spring Summer Collection</div>
-                            <div class="title">After blue</div>
-                            <div class="btn__wrap">
-                                <a href="" class="read__more under-line wh">자세히보기</a>
-                                <a href="" class="go__product under-line wh">제품 보러 가기</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- </div> -->
-                </div>
-                <div class="swiper-slide">
-                    <img class="" src="/images/sample/section1-2.jpg" alt="">
-                    <div class="new__project__content">
-                        <div class="cnt-box">
-                            <div class="season__title">2022 Spring Summer Collection</div>
-                            <div class="title">After blue</div>
-                            <div class="btn__wrap">
-                                <a href="" class="read__more under-line wh">자세히보기</a>
-                                <a href="" class="go__product under-line wh">제품 보러 가기</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <!-- <div class="new__project__img" style="background-image:url('/images/landing/intro1.jpeg') ;"></div> -->
-                    <img class="" src="/images/sample/section1.jpg" alt="">
-                </div>
+            <div id="main_banner_swiper" class="swiper-wrapper">
+				<!-- main_banner_swipier -->
             </div>
             <div class="navigation">
                 <div class="swiper-button-next"></div>
@@ -962,233 +931,51 @@
         </div>
     </section>
 
-    <!-- exhibtion -->
+    <!-- main_contents -->
     <section>
         <div class="exhibtion__wrap">
-            <img class="exhibtion__img" src="/images/sample/section2.jpg" alt="">
+            <img id="contents_img" class="exhibtion__img" src="" alt="">
             <div class="exhibtion__content">
                 <div class="ex__box">
-                    <div class="title">아더에러 <span class="fu-font">22 SS</span> 컬렉션 2차 드롭</div>
-                    <div class="season__title">22S/S 'Self Expression'</div>
+                    <div id="contents_title" class="title">아더에러 <span class="fu-font">22 SS</span> 컬렉션 2차 드롭</div>
+                    <div id="contents_sub_title" class="season__title">22S/S 'Self Expression'</div>
                     <div class="btn__wrap">
-                        <a href="" class="under-line bk">자세히보기</a>
-                        <a href="" class="under-line bk">제품 보러 가기</a>
+                        <a id="contents_btn1" href="" class="under-line bk">자세히보기</a>
+                        <a id="contents_btn2" href="" class="under-line bk">제품 보러 가기</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- re product -->
+	
+    <!-- main_contents_product -->
     <section>
         <div class="recommand-wrap">
-            <div class="re-swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a class="slide-box">
-                            <div class="center-box">
-                                <img src="/images/product/img_product_product_BLASSTB18BL_mdl_1661837024.png" alt="">
-                                <div class="slide__title">Shopper bag</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="slide-box">
-                            <div class="center-box">
-                                <img src="/images/product/img_product_product_PRDTEST0001_mdl_1661773069.png" alt="">
-                                <div class="slide__title">Shopper bag</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="slide-box">
-                            <div class="center-box">
-                                <img src="/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png" alt="">
-                                <div class="slide__title">Shopper bag</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="slide-box">
-                            <div class="center-box">
-                                <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                                <div class="slide__title">Shopper bag</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a class="slide-box">
-                            <div class="center-box">
-                                <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                                <div class="slide__title">Shopper bag</div>
-                            </div>
-                        </a>
-                    </div>
+            <!-- main_contents_product_web -->
+			<div class="re-swiper">
+                <div id="contents_wrapper_web" class="swiper-wrapper">
+                    <!-- contents_product_swiper_w -->
                 </div>
                 <div class="navigation">
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
                 </div>
             </div>
-            <div class="recommand-mobile">
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_product_BLASSTB18BL_mdl_1661837024.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_product_PRDTEST0001_mdl_1661773069.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_product_BLASSHD01KK_mdl_1661844466.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
-                <a class="slide-box">
-                    <div class="center-box">
-                        <img src="/images/product/img_product_wear_BLASSTB18BL_mdl_1661837025.png" alt="">
-                        <div class="title">Shopper bag</div>
-                    </div>
-                </a>
+			
+			<!-- main_contents_product_mobile -->
+            <div id="contents_wrapper_mobile" class="recommand-mobile">
+                <!-- contents_product_swiper_m -->
             </div>
         </div>
     </section>
-    <!-- Styling -->
+	
+    <!-- main_image -->
     <section>
         <div class="styling-wrap">
             <div class="styling-text"><span>Styling</span>></div>
             <div class="styling-swiper swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling4.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling3.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling4.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling2.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling3.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="swiper-slide">
-                        <div class="styling__card">
-                            <div class="styling-box">
-                                <a href="">
-                                    <img class="styling__img" src="/images/styling/styling1.jpg" alt="">
-                                    <div class="t-box">
-                                        <div style="display: flex;"><p class="title under-line bk">Metal line</p></div>
-                                        <div class="btn__wrap">
-                                            <a href="" class="under-line bk">자세히보기</a>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div id="main_image_swiper" class="swiper-wrapper">
+                    <!-- main_image_swiper -->
                 </div>
                 <div class="navigation">
                     <div class="swiper-button-prev"></div>
@@ -1217,8 +1004,8 @@
     // http://116.124.128.246/_api/common/recommend/get
     //swiper
     window.addEventListener('DOMContentLoaded', () => {
-        swiperResize();
         headerColorChange();
+        getMainInfo();
         getProductRecommendList();
         mobileRecommandGrid();
 
@@ -1226,8 +1013,9 @@
 
     window.addEventListener('resize', () => {
         document.querySelector("body").dataset
-        swiperResize();
+        main_swiperResize();
     });
+
     let mobileRecommandGrid = () => {
         let $$mobileRecommandBox = document.querySelectorAll(".recommand-mobile .slide-box");
         $$mobileRecommandBox.forEach((el, idx, arr) => {
@@ -1256,10 +1044,12 @@
                 }
 
             }
-
-
         });
     }
+
+    //슬라이더별 헤더색상 변경
+    let header_color = [];
+
     let main_newSwiper = new Swiper(".new__project__swiper", {
         navigation: {
             nextEl: ".new__project__swiper .swiper-button-next",
@@ -1270,16 +1060,16 @@
             clickable: true,
         },
         grabCursor: true,
-        slidesPerView: 1
+        slidesPerView: 1,
+        on: {
+            slideChange : function() {
+                $("header").removeClass("BL");
+                $("header").removeClass("WH");
+                $("header").addClass(header_color[main_newSwiper.activeIndex]);
+            }		
+        }
     });
-	
-	//슬라이더별 헤더색상 변경
-	let headerColor = ["BL","WH","BL"];
-	main_newSwiper.on('slideChange', function () {
-        $("header").removeClass("BL");
-        $("header").removeClass("WH");
-        $("header").addClass(headerColor[main_newSwiper.activeIndex]);
-    });
+
     let main_recommendSwiper = new Swiper(".recommend-swiper", {
         navigation: {
             nextEl: ".recommend-swiper .swiper-button-next",
@@ -1303,6 +1093,7 @@
             }
         }
     });
+
     let main_stylingSwiper = new Swiper(".styling-swiper", {
         navigation: {
             nextEl: ".styling-swiper .swiper-button-next",
@@ -1372,6 +1163,7 @@
             }
         }
     }
+
     let main_reSwiper = new Swiper(".re-swiper", colaboSetting);
 
     (() => {
@@ -1383,10 +1175,11 @@
         });
     })();
 
-    function swiperResize() {
+    function main_swiperResize() {
         let screenWidth = document.querySelector(".styling-wrap").offsetWidth
         let nextbtn = document.querySelector(".styling-swiper .navigation .swiper-button-next");
         let prevbtn = document.querySelector(".styling-swiper .navigation .swiper-button-prev");
+        
         let styleTboxHeight = main_stylingSwiper.el.querySelector(".t-box").offsetHeight;
         let oneGridSize = 0;
         let mobileOneGridSize = 0;
@@ -1480,6 +1273,138 @@
                 }
             });
         }
+    }
+
+    const getMainInfo = () => {
+        let country = getLanguage();
+        $.ajax({
+            type: "post",
+            data: {
+                'country' : country
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/landing/get",
+            error: function () {
+                alert("메인 랜딩 불러오기 처리중 오루가 발생했습니다.");
+            },
+            success: function (d) {
+                if (d.code == 200) {
+                    let data = d.data;
+                    if (data != null) {
+                        let banner_div = "";
+                        
+                        let tmp_header_color = [];
+                        
+                        let banner_info = data.banner_info;
+                        banner_info.forEach(function(banner_row) {
+                            tmp_header_color.push(banner_row.background_color);
+                            
+                            banner_div += '<div class="swiper-slide">';
+                            banner_div += '    <img class="" src="' + img_root + banner_row.img_location + '" alt="">';
+                            banner_div += '    <div class="new__project__content">';
+                            banner_div += '        <div class="cnt-box">';
+                            banner_div += '            <div class="season__title">' + banner_row.title + '</div>';
+                            banner_div += '            <div class="title">' + banner_row.sub_title + '</div>';
+                            banner_div += '            <div class="btn__wrap">';
+                            
+                            let btn1_display_flg = banner_row.btn1_display_flg;
+                            if (btn1_display_flg == true) {
+                                banner_div += '            <a href="' + banner_row.btn1_url + '" class="read__more under-line wh" >' + banner_row.btn1_name + '</a>';	
+                            }
+                            
+                            let btn2_display_flg = banner_row.btn2_display_flg;
+                            if (btn2_display_flg == true) {
+                                banner_div += '            <a href="' + banner_row.btn2_url + '" class="read__more under-line wh">' + banner_row.btn2_name + '</a>';	
+                            }
+                            
+                            banner_div += '            </div>';
+                            banner_div += '        </div>';
+                            banner_div += '    </div>';
+                            banner_div += '</div>';
+                        });
+                        
+                        header_color = tmp_header_color;
+                        $('header').addClass(tmp_header_color[0]);
+                        
+                        $('#main_banner_swiper').append(banner_div);
+                        
+                        let contents_div = "";
+                        
+                        let contents_info = data.contents_info;
+                        $('#contents_img').attr('src',img_root + contents_info.img_location);
+                        $('#contents_title').text(contents_info.title);
+                        $('#contents_sub_title').text(contents_info.sub_title);
+                        
+                        let contents_btn1_display_flg = contents_info.btn1_display_flg;
+                        if (contents_btn1_display_flg == true) {
+                            $('#contents_btn1').text(contents_info.btn1_name);
+                            $('#contents_btn1').attr('href',contents_info.btn1_url);
+                        } else {
+                            $('#contents_btn1').hide();
+                        }
+                        
+                        let contents_btn2_display_flg = contents_info.btn2_display_flg;
+                        if (contents_btn2_display_flg == true) {
+                            $('#contents_btn2').text(contents_info.btn2_name);
+                            $('#contents_btn2').attr('href',contents_info.btn2_url);
+                        } else {
+                            $('#contents_btn2').hide();
+                        }
+                        
+                        let product_div_w = "";
+                        let product_div_m = "";
+                        
+                        let product_info = data.product_info;
+                        product_info.forEach(function(product_row) {
+                            product_div_w += '<div class="swiper-slide" onClick="location.href=\'/product/detail?product_idx=' + product_row.product_idx + '\'">';
+                            product_div_w += '    <a class="slide-box">';
+                            product_div_w += '        <div class="center-box">';
+                            product_div_w += '            <img src="' + img_root + product_row.img_location + '" alt="">';
+                            product_div_w += '            <div class="slide__title">' + product_row.product_name + '</div>';
+                            product_div_w += '        </div>';
+                            product_div_w += '    </a>';
+                            product_div_w += '</div>';
+                            
+                            product_div_m += '<a class="slide-box">';
+                            product_div_m += '    <div class="center-box">';
+                            product_div_m += '        <img src="' + img_root + product_row.img_location + '" alt="">';
+                            product_div_m += '        <div class="title">' + product_row.product_name + '</div>';
+                            product_div_m += '    </div>';
+                            product_div_m += '</a>';
+                        });
+                        
+                        $('#contents_wrapper_web').append(product_div_w);
+                        $('#contents_wrapper_mobile').append(product_div_m);
+                        
+                        let image_div = "";
+                        
+                        let img_info = data.img_info;
+                        img_info.forEach(function(img_row) {
+                            image_div += '<div class="swiper-slide">';
+                            image_div += '    <div class="styling__card">';
+                            image_div += '        <div class="styling-box">';
+                            image_div += '            <a href="' + img_row.btn_url + '">';
+                            image_div += '                <img class="styling__img" src="' + img_root + img_row.img_location + '" alt="">';
+                            image_div += '                <div class="t-box">';
+                                image_div += '                <div style="display: flex;"><p class="title under-line bk">' + img_row.title + '</p></div>';
+                                image_div += '                <div class="btn__wrap">';
+                                image_div += '                    <a href="" class="under-line bk">' + img_row.btn_name + '</a>';
+                                image_div += '                </div>';
+                            image_div += '                </div>';
+                            image_div += '            </a>';
+                            image_div += '        </div>';
+                            image_div += '    </div>';
+                            image_div += '</div>';
+                        });
+                        
+                        $('#main_image_swiper').append(image_div);
+                        
+                        main_newSwiper.update();
+                        main_swiperResize();
+                    }
+                }
+            }
+        });
     }
 
     const getProductRecommendList = () => {

@@ -74,7 +74,7 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 								LEFT JOIN dev.MILEAGE_CODE MC ON
 								MI.MILEAGE_CODE = MC.MILEAGE_CODE
 								LEFT JOIN dev.ORDER_INFO OI ON
-								MI.ORDERNUM = OI.ORDER_CODE",$where_cnt),
+								MI.ORDER_CODE = OI.ORDER_CODE",$where_cnt),
 		'page' => $page
 	);
 
@@ -87,8 +87,8 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 				'%Y.%m.%d'
 			)						AS UPDATE_DATE,
 			IFNULL(
-				MI.ORDERNUM,''
-			)						AS ORDERNUM,
+				MI.ORDER_CODE,''
+			)						AS ORDER_CODE,
 			IFNULL(
 				OI.PRICE_TOTAL,''
 			)						AS PRICE_TOTAL,
@@ -107,7 +107,7 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 			LEFT JOIN dev.MILEAGE_CODE MC ON
 			MI.MILEAGE_CODE = MC.MILEAGE_CODE
 			LEFT JOIN dev.ORDER_INFO OI ON
-			MI.ORDERNUM = OI.ORDER_CODE
+			MI.ORDER_CODE = OI.ORDER_CODE
 		".$where."
 		ORDER BY
 			MI.IDX DESC
@@ -118,7 +118,7 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 	foreach($db->fetch() as $data){
 		$json_result['data'][] = array(
 			'update_date'			=> $data['UPDATE_DATE'],
-			'ordernum'				=> $data['ORDERNUM'],
+			'order_code'			=> $data['ORDER_CODE'],
 			'price_total'			=> $data['PRICE_TOTAL'],
 			'mileage_type'			=> $data['MILEAGE_TYPE'],
 			'mileage_usable_inc'	=> $data['MILEAGE_USABLE_INC'],

@@ -300,6 +300,13 @@
 		let column_RNWY = d.column_RNWY;
 		let column_EDTL = d.column_EDTL;
 		
+		let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+		
+		let size_type = "W";
+		if (isMobile == true) {
+			size_type = "M";
+		}
+		
 		let storyHtml = "";
 		storyHtml += `
 					<li class="drop web story" data-type="ST" data-large="6">
@@ -360,7 +367,7 @@
 		
 		column_RNWY.forEach(function(row_RNWY) {
 			storyHtml += `
-															<li class="archiveList link" onClick="location.href='${row_RNWY.page_url}'">${row_RNWY.story_title}</li>
+															<li class="archiveList link" onClick="location.href='${row_RNWY.page_url}&size_type=${size_type}'">${row_RNWY.story_title}</li>
 			`;
 		});
 		
@@ -377,10 +384,10 @@
 													<div class="archiveBox">
 														<ul>
 		`;
-	
+		
 		column_EDTL.forEach(function(row_EDTL) {
 			storyHtml += `
-															<li class="archiveList link" onClick="location.href='${row_EDTL.page_url}'">${row_EDTL.story_title}</li>
+															<li class="archiveList link" onClick="location.href='${row_EDTL.page_url}&size_type=${size_type}'">${row_EDTL.story_title}</li>
 			`;
 		});
 		

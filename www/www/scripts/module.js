@@ -14,7 +14,7 @@ function Sidebar() {
         const sideWrap = document.createElement('div');
         let sideContent = "";
         sideWrap.className = "side__background";
-        sideContent =`<div class="side__wrap">
+        sideContent = `<div class="side__wrap">
         <div class="sidebar-close-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="12.707" height="12.707" viewBox="0 0 12.707 12.707">
                 <path data-name="선 1772" transform="rotate(135 6.103 2.736)" style="fill:none;stroke:#343434" d="M16.969 0 0 .001"/>
@@ -42,14 +42,14 @@ function Sidebar() {
  * @param {boolean} useSidebar true: 사이드바 , false: 쇼핑백페이지 
  */
 function Basket(el, useSidebar) {
-	const prototypes = {el,useSidebar}
+    const prototypes = { el, useSidebar }
     prototypes.el = el;
     prototypes.useSidebar = useSidebar;
 
     let parm = prototypes;
 
     //슬라이드 사용시 
-	if(parm.useSidebar === true){
+    if (parm.useSidebar === true) {
         // this.writeHtml = () => {
         // 	let sideBox = document.querySelector(`.side__box`);
         // 	let sideWrap = document.querySelector(`#sidebar .side__wrap`);
@@ -149,22 +149,22 @@ function Basket(el, useSidebar) {
     getBasketProductList();
 
     //쇼핑백 상품 리스트 조회
-	function getBasketProductList (){
-		$.ajax({
-			type: "post",
-			url: "http://116.124.128.246:80/_api/order/basket/list/get",
-			dataType: "json",
-			error: function() {
-				alert("쇼핑백 상품 리스트 조회처리중 오류가 발생했습니다.");
-			},
-			success: function(d) {
-				let data = d.data;
-				
-				let basket_so_info = data.basket_so_info;
-				let basket_st_info = data.basket_st_info;
-				
-				if (basket_so_info.length > 0 || basket_st_info.length > 0){
-					writeProductListDomTree(basket_st_info,basket_so_info);
+    function getBasketProductList() {
+        $.ajax({
+            type: "post",
+            url: "http://116.124.128.246:80/_api/order/basket/list/get",
+            dataType: "json",
+            error: function () {
+                alert("쇼핑백 상품 리스트 조회처리중 오류가 발생했습니다.");
+            },
+            success: function (d) {
+                let data = d.data;
+
+                let basket_so_info = data.basket_so_info;
+                let basket_st_info = data.basket_st_info;
+
+                if (basket_so_info.length > 0 || basket_st_info.length > 0) {
+                    writeProductListDomTree(basket_st_info, basket_so_info);
                 } else {
                     productNull();
                 }
@@ -179,12 +179,12 @@ function Basket(el, useSidebar) {
             list__body.appendChild(tungDiv);
         }
     }
-	function writeProductListDomTree(st_info,so_info) {
-		$('.product__wrap').remove();
-		$('.sold__list__box').remove();
-		
-		let docFrag = document.createDocumentFragment();
-		let stin_html  = "";
+    function writeProductListDomTree(st_info, so_info) {
+        $('.product__wrap').remove();
+        $('.sold__list__box').remove();
+
+        let docFrag = document.createDocumentFragment();
+        let stin_html = "";
         let stso_html = "";
 
         let stin_product_wrap = document.createElement("div");
@@ -196,15 +196,15 @@ function Basket(el, useSidebar) {
         docFrag.appendChild(stin_product_wrap);
 
         //재고상품 있는 경우 
-		if (st_info.length > 0 ) {
-			st_info.forEach( el => {
+        if (st_info.length > 0) {
+            st_info.forEach(el => {
                 let color_html = "";
 
                 let sales_price = (el.sales_price).toLocaleString('ko-KR');
                 let color_rgb = el.color_rgb;
 
                 let multi = color_rgb.split(";");
-                if(multi.length === 2) {
+                if (multi.length === 2) {
                     color_html += `
 						<div class="color__box">
 							<div class="color-title">${el.color}</div>
@@ -254,12 +254,19 @@ function Basket(el, useSidebar) {
 
             docFrag.querySelector('.product__wrap').innerHTML = stin_html;
             document.querySelector('.list__box .list__body').appendChild(docFrag);
+            // 첫 화면은 모든 체크박스 체크
+            let selfCheck = document.querySelectorAll('.prd__cb');
+            let allCheck = document.querySelector('.all__cb');
+            selfCheck.forEach(el => el.setAttribute("checked", true));
+            allCheck.setAttribute("checked", true);
+            let price_product = calcCheckedPrice();
+            payBoxSumPrice(price_product);
         }
 
         deleteBasketInfo();
         deleteAllBasketInfo();
 
-        if (so_info.length > 0 ) {
+        if (so_info.length > 0) {
             //품절상품이 있을 경우  
             let product_html = "";
             let docFrag = document.createDocumentFragment();
@@ -288,13 +295,13 @@ function Basket(el, useSidebar) {
 
             stso_product_wrap.innerHTML = stso_html;
 
-            so_info.forEach( el => {
+            so_info.forEach(el => {
                 let color_html = "";
 
                 let sales_price = (el.sales_price).toLocaleString('ko-KR');
                 let color_rgb = el.color_rgb;
                 let multi = color_rgb.split(";");
-				if(multi.length === 2){
+                if (multi.length === 2) {
                     color_html += `
 						<div class="color__box">
 							<div class="color-title">${el.color}</div>
@@ -319,8 +326,8 @@ function Basket(el, useSidebar) {
                 let product_color = el.product_color;
                 product_color.forEach(color => {
                     let optionColorData = color.color_rgb;
-					let optionColorMulti= optionColorData.split(";");
-					if(optionColorMulti.length === 2){
+                    let optionColorMulti = optionColorData.split(";");
+                    if (optionColorMulti.length === 2) {
                         product_color_html += `
 						<div class="color-line" data-product_idx="${color.product_idx}" style="--background:linear-gradient(90deg, ${optionColorMulti[0]} 50%, ${optionColorMulti[1]} 50%);">
 							<div class="color multi"data-title="${color.color}"data-soldout="${color.stock_status}"></div>
@@ -336,7 +343,7 @@ function Basket(el, useSidebar) {
                 });
 
                 let reorder_class = el.reorder_flg ? "" : "disaBleBtn";
-                let reorder_text  = el.reorder_flg ? "재입고 알림 신청완료" : "재입고 알림 신청하기";
+                let reorder_text = el.reorder_flg ? "재입고 알림 신청완료" : "재입고 알림 신청하기";
 
                 product_html += `
 					<div class="product__box" data-basket_idx="${el.basket_idx}" data-stock_status="${el.stock_status}" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-reorder_flg="${el.reorder_flg}">
@@ -347,7 +354,7 @@ function Basket(el, useSidebar) {
 						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content">
 							<div class="prd__title">${el.product_name}</div>
-							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>`:`<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
+							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
 							${color_html}
 							<div class="prd__size">
 								<div class="size__box">
@@ -374,11 +381,10 @@ function Basket(el, useSidebar) {
 								</div>
 								<div class="color__box">${product_color_html}</div>
 								<div class="size__box">
-								${
-									el.product_size.map((size) => {
-										return `<li class="option__size" data-product_idx="${size.product_idx}" data-option_idx="${size.option_idx}" data-stock_status="${size.stock_status}">${size.option_name}</li>`;
-									}).join("")
-								}
+								${el.product_size.map((size) => {
+                    return `<li class="option__size" data-product_idx="${size.product_idx}" data-option_idx="${size.option_idx}" data-stock_status="${size.stock_status}">${size.option_name}</li>`;
+                }).join("")
+                    }
 								</div>
 								<div class="option__change__btn apply">
 									<img src="/images/svg/edit.svg" alt="">
@@ -410,51 +416,51 @@ function Basket(el, useSidebar) {
     }
 
     const selfCheckbox = (status, checked) => {
-		let $$checkedSelfBox = document.querySelectorAll(`.self__cb[name='${status}']${checked ? ":checked":""}`);
-		
-		let basket_idx = [];
-		$$checkedSelfBox.forEach( el => {
-			let tmp_idx = el.parentNode.parentNode.dataset.basket_idx;
-			basket_idx.push(tmp_idx);
-			
-			el.parentNode.parentNode.remove();
-		});
-		
-		deleteBasketProduct(basket_idx);
-		
-		let price_product = calcCheckedPrice();
-		payBoxSumPrice(price_product);
-	}
+        let $$checkedSelfBox = document.querySelectorAll(`.self__cb[name='${status}']${checked ? ":checked" : ""}`);
 
-	//재고상품 선택삭제 버튼
-	function deleteBasketInfo(){
-		const $checkedDelete = document.querySelector(".st__checked__btn");
-		$checkedDelete.addEventListener("click", () => {
-			selfCheckbox("stock",true);
-		});
-	};
+        let basket_idx = [];
+        $$checkedSelfBox.forEach(el => {
+            let tmp_idx = el.parentNode.parentNode.dataset.basket_idx;
+            basket_idx.push(tmp_idx);
 
-	//재고상품 전체삭제 버튼
-	function deleteAllBasketInfo(){
-		const $checkedDelete = document.querySelector(".st__all__btn");
-		$checkedDelete.addEventListener("click", () => {
-			selfCheckbox("stock",false);
-		});
-	};
+            el.parentNode.parentNode.remove();
+        });
 
-	//품절상품 선택삭제 버튼
-	function soldCheckedDeleteBtn(){
-		const $checkedDelete = document.querySelector(".so__checked__btn");
-		$checkedDelete.addEventListener("click", (e) => {
-			selfCheckbox("sold",true);
-		});
-	};
+        deleteBasketProduct(basket_idx);
 
-	//품절상품 전체삭제 버튼
-	function soldAllDeleteBtn(){
-		const $checkedDelete = document.querySelector(".so__all__btn");
-		$checkedDelete.addEventListener("click", () => {
-			selfCheckbox("sold",false);
+        let price_product = calcCheckedPrice();
+        payBoxSumPrice(price_product);
+    }
+
+    //재고상품 선택삭제 버튼
+    function deleteBasketInfo() {
+        const $checkedDelete = document.querySelector(".st__checked__btn");
+        $checkedDelete.addEventListener("click", () => {
+            selfCheckbox("stock", true);
+        });
+    };
+
+    //재고상품 전체삭제 버튼
+    function deleteAllBasketInfo() {
+        const $checkedDelete = document.querySelector(".st__all__btn");
+        $checkedDelete.addEventListener("click", () => {
+            selfCheckbox("stock", false);
+        });
+    };
+
+    //품절상품 선택삭제 버튼
+    function soldCheckedDeleteBtn() {
+        const $checkedDelete = document.querySelector(".so__checked__btn");
+        $checkedDelete.addEventListener("click", (e) => {
+            selfCheckbox("sold", true);
+        });
+    };
+
+    //품절상품 전체삭제 버튼
+    function soldAllDeleteBtn() {
+        const $checkedDelete = document.querySelector(".so__all__btn");
+        $checkedDelete.addEventListener("click", () => {
+            selfCheckbox("sold", false);
         });
     };
 
@@ -463,40 +469,40 @@ function Basket(el, useSidebar) {
         $.ajax({
             type: "post",
             data: {
-				"basket_idx":basketIdx
-			},
-			dataType: "json",
-			url: "http://116.124.128.246:80/_api/order/basket/delete",
-			error: function() {
-				alert("장바구니 상품 정보 삭제 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				let code = d.code;
-				if (code != 200) {
-					alert(d.msg);
-				}
-			}
-		});
-	}
+                "basket_idx": basketIdx
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/order/basket/delete",
+            error: function () {
+                alert("장바구니 상품 정보 삭제 처리에 실패했습니다.");
+            },
+            success: function (d) {
+                let code = d.code;
+                if (code != 200) {
+                    alert(d.msg);
+                }
+            }
+        });
+    }
 
-	//쇼핑백 상품 수량 변경
-	const putBasketQty = (basket_idx,basket_qty,product_idx) => {
-		$.ajax({
-			type: "post",
-			data: {
-				"basket_idx":basket_idx,
-				"stock_status":"STIN",
-				"basket_qty":basket_qty,
-				"product_idx":product_idx
-			},
-			dataType: "json",
-			url: "http://116.124.128.246:80/_api/order/basket/put",
-			error: function() {
-				alert("장바구니 상품 정보 수정 처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if (d.code != 200) {
-					exceptionHandling("디자인 필요",d.msg)
+    //쇼핑백 상품 수량 변경
+    const putBasketQty = (basket_idx, basket_qty, product_idx) => {
+        $.ajax({
+            type: "post",
+            data: {
+                "basket_idx": basket_idx,
+                "stock_status": "STIN",
+                "basket_qty": basket_qty,
+                "product_idx": product_idx
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/order/basket/put",
+            error: function () {
+                alert("장바구니 상품 정보 수정 처리에 실패했습니다.");
+            },
+            success: function (d) {
+                if (d.code != 200) {
+                    exceptionHandling("디자인 필요", d.msg)
                 }
             }
         });
@@ -505,30 +511,32 @@ function Basket(el, useSidebar) {
     //쇼핑백 리스트 그려주는 함수
     function payBtnEvent() {
         let payBtn = document.querySelector(".pay__box .pay__btn");
-		payBtn.addEventListener("click", function() {
-			let selfBox = document.querySelectorAll(".self__cb[name='stock']");
-			let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']");
-			let msgBox = document.querySelector(".pay__notiy");
-			let selectArr =[];
-			let checkCnt = 0;
-			let country = "KR";
-			
-			selfBox.forEach(el => {
-				if(el.checked){
-					checkCnt++;
-					selectArr.push(el.parentNode.parentNode.dataset.basket_idx);
-				}
-			})
+        payBtn.addEventListener("click", function () {
+            let selfBox = document.querySelectorAll(".self__cb[name='stock']");
+            let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']");
+            let msgBox = document.querySelector(".pay__notiy");
+            let selectArr = [];
+            let checkCnt = 0;
+            let country = "KR";
 
-			if(soldSelfBox.length > 0) {
-				msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요.';
-			}
-			if(checkCnt == 0) {
-				msgBox.innerText = '결제하실 상품을 선택해주세요.';
-			}
+            selfBox.forEach(el => {
+                if (el.checked) {
+                    checkCnt++;
+                    selectArr.push(el.parentNode.parentNode.dataset.basket_idx);
+                }
+            })
 
-			if (selectArr.length > 0) {
-				location.href="/order/confirm?&basket_idx=" + selectArr;
+            if (soldSelfBox.length > 0) {
+                msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요.';
+
+                target.disabled = true;
+            }
+            if (checkCnt == 0) {
+                msgBox.innerText = '결제하실 상품을 선택해주세요.';
+            }
+
+            if (selectArr.length > 0) {
+                location.href = "/order/confirm?&basket_idx=" + selectArr;
             }
         });
     }
@@ -554,26 +562,26 @@ function Basket(el, useSidebar) {
             el.parentNode.querySelector(".price_total").textContent = price_product.toLocaleString('ko-KR');
 
             let tmp_cnt = parseInt(el.value);
-			if(tmp_cnt == 1){
-				el.parentNode.querySelector(".minus__btn").classList.add('disableBtn');
-			}
-			
-			if(tmp_cnt == 9){
-				el.parentNode.querySelector(".plus__btn").classList.add('disableBtn');
-			}
-		});
-		
-		//수량 다운버튼 클릭이벤트
-		$$minus_btn.forEach(el => {
-			el.addEventListener("click", function() {
-				let $plus_btn = this.parentNode.querySelector(".plus__btn");
-				
-				let basket_idx = this.offsetParent.dataset.basket_idx;
-				let stock_status = this.offsetParent.dataset.stock_status;
-				//let basket_qty = this.offsetParent.dataset.basket_qty;
-				let product_idx = this.offsetParent.dataset.product_idx;
-				
-				let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g ,''));
+            if (tmp_cnt == 1) {
+                el.parentNode.querySelector(".minus__btn").classList.add('disableBtn');
+            }
+
+            if (tmp_cnt == 9) {
+                el.parentNode.querySelector(".plus__btn").classList.add('disableBtn');
+            }
+        });
+
+        //수량 다운버튼 클릭이벤트
+        $$minus_btn.forEach(el => {
+            el.addEventListener("click", function () {
+                let $plus_btn = this.parentNode.querySelector(".plus__btn");
+
+                let basket_idx = this.offsetParent.dataset.basket_idx;
+                let stock_status = this.offsetParent.dataset.stock_status;
+                //let basket_qty = this.offsetParent.dataset.basket_qty;
+                let product_idx = this.offsetParent.dataset.product_idx;
+
+                let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g, ''));
                 price_total -= parseInt(this.parentNode.dataset.init);
 
                 this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
@@ -585,31 +593,31 @@ function Basket(el, useSidebar) {
                 this.parentNode.querySelector(".count__val").value = tmp_cnt;
                 this.parentNode.querySelector(".price_total").textContent = price_total.toLocaleString('ko-KR');
 
-				if(tmp_cnt == "1"){
-					this.classList.add('disableBtn');
-					setTotalPrice = this.parentNode.dataset.init;
-				} else {
-					$plus_btn.classList.remove('disableBtn');
-				}
-				
-				let price_product = calcCheckedPrice();
-				payBoxSumPrice(price_product);
-				putBasketQty(basket_idx,basket_qty,product_idx);
-				
-			});
-		});
-		
-		//수량 업버튼 클릭 이벤트
-		$$plus_btn.forEach(el => {
-			el.addEventListener("click", function() {
-				let $minus_btn = this.parentNode.querySelector(".minus__btn");
-				
-				let basket_idx = this.offsetParent.dataset.basket_idx;
-				let stock_status = this.offsetParent.dataset.stock_status;
-				//let basket_qty = this.offsetParent.dataset.basket_qty;
-				let product_idx = this.offsetParent.dataset.product_idx;
-				
-				let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g , ''));
+                if (tmp_cnt == "1") {
+                    this.classList.add('disableBtn');
+                    setTotalPrice = this.parentNode.dataset.init;
+                } else {
+                    $plus_btn.classList.remove('disableBtn');
+                }
+
+                let price_product = calcCheckedPrice();
+                payBoxSumPrice(price_product);
+                putBasketQty(basket_idx, basket_qty, product_idx);
+
+            });
+        });
+
+        //수량 업버튼 클릭 이벤트
+        $$plus_btn.forEach(el => {
+            el.addEventListener("click", function () {
+                let $minus_btn = this.parentNode.querySelector(".minus__btn");
+
+                let basket_idx = this.offsetParent.dataset.basket_idx;
+                let stock_status = this.offsetParent.dataset.stock_status;
+                //let basket_qty = this.offsetParent.dataset.basket_qty;
+                let product_idx = this.offsetParent.dataset.product_idx;
+
+                let price_total = parseInt(this.parentNode.querySelector(".price_total").textContent.replace(/,/g, ''));
                 price_total += parseInt(this.parentNode.dataset.init);
 
                 this.parentNode.querySelector('.price_total').dataset.price_total = price_total;
@@ -630,46 +638,46 @@ function Basket(el, useSidebar) {
                 let price_product = calcCheckedPrice();
 
                 payBoxSumPrice(price_product);
-				putBasketQty(basket_idx,basket_qty,product_idx);
+                putBasketQty(basket_idx, basket_qty, product_idx);
             });
         });
 
     };
 
     //재고있음(STIN) 체크박스 클릭 이벤트
-	function clickCheckboxSTIN () {
-		const $all_stin_checkbox = document.querySelector(".all__cb"); //
-		const $stin_checkbox = document.querySelectorAll(".self__cb"); 
-		const $$productBox = document.querySelectorAll(".product__box"); 
-		
-		let checkbox_name = $all_stin_checkbox.getAttribute("name");
-		let price_product = 0;
-		
-		//전체선택 체크박스 클릭 이벤트
-		$all_stin_checkbox.addEventListener("click" , function() {
-			let stock_list = document.querySelectorAll("input[name='stock']");
-			stock_list.forEach(el => {
-				el.checked = this.checked;
-			});
-			
-			let price_product = calcCheckedPrice();
-			payBoxSumPrice(price_product);
-		});
-		
-		//개별 체크박스 클릭 이벤트
-		$stin_checkbox.forEach( el => {
-			el.addEventListener("click", (e) => {
-				let input_name = e.currentTarget.getAttribute("name");
-				if(input_name == "stock"){
-					
-					let product_box = e.currentTarget.parentNode.parentNode;
-					let price_total = parseInt(product_box.querySelector(".price_total").dataset.price_total);
-					
-					if(e.target.checked){
-						//체크시
-						if(checkbox_name == "stock") {
-							let checked_stin = document.querySelectorAll("input[name='stock']:checked");
-							if($stin_checkbox.length == checked_stin.length) {
+    function clickCheckboxSTIN() {
+        const $all_stin_checkbox = document.querySelector(".all__cb"); //
+        const $stin_checkbox = document.querySelectorAll(".self__cb");
+        const $$productBox = document.querySelectorAll(".product__box");
+
+        let checkbox_name = $all_stin_checkbox.getAttribute("name");
+        let price_product = 0;
+
+        //전체선택 체크박스 클릭 이벤트
+        $all_stin_checkbox.addEventListener("click", function () {
+            let stock_list = document.querySelectorAll("input[name='stock']");
+            stock_list.forEach(el => {
+                el.checked = this.checked;
+            });
+
+            let price_product = calcCheckedPrice();
+            payBoxSumPrice(price_product);
+        });
+
+        //개별 체크박스 클릭 이벤트
+        $stin_checkbox.forEach(el => {
+            el.addEventListener("click", (e) => {
+                let input_name = e.currentTarget.getAttribute("name");
+                if (input_name == "stock") {
+
+                    let product_box = e.currentTarget.parentNode.parentNode;
+                    let price_total = parseInt(product_box.querySelector(".price_total").dataset.price_total);
+
+                    if (e.target.checked) {
+                        //체크시
+                        if (checkbox_name == "stock") {
+                            let checked_stin = document.querySelectorAll("input[name='stock']:checked");
+                            if ($stin_checkbox.length == checked_stin.length) {
                                 $all_stin_checkbox.checked = true;
                             }
                             price_total += price_total;
@@ -688,10 +696,10 @@ function Basket(el, useSidebar) {
     }
 
     //재고없음(STSO) 전체선택 체크박스 클릭 이벤트
-	function clickCheckboxSTSO(){
-		let $all_soldout_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']"); 
-		if($all_soldout_checkbox != null){
-			$all_soldout_checkbox.addEventListener("click" , function() {
+    function clickCheckboxSTSO() {
+        let $all_soldout_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']");
+        if ($all_soldout_checkbox != null) {
+            $all_soldout_checkbox.addEventListener("click", function () {
                 let soldout_list = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
                 soldout_list.forEach(el => {
                     el.checked = this.checked;
@@ -715,53 +723,53 @@ function Basket(el, useSidebar) {
     }
 
     //선택한 상품 결제박스 합계 표기
-	function payBoxSumPrice (price_product){
-		let $txt_price_product = document.querySelector(".product__total__price");
-		let $txt_price_total = document.querySelector(".pay__total__price");
-		let $txt_price_delivery = document.querySelector(".deli__price");
-		
-		let free_delivery = 80000;
-		let price_delivery = parseInt($txt_price_delivery.dataset.price_delivery);
-		let price_total = (price_product + price_delivery);
+    function payBoxSumPrice(price_product) {
+        let $txt_price_product = document.querySelector(".product__total__price");
+        let $txt_price_total = document.querySelector(".pay__total__price");
+        let $txt_price_delivery = document.querySelector(".deli__price");
 
-		if (price_total == price_delivery) {
-			price_total = 0;
-		}
-		
-		if (free_delivery <= price_product) {
-			price_total -= price_delivery;
-			price_delivery = 0;
-		}
-		
-		if (price_total == 0 ) {
-			price_delivery = 0;
-		}
-		
-		$txt_price_product.textContent = price_product.toLocaleString('ko-KR');;
-		$txt_price_total.textContent = price_total.toLocaleString('ko-KR');
-		
-		$txt_price_total.textContent = price_total.toLocaleString('ko-KR');
-		$txt_price_delivery.textContent = price_delivery.toLocaleString('ko-KR');
-	}
+        let free_delivery = 80000;
+        let price_delivery = parseInt($txt_price_delivery.dataset.price_delivery);
+        let price_total = (price_product + price_delivery);
 
-	function optionBoxCloseBtn(){
-		const $$closeBtn = document.querySelectorAll(".close__btn.option");
-		$$closeBtn.forEach(el => {
-			el.addEventListener("click", function() {
-				this.offsetParent.querySelectorAll(".color-line").forEach(el => el.classList.remove("select"));
-				this.offsetParent.querySelectorAll(".option__size").forEach(el => el.classList.remove("select"));
-				this.offsetParent.classList.add("hide");
-			});
-		});
-	}
+        if (price_total == price_delivery) {
+            price_total = 0;
+        }
 
-	function clickPutBasketOption() {
-		const $$option_change_btn = document.querySelectorAll(".option__change__btn");
-		$$option_change_btn.forEach(el => {
-			el.addEventListener("click", function(ev) {
-				setBasketOption();
+        if (free_delivery <= price_product) {
+            price_total -= price_delivery;
+            price_delivery = 0;
+        }
 
-				if(this.classList.contains("apply")){
+        if (price_total == 0) {
+            price_delivery = 0;
+        }
+
+        $txt_price_product.textContent = price_product.toLocaleString('ko-KR');;
+        $txt_price_total.textContent = price_total.toLocaleString('ko-KR');
+
+        $txt_price_total.textContent = price_total.toLocaleString('ko-KR');
+        $txt_price_delivery.textContent = price_delivery.toLocaleString('ko-KR');
+    }
+
+    function optionBoxCloseBtn() {
+        const $$closeBtn = document.querySelectorAll(".close__btn.option");
+        $$closeBtn.forEach(el => {
+            el.addEventListener("click", function () {
+                this.offsetParent.querySelectorAll(".color-line").forEach(el => el.classList.remove("select"));
+                this.offsetParent.querySelectorAll(".option__size").forEach(el => el.classList.remove("select"));
+                this.offsetParent.classList.add("hide");
+            });
+        });
+    }
+
+    function clickPutBasketOption() {
+        const $$option_change_btn = document.querySelectorAll(".option__change__btn");
+        $$option_change_btn.forEach(el => {
+            el.addEventListener("click", function (ev) {
+                setBasketOption();
+
+                if (this.classList.contains("apply")) {
                     let basket_idx = this.parentNode.parentNode.parentNode.dataset.basket_idx;
 
                     let colorValue = [...this.parentNode.querySelectorAll(".color-line")].find(el => el.classList.contains("select"));
@@ -776,35 +784,35 @@ function Basket(el, useSidebar) {
 
                     this.offsetParent.classList.add("hide");
 
-					putBasketOption(basket_idx,product_idx,option_idx);
-				} else if (this.classList.contains("open")) {
-					let $$option_select_box = document.querySelectorAll(".option__select__box");
-					$$option_select_box.forEach(el => el.classList.add("hide"));
-					this.parentNode.nextElementSibling.classList.remove("hide");
-				}
-			});
-		});
-	}
+                    putBasketOption(basket_idx, product_idx, option_idx);
+                } else if (this.classList.contains("open")) {
+                    let $$option_select_box = document.querySelectorAll(".option__select__box");
+                    $$option_select_box.forEach(el => el.classList.add("hide"));
+                    this.parentNode.nextElementSibling.classList.remove("hide");
+                }
+            });
+        });
+    }
 
-	function putBasketOption(basket_idx,product_idx,option_idx) {
-		$.ajax({
-			type: "post",
-			url: "http://116.124.128.246:80/_api/order/basket/put",
-			data: {
-				'basket_idx' : basket_idx,
-				'stock_status' : 'STSO',
-				'product_idx' : product_idx,
-				'option_idx' : option_idx
-			},
-			dataType: "json",
-			error: function() {
-				alert("쇼핑백 옵션 변경처리중 오류가 발생했습니다.");
-			},
-			success: function(d) {
-				if (d.code == 200) {
-					getBasketProductList();
-				} else {
-					exceptionHandling("디자인 필요",d.msg);
+    function putBasketOption(basket_idx, product_idx, option_idx) {
+        $.ajax({
+            type: "post",
+            url: "http://116.124.128.246:80/_api/order/basket/put",
+            data: {
+                'basket_idx': basket_idx,
+                'stock_status': 'STSO',
+                'product_idx': product_idx,
+                'option_idx': option_idx
+            },
+            dataType: "json",
+            error: function () {
+                alert("쇼핑백 옵션 변경처리중 오류가 발생했습니다.");
+            },
+            success: function (d) {
+                if (d.code == 200) {
+                    getBasketProductList();
+                } else {
+                    exceptionHandling("디자인 필요", d.msg);
                 }
             }
         });
@@ -813,35 +821,35 @@ function Basket(el, useSidebar) {
     function setBasketOption() {
         const $$option_color = document.querySelectorAll(".option__select__box .color-line");
         $$option_color.forEach(el => el.addEventListener("click", (ev) => {
-			let {product_idx} = ev.currentTarget.dataset;
+            let { product_idx } = ev.currentTarget.dataset;
 
-			$$option_color.forEach(el => el.classList.remove("select"));
-			ev.currentTarget.classList.add("select");
-			
-			if(ev.currentTarget.classList.contains("select")){
-				$.ajax({
-					type: "post",
-					url: "http://116.124.128.246:80/_api/order/basket/get",
-					data: {
-						"product_idx":product_idx
-					},
-					dataType: "json",
-					error: function() {
-					},
-					success: function(d) {
-						if (d.code == 200) {
-							let data = d.data.product_size;
-							let colorName = data[0].color;
-							let sizeResult = data.map(el =>
-								`<li class="option__size" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-stock_status="${el.stock_status}">${el.option_name}</li>`
-							).join("");
-							
-							ev.target.offsetParent.querySelector(".option__color").innerHTML = colorName;
-							ev.target.offsetParent.querySelector(".size__box").innerHTML = sizeResult;
-							
-							setBasketOptionSTSC();
-						} else {
-							exceptionHandling("디자인 필요",d.msg)
+            $$option_color.forEach(el => el.classList.remove("select"));
+            ev.currentTarget.classList.add("select");
+
+            if (ev.currentTarget.classList.contains("select")) {
+                $.ajax({
+                    type: "post",
+                    url: "http://116.124.128.246:80/_api/order/basket/get",
+                    data: {
+                        "product_idx": product_idx
+                    },
+                    dataType: "json",
+                    error: function () {
+                    },
+                    success: function (d) {
+                        if (d.code == 200) {
+                            let data = d.data.product_size;
+                            let colorName = data[0].color;
+                            let sizeResult = data.map(el =>
+                                `<li class="option__size" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-stock_status="${el.stock_status}">${el.option_name}</li>`
+                            ).join("");
+
+                            ev.target.offsetParent.querySelector(".option__color").innerHTML = colorName;
+                            ev.target.offsetParent.querySelector(".size__box").innerHTML = sizeResult;
+
+                            setBasketOptionSTSC();
+                        } else {
+                            exceptionHandling("디자인 필요", d.msg)
                         }
                     }
                 });
@@ -869,32 +877,32 @@ function Basket(el, useSidebar) {
     function clickReorderBtn() {
         const $$reorderBtn = document.querySelectorAll(".reorder__btn");
         $$reorderBtn.forEach(el => {
-			el.addEventListener("click",(ev) => {
-				let {basket_idx,product_idx,option_idx,reorder_flg} = ev.currentTarget.offsetParent.dataset;
-				
-				if (reorder_flg == false) {
-					addReorderInfo(basket_idx,product_idx,option_idx);					
-				}
-			});
-		});
-	}
+            el.addEventListener("click", (ev) => {
+                let { basket_idx, product_idx, option_idx, reorder_flg } = ev.currentTarget.offsetParent.dataset;
 
-	function addReorderInfo(basket_idx,product_idx,option_idx){
-		let country = "KR";
-		$.ajax({
-			type: "POST",
-			url: "http://116.124.128.246:80/_api/order/reorder/add",
-			data: {
-				"country" : country,
-				"add_type" : "basket",
-				"product_idx" : product_idx,
-				"basket_idx" : basket_idx,
-				"option_idx" : option_idx
-			},
-			dataType: "json",
-			error: function() {
-			},
-			success: function(d) {
+                if (reorder_flg == false) {
+                    addReorderInfo(basket_idx, product_idx, option_idx);
+                }
+            });
+        });
+    }
+
+    function addReorderInfo(basket_idx, product_idx, option_idx) {
+        let country = "KR";
+        $.ajax({
+            type: "POST",
+            url: "http://116.124.128.246:80/_api/order/reorder/add",
+            data: {
+                "country": country,
+                "add_type": "basket",
+                "product_idx": product_idx,
+                "basket_idx": basket_idx,
+                "option_idx": option_idx
+            },
+            dataType: "json",
+            error: function () {
+            },
+            success: function (d) {
                 let result = d.data;
                 setReorderFlg(product_idx);
             }
@@ -957,7 +965,7 @@ function Language() {
     this.addSelectEvent = () => {
         let $$languageBtn = document.querySelectorAll(".language-btn");
         $$languageBtn.forEach(el => {
-            el.addEventListener("click", function(){
+            el.addEventListener("click", function () {
                 $$languageBtn.forEach(el => el.classList.remove("select"));
                 this.classList.add("select");
             })
@@ -1249,33 +1257,36 @@ function Search() {
 
 
 function Login() {
-    (()=>{
+    (() => {
+        // $(document).ready(function() {
+        //     console.log('getCookie');
+        //     $('#member_id').val('');
+        //     var usermember_id = getCookie("usermember_id");
+        //     if(usermember_id) {
+        //         $('#member_id').val(usermember_id);
+        //     } else {
+        //         $('#member_id').val('');
+        //     }
 
-    
-        $(document).ready(function() {
-            $('#member_id').val('');
-            var usermember_id = getCookie("usermember_id");
-            $('#member_id').val(usermember_id);
-        
-            if($('#member_id').val() != ""){
-                $("input:checkbox[id='member_id_flg']").prop("checked", true);
-            }
-        
-            $("input:checkbox[id='member_id_flg']").change(function(){
-                if($("input:checkbox[id='member_id_flg']").is(":checked")){
-                    setCookie("usermember_id", $('#member_id').val(), 7);
-                }
-                else{
-                    deleteCookie("usermember_id");
-                }
-            })
-        
-            $('#member_id').keyup(function(){
-                if($('input:checked[id="member_id_flg"]').is(":checked")){
-                    setCookie("usermember_id", $('#member_id').val(), 7);
-                }
-            })
-        });
+        //     if($('#member_id').val() != ""){
+        //         $("input:checkbox[id='member_id_flg']").prop("checked", true);
+        //     }
+
+        //     $("input:checkbox[id='member_id_flg']").change(function(){
+        //         if($("input:checkbox[id='member_id_flg']").is(":checked")){
+        //             setCookie("usermember_id", $('#member_id').val(), 7);
+        //         }
+        //         else{
+        //             deleteCookie("usermember_id");
+        //         }
+        //     })
+
+        //     $('#member_id').keyup(function(){
+        //         if($('input:checked[id="member_id_flg"]').is(":checked")){
+        //             setCookie("usermember_id", $('#member_id').val(), 7);
+        //         }
+        //     })
+        // });
 
         function login() {
             var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
@@ -1284,20 +1295,20 @@ function Login() {
             mail_regex.test(member_id);
 
             $('.font__underline.font__red').text('');
-            if(member_id == ''){
+            if (member_id == '') {
                 $('.member_id_msg').text('이메일을 입력해주세요');
-            
+
                 return false;
             }
-            else{
-                if(!mail_regex.test(member_id)){
+            else {
+                if (!mail_regex.test(member_id)) {
                     $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
-        
+
                     return false;
                 }
             }
-        
-            if(member_pw == ''){
+
+            if (member_pw == '') {
                 $('.member_pw_msg').text('비밀번호를 입력해주세요');
 
                 return false;
@@ -1309,77 +1320,77 @@ function Login() {
                     url: "http://116.124.128.246:80/_api/account/login",
                     type: 'POST',
                     data: $("#frm-login").serialize(),
-                    error:function(jqxhr){
+                    error: function (jqxhr) {
                         console.warn(jqxhr.responseText)
                         $('.result_msg').text("모듈에 문제가 발생했습니다.");
                     },
-                    success:function(data){
-                        if(data.code == "200") { // 로그인 성공
-                            location.href='main';
+                    success: function (data) {
+                        if (data.code == "200") { // 로그인 성공
+                            location.href = 'main';
                             //location.href='main';
                         }
                         else {	// 로그인 실패
                             var err_msg = '로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.';
-                            if(data.msg != null){
+                            if (data.msg != null) {
                                 err_msg = data.msg;
                             }
                             $('.result_msg').text(err_msg);
                         }
                     },
-                    complete:function(data){
+                    complete: function (data) {
                         //$("#result1").html(data.responseText);
                     }
                 }
             );
         }
 
-        function setCookie(cookieName, value, exdays){
+        function setCookie(cookieName, value, exdays) {
             let exdate = new Date();
             exdate.setDate(exdate.getDate() + exdays);
             let cookieValue = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toGMTString());
             document.cookie = cookieName + "=" + cookieValue;
         }
-        
+
         //쿠키값 delete
-        function deleteCookie(cookieName){
+        function deleteCookie(cookieName) {
             let expireDate = new Date();
-            expireDate.setDate(expireDate.getDate() -1);
+            expireDate.setDate(expireDate.getDate() - 1);
             document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
         }
-        
+
         //쿠키값 get
-        function getCookie(cookieName){
+        function getCookie(cookieName) {
             cookieName = cookieName + "=";
             let cookieData = document.cookie;
             let start = cookieData.indexOf(cookieName);
             let cookieValue = '';
-            if(start != -1){
+            if (start != -1) {
                 start += cookieName.length;
                 let end = cookieData.indexOf(';', start);
-                if(end == -1)end = cookieData.length;
+                if (end == -1) end = cookieData.length;
                 cookieValue = cookieData.substring(start, end);
             }
             return unescape(cookieValue); //unescape로 디코딩 후 값 리턴
         }
-        
+
         // search
         function password_find() {
             var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
             var member_id = $('#member_id').val();
             mail_regex.test(member_id);
-        
-            $('.font__underline.font__red').css('visibility','hidden');
-            if(member_id == ''){
-                
-                $('.member_id_msg').css('visibility','visible');
+
+            $('.font__underline.font__red').css('visibility', 'hidden');
+            if (member_id == '') {
+
+                $('.member_id_msg').css('visibility', 'visible');
                 $('.member_id_msg').text('이메일을 입력해주세요');
-            
+
                 return false;
             }
-            else{
-                if(!mail_regex.test(member_id)){
-                    
-                    $('.member_id_msg').css('visibility','visible');
+            else {
+                if (!mail_regex.test(member_id)) {
+
+                    $('.member_id_msg').css('visibility', 'visible');
                     $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
 
                     return false;
@@ -1405,50 +1416,50 @@ function Login() {
             $.ajax(
                 {
                     url: "http://116.124.128.246:80/_api/account/search/get",
-                    type:'POST',
-                    data:$("#frm-find").serialize(),
-                    error:function(data){
-                        $('.member_id_msg').css('visibility','hidden');
-                        $('.result_msg').css('visibility','visible');
+                    type: 'POST',
+                    data: $("#frm-find").serialize(),
+                    error: function (data) {
+                        $('.member_id_msg').css('visibility', 'hidden');
+                        $('.result_msg').css('visibility', 'visible');
                         $('.result_msg').text("모듈에 문제가 발생했습니다.");
                     },
-                    success:function(data){
-                        if(data.code == "200") { // 이메일검사 성공
-                            $('.member_id_msg').css('visibility','hidden');
-                            $('.result_msg').css('visibility','visible');
+                    success: function (data) {
+                        if (data.code == "200") { // 이메일검사 성공
+                            $('.member_id_msg').css('visibility', 'hidden');
+                            $('.result_msg').css('visibility', 'visible');
                             $('.result_msg').text(data.data.temp_password);
                         }
                         else {	// 이메일검사 실패
-                            $('.member_id_msg').css('visibility','visible');
+                            $('.member_id_msg').css('visibility', 'visible');
                             $('.member_id_msg').text('존재하지 않는 이메일입니다');
                         }
                     },
-                    complete:function(data){
+                    complete: function (data) {
                         //$("#result1").html(data.responseText);
                     },
-                    dataType:'json'
+                    dataType: 'json'
                 }
             );
 
         }
-    // check
-    function password_find_check() {
-        var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-        var member_id = $('#member_id').val();
-        mail_regex.test(member_id);
-    
-        $('.font__underline.font__red').css('visibility','hidden');
-        if(member_id == ''){
-            
-            $('.member_id_msg').css('visibility','visible');
-            $('.member_id_msg').text('이메일을 입력해주세요');
-        
-            return false;
-        }
-        else{
-            if(!mail_regex.test(member_id)){
-                
-                $('.member_id_msg').css('visibility','visible');
+        // check
+        function password_find_check() {
+            var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+            var member_id = $('#member_id').val();
+            mail_regex.test(member_id);
+
+            $('.font__underline.font__red').css('visibility', 'hidden');
+            if (member_id == '') {
+
+                $('.member_id_msg').css('visibility', 'visible');
+                $('.member_id_msg').text('이메일을 입력해주세요');
+
+                return false;
+            }
+            else {
+                if (!mail_regex.test(member_id)) {
+
+                    $('.member_id_msg').css('visibility', 'visible');
                     $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
 
                     return false;
@@ -1474,178 +1485,180 @@ function Login() {
             $.ajax(
                 {
                     url: "http://116.124.128.246:80/_api/account/check/check",
-                    type:'POST',
-                    data:$("#frm-find").serialize(),
-                    error:function(data){
-                        $('.member_id_msg').css('visibility','hidden');
-                        $('.result_msg').css('visibility','visible');
+                    type: 'POST',
+                    data: $("#frm-find").serialize(),
+                    error: function (data) {
+                        $('.member_id_msg').css('visibility', 'hidden');
+                        $('.result_msg').css('visibility', 'visible');
                         $('.result_msg').text("모듈에 문제가 발생했습니다.");
                     },
-                    success:function(data){
-                        if(data.code == "200") { // 이메일검사 성공
-                            $('.member_id_msg').css('visibility','hidden');
-                            $('.result_msg').css('visibility','visible');
+                    success: function (data) {
+                        if (data.code == "200") { // 이메일검사 성공
+                            $('.member_id_msg').css('visibility', 'hidden');
+                            $('.result_msg').css('visibility', 'visible');
                             $('.result_msg').text(data.data.temp_password);
                         }
                         else {	// 이메일검사 실패
-                            $('.member_id_msg').css('visibility','visible');
+                            $('.member_id_msg').css('visibility', 'visible');
                             $('.member_id_msg').text('존재하지 않는 이메일입니다');
                         }
                     },
-                    complete:function(data){
+                    complete: function (data) {
                         //$("#result1").html(data.responseText);
                     },
-                    dataType:'json'
+                    dataType: 'json'
                 }
             );
 
         }
 
         //login-update
-        $(document).ready(function() {
-            $('input[name="password"]').keyup(function(){
-                if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
-                    $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
+        $(document).ready(function () {
+            $('input[name="password"]').keyup(function () {
+                if (memberPwConfirm($(this).val()) || $(this).val().length == 0) {
+                    $('.font__underline.warn__msg.member_pw').css('visibility', 'hidden');
                 }
-                else{
-                    $('.font__underline.warn__msg.member_pw').css('visibility','visible');
+                else {
+                    $('.font__underline.warn__msg.member_pw').css('visibility', 'visible');
                 };
             });
             urlParsing();
         });
-        function urlParsing(){
+        function urlParsing() {
             var url = location.href;
             var idx = url.indexOf("?");
-            
-            if(idx >= 0){
-                var data = url.substring( idx + 1, url.length);
+
+            if (idx >= 0) {
+                var data = url.substring(idx + 1, url.length);
                 var data_arr = data.split("=");
-                if(data_arr[0] == 'member_idx'){
+                if (data_arr[0] == 'member_idx') {
                     $('input [name="idx"]').val(data_arr[1]);
                     console.log($('input [name="idx"]').val());
                 }
             }
         }
-        function memberPwConfirm(str){    
+        function memberPwConfirm(str) {
             //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
             //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
             var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
             //  공백 입력 불가능
             var space_reg = /\s/g;
             //var password_str = $('input[name="password"]').eq(0).val();
-        
-            if(space_reg.test(str) == false){
+
+            if (space_reg.test(str) == false) {
                 return password_reg.test(str)
-                    return true;
+                return true;
             }
-            else{
+            else {
                 return false;
                 //공백 포함 예외처리
             }
         }
-    //.css('visibility','hidden');
-    function updateMemberPw(){
-        var member_idx = $('input[name="member_idx"]').val();
-        var member_pw = $('input[name="member_pw"]').val();
-        var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
-    
-        $('.warn__msg').css('visibility','hidden');
-        
-        if(memberPwConfirm(member_pw) == false){
-            $('.font__underline.warn__msg.member_pw').css('visibility','visible');
-            return false;
-        }
-        if(member_pw != member_pw_confirm){
-            $('.warn__msg.member_pw_confirm').css('visibility','visible');
-            return false;
-        }
-    
-        $.ajax(
-            {
-                url: "http://116.124.128.246:80/_api/account/put",
-                type:'POST',
-                data: { 'member_idx' : member_idx,
-                        'member_pw' : member_pw },
-                error:function(data){
-                },
-                success:function(data){
-                    if(data.code == "200") {
-                        //location.reload();
-                        console.log('비밀번호 변경 성공');
-                        location.href='/login';
-                    }
-                },
-                complete:function(data){
-                    //$("#result1").html(data.responseText);
-                },
-                dataType:'json'
+        //.css('visibility','hidden');
+        function updateMemberPw() {
+            var member_idx = $('input[name="member_idx"]').val();
+            var member_pw = $('input[name="member_pw"]').val();
+            var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
+
+            $('.warn__msg').css('visibility', 'hidden');
+
+            if (memberPwConfirm(member_pw) == false) {
+                $('.font__underline.warn__msg.member_pw').css('visibility', 'visible');
+                return false;
+            }
+            if (member_pw != member_pw_confirm) {
+                $('.warn__msg.member_pw_confirm').css('visibility', 'visible');
+                return false;
+            }
+
+            $.ajax(
+                {
+                    url: "http://116.124.128.246:80/_api/account/put",
+                    type: 'POST',
+                    data: {
+                        'member_idx': member_idx,
+                        'member_pw': member_pw
+                    },
+                    error: function (data) {
+                    },
+                    success: function (data) {
+                        if (data.code == "200") {
+                            //location.reload();
+                            console.log('비밀번호 변경 성공');
+                            location.href = '/login';
+                        }
+                    },
+                    complete: function (data) {
+                        //$("#result1").html(data.responseText);
+                    },
+                    dataType: 'json'
                 }
             );
         }
-    //login-password-pub 
-    $(document).ready(function() {
-        $('#pw_desciption').hide();
-        $('input[name="member_pw"]').keyup(function(){
-            if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
-                $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
-                hidePwDescription();
-            }
-            else{
-                $('.font__underline.warn__msg.member_pw').css('visibility','visible');
-                showPwDescription();
-            };
+        //login-password-pub 
+        $(document).ready(function () {
+            $('#pw_desciption').hide();
+            $('input[name="member_pw"]').keyup(function () {
+                if (memberPwConfirm($(this).val()) || $(this).val().length == 0) {
+                    $('.font__underline.warn__msg.member_pw').css('visibility', 'hidden');
+                    hidePwDescription();
+                }
+                else {
+                    $('.font__underline.warn__msg.member_pw').css('visibility', 'visible');
+                    showPwDescription();
+                };
+            });
         });
-    });
-    function memberPwConfirm(str){    
-        //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
-        //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
-        var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
-        //  공백 입력 불가능
-        var space_reg = /\s/g;
-        //var password_str = $('input[name="password"]').eq(0).val();
-    
-        if(space_reg.test(str) == false){
-            return password_reg.test(str)
+        function memberPwConfirm(str) {
+            //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
+            //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
+            var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
+            //  공백 입력 불가능
+            var space_reg = /\s/g;
+            //var password_str = $('input[name="password"]').eq(0).val();
+
+            if (space_reg.test(str) == false) {
+                return password_reg.test(str)
                 return true;
-        }
-        else{
+            }
+            else {
                 return false;
                 //공백 포함 예외처리
             }
         }
-        function showPwDescription(){
+        function showPwDescription() {
             $('#pw_desciption').show();
             $('#hide_area').hide();
         }
-        function hidePwDescription(){
+        function hidePwDescription() {
             $('#pw_desciption').hide();
             $('#hide_area').show();
         }
-        
+
         //join
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#pw_desciption').hide();
-            $('input[name="member_pw"]').keyup(function(){
-                if(memberPwConfirm($(this).val()) || $(this).val().length == 0){
-                    $('.font__underline.warn__msg.member_pw').css('visibility','hidden');
+            $('input[name="member_pw"]').keyup(function () {
+                if (memberPwConfirm($(this).val()) || $(this).val().length == 0) {
+                    $('.font__underline.warn__msg.member_pw').css('visibility', 'hidden');
                     hidePwDescription();
                 }
-                else{
-                    $('.font__underline.warn__msg.member_pw').css('visibility','visible');
+                else {
+                    $('.font__underline.warn__msg.member_pw').css('visibility', 'visible');
                     showPwDescription();
                 };
             });
-            $('.component').click(function(){
+            $('.component').click(function () {
                 var sel_cnt = $('.component:checked').length;
-                if(sel_cnt == 3){
-                    $('.select__all').prop('checked',true);
+                if (sel_cnt == 3) {
+                    $('.select__all').prop('checked', true);
                 }
-                else{
-                    $('.select__all').prop('checked',false);
+                else {
+                    $('.select__all').prop('checked', false);
                 }
             });
         });
-        $(function() {
+        $(function () {
             /*
             if($('#postcodify').find('postcodify_search_controls').length == 0){
                 $("#postcodify").postcodify({
@@ -1690,105 +1703,105 @@ function Login() {
         });
         function selectAllClick(obj) {
             if ($(obj).prop('checked') == true) {
-                $(obj).prop('checked',true);
-                $(".login__check__option").prop('checked',true);
+                $(obj).prop('checked', true);
+                $(".login__check__option").prop('checked', true);
             } else {
-                $(obj).attr('checked',false);
-                $(".login__check__option").prop('checked',false);
+                $(obj).attr('checked', false);
+                $(".login__check__option").prop('checked', false);
             }
         }
-        function memberPwConfirm(str){    
+        function memberPwConfirm(str) {
             //  대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
             //  입력 가능 특수문자 : '!@#$%^()_-={}[]|;:<>,.?/                    
             var password_reg = /^(?=.*[\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(])(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[\da-zA-Z\{\}\[\]\/?.,;:|\)*`!^\-_<>@\#$%\=\(]{8,16}/;
             //  공백 입력 불가능
             var space_reg = /\s/g;
             //var password_str = $('input[name="password"]').eq(0).val();
-        
-            if(space_reg.test(str) == false){
+
+            if (space_reg.test(str) == false) {
                 return password_reg.test(str)
-                    return true;
+                return true;
             }
-            else{
+            else {
                 return false;
                 //공백 포함 예외처리
             }
         }
-    //.css('visibility','hidden');
-    function joinAction(){
-        var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-        var member_id = $('input[name="member_id"]').val();
-        var member_pw = $('input[name="member_pw"]').val();
-        var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
-        var member_name = $('input[name="member_name"]').val();
-        var birth_year = $('input[name="birth_year"]').val();
-        var birth_month = $('input[name="birth_month"]').val();
-        var birth_day = $('input[name="birth_day"]').val();
-        var terms_of_service_flg = $('#terms_of_service_flg').is(':checked');
-    
-        mail_regex.test(member_id);
-    
-        $('.warn__msg').css('visibility','hidden');
-        if(memberPwConfirm(member_pw) == false){
-            $('.font__underline.warn__msg.member_pw').css('visibility','visible');
-            showPwDescription();
-            return false;
-        }
-        if(member_id == '' || !mail_regex.test(member_id)){
-            $('.warn__msg.member_id').css('visibility','visible');
-            return false;
-        }
-        else if(member_pw != member_pw_confirm){
-            $('.warn__msg.member_pw_confirm').css('visibility','visible');
-            return false;
-        }
-        else if(member_name == ''){
-            $('.warn__msg.member_name').css('visibility','visible');
-            return false;
-        }
-        else if(birth_year == '' || birth_month == '' || birth_day == ''){
-            $('.warn__msg.birth').css('visibility','visible');
-            return false;
-        }
-        else if(terms_of_service_flg == false){
-            $('.warn__msg.essential').css('visibility','visible');
-            $('.warn__msg.essential').text('필수항목을 선택해주세요');
-            return false;
-        }
+        //.css('visibility','hidden');
+        function joinAction() {
+            var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
+            var member_id = $('input[name="member_id"]').val();
+            var member_pw = $('input[name="member_pw"]').val();
+            var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
+            var member_name = $('input[name="member_name"]').val();
+            var birth_year = $('input[name="birth_year"]').val();
+            var birth_month = $('input[name="birth_month"]').val();
+            var birth_day = $('input[name="birth_day"]').val();
+            var terms_of_service_flg = $('#terms_of_service_flg').is(':checked');
+
+            mail_regex.test(member_id);
+
+            $('.warn__msg').css('visibility', 'hidden');
+            if (memberPwConfirm(member_pw) == false) {
+                $('.font__underline.warn__msg.member_pw').css('visibility', 'visible');
+                showPwDescription();
+                return false;
+            }
+            if (member_id == '' || !mail_regex.test(member_id)) {
+                $('.warn__msg.member_id').css('visibility', 'visible');
+                return false;
+            }
+            else if (member_pw != member_pw_confirm) {
+                $('.warn__msg.member_pw_confirm').css('visibility', 'visible');
+                return false;
+            }
+            else if (member_name == '') {
+                $('.warn__msg.member_name').css('visibility', 'visible');
+                return false;
+            }
+            else if (birth_year == '' || birth_month == '' || birth_day == '') {
+                $('.warn__msg.birth').css('visibility', 'visible');
+                return false;
+            }
+            else if (terms_of_service_flg == false) {
+                $('.warn__msg.essential').css('visibility', 'visible');
+                $('.warn__msg.essential').text('필수항목을 선택해주세요');
+                return false;
+            }
 
             $.ajax(
                 {
                     url: "http://116.124.128.246:80/_api/account/add",
-                    type:'POST',
-                    data:$("#frm-regist").serialize(),
-                    error:function(data){
+                    type: 'POST',
+                    data: $("#frm-regist").serialize(),
+                    error: function (data) {
                     },
-                    success:function(data){
-                        if(data.code == "200") {
+                    success: function (data) {
+                        if (data.code == "200") {
                             //location.reload();
-                            location.href='/main';
+                            location.href = '/main';
                             console.log('회원가입 성공');
                         }
                         else {
-                            if(data.code == "303"){
-                                $('.warn__msg.essential').css('visibility','visible');
+                            if (data.code == "303") {
+                                $('.warn__msg.essential').css('visibility', 'visible');
                                 $('.warn__msg.essential').text(data.msg);
                             }
                         }
                     },
-                    complete:function(data){
+                    complete: function (data) {
                         //$("#result1").html(data.responseText);
                     },
-                    dataType:'json'
+                    dataType: 'json'
                 }
             );
         }
-        
-        function showPwDescription(){
+
+        function showPwDescription() {
             $('#pw_desciption').show();
             $('#hide_area').hide();
         }
-        function hidePwDescription(){
+        function hidePwDescription() {
             $('#pw_desciption').hide();
             $('#hide_area').show();
         }
@@ -1808,13 +1821,13 @@ function User() {
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/menu/get ",
-            error: function() {
+            error: function () {
             },
-            success: function(d) {
+            success: function (d) {
                 let code = d.code;
                 let memberInfo = d.member_info;
                 if (code == "200") {
-                    if(memberInfo === undefined ){
+                    if (memberInfo === undefined) {
                         writeLoginHtml();
                     } else {
                         writeUserHtml(memberInfo);
@@ -1828,7 +1841,7 @@ function User() {
         let sideWrap = document.querySelector(`#sidebar .side__wrap`);
         sideWrap.dataset.module = "user";
         const userContent = document.createElement("section");
-        let {member_id,member_mileage,member_name,member_voucher,whish_cnt,basket_cnt} = data
+        let { member_id, member_mileage, member_name, member_voucher, whish_cnt, basket_cnt } = data
         userContent.className = "user-wrap";
         userContent.innerHTML =
             `
@@ -1884,14 +1897,6 @@ function User() {
                 </a>
                 <div class="icon__title">
                     <p>적립포인트</p>
-                </div>
-            </div>
-            <div id="charging_icon" class="icon__item" btn-type="charging">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_charging_point_icon.png">
-                </div>
-                <div class="icon__title">
-                    <p>충전포인트</p>
                 </div>
             </div>
             <div id="voucher_icon" class="icon__item" btn-type="voucher">
@@ -2090,21 +2095,50 @@ function User() {
         `
         sideBox.appendChild(loginContent);
 
-        $('#member_pw, #member_id').on('keypress', function(e){
-            if(e.keyCode == '13'){
+        $(document).ready(function () {
+
+            $('#member_id').val('');
+            var usermember_id = getCookie("usermember_id");
+            if (usermember_id) {
+                $('#member_id').val(usermember_id);
+            } else {
+                $('#member_id').val('');
+            }
+
+            if ($('#member_id').val() != "") {
+                $("input:checkbox[id='member_id_flg']").prop("checked", true);
+            }
+
+            $("input:checkbox[id='member_id_flg']").change(function () {
+                if ($("input:checkbox[id='member_id_flg']").is(":checked")) {
+                    setCookie("usermember_id", $('#member_id').val(), 7);
+                }
+                else {
+                    deleteCookie("usermember_id");
+                }
+            })
+
+            $('#member_id').keyup(function () {
+                if ($('input:checked[id="member_id_flg"]').is(":checked")) {
+                    setCookie("usermember_id", $('#member_id').val(), 7);
+                }
+            })
+        });
+        $('#member_pw, #member_id').on('keypress', function (e) {
+            if (e.keyCode == '13') {
                 var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
                 var member_id = $('#member_id').val();
                 var member_pw = $('#member_pw').val();
                 mail_regex.test(member_id);
 
                 $('.font__underline.font__red').text('');
-                if(member_id == ''){
+                if (member_id == '') {
                     $('.member_id_msg').text('이메일을 입력해주세요');
-                
+
                     return false;
                 }
-                
-                if(!mail_regex.test(member_id)){
+
+                if (!mail_regex.test(member_id)) {
                     $('.member_id_msg').text('이메일을 올바르게 입력해주세요');
 
                     return false;
@@ -2121,13 +2155,13 @@ function User() {
                     url: "http://116.124.128.246:80/_api/account/login",
                     data: $("#frm-login").serialize(),
                     dataType: "json",
-                    error:function(){
+                    error: function () {
                         alert("로그인 처리중 오류가 발생했습니다.");
                     },
-                    success:function(d){
-                        if(d.code == "200") {
+                    success: function (d) {
+                        if (d.code == "200") {
                             sessionStorage.login_session = "true";
-                            location.href='/main';
+                            location.href = '/main';
                         } else {
                             $('.result_msg').text("로그인정보 재확인 후 다시 시도해주세요.");
                         }

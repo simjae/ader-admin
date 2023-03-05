@@ -1,7 +1,11 @@
 $(document).ready(function() {
 	$('#member_id').val('');
 	var usermember_id = getCookie("usermember_id");
-	$('#member_id').val(usermember_id);
+	if(usermember_id) {
+		$('#member_id').val(usermember_id);
+	} else {
+		$('#member_id').val('');
+	}
 
 	if($('#member_id').val() != ""){
 		$("input:checkbox[id='member_id_flg']").prop("checked", true);
@@ -210,7 +214,8 @@ function password_find_check() {
 			success:function(data){
 				if(data.code == "200") { // 이메일검사 성공
 					$('.member_id_msg').css('visibility','hidden');
-					exceptionHandling('',"입력하신 이메일로<br>비밀번호 변경창 링크를 전송했습니다.");
+					// exceptionHandling('',"입력하신 이메일로<br>비밀번호 변경창 링크를 전송했습니다.");
+					notiModal("로그인에 실패하였습니다.", "입력하신 이메일로 <br> 비밀번호 변경창 링크를 전송했습니다.");
 				}
 				else {	// 이메일검사 실패
 					let err_str = '이메일이 올바르지 않습니다. 다시 입력해주세요';

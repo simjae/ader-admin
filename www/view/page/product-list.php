@@ -35,16 +35,16 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                 <div class="sort-wrap ">
                     <li class="sort-btn order-btn" id="order-btn-toggle">
                         <img src="/images/svg/sort-bottom.svg" alt="" class="oder-btn-motion">
-                        <span>정렬</span>
+                        <span data-i18n="pl_sort_filter">정렬</span>
                     </li>
                     <li class="sort-btn filter-btn" id="filter-btn-toggle" onClick="clickFilterMotion();">
-                        <img src="/images/svg/filter.svg" alt="" style="width:12px;height: 12px;">
-                        <span>필터</span>
+                        <img src="/images/svg/filter.svg" alt="" style="width:12px;height:12px;">
+                        <span data-i18n="pl_filter">필터</span>
                     </li>
                     <li class="sort-btn type-btn" onClick="clickImgTypeBtn();">
-                        <div class="d-i-b"><img src="/images/svg/cloth.svg" alt="">
+                        <div class="d-i-b"><img src="/images/svg/cloth.svg" alt="" style="width:8px;height:17px;">
                         </div>
-                        <span id="img_type_text">착용컷</span>
+                        <span id="img_type_text" data-i18n="pl_model_cut">착용컷</span>
                     </li>
                     <div class="sort-btn web rW sort__grid" data-grid="4">
                         <div class="d-i-b"><img src="/images/svg/grid-cols-2.svg" alt=""></div>

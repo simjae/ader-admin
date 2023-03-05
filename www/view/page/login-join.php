@@ -5,6 +5,9 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.content__wrap__tel {
+    margin-top: 30px!important;
+}
 .code6{display: none;}
 .code5{font-size: 11px;font-family: var(--ft-fu);width:34px;}
 .keyword_label{display:none}
@@ -82,7 +85,7 @@ input::-webkit-inner-spin-button {
     font-family: var(--ft-fu)!important;
 }
 
-.join__card [type="checkbox"] {
+.join__card [type="checkbox"], .join__card [type="radio"] {
   vertical-align: middle;
   appearance: none;
   border: 1px solid gray;
@@ -91,7 +94,7 @@ input::-webkit-inner-spin-button {
   margin: 0px;
   padding: 0px;
 }
-.join__card [type="checkbox"]:checked {
+.join__card [type="checkbox"]:checked, .join__card [type="radio"]:checked {
     background-color: #000000;
 }
 .join__card label{
@@ -506,7 +509,7 @@ input::placeholder{
                     </div>
                 </div>
             </div>
-            <div class="content__wrap">
+            <div class="content__wrap content__wrap__tel">
                 <div class="content__title">휴대전화</div>
                 <div class="content__wrap grid__two">
                     <div class="left__area__wrap">
@@ -534,6 +537,23 @@ input::placeholder{
                             <input class="short__input address__input" type="number" step="1" name="birth_day" value="" placeholder="일">
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="content__wrap" style="margin-bottom:40px;">
+                <div class="content__title warm__msg__area">
+                    <p class="font__small">성별</p>
+                </div>
+                <div class="contnet__row warm__msg__area">
+                    <div style="float:left">
+                        <input type="radio" id="gender_male" name="gender" class="login__check__option" value="F" checked>
+                        <label for="gender_male"></label>
+                    </div>
+                    <span class="font__small" style="margin-right:20px">여성</span>
+                    <div style="float:left">
+                        <input type="radio" id="gender_female" name="gender" class="login__check__option" value="M">
+                        <label for="gender_female"></label>
+                    </div>
+                    <span class="font__small">남성</span>
                 </div>
             </div>
             <div class="content__wrap checkbox__area">

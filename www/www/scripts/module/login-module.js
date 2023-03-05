@@ -1,12 +1,14 @@
 export function Login() {
     (()=>{
-
-    
     $(document).ready(function() {
         $('#member_id').val('');
         var usermember_id = getCookie("usermember_id");
-        $('#member_id').val(usermember_id);
-    
+        if(usermember_id) {
+            $('#member_id').val(usermember_id);
+        } else {
+            $('#member_id').val('');
+        }
+        
         if($('#member_id').val() != ""){
             $("input:checkbox[id='member_id_flg']").prop("checked", true);
         }

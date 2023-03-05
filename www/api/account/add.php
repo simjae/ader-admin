@@ -77,6 +77,11 @@ if (isset($_POST['birth_day'])) {
 	$birth_day = $_POST['birth_day'];
 }
 
+$gender = null;
+if (isset($_POST['gender'])) {
+	$gender = $_POST['gender'];
+}
+
 //동일 ID 중복체크
 $member_cnt = $db->count('dev.MEMBER_'.$country, 'MEMBER_ID = "'.$member_id.'" ');
 
@@ -140,6 +145,12 @@ if($birth_year != null && $birth_month != null && $birth_day != null){
 	$birth_arr[1] = "DATE('".$birth_year."-".$birth_month."-".$birth_day."')";
 }
 
+$gender_arr = array();
+if($gender != null){
+	$gender_arr[0] = ' MEMBER_GENDER, ';
+	$gender_arr[1] = " '".$gender."', ";
+}
+
 $db->begin_transaction();
 
 try {
@@ -156,6 +167,7 @@ try {
 			".$road_addr_arr[0]."
 			".$addr_detail_arr[0]."
 			".$tel_mobile_arr[0]."
+			".$gender_arr[0]."
 			".$birth_arr[0].",
 			JOIN_DATE
 		)
@@ -170,11 +182,11 @@ try {
 			".$road_addr_arr[1]."
 			".$addr_detail_arr[1]."
 			".$tel_mobile_arr[1]."
+			".$gender_arr[1]."
 			".$birth_arr[1].",
 			NOW()
 		)
 	";
-
 	$db->query($insert_member_sql);
 
 	$member_idx = $db->last_id();

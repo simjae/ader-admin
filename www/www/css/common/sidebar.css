@@ -16,8 +16,7 @@
     cursor: pointer;
     position: absolute;
     border: solid 5px #ffffff;
-    top: 100px;
-    right: 10%;
+    /* transform: translate(420px, 100px); */
     z-index: 2;
 }
 #sidebar .sidebar-close-btn svg {
@@ -365,14 +364,16 @@
     border-left: none;
     border-right: none;
     border: none!important;
+    margin: 0;
 }
 /* 사용자 */
 #sidebar .user-wrap {
-    top: 50%;
+    /* top: 50%; */
     width: 70%;
     left: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
+    /* position: absolute; */
+    position: sticky;
+    transform: translate(-20%, 160px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -380,7 +381,7 @@
 }
 #sidebar .side__wrap.open[data-module="user"] .user-wrap{
     top: 0; 
-    transform: translate(-50%, -40%);
+    transform: translate(-20%, -40%);
 }
 #sidebar .user-body{
     margin-top: 700px;
@@ -479,6 +480,7 @@
 }
 #sidebar .login__card {
     width: 100%!important;
+    margin-top: 0!important;
 }
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 

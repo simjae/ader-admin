@@ -135,7 +135,7 @@ function productWriteHtml(grid_info) {
                 slide_outfit = "display:block";
             }
             productListHtml +=
-            `<div class="product">
+            `<div class="product prd">
                 <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
                     ${whish_img}
                 </div>
@@ -926,24 +926,25 @@ function getCurrentUrl() {
     let url = new URL(location.href);
     return url;
 }
+/**
+ * @author SIMJAE
+ * @deprecated 배너 이미지의 형제 요소들의 높이를 측정하여, 이미지 배너의 높이를 설정해주는 기능 
+ */
 function bannerHeightBySiblingElements() {
     const elements = document.querySelectorAll(".product");
     const targets = document.querySelectorAll(".product-inside-banner");
-    console.log("🏂 ~ file: list.js:928 ~ bannerHeightBySiblingElements ~ targets:", targets)
     const heights = [];
-
-    elements.forEach((element) => {
-        heights.push(element.offsetHeight);
-    });
-
+    for(idx = 0; elements.length; idx++){
+        if(elements[idx].classList.contains('prd')){
+            heights.push(elements[idx].offsetHeight);
+            break;
+        }    
+    }
     const maxHeight = Math.max(...heights);
-
     targets.forEach((t) => {
         t.style.height = `${maxHeight}px`;
     });
-    console.log('targets',targets)
 }
-
 
 window.addEventListener('DOMContentLoaded', function () {
     getProductList();

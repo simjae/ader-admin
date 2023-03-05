@@ -430,7 +430,7 @@
         top: -2px;
     }
 
-    .size__box li[data-soldout="STCL"]:hover::before {
+    /* .size__box li[data-soldout="STCL"]:hover::before {
         content: "Only a few left";
         position: absolute;
         width: 80px;
@@ -439,6 +439,24 @@
         color: red;
         background-color: #ffffff;
         border: solid 1px;
+    } */
+    .size__box .stock-stcl:hover::before {
+        content: "Only a few left";
+        position: absolute;
+        width: 80px;
+        top: 17px;
+        left: -5px!important;
+        color: red;
+        background-color: #ffffff;
+    }
+    .size__box li[data-soldout="STCL"]:hover::before {
+        content: "Only a few left";
+        position: absolute;
+        width: 80px;
+        top: 17px;
+        left: -35px;
+        color: red;
+        background-color: #ffffff;
     }
     /* .size__box li[data-soldout="STCL"]::before {
         content: "Only a few left";
@@ -476,7 +494,13 @@
         right: 1px;
         top: -2px;
     }
-
+    .size__box .stock-stsc:hover::before {
+        content: "Re-order";
+        position: absolute;
+        width: 50px;
+        bottom: -15px;
+        left: -5px!important;
+    }
     .size__box li[data-soldout="STSC"]:hover::before {
         content: "Re-order";
         position: absolute;
@@ -921,8 +945,23 @@ function whishListWrite(whishlist) {
 		}
 
 		let product_size = el.product_size;
+        let product_size_head = product_size[0];
+        let product_size_tail = product_size.slice(1);
 		let productSizeHtml = "";
-		product_size.forEach(size => {
+        if(product_size_head.stock_status == "STCL") {
+            productSizeHtml += `
+				<li class="size stock-stcl" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
+			`;    
+        } else if(product_size_head.stock_status == "STSC") {
+            productSizeHtml += `
+				<li class="size stock-stsc" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
+			`;
+        } else {
+            productSizeHtml += `
+                <li class="size" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
+            `;
+        }
+		product_size_tail.forEach(size => {
 			productSizeHtml += `
 				<li class="size" data-reorder="false" data-sizetype="${size.size_type}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}<p></p></li>
 			`;

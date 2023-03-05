@@ -15,6 +15,7 @@
 */
 
 include_once("/var/www/www/api/common/common.php");
+include_once("/var/www/www/api/common/check.php");
 
 $country = null;
 if (isset($_SESSION['COUNTRY'])) {
@@ -24,6 +25,11 @@ if (isset($_SESSION['COUNTRY'])) {
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$member_level = 0;
+if (isset($_SESSION['LEVEL_IDX'])) {
+	$member_level = $_SESSION['LEVEL_IDX'];
 }
 
 $member_id = null;
@@ -77,11 +83,10 @@ if ($basket_idx != null && $stock_status != null) {
 	$stock_result = checkProductStockQty($db,$product_idx,$option_idx);
 	
 	//선택한 상품/옵션이 구매 가능한 상태인지 체크
-	$product_result = checkProduct($db,$product_idx,$country,$member_idx);
-	if ($product_result == true) {
-	} else {
-		$json_result['code'] = 302;
-		$json_result['msg'] = "부적절한 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
+	$check_result_level = checkProductLevel($db,$member_level,"BSK",$basket_idx);
+	if ($check_result_level['result'] == false) {
+		$json_result['code'] = 401;
+		$json_result['msg'] = "부적절한 상품이 선택되었습니다. 쇼핑백에 담으려는 상품을 확인해주세요.";
 		
 		return $json_result;
 	}
@@ -89,6 +94,7 @@ if ($basket_idx != null && $stock_status != null) {
 	if ($stock_status == "STIN" && $basket_idx > 0 && $basket_qty > 0) {
 		$select_stock_sql = "
 			SELECT
+				BI.OPTION_IDX		AS OPTION_IDX,
 				(
 					SELECT
 						IFNULL(SUM(STOCK_QTY),0)
@@ -117,22 +123,22 @@ if ($basket_idx != null && $stock_status != null) {
 		
 		$db->query($select_stock_sql);
 		
+		$option_idx = 0;
 		$product_qty = 0;
 		foreach($db->fetch() as $stock_data) {
+			$option_idx = $stock_data['OPTION_IDX'];
 			$product_qty = intval($stock_data['STOCK_QTY']) - intval($stock_data['ORDER_QTY']);
 		}
 		
-		//선택한 상품/옵션이 구매 가능한 상태인지 체크
-		$product_result = checkProduct($db,$product_idx,$country,$member_idx);
-		if ($product_result == true) {
-		} else {
-			$json_result['code'] = 302;
-			$json_result['msg'] = "부적절한 상품이 선택되었습니다. 위시리스트의 상품을 확인해주세요.";
-			
-			return $json_result;
-		}
-		
 		if ($product_qty > 0 && $product_qty >= $basket_qty) {
+			$check_result_qty = checkQtyLimit($db,$member_idx,"BSK",$basket_idx,$option_idx,$basket_qty);
+			if ($check_result_qty['result'] == false) {
+				$json_result['code'] = 401;
+				$json_result['msg'] = $check_result_qty['msg'];
+				
+				return $json_result;
+			}
+			
 			$update_basket_sql="
 				UPDATE
 					dev.BASKET_INFO BI
@@ -152,6 +158,22 @@ if ($basket_idx != null && $stock_status != null) {
 		}
 	} else if ($stock_status == "STSO" && $product_idx > 0 && $option_idx > 0) {
 		if ($stock_result == true) {
+			$check_result_level = checkProductLevel($db,$member_level,"PRD",$product_idx);
+			if ($check_result_level['result'] == false) {
+				$json_result['code'] = 401;
+				$json_result['msg'] = "부적절한 상품이 선택되었습니다. 쇼핑백에 담으려는 상품을 확인해주세요.";
+				
+				return $json_result;
+			}
+			
+			$check_result_qty = checkQtyLimit($db,$member_idx,"PRD",$product_idx,$option_idx,1);
+			if ($check_result_qty['result'] == false) {
+				$json_result['code'] = 401;
+				$json_result['msg'] = $check_result_qty['msg'];
+				
+				return $json_result;
+			}
+			
 			$db->begin_transaction();
 			
 			try {

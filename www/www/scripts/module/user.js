@@ -86,14 +86,6 @@ export function User() {
                     <p>적립포인트</p>
                 </div>
             </div>
-            <div id="charging_icon" class="icon__item" btn-type="charging">
-                <div class="icon">
-                    <img src="/images/mypage/mypage_charging_point_icon.png">
-                </div>
-                <div class="icon__title">
-                    <p>충전포인트</p>
-                </div>
-            </div>
             <div id="voucher_icon" class="icon__item" btn-type="voucher">
                 <a href="http://116.124.128.246/mypage?mypage_type=voucher_first">
                     <div class="icon">
@@ -288,6 +280,7 @@ export function User() {
         
         
         `
+        console.log('sidebar-login');
         sideBox.appendChild(loginContent);
 	
         $('#member_pw, #member_id').on('keypress', function(e){

@@ -10,7 +10,7 @@
                 </div>
                 <div class="checkbox__box">
                     <label class="cb__custom all" for="">
-                        <input class="prd_cb all__cb" type="checkbox" name="stock">
+                        <input class="prd__cb all__cb" type="checkbox" name="stock">
                         <div class="cb__mark"></div>
                     </label>
                     <div class="flex gap-10">
@@ -34,7 +34,7 @@
                 <div>총 합계</div>
                 <div class="pay__total__price">0</div>
             </div>
-            <div class="pay__btn"><span>결제하기</span></div>
+            <div class="pay__btn"><span>결제</span></div>
             <p class="pay__notiy"></p> 
         </div>
     </section>

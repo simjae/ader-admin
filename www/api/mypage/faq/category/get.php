@@ -45,7 +45,8 @@ function get_category_node($father_no, $country, $db) {
 			dev.FAQ_CATEGORY FC
 		WHERE
 			FATHER_NO = ".$father_no." AND
-			LANG = '".$country."'
+			LANG = '".$country."' AND
+			STATUS = 'Y'
 		ORDER BY
 			SEQ, IDX ASC
 	";

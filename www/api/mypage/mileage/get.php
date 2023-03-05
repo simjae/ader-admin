@@ -55,7 +55,7 @@ if($member_idx > 0 && $country != NULL){
 		FROM
 			dev .MILEAGE_INFO MI
 			LEFT JOIN dev.ORDER_INFO OI ON
-			MI.ORDERNUM = OI.ORDER_CODE AND
+			MI.ORDER_CODE = OI.ORDER_CODE AND
 			OI.ORDER_STATUS = 'ORF'
 		WHERE
 			MI.COUNTRY = '".$country."' AND

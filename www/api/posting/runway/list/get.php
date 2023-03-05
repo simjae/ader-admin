@@ -27,7 +27,7 @@ if (isset($_POST['size_type'])) {
 }
 
 if ($size_type != null) {
-	$select_editorial_page_sql = "
+	$select_runway_page_sql = "
 		SELECT
 			PP.IDX				AS PAGE_IDX,
 			PP.PAGE_TITLE		AS PAGE_TITLE
@@ -35,7 +35,7 @@ if ($size_type != null) {
 			dev.PAGE_POSTING PP
 		WHERE
 			PP.COUNTRY = '".$country."' AND
-			PP.POSTING_TYPE = 'EDTL' AND
+			PP.POSTING_TYPE = 'RNWY' AND
 			NOW() BETWEEN PP.DISPLAY_START_DATE AND PP.DISPLAY_END_DATE AND
 			PP.DISPLAY_FLG = TRUE AND
 			PP.DEL_FLG = FALSE
@@ -43,17 +43,17 @@ if ($size_type != null) {
 			PP.IDX DESC
 	";
 	
-	$db->query($select_editorial_page_sql);
+	$db->query($select_runway_page_sql);
 	
 	foreach($db->fetch() as $page_data) {
 		$page_idx = $page_data['PAGE_IDX'];
 		
-		$contents_cnt = $db->count("dev.EDITORIAL_THUMB","PAGE_IDX = ".$page_idx." AND DEL_FLG = FALSE");
+		$contents_cnt = $db->count("dev.RUNWAY_THUMB","PAGE_IDX = ".$page_idx." AND DEL_FLG = FALSE");
 		
 		if (!empty($page_idx) && $contents_cnt > 0) {
 			$contents_location = null;
 			
-			$select_editorial_contents_sql = "
+			$select_runway_contents_sql = "
 				SELECT
 					REPLACE(
 						EC.CONTENTS_LOCATION,
@@ -61,8 +61,8 @@ if ($size_type != null) {
 						''
 					)			AS CONTENTS_LOCATION
 				FROM
-					dev.EDITORIAL_THUMB ET
-					LEFT JOIN dev.EDITORIAL_CONTENTS EC ON
+					dev.RUNWAY_THUMB ET
+					LEFT JOIN dev.RUNWAY_CONTENTS EC ON
 					ET.IDX = EC.THUMB_IDX
 				WHERE
 					ET.PAGE_IDX = ".$page_idx." AND
@@ -71,7 +71,7 @@ if ($size_type != null) {
 					ET.DEL_FLG = FALSE
 			";
 			
-			$db->query($select_editorial_contents_sql);
+			$db->query($select_runway_contents_sql);
 			
 			foreach($db->fetch() as $contents_data) {
 				$contents_location = $contents_data['CONTENTS_LOCATION'];

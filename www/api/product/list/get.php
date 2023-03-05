@@ -15,6 +15,7 @@
 */
 
 include_once("/var/www/www/api/common/common.php");
+include_once("/var/www/www/api/common/check.php");
 
 error_reporting(E_ALL^ E_WARNING); 
 
@@ -24,8 +25,8 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 }
 
 $member_level = 0;
-if (isset($_SESSION['MEMBER_LEVEL'])) {
-	$member_level = $_SESSION['MEMBER_LEVEL'];
+if (isset($_SESSION['LEVEL_IDX'])) {
+	$member_level = $_SESSION['LEVEL_IDX'];
 }
 
 $menu_sort = null;
@@ -162,282 +163,282 @@ if ($order_param != null) {
 }
 
 if ($page_idx != null && $country != null) {
-	$member_level_sql = "";
-	if ($member_level > 0) {
-		$member_level_sql = " AND (DISPLAY_MEMBER_LEVEL = 'ALL' OR DISPLAY_MEMBER_LEVEL REGEXP '".$member_level."') ";
-	} else {
-		$member_level_sql = " AND DISPLAY_MEMBER_LEVEL = 'ALL' ";
-	}
-	
-	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE ".$member_level_sql);
+	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
 	if ($page_count > 0) {
-		$grid_table = "
-			dev.PRODUCT_GRID PG
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
-			PG.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
-			PR.ORDERSHEET_IDX = OM.IDX
-		";
-		
-		$where = "
-			PG.PAGE_IDX = ".$page_idx." AND
-			PG.TYPE = 'PRD' AND
-			PG.DEL_FLG = FALSE
-			".$grid_filter_sql."
-		";
-		
-		$product_cnt = $db->count($grid_table,$where);
-		
-		//디자인 피드백 이후 이미지/동영상 표시되게 수정
-		$select_grid_sql = "
-			SELECT
-				PG.DISPLAY_NUM				AS DISPLAY_NUM,
-				PG.TYPE						AS GRID_TYPE,
-				PG.LINK_URL					AS LINK_URL,
-				PG.SIZE						AS GRID_SIZE,
-				PG.BACKGROUND_COLOR			AS BACKGROUND_COLOR,
-				PG.BANNER_IDX				AS BANNER_IDX,
-				PG.PRODUCT_IDX				AS PRODUCT_IDX
-				".$order_cnt_sql."
-			FROM
-				".$grid_table."
-			WHERE
-				".$where."
-			ORDER BY
-				".$grid_order_sql."
-		";
-		
-		if ($last_idx > 0) {
-			$select_grid_sql .= " LIMIT ".$last_idx.",12 ";
+		$check_result = checkListLevel($db,$member_idx,$page_idx);
+		if ($check_result['result'] == false) {
+			$json_result['code'] = 402;
+			$json_result['msg'] = "페이지에 접근할 수 있는 권한이 없습니다.";
+			
+			return $json_result;
 		} else {
-			$select_grid_sql .= " LIMIT 0,12 ";
-		}
-		
-		$db->query($select_grid_sql);
-		
-		$grid_info = array();
-		foreach($db->fetch() as $grid_data) {
-			$grid_type = $grid_data['GRID_TYPE'];
+			$grid_table = "
+				dev.PRODUCT_GRID PG
+				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				PG.PRODUCT_IDX = PR.IDX
+				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				PR.ORDERSHEET_IDX = OM.IDX
+			";
 			
-			$banner_idx = $grid_data['BANNER_IDX'];
-			$product_idx = $grid_data['PRODUCT_IDX'];
+			$where = "
+				PG.PAGE_IDX = ".$page_idx." AND
+				PG.DEL_FLG = FALSE
+				".$grid_filter_sql."
+			";
 			
-			$banner_info = array();
-			$product_info = array();
+			$product_cnt = $db->count($grid_table,$where);
 			
-			if ($grid_type == "PRD" && $product_idx > 0) {
-				$select_product_sql = "
-					SELECT
-						PR.PRODUCT_NAME				AS PRODUCT_NAME,
-						PR.PRICE_".$country."		AS PRICE,
-						PR.DISCOUNT_".$country."	AS DISCOUNT,
-						PR.SALES_PRICE_".$country."	AS SALES_PRICE,
-						OM.COLOR					AS COLOR
-					FROM
-						dev.SHOP_PRODUCT PR
-						LEFT JOIN dev.ORDERSHEET_MST OM ON
-						PR.ORDERSHEET_IDX = OM.IDX
-					WHERE
-						PR.IDX = ".$product_idx." AND
-						PR.SALE_FLG = TRUE AND
-						PR.DEL_FLG = FALSE
-				";
-				
-				$db->query($select_product_sql);
-				
-				foreach($db->fetch() as $product_data) {
-					$product_img = array();
-					
-					$select_img_p_sql = "
-						SELECT
-							PI.IMG_TYPE		AS IMG_TYPE,
-							REPLACE(
-								PI.IMG_LOCATION,'/var/www/admin/www',''
-							)				AS IMG_LOCATION
-						FROM
-							dev.PRODUCT_IMG PI
-						WHERE
-							PI.PRODUCT_IDX = ".$product_idx." AND
-							PI.IMG_TYPE = 'P' AND
-							PI.IMG_SIZE = 'M'
-						ORDER BY
-							PI.IDX ASC
-					";
-					
-					$db->query($select_img_p_sql);
-					
-					$product_p_img = array();
-					foreach($db->fetch() as $img_data) {
-						$product_p_img[] = array(
-							'img_type'		=>$img_data['IMG_TYPE'],
-							'img_location'	=>$img_data['IMG_LOCATION']
-						);
-					}
-					
-					$select_img_o_sql = "
-						SELECT
-							PI.IMG_TYPE		AS IMG_TYPE,
-							REPLACE(
-								PI.IMG_LOCATION,'/var/www/admin/www',''
-							)				AS IMG_LOCATION
-						FROM
-							dev.PRODUCT_IMG PI
-						WHERE
-							PI.PRODUCT_IDX = ".$product_idx." AND
-							PI.IMG_TYPE = 'O' AND
-							PI.IMG_SIZE = 'M'
-						ORDER BY
-							PI.IDX ASC
-					";
-									
-					$db->query($select_img_o_sql);
-					
-					$product_o_img = array();
-					foreach($db->fetch() as $img_data) {
-						$product_o_img[] = array(
-							'img_type'		=>$img_data['IMG_TYPE'],
-							'img_location'	=>$img_data['IMG_LOCATION']
-						);
-					}
-					
-					$product_img = array(
-						'product_p_img'		=>$product_p_img,
-						'product_o_img'		=>$product_o_img
-					);
-					
-					$whish_flg = false;
-					if ($member_idx > 0) {
-						$whish_count = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
-						if ($whish_count > 0) {
-							$whish_flg = true;
-						}
-					}
-					
-					$product_color = getProductColor($db,$product_idx);
-					
-					$product_size = getProductSize($db,$product_idx);
-					
-					$stock_status = null;
-					$soldout_cnt = 0;
-					$stock_close_cnt = 0;
-					for ($i=0; $i<count($product_size); $i++) {
-						$tmp_stock_status = $product_size[$i]['stock_status'];
-						if ($tmp_stock_status == "STSO") {
-							$soldout_cnt++;
-						} else if ($tmp_stock_status == "STCL") {
-							$stock_close_cnt++;
-						}
-					}
-					
-					if (count($product_size) == $soldout_cnt) {
-						$stock_status = "STSO";
-					} else if (count($product_size) == $stock_close_cnt) {
-						$stock_status = "STCL";
-					}
-					
-					$product_info = array(
-						'product_name'		=>$product_data['PRODUCT_NAME'],
-						'price'				=>$product_data['PRICE'],
-						'discount'			=>$product_data['DISCOUNT'],
-						'sales_price'		=>$product_data['SALES_PRICE'],
-						'color'				=>$product_data['COLOR'],
-						'product_img'		=>$product_img,
-						'product_color'		=>$product_color,
-						'product_size'		=>$product_size,
-						'stock_status'		=>$stock_status,
-						'whish_flg'			=>$whish_flg
-					);
-				}
-			} else if ($grid_type != "BNR" && $banner_idx > 0) {
-				$banner_table = "";
-				$clip_table = "";
-				
-				switch($grid_type) {
-					case "IMG" :
-						$banner_table = "dev.BANNER_IMG BI";
-						$clip_table = "dev.BANNER_IMG_CLIP BC";
-						break;
-					
-					case "VID" :
-						$banner_table = "dev.BANNER_VID BI";
-						$clip_table = "dev.BANNER_VID_CLIP BC";
-						break;
-				}
-				
-				$select_banner_sql = "
-					SELECT
-						REPLACE(
-							BI.BANNER_LOCATION,
-							'/var/www/admin/www',
-							''
-						)		AS BANNER_LOCATION
-					FROM
-						".$banner_table."
-					WHERE
-						BI.IDX = ".$banner_idx."
-				";
-				
-				$db->query($select_banner_sql);
-				
-				foreach($db->fetch() as $banner_data) {
-					$select_clip_sql = "
-						SELECT
-							BC.CLIP_TYPE		AS CLIP_TYPE,
-							BC.LOCATION_START	AS LOCATION_START,
-							BC.LOCATION_END	AS LOCATION_END
-						FROM
-							".$clip_table."
-						WHERE
-							BC.BANNER_IDX = ".$banner_idx."
-					";
-					
-					$db->query($select_clip_sql);
-					
-					$clip_info = array();
-					foreach($db->fetch() as $clip_data) {
-						$clip_info[] = array(
-							'clip_type'			=>$clip_data['CLIP_TYPE'],
-							'location_start'	=>$clip_data['LOCATION_START'],
-							'location_end'		=>$clip_data['LOCATION_END']
-						);
-					}
-					
-					$banner_info = array(
-						'banner_location'	=>$banner_data['BANNER_LOCATION'],
-						'clip_info'			=>$clip_info
-					);
-				}
+			//디자인 피드백 이후 이미지/동영상 표시되게 수정
+			$select_grid_sql = "
+				SELECT
+					PG.DISPLAY_NUM				AS DISPLAY_NUM,
+					PG.TYPE						AS GRID_TYPE,
+					PG.LINK_URL					AS LINK_URL,
+					PG.SIZE						AS GRID_SIZE,
+					PG.BACKGROUND_COLOR			AS BACKGROUND_COLOR,
+					PG.BANNER_IDX				AS BANNER_IDX,
+					PG.PRODUCT_IDX				AS PRODUCT_IDX
+					".$order_cnt_sql."
+				FROM
+					".$grid_table."
+				WHERE
+					".$where."
+				ORDER BY
+					".$grid_order_sql."
+			";
+			
+			if ($last_idx > 0) {
+				$select_grid_sql .= " LIMIT ".$last_idx.",12 ";
+			} else {
+				$select_grid_sql .= " LIMIT 0,12 ";
 			}
 			
-			$grid_info[] = array(
-				'display_num'		=>$grid_data['DISPLAY_NUM'],
-				'grid_type'			=>$grid_data['GRID_TYPE'],
-				'link_url'			=>$grid_data['LINK_URL'],
-				'grid_size'			=>$grid_data['GRID_SIZE'],
-				'background_color'	=>$grid_data['BACKGROUND_COLOR'],
-				'product_idx'		=>$grid_data['PRODUCT_IDX'],
+			$db->query($select_grid_sql);
+			
+			$grid_info = array();
+			foreach($db->fetch() as $grid_data) {
+				$grid_type = $grid_data['GRID_TYPE'];
 				
-				'banner_location'	=>$banner_info['banner_location'],
-				'clip_info'			=>$banner_info['clip_info'],
+				$banner_idx = $grid_data['BANNER_IDX'];
+				$product_idx = $grid_data['PRODUCT_IDX'];
 				
-				'product_name'		=>$product_info['product_name'],
-				'price'				=>$product_info['price'],
-				'discount'			=>$product_info['discount'],
-				'sales_price'		=>$product_info['sales_price'],
-				'color'				=>$product_info['color'],
-				'product_img'		=>$product_info['product_img'],
-				'product_color'		=>$product_info['product_color'],
-				'product_size'		=>$product_info['product_size'],
-				'stock_status'		=>$product_info['stock_status'],
-				'whish_flg'			=>$product_info['whish_flg']
+				$banner_info = array();
+				$product_info = array();
+				
+				if ($grid_type == "PRD" && $product_idx > 0) {
+					$select_product_sql = "
+						SELECT
+							PR.PRODUCT_NAME				AS PRODUCT_NAME,
+							PR.PRICE_".$country."		AS PRICE,
+							PR.DISCOUNT_".$country."	AS DISCOUNT,
+							PR.SALES_PRICE_".$country."	AS SALES_PRICE,
+							OM.COLOR					AS COLOR
+						FROM
+							dev.SHOP_PRODUCT PR
+							LEFT JOIN dev.ORDERSHEET_MST OM ON
+							PR.ORDERSHEET_IDX = OM.IDX
+						WHERE
+							PR.IDX = ".$product_idx." AND
+							PR.SALE_FLG = TRUE AND
+							PR.DEL_FLG = FALSE
+					";
+					
+					$db->query($select_product_sql);
+					
+					foreach($db->fetch() as $product_data) {
+						$product_img = array();
+						
+						$select_img_p_sql = "
+							SELECT
+								PI.IMG_TYPE		AS IMG_TYPE,
+								REPLACE(
+									PI.IMG_LOCATION,'/var/www/admin/www',''
+								)				AS IMG_LOCATION
+							FROM
+								dev.PRODUCT_IMG PI
+							WHERE
+								PI.PRODUCT_IDX = ".$product_idx." AND
+								PI.IMG_TYPE = 'P' AND
+								PI.IMG_SIZE = 'M'
+							ORDER BY
+								PI.IDX ASC
+						";
+						
+						$db->query($select_img_p_sql);
+						
+						$product_p_img = array();
+						foreach($db->fetch() as $img_data) {
+							$product_p_img[] = array(
+								'img_type'		=>$img_data['IMG_TYPE'],
+								'img_location'	=>$img_data['IMG_LOCATION']
+							);
+						}
+						
+						$select_img_o_sql = "
+							SELECT
+								PI.IMG_TYPE		AS IMG_TYPE,
+								REPLACE(
+									PI.IMG_LOCATION,'/var/www/admin/www',''
+								)				AS IMG_LOCATION
+							FROM
+								dev.PRODUCT_IMG PI
+							WHERE
+								PI.PRODUCT_IDX = ".$product_idx." AND
+								PI.IMG_TYPE = 'O' AND
+								PI.IMG_SIZE = 'M'
+							ORDER BY
+								PI.IDX ASC
+						";
+										
+						$db->query($select_img_o_sql);
+						
+						$product_o_img = array();
+						foreach($db->fetch() as $img_data) {
+							$product_o_img[] = array(
+								'img_type'		=>$img_data['IMG_TYPE'],
+								'img_location'	=>$img_data['IMG_LOCATION']
+							);
+						}
+						
+						$product_img = array(
+							'product_p_img'		=>$product_p_img,
+							'product_o_img'		=>$product_o_img
+						);
+						
+						$whish_flg = false;
+						if ($member_idx > 0) {
+							$whish_count = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
+							if ($whish_count > 0) {
+								$whish_flg = true;
+							}
+						}
+						
+						$product_color = getProductColor($db,$product_idx);
+						
+						$product_size = getProductSize($db,$product_idx);
+						
+						$stock_status = null;
+						$soldout_cnt = 0;
+						$stock_close_cnt = 0;
+						for ($i=0; $i<count($product_size); $i++) {
+							$tmp_stock_status = $product_size[$i]['stock_status'];
+							if ($tmp_stock_status == "STSO") {
+								$soldout_cnt++;
+							} else if ($tmp_stock_status == "STCL") {
+								$stock_close_cnt++;
+							}
+						}
+						
+						if (count($product_size) == $soldout_cnt) {
+							$stock_status = "STSO";
+						} else if (count($product_size) == $stock_close_cnt) {
+							$stock_status = "STCL";
+						}
+						
+						$product_info = array(
+							'product_name'		=>$product_data['PRODUCT_NAME'],
+							'price'				=>$product_data['PRICE'],
+							'discount'			=>$product_data['DISCOUNT'],
+							'sales_price'		=>$product_data['SALES_PRICE'],
+							'color'				=>$product_data['COLOR'],
+							'product_img'		=>$product_img,
+							'product_color'		=>$product_color,
+							'product_size'		=>$product_size,
+							'stock_status'		=>$stock_status,
+							'whish_flg'			=>$whish_flg
+						);
+					}
+				} else if ($grid_type != "BNR" && $banner_idx > 0) {
+					$banner_table = "";
+					$clip_table = "";
+					
+					switch($grid_type) {
+						case "IMG" :
+							$banner_table = "dev.BANNER_IMG BI";
+							$clip_table = "dev.BANNER_IMG_CLIP BC";
+							break;
+						
+						case "VID" :
+							$banner_table = "dev.BANNER_VID BI";
+							$clip_table = "dev.BANNER_VID_CLIP BC";
+							break;
+					}
+					
+					$select_banner_sql = "
+						SELECT
+							REPLACE(
+								BI.BANNER_LOCATION,
+								'/var/www/admin/www',
+								''
+							)		AS BANNER_LOCATION
+						FROM
+							".$banner_table."
+						WHERE
+							BI.IDX = ".$banner_idx."
+					";
+					
+					$db->query($select_banner_sql);
+					
+					foreach($db->fetch() as $banner_data) {
+						$select_clip_sql = "
+							SELECT
+								BC.CLIP_TYPE		AS CLIP_TYPE,
+								BC.LOCATION_START	AS LOCATION_START,
+								BC.LOCATION_END	AS LOCATION_END
+							FROM
+								".$clip_table."
+							WHERE
+								BC.BANNER_IDX = ".$banner_idx."
+						";
+						
+						$db->query($select_clip_sql);
+						
+						$clip_info = array();
+						foreach($db->fetch() as $clip_data) {
+							$clip_info[] = array(
+								'clip_type'			=>$clip_data['CLIP_TYPE'],
+								'location_start'	=>$clip_data['LOCATION_START'],
+								'location_end'		=>$clip_data['LOCATION_END']
+							);
+						}
+						
+						$banner_info = array(
+							'banner_location'	=>$banner_data['BANNER_LOCATION'],
+							'clip_info'			=>$clip_info
+						);
+					}
+				}
+				
+				$grid_info[] = array(
+					'display_num'		=>$grid_data['DISPLAY_NUM'],
+					'grid_type'			=>$grid_data['GRID_TYPE'],
+					'link_url'			=>$grid_data['LINK_URL'],
+					'grid_size'			=>$grid_data['GRID_SIZE'],
+					'background_color'	=>$grid_data['BACKGROUND_COLOR'],
+					'product_idx'		=>$grid_data['PRODUCT_IDX'],
+					
+					'banner_location'	=>$banner_info['banner_location'],
+					'clip_info'			=>$banner_info['clip_info'],
+					
+					'product_name'		=>$product_info['product_name'],
+					'price'				=>$product_info['price'],
+					'discount'			=>$product_info['discount'],
+					'sales_price'		=>$product_info['sales_price'],
+					'color'				=>$product_info['color'],
+					'product_img'		=>$product_info['product_img'],
+					'product_color'		=>$product_info['product_color'],
+					'product_size'		=>$product_info['product_size'],
+					'stock_status'		=>$product_info['stock_status'],
+					'whish_flg'			=>$product_info['whish_flg']
+				);
+			}
+			
+			$json_result['data'] = array(
+				'menu_info'		=>$menu_info,
+				'filter_info'	=>$filter_info,
+				'grid_info'		=>$grid_info
 			);
 		}
-		
-		$json_result['data'] = array(
-			'menu_info'		=>$menu_info,
-			'filter_info'	=>$filter_info,
-			'grid_info'		=>$grid_info
-		);
 	} else {
 		$json_result['code'] = 402;
 		$json_result['msg'] = "해당 페이지의 정보가 존재하지 않습니다. 올바른 페이지로 이동해주세요.";

@@ -5,29 +5,14 @@ const urlParams = new URL(location.href).searchParams;
 const productIdx = urlParams.get('product_idx');
 const productDetailInfoArr = getProductDetailInfo(productIdx);
 
-window.addEventListener('DOMContentLoaded', function () {
-    let product_idx = document.querySelector("main").dataset.productidx;
-    getProduct(product_idx);
-    saveRecentlyViewed(product_idx);
-    pdResponsiveSwiper();
-    mobileDetailBtnHanddler();
-    $('#quickview').removeClass("hidden");
-});
-
-window.addEventListener('resize', function () {
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-        pdResponsiveSwiper();
-    }, delay);
-});
-
-const getProduct = (product_idx) => {
+const getProductApi = (productIdx) => {
     const main = document.querySelector("main");
     let country = main.dataset.country;
+    let result;
     $.ajax({
         type: "post",
         data: {
-            "product_idx": product_idx,
+            "product_idx": productIdx,
             "country": country,
         },
         async: false,
@@ -37,201 +22,144 @@ const getProduct = (product_idx) => {
             alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
         },
         success: function (d) {
-            let data = d.data;
-            const domFrag = document.createDocumentFragment();
-            const infoWrap = document.querySelector(".info__wrap");
-            const thumbnailImgWrap = document.querySelector(".thumbnail_img_wrapper");
-            const navigationWrap = document.querySelector(".navigation__wrap");
-            const mainImgWrap = document.querySelector(".main_img_wrapper");
-            let infoBoxHtml = "";
-            data.forEach((el) => {
-                let sold_out_flg = el.sold_out_flg;
-                let refund_msg_flg = el.refund_msg_flg;
-                let refund = el.refund;
-                
-                infoWrap.dataset.soldflg = sold_out_flg;
-                infoWrap.dataset.refund_msg_flg = refund_msg_flg;
+            makeProductListFlag(d);
+            result = d.data;
+        }
+    });
+    return result;
+}
+function makeProductListFlag(d){
+    let data = d.data;
+    const domFrag = document.createDocumentFragment();
+    const infoWrap = document.querySelector(".info__wrap");
+    const thumbnailImgWrap = document.querySelector(".thumbnail_img_wrapper");
+    const navigationWrap = document.querySelector(".navigation__wrap");
+    const mainImgWrap = document.querySelector(".main_img_wrapper");
+    let infoBoxHtml = "";
+    data.forEach((el) => {
+        let sold_out_flg = el.sold_out_flg;
+        let refund_msg_flg = el.refund_msg_flg;
+        let refund = el.refund;
+        
+        infoWrap.dataset.soldflg = sold_out_flg;
+        infoWrap.dataset.refund_msg_flg = refund_msg_flg;
 
 
-                let img_thumbnail = el.img_thumbnail;
-                let imgThumbnailHtml = "";
+        let img_thumbnail = el.img_thumbnail;
+        let imgThumbnailHtml = "";
 
-                img_thumbnail.forEach((thumbnail) => {
+        img_thumbnail.forEach((thumbnail) => {
 
-                    imgThumbnailHtml = `<img src="${img_root}${thumbnail.img_location}"/><span>${thumbnail.display_num == 1 ? "착용이미지" : "디테일"}</span>`;
-                    const thumbnailBox = document.createElement("div");
-                    thumbnailBox.classList.add("thumb__box");
-                    thumbnailBox.dataset.type = thumbnail.display_num;
-                    thumbnailBox.innerHTML = imgThumbnailHtml;
-                    domFrag.appendChild(thumbnailBox);
-                });
-                navigationWrap.appendChild(domFrag);
+            imgThumbnailHtml = `<img src="${img_root}${thumbnail.img_location}"/><span>${thumbnail.display_num == 1 ? "착용이미지" : "디테일"}</span>`;
+            const thumbnailBox = document.createElement("div");
+            thumbnailBox.classList.add("thumb__box");
+            thumbnailBox.dataset.type = thumbnail.display_num;
+            thumbnailBox.innerHTML = imgThumbnailHtml;
+            domFrag.appendChild(thumbnailBox);
+        });
+        navigationWrap.appendChild(domFrag);
 
-                let img_main = el.img_main;
-                let imgMainHtml = "";
-                img_main.forEach((main) => {
-                    imgMainHtml = `
-                        <img class="detail__img" data-imgtype="${main.img_type}" data-size="${main.img_size}" src="${img_root}${main.img_url}"/>
-                    `;
+        let img_main = el.img_main;
+        let imgMainHtml = "";
+        img_main.forEach((main) => {
+            imgMainHtml = `
+                <img class="detail__img" data-imgtype="${main.img_type}" data-size="${main.img_size}" src="${img_root}${main.img_url}"/>
+            `;
 
-                    const mainInfo = document.createElement("div");
-                    mainInfo.classList.add("swiper-slide");
-                    mainInfo.dataset.imgtype = main.img_type;
-                    mainInfo.dataset.imgsize = main.img_size;
-                    mainInfo.innerHTML = imgMainHtml;
-                    domFrag.appendChild(mainInfo);
+            const mainInfo = document.createElement("div");
+            mainInfo.classList.add("swiper-slide");
+            mainInfo.dataset.imgtype = main.img_type;
+            mainInfo.dataset.imgsize = main.img_size;
+            mainInfo.innerHTML = imgMainHtml;
+            domFrag.appendChild(mainInfo);
 
-                });
-                mainPageHtml = `
-					
-					
-					`
-                mainImgWrap.appendChild(domFrag);
+        });
+        mainPageHtml = `
+            
+            
+            `
+        mainImgWrap.appendChild(domFrag);
 
-                let product_color = el.product_color;
-                let productColorHtml = "";
-                product_color.forEach(color => {
-                    let colorData = color.color_rgb;
-                    let multi = colorData.split(";");
-                    // console.log(multi)
-                    // console.log(colorData)
-                    if (multi.length === 2) {
-                        productColorHtml += `
-							<div class="color-line" data-idx="${color.product_idx}"  style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
-								<div class="color multi" data-title="${color.color}"></div>
-							</div>
-						`;
-                    } else {
-                        productColorHtml += `
-								<div class="color-line" data-idx="${color.product_idx}" data-title="${color.color}" style="--background-color:${multi[0]}" >
-									<div class="color" data-title="${color.color}"></div>
-								</div>
-							`;
-                    }
-                });
-
-                let product_size = el.product_size;
-                let productSizeHtml = "";
-                product_size.forEach(size => {
-                    productSizeHtml += `
-							<li class="size" data-sizetype="${size.size_type}" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">
-                                ${size.option_name}
-                                ${size.stock_status == 'STCL'? '<div class="red-dot"></div>' :''}
-                                ${size.stock_status == 'STSC'? '<div class="sold-line"></div>' :''}
-                            </li>
-						`;
-                });
-
-                let whish_img = "";
-                let whish_function = "";
-
-                let whish_flg = `${el.whish_flg}`;
-                let login_status = getLoginStatus();
-
-                if (login_status == "true") {
-                    if (whish_flg == 'true') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                        whish_function = "deleteWhishListBtn(this);";
-                    } else if (whish_flg == 'false') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                        whish_function = "setWhishListBtn(this);";
-                    }
-                } else {
-                    whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                    whish_function = "return false;";
-
-                }
-                let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
-                infoBoxHtml = `
-                    <div class="product__title">${el.product_name}</div>
-                    ${el.discount == 0 ? 
-                        `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">
-                            <span>${el.price.toLocaleString('ko-KR')}</span>
-                        </div>` 
-                        : 
-                        `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-dis="true">
-                            <span class="sp">${saleprice}</span>
-                            <span class="cp" data-discount="${el.discount}" >${el.price.toLocaleString('ko-KR')}</span>
-                            <span class="di">${el.discount}%</span>
-                        </div>`
-                    } 
-                    <div class="color__box">
-                        ${productColorHtml}
+        let product_color = el.product_color;
+        let productColorHtml = "";
+        product_color.forEach(color => {
+            let colorData = color.color_rgb;
+            let multi = colorData.split(";");
+            // console.log(multi)
+            // console.log(colorData)
+            if (multi.length === 2) {
+                productColorHtml += `
+                    <div class="color-line" data-idx="${color.product_idx}"  style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
+                        <p class="color-name">${color.color}</p>
+                        <div class="color multi" data-title="${color.color}"></div>
                     </div>
-                    <div class="product__size">
-                        <div>Size</div>
-                        <div class="size__box">
-                            ${productSizeHtml}
-                        </div>
-                    </div>
-                    
-                    <div class="basket__wrap--btn">
-                        <div class="basket__box--btn">
-                            <div class="basket-btn" >
-                                <img src="/images/svg/basket.svg" alt="">
-                                <span class="basket-title">쇼핑백에 담기</span>
-                            </div>
-                            <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
-                                ${whish_img}
-                            </div>
-                        </div>
-                        ${refund_msg_flg == 1?
-                            `<div class="detail__refund__box"> 
-                                <div class='close-box'>
-                                    <div class="close-btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12.707" height="12.707" viewBox="0 0 12.707 12.707">
-                                            <path data-name="선 1772" transform="rotate(135 6.103 2.736)" style="fill:none;stroke:#343434" d="M16.969 0 0 .001"></path>
-                                            <path data-name="선 1787" transform="rotate(45 -.25 .606)" style="fill:none;stroke:#343434" d="M16.969.001 0 0"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class='refund__msg'>제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
-                                <div class="refund-basket-btn"> 
-                                    <img src="/images/svg/basket.svg" alt=""> 
-                                    <span class="basket-title">내용 확인 후 쇼핑백에 담기</span> 
-                                </div> 
-                            </div>`
-                            :''}
-                    </div>
-
-                    <div class="detail__btn__wrap web">
-                        <div class="detail__btn__row web">
-                            <div class="img-box">
-                                <img src="/images/svg/sizeguide.svg" alt="">
-                            </div>
-                            <div class="btn-title">사이즈가이드</div>
-                            <div class="detail__content__box"></div>
-                        </div>
-                        <div class="detail__btn__row web">
-                            <div class="img-box">
-                                <img src="/images/svg/material.svg" alt=""></div>
-                            <div class="btn-title">소재</div>
-                            <div class="detail__content__box"></div>
-                        </div>
-                        <div class="detail__btn__row web">
-                            <div class="img-box">
-                                <img src="/images/svg/information.svg" alt="">
-                            </div>
-                            <div class="btn-title">상세정보</div>
-                            <div class="detail__content__box"></div>
-                        </div>
-                        <div class="detail__btn__row web">
-                            <div class="img-box">
-                                <img src="/images/svg/precaution.svg" alt="">
-                            </div>
-                            <div class="btn-title">취급 유의사항</div>
-                            <div class="detail__content__box"></div>
-                        </div>
-                    </div>
-                    <div class="detail__refund__msg"></div>
-                    
                 `;
-                //모바일 전용 쇼핑백담기버튼 추가
-                let mobileBasketBtnWrap = document.createElement("div");
-                let whishlistTitle = "<div class='whislist-tilte'>whislist</div>"
-                mobileBasketBtnWrap.className = "basket__wrap--btn nav";
+            } else {
+                productColorHtml += `
+                    <div class="color-line" data-idx="${color.product_idx}" data-title="${color.color}" style="--background-color:${multi[0]}">
+                        <p class="color-name">${color.color}</p>
+                        <div class="color" data-title="${color.color}"></div>
+                    </div>
+                `;
+            }
+        });
 
-                mobileBasketBtnWrap.innerHTML = `
+        let product_size = el.product_size;
+        let productSizeHtml = "";
+        product_size.forEach(size => {
+            productSizeHtml += `
+                    <li class="size" data-sizetype="${size.size_type}" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">
+                        ${size.option_name}
+                        ${size.stock_status == 'STCL'? '<div class="red-dot"></div>' :''}
+                        ${size.stock_status == 'STSC'? '<div class="sold-line"></div>' :''}
+                    </li>
+                `;
+        });
+
+        let whish_img = "";
+        let whish_function = "";
+
+        let whish_flg = `${el.whish_flg}`;
+        let login_status = getLoginStatus();
+
+        if (login_status == "true") {
+            if (whish_flg == 'true') {
+                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
+                whish_function = "deleteWhishListBtn(this);";
+            } else if (whish_flg == 'false') {
+                whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+                whish_function = "setWhishListBtn(this);";
+            }
+        } else {
+            whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
+            whish_function = "return false;";
+
+        }
+        let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
+        infoBoxHtml = `
+            <div class="product__title">${el.product_name}</div>
+            ${el.discount == 0 ? 
+                `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-discount="${el.discount}" data-dis="false">
+                    <span>${el.price.toLocaleString('ko-KR')}</span>
+                </div>` 
+                : 
+                `<div class="product__price" data-soldout="${el.stock_status}" data-saleprice="${saleprice}" data-dis="true">
+                    <span class="sp">${saleprice}</span>
+                    <span class="cp" data-discount="${el.discount}" >${el.price.toLocaleString('ko-KR')}</span>
+                    <span class="di">${el.discount}%</span>
+                </div>`
+            } 
+            <div class="color__box">
+                ${productColorHtml}
+            </div>
+            <div class="product__size">
+                <div>Size</div>
+                <div class="size__box">
+                    ${productSizeHtml}
+                </div>
+            </div>
+            
+            <div class="basket__wrap--btn">
                 <div class="basket__box--btn">
                     <div class="basket-btn" >
                         <img src="/images/svg/basket.svg" alt="">
@@ -239,7 +167,6 @@ const getProduct = (product_idx) => {
                     </div>
                     <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
                         ${whish_img}
-                        ${whish_flg == 'true' ? whishlistTitle : ""}
                     </div>
                 </div>
                 ${refund_msg_flg == 1?
@@ -259,48 +186,111 @@ const getProduct = (product_idx) => {
                         </div> 
                     </div>`
                     :''}
-                
-                `
-                document.querySelector(".rM-detail-containner").appendChild(mobileBasketBtnWrap);
+            </div>
 
-
-                const prdInfo = document.createElement("div");
-                prdInfo.classList.add("info__box");
-                prdInfo.innerHTML = infoBoxHtml;
-                domFrag.appendChild(prdInfo);
-                infoWrap.appendChild(domFrag);
-
-                if(infoWrap.dataset.refund_msg_flg == 1){
-                    document.querySelectorAll(".detail__refund__msg").forEach(el => el.innerHTML = refund);
-                }        
-            });
-            let relevant_idx = data[0].relevant_idx;
-
-            if (relevant_idx != null) {
-                // getRelevantProductList(relevant_idx, country);
-            }
-            // getProductRecommendList();
-            // sizeNodeCheck();
-            colorNodeCheck();
-            sizeBtnHandler();
-            basketStatusBtn();
-            // 컬러 표기
-            followScrollBtn();
-            viewportImg();
-            // detailBtnHandler();
+            <div class="detail__btn__wrap web">
+                <div class="detail__btn__row web">
+                    <div class="img-box">
+                        <img src="/images/svg/sizeguide.svg" alt="">
+                    </div>
+                    <div class="btn-title">사이즈가이드</div>
+                    <div class="detail__content__box"></div>
+                </div>
+                <div class="detail__btn__row web">
+                    <div class="img-box">
+                        <img src="/images/svg/material.svg" alt=""></div>
+                    <div class="btn-title">소재</div>
+                    <div class="detail__content__box"></div>
+                </div>
+                <div class="detail__btn__row web">
+                    <div class="img-box">
+                        <img src="/images/svg/information.svg" alt="">
+                    </div>
+                    <div class="btn-title">상세정보</div>
+                    <div class="detail__content__box"></div>
+                </div>
+                <div class="detail__btn__row web">
+                    <div class="img-box">
+                        <img src="/images/svg/precaution.svg" alt="">
+                    </div>
+                    <div class="btn-title">취급 유의사항</div>
+                    <div class="detail__content__box"></div>
+                </div>
+            </div>
+            <div class="detail__refund__msg"></div>
             
-            //디테일 설명
-            innerSideBar();
-            webDetailBtnHanddler();
+        `;
+        //모바일 전용 쇼핑백담기버튼 추가
+        let mobileBasketBtnWrap = document.createElement("div");
+        let whishlistTitle = "<div class='whislist-tilte'>whislist</div>"
+        mobileBasketBtnWrap.className = "basket__wrap--btn nav";
 
-            if(infoWrap.dataset.soldflg == 1){
-                let $$productBtn = document.querySelectorAll(".basket-btn");
-                basketBtnStatusChange($$productBtn, 0);
-            }
-        }
+        mobileBasketBtnWrap.innerHTML = `
+        <div class="basket__box--btn">
+            <div class="basket-btn" >
+                <img src="/images/svg/basket.svg" alt="">
+                <span class="basket-title">쇼핑백에 담기</span>
+            </div>
+            <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
+                ${whish_img}
+                ${whish_flg == 'true' ? whishlistTitle : ""}
+            </div>
+        </div>
+        ${refund_msg_flg == 1?
+            `<div class="detail__refund__box"> 
+                <div class='close-box'>
+                    <div class="close-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12.707" height="12.707" viewBox="0 0 12.707 12.707">
+                            <path data-name="선 1772" transform="rotate(135 6.103 2.736)" style="fill:none;stroke:#343434" d="M16.969 0 0 .001"></path>
+                            <path data-name="선 1787" transform="rotate(45 -.25 .606)" style="fill:none;stroke:#343434" d="M16.969.001 0 0"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class='refund__msg'>제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
+                <div class="refund-basket-btn"> 
+                    <img src="/images/svg/basket.svg" alt=""> 
+                    <span class="basket-title">내용 확인 후 쇼핑백에 담기</span> 
+                </div> 
+            </div>`
+            :''}
+        
+        `
+        document.querySelector(".rM-detail-containner").appendChild(mobileBasketBtnWrap);
 
+
+        const prdInfo = document.createElement("div");
+        prdInfo.classList.add("info__box");
+        prdInfo.innerHTML = infoBoxHtml;
+        domFrag.appendChild(prdInfo);
+        infoWrap.appendChild(domFrag);
+
+        if(infoWrap.dataset.refund_msg_flg == 1){
+            document.querySelectorAll(".detail__refund__msg").forEach(el => el.innerHTML = refund);
+        }        
     });
+    let relevant_idx = data[0].relevant_idx;
 
+    if (relevant_idx != null) {
+        // getRelevantProductList(relevant_idx, country);
+    }
+    // getProductRecommendList();
+    // sizeNodeCheck();
+    colorNodeCheck();
+    sizeBtnHandler();
+    basketStatusBtn();
+    // 컬러 표기
+    followScrollBtn();
+    viewportImg();
+    // detailBtnHandler();
+    
+    //디테일 설명
+    innerSideBar();
+    webDetailBtnHanddler();
+
+    if(infoWrap.dataset.soldflg == 1){
+        let $$productBtn = document.querySelectorAll(".basket-btn");
+        basketBtnStatusChange($$productBtn, 0);
+    }
 }
 //메인 스와이프 관련 함수 
 // let mainSwiper = initMainSwiper();
@@ -684,9 +674,11 @@ function colorNodeCheck() {
 
         el.addEventListener("mouseover", function (e) {
             document.querySelector(".color-line.select").classList.remove("select");
+            // document.querySelector(".color-line .color-name.select").classList.remove("select");
         });
         el.addEventListener("mouseout", function (e) {
             document.querySelector(".color-line").classList.add("select");
+            // document.querySelector(".color-line .color-name").classList.add("select");
         });
         el.addEventListener("click", function (e) {
             let targetIdx = e.currentTarget.dataset.idx;
@@ -1002,3 +994,19 @@ function innerSideBar(){
    
 }
 
+
+window.addEventListener('DOMContentLoaded', function () {
+    let product_idx = document.querySelector("main").dataset.productidx;
+    getProductApi(product_idx);
+    saveRecentlyViewed(product_idx);
+    pdResponsiveSwiper();
+    mobileDetailBtnHanddler();
+    $('#quickview').removeClass("hidden");
+});
+
+window.addEventListener('resize', function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+        pdResponsiveSwiper();
+    }, delay);
+});

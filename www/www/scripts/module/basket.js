@@ -22,7 +22,7 @@ export function Basket(el, useSidebar) {
 						</div>
 						<div class="checkbox__box">
 							<label class="cb__custom all" for="">
-								<input class="prd_cb all__cb" type="checkbox" name="stock">
+								<input class="prd__cb all__cb" type="checkbox" name="stock">
 								<div class="cb__mark"></div>
 							</label>
 							<div class="flex gap-10">
@@ -69,7 +69,7 @@ export function Basket(el, useSidebar) {
 							</div>
 							<div class="checkbox__box">
 								<label class="cb__custom all" for="">
-									<input class="prd_cb all__cb" type="checkbox" name="stock">
+									<input class="prd__cb all__cb" type="checkbox" name="stock">
 									<div class="cb__mark"></div>
 								</label>
 								<div class="flex gap-10">
@@ -168,7 +168,7 @@ export function Basket(el, useSidebar) {
 						<div class="color__box">
 							<div class="color-title">${el.color}</div>
 							<div class="color-line" data-basket_idx="${el.basket_idx}" style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
-							<div class="color multi" data-title="${el.color}"></div>
+								<div class="color multi" data-title="${el.color}"></div>
 							</div>
 						</div>
 					`;
@@ -184,9 +184,9 @@ export function Basket(el, useSidebar) {
 				}
 
 				stin_html += `
-					<div class="product__box" data-stock_status="${el.stock_status}"  data-basket_idx="${el.basket_idx}" data-basket_qty="${el.basket_qty}" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-product_qty="${el.product_qty}">
+					<div class="product__box product_box_${el.basket_idx}" data-stock_status="${el.stock_status}"  data-basket_idx="${el.basket_idx}" data-basket_qty="${el.basket_qty}" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-product_qty="${el.product_qty}">
 						<label class="cb__custom self" for="">
-							<input class="prd__cb self__cb" type="checkbox" name="stock">
+							<input class="prd__cb self__cb hi" type="checkbox" name="stock">
 							<div class="cb__mark"></div>
 						</label>
 						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
@@ -213,6 +213,13 @@ export function Basket(el, useSidebar) {
 
 			docFrag.querySelector('.product__wrap').innerHTML = stin_html;
 			document.querySelector('.list__box .list__body').appendChild(docFrag);
+			// 첫 화면은 모든 체크박스 체크
+			let selfCheck = document.querySelectorAll('.prd__cb');
+			let allCheck = document.querySelector('.all__cb');
+			selfCheck.forEach(el => el.setAttribute("checked", true));
+			allCheck.setAttribute("checked", true);
+			let price_product = calcCheckedPrice();
+			payBoxSumPrice(price_product);
 		}
 		
 		deleteBasketInfo();
@@ -232,7 +239,7 @@ export function Basket(el, useSidebar) {
 					</div>
 					<div class="checkbox__box">
 						<label class="cb__custom all" for="">
-							<input class="prd_cb all__cb" type="checkbox" name="sold">
+							<input class="prd__cb all__cb" type="checkbox" name="sold">
 							<div class="cb__mark"></div>
 						</label>
 						<div class="flex gap-10">
@@ -439,7 +446,8 @@ export function Basket(el, useSidebar) {
 	}
 
 	//쇼핑백 상품 수량 변경
-	const putBasketQty = (basket_idx,basket_qty,product_idx) => {
+	const putBasketQty = (action_type,basket_idx,basket_qty,product_idx) => {
+		let tmp_qty = basket_qty
 		$.ajax({
 			type: "post",
 			data: {
@@ -455,7 +463,24 @@ export function Basket(el, useSidebar) {
 			},
 			success: function(d) {
 				if (d.code != 200) {
-					exceptionHandling("디자인 필요",d.msg)
+					if (action_type == "plus" && basket_qty > 1) {
+						tmp_qty = (tmp_qty-1);
+						
+						let product_box = document.querySelector(".product_box_" + basket_idx);
+						product_box.dataset.basket_qty = tmp_qty;
+						product_box.querySelector('.count__val').value = tmp_qty;
+						
+						let sales_price = product_box.querySelector('.prd__content').dataset.sales_price;
+						let price_total = sales_price * tmp_qty;
+						
+						product_box.querySelector('.price_total').dataset.price_total = price_total;
+						product_box.querySelector('.price_total').innerText = price_total.toLocaleString('ko-KR');
+						
+						let price_product = calcCheckedPrice();
+						payBoxSumPrice(price_product);
+					}
+					
+					exceptionHandling("디자인 필요",d.msg);
 				}
 			}
 		});
@@ -553,7 +578,7 @@ export function Basket(el, useSidebar) {
 				
 				let price_product = calcCheckedPrice();
 				payBoxSumPrice(price_product);
-				putBasketQty(basket_idx,basket_qty,product_idx);
+				putBasketQty("minus".basket_idx,basket_qty,product_idx);
 				
 			});
 		});
@@ -589,7 +614,7 @@ export function Basket(el, useSidebar) {
 				let price_product = calcCheckedPrice();
 				
 				payBoxSumPrice(price_product);
-				putBasketQty(basket_idx,basket_qty,product_idx);
+				putBasketQty("plus",basket_idx,basket_qty,product_idx);
 			});
 		});
 		

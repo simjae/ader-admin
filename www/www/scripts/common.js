@@ -335,6 +335,7 @@ function getUrlParamValue(key) {
     const param_value = urlParams.get(`${key}`);
     return param_value;
 }
+
 function getLanguage() {
     let lng = navigator.language || navigator.userLanguage;
 
@@ -359,6 +360,7 @@ function getLanguage() {
 
     return country;
 }
+
 /**
  * @author SIMJAE
  * @param {String} product_idx 상품 인덱스
@@ -498,8 +500,6 @@ function throttle(func, interval) {
         }
     };
 }
-
-
 
 window.addEventListener("DOMContentLoaded", function () {
     createFooterObserver();

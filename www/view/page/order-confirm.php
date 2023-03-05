@@ -59,6 +59,7 @@
 		font-style: normal;
 		letter-spacing: normal;
 		color: #dcdcdc;
+		padding: 5px 0;
 	}
 
 	.tui-selected {
@@ -71,6 +72,7 @@
 
 	.tui-select-box-input {
 		border: 1px solid #808080;
+		height: 39px;
 	}
 
 	#tmp_order_memo {
@@ -88,8 +90,9 @@
 		color: var(--bk);
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
-		padding: 0 10px;
+		padding: 3px 10px;
 		border-bottom: 1px solid #eeeeee;
+		height: 35px;
 	}
 
 	.order-section {
@@ -120,7 +123,6 @@
 		padding-top: var(--order-header--height);
 		align-self: start;
 		grid-column: 4/9;
-		top: 50px;
 	}
 
 	/* 주문상품내역 */
@@ -144,7 +146,7 @@
 		position: sticky;
 		display: grid;
 		grid-template-columns: 3fr 1fr 1fr 1fr;
-		padding-bottom: 20px;
+		padding: 10px 0 20px;
 	}
 
 	.order-product .header-col {
@@ -158,9 +160,11 @@
 		text-align: left;
 		color: #343434;
 	}
+
 	.product .product-info {
 		border: 0;
 	}
+
 	.product .product-info .info-row .name {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -212,6 +216,7 @@
 	.order-product .product-wrap {
 		max-height: 410px;
 		overflow-y: auto;
+		z
 	}
 
 	.order-product .body-list {
@@ -277,7 +282,7 @@
 	.calculation-box {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 20px;
 		padding: 30px 0;
 		border-bottom: 1px solid #dcdcdc;
 	}
@@ -285,7 +290,7 @@
 	.calculation-box .point-box {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 20px;
 	}
 
 	.calculation-row {
@@ -329,7 +334,7 @@
 
 	.wrapper[data-group="1"] {
 		border-bottom: 1px solid #dcdcdc;
-		padding-bottom: 10px;
+		padding-bottom: 20px;
 		margin-bottom: 40px;
 		display: none;
 	}
@@ -353,9 +358,16 @@
 	.header-wrap {
 		display: flex;
 		justify-content: space-between;
-		border-bottom: 1px solid #dcdcdc;
-		margin-bottom: 10px;
 		align-items: center;
+		border-bottom: 1px solid #dcdcdc;
+		color: #343434;
+		font-size: 13px;
+		font-family: var(--ft-no-fu);
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		line-height: normal;
+		letter-spacing: normal;
 	}
 
 	.header-box-btn {
@@ -366,17 +378,12 @@
 		gap: 10px;
 	}
 
+	.header-box-top {
+		padding: 20px 0 10px;
+	}
+
 	.header-box {
-		padding-bottom: 10px;
-		font-family: var(--ft-no-fu);
-		font-size: 13px;
-		font-weight: normal;
-		font-stretch: normal;
-		font-style: normal;
-		line-height: normal;
-		letter-spacing: normal;
-		text-align: left;
-		color: #343434;
+		padding: 10px 0;
 	}
 
 	.header-btn {
@@ -429,6 +436,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+		padding-top: 10px;
 	}
 
 	.check-row {
@@ -441,6 +449,7 @@
 	.check-row input[type="checkbox"] {
 		width: 10px;
 		height: 10px;
+		margin-right: 10px;
 		cursor: pointer;
 	}
 
@@ -463,9 +472,8 @@
 
 	.voucher-info-list {
 		display: flex;
-		gap: 10px;
+		gap: 9px;
 		flex-direction: column;
-		padding: 10px 14px;
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
 		font-weight: normal;
@@ -475,6 +483,40 @@
 		letter-spacing: normal;
 		text-align: left;
 		color: #343434;
+		margin-top: 10px;
+	}
+
+	.voucher-select-box {
+		border: 1px solid #808080;
+		height: 39px;
+	}
+
+	.voucher-select-box-placeholder {
+		font-family: var(--ft-no-fu);
+		font-size: 11px;
+		font-weight: normal;
+		font-stretch: normal;
+		font-style: normal;
+		letter-spacing: normal;
+		color: #dcdcdc;
+		padding: 5px 0;
+	}
+
+	.voucher-select-box-highlight {
+		background: #f8f8f8 !important;
+	}
+
+	.voucher-selected {
+		color: #343434;
+	}
+
+	.voucher-select-box-input:focus {
+		outline: 0px;
+	}
+
+	.voucher-select-box-input {
+		border: 1px solid #808080;
+		height: 39px;
 	}
 
 	/* 포인트 */
@@ -486,6 +528,10 @@
 
 	.point-row input {
 		grid-column: 1/4;
+	}
+
+	.point-row input ::placeholder {
+		color: #dcdcdc;
 	}
 
 	.point-row .mileage_point_btn {
@@ -522,7 +568,6 @@
 		display: flex;
 		gap: 10px;
 		flex-direction: column;
-		padding: 10px 14px;
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
 		font-weight: normal;
@@ -554,7 +599,7 @@
 		width: 99%;
 		max-width: 100%;
 		height: 40px;
-		margin-bottom: 10px;
+		margin: 20px 0;
 		border-radius: 1px;
 		border: solid 1px #dcdcdc;
 		font-family: var(--ft-no-fu);
@@ -576,10 +621,6 @@
 	/* 배송지정보 */
 	.address-info {
 		padding-bottom: 40px;
-	}
-
-	.address-info .header-box-btn {
-		padding-bottom: 10px;
 	}
 
 	.address-info .message-box {
@@ -695,12 +736,11 @@
 
 	.to-place {
 		margin-bottom: 20px;
+		text-decoration: underline;
 	}
 
-	.check-text {
-		display: flex;
-		gap: 10px;
-		align-items: center;
+	.to_place {
+		text-decoration: underline;
 	}
 
 	.tmp_order_memo {
@@ -715,7 +755,7 @@
 		display: flex;
 		gap: 10px;
 		flex-direction: column;
-		padding: 10px 14px;
+		padding: 10px 0;
 	}
 
 	.terms-service {
@@ -728,7 +768,15 @@
 		letter-spacing: normal;
 		text-align: left;
 		color: #343434;
+		border-top: 1px solid #dcdcdc;
+		padding-top: 40px;
 	}
+
+
+	input[type="checkbox"]:checked {
+		background: #000000;
+	}
+
 
 	/* 스탭 버튼 */
 
@@ -737,6 +785,7 @@
 		display: flex;
 		justify-content: space-between;
 		gap: 10px;
+		margin-top: 10px;
 	}
 
 	.step-btn {
@@ -747,7 +796,7 @@
 		justify-content: center;
 		align-items: center;
 		font-family: var(--ft-no-fu);
-		font-size: 12px;
+		font-size: 11px;
 		font-weight: normal;
 		font-stretch: normal;
 		font-style: normal;
@@ -953,6 +1002,7 @@
 		}
 
 		.order-product .product-wrap {
+			border-bottom: solid 1px #dcdcdc;
 			margin-bottom: 20px;
 		}
 
@@ -1029,7 +1079,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 		<div class="content left web">
 			<div class="wrapper order-product">
 				<div class="header-wrap">
-					<div class="header-box">
+					<div class="header-box-top">
 						<span class="hd-title">주문내역</span>
 						<div class="product-toggle-btn"><span>자세히보기</span></div>
 					</div>
@@ -1083,17 +1133,17 @@ if ($member_idx == 0 || $basket_idx == null) {
 		<div class="content rigth">
 			<div class="wrapper voucher-info" data-group="1">
 				<div class="header-wrap">
-					<div class="header-box">
+					<div class="header-box-top">
 						<span class="hd-title">바우처</span>
 					</div>
 				</div>
 				<div class="body-wrap">
 					<div class="voucher-select-box"></div>
-					<ul class="voucher-info-list">
-						<li>바우처는 적립포인트와 중복 사용이 불가능합니다.</li>
-						<li>바우처보다 제품 금액이 높을 시, 충전포인트와 중복 사용 또는 선택적 사용이 가능합니다.</li>
-						<li>바우처보다 제품 금액이 낮을 시에는 반환금액이 없습니다.</li>
-					</ul>
+					<div class="voucher-info-list">
+						<p>·&nbsp;바우처는 적립포인트와 중복 사용이 불가능합니다.</p>
+						<p>·&nbsp;바우처보다 제품 금액이 높을 시, 충전포인트와 중복 사용 또는 선택적 사용이 가능합니다.</p>
+						<p>·&nbsp;바우처보다 제품 금액이 낮을 시에는 반환금액이 없습니다.</p>
+					</div>
 				</div>
 			</div>
 			<div class="wrapper reserves-info" data-group="1">
@@ -1112,17 +1162,17 @@ if ($member_idx == 0 || $basket_idx == null) {
 						<span>보유 적립 포인트</span>
 						<span id="txt_total_mileage" style="margin-left:5px;"></span>
 					</div>
-					<ul class="reserves-info-list">
-						<li>주문으로 발생한 적립 포인트는 배송완료 후 7일 부터 실제 사용 가능한 적립 포인트로 전환됩니다. 배송
-							완료 시점으로부터 7일 동안은 미가용 적립 포인트로 분류됩니다.</li>
-						<li>미가용 적립 포인트는 반품, 구매취소 등을 대비한 임시 적립 포인트로 사용가능 포인트로 전환되기까지
-							상품구매에 사용하실 수 없습니다.</li>
-						<li>사용가능 적립 포인트(총 적립 포인트, 사용된 적립 포인트, 미가용 적립 포인트)는 상품구매 시 바로 사용
+					<div class="reserves-info-list">
+						<p>·&nbsp;주문으로 발생한 적립 포인트는 배송완료 후 7일 부터 실제 사용 가능한 적립 포인트로 전환됩니다. 배송
+							완료 시점으로부터 7일 동안은 미가용 적립 포인트로 분류됩니다.</p>
+						<p>·&nbsp;미가용 적립 포인트는 반품, 구매취소 등을 대비한 임시 적립 포인트로 사용가능 포인트로 전환되기까지
+							상품구매에 사용하실 수 없습니다.</p>
+						<p>·&nbsp;사용가능 적립 포인트(총 적립 포인트, 사용된 적립 포인트, 미가용 적립 포인트)는 상품구매 시 바로 사용
 							가능합니다.</li>
-						<li>2019.07.01부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은 적립 포인트 최대 50
-							만원 및 충전 포인트 최대 50만원까지 보유가능합니다.</li>
-						<li>적립 포인트는 예치금과 이니시스 결제 시에만 적립됩니다.</li>
-					</ul>
+						<p>·&nbsp;2019.07.01부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은 적립 포인트 최대 50
+							만원 및 충전 포인트 최대 50만원까지 보유가능합니다.</p>
+						<p>·&nbsp;적립 포인트는 예치금과 이니시스 결제 시에만 적립됩니다.</p>
+					</div>
 				</div>
 			</div>
 			<div class="wrapper charge-info" data-group="1">
@@ -1133,7 +1183,8 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text" style="padding-left:10px;">
+						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요."
+							style="padding-left:10px;">
 						<div class="charge_point_btn"><span>모두적용</span></div>
 					</div>
 					<div class="get-point charge">
@@ -1141,12 +1192,17 @@ if ($member_idx == 0 || $basket_idx == null) {
 						<span id="txt_total_charge" style="margin-left:5px;">0</span>
 					</div>
 					<div class="charge-btn"><span>충전하기</span></div>
+					<div class="reserves-info-list">
+						<p>·&nbsp;충전 포인트는 현금과 동일하게 사용 가능합니다.</p>
+						<p>·&nbsp;충전 포인트 사용 시 적립 포인트 3% 추가 적립이 적용됩니다.</p>
+					</div>
+
 				</div>
 			</div>
 
 			<div class="wrapper member_info" data-group="2">
 				<div class="header-wrap">
-					<div class="header-box">
+					<div class="header-box-top">
 						<span class="hd-title">주문자 정보</span>
 					</div>
 				</div>
@@ -1203,6 +1259,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 						<input type="hidden" class="tmp_to_road_addr" value="">
 						<input type="hidden" class="tmp_to_lot_addr" value="">
 
+
 						<div class="check-row">
 							<div class="check-text">
 								<input type="checkbox" class="add_flg">
@@ -1249,38 +1306,40 @@ if ($member_idx == 0 || $basket_idx == null) {
 			</div>
 
 			<div class="terms-service hidden" data-group="4">
-				<ul class="terms-info-list">
-					<li>최소 결제 가능 금액은 결제금액에서 배송비를 제외한 금액입니다.</li>
-					<li>소액 결제의 경우 PG사 정책에 따라 결제 금액 제한이 있을 수 있습니다.</li>
-				</ul>
+				<div class="terms-info-list">
+					<p>·&nbsp;최소 결제 가능 금액은 결제금액에서 배송비를 제외한 금액입니다.</p>
+					<p>·&nbsp;소액 결제의 경우 PG사 정책에 따라 결제 금액 제한이 있을 수 있습니다.</p>
+				</div>
 				<div class="check-row">
 					<div class="check-text">
 						<input onclick="checkboxAll(this)" type="checkbox" class="check-all ">
-						<span>전체 선택</span>
+						<label for=""> <span>전체 선택</span></label>
 					</div>
 				</div>
 				<div class="check-row">
 					<div class="check-text">
 						<input onclick="essentialCheckBox(this)" type="checkbox" class="check-self essential">
-						<span style="text-decoration: underline;"
-							onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=terms_of_use');">이용약관</span>,<span
-							style="text-decoration: underline;"
-							onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=privacy_policy');">개인정보처리방침</span><span>에
-							동의합니다. (필수)</span>
+						<label for="">
+							<span style="text-decoration: underline;"
+								onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=terms_of_use');">이용약관</span>,&nbsp;
+							<span style="text-decoration: underline;"
+								onclick="window.open('http://116.124.128.246/notice/privacy?notice_type=privacy_policy');">
+								개인정보처리방침</span>에 동의합니다. (필수)</span></label>
 					</div>
 				</div>
 				<div class="check-row">
 					<div class="check-text">
 						<input type="checkbox" class="check-self">
-						<span>뉴스레터 발송, 맞춤 서비스 및 이벤트 제공, 신규 서비스 개발 등 서비스 품질
-							향상을 위한 마케팅 정보 수신 및 활용에 동의합니다. (선택)</span>
+						<label for="">
+							<span>뉴스레터 발송, 맞춤 서비스 및 이벤트 제공, 신규 서비스 개발 등 서비스 품질
+								향상을 위한 마케팅 정보 수신 및 활용에 동의합니다. (선택)</span></label>
 					</div>
 				</div>
 			</div>
 			<div class="content mobile"></div>
 			<div class="select-box"></div>
 			<div class="step-btn-wrap">
-				<div class="step-btn pre" data-step="0"><span>이전단계</span></div>
+				<div class="step-btn pre" data-step="0"><a href="/order/basket/list"><span>이전단계</span></a></div>
 				<div class="step-btn next" data-step="1"><span>다음단계</span></div>
 			</div>
 		</div>
@@ -1731,6 +1790,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 		autofocus: false
 	});
 
+
 	function orderMemoChangeEvent() {
 		orderMemoSelectBox.on('change', ev => {
 			let tmp_order_memo = document.querySelector("#tmp_order_memo");
@@ -1882,7 +1942,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 	$('#use_mileage').keyup(function () {
 		var write_mileage = parseInt($('#use_mileage').val().replace(',', ''));
 		var temp_meileage = "";
-	
+
 		if (isNaN(write_mileage)) {
 			// temp_meileage = "";
 			temp_meileage = 0;
@@ -1902,13 +1962,13 @@ if ($member_idx == 0 || $basket_idx == null) {
 			},
 			success: function (d) {
 				let code = d.code;
-				
+
 				if (code == 200 || code == 301) {
 					let mileage_point = d.data;
-					if(code == 301) {
+					if (code == 301) {
 						mileage_point = 0;
 					}
-					
+
 					$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
 
 					let price_mileage_point = document.querySelector(".price_mileage_point");
@@ -1984,7 +2044,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 			calculationWrap.dataset.step = "2";
 			orderSection.dataset.status = "F";
 			if (next_step_btn.dataset.step === "2") {
-				next_step_btn.querySelector("span").innerHTML = "결제";
+				next_step_btn.querySelector("span").innerHTML = "결제하기";
 			}
 
 			$$group1.forEach(el => {
@@ -2142,10 +2202,10 @@ if ($member_idx == 0 || $basket_idx == null) {
 
 	//창 닫기
 	function closeBox() {
-        $('.close').on('click', function () {
-            $('.list-box').hide();
+		$('.close').on('click', function () {
+			$('.list-box').hide();
 			document.querySelector(".save-box").classList.remove("hidden");
-        });
-    }
+		});
+	}
 
-</script>
+	</script>

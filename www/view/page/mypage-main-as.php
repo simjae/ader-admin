@@ -144,6 +144,7 @@
 
     .category__select.as {
         width: 100%;
+        margin-top: 30px;
     }
 
     .as__contents,
@@ -269,10 +270,15 @@
         padding-left: 6px;
     }
 
-    .as_buying_wrap.one_one>p{
+    .as_buying_wrap.one_one>p {
         font-size: 11px;
         margin-bottom: 30px;
     }
+
+    .as_payment_container {
+        margin-top: 40px;
+    }
+
     @media (max-width: 1024px) {
         .as__tab__wrap {
             width: 100%;
@@ -383,7 +389,7 @@
                 </ul>
             </div>
             <div class="as_buying_wrap one_one">
-                <p>·&nbsp; 회원님의 주문 내역에서 A/S 접수할 제품을 선택 해주세요.</p>
+                <p>·&nbsp; 회원님의 주문 내역에서 A/S 접수할 제품을 선택해 주세요.</p>
                 <div class="as__table__container first">
                     <div class="as__contents__table">
                         <div class="pc__view">
@@ -783,12 +789,12 @@
                 </div>
             </div>
             <div class="as_buying_wrap one_three">
-                <div style="margin-bottom: 20px;">·&nbsp;정품 인증이 어려운 제품은 A/S가 불가할 수 있습니다.</div>
+                <div>·&nbsp;정품 인증이 어려운 제품은 A/S가 불가할 수 있습니다.</div>
                 <div class="as__contents__table">
                     <form id="frm-as">
                         <div class="as__info as__title">
                             <span>
-                                <select class="category__select as" style="margin-right: 10px;">
+                                <select class="category__select as">
                                     <option class="as_select_type">의류</option>
                                     <option class="as_select_type">의류</option>
                                     <option class="as_select_type">의류</option>
@@ -1330,10 +1336,10 @@
                                     <p>항목</p>
                                 </td>
                                 <td>
-                                    <p>Blue mark 포함</p>
+                                    <p>Bluemark 포함</p>
                                 </td>
                                 <td>
-                                    <p>Blue mark 미포함</p>
+                                    <p>Bluemark 미포함</p>
                                 </td>
                             <tr>
                                 <td>

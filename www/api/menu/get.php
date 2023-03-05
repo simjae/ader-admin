@@ -330,6 +330,7 @@ if ($country != null) {
 	$select_posting_story_sql = "
 		SELECT
 			PS.STORY_TYPE		AS STORY_TYPE,
+			PS.PAGE_IDX			AS PAGE_IDX,
 			REPLACE(
 				PS.IMG_LOCATION,
 				'/var/www/admin/www',
@@ -384,7 +385,7 @@ if ($country != null) {
 					'img_location'		=>$story_data['IMG_LOCATION'],
 					'story_title'		=>$story_data['STORY_TITLE'],
 					'story_sub_title'	=>$story_data['STORY_SUB_TITLE'],
-					'page_url'			=>$story_data['PAGE_URL']
+					'page_url'			=>"/posting/collection?project_idx=".$story_data['PAGE_IDX']
 				);
 				
 				break;

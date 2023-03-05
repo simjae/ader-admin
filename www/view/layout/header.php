@@ -14,6 +14,10 @@
 		<meta property="og:image" content="/images/og-image.png" />
 		<meta property="og:title" content="">
 		<meta property="og:description" content="">
+		
+		<meta name="googlebot" content="noindex, nofollow">
+		<meta name="Yeti" content="noindex, nofollow" />
+		
 		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
 		<!-- <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png"> -->
@@ -57,6 +61,7 @@
 		<script src="/scripts/static/functions.js"></script>
 		<script src="/scripts/member/login.js"></script>
 		
+		<script src=" https://cdn.jsdelivr.net/npm/i18next@22.4.10/i18next.min.js "></script>
 		<script src="/scripts/static/taggingJS/tagging.min.js"></script>
 		<script src="/scripts/static/toast-selectbox/toastui-select-box.min.js"></script>
 		<script src="/scripts/static/postcodify-master/api/search.js"></script>

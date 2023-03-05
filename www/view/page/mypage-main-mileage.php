@@ -503,7 +503,7 @@
                                     <p>${row.update_date}</p>
                                 </td>
                                 <td>
-                                    <p class="underline">${row.ordernum}</p>
+                                    <p class="underline">${row.order_code}</p>
                                 </td>
                                 <td>
                                     <p>${row.mileage_type}</p>
@@ -525,7 +525,7 @@
                                 `
                             <tr>
                                 <td>
-                                    <p class="underline">${row.ordernum}</p>
+                                    <p class="underline">${row.order_code}</p>
                                 </td>
                                 <td>
                                     <p>${row.update_date}</p>

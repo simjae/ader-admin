@@ -52,7 +52,8 @@ if($country != null && ($category_no != null || $keyword != null)) {
 			".$where."
 		WHERE
 			FAQ.STATUS = 'Y' AND
-			FC.IDX IS NOT NULL
+			FC.IDX IS NOT NULL AND
+            FC.STATUS = 'Y'
 		ORDER BY
 			FAQ.CATEGORY_NO, FAQ.SEQ, FAQ.IDX
     ";

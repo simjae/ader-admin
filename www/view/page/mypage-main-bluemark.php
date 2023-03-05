@@ -1,4 +1,8 @@
 <style>
+    .verify__success__wrap .close,
+    .verify__fail__wrap .close {
+        float: right;
+    }
     .bluemark__wrap {
         margin-top: 40px;
         width: 100%;

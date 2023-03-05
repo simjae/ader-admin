@@ -1,21 +1,20 @@
 window.addEventListener('DOMContentLoaded', function(){
     var page_idx = $('#page_idx').val();
-	
     if(page_idx != null){
         appendSlide();
-    } else{
-        getEditorialList();  
     }
-	
+    else{
+        getRunwayList();  
+    }
     scrollTop();
 })
 
-function getEditorialList() {
+function getRunwayList() {
 	let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 	
 	let size_type = "W";
 	if (isMobile == true) {
-		let size_type = "M";
+		size_type = "M";
 	}
 	
 	let country = getLanguage();
@@ -26,7 +25,7 @@ function getEditorialList() {
             'size_type' : size_type
         },
         dataType: "json",
-        url: "http://116.124.128.246:80/_api/posting/editorial/list/get",
+        url: "http://116.124.128.246:80/_api/posting/runway/list/get",
         error: function() {
             alert("블루마크 내역 조회처리에 실패했습니다.");
         },
@@ -37,13 +36,12 @@ function getEditorialList() {
                     d.data.forEach(function(row){
                         appendThumbnailTitle(row.page_title, row.page_idx , row.size_type);
                         appendThumbnailBackground(row.contents_location, row.page_title, row.page_idx, cnt++, row.size_type)
-                        
-						asideClickEvent();
+                        asideClickEvent();
                         responsive();
                     })
                     addBtn();
                     /*
-                    $(".editorial-wrap.open .banner").on('touchmove', function(ev){
+                    $(".runway-wrap.open .banner").on('touchmove', function(ev){
                        ev.preventDefault();
                     })
                     */
@@ -65,14 +63,14 @@ function appendThumbnailTitle(title,pageIdx,sizeType) {
 }
 
 function appendSlide() {
-    $('.editorial-detail-wrap').addClass('open');
+    $('.runway-detail-wrap').addClass('open');
 }
 
 function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, size_type) {
     let backgroundHtml;
-	
+	console.log(thumbnail_background);
     let backgroundType = thumbnail_background.split('.', 2)[1];
-    let editorialWrap = document.querySelector(".editorial-wrap");
+    let runwayWrap = document.querySelector(".runway-wrap");
     let article = document.createElement("article");
     let url = "http://116.124.128.246:81";
     article.className = "banner";
@@ -80,10 +78,10 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
 
     if (backgroundType === "mp4") {
         backgroundHtml = `
-        <video id="video-coustom-${idx}" autoplay muted loop playsinline src="${url}${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')"></video>
+        <video id="video-coustom-${idx}" autoplay muted loop playsinline src="${url}${thumbnail_background}" onclick="moveRunwayDtail(${page_idx}, '${size_type}')" ontouchend="moveRunwayDtail(${page_idx}, '${size_type}')"></video>
         `
     } else {
-        backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')">`
+        backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveRunwayDtail(${page_idx}, '${size_type}')" ontouchend="moveRunwayDtail(${page_idx}, '${size_type}')">`
     }
     article.innerHTML = `
         <figure>
@@ -91,11 +89,11 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
             <figcaption>${title}</figcation>
         </figure>
     `;
-    editorialWrap.appendChild(article);
+    runwayWrap.appendChild(article);
 }
 
 function asideClickEvent() {
-    let banner = document.querySelectorAll(".editorial-wrap .banner");
+    let banner = document.querySelectorAll(".runway-wrap .banner");
     let thumTitle = document.querySelectorAll(".thumbnail-title");
     thumTitle[0].classList.add("select");
     
@@ -103,7 +101,7 @@ function asideClickEvent() {
         el.addEventListener("click", function() {
             if(this.classList.contains("select")){
                 let {pageidx, sizetype } = this.dataset;
-                moveEditorialDtail(pageidx, sizetype)
+                moveRunwayDtail(pageidx, sizetype)
             }
         })
         el.addEventListener("mouseover", function () {
@@ -121,7 +119,7 @@ function asideClickEvent() {
 function bannerClickEvent(page_idx, size_type) {
 
 }
-var editorial_ControllerSwiper = new Swiper(".editorial-controller-swiper", {
+var runway_ControllerSwiper = new Swiper(".runway-controller-swiper", {
     spaceBetween: 10,
     slidesPerView: 16.5,
     freeMode: true,
@@ -166,10 +164,10 @@ var editorial_ControllerSwiper = new Swiper(".editorial-controller-swiper", {
         //   }
     },
 });
-var editorial_PreviewSwiper = new Swiper(".editorial-preview-swiper", {
+var runway_PreviewSwiper = new Swiper(".runway-preview-swiper", {
     slidesPerView: 1,
     thumbs: {
-        swiper: editorial_ControllerSwiper,
+        swiper: runway_ControllerSwiper,
     },
     navigation: {
         nextEl: ".preview-swiper-wrap .swiper-button-next",
@@ -186,10 +184,10 @@ var editorial_PreviewSwiper = new Swiper(".editorial-preview-swiper", {
     },
     on : {
         afterInit : function () {
-            //console.log('swiper 초기화 될때 실행');
+            console.log('swiper 초기화 될때 실행');
         },
         imagesReady : function () { // 모든 내부 이미지가 로드 된 직후 이벤트가 시작됩니다.
-            //console.log('슬라이드 이미지 로드 후 실행');
+            console.log('슬라이드 이미지 로드 후 실행');
         }
     }
 });
@@ -200,13 +198,13 @@ window.addEventListener("resize", function () {
 function responsive(){
     let breakpoint = window.matchMedia('screen and (max-width:1025px)');
     if (breakpoint.matches === true) {
-            let banner = document.querySelectorAll(".editorial-wrap .banner");
+            let banner = document.querySelectorAll(".runway-wrap .banner");
             banner.forEach(el => el.classList.remove("hidden"));
     } else if (breakpoint.matches === false) {
     }
 }
-function moveEditorialDtail(page_idx, size_type){
-    location.href = `editorial/detail?page_idx=${page_idx}&size_type=${size_type}`;
+function moveRunwayDtail(page_idx, size_type){
+    location.href = `runway/detail?page_idx=${page_idx}&size_type=${size_type}`;
 }
 
 function addBtn() {
