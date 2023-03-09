@@ -135,7 +135,7 @@ function Basket(el, useSidebar) {
 							<div>합계</div>
 							<div class="pay__total__price">0</div>
 						</div>
-						<div class="pay__btn"><span>결제하기</span></div>
+						<div class="pay__btn" id="pay_btn"><span>결제하기</span></div>
                         <div class="check_basket_btn" onClick="location.href='/order/basket/list'"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 					</div>
 				</section>
@@ -183,6 +183,7 @@ function Basket(el, useSidebar) {
         $('.product__wrap').remove();
         $('.sold__list__box').remove();
 
+        let bodyWidth = document.getElementsByTagName("body")[0].offsetWidth;
         let docFrag = document.createDocumentFragment();
         let stin_html = "";
         let stso_html = "";
@@ -194,7 +195,6 @@ function Basket(el, useSidebar) {
         stso_product_wrap.classList.add("sold__list__box");
 
         docFrag.appendChild(stin_product_wrap);
-
         //재고상품 있는 경우 
         if (st_info.length > 0) {
             st_info.forEach(el => {
@@ -232,13 +232,14 @@ function Basket(el, useSidebar) {
 						</label>
 						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content" data-sales_price="${el.sales_price}" >
-							<div class="prd__title">${el.product_name}</div>
+                            ${el.refund_flg && bodyWidth >= 1024 ? `<div class="prd__title">${el.product_name}<p class="refund_msg">교환 반품 불가</p></div>` : `<div class="prd__title">${el.product_name}</div>`}
 							<div class="price">${sales_price}</div>
 							${color_html}
 							<div class="prd__size">
 								<div class="size__box">
 									<li data-soldout="${el.stock_status}">${el.option_name}</li>
-								</div>
+                                    </div>
+                                ${el.refund_flg && bodyWidth < 1024 ? `<p class="refund_msg">교환 반품 불가</p>` : ``}
 							</div>
 							<div class="prd__qty">
                             <div>Qty</div>
@@ -251,7 +252,6 @@ function Basket(el, useSidebar) {
                 </div>
 				`
             });
-
             docFrag.querySelector('.product__wrap').innerHTML = stin_html;
             document.querySelector('.list__box .list__body').appendChild(docFrag);
             // 첫 화면은 모든 체크박스 체크
@@ -353,7 +353,7 @@ function Basket(el, useSidebar) {
 						</label>
 						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content">
-							<div class="prd__title">${el.product_name}</div>
+                            <div class="prd__title">${el.product_name}</div>
 							${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-sales_price="${sales_price}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
 							${color_html}
 							<div class="prd__size">
@@ -513,7 +513,7 @@ function Basket(el, useSidebar) {
         let payBtn = document.querySelector(".pay__box .pay__btn");
         payBtn.addEventListener("click", function () {
             let selfBox = document.querySelectorAll(".self__cb[name='stock']");
-            let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']");
+            let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']:checked");
             let msgBox = document.querySelector(".pay__notiy");
             let selectArr = [];
             let checkCnt = 0;
@@ -528,8 +528,7 @@ function Basket(el, useSidebar) {
 
             if (soldSelfBox.length > 0) {
                 msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요.';
-
-                target.disabled = true;
+                return false;
             }
             if (checkCnt == 0) {
                 msgBox.innerText = '결제하실 상품을 선택해주세요.';
@@ -646,8 +645,8 @@ function Basket(el, useSidebar) {
 
     //재고있음(STIN) 체크박스 클릭 이벤트
     function clickCheckboxSTIN() {
-        const $all_stin_checkbox = document.querySelector(".all__cb"); //
-        const $stin_checkbox = document.querySelectorAll(".self__cb");
+        const $all_stin_checkbox = document.querySelector(".side__box .all input[name='stock']"); //
+        const $stin_checkbox = document.querySelectorAll(".side__box .product__wrap .self__cb");
         const $$productBox = document.querySelectorAll(".product__box");
 
         let checkbox_name = $all_stin_checkbox.getAttribute("name");

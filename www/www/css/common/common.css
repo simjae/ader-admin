@@ -444,7 +444,7 @@ div::-webkit-scrollbar-track {
     text-decoration: none;
     content: attr(data-discount) "%";
     position: absolute;
-    left: -25px;
+    left: -28px;
     color: #343434;
 }
 
@@ -1142,7 +1142,7 @@ div::-webkit-scrollbar-track {
 
     .product-wrap[data-grid='3'] .product .product-info .info-row .name {
         width: auto;
-        padding: 0 5px 0 10px;
+        padding: 0 10px 0 10px;
     }
 
     .product-wrap[data-grid='3'] .product .product-info>.info-row:nth-of-type(1) {
@@ -1163,12 +1163,13 @@ div::-webkit-scrollbar-track {
         text-align: right;
         color: #34343494;
         display: grid;
-        grid-template-columns: 2fr 3fr 1fr;
-        padding: 0 5px 0 10px;
+        grid-template-columns: 2fr 1fr;
+        padding: 0 10px 0 10px;
     }
 
     .product-wrap[data-grid='3'] .product .product-info .info-row .price[data-dis="true"] span {
-        grid-column: 3/3;
+        grid-column: 2/2;
+        margin-left: 5px;
     }
 
     .product-wrap[data-grid='3'] .product .product-info .info-row .price[data-dis="true"]::before {

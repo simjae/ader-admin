@@ -137,6 +137,31 @@
         width: 100%;
     }
 
+    /* mypage-foryou */
+    .recommend-wrap {
+        margin-bottom: 70px;
+    }
+
+    .recommend-wrap .foryou-wrap .product-info .color-title {
+        margin-bottom: 2px;
+    }
+
+    .recommend-wrap .foryou-wrap {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 75px;
+    }
+
+    .recommend-wrap .foryou-wrap .left__title {
+        padding: 0px 10px 20px;
+        grid-column: 1/2;
+        border: none;
+    }
+
+    .recommend-wrap .foryou-wrap .left__title span {
+        font-size: 13px;
+        text-decoration: none;
+    }
 
     .icon__item {
         cursor: pointer
@@ -609,6 +634,7 @@
             width: 100%;
             display: grid;
             grid-template-columns: repeat(8, 1fr);
+            padding: 0 10px;
         }
 
         .menu__tab {
@@ -650,8 +676,14 @@
         }
 
         .recommend-wrap {
-            width: 600px;
-            margin: 0 auto;
+            margin-bottom: 60px;
+        }
+
+        .recommend-wrap .foryou-wrap .product .name span {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            display: block;
         }
     }
 </style>
@@ -673,6 +705,7 @@ $page_url = $_SERVER['REQUEST_URI'];
 $mypage_type = getUrlParamter($page_url, 'mypage_type');
 ?>
 <link rel="stylesheet" href="/css/module/foryou.css">
+<link rel="stylesheet" href="/css/module/wishlist.css">
 <main>
     <input type="hidden" id="mypage_type" value="<?= $mypage_type ?>">
     <div class="mypage__wrap">
@@ -1007,7 +1040,6 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         </div>
     </div>
 
-    <div style="margin-bottom:100px;"></div>
     <div class="recommend-wrap"></div>
 </main>
 <script>
@@ -1016,11 +1048,11 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         swiperMypage = new Swiper(".swiper.icon", {
             //옵션은 유동적으로 필요한부분만 추가해서 사용가능,
             navigation: {
-                nextEl: ".swiper .swiper-button-next",
-                prevEl: ".swiper .swiper-button-prev",
+                nextEl: ".swiper.icon .swiper-button-next",
+                prevEl: ".swiper.icon .swiper-button-prev",
             },
             pagination: {
-                el: ".swiper-pagination",
+                el: ".swiper.icon .swiper-pagination",
                 clickable: true,
             },
             autoHeight: true,
@@ -1032,11 +1064,11 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         swiperTabBtn = new Swiper(".swiper.tab__btn", {
             //옵션은 유동적으로 필요한부분만 추가해서 사용가능,
             navigation: {
-                nextEl: ".swiper .swiper-button-next",
-                prevEl: ".swiper .swiper-button-prev",
+                nextEl: ".swiper.tab__btn .swiper-button-next",
+                prevEl: ".swiper.tab__btn .swiper-button-prev",
             },
             pagination: {
-                el: ".swiper-pagination",
+                el: ".swiper.tab__btn .swiper-pagination",
                 clickable: true,
             },
             autoHeight: true,
@@ -1251,6 +1283,8 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
     }
 </script>
 <script type="module">
+    import WishlistRender from '/scripts/module/wishlist.js';
     import ForyouRender from '/scripts/module/foryou.js';
+    const wish = new WishlistRender();
     const foryou = new ForyouRender();
 </script>

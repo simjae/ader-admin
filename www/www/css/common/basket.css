@@ -68,8 +68,8 @@
 }
 
 .basket__wrap .sold__list__box .list__header {
-    margin-bottom: 14px;
-    padding: 10px 16px 0px 5px;
+    margin-bottom: 10px;
+    padding: 10px 0px 0px 5px;
     margin-top: 20px;
     height: auto;
     background-color: #f9f9f9;
@@ -79,6 +79,7 @@
 
 .flex.gap-10 {
     gap: 1.5rem;
+    padding-right: 10px;
 }
 
 .basket__wrap .list__header .icon__box {
@@ -103,7 +104,7 @@
 
 .basket__wrap .sold__list__box .list__header .checkbox__box {
     display: flex;
-    padding: 10px 5px;
+    /* padding: 10px 0px 0px 5px; */
     justify-content: space-between;
     align-items: center;
 }
@@ -238,9 +239,11 @@
     justify-content: right;
     align-items: center;
     gap: 30px;
-    padding-right: 24px;
+    padding-right: 15px;
 }
-
+.basket__wrap .option__box u {
+    white-space: nowrap;
+}
 .basket__wrap .option__change__btn {
     cursor: pointer;
     display: flex;
@@ -542,10 +545,12 @@
 #sidebar .basket__wrap {
     top: 50px;
     justify-content: unset;
+    overflow-y: auto;
 }
 
 #sidebar .basket__wrap .product__wrap {
     padding-bottom: 50px;
+    padding-right: 5px;
 }
 
 #sidebar .basket__wrap .list__header {
@@ -567,10 +572,11 @@
     padding: 0 !important;
     justify-content: unset;
     height: 20% !important;
+    margin-bottom: 20%;
 }
 
 #sidebar .basket__wrap .pay__row {
-    padding: 0 !important;
+    padding-bottom: 10px !important;
     height: 37px;
     align-items: center;
     border: none;
@@ -635,7 +641,22 @@
 #sidebar .side__wrap .check_basket_btn img {
     margin-right: 6.4px
 }
-
+#sidebar .sold__list__box .prd_cb.all__cb {
+    position: relative;
+}
+#sidebar .sold__list__box .cb__custom.all .cb__mark {
+    margin-bottom: 10px;
+}
+.product__wrap .prd__title {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.product__wrap .prd__title .refund_msg {
+    font-size: 10px;
+    text-decoration: underline;
+    color: #808080;
+}
 @media (max-width: 1025px) {
     .basket__wrap {
         display: flex;
@@ -669,9 +690,9 @@
         width: 100%;
     }
 
-    .basket__wrap .pay__row {
-        padding-bottom: 10px;
-    }
+    /* .basket__wrap .pay__box .pay__row {
+        padding-bottom: 10px!important;
+    } */
 
     .basket__wrap .pay__row:nth-child(2) {
         margin-bottom: 10px;
@@ -694,6 +715,9 @@
     #sidebar .basket__wrap .list__header {
         height: 60px !important;
     }
+    #sidebar .basket__wrap .list__box .list__header {
+        top: 0!important;
+    }
 
     #sidebar .basket__wrap .list__header .icon__box {
         padding-left: 5px;
@@ -712,11 +736,14 @@
     #sidebar .side__wrap .pay__box {
         width: 100%;
         margin: 0 auto;
+        margin-bottom: 30%;
         font-size: 11px;
         padding: 10px 40px !important;
         border-top: solid 1px #dcdcdc;
     }
-
+    #sidebar .basket__wrap .sold__list__box .list__header .icon__box {
+        padding-left: 0;
+    }
     #sidebar .basket__wrap .list__header .icon__box img {
         width: 9px;
         height: 15px;
@@ -739,5 +766,35 @@
     #sidebar .side__wrap.open[data-module="basket"] {
         transition: unset;
         overflow: unset;
+    }
+    #sidebar .sold__list__box .list__header .checkbox__box {
+        padding-top: 10px;
+    }
+    #sidebar .sold__list__box .cb__custom.self {
+        padding: 0;
+    }
+    #sidebar .basket__wrap .sold__list__box .list__header .checkbox__box {
+        padding: 10px 0 0 0!important;
+    }
+    #sidebar .sold__list__box .option__box {
+        padding-right: 15px;
+        font-size: 10px;
+    }
+    #sidebar .sold__list__box .option__box img {
+        height: 10px;
+    }
+    .product__wrap .prd__size {
+        display: flex;
+        gap: 5px;
+        flex-direction: column;
+        padding-bottom: 20px;
+    }
+    .product__wrap .size__box {
+        padding-bottom: 0;
+    }
+    .refund_msg {
+        font-size: 10px;
+        color: #808080;
+        text-decoration: underline;
     }
 }

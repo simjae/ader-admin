@@ -216,7 +216,6 @@
 	.order-product .product-wrap {
 		max-height: 410px;
 		overflow-y: auto;
-		z
 	}
 
 	.order-product .body-list {
@@ -376,6 +375,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: 10px;
+		height: 40px;
 	}
 
 	.header-box-top {
@@ -384,6 +384,7 @@
 
 	.header-box {
 		padding: 10px 0;
+		height: 40px;
 	}
 
 	.header-btn {
@@ -615,7 +616,7 @@
 
 	/* 주문자정보 */
 	.wrapper.member_info {
-		margin-bottom: 70px;
+		margin-bottom: 60px;
 	}
 
 	/* 배송지정보 */
@@ -868,9 +869,7 @@
 	}
 
 	.list-box {
-
 		position: relative;
-		top: -10px;
 		border: 1px solid #808080;
 		background-color: #ffffff;
 	}
@@ -881,6 +880,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
+		width: 100%;
 
 	}
 
@@ -907,14 +907,37 @@
 		gap: 3px;
 	}
 
-	.list-box .delete_addr_btn {
-		position: absolute;
-		bottom: 0;
-		right: 0;
+	.order-section [type="checkbox"]:checked {
+		background-color: #000000;
+	}
+
+	.order-section [type="checkbox"] {
+		vertical-align: middle;
+		appearance: none;
+		border: 1px solid gray;
+		width: 10px;
+		height: 10px;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.addr-list-wrap {
+		display: flex;
+		justify-content: space-between;
 	}
 
 	/**배송지 목록---------------------------------- */
 	@media (max-width: 1025px) {
+		.header-wrap.order-list {
+			border-bottom: 0;
+		}
+
+		.header-box-top {
+			display: flex;
+			width: 100%;
+			justify-content: space-between;
+		}
+
 		.mobile {
 			display: inline-block;
 		}
@@ -947,7 +970,7 @@
 		}
 
 		.content.mobile {
-			margin-bottom: 40px;
+			margin-bottom: 10px;
 		}
 
 		.content.mobile li,
@@ -1002,7 +1025,7 @@
 		}
 
 		.order-product .product-wrap {
-			border-bottom: solid 1px #dcdcdc;
+			/* border-bottom: solid 1px #dcdcdc; */
 			margin-bottom: 20px;
 		}
 
@@ -1031,6 +1054,7 @@
 
 		.total-price-wrap {
 			padding-top: 10px;
+			border-top: solid 1px #dcdcdc;
 		}
 
 		.post-change-result {
@@ -1078,7 +1102,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 	<section class="order-section">
 		<div class="content left web">
 			<div class="wrapper order-product">
-				<div class="header-wrap">
+				<div class="header-wrap order-list">
 					<div class="header-box-top">
 						<span class="hd-title">주문내역</span>
 						<div class="product-toggle-btn"><span>자세히보기</span></div>
@@ -1139,7 +1163,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="body-wrap">
 					<div class="voucher-select-box"></div>
-					<div class="voucher-info-list">
+					<div class="voucher-info-list hidden">
 						<p>·&nbsp;바우처는 적립포인트와 중복 사용이 불가능합니다.</p>
 						<p>·&nbsp;바우처보다 제품 금액이 높을 시, 충전포인트와 중복 사용 또는 선택적 사용이 가능합니다.</p>
 						<p>·&nbsp;바우처보다 제품 금액이 낮을 시에는 반환금액이 없습니다.</p>
@@ -1156,13 +1180,14 @@ if ($member_idx == 0 || $basket_idx == null) {
 					<div class="point-row">
 						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요."
 							style="padding-left:10px;">
-						<div class="mileage_point_btn" onclick="getTotalMileage(true)"><span>모두적용</span></div>
+						<div class="mileage_point_btn" onclick="getTotalMileage(true)"><span
+								class="mileage_point_msg">모두적용</span></div>
 					</div>
 					<div class="get-point reserves">
 						<span>보유 적립 포인트</span>
 						<span id="txt_total_mileage" style="margin-left:5px;"></span>
 					</div>
-					<div class="reserves-info-list">
+					<div class="reserves-info-list hidden">
 						<p>·&nbsp;주문으로 발생한 적립 포인트는 배송완료 후 7일 부터 실제 사용 가능한 적립 포인트로 전환됩니다. 배송
 							완료 시점으로부터 7일 동안은 미가용 적립 포인트로 분류됩니다.</p>
 						<p>·&nbsp;미가용 적립 포인트는 반품, 구매취소 등을 대비한 임시 적립 포인트로 사용가능 포인트로 전환되기까지
@@ -1223,7 +1248,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 
 					<div class="header-box-btn">
 						<div class="header-btn edit-btn">수정</div>
-						<div class="header-btn list_addr_btn">배송지목록</div>
+						<div class="header-btn list_addr_btn" onclick="listAdd()">배송지목록</div>
 					</div>
 				</div>
 				<div class="body-wrap">
@@ -1270,7 +1295,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 					</div>
 
 					<div class="save-box">
-						<div class="to-place"></div>
+						<!-- <div class="to-place"></div> -->
 
 						<!-- 배송지 정보 표시 -->
 						<div class="cn-box">
@@ -1312,7 +1337,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="check-row">
 					<div class="check-text">
-						<input onclick="checkboxAll(this)" type="checkbox" class="check-all ">
+						<input onclick="checkboxAll(this)" type="checkbox" class="check-all">
 						<label for=""> <span>전체 선택</span></label>
 					</div>
 				</div>
@@ -1339,7 +1364,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 			<div class="content mobile"></div>
 			<div class="select-box"></div>
 			<div class="step-btn-wrap">
-				<div class="step-btn pre" data-step="0"><a href="/order/basket/list"><span>이전단계</span></a></div>
+				<div class="step-btn pre" data-step="0"><a><span>이전단계</span></a></div>
 				<div class="step-btn next" data-step="1"><span>다음단계</span></div>
 			</div>
 		</div>
@@ -1409,10 +1434,14 @@ if ($member_idx == 0 || $basket_idx == null) {
 				let code = d.code;
 				if (code == 200) {
 					let data = d.data[0];
-
+					if (data.order_to_info.length == 0) {
+						let put_addr = document.querySelector(".edit-box");
+						put_addr.classList.remove("hidden");
+					} else {
+						getAddrInfo(data.order_to_info);
+					}
 					getOrderPgInfoList(data.product_info);
 					getMemberInfo(data.member_info);
-					getAddrInfo(data.order_to_info);
 					getVoucherInfoList(data.voucher_cnt, data.voucher_info);
 
 					getTotalMileage(false);
@@ -1421,7 +1450,6 @@ if ($member_idx == 0 || $basket_idx == null) {
 				}
 			}
 		});
-
 		orderMemoChangeEvent();
 		resizeEvent();
 	});
@@ -1429,8 +1457,12 @@ if ($member_idx == 0 || $basket_idx == null) {
 	function getOrderPgInfoList(product) {
 		let domFrag = document.createDocumentFragment();
 		const orderWrapBody = document.querySelector(".order-product .body-wrap");
+		let width = document.querySelector("body").offsetWidth;
 		let wrap = document.createElement("div");
 		wrap.classList.add("product-wrap");
+		if (width <= 1024) {
+			wrap.classList.add("hidden");
+		}
 
 		let listHtml = "";
 		product.forEach(el => {
@@ -1521,7 +1553,8 @@ if ($member_idx == 0 || $basket_idx == null) {
 	const list_addr_wrap = document.querySelector(".list-box");
 
 	const list_addr_btn = document.querySelector(".list_addr_btn");
-	list_addr_btn.addEventListener("click", function () {
+
+	function listAdd() {
 		$.ajax({
 			type: "post",
 			dataType: "json",
@@ -1544,14 +1577,16 @@ if ($member_idx == 0 || $basket_idx == null) {
 
 							let strDiv = "";
 							strDiv += '<div class="to-place">' + row.to_place + '</div>';
-							strDiv += '<div class="cn-box" onClick="getOrderToInfo(' + row.order_to_idx + ')">';
-							strDiv += '    <div class="addrList-row">';
-							strDiv += '        <span class="to-name">' + row.to_name + '</span>/<span class="to-phone">' + row.to_mobile + '</span>';
-							strDiv += '    </div>';
-							strDiv += '    <div class="addrList-row">';
-							strDiv += '        (<span class="to-zipcode">' + row.to_zipcode + '</span>)<span class="to-addr">' + row.to_road_addr + '</span><span class="to-detail">' + row.to_detail_addr + '</span>';
-							strDiv += '    </div>';
-							strDiv += '    <div class="delete_addr_btn"><u>삭제하기</u></div>';
+							strDiv += '<div class="addr-list-wrap">';
+							strDiv += '	<div class="cn-box" onClick="getOrderToInfo(' + row.order_to_idx + ')">';
+							strDiv += '    	<div class="addrList-row">';
+							strDiv += '       	 <span class="to-name">' + row.to_name + '</span>/<span class="to-phone">' + row.to_mobile + '</span>';
+							strDiv += '   	 </div>';
+							strDiv += '  	  <div class="addrList-row">';
+							strDiv += '   	     (<span class="to-zipcode">' + row.to_zipcode + '</span>)<span class="to-addr">' + row.to_road_addr + '</span><span class="to-detail">' + row.to_detail_addr + '</span>';
+							strDiv += '   	 </div>';
+							strDiv += '	</div>';
+							strDiv += '	<div id="delete-addr" style ="padding-top: 40px; width:50px;" onClick="deleteAdrr(' + row.order_to_idx + ')"><u>삭제하기</u></div>';
 							strDiv += '</div>';
 
 							addrListContent.innerHTML = strDiv;
@@ -1562,12 +1597,16 @@ if ($member_idx == 0 || $basket_idx == null) {
 						put_addr_wrap.classList.add("hidden");
 						list_addr_wrap.classList.remove("hidden");
 					}
+					else{
+						document.querySelector(".list-box").classList.add("hidden");
+					}
 				} else {
 					exceptionHandling("디자인 필요", d.msg);
 				}
 			}
 		});
-	});
+	}
+
 
 	function getOrderToInfo(order_to_idx) {
 		$.ajax({
@@ -1661,9 +1700,9 @@ if ($member_idx == 0 || $basket_idx == null) {
 		list_addr_wrap.classList.add("hidden");
 		$(".edit_box").removeClass("hidden");
 	});
-
 	const add_addr_btn = document.querySelector(".address-info .save-btn");
-	add_addr_btn.addEventListener("click", function () {
+
+	function listAddr() {
 		let to_place = document.querySelector(".tmp_to_place");
 		let to_name = document.querySelector(".tmp_to_name");
 		let to_mobile = document.querySelector(".tmp_to_mobile");
@@ -1698,6 +1737,13 @@ if ($member_idx == 0 || $basket_idx == null) {
 		}
 
 		addOrderToInfo();
+		document.querySelector("#to_place").value = to_place.value;
+		document.querySelector("#to_name").value = to_name.value;
+		document.querySelector("#to_mobile").value = to_mobile.value;
+		document.querySelector("#to_zipcode").value = to_zipcode;
+		document.querySelector("#to_road_addr").value = to_road_addr;
+		document.querySelector("#to_lot_addr").value = to_lot_addr;
+		document.querySelector("#to_detail_addr").value = to_detail_addr;
 
 		let resetInput = document.querySelectorAll(".edit-box .input-row input");
 		resetInput.forEach((el) => {
@@ -1708,7 +1754,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 		get_addr_wrap.classList.remove("hidden");
 		put_addr_wrap.classList.add("hidden");
 		list_addr_wrap.classList.add("hidden");
-	});
+	}
 
 	function addOrderToInfo() {
 		let to_place = put_addr_wrap.querySelector(".tmp_to_place").value;
@@ -1863,9 +1909,10 @@ if ($member_idx == 0 || $basket_idx == null) {
 
 			let select_label = ev.curr.getLabel();
 			let select_value = ev.curr.getValue();
-
 			let voucher_info = null
+
 			if (select_value != "false") {
+				document.querySelector('.voucher-info-list').classList.remove("hidden");
 				voucher_info = JSON.parse(select_value);
 
 				$('#voucher_idx').val(voucher_info['voucher_idx']);
@@ -1881,6 +1928,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 					$('#use_mileage').attr('disabled', false);
 					$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
 				} else {
+
 					$('#use_mileage').val(0);
 					$('#use_mileage').attr('disabled', true);
 					$('.mileage_point_btn').attr('onClick', 'return false;');
@@ -1890,6 +1938,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 					price_mileage_point.innerHTML = 0;
 				}
 			} else {
+				document.querySelector('.voucher-info-list').classList.add("hidden");
 				$('#voucher_idx').val(0);
 				$('#use_mileage').attr('disabled', false);
 				$('.mileage_point_btn').attr('onClick', 'return false;');
@@ -1930,6 +1979,17 @@ if ($member_idx == 0 || $basket_idx == null) {
 					price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
 
 					if (calc_flg == true) {
+						$('.mileage_point_msg').text('적용취소');
+						$('.mileage_point_btn').attr('onClick', 'getTotalMileage(false);');
+						$('.reserves-info-list.hidden').removeClass('hidden');
+						calcPriceTotal();
+					} else {
+						price_mileage_point.dataset.price_mileage_point = '0';
+						price_mileage_point.innerHTML = 0;
+						$('#use_mileage').val('0');
+						$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
+						$('.mileage_point_msg').text('모두적용');
+						$('.reserves-info-list').addClass('hidden');
 						calcPriceTotal();
 					}
 				} else {
@@ -1997,9 +2057,22 @@ if ($member_idx == 0 || $basket_idx == null) {
 	const calPointBox = document.querySelector(".calculation-box .point-box");
 
 	prev_step_btn.addEventListener("click", function () {
+		if (prev_step_btn.dataset.step == "0") {
+			window.location.href = "/order/basket/list";
+		}
+		let width = document.querySelector("body").offsetWidth;
+		if (width <= 1024) {
+			let productWrap = document.querySelector(".product-wrap");
+			let toggleBtn = document.querySelector(".product-toggle-btn");
+			if (productWrap) {
+				productWrap.classList.add("hidden");
+			}
+			toggleBtn.classList.remove("hidden");
+		}
 		let next_step_level = next_step_btn.dataset.step;
 
 		next_step_btn.dataset.step = "1";
+		prev_step_btn.dataset.step = "0";
 		calculationWrap.dataset.step = "1";
 		next_step_btn.querySelector("span").innerHTML = "다음 단계";
 
@@ -2011,7 +2084,6 @@ if ($member_idx == 0 || $basket_idx == null) {
 		$$group1.forEach(el => {
 			el.classList.remove("next");
 		});
-
 		//terms-service
 		$group4.classList.add("hidden");
 
@@ -2029,10 +2101,25 @@ if ($member_idx == 0 || $basket_idx == null) {
 
 	next_step_btn.addEventListener("click", function () {
 		let next_step_level = next_step_btn.dataset.step;
-
 		let checkBoxEssential = document.querySelectorAll("essential");
 		let orderSection = document.querySelector(".order-section");
+		let nameData = document.querySelector("#to_name").value;
+		let mobileData = document.querySelector("#to_mobile").value;
+		let zipcodeData = document.querySelector("#to_zipcode").value;
 
+		let width = document.querySelector("body").offsetWidth;
+
+		if (width <= 1024) {
+			let productWrap = document.querySelector(".product-wrap.hidden");
+			let toggleBtn = document.querySelector(".product-toggle-btn");
+			if (productWrap) {
+				productWrap.classList.remove("hidden");
+			}
+			toggleBtn.classList.add("hidden");
+		}
+		if (nameData == '' || mobileData == '' || zipcodeData == '') {
+			return false;
+		}
 		if (next_step_level == 2) {
 			if (orderSection.dataset.status === "F") {
 				exceptionHandling("디자인 필요", "이용약관에 동의가 필요합니다.");
@@ -2041,6 +2128,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 			}
 		} else {
 			next_step_btn.dataset.step = "2";
+			prev_step_btn.dataset.step = "1";
 			calculationWrap.dataset.step = "2";
 			orderSection.dataset.status = "F";
 			if (next_step_btn.dataset.step === "2") {
@@ -2143,7 +2231,6 @@ if ($member_idx == 0 || $basket_idx == null) {
 		let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
 		let price_discount = document.querySelector(".calculation-wrap .price_discount").dataset.price_discount;
 		let price_mileage_point = document.querySelector(".calculation-wrap .price_mileage_point").dataset.price_mileage_point;
-		console.log(price_mileage_point);
 		let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
 		let price_delivery = document.querySelector(".calculation-wrap .price_delivery").dataset.price_delivery;
 
@@ -2203,9 +2290,34 @@ if ($member_idx == 0 || $basket_idx == null) {
 	//창 닫기
 	function closeBox() {
 		$('.close').on('click', function () {
-			$('.list-box').hide();
+			document.querySelector(".list-box").classList.add("hidden");
 			document.querySelector(".save-box").classList.remove("hidden");
 		});
 	}
+	//배송지 정보 삭제
 
-	</script>
+	function deleteAdrr(to_idx) {
+		$.ajax({
+			type: "post",
+			data: {
+				"order_to_idx": to_idx
+			},
+			dataType: "json",
+			url: "http://116.124.128.246:80/_api/order/pg/to/delete",
+			error: function () {
+				alert("배송지 정보 삭제 처리에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					console.log("성공");
+					listAdd();
+				}
+				else {
+					alert(d.msg);
+				}
+			}
+		});
+		
+	}
+</script>

@@ -46,7 +46,7 @@ export function Basket(el, useSidebar) {
 						<div>총 합계</div>
 						<div class="pay__total__price">0</div>
 					</div>
-					<div class="pay__btn"><span>결제</span></div>
+					<div class="pay__btn"><span>결제하기</span></div>
 					<div class="check_basket_btn"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 					<p class="pay__notiy">&nbsp;</p> 
 				</div>
@@ -93,7 +93,7 @@ export function Basket(el, useSidebar) {
 							<div>총 합계</div>
 							<div class="pay__total__price">0</div>
 						</div>
-						<div class="pay__btn"><span>결제</span></div>
+						<div class="pay__btn"><span>결제하기</span></div>
 						<div class="check_basket_btn"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 						<p class="pay__notiy">&nbsp;</p> 
 					</div>
@@ -154,6 +154,8 @@ export function Basket(el, useSidebar) {
 		
 		docFrag.appendChild(stin_product_wrap);
 		
+		let bodyWidth = document.getElementsByTagName("body")[0].offsetWidth;
+
 		//재고상품 있는 경우 
 		if (st_info.length > 0 ) {
 			st_info.forEach( el => {
@@ -186,18 +188,19 @@ export function Basket(el, useSidebar) {
 				stin_html += `
 					<div class="product__box product_box_${el.basket_idx}" data-stock_status="${el.stock_status}"  data-basket_idx="${el.basket_idx}" data-basket_qty="${el.basket_qty}" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-product_qty="${el.product_qty}">
 						<label class="cb__custom self" for="">
-							<input class="prd__cb self__cb hi" type="checkbox" name="stock">
+							<input class="prd__cb self__cb" type="checkbox" name="stock">
 							<div class="cb__mark"></div>
 						</label>
 						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content" data-sales_price="${el.sales_price}" >
-							<div class="prd__title">${el.product_name}</div>
+							${el.refund_flg && bodyWidth >= 1024 ? `<div class="prd__title">${el.product_name}<p class="refund_msg">교환 반품 불가</p></div>` : `<div class="prd__title">${el.product_name}</div>`}
 							<div class="price">${sales_price}</div>
 							${color_html}
 							<div class="prd__size">
 								<div class="size__box">
 									<li data-soldout="${el.stock_status}">${el.option_name}</li>
 								</div>
+								${el.refund_flg && bodyWidth < 1024 ? `<p class="refund_msg">교환 반품 불가</p>` : ``}
 							</div>
 							<div class="prd__qty">
 								<div>Qty</div>
@@ -226,6 +229,10 @@ export function Basket(el, useSidebar) {
 		deleteAllBasketInfo();
 		
 		if (so_info.length > 0 ) {
+			
+			let msgBox = document.querySelector(".pay__notiy");
+			msgBox.innerText ='품절제품을 삭제 후 결제를 진행해주세요.';
+
 			//품절상품이 있을 경우  
 			let product_html = "";
 			let docFrag = document.createDocumentFragment();
@@ -238,7 +245,7 @@ export function Basket(el, useSidebar) {
 						<div>품절제품</div>
 					</div>
 					<div class="checkbox__box">
-						<label class="cb__custom all" for="">
+						<label class="cb__custom all" for="sold">
 							<input class="prd__cb all__cb" type="checkbox" name="sold">
 							<div class="cb__mark"></div>
 						</label>
@@ -491,7 +498,7 @@ export function Basket(el, useSidebar) {
 		let payBtn = document.querySelector(".pay__box .pay__btn");
 		payBtn.addEventListener("click", function() {
 			let selfBox = document.querySelectorAll(".self__cb[name='stock']");
-			let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']");
+			let soldSelfBox = document.querySelectorAll(".self__cb[name='sold']:checked");
 			let msgBox = document.querySelector(".pay__notiy");
 			let selectArr =[];
 			let checkCnt = 0;
@@ -506,6 +513,7 @@ export function Basket(el, useSidebar) {
 
 			if(soldSelfBox.length > 0) {
 				msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요';
+				return false;
 			}
 			if(checkCnt == 0) {
 				msgBox.innerText = '결제하실 상품을 선택해주세요.';
@@ -622,8 +630,8 @@ export function Basket(el, useSidebar) {
 
 	//재고있음(STIN) 체크박스 클릭 이벤트
 	function clickCheckboxSTIN () {
-		const $all_stin_checkbox = document.querySelector(".all__cb"); //
-		const $stin_checkbox = document.querySelectorAll(".self__cb"); 
+		const $all_stin_checkbox = document.querySelector(".prd__cb.all__cb"); //
+		const $stin_checkbox = document.querySelectorAll(".product__wrap .self__cb"); 
 		const $$productBox = document.querySelectorAll(".product__box"); 
 		
 		let checkbox_name = $all_stin_checkbox.getAttribute("name");
@@ -641,7 +649,7 @@ export function Basket(el, useSidebar) {
 		});
 		
 		//개별 체크박스 클릭 이벤트
-		$stin_checkbox.forEach( el => {
+		$stin_checkbox.forEach(el => {
 			el.addEventListener("click", (e) => {
 				let input_name = e.currentTarget.getAttribute("name");
 				if(input_name == "stock"){
@@ -652,7 +660,7 @@ export function Basket(el, useSidebar) {
 					if(e.target.checked){
 						//체크시
 						if(checkbox_name == "stock") {
-							let checked_stin = document.querySelectorAll("input[name='stock']:checked");
+							let checked_stin = document.querySelectorAll(".product__wrap input[name='stock']:checked");
 							if($stin_checkbox.length == checked_stin.length) {
 								$all_stin_checkbox.checked = true;
 							}
@@ -673,15 +681,23 @@ export function Basket(el, useSidebar) {
 
 	//재고없음(STSO) 전체선택 체크박스 클릭 이벤트
 	function clickCheckboxSTSO(){
-		let $all_soldout_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']"); 
-		if($all_soldout_checkbox != null){
-			$all_soldout_checkbox.addEventListener("click" , function() {
-				let soldout_list = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
-				soldout_list.forEach(el => {
-					el.checked = this.checked;
-				});  
+		let $all_stso_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']");
+		let $stso_checkbox = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
+		$all_stso_checkbox.addEventListener("click" , function() {
+			$stso_checkbox.forEach(el => {
+				el.checked = this.checked;
 			});
-		}
+		});
+		$stso_checkbox.forEach(el => {
+			el.addEventListener("click", function() {
+				let checkedStso = document.querySelectorAll(".sold__list__box .self__cb[name='sold']:checked");
+				if($stso_checkbox.length == checkedStso.length) {
+					$all_stso_checkbox.checked = true;
+				} else {
+					$all_stso_checkbox.checked = false;
+				}
+			})
+		})
 	}
 
 	/************************* 공통함수 **************************/

@@ -118,15 +118,11 @@ if ($product_idx > 0 && $country != null) {
 			
 			$img_main_sql = "
 				SELECT
-					PI.IDX			AS IMG_IDX,
-					PI.IMG_TYPE		AS IMG_TYPE,
-					PI.IMG_SIZE		AS IMG_SIZE,
-					REPLACE(
-						PI.IMG_LOCATION,'/var/www/admin/www',''
-					)				AS IMG_LOCATION,
-					REPLACE(
-						PI.IMG_URL,'/var/www/admin/www',''
-					)				AS IMG_URL
+					PI.IDX				AS IMG_IDX,
+					PI.IMG_TYPE			AS IMG_TYPE,
+					PI.IMG_SIZE			AS IMG_SIZE,
+					PI.IMG_LOCATION		AS IMG_LOCATION,
+					PI.IMG_URL			AS IMG_URL
 				FROM
 					dev.PRODUCT_IMG PI
 				WHERE

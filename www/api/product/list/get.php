@@ -19,6 +19,11 @@ include_once("/var/www/www/api/common/check.php");
 
 error_reporting(E_ALL^ E_WARNING); 
 
+$admin_idx = 0;
+if (isset($_SESSION['ADMIN_IDX'])) {
+	$admin_idx = $_SESSION['ADMIN_IDX'];
+}
+
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
@@ -165,6 +170,11 @@ if ($order_param != null) {
 if ($page_idx != null && $country != null) {
 	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
 	if ($page_count > 0) {
+		$check_result = true;
+		if ($admin_idx == 0) {
+			$check_result = checkListLevel($db,$member_idx,$page_idx);
+		}
+		
 		$check_result = checkListLevel($db,$member_idx,$page_idx);
 		if ($check_result['result'] == false) {
 			$json_result['code'] = 402;
@@ -457,73 +467,27 @@ function checkArrayValue($param) {
 
 function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 	$filter_table = "";
-	$img_sql = "";
+	$select_img_location = "";
 	$link_sql = "";
 	
 	switch ($filter_type) {
 		case "UP" :
 			$filter_table = " dev.MENU_UPPER_FILTER MF ";
-			$img_sql = " MF.IMG_LOCATION, ";
-			$link_sql = "
-				CASE
-					WHEN
-						MF.LINK_TYPE = 'PR'
-						THEN
-							(
-								SELECT
-									CONCAT(
-										S_PPR.PAGE_URL,
-										S_PPR.IDX,
-										'&menu_sort=".$menu_sort."&menu_idx=".$menu_idx."'
-									)
-								FROM
-									dev.PAGE_PRODUCT S_PPR
-								WHERE
-									S_PPR.IDX = MF.PAGE_IDX
-							)
-					WHEN
-						MF.LINK_TYPE = 'PO'
-						THEN
-							(
-								SELECT
-									CONCAT(
-										S_PPO.PAGE_URL,
-										S_PPO.IDX
-									)
-								FROM
-									dev.PAGE_POSTING S_PPO
-								WHERE
-									S_PPO.IDX = MF.PAGE_IDX
-							)
-				END			AS MENU_LINK
-			";
+			$select_img_location = " MF.IMG_LOCATION		AS IMG_LOCATION, ";
 			break;
 		
 		case "LW" :
 			$filter_table = " dev.MENU_LOWER_FILTER MF ";
-			$link_sql = "
-				(
-					SELECT
-						CONCAT(
-							S_PPR.PAGE_URL,
-							S_PPR.IDX,
-							'&menu_sort=".$menu_sort."&menu_idx=".$menu_idx."'
-						)
-					FROM
-						dev.PAGE_PRODUCT S_PPR
-					WHERE
-						S_PPR.IDX = MF.PAGE_IDX
-				)			AS MENU_LINK
-			";
 			break;
 	}
 	
 	
 	$filter_sql = "
 		SELECT
-			MF.OBJ_TITLE,
-			".$img_sql."
-			".$link_sql."
+			MF.OBJ_TITLE	AS OBJ_TITLE,
+			".$select_img_location."
+			MF.LINK_TYPE	AS LINK_TYPE,
+			MF.LINK_URL		AS LINK_URL
 		FROM
 			".$filter_table."
 		WHERE
@@ -540,6 +504,15 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 	$filter_info = array();
 	foreach($db->fetch() as $data) {
 		$img_location = null;
+		$link_type = $data['LINK_TYPE'];
+		
+		$menu_link = "";
+		if ($link_type != "EC") {
+			$menu_link = $data['LINK_URL']."&menu_sort=".$menu_sort."&menu_idx=".$menu_idx;
+		} else {
+			$menu_link = "http://".$data['LINK_URL'];
+		}
+		
 		if (!empty($data['IMG_LOCATION'])) {
 			$img_location = $data['IMG_LOCATION'];
 		}
@@ -547,7 +520,8 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 		$filter_info[] = array(
 			'filter_title'	=>$data['OBJ_TITLE'],
 			'img_location'	=>$img_location,
-			'menu_link'		=>$data['MENU_LINK']
+			'link_type'		=>$data['LINK_TYPE'],
+			'menu_link'		=>$menu_link
 		);
 	}
 	

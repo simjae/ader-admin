@@ -34,7 +34,7 @@
                 <div>총 합계</div>
                 <div class="pay__total__price">0</div>
             </div>
-            <div class="pay__btn"><span>결제</span></div>
+            <div class="pay__btn"><span>결제하기</span></div>
             <p class="pay__notiy"></p> 
         </div>
     </section>

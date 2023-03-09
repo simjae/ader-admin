@@ -153,7 +153,10 @@
         letter-spacing: normal;
         display: flex;
     }
-
+    .btn__wrap.under-line {
+        display: flex;
+        flex-direction: column;
+    }
     .swiper-wrapper {
         height: auto;
     }
@@ -326,7 +329,7 @@
     .styling-wrap {
         position: relative;
     }
-
+    
     .styling-text {
         padding: 0 0 20px 10px;
         font-family: var(--ft-fu);
@@ -378,7 +381,9 @@
         text-align: left;
         color: var(--bk);
     }
-
+    .styling-box .title {
+        white-space: nowrap;
+    }
     .styling-swiper .t-box {
         padding-left: calc(100% - 80%);
         padding-bottom: 30px;
@@ -388,7 +393,98 @@
     .styling-swiper .under-line {
         font-size: 13px;
     }
+    .under-line.styling-title {
+        width: 60px!important;
+    }
+    .under-line.styling-title::after {
+        content: '';
+        display: block;
+        height: 1px;
+        position: absolute;
+        bottom: 0;
+        width: 10px;
+        background-color: #000000;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+        animation-name: stAppearLineB;
+    }
 
+    .under-line.styling-title::before {
+        content: '';
+        left: 0px;
+        width: 60px;
+        height: 1px;
+        position: absolute;
+        bottom: 0;
+        background-color: #000000;
+        animation-fill-mode: forwards;
+        animation-duration: 0.5s;
+        animation-name: stAppearLineA;
+    }
+    .under-line.styling-title:hover::after {
+        animation-fill-mode: forwards;
+        animation-name: stDisappearLineA;
+        animation-duration: .1s;
+    }
+
+    .under-line.styling-title:hover::before {
+        animation-fill-mode: forwards;
+        animation-name: stDisappearLineB;
+        animation-duration: .5s;
+    }
+    @keyframes stAppearLineB {
+        0% {
+            width: 60px;
+        }
+
+        90% {
+            left: 100%;
+            width: 0;
+        }
+ 
+        95% {
+            width: 0;
+        }
+
+        100% {
+            left: 0;
+            width: 10px;
+        }
+    }
+
+    @keyframes stAppearLineA {
+        0% {
+            width: 60px;
+        }
+
+        10% {
+            background-color: #ffffff00;
+        }
+
+        100% {
+            background-color: #ffffff00;
+        }
+    }
+
+    @keyframes stDisappearLineB {
+        0% {
+            width: 10px;
+        }
+
+        100% {
+            width: 60px;
+        }
+    }
+
+    @keyframes stDisappearLineA {
+        0% {
+            
+        }
+
+        100% {
+            background-color: #ffffff00;
+        }
+    }
     /* recommand */
     .recommand-wrap {
         padding-bottom: 170px;
@@ -1015,7 +1111,7 @@
         document.querySelector("body").dataset
         main_swiperResize();
     });
-
+    
     let mobileRecommandGrid = () => {
         let $$mobileRecommandBox = document.querySelectorAll(".recommand-mobile .slide-box");
         $$mobileRecommandBox.forEach((el, idx, arr) => {
@@ -1386,10 +1482,14 @@
                             image_div += '            <a href="' + img_row.btn_url + '">';
                             image_div += '                <img class="styling__img" src="' + img_root + img_row.img_location + '" alt="">';
                             image_div += '                <div class="t-box">';
-                                image_div += '                <div style="display: flex;"><p class="title under-line bk">' + img_row.title + '</p></div>';
-                                image_div += '                <div class="btn__wrap">';
-                                image_div += '                    <a href="" class="under-line bk">' + img_row.btn_name + '</a>';
-                                image_div += '                </div>';
+                            // image_div += '                  <div style="display: flex;"><p class="title under-handler">' + img_row.title + '</p></div>';
+                            // image_div += '                  <div class="btn__wrap">';
+                            // image_div += '                      <a href="" class="under-line bk style">' + img_row.btn_name + '</a>';
+                            // image_div += '                  </div>';
+                            // image_div += '                  <div style="display: flex;"></div>';
+                            image_div += '                  <div class="btn__wrap">';
+                            image_div += '                      <a href="" class="under-line bk styling-title"><p class="title">' + img_row.title + '</p>' + img_row.btn_name + '</a>';
+                            image_div += '                  </div>';
                             image_div += '                </div>';
                             image_div += '            </a>';
                             image_div += '        </div>';

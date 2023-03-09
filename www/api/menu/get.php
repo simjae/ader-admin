@@ -108,39 +108,9 @@ if ($country != null) {
 		SELECT
 			ML.IDX				AS MENU_IDX,
 			ML.MENU_TITLE		AS MENU_TITLE,
-			ML.MENU_TYPE		AS MENU_TYPE,
-			CASE
-				WHEN
-					ML.MENU_TYPE = 'PR'
-					THEN
-						(
-							SELECT
-								CONCAT(
-									S_PPR.PAGE_URL,
-									S_PPR.IDX,
-									'&menu_sort=L&menu_idx=',
-									ML.IDX
-								)
-							FROM
-								dev.PAGE_PRODUCT S_PPR
-							WHERE
-								S_PPR.IDX = ML.PAGE_IDX
-						)
-				WHEN
-					ML.MENU_TYPE = 'PO'
-					THEN
-						(
-							SELECT
-								CONCAT(
-									S_PPO.PAGE_URL,
-									S_PPO.IDX
-								)
-							FROM
-								dev.PAGE_POSTING S_PPO
-							WHERE
-								S_PPO.IDX = ML.PAGE_IDX
-						)
-			END					AS MENU_LINK
+			
+			ML.LINK_TYPE		AS LINK_TYPE,
+			ML.LINK_URL			AS LINK_URL
 		FROM
 			dev.MENU_LRG ML
 		WHERE
@@ -153,43 +123,21 @@ if ($country != null) {
 	foreach($db->fetch() as $lrg_data) {	
 		$menu_lrg_idx = $lrg_data['MENU_IDX'];
 		
+		$menu_lrg_link = "";
+		if ($lrg_data['LINK_TYPE'] != "EC") {
+			$menu_lrg_link = $lrg_data['LINK_URL']."&menu_sort=L&menu_idx=".$menu_lrg_idx;
+		} else {
+			$menu_lrg_link = "http://".$lrg_data['LINK_URL'];
+		}
+		
 		if (!empty($menu_lrg_idx)) {
 			$menu_slide_sql ="
 				SELECT
-					CASE
-						WHEN
-							ME.LINK_TYPE = 'PR'
-							THEN
-								(
-									SELECT
-										CONCAT(
-											S_PPR.PAGE_URL,
-											S_PPR.IDX,
-											'&menu_sort=L&menu_idx=',
-											ME.IDX
-										)
-									FROM
-										dev.PAGE_PRODUCT S_PPR
-									WHERE
-										S_PPR.IDX = ME.PAGE_IDX
-								)
-						WHEN
-							ME.LINK_TYPE = 'PO'
-							THEN
-								(
-									SELECT
-										CONCAT(
-											S_PPO.PAGE_URL,
-											S_PPO.IDX
-										)
-									FROM
-										dev.PAGE_POSTING S_PPO
-									WHERE
-										S_PPO.IDX = ME.PAGE_IDX
-								)
-					END					AS SLIDE_URL,
 					ME.OBJ_TITLE		AS OBJ_TITLE,
-					ME.IMG_LOCATION		AS IMG_LOCATION
+					ME.IMG_LOCATION		AS IMG_LOCATION,
+					
+					ME.LINK_TYPE		AS LINK_TYPE,
+					ME.LINK_URL			AS LINK_URL
 				FROM
 					dev.MENU_SLIDE ME
 				WHERE
@@ -203,10 +151,18 @@ if ($country != null) {
 			
 			$menu_slide = array();
 			foreach($db->fetch() as $slide_data) {
+				$menu_slide_link = "";
+				if ($lrg_data['LINK_TYPE'] != "EC") {
+					$menu_slide_link = $slide_data['LINK_URL']."&menu_sort=L&menu_idx=".$menu_lrg_idx;
+				} else {
+					$menu_slide_link = "http://".$slide_data['LINK_URL'];
+				}
+				
 				$menu_slide[] = array(
-					'slide_url'			=>$slide_data['SLIDE_URL'],
 					'slide_name'		=>$slide_data['OBJ_TITLE'],
-					'slide_img'			=>$slide_data['IMG_LOCATION']
+					'slide_img'			=>$slide_data['IMG_LOCATION'],
+					
+					'slide_url'			=>$menu_slide_link
 				);
 			}
 			
@@ -217,40 +173,9 @@ if ($country != null) {
 					SELECT
 						MM.IDX			AS MENU_IDX,
 						MM.MENU_TITLE	AS MENU_TITLE,
-						MM.MENU_TYPE	AS MENU_TYPE,
-						CASE
-							WHEN
-								MM.MENU_TYPE = 'PR'
-								THEN
-									(
-										SELECT
-											CONCAT(
-												S_PPR.PAGE_URL,
-												S_PPR.IDX,
-												'&menu_sort=M&menu_idx=',
-												MM.IDX
-											)
-										FROM
-											dev.PAGE_PRODUCT S_PPR
-										WHERE
-											S_PPR.IDX = MM.PAGE_IDX
-									)
-							
-							WHEN
-								MM.MENU_TYPE = 'PO'
-								THEN
-									(
-										SELECT
-											CONCAT(
-												S_PPO.PAGE_URL,
-												S_PPO.IDX
-											)
-										FROM
-											dev.PAGE_POSTING S_PPO
-										WHERE
-											S_PPO.IDX = MM.PAGE_IDX
-									)
-						END				AS MENU_LINK
+						
+						MM.LINK_TYPE	AS LINK_TYPE,
+						MM.LINK_URL		AS LINK_URL
 					FROM
 						dev.MENU_MDL MM
 					WHERE
@@ -264,7 +189,15 @@ if ($country != null) {
 				$menu_mdl = array();
 				foreach($db->fetch() as $mdl_data) {
 					$menu_mdl_idx = $mdl_data['MENU_IDX'];
-					$menu_mdl_type = $mdl_data['MENU_TYPE'];
+					
+					$menu_mdl_type = $mdl_data['LINK_TYPE'];
+					
+					$menu_mdl_link = "";
+					if ($mdl_data['LINK_TYPE'] != "EC") {
+						$menu_mdl_link = $mdl_data['LINK_URL']."&menu_sort=M&menu_idx=".$menu_mdl_idx;
+					} else {
+						$menu_mdl_link = "http://".$mdl_data['LINK_URL'];
+					}
 					
 					if (!empty($menu_mdl_idx)) {
 						$menu_sml = array();
@@ -274,20 +207,11 @@ if ($country != null) {
 							if ($sml_cnt > 0) {
 								$menu_sml_sql ="
 									SELECT
+										MS.IDX			AS MENU_IDX,
 										MS.MENU_TITLE	AS MENU_TITLE,
-										(
-											SELECT
-												CONCAT(
-													S_PPR.PAGE_URL,
-													S_PPR.IDX,
-													'&menu_sort=S&menu_idx=',
-													MS.IDX
-												)
-											FROM
-												dev.PAGE_PRODUCT S_PPR
-											WHERE
-												S_PPR.IDX = MS.PAGE_IDX
-										)				AS MENU_LINK
+										
+										MS.LINK_TYPE	AS LINK_TYPE,
+										MS.LINK_URL		AS LINK_URL
 									FROM
 										dev.MENU_SML MS
 									WHERE
@@ -299,9 +223,18 @@ if ($country != null) {
 								$db->query($menu_sml_sql);
 								
 								foreach($db->fetch() as $sml_data) {
+									$menu_sml_idx = $sml_data['MENU_IDX'];
+									
+									$menu_sml_link = "";
+									if ($sml_data['LINK_TYPE'] != "EC") {
+										$menu_sml_link = "&menu_sort=S&menu_idx=".$sml_data['MENU_IDX'];
+									} else {
+										$menu_sml_link = "http://".$sml_data['LINK_URL'];
+									}
+									
 									$menu_sml[] = array(
 										'menu_title'	=>$sml_data['MENU_TITLE'],
-										'menu_link'		=>$sml_data['MENU_LINK'],
+										'menu_link'		=>$menu_sml_link,
 									);
 								}
 							}
@@ -309,8 +242,10 @@ if ($country != null) {
 						
 						$menu_mdl[] = array(
 							'menu_title'	=>$mdl_data['MENU_TITLE'],
-							'menu_type'		=>$mdl_data['MENU_TYPE'],
-							'menu_link'		=>$mdl_data['MENU_LINK'],
+							'menu_type'		=>$mdl_data['LINK_TYPE'],
+							
+							'menu_link'		=>$menu_mdl_link,
+							
 							'menu_sml'		=>$menu_sml
 						);
 					}
@@ -318,8 +253,10 @@ if ($country != null) {
 				
 				$menu_lrg[] = array(
 					'menu_title'	=>$lrg_data['MENU_TITLE'],
-					'menu_type'		=>$lrg_data['MENU_TYPE'],
-					'menu_link'		=>$lrg_data['MENU_LINK'],
+					'menu_type'		=>$lrg_data['LINK_TYPE'],
+					
+					'menu_link'		=>$menu_lrg_link,
+					
 					'menu_slide'	=>$menu_slide,
 					'menu_mdl'		=>$menu_mdl
 				);

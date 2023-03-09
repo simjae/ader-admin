@@ -23,7 +23,7 @@ display: grid; gap: 10px; font-size: 11px; grid-template-columns: 50px 50px 50px
 	.title p {font-size:11px;}
 	.contents__info .info span {font-size: 11px;}
 	.oderlist_info_table {margin-top: 30px;display: flex;flex-direction: column;align-items: center;}
-	.orderlist__wrap {margin-top: 20px;width: 100%;display: grid;grid-template-columns: repeat(16, 1fr);}
+	.orderlist__wrap {margin: 20px 0 60px;width: 100%;display: grid;grid-template-columns: repeat(16, 1fr);}
 	.orderlist__tab__contents {margin: 0 auto; padding-bottom: 40px;}
 	.mobile__view { margin-top: 40px;}
 }
@@ -33,10 +33,13 @@ display: grid; gap: 10px; font-size: 11px; grid-template-columns: 50px 50px 50px
 }
 
 @media (min-width: 1024px) {
-	.orderlist__wrap {margin-top: 40px;width: 100%;display: grid;grid-template-columns: repeat(16, 1fr);}
+	.orderlist__wrap {margin: 40px 0 100px;width: 100%;display: grid;grid-template-columns: repeat(16, 1fr);}
 	.orderlist__tab__wrap {width: 100%;}
 	.oderlist_info_table {margin-top: 40px;display: grid;grid-template-columns: 600px 350px;}
 	.orderlist__tab__contents {margin: 0 auto;grid-column: 1/17; margin-top: 53px;}
+	.orderlist__paging {
+		margin-top: 30px;
+	}
 }
 
 .orderlist__wrap .detail__btn {cursor : pointer;}
@@ -924,9 +927,9 @@ function orderListPaging(obj) {
 	
 	$(obj.el).html(`
 		<div class="mypage--paging">
-			<div class="page prev" data-page="${prev}"><</div>
+			<div class="page prev" data-page="${prev}" style="${((obj.page == 1) ? 'color: #dcdcdc' : 'color: black')}"><</div>
 			${paging.join("")}
-			<div class="page next" data-page="${next}">></div>
+			<div class="page next" data-page="${next}" style="${((obj.page == end) ? 'color: #dcdcdc' : 'color: black')}">></div>
 		</div>
 	`);
 	

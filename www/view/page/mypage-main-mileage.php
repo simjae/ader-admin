@@ -1,6 +1,6 @@
 <style>
     .mileage__wrap {
-        margin-top: 40px;
+        margin: 40px 0 100px;
         width: 100%;
         display: grid;
         grid-template-columns: repeat(16, 1fr);
@@ -81,7 +81,7 @@
 
     @media (max-width: 1024px) {
         .mileage__wrap {
-            margin-top: 20px;
+            margin: 20px 0 60px;
         }
 
         .mileage__tab__wrap {
@@ -645,9 +645,9 @@
         }
         $(obj.el).html(`
             <div class="mypage--paging">
-                <div class="page prev" data-page="${prev}"><</div>
+                <div class="page prev" data-page="${prev}" style="${((obj.page == 1) ? 'color: #dcdcdc' : 'color: black')}"><</div>
                 ${paging.join("")}
-                <div class="page next" data-page="${next}">></div>
+                <div class="page next" data-page="${next}" style="${((obj.page == end) ? 'color: #dcdcdc' : 'color: black')}">></div>
             </div>
         `);
         $(obj.el).find(".mypage--paging .page").click(function () {

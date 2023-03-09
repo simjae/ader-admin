@@ -584,6 +584,7 @@
 	.header-under {
 		text-decoration: underline;
 		padding-bottom: 10px;
+		font-size: 11px;
 	}
 
 	.edit-box .input-row {

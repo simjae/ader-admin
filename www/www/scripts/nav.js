@@ -72,43 +72,43 @@
 		menu_info.forEach((el, idx) => {
 			let lrgDiv = document.createElement("div");
 			let mdl = el.menu_mdl;
-			if( el.menu_type =="PR") {
+			if( el.menu_type !="PO") {
 				menuHtml += `
 					<li class="drop web" data-type="${el.menu_type}" data-lrg="${idx}">
 						<a class="menu-ul lrg" href="${el.menu_link}">${el.menu_title}</a>
 						<div class="drop__menu">
 							<ul class="cont pr__menu">
-										<li class="swiper-li">
-											<div class="swiper swiper__box" data-id="${idx}" id="menuSwiper${idx}">
-												<div class="swiper-wrapper">
-													${
-														el.menu_slide.map((el, idx) => {
-															return`<div class="swiper-slide" data-title="${el.slide_name}">
-																	<div>
-																		<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
-																	</div>
-																</div>`
-														}).join("")
-													}
-												</div>
-												<div class="swiper__title"></div>
-												<div class="swiper-pagination swiper-pagination-${idx}"></div>
-											</div>  
-										</li>
-										${
-											mdl.map((el , idx)=> {
-											return`<li data-mdl="${idx}">
-														<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
-														<ul class="sma__wrap">
-														${
-															el.menu_sml.map((el, idx)=> {
-																return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
-															}).join("")
-														}
-														</ul>
-													</li>`
-											}).join("")
-										}
+								<li class="swiper-li">
+									<div class="swiper swiper__box" data-id="${idx}" id="menuSwiper${idx}">
+										<div class="swiper-wrapper">
+											${
+												el.menu_slide.map((el, idx) => {
+													return`<div class="swiper-slide" data-title="${el.slide_name}">
+															<div>
+																<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
+															</div>
+														</div>`
+												}).join("")
+											}
+										</div>
+										<div class="swiper__title"></div>
+										<div class="swiper-pagination swiper-pagination-${idx}"></div>
+									</div>  
+								</li>
+								${
+									mdl.map((el , idx)=> {
+									return`<li data-mdl="${idx}">
+												<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
+												<ul class="sma__wrap">
+												${
+													el.menu_sml.map((el, idx)=> {
+														return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
+													}).join("")
+												}
+												</ul>
+											</li>`
+									}).join("")
+								}
 							</ul>
 						</div>
 					</li>
@@ -202,6 +202,9 @@
 			console.log($(".hover_bg_act").attr("class"));
 			$(".hover_bg_act").hover(function() {
 				headerHover(true);
+				if($('body').hasClass('sidebar_open')){
+					$('#sidebar .sidebar-close-btn').click();
+				}
 
 			},function(){
 				headerHover(false);
@@ -449,15 +452,16 @@
 										<div class="swiper-wrapper">
 											${
 												el.menu_slide.map((el, idx) => {
-												return`<div class="swiper-slide">
-															<div class="slide__wrap" style="display:flex">
-																<img src="${img_root}${el.slide_img}" alt="" style="width:110px">
-																<div class="swiper__title" style="margin-left:10px;margin-top:auto;margin-bottom:auto;margin-left:10px;font-size:13px;color:#343434">${el.slide_name}</div>
+													return`<div class="swiper-slide" data-title="${el.slide_name}">
+															<div>
+																<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
 															</div>
 														</div>`
 												}).join("")
 											}
 										</div>
+										<div class="swiper__title"></div>
+										<div class="swiper-pagination swiper-pagination-${idx}"></div>
 									</div>  
 								</li>
 							</ul>
@@ -471,7 +475,7 @@
 						<div class="lrg__back__btn"></div>
 						<div class="lrg__title">${el.menu_title}</div>
 						<div class="mdlBox">
-							<ul class="mdl">
+							<ul class="mdl collaboration">
 								${
 								mdl.map((el,idx) => {
 										return `<a class="mdl__title po__wrap"  href="${el.menu_link}">
@@ -480,7 +484,7 @@
 												</a>`
 								}).join("")
 								}
-								<a class="mdl__title po__wrap" href="/posting/collaboration">
+								<a class="mdl__title po__wrap view__total" href="/posting/collaboration">
 									<div style="width:50px">
 										<img src="/images/svg/plus-bk.svg" style="width:12px;margin:4px auto;" alt="">
 									</div>
@@ -630,20 +634,47 @@
 		
 		return storyHtml;
 	}
-	
-	function mobileMdlSwipe() {
+	function mobileBluemarkHtml(){
+		let html  = 
+		`
+		<div class="mdlBox" style="display: block;">
+			<ul class="mdl">
+				<li></li>
+			</ul>
+		</div>
+		`
+	}
+	function mobileMdlSwipe(obj) {
 		const $$swiperBox = document.querySelectorAll(".m__swiper__box");
 		$$swiperBox.forEach((el, idx)=> {
 			let mobileMenuSwiper = new Swiper(`#mobileMenuSwiper${idx}`,{
 				observer:true,
 				observeParents:true,
+				pagination: {
+					el: ".swiper-pagination-"+idx,
+					dynamicBullets: true
+				},
 				autoplay: {
-					delay: 2000,
+					delay: 5000,
 					disableOnInteraction: true
 				}
 			});
+			var swiper__box = $(obj).next().find(".m__swiper__box");
+			var swiper_title_obj = $(swiper__box).find(".swiper__title");
+			var titleArr = new Array();
+			$(swiper__box).find(".swiper-slide").each(function(idx,el){
+				titleArr.push($(el).attr("data-title"));
+			});
+			if(titleArr.length > 0){
+				$(swiper_title_obj).html(titleArr[0]);
+			}
+			if(titleArr.length == 1){
+				$(".swiper-pagination-"+idx).hide();
+			}
+			mobileMenuSwiper.on('slideChange',function (){
+				$(swiper_title_obj).html(titleArr[mobileMenuSwiper.activeIndex]);
+			})
 		});
-		
 	}
 	/*모바일 관련*/
 	const menuLrgClick = () => {
@@ -655,6 +686,7 @@
 				$(this).closest(".side__menu").addClass("lrg__on");
 				let lrg_idx = $(this).parent().attr("data-lrg") - 1;
 				let lrg_type = $(this).parent().attr("data-type");
+				/*
 				$(".mobile__menu .lrg").each(function(idx,el){
 					if($(el).attr("data-lrg") < lrg_idx){
 						$(el).hide();
@@ -663,6 +695,7 @@
 						$(el).show();
 					}
 				});
+				*/
 				$(".mobile__menu .lrg__title").removeClass("open");
 				$(".mobile__menu .lrg__back__btn").removeClass("open");
 				if(lrg_type == "ST"){
@@ -671,9 +704,33 @@
 				}
 				$(this).addClass("open");
 				$(lrg__back__btn_obj).addClass("open");
-				$(".mdlBox").slideUp(500);
-				$(mdlBox_obj).slideDown(500);
-				mobileMdlSwipe();
+				//상세화면 모두 닫고, 해당하는 상세화면만 열기
+				$(".mdlBox").slideUp(750);
+				$(mdlBox_obj).slideDown(750);
+				mobileMdlSwipe(this);
+				
+				if(lrg_type == "ST"){
+					let midClassPosition = $('.mid').eq(0).position().top;
+					let topClassPosition = $('.top').eq(0).position().top;
+					let ulInterval = midClassPosition - topClassPosition;
+					console.log(ulInterval);
+					$("#mobile .side__menu").animate({scrollTop : ulInterval}, 400);
+				}
+				else{
+					let clickIdx = $(this).parent().index();
+					
+					if(clickIdx <= 1){
+						$("#mobile .side__menu").animate({scrollTop : 0}, 400);
+					}
+					else{
+						let clickPosition = $('.top .lrg').eq(clickIdx).position().top
+						let prevPosition = $('.top .lrg').eq(clickIdx -1).position().top;
+						let lrgInterval = clickPosition - prevPosition;
+						console.log(lrgInterval);
+						$("#mobile .side__menu").animate({scrollTop : lrgInterval * (clickIdx - 1)}, 400);
+					}
+				}
+				
 			}
 		});
 		$(".mobile__menu .lrg__back__btn").click(function(){
@@ -684,6 +741,7 @@
 			$(".mobile-store-search-wrap").show();
 			$(".bottom").show();
 			$(".mobile__menu .lrg").slideDown(500);
+			$("#mobile .side__menu").animate({scrollTop : 0}, 500);
 		});
 		
 		$(".mobile__search__btn").click(function(){
@@ -781,6 +839,7 @@
 	function headerHover(bl){
 		let header = document.querySelector("header");
 		let sidebar = document.querySelector("#sidebar");
+		
 		if(bl){
 			header.classList.add("hover");
 			header.querySelectorAll(".under-line").forEach(els => {

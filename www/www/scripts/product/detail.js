@@ -63,7 +63,7 @@ function makeProductListFlag(d){
         let imgMainHtml = "";
         img_main.forEach((main) => {
             imgMainHtml = `
-                <img class="detail__img" data-imgtype="${main.img_type}" data-size="${main.img_size}" src="${img_root}${main.img_url}"/>
+                <img class="detail__img" data-imgtype="${main.img_type}" data-size="${main.img_size}" src="${main.img_url}"/>
             `;
 
             const mainInfo = document.createElement("div");
@@ -153,7 +153,7 @@ function makeProductListFlag(d){
                 ${productColorHtml}
             </div>
             <div class="product__size">
-                <div>Size</div>
+                <div style="width: 40px;">Size</div>
                 <div class="size__box">
                     ${productSizeHtml}
                 </div>

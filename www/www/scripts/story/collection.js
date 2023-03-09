@@ -102,7 +102,7 @@ function appendLookbook(projectIdx, last_idx) {
     let lookbookResult = document.querySelector(".lookbook-result");
     let data = getCollectionProductList(projectIdx, last_idx);
     if (data === undefined) return;
-    data.forEach(el => {
+    data.forEach(( el) => {
         let { c_product_idx, img_location, relevant_flg } = el;
         let list = makeLookbookHtml(c_product_idx, img_location);
         lookbookResult.appendChild(list);
@@ -163,9 +163,9 @@ function appendRelated(data) {
 }
 
 //html make 관련 
-function makeLookbookHtml(c_product_idx, src, title) {
+function makeLookbookHtml(c_product_idx, src) {
     let lookbook = document.createElement("div");
-    let titleText = title !== undefined ? title : "";
+    // let titleText = title !== undefined ? title : "";
     let imgHtml = ` <img idx="${c_product_idx}" src="http://116.124.128.246:81/${src}" alt="">`;
     lookbook.className = "lookbook";
     lookbook.innerHTML = imgHtml;
@@ -195,6 +195,7 @@ function makeDetailSlide(c_product_idx ,src, title) {
                     </div>
     `;
     detailSwiperSlide.className = "swiper-slide";
+    detailSwiperSlide.setAttribute('product', c_product_idx);
     detailSwiperSlide.innerHTML = imgHtml;
     return detailSwiperSlide;
 }
@@ -211,13 +212,15 @@ function makeRelatedSlide(product_idx,src, title,sold_out_flg) {
 }
 function makeTitleBox(project_idx,project_name, project_title) {
     let titleBox = document.createElement("div");
-    let imgHtml = ` 
-        <div class="lookbook-main__title">${project_name}</div>
-        <div class="lookbook-sub__title">
-            ${project_title}
-        </div>
+    let imgHtml = `
+        <div>
+            <div class="lookbook-main__title">${project_name}</div>
+            <div class="lookbook-sub__title">
+                ${project_title}
+            </div>
+        </div> 
     `;
-    titleBox.className = "lookbook-title-box";
+    titleBox.className = "lookbook-title-box hidden";
     titleBox.innerHTML = imgHtml;
     titleBox.dataset.project = project_idx;
     return titleBox;
@@ -290,6 +293,8 @@ function lookbookClickEvent() {
         let productIdx = target.getAttribute('product');
         lookbookWrap.classList.remove("open");
         lookbookDetailWrap.classList.add("open");
+        document.querySelector('.lookbook-title-box').classList.remove('hidden');
+        console.log(idx)
         // lookbookDetailSwiper.slideTo(idx);
     });
 }
@@ -333,6 +338,7 @@ function backBtn() {
         el.addEventListener("click", function () {
             lookbookWrap.classList.add("open");
             lookbookDetailWrap.classList.remove("open");
+            document.querySelector('.lookbook-title-box').classList.add('hidden');
         })
     })
 }
@@ -383,6 +389,30 @@ function projectTitleBoxChange(project_name, project_title) {
     document.querySelector(".back-btn.mobile .lookbook-title").innerHTML = project_name;
     document.querySelectorAll('.lookbook-main__title').forEach(el => el.innerHTML = project_name);
     document.querySelectorAll('.lookbook-sub__title').forEach(el => el.innerHTML = project_title);
+}
+
+function categoryStickyEvent(){
+    let header = document.querySelector('header');
+    let main = document.querySelector('main');
+    let category = document.querySelector('.look-header-wrap');
+    let prevScrollpos = window.pageYOffset;
+
+    window.onscroll = function() {
+        let currentScrollPos = window.pageYOffset;
+
+        if (prevScrollpos > currentScrollPos + 15) {
+            // 스크롤을 15만큼 올릴 때
+            main.style.overflow = 'initial';
+            category.classList.add('hidden');
+        } else if (prevScrollpos < currentScrollPos - 15) {
+            // 스크롤을 15만큼 내릴 때
+            category.style.top = `${header.offsetHeight}px`;
+            main.style.overflow = 'hidden';
+            category.classList.remove('hidden');
+        }
+
+        prevScrollpos = currentScrollPos;
+    };
 }
 //스와이프 인스턴스  관련 
 let lookbookCategorySwiper = new Swiper(".lookCategory-swiper", {
@@ -439,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
     slideClickEvent();
     titleFooterObserver();
     responsive();
-
+    categoryStickyEvent();
 
     if(getUrlParamValue('project_idx') === null){
         $('.lookCategory-swiper .swiper-slide')[0].classList.add('select');

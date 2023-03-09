@@ -36,9 +36,13 @@ lookbook-wrap
         display: flex;
         gap: 8px;
         align-self: flex-end;
-        margin: 20px 0;
+        margin: 10px 0;
+        margin-right: 147px;
+        padding-right: 20px;
         align-items: center;
     }
+    @media (max-width: 1440px) { .lookbook-wrap .image-type-btn { margin-right: 77px; } }
+    @media (max-width: 1280px) { .lookbook-wrap .image-type-btn { margin-right: 0px; } }
     
     .lookbook-wrap .image-type-btn img{
         height: 8px;
@@ -83,11 +87,22 @@ lookbook
 swiper 
 ----------------------------------------------------
 */
-    .lookbook-wrap .look-header-wrap {
-        display: flex;
-        justify-content: space-between;
-        height: 105px;
-    }
+.lookbook-wrap .look-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    height: 105px;
+    transition: all 0.1s;
+}
+.lookbook-wrap .look-header-wrap.hidden {
+    display: flex;
+    justify-content: space-between;
+    height: 105px;
+    position: sticky;
+    width: 100%;
+    z-index: 1;
+    background-color: rgb(255, 255, 255);
+    transition: all 0.1s;
+}
 
     .lookbook-wrap .lookCategory-swiper {
         position: relative;
@@ -213,7 +228,7 @@ lookbook-detail
     .lookbook-detail-wrap.open .lookbook-title-box {
         position: absolute;
         z-index: 20;
-        bottom: 50px;
+        bottom: 15%;
         left: 10%;
     }
 
@@ -304,7 +319,7 @@ lookbook-detail
         transition: all 0.8s;
     }
     #related-wrap.web {
-        bottom: 50px!important;
+        bottom: 10%;
         }
     #related-wrap .wrap-title {
         margin-bottom: 10px;

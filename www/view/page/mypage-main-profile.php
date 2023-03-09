@@ -206,7 +206,6 @@
         display: flex;
         flex-direction: column;
         border-bottom: solid 1px #dcdcdc;
-        margin-bottom: 20px;
     }
 
     .keyword_label {
@@ -291,7 +290,8 @@
     }
 
     .black__full__width__btn.new__delivery {
-        width: 100%
+        width: 100%;
+        margin-top: 20px;
     }
 
     .profile__tab {
@@ -854,6 +854,7 @@
     </div>
 </div>
 <script>
+    
     $(function () {
         $('#postcodify').postcodify({
             insertPostcode5: ".order_to_zipcode",
@@ -1113,6 +1114,7 @@
             return false;
         }
     }
+    let countryData = getLanguage();
     function getOrderToList() {
         $('.order__to__update__wrap').hide();
 
@@ -1120,6 +1122,9 @@
         delivery_table.html('');
         $.ajax({
             type: "post",
+            data: {
+                "country": countryData
+            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/list/get",
             error: function () {
@@ -1212,7 +1217,8 @@
             $.ajax({
                 type: "post",
                 data: {
-                    "order_to_idx": order_to_idx
+                    "order_to_idx": order_to_idx,
+                    "country": countryData
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/get",
@@ -1259,7 +1265,8 @@
             $.ajax({
                 type: "post",
                 data: {
-                    "order_to_idx": order_to_idx
+                    "order_to_idx": order_to_idx,
+                    "country": countryData
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/delete",
@@ -1295,7 +1302,8 @@
                 type: "post",
                 data: {
                     "order_to_idx": order_to_idx,
-                    "default_flg": default_flg
+                    "default_flg": default_flg,
+                    "country": countryData
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/put",
@@ -1374,6 +1382,7 @@
         $.ajax({
             type: "post",
             data: {
+                "country": countryData,
                 "to_place": to_place,
                 "to_name": to_name,
                 "to_mobile": to_mobile,
@@ -1458,6 +1467,7 @@
         $.ajax({
             type: "post",
             data: {
+                "country": countryData,
                 "order_to_idx": order_to_idx,
                 "to_place": to_place,
                 "to_name": to_name,

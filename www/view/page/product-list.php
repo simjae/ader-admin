@@ -62,9 +62,6 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                 </div>
             </div>
             <div class="line"></div>
-        </div>
-
-        <div class="product__list__body">
             <div class="sort-containner">
                 <ul class="sort-wrap">
                     <li class="sort-box" status="false" style="cursor:pointer;">
@@ -153,6 +150,9 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="product__list__body">
         </div>
     </section>
 </main>

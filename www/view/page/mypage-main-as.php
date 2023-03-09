@@ -384,7 +384,7 @@
                 <div style="font-size: 13px;">A/S 서비스 신청</div>
                 <ul class="as__service__btn">
                     <li class="selected" onclick="clickAsServiceTab (this)" service_tab_num="one_one">주문 내역</li>
-                    <li onclick="clickAsServiceTab (this)" service_tab_num="one_two">Blue mark 인증 내역</li>
+                    <li onclick="clickAsServiceTab (this)" service_tab_num="one_two">Bluemark 인증 내역</li>
                     <li onclick="clickAsServiceTab (this)" service_tab_num="one_three">인증 불가 제품</li>
                 </ul>
             </div>
@@ -617,7 +617,7 @@
                 </div>
                 <div class="bluemark_mini_description">·&nbsp;Bluemark 시리얼 코드를 입력하여 인증과 함께 A/S 신청이 가능합니다.</div>
                 <div class="bluemark_input_wrap">
-                    <input type="text" class="bluemark_serialcode" placeholder="Blue mark 시리얼 코드">
+                    <input type="text" class="bluemark_serialcode" placeholder="Bluemark 시리얼 코드">
                     <button class="as__black__btn" style="width: 33%;" onclick="asSearch(this)">코드 확인</button>
                 </div>
                 <div class="bluemark_search_return" style="display: none;">
@@ -789,7 +789,7 @@
                 </div>
             </div>
             <div class="as_buying_wrap one_three">
-                <div>·&nbsp;정품 인증이 어려운 제품은 A/S가 불가할 수 있습니다.</div>
+                <div>·&nbsp;정품 여부 확인이 어려운 제품은 A/S가 불가할 수 있습니다.</div>
                 <div class="as__contents__table">
                     <form id="frm-as">
                         <div class="as__info as__title">
@@ -863,7 +863,7 @@
     </div>
     <div class="as__tab__wrap">
         <div class="tab two">
-            <p class="as_status_title">접수 진행중</p>
+            <p class="as_status_title">A/S 현황</p>
             <div class="as__table__container">
                 <div class="as__contents__table" id="as_table">
                     <div class="pc__view">
@@ -895,7 +895,7 @@
                                         <p>000,000</p>
                                     </td>
                                     <td>
-                                        <p>A/S 요금 00.000</p>
+                                        <p>진행 현황 STEP 0X.XX</p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -936,14 +936,15 @@
                 </div>
             </div>
             <button class="btn_step on" step_num="step_one" style="margin-top: 10px;" onclick="asStepBtn(this)">STEP
-                01.접수</button>
+                01. 신청</button>
             <div class="as_step_contents step_one">
                 <div style="margin-bottom:10px;">
-                    <p>A/S 서비스를 위해 접수가 진행중입니다.</p>
-                    <p>요청일 2022.12.08</p>
-                    <p>요청내용 수선요청</p>
+                    <p>제품 A/S 신청이 완료되었습니다.</P>
+                    <P>신청 내역 검토 이후 다음 단계로 변경됩니다.</p>
+                    <p>요청일: 2022.12.08</p>
+                    <p>요청내용: 수선요청</p>
                     <div class="as_order_status_box" id="as_step_btn_one" onclick="asStatusStep(this)"
-                        style="width: 110px;">A/S 신청 취소하기
+                        style="width: 110px;">A/S 신청 취소
                     </div>
                 </div>
             </div>
@@ -957,72 +958,80 @@
             <button class="btn_step" step_num="step_two" onclick="asStepBtn(this)">STEP 02. 회수</button>
             <div class="as_step_contents step_two" style="display: none;">
                 <div>
-                    <p>A/S 제품 수거를 위해 배송정보를 등록해주세요.</p>
+                    <p>제품의 A/S를 위하여 발송 후 배송 정보를 입력해 주세요.</p>
                     <div class="as_order_status_box" id="as_step_btn_two" onclick="asStatusStep(this)"
-                        style="width: 106px; margin-bottom: 10px;">배송정보
-                        등록하기
+                        style="width: 106px; margin-bottom: 10px;">배송정보 입력
                     </div>
-                    <p>서울시 성동구 연무장길 53 삼영빌딩 3층 ADER 고객지원팀</p>
-                    <p>02-792-2232</p>
+                    <p>발송 주소: 서울시 성동구 연무장길 53 삼영빌딩 3층 ADER A/S</p>
+                    <p>연락처: 02-792-2232</p>
                 </div>
             </div>
             <div class="as_step_contents step_two_return" style="display: none;">
                 <div style="margin-bottom:10px;">
-                    <p>A/S 제품 수거를 위해 회수 진행 중입니다.</p>
-                    <p>CJ대한통운</p>
-                    <p class="underline">52013628816</p>
+                    <p>A/S 신청하신 제품의 입고 대기 중입니다.</p>
+                    <p>입고 및 제품 확인 이후 다음 단계로 변경됩니다.</p>
+                    <P>입력일시: 2023.02.27 7:14 PM</p>
+                    <P>배송사: GS25편의점택배(CJ대한통운)</p>
+                    <P style="cursor: pointer;">
+                        <a href="https://www.cjlogistics.com/ko/tool/parcel/tracking" id="sample_a"
+                            target="_blank">운송장번호: 520136281865</a>
+                    </p>
                 </div>
             </div>
 
-            <button class="btn_step" step_num="step_three" onclick="asStepBtn(this)">STEP 03. 진행</button>
+            <button class="btn_step" step_num="step_three" onclick="asStepBtn(this)">STEP 03. 수선</button>
             <div class="as_step_contents step_three" style="display: none;">
                 <div>
-                    <p>제품 회수 후 A/S 진행 중입니다.</p>
+                    <p>제품이 입고되어 수선 중입니다.</p>
+                    <p>최대 3주 소요될 수 있습니다.</p>
                     <div style="display: flex; justify-content:space-between; margin-top: 20px;">
                         <div class="as_table_align_l" style="margin-right:10px;">
+                            <p>입고확인</p>
                             <p>요청사항</p>
                             <p>수선 방법</p>
-                            <p>예상 완료일자</p>
+                            <p>예상 완료일</p>
                         </div>
                         <div class="as_table_align_l">
-                            <p>오른쪽 암홀 부분 올 풀림</p>
-                            <p>봉제</p>
-                            <p>2022.12.31</p>
+                            <p>2023.02.28 (화)</p>
+                            <p>전면 우측 손목 로고 봉제 파손</p>
+                            <p>봉제 확인 및 수선</p>
+                            <p>2023.03.20 (월)</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button class="btn_step" step_num="step_four" onclick="asStepBtn(this)">STEP 04. 요금</button>
+            <button class="btn_step" step_num="step_four" onclick="asStepBtn(this)">STEP 04. 결제</button>
             <div class="as_step_contents step_four" style="display: none;">
                 <div>
-                    <p>A/S 요금이 결제 완료되면 제품 출고 단계로 전환됩니다.</p>
+                    <p>수선이 완료되었습니다.</p>
+                    <p>결제 이후 영업일 2일 내 제품 배송이 시작됩니다.</p>
+                    <p>요금(배송비 포함) 20,000원</p>
                     <div>
                         <span style="margin-right: 10px;">A/S 요금</span><span>배송비 포함 10,000원</span>
                     </div>
                     <div class="as_order_status_box" onclick="" id="as_step_btn_four"
-                        style="width: 110px; margin: 20px 0 10px 60px;">
-                        요금 결제하기
+                        style="width: 110px; margin: 20px auto 10px;">
+                        결제하기
                     </div>
                 </div>
             </div>
 
-            <button class="btn_step" step_num="step_five" onclick="asStepBtn(this)">STEP 05. 제품 출고</button>
+            <button class="btn_step" step_num="step_five" onclick="asStepBtn(this)">STEP 05. 배송</button>
             <div class="as_step_contents step_five" style="display: none;">
                 <div>
-                    <p>A/S 완료 후 제품 출고 준비 중입니다.</p>
-                    <div style="display: flex; justify-content:space-between; margin-top: 10px;">
-                        <div style="margin-top: 10px;">
-                            <p>요청사항</p>
-                            <p>A/S 요금</p>
-                            <p>결제수단</p>
-                            <p>결제일시</p>
+                    <p>제품 배송이 시작되었습니다.</p>
+                    <p>영업일 기준 1-3일 소요되며, 택배사 현황에 따라 변동될 수 있습니다.</p>
+                    <div style="display: flex; justify-content: center; margin-top: 10px;">
+                        <div class="as_table_align_l" style="margin-right:10px;">
+                            <p>택배사</p>
+                            <p>운송장번호</p>
+                            <p>출고일</p>
                         </div>
-                        <div class="as_table_align_l" style="margin-top: 10px;">
-                            <p>오른쪽 암홀 부분 올 풀림</p>
-                            <p>배송비 포함 10,000원</p>
-                            <p>신용카드</p>
-                            <p>2022.12.30</p>
+                        <div class="as_table_align_l">
+                            <p>CJ대한통운</p>
+                            <p>346578941562</p>
+                            <p>2023.03.03</p>
                         </div>
                     </div>
                 </div>
@@ -1062,8 +1071,8 @@
                 <div class="as_contents_list_wrap">
                     <div class="contents__info">
                         <div class="info">
-                            <span class="info__title">접수일</span>
-                            <span class="info__value">2022.12.14</span>
+                            <span class="info__title">접수 2023.02.01</span>
+                            <span class="info__value">완료 A/S 진행 중</span>
                         </div>
                         <div class="detail__btn" onclick=""><span>자세히보기</span></div>
                     </div>
@@ -1098,7 +1107,7 @@
                                                 <p>A/S 요금 00,000</p>
                                             </td>
                                             <td>
-                                                <p>접수 진행중</p>
+                                                <p>진행 현황 STEO 0X. XX</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -1308,13 +1317,13 @@
                 <div class="title">A/S 유의사항</div>
                 <div class="description">
                     <p>· ADER 제품의 품질보증기간은 제품이 속한 컬렉션의 발매일로부터 1년입니다.​</p>
-                    <p>· A/S는 ADER의 공식 판매처에서 구매한 정품에 한 해 서비스 제공이 가능합니다.</p>
+                    <p>· A/S는 Bluemark 인증이 완료되거나 ADER의 공식 판매 및 유통처에서 구매한 정품에 한 해 서비스 제공이 가능합니다.</p>
                     <p>· 제품 사용 전/후 상황에 따라 발생할 수 있는 요금이 다를 수 있습니다.</p>
                     <p>· 제품에 사용된 원자재의 상황에 따라 A/S 가능 여부가 달라질 수 있습니다.</p>
-                    <p>· 제품의 디자인 및 디테일의 변경을 요청하는 AS는 접수가 불가합니다.</p>
-                    <p>· 제품 상태에 따라 유선상 안내가 어려울 수 있습니다.</p>
+                    <p>· 제품의 디자인 및 디테일의 변경을 요청하는 A/S는 접수가 불가합니다.</p>
+                    <p>· 제품 상태에 따라 실 제품 확인이 필요할 수 있으며 유선상 안내가 어려울 수 있습니다.</p>
                     <p>· 실 제품 입고 이후 제품 상태에 따라 금액 변동이 있을 수 있습니다.</p>
-                    <p>· 정품 인증이 어려운 제품의 경우, AS 비용이 상이할 수 있습니다.</p>
+                    <p>· 정품 여부 확인이 어려운 제품은 A/S가 불가할 수 있습니다.</p>
                 </div>
             </div>
             <div class="as_payment_container">
@@ -1346,7 +1355,7 @@
                                     <p>의류</p>
                                 </td>
                                 <td>
-                                    <p>봉제,부자재 등</p>
+                                    <p>봉제, 부자재 등</p>
                                 </td>
                                 <td>
                                     <p>30,000~</p>
@@ -1374,7 +1383,7 @@
                                     <p>가방</p>
                                 </td>
                                 <td>
-                                    <p>봉제,부자재 등</p>
+                                    <p>봉제, 부자재 등</p>
                                 </td>
                                 <td>
                                     <p>40,000~</p>
@@ -1468,10 +1477,10 @@
         $(`.as_step_contents.${step_num}`).show();
 
         if (`${step_num}` === 'step_one') {
-            $('.as_status_title').text('접수 진행중');
+            $('.as_status_title').text('A/S 현황');
         }
         else if (`${step_num}` === 'step_two') {
-            $('.as_status_title').text('회수 진행중');
+            $('.as_status_title').text('A/S 현황');
         }
         else if (`${step_num}` === 'step_three') {
             $('.as_status_title').text('A/S 진행중');

@@ -207,10 +207,11 @@ editorial-detail-wrap
     margin-bottom: 200px;
 }
 .styling-wrap .left__title{
-    border-bottom: 1px solid #dcdcdc!important;
+    border-bottom: 1px solid #dcdcdc;
 }
 .styling-wrap .swiper-grid{
     border-bottom: 1px solid #dcdcdc;
+    border-top: 1px solid #dcdcdc;
 }
 .show_more_btn{
     display: none;
@@ -369,5 +370,6 @@ top-btn
     }
     .styling-wrap .left__title{
         padding: 10px;
+        border-bottom:0px;
     }
 }

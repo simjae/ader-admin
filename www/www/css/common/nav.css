@@ -94,7 +94,7 @@ header .side-bar.open .bluemark__icon .bluebox {
 	left: 10px;
 	width:50px;
 	height:14px;
-	transition:all 0.7s
+	transition:all 0.3s
 }
 header .side-bar.open .bluemark__icon .text {
 	color:#ffffff;
@@ -212,7 +212,8 @@ list-style-type: none;
 }
 #mobile .top .lrg .lrg__back__btn,
 #mobile .mid .lrg .lrg__back__btn,
-#mobile .mobile__search .search__back__btn {
+#mobile .mobile__search .search__back__btn,
+#mobile .mobile__bluemark .bluemark__back__btn {
     content: url('/images/svg/mobile-arrow.svg');
     position: absolute;
     margin-left: -30px;
@@ -221,7 +222,8 @@ list-style-type: none;
 }
 #mobile .top .lrg .lrg__back__btn.open,
 #mobile .mid .lrg .lrg__back__btn.open,
-#mobile .mobile__search .search__back__btn {
+#mobile .mobile__search .search__back__btn,
+#mobile .mobile__bluemark .bluemark__back__btn.open{
 	display:block;
 }
 #mobile .mid li span, #mobile .bottom li {
@@ -405,6 +407,14 @@ transform: rotate(-45deg);
 .top .lrg .mdl .mdl__title{
     grid-column: 2 / 9;
     font-family: var(--ft-no-fu);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: left;
+    color: #343434;
+}
+.top .lrg .mdl.collaboration .mdl__title{
+    grid-column: 1 / 9;
+    font-family: var(--ft-no-fu);
     font-size: 1.3rem;
     font-weight: 500;
     text-align: left;
@@ -433,7 +443,7 @@ transform: rotate(-45deg);
     gap: 20px;
     align-items: center;
     justify-content: space-between;
-}x`
+}
 .notice__wrap{
     font-family: var(--ft-no), sans-serif;
     display: flex;
@@ -597,6 +607,12 @@ transform: rotate(-45deg);
     text-align: center;
     color: #343434;
 }
+/**/
+.mobile__bluemark {
+    display: none;
+	grid-column: 2 / 8;
+	margin-top:35px;
+}
 .header__wrap{
 	height:50px;
 	overflow:hidden;
@@ -665,7 +681,7 @@ transform: rotate(-45deg);
 
 .header__grid .cont li a{
     font-family: var(--ft-no-fu);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     color: #343434!important;
 }
@@ -683,7 +699,7 @@ transform: rotate(-45deg);
 	background:#0000c5;
 	width:6px;
 	height:6px;
-	transition:all 0.7s;
+	transition:all 0.3s;
 }
 .header__grid  .bluemark__icon .text{
 	position:absolute;
@@ -821,11 +837,13 @@ transform: rotate(-45deg);
 
 
 .header__grid .cont.po__menu{
-    grid-template-columns: 3fr 12fr 1fr;
+    grid-template-columns: 2fr 15fr 2fr;
 }
 .header__grid .cont.po__menu .po__cont{
     display: grid;
 	grid-template-columns: repeat(6, 1fr);
+    max-width: 1225px;
+    margin: 0 auto;
 }
 
 .header__grid .cont.po__menu .po__cont .pobox {
@@ -906,7 +924,7 @@ transform: rotate(-45deg);
 .header__grid .cont.st__menu .st__cont .st__box .newsBox .news-title{
 	margin: 6px 6px 6px 0;
 	font-size: 11px;
-	font-weight: normal;
+	font-weight: 300;
 	font-stretch: normal;
 	font-style: normal;
 	line-height: 1.45;
@@ -916,8 +934,8 @@ transform: rotate(-45deg);
 }
 .header__grid .cont.st__menu .st__cont .st__box .newsBox .news-m-title{
 	margin: 0 6px 6px 0;
-	font-size: 13px;
-	font-weight: 500;
+	font-size: 12px;
+	font-weight: 400;
 	font-stretch: normal;
 	font-style: normal;
 	letter-spacing: 0.33px;
@@ -931,7 +949,7 @@ transform: rotate(-45deg);
     align-content: center;
     flex-direction: column;
     align-items: flex-start;
-	margin-top:28px;
+	margin-top:10px;
 }
 .header__grid .cont.st__menu .st__cont .st__box .archiveBox ul{
     width:100%;
@@ -947,6 +965,7 @@ transform: rotate(-45deg);
 	color: #343434;
 	margin: 27px 0 6px 0;
 }
+.header__grid .cont.st__menu .st__cont .st__box .archiveTitle a{font-weight:400}
 .header__grid .cont.st__menu .st__cont .st__box .archiveList{
 	font-size: 11px;
 	font-weight: normal;
@@ -963,6 +982,7 @@ transform: rotate(-45deg);
 	text-overflow:ellipsis;
 	word-break: break-all;
 }
+.header__grid .cont.st__menu .st__cont .st__box .archiveList a{font-weight:400}
 .header__grid .cont.st__menu .st__cont .st__box .archiveList.link:hover{
 	text-decoration: underline;
 }
@@ -981,6 +1001,9 @@ transform: rotate(-45deg);
 
 .header__grid .cont.st__menu .st__cont .st__box .archiveList.allBtn{
 	margin-top:13px;
+}
+.header__grid .cont.st__menu .st__cont .st__box .newsBox:hover{
+    text-decoration: underline;
 }
 /*
 .header__grid li[data-lrg="4"] .menu-ul.lrg{
@@ -1288,6 +1311,28 @@ header .menu-ul:hover::after{
         font-size: 1.2rem;
         color: #343434;
     }
+    .top .mdl .swiper-li .m__swiper__box .swiper-pagination-bullet-active{
+        opacity: var(--swiper-pagination-bullet-opacity, 1);
+    }
+    .top .mdl .swiper-li .m__swiper__box .swiper-pagination-bullet-active-prev, 
+    .top .mdl .swiper-li .m__swiper__box .swiper-pagination-bullet-active-next{
+        transform: scale(1);
+    }
+    .top .mdl .swiper-li .m__swiper__box .swiper-pagination-bullet-active-prev-prev, 
+    .top .mdl .swiper-li .m__swiper__box .swiper-pagination-bullet-active-next-next{
+        opacity: 0;
+    }
+    .top .mdl .swiper-li .m__swiper__box .swiper-pagination{
+        bottom: 15px;
+    }
+    .top .mdl .swiper-li .m__swiper__box .swiper-pagination-bullet {
+        margin: 0 3px 0 3px!important;
+        width: 11px;
+        height: 1px;
+        display: inline-block;
+        background: #343434;
+        opacity : 0.25;
+    }
     .header__grid .web {
         display: none!important;
     }
@@ -1296,8 +1341,18 @@ header .menu-ul:hover::after{
 		gap:0px;
 		padding: 26px 0 30px 0;
 	}
+    .top .lrg .mdl.collaboration{
+		gap:0px;
+		padding: 26px 0 0 0;
+	}
 	.top .lrg .mdl a{
 		margin-bottom: 28px;
+	}
+    .top .lrg .mdl.collaboration a{
+		margin-bottom: 14px;
+	}
+    .top .lrg .mdl.collaboration .view__total{
+		margin-bottom: 0px;
 	}
 
     /* 검색 */
@@ -1376,12 +1431,12 @@ header .menu-ul:hover::after{
         margin-bottom: 60px;
     }
     .mdlSearchBox .popular-box, .mdlSearchBox .search-result-box {
-        width: 25.5%;
+        width: 30%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 6px;
         margin-bottom: 10px;
     }
     .mdlSearchBox .popular-box img, .mdlSearchBox .search-result-box img{
@@ -1395,6 +1450,7 @@ header .menu-ul:hover::after{
         align-items: center;
         justify-content: center;
     }
+    .mdlSearchBox .search-all-btn span{text-decoration: underline;}
     /* 검색 */
     header .wishlist__btn.open .wishlist-svg{
         margin-top: 20px!important;

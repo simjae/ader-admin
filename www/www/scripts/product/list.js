@@ -30,68 +30,79 @@ const getProductList = () => {
             alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
         },
         success: function (d) {
-			if (d.code == 200) {
-				let pageIdx = "?page_idx=" + page_idx;
+            if (d.code == 200) {
+                let pageIdx = "?page_idx=" + page_idx;
 
-				let data = d.data;
+                let data = d.data;
 
-				let productListHtml = "";
-				let imgDiv = "";
-				const domFrag = document.createDocumentFragment();
+                let productListHtml = "";
+                let imgDiv = "";
+                const domFrag = document.createDocumentFragment();
 
-				const menuList = document.querySelector(".prd__meun__grid");
+                const menuList = document.querySelector(".prd__meun__grid");
 
-				const prdListBox = document.createElement("div");
-				const prdListBody = document.querySelector(".product__list__body");
-				prdListBox.classList.add("product-wrap");
-				prdListBox.dataset.grid = "4";
-				prdListBox.dataset.webpre = "4";
-				prdListBox.dataset.mobilepre = "3";
+                const prdListBox = document.createElement("div");
+                const prdListBody = document.querySelector(".product__list__body");
+                prdListBox.classList.add("product-wrap");
+                prdListBox.dataset.grid = "4";
+                prdListBox.dataset.webpre = "4";
+                prdListBox.dataset.mobilepre = "3";
 
-				let menu_info = data.menu_info;
-				let menuHtml = `
-					<div class="prd__meun__swiper">
-						<div class="swiper-wrapper">`
-				menu_info.upper_filter.forEach(el => {
-					menuHtml += `
-							<div class="swiper-slide" data-url="${el.menu_link}" onClick="location.href='${el.menu_link}'">
-								<div class="prd__meun__box">
-									<div class="prd__img__wrap">
-										<img class="prd__img" src="${img_root}${el.img_location}" alt="">
-									</div>
-									<p class="prd__title">${el.filter_title}</p>
-								</div>
-							</div>`;
-				});
+                let menu_info = data.menu_info;
+                if (menu_info != null) {
+                    let menuHtml = `
+						<div class="prd__meun__swiper">
+							<div class="swiper-wrapper">`;
 
-				menuHtml += `
-						<div>
-							<div class="swiper-scrollbar"></div>
-							<div class="navigation">
-								<div class=".product-img .swiper-button-prev"></div>
-								<div class=".product-img .swiper-button-next"></div>
-							</div>   
-						</div>`;
-				menuList.innerHTML = menuHtml;
+					let upper_filter = menu_info.upper_filter;
+					if (upper_filter != null) {
+						upper_filter.forEach(el => {
+							menuHtml += `
+                                <div class="swiper-slide" data-url="${el.menu_link}" onClick="location.href='${el.menu_link}'">
+                                    <div class="prd__meun__box">
+                                        <div class="prd__img__wrap">
+                                            <img class="prd__img" src="${img_root}${el.img_location}" alt="">
+                                        </div>
+                                        <p class="prd__title">${el.filter_title}</p>
+                                    </div>
+                                </div>
+							`;
+						});
+						
+						menuHtml += `
+                        </div>   
+                        <div class="swiper-scrollbar"></div>
+                        <div class="navigation">
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>   
+						`;
+						
+						menuList.innerHTML = menuHtml;
+					}
+					
+					let lower_filter = menu_info.lower_filter;
+					if (lower_filter != null) {
+						makeLowerFilterHtml(menu_info.lower_filter)
+					}
+                }
 
-				makeLowerFilterHtml(menu_info.lower_filter)
+                let grid_info = data.grid_info;
+                let productwriteData = productWriteHtml(grid_info);
+                prdListBox.innerHTML = productwriteData;
+                domFrag.appendChild(prdListBox);
+                prdListBody.appendChild(domFrag);
 
-				let grid_info = data.grid_info;
-				let productwriteData = productWriteHtml(grid_info);
-				prdListBox.innerHTML = productwriteData;
-				domFrag.appendChild(prdListBox);
-				prdListBody.appendChild(domFrag);
+                productListSelectGrid();
+                productCategorySwiper();
+                productSml();
+                swiperStateCheck();
+                upperFilterSelectEvent();
 
-				productListSelectGrid();
-				productCategorySwiper();
-				productSml();
-				swiperStateCheck();
-				upperFilterSelectEvent();
-
-			} else {
-				alert(d.msg);
-				location.href="/main";
-			}
+            } else {
+                alert(d.msg);
+                location.href = "/main";
+            }
         }
     });
 }
@@ -103,7 +114,7 @@ function productWriteHtml(grid_info) {
         if (el.grid_type == "PRD") {
             let whish_img = "";
             let whish_function = "";
-
+            
             let whish_flg = `${el.whish_flg}`;
             let login_status = getLoginStatus();
 
@@ -134,8 +145,44 @@ function productWriteHtml(grid_info) {
                 slide_product = "display:none;";
                 slide_outfit = "display:block";
             }
+
+            let product_p_slide = () => {
+                let imgDiv;
+                let pimg = el.product_img.product_p_img;
+                
+                pimg.forEach((img) => {
+                    imgDiv += `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
+                                <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                            </div>`
+                });
+                return imgDiv;
+            }
+
+            let product_o_slide = () => {
+                let imgDiv;
+                let oimg =  el.product_img.product_o_img;
+                
+                if(oimg.length > 0){
+                    oimg.forEach((img) => {
+                        imgDiv +=`<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
+                                    <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                </div>`
+                        })
+                } else {
+                    let pimg = el.product_img.product_p_img;
+                    pimg.forEach((img) => {
+                        imgDiv += `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
+                                    <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                </div>`
+                        })
+                }
+                return imgDiv;
+                
+            }
+            // console.log(product_p_slide());
+            // console.log(product_o_slide());
             productListHtml +=
-            `<div class="product prd">
+                `<div class="product prd">
                 <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
                     ${whish_img}
                 </div>
@@ -144,20 +191,22 @@ function productWriteHtml(grid_info) {
                         <div class="swiper-wrapper">
                         
                         ${el.product_img.product_p_img.map((img) => {
-                imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
-                                    <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
-                                </div>`
-                return imgDiv;
-            }).join("")
-            }
+                            imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
+                                        <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                    </div>`
+                            return imgDiv;
+                            }).join("")
+                        }
                         ${el.product_img.product_o_img.map((img) => {
-                imgDiv = `<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
-                                    <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
-                                </div>`
-                return imgDiv;
-            }).join("")
-            }
+                            imgDiv =`<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
+                                        <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                    </div>`
+                            return imgDiv;
+                            }).join("")
+                        }       
                         </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
                 </a>
                 <div class="product-info">
@@ -169,36 +218,39 @@ function productWriteHtml(grid_info) {
                     <div class="info-row">
                         <div class="color__box" data-maxcount="${colorCnt < 6 ? "" : "over"}" data-colorcount="${colorCnt < 6 ? colorCnt : colorCnt - 5}">
                             ${el.product_color.map((color, idx) => {
-                let maxCnt = 5;
-                if (idx < maxCnt) {
-                    return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-                }
-            }).join("")
-            }
+                            let maxCnt = 5;
+                            let colorData = color.color_rgb;
+                            let multi = colorData.split(";");
+                            if (idx < maxCnt) {
+                                return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="${multi.length === 2?`background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%)`:`background-color:${multi[0]}`}"></div>`;
+                            }
+                            }).join("")
+                            }
                         </div>
-                        <div class="size__box">
-                            ${el.product_size.map((size) => {
-                return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-            }).join("")
-            }   
+                                
+                                <div class="size__box">
+                                    ${el.product_size.map((size) => {
+                            return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+                        }).join("")
+                        }   
                         </div>
                     </div>
                 </div>
             </div>
         `;
-        } else if(el.grid_type == "IMG"){
+        } else if (el.grid_type == "IMG") {
             let g2 = el.clip_info[0];
             let g4 = el.clip_info[1];
             productListHtml += `<div class="product product-inside-banner" data-g2x="${g2.location_start}" data-g2y="${g2.location_end}" data-g4x="${g4.location_start}" data-g4y="${g4.location_end}" style="width: 50%; background-image:url('http://116.124.128.246:81${el.banner_location}')"></div>`;
-        } else if(el.grid_type == 'VID'){
-            productListHtml += 
-            `<div class="product product-inside-banner" style="width: 50%;">
+        } else if (el.grid_type == 'VID') {
+            productListHtml +=
+                `<div class="product product-inside-banner" style="width: 50%;">
                 <video autoplay muted loop>
                     <source src="http://116.124.128.246:81${el.banner_location}" type="video/mp4">
                 </video>
             </div>`;
         }
-        
+
     });
 
     return productListHtml;
@@ -219,6 +271,9 @@ const productCategorySwiper = () => {
             el: '.prd__meun__swiper .swiper-scrollbar',
             draggable: true,
             dragSize: 45
+        },
+        mousewheel: {
+            scrollAmount: 0.1, // 스크롤 속도를 높여줌
         },
         grabCursor: true,
         breakpoints: {
@@ -269,6 +324,18 @@ const productSml = () => {
     });
 }
 
+function makeUpperFilterHtml(data) {
+    let swiperWrapper = document.createElement("div");
+    swiperWrapper.className = "swiper-wrapper"
+    data.forEach(el => {
+        let slide = document.createElement("div");
+        slide.className = "swiper-slide";
+        slide.innerHTML = `<a href="http://116.124.128.246:80${el.menu_link}"><div class="title"><span>${el.filter_title}</span></div></a>`
+        swiperWrapper.appendChild(slide);
+    })
+    document.querySelector(".prd__meun__category").appendChild(swiperWrapper);
+}
+
 function makeLowerFilterHtml(data) {
     let swiperWrapper = document.createElement("div");
     swiperWrapper.className = "swiper-wrapper"
@@ -279,20 +346,31 @@ function makeLowerFilterHtml(data) {
         swiperWrapper.appendChild(slide);
     })
     document.querySelector(".prd__meun__category").appendChild(swiperWrapper);
-
 }
 
 //상품 스와이프
 function swiperStateCheck() {
     let rp = window.matchMedia('screen and (min-width:1025px)').matches;
     let { grid, webpre, mobilepre } = document.querySelector(".product-wrap").dataset;
-
-    if (rp == true && webpre === "2") {
-        imgSwiper(true);
-        return
-    } else if (rp == false && mobilepre === "1") {
-        imgSwiper(true);
-        return
+    if (rp == true) {
+        if (webpre === "2") {
+            imgSwiper(true);
+            return;
+        } else if (webpre === "4" && productListSwipe !== undefined) {
+            productListSwipe.forEach(el => el.disable());
+            return;
+        }
+    } else if (rp == false) {
+        if (mobilepre === "1") {
+            imgSwiper(true);
+            return;
+        } else if (mobilepre === "2" && productListSwipe !== undefined) {
+            productListSwipe.forEach(el => el.disable());
+            return;
+        } else if (mobilepre === "3" && productListSwipe !== undefined) {
+            productListSwipe.forEach(el => el.disable());
+            return;
+        }
     } else {
         imgSwiper(false);
     }
@@ -310,8 +388,8 @@ const imgSwiper = (move) => {
         observeParents: true,
         allowTouchMove: move,
         navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            nextEl: ".product-img .swiper-button-next",
+            prevEl: ".product-img .swiper-button-prev",
         },
     });
 }
@@ -445,7 +523,7 @@ const productListSelectGrid = () => {
                 $mobileSortSpan.innerText = '2칸';
                 $mobileSortImg.src = `/images/svg/grid-cols-2.svg`;
             }
-            $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)"
+            $prdListBox.style.gridTemplateColumns = "repeat(9, 1fr)";
             $prdListBox.dataset.grid = mobileBeforeGrid;
         }
     }
@@ -532,14 +610,14 @@ function clickImgTypeBtn() {
     $('#img_type_text').text(img_type_text);
 }
 
-$("#filter-btn-toggle").click(function(){
+$("#filter-btn-toggle").click(function () {
     $(this).toggleClass("on off");
 });
 
 function clickFilterMotion() {
     if ($(this).attr("src", "/images/svg/filter2.svg") == false) {
         $(this).attr("src", "/images/svg/filter2.svg")
-    } else {$(this).attr("src", "/images/svg/filter.svg") }
+    } else { $(this).attr("src", "/images/svg/filter.svg") }
 }
 //상품 더 불러오기
 function getProductListByScroll(last_idx, more_flg) {
@@ -818,14 +896,16 @@ function filterBtn(data) {
         filterContent.forEach(el => {
             el.addEventListener("click", function () {
                 if (this.children[1].classList.contains("open")) {
+                    this.children[0].children[1].classList.remove("open");
                     this.children[0].children[1].innerHTML = "[ + ]";
                     this.children[1].classList.remove("open");
                 } else {
                     toggleTarget.forEach(el => {
                         el.classList.remove("open");
                         el.parentNode.querySelector(".mobile-filter-btn").innerHTML = "[ + ]";
+                        el.parentNode.querySelector(".mobile-filter-btn").classList.remove('open');
                     });
-
+                    this.children[0].children[1].classList.add("open");
                     this.children[0].children[1].innerHTML = "[ - ]"
                     this.children[1].classList.add("open")
                 }
@@ -921,7 +1001,7 @@ function upperFilterSelectEvent() {
         }
     })
 }
-    
+
 function getCurrentUrl() {
     let url = new URL(location.href);
     return url;
@@ -934,22 +1014,51 @@ function bannerHeightBySiblingElements() {
     const elements = document.querySelectorAll(".product");
     const targets = document.querySelectorAll(".product-inside-banner");
     const heights = [];
-    for(idx = 0; elements.length; idx++){
-        if(elements[idx].classList.contains('prd')){
+    for (idx = 0; elements.length; idx++) {
+        if (elements[idx].classList.contains('prd')) {
             heights.push(elements[idx].offsetHeight);
             break;
-        }    
+        }
     }
     const maxHeight = Math.max(...heights);
     targets.forEach((t) => {
         t.style.height = `${maxHeight}px`;
     });
 }
+function listCategoryStickyEvent() {
+    let header = document.querySelector('header');
+    let main = document.querySelector('main');
+    let category = document.querySelector('.product__list__wrap .prd__meun');
+    let sort = document.querySelector('.product__list__wrap .sort-containner');
+    let filter = document.querySelector('.product__list__wrap .filter-containner');
+    let prevScrollpos = window.pageYOffset;
+    window.onscroll = function () {
+        let currentScrollPos = window.pageYOffset;
 
+        if (prevScrollpos > currentScrollPos + 15) {
+            // 스크롤을 15만큼 올릴 때
+            main.style.overflow = 'initial';
+            category.classList.add('hidden');
+
+        } else if (prevScrollpos < currentScrollPos - 15) {
+            // 스크롤을 15만큼 내릴 때
+            filter.style.top = `${category.offsetHeight - 2}px`;
+            sort.style.top = `${category.offsetHeight - 2}px`;
+            category.style.top = `${header.offsetHeight}px`;
+            main.style.overflow = 'hidden';
+
+            category.classList.remove('hidden');
+        }
+
+        prevScrollpos = currentScrollPos;
+
+    };
+}
 window.addEventListener('DOMContentLoaded', function () {
     getProductList();
     getFilterInfo();
     toggleSortBtn();
+    listCategoryStickyEvent();
     $("#quickview").removeClass("hidden");
 });
 
@@ -986,4 +1095,19 @@ window.addEventListener("scroll", function () {
 });
 window.addEventListener('resize', function () {
     bannerHeightBySiblingElements();
+    let sort = document.querySelector('.product__list__wrap .sort-containner');
+    let filter = document.querySelector('.product__list__wrap .filter-containner');
+    let breakpoint = window.matchMedia('screen and (min-width:1025px)');
+    if (breakpoint.matches === true) {
+        let category = document.querySelector('.product__list__wrap .prd__meun');
+        console.log(category.offsetHeight)
+        filter.style.top = `${category.offsetHeight - 2}px`;
+        sort.style.top = `${category.offsetHeight - 2}px`;
+    } else {
+        let category = document.querySelector('.product__list__wrap .prd__meun');
+        console.log(category.offsetHeight)
+        filter.style.top = `${category.offsetHeight - 2}px`;
+        sort.style.top = `${category.offsetHeight - 2}px`;
+    }
+
 });

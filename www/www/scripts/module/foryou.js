@@ -6,7 +6,7 @@ export default function ForyouRender() {
         wrap.classList.add("foryou-wrap");
         const dom = 
             `
-                <div class="left__title"><span>For you   ></span></div>
+                <div class="left__title"><span>For you&nbsp;&nbsp;&nbsp;></span></div>
                 <div class="swiper-grid">
                     <div class="foryou-swiper swiper">
                         <div class="swiper-wrapper">

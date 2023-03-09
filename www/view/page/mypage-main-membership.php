@@ -1,7 +1,6 @@
 <style>
     .membership__wrap {
-        margin-top: 80px;
-        width: 100%;
+        margin: 80px 0 100px;
     }
 
     .member__level__container {
@@ -151,7 +150,8 @@
         }
 
         .membership__wrap {
-            margin-top: 40px;
+            margin: 40px 0 60px;
+            min-width: 340px;
         }
 
         .level__box {
@@ -188,19 +188,7 @@
         }
     }
 
-    @media (min-width: 600px) {
-        .membership__wrap {
-            width: 580px;
-            margin: 0 auto;
-            margin-top: 40px;
-        }
-    }
-
     @media (min-width: 1024px) {
-        .membership__wrap {
-            margin-top: 80px;
-            width: 100%;
-        }
 
         .level__info__container {
             padding-top: 30px;

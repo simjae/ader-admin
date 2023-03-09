@@ -6,7 +6,7 @@
     .voucher__wrap {
         display: grid;
         grid-template-columns: repeat(16, 1fr);
-        margin-top: 40px;
+        margin: 40px 0 100px;
         width: 100%;
         color: #343434;
     }
@@ -114,7 +114,7 @@
         }
 
         .voucher__wrap {
-            margin-top: 20px;
+            margin: 20px 0 60px;
         }
 
         .info__title__container {
