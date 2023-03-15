@@ -124,10 +124,9 @@ function login() {
 		success:function(d){
 			if(d.code == "200") {
 				sessionStorage.login_session = "true";
-				if(d.data != null){
+				if(d.data != null) {
 					location.href=d.data;
-				}
-				else{
+				} else {
 					location.href='/main';
 				}
 			} else {

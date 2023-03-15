@@ -6,15 +6,15 @@
 // import {User} from '/scripts/module/user.js';
 	var headerSwiperArr = new Array();
 	
-	window.addEventListener('DOMContentLoaded', function() {
-		getMenuListApi();
-//		windowResponsive();
-	});
-/*
-	window.addEventListener('resize', () => {
-		windowResponsive()
-	});
-*/
+	let clickPosition = 0; 
+	let prevPosition = 0; 
+	let lrgInterval = 0; 
+	
+	var midClassPosition = 0;
+	var topClassPosition = 0;
+	var ulInterval = 0;
+
+	
 
 	const getMenuListApi = () => {
 		let country = getLanguage();
@@ -161,7 +161,7 @@
 		let ln = localStorage.getItem('lang') || getLanguage();
 		menuHtml += `
 						<li class="drop web search_shop" >
-							<a class="menu-ul lrg" href="/search/shop">매장찾기</a>
+							<a class="menu-ul lrg" href="/search/shop" data-i18n="m_stockist">매장찾기</a>
 						</li>
 						<li class="web bluemark__btn side-bar" data-type="M">
 							<div class="bluemark__icon lrg">
@@ -320,7 +320,7 @@
 								<li>
 									<ul class="st__cont">
 										<li>
-											<a href="#" class="menu-ul">새로운 소식</a>
+											<a href="#" class="menu-ul" data-i18n="lm_latest_news">새로운 소식</a>
 											<ul class="list__grid">
 		`;
 		
@@ -340,7 +340,7 @@
 											</ul>
 										</li>
 										<li>
-											<a href="/story/main" class="menu-ul">아카이브</a>
+											<a href="/story/main" class="menu-ul" data-i18n="lm_archive">아카이브</a>
 											<ul class="list__grid">
 												<li class="st__box">
 													<div class="mid-a archiveTitle"><a href="/posting/collection" class="menu-ul">컬렉션</a></div>
@@ -358,7 +358,7 @@
 														</ul>
 														<ul>
 															<li class="archiveList dot"></li>
-															<li class="archiveList allBtn"><a href="/posting/collection" class="menu-ul">+  전체보기</a></li>
+															<li class="archiveList allBtn"><a href="/posting/collection" class="menu-ul" data-i18n="lm_view_all">+  전체보기</a></li>
 														</ul>
 													</div>
 												</li>
@@ -378,12 +378,12 @@
 														</ul>
 														<ul>
 															<li class="archiveList dot"></li>
-															<li class="archiveList allBtn"><a href="/posting/runway" class="menu-ul">+  전체보기</a></li>
+															<li class="archiveList allBtn"><a href="/posting/runway" class="menu-ul" data-i18n="lm_view_all">+  전체보기</a></li>
 														</ul>
 													</div>
 												</li>
 												<li class="st__box"  data-mdl="">
-													<div class="mid-a archiveTitle"><a href="/posting/editorial" class="menu-ul">에디토리얼</a></div>
+													<div class="mid-a archiveTitle"><a href="/posting/editorial" class="menu-ul" data-i18n="lm_editorial">에디토리얼</a></div>
 													<div class="archiveBox">
 														<ul>
 		`;
@@ -399,7 +399,7 @@
 															</ul>
 															<ul>
 																<li class="archiveList dot"></li>
-																<li class="archiveList allBtn"><a href="/posting/editorial" class="menu-ul">+  전체보기</a></li>
+																<li class="archiveList allBtn"><a href="/posting/editorial" class="menu-ul" data-i18n="lm_view_all">+  전체보기</a></li>
 															</ul>
 														</div>
 													</li>
@@ -441,7 +441,7 @@
 						<div class="lrg__title">${el.menu_title}</div>
 						<div class="mdlBox">
 							<ul class="mdl">
-								<a class="mdl__title" href="${el.menu_link}">전체보기</a>
+								<a class="mdl__title" data-i18n="lm_view_all" href="${el.menu_link}">전체보기</a>
 								${
 								mdl.map((el,idx) => {
 										return `<a class="mdl__title"  href="${el.menu_link}">${el.menu_title}</a>`
@@ -449,20 +449,20 @@
 								}
 								<li class="swiper-li">
 									<div class="swiper m__swiper__box" data-id="${idx}" id="mobileMenuSwiper${idx}">
-										<div class="swiper-wrapper">
-											${
-												el.menu_slide.map((el, idx) => {
-													return`<div class="swiper-slide" data-title="${el.slide_name}">
-															<div>
-																<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
-															</div>
-														</div>`
-												}).join("")
-											}
-										</div>
-										<div class="swiper__title"></div>
+											<div class="swiper-wrapper">
+												${
+													el.menu_slide.map((el, idx) => {
+														return`<div class="swiper-slide" data-title="${el.slide_name}">
+																<div>
+																	<img src="${img_root}${el.slide_img}" alt="" style="max-height:110px;max-width:110px;">
+																</div>
+															</div>`
+													}).join("")
+												}
+											</div>
 										<div class="swiper-pagination swiper-pagination-${idx}"></div>
-									</div>  
+										</div>  
+									<div class="swiper__title"></div>
 								</li>
 							</ul>
 						</div>
@@ -488,7 +488,7 @@
 									<div style="width:50px">
 										<img src="/images/svg/plus-bk.svg" style="width:12px;margin:4px auto;" alt="">
 									</div>
-									<div class="po__title__all">콜라보레이션 전체보기</div>
+									<div class="po__title__all" data-i18n="lm_view_collaborations">콜라보레이션 전체보기</div>
 								</a>
 							</ul>
 						</div>
@@ -512,19 +512,61 @@
 					<li class="mobile-customer-wrap">
 						<div class="mobile__customer__btn lrg__title non_underline"><img src="/images/svg/customer-bk.svg" style="width:14px" alt=""><span>고객서비스</span></div>
 					</li>
-					<li class="flex bluemark" onclick="location.href='/mypage?mypage_type=bluemark_verify'">
-						<div class="bluemark-icon"></div><span>Bluemark</span>
+					<li class="flex bluemark">
+						<div class="mobile__bluemark__btn"><div class="bluemark-icon"></div><span>Bluemark</span></div>
 					</li>
-					<li class="flex language"><div style="width:14px;text-align:center;">KR</div><span>Language</span></li>
+					<li class="flex language">
+						<div class="mobile__language__btn"><div>KR</div><span>Language</span></div>
+					</li>
 					<li class="flex logout"><span>로그아웃[임시]</span></li>
 				</ul>
 				<div class="mobile__search">
 					<div class="search__back__btn"></div>
 					<div class="search__cont"></div>
 				</div>
+				<div class="mobile__bluemark">
+					<div class="bluemark__back__btn"></div>
+					<div class="mobile__bluemrk__wrap">
+						<div class="mobile__bluemark__title">
+							<div class="bluemark-icon"></div><span>Bluemark</span>
+						</div>
+						<div class="mobile__bluemark__description">
+							<p>BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.</p>
+							<p>ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여 적극적으로 대응중입니다.</p>
+						</div>
+						<div class="mobile__bluemark__btn__wrap">
+							<div class="bluemark__btn__certify" data-i18n="lm_verify_blue_mark" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=bluemark_verify'">블루마크 인증하기</div>
+							<div class="bluemark__btn__list" data-i18n="lm_verification_history" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=bluemark_list'">블루마크 인증 내역</div>
+						</div>
+					</div>
+				</div>
+				<div class="mobile__language">
+					<div class="language__back__btn"></div>
+					<div class="mobile__language__wrap">
+						<div class="mobile__language__title" data-i18n="lm_choose_language">언어 선택</div>
+						<div class="mobile__language__description">
+							<p data-i18n="lm_menu_msg_01">아래 옵션에서 선택해 주세요.</p>
+							<p>선택한 언어에 해당되는 홈이지로 리디렉션됩니다.</p>
+						</div>
+						<div class="mobile__language__btn__wrap">
+							<div class="language__btn__kr" data-ln='KR'>한국어</div>
+							<div class="language__btn__en" data-ln='EN'>English</div>
+							<div class="language__btn__cn" data-ln='CN'>中文</div>
+						</div>
+					</div>
+				</div>
 		`;
 		mobileMenu.innerHTML = menuHtml;
 		document.querySelector(".side__menu").appendChild(domfrag);
+
+		midClassPosition = $('.mid').eq(0).position().top;
+		topClassPosition = $('.top').eq(0).position().top;
+		ulInterval = midClassPosition - topClassPosition;
+
+		clickPosition= $('.top .lrg').eq(1).position().top;
+		prevPosition = $('.top .lrg').eq(0).position().top;
+		lrgInterval = clickPosition - prevPosition;
+		
 		menuLrgClick();
 		logoutClick();
 	}
@@ -545,7 +587,7 @@
 						<div class="mdlBox">
 							<ul class="mdl">
 								<li>
-									<div class="sub__title">새로운 소식</div>
+									<div class="sub__title" data-i18n="lm_latest_news">새로운 소식</div>
 									<ul class="list__grid">
 		`;
 		
@@ -569,7 +611,7 @@
 								<li class="div__line">
 								</li>
 								<li>
-									<div class="sub__title"><a href="http://116.124.128.246/story/main">아카이브</a></div>
+									<div class="sub__title" data-i18n="lm_archive"><a href="http://116.124.128.246/story/main">아카이브</a></div>
 									<ul class="list__grid">
 										<li class="st__box">
 											<div class="mid-a archiveTitle" onclick="location.href='/posting/collection'">컬렉션</div>
@@ -608,7 +650,7 @@
 										<li class="div__line">
 										</li>
 										<li class="st__box">
-											<div class="mid-a archiveTitle" onclick="location.href='/posting/editorial'">에디토리얼</div>
+											<div class="mid-a archiveTitle" data-i18n="lm_editorial" onclick="location.href='/posting/editorial'">에디토리얼</div>
 											<div class="archiveBox">
 												<ul>
 		`;
@@ -634,24 +676,16 @@
 		
 		return storyHtml;
 	}
-	function mobileBluemarkHtml(){
-		let html  = 
-		`
-		<div class="mdlBox" style="display: block;">
-			<ul class="mdl">
-				<li></li>
-			</ul>
-		</div>
-		`
-	}
+	
 	function mobileMdlSwipe(obj) {
 		const $$swiperBox = document.querySelectorAll(".m__swiper__box");
 		$$swiperBox.forEach((el, idx)=> {
 			let mobileMenuSwiper = new Swiper(`#mobileMenuSwiper${idx}`,{
 				observer:true,
 				observeParents:true,
+				slidesPerView: 1,
 				pagination: {
-					el: ".swiper-pagination-"+idx,
+					el: ".swiper-li .swiper-pagination-"+idx,
 					dynamicBullets: true
 				},
 				autoplay: {
@@ -660,7 +694,7 @@
 				}
 			});
 			var swiper__box = $(obj).next().find(".m__swiper__box");
-			var swiper_title_obj = $(swiper__box).find(".swiper__title");
+			var swiper_title_obj = $(swiper__box).parent().find(".swiper__title");
 			var titleArr = new Array();
 			$(swiper__box).find(".swiper-slide").each(function(idx,el){
 				titleArr.push($(el).attr("data-title"));
@@ -710,9 +744,6 @@
 				mobileMdlSwipe(this);
 				
 				if(lrg_type == "ST"){
-					let midClassPosition = $('.mid').eq(0).position().top;
-					let topClassPosition = $('.top').eq(0).position().top;
-					let ulInterval = midClassPosition - topClassPosition;
 					console.log(ulInterval);
 					$("#mobile .side__menu").animate({scrollTop : ulInterval}, 400);
 				}
@@ -723,10 +754,6 @@
 						$("#mobile .side__menu").animate({scrollTop : 0}, 400);
 					}
 					else{
-						let clickPosition = $('.top .lrg').eq(clickIdx).position().top
-						let prevPosition = $('.top .lrg').eq(clickIdx -1).position().top;
-						let lrgInterval = clickPosition - prevPosition;
-						console.log(lrgInterval);
 						$("#mobile .side__menu").animate({scrollTop : lrgInterval * (clickIdx - 1)}, 400);
 					}
 				}
@@ -756,7 +783,33 @@
 			$(this).closest(".side__menu").removeClass("lrg__on");
 			$(".mobile__search .search__back__btn").removeClass("open");
 		});
+
+		$(".mobile__bluemark__btn").click(function() {
+			$(".top, .mid, .bottom").slideUp(500);
+			$(".mobile__bluemark").slideDown(500);
+			$(this).closest(".side__menu").addClass("lrg__on");
+			$(".mobile__bluemark .bluemark__back__btn").addClass("open");
+		})
+		$(".mobile__bluemark .bluemark__back__btn").click(function(){
+			$(".mobile__bluemark").slideUp(500);
+			$(".top, .mid, .bottom").slideDown(500);
+			$(this).closest(".side__menu").removeClass("lrg__on");
+			$(".mobile__bluemark .bluemark__back__btn").removeClass("open");
+		});
 		
+		$(".mobile__language__btn").click(function() {
+			$(".top, .mid, .bottom").slideUp(500);
+			$(".mobile__language").slideDown(500);
+			$(this).closest(".side__menu").addClass("lrg__on");
+			$(".mobile__language .language__back__btn").addClass("open");
+			changeLangEvent('.mobile__language__btn__wrap');
+		})
+		$(".mobile__language .language__back__btn").click(function(){
+			$(".mobile__language").slideUp(500);
+			$(".top, .mid, .bottom").slideDown(500);
+			$(this).closest(".side__menu").removeClass("lrg__on");
+			$(".mobile__language .language__back__btn").removeClass("open");
+		});
 	}
 	const logoutClick = () => {
 		$('.flex.logout').on('click', function(){
@@ -782,6 +835,7 @@
 			mobile.classList.add('search');
 		});
 	}
+	
 	const mobileMenu = () => {
 		const $body = document.querySelector("body");
 		const mobileMenuBtn = document.querySelector('.mobileMenu');
@@ -807,7 +861,34 @@
 			mobileSearch.addSearchEvent();
 		});
 	};
-
+	function changeLangEvent(btnParrentClass){
+		const languageBtnWrap = document.querySelector(btnParrentClass);
+		const languageBtns = Array.from(languageBtnWrap.querySelectorAll('div'));
+		
+		let currentLang = localStorage.getItem('lang') || 'KR';
+		setSelectedLanguage(languageBtns, currentLang);
+		
+		languageBtnWrap.addEventListener('click', e => {
+			const clickedBtn = e.target.closest('div');
+			if (!clickedBtn || !languageBtns.includes(clickedBtn)) { return; }
+		
+			currentLang = clickedBtn.dataset.ln;
+			setSelectedLanguage(languageBtns, currentLang);
+		
+			localStorage.setItem('lang', currentLang);
+			$('.header__menu .side-bar .language-text').html(currentLang);
+			i18next.changeLanguage(currentLang);
+			// if(btnParrentClass === '.language-btn-box'){ sidebarClose();}
+		});
+		
+		function setSelectedLanguage(btns, lang) {
+			btns.forEach(btn => {
+				btn.classList.toggle('select', btn.dataset.ln === lang);
+			});
+		}
+	}
+	
+	
 	function windowResponsive() {
 		const $body = document.querySelector("body");
 		const bodyWidth = document.querySelector("body").offsetWidth;
@@ -817,25 +898,6 @@
 			$body.dataset.view = "rM"
 		}
 	}
-
-
-	// const webMenu = () => {
-	//	 const navBtn = document.querySelectorAll('.webMenu');
-	//	 const web = document.querySelector('#web');
-	//	 navBtn.forEach((el) => {
-	//		 el.addEventListener('click', (ev) => {
-	//			 let slected = event.target.classList.contains('slected');
-	//			 console.log(contain);
-	//			 if (slected) {
-	//				 ev.target.classList.remove('slected');
-	//				 web.style.display = 'none';
-	//			 } else {
-	//				 ev.target.classList.add('slected');
-	//				 web.style.display = 'block';
-	//			 }
-	//		 });
-	//	 });
-	// }
 	function headerHover(bl){
 		let header = document.querySelector("header");
 		let sidebar = document.querySelector("#sidebar");
@@ -891,10 +953,6 @@
 	}
 
 	function disableUrlBtn() {
-
-
-
-
 		const pageUrl = new URL(document.location);
 		let path = pageUrl.pathname; 
 		let sideBarBtn = document.querySelectorAll('.side-bar');
@@ -929,21 +987,27 @@
 					let language = new Language();
 					language.writeHtml();
 					language.addSelectEvent();
-					let text = getLanguage();
-					let btn = document.querySelectorAll('.side__box .language-btn');
-					btn.forEach(el => el.addEventListener("click",function(){
-						if(this.classList.contains('korea')){
-							i18next.changeLanguage("KR");
-						} else if(this.classList.contains('english')){
-							i18next.changeLanguage("EN");
-						} else if(this.classList.contains('china')){
-							i18next.changeLanguage("CN");
-						}
-						$('.header__menu .side-bar .language-text').html(localStorage.getItem('lang'))
-					}))
-					function getLanguage() {
-						return navigator.language || navigator.userLanguage;
-					}
+					changeLangEvent('.language-btn-box');
+					// let text = getLanguage();
+					// let btn = document.querySelectorAll('.side__box .language-btn');
+					// btn.forEach(el => el.addEventListener("click",function(){
+					// 	if(this.classList.contains('korea')){
+					// 		i18next.changeLanguage("KR");
+					// 		text ='KR'
+					// 	} else if(this.classList.contains('english')){
+					// 		i18next.changeLanguage("EN");
+					// 		text ='EN'
+					// 	} else if(this.classList.contains('china')){
+					// 		i18next.changeLanguage("CN");
+					// 		text ='CN'
+					// 	}
+
+					// 	localStorage.setItem('lang', text);
+					// 	$('.header__menu .side-bar .language-text').html(localStorage.getItem('lang'))
+					// }))
+					// function getLanguage() {
+					// 	return navigator.language || navigator.userLanguage;
+					// }
 				}else if(typeTarget === "B"){
 					if(getLoginStatus() == 'false'){
 						location.href='/login';
@@ -1018,23 +1082,7 @@
 				headerHover(true);
 			}
 		}
-		function sidebarClose() {
-			const $body = document.querySelector("body");
-			sideBarBtn.forEach(el => el.classList.remove("open"));
-			let sideContainer = document.querySelector("#sidebar");
-			let sideBg = document.querySelector(".side__background");
-			let sideWrap = document.querySelector(".side__wrap");
-			sideBarBtn.forEach(el => el.classList.remove("open"));
-			$("header").removeClass("hover");
-			$body.classList.remove("sidebar_open");
-			$body.dataset.sbType = "";
-			//class all remove
-			sideContainer.className = "";
-			sideBg.classList.remove("open");
-			sideWrap.classList.remove("open");
-			document.querySelector(".side__box").innerHTML = "";
-			headerHover(false);
-		}
+		
 		function navWhishlistBtn(){
 			let $wishlistBtn  = document.querySelector(".wishlist__btn");
 			if($("body").hasScrollBar()){
@@ -1081,11 +1129,28 @@
 		return {
 			sidebarClose:sidebarClose
 		}
-
-	
 	}
-	
-	
+	function sidebarClose() {
+		const $body = document.querySelector("body");
+		let sideBarBtn = document.querySelectorAll('.side-bar');
+		let sideContainer = document.querySelector("#sidebar");
+		let sideBg = document.querySelector(".side__background");
+		let sideWrap = document.querySelector(".side__wrap");
+		sideBarBtn.forEach(el => el.classList.remove("open"));
+		sideBarBtn.forEach(el => el.classList.remove("open"));
+		$("header").removeClass("hover");
+		$body.classList.remove("sidebar_open");
+		$body.dataset.sbType = "";
+		//class all remove
+		sideContainer.className = "";
+		sideBg.classList.remove("open");
+		sideWrap.classList.remove("open");
+		document.querySelector(".side__box").innerHTML = "";
+		headerHover(false);
+	}
 
 
-	
+	window.addEventListener('DOMContentLoaded', function() {
+		getMenuListApi();
+//		windowResponsive();
+	});

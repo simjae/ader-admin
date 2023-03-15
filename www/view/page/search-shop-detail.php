@@ -110,6 +110,11 @@
         <div class="store-body"></div>
     </section>
     <section class="store-section stockist-store"></section>
+    <section class="result-section hidden">
+        <div>
+
+        </div>
+    </section>
 </main>
 
 
@@ -260,9 +265,10 @@
         stockistArticle.dataset.country = country;
         return stockistArticle;
     }
-
+   
     document.addEventListener("DOMContentLoaded", function(){
         let data = getStoreList();
+        detailBtnEvent();
         let {space_info,plugshop_info,stockist_info} = data;
         document.querySelector('.store-section.brand-store .store-body').innerHTML ='';
         document.querySelector('.store-section.plug-store .store-body').innerHTML ='';
@@ -275,7 +281,4 @@
         });
         makeStockistFlag(stockist_info);
     });
-
-
-
 </script>

@@ -60,6 +60,9 @@ if ($member_idx > 0 && $country != null) {
 			PR.DISCOUNT_".$country."	AS DISCOUNT,
 			PR.SALES_PRICE_".$country."	AS SALES_PRICE,
 			PR.SOLD_OUT_QTY				AS SOLD_OUT_QTY,
+			PR.REFUND_FLG				AS REFUND_FLG,
+			PR.REFUND_MSG_FLG			AS REFUND_MSG_FLG,
+			PR.SOLD_OUT_FLG				AS SOLD_OUT_FLG,
 			(
 				SELECT
 					IFNULL(SUM(STOCK_QTY),0)
@@ -142,7 +145,10 @@ if ($member_idx > 0 && $country != null) {
 					'product_qty'		=>$product_qty,
 					'basket_qty'		=>$data['BASKET_QTY'],
 					'stock_status'		=>$stock_status,
-					'reorder_flg'		=>$data['REORDER_FLG']
+					'reorder_flg'		=>$data['REORDER_FLG'],
+					'refund_flg'		=>$data['REFUND_FLG'],
+					'refund_msg_flg'	=>$data['REFUND_MSG_FLG'],
+					'sold_out_flg'		=>$data['SOLD_OUT_FLG']
 				);
 			} else if ($stock_status == "STSO") {
 				$product_color = getProductColor($db,$product_idx);
@@ -167,7 +173,10 @@ if ($member_idx > 0 && $country != null) {
 					'stock_status'		=>$stock_status,
 					'product_color'		=>$product_color,
 					'product_size'		=>$product_size,
-					'reorder_flg'		=>$data['REORDER_FLG']
+					'reorder_flg'		=>$data['REORDER_FLG'],
+					'refund_flg'		=>$data['REFUND_FLG'],
+					'refund_msg_flg'	=>$data['REFUND_MSG_FLG'],
+					'sold_out_flg'		=>$data['SOLD_OUT_FLG']
 				);
 			}
 		}

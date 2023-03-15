@@ -16,6 +16,10 @@ display: grid; gap: 10px; font-size: 11px; grid-template-columns: 50px 50px 50px
 .oderlist_payment_info {display: flex;justify-content: space-between;}
 .oderlist_payment_info p{font-size: 11px;margin-bottom: 10px;}
 .oderlist_payment_info_border {border-top: 1px solid #dcdcdc;border-bottom: 1px solid #dcdcdc;margin:10px 0;padding-top: 10px;}
+.orderlist__tab__contents .no_orderlist_msg {
+	height: 100px;
+	text-align: center;
+}
 
 @media (max-width: 1024px) {
 	.orderlist__tab__wrap {width: 100%;}
@@ -166,7 +170,6 @@ function viewDetailOrder(order_idx) {
 
 function getOrderInfoList(order_status) {
 	$('#param_status').val(order_status);
-	
 	$.ajax({
 		type: "post",
 		url: "http://116.124.128.246:80/_api/mypage/order/list/get",
@@ -199,95 +202,108 @@ function setOrderInfoList(param_status,data) {
 	
 	let str_div = '';
 	let slicedData = data.slice(parseInt(page - 1) * rows, rows * page);
-    
-	slicedData.forEach(function(row) {
+	
+	if(data.length == 0) {
 		str_div += '<div class="orderlist__tab__contents">';
-		str_div += '    <div class="contents__info">';
-		str_div += '        <div class="info">';
-		str_div += '            <span class="info__title">주문번호</span>';
-		str_div += '            <span class="info__value order__code">' + row.order_code + '</span>';
-		str_div += '        </div>';
-		str_div += '        <div class="info">';
-		str_div += '            <span class="info__title">주문일</span>';
-		str_div += '            <span class="info__value">' + row.order_date + '</span>';
-		str_div += '        </div>';
-		str_div += '        <div class="detail__btn" onclick="viewDetailOrder(' + row.order_idx + ')"><span>자세히보기</span></div>';
-		str_div += '    </div>';
-		str_div += '    <div class="contents__table">';
-		str_div += '        <table>';
-		str_div += '            <colsgroup>';
-		str_div += '                <col style="width:120px;">';
-		str_div += '                <col style="width:240px;">';
-		str_div += '                <col style="width:130px;">';
-		str_div += '                <col style="width:130px;">';
-		str_div += '                <col style="width:130px;">';
-		str_div += '                <col style="width:130px;">';
-		str_div += '                <col style="width:120px;">';
-		str_div += '            </colsgroup>';
-		str_div += '            <tbody>';
-		
-		let order_product = row.order_product;
-		order_product.forEach(function(product) {
-			let order_status = product.order_status;
-			let txt_order_status = getOrderStatus(order_status);
+		str_div += '	<div class="no_orderlist_msg">주문 정보가 존재하지 않습니다.</div>';
+		str_div += '</div>';
+
+		div_list_pc.append(str_div);
+	} else {
+		slicedData.forEach(function(row) {
+			str_div += '<div class="orderlist__tab__contents">';
+			str_div += '    <div class="contents__info">';
+			str_div += '        <div class="info">';
+			str_div += '            <span class="info__title">주문번호</span>';
+			str_div += '            <span class="info__value order__code">' + row.order_code + '</span>';
+			str_div += '        </div>';
+			str_div += '        <div class="info">';
+			str_div += '            <span class="info__title">주문일</span>';
+			str_div += '            <span class="info__value">' + row.order_date + '</span>';
+			str_div += '        </div>';
+			str_div += '        <div class="detail__btn" onclick="viewDetailOrder(' + row.order_idx + ')"><span>자세히보기</span></div>';
+			str_div += '    </div>';
+			str_div += '    <div class="contents__table">';
+			str_div += '        <table>';
+			str_div += '            <colsgroup>';
+			str_div += '                <col style="width:120px;">';
+			str_div += '                <col style="width:240px;">';
+			str_div += '                <col style="width:130px;">';
+			str_div += '                <col style="width:130px;">';
+			str_div += '                <col style="width:130px;">';
+			str_div += '                <col style="width:130px;">';
+			str_div += '                <col style="width:120px;">';
+			str_div += '            </colsgroup>';
+			str_div += '            <tbody>';
 			
-			let order_btn = "";
-			let order_cancel_msg = "";
+			let order_product = row.order_product;
+			order_product.forEach(function(product) {
+				let order_status = product.order_status;
+				let txt_order_status = getOrderStatus(order_status);
+				
+				let order_btn = "";
+				let order_cancel_msg = "";
+				
+				let display = "";
+				if (order_status == "PCP" || order_status == "POP" || order_status == "PPR") {
+					display = "flex";
+					order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'OCC\')">주문취소</button>';
+					order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+				} else if (order_status == "DPR" || order_status == "DPG") {
+					display = "block";
+					order_btn = '<div class="delivery_num" style="margin-top:10px;"><p style="margin-bottom:3px;">' + row.company_name + '</p><p>652013628816</p></div>';
+				} else if (order_status == "DCP" && row.update_flg == true) {
+					display = "flex";
+					order_btn += '<div>';
+					order_btn += '    <button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'OEX\')">교환접수</button>';
+					order_btn += '    <button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'ORF\')">반품접수</button>';
+					order_btn += '</div>';
+				}
+				
+				str_div += '        <tr id="order_product_' + product.order_product_idx + '">';
+				str_div += '            <td>';
+				str_div += '                <img src=' + img_root + product.img_location + ' style="cursor: default;">';
+				str_div += '            </td>';
+				str_div += '            <td><p>' + product.product_name + '</p></td>';
+				str_div += '            <td>';
+				str_div += '                <div class="color_wrap">';
+				str_div += '                    <p>' + product.color + '</p>';
+				str_div += '                    <div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>';
+				str_div += '                </div>';
+				str_div += '            </td>';
+				str_div += '            <td><p>' + product.option_name + '</p></td>';
+				str_div += '            <td><p>Qty: ' + product.product_qty + '</p></td>';
+				str_div += '            <td><p>' + product.product_price.toLocaleString('ko-KR') + '</p></td>';
+				str_div += '            <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
+				str_div += '                <div style="padding-bottom:13px;">';
+				str_div += '                    <div style="display:' + display + ';align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>'
+				str_div += '                    ' + order_cancel_msg;
+				str_div += '                </div>';
+				str_div += '            </td>'
+				str_div += '        <tr>';
+			});
 			
-			let display = "";
-			if (order_status == "PCP" || order_status == "POP" || order_status == "PPR") {
-				display = "flex";
-				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-				order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
-			} else if (order_status == "DPR" || order_status == "DPG") {
-				display = "block";
-				order_btn = '<div class="delivery_num" style="margin-top:10px;"><p style="margin-bottom:3px;">' + row.company_name + '</p><p>652013628816</p></div>';
-			} else if (order_status == "DCP" && row.update_flg == 'FALSE') {
-				order_btn = '<button class="order_status_box" onclick="">반품접수</button>';
-			}
-			
-			str_div += '        <tr id="order_product_' + product.order_product_idx + '">';
-			str_div += '            <td>';
-			str_div += '                <img src=' + img_root + product.img_location + ' style="cursor: default;">';
-			str_div += '            </td>';
-			str_div += '            <td><p>' + product.product_name + '</p></td>';
-			str_div += '            <td>';
-			str_div += '                <div class="color_wrap">';
-			str_div += '                    <p>' + product.color + '</p>';
-			str_div += '                    <div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>';
-			str_div += '                </div>';
-			str_div += '            </td>';
-			str_div += '            <td><p>' + product.option_name + '</p></td>';
-			str_div += '            <td><p>Qty: ' + product.product_qty + '</p></td>';
-			str_div += '            <td><p>' + product.product_price.toLocaleString('ko-KR') + '</p></td>';
-			str_div += '            <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-			str_div += '                <div style="padding-bottom:13px;">';
-			str_div += '                    <div style="display:' + display + ';align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>'
-			str_div += '                    ' + order_cancel_msg;
-			str_div += '                </div>';
-			str_div += '            </td>'
-			str_div += '        <tr>';
+			str_div += '            </tbody>';
+			str_div += '        </table>';
+			str_div += '    </div>';
+			str_div += '</div>';
 		});
 		
-		str_div += '            </tbody>';
-		str_div += '        </table>';
-		str_div += '    </div>';
-		str_div += '</div>';
-	});
-	
-	div_list_pc.append(str_div);
-	
-	let totalCnt = data.length;
-	let showing_page = Math.ceil(totalCnt/rows);
-	
-	orderListPaging({
-		total: totalCnt,
-		el: order_list.find('.orderlist__paging'),
-		page: page,
-		row: rows,
-		show_paging: showing_page,
-		use_form: order_list
-	});
+		div_list_pc.append(str_div);
+		
+		let totalCnt = data.length;
+		let showing_page = Math.ceil(totalCnt/rows);
+		
+		orderListPaging({
+			total: totalCnt,
+			el: order_list.find('.orderlist__paging'),
+			page: page,
+			row: rows,
+			show_paging: showing_page,
+			use_form: order_list
+		});
+	}
+
 }
 
 function setOrderInfoListM(param_status,data) {
@@ -300,100 +316,119 @@ function setOrderInfoListM(param_status,data) {
 	let page = order_list.find('input[name="page"]').val();
 	
 	let str_div = "";
-	
-	let slicedData = data.slice(parseInt(page - 1) * rows, rows * page);
-	slicedData.forEach(function(row) {
+
+	if(data.length == 0) {
 		str_div += '<div class="orderlist__tab__contents">';
-		str_div += '    <div class="contents__info">';
-		str_div += '        <div class="info">';
-		str_div += '            <span class="info__title">주문번호</span>';
-		str_div += '            <span class="info__value order__code">' + row.order_code + '</span>';
-		str_div += '        </div>';
-		str_div += '        <div class="info">';
-		str_div += '            <span class="info__title">주문일</span>';
-		str_div += '            <span class="info__value">' + row.order_date + '</span>';
-		str_div += '        </div>';
-		str_div += '        <div class="detail__btn" onclick="viewDetailOrder(' + row.order_idx + ')"><span>자세히보기</span></div>';
-		str_div += '    </div>';
-		str_div += '    <div class="contents__table">';
-		str_div += '        <table>';
-		str_div += '            <colsgroup>';
-		str_div += '                <col style="width:27%;">';
-		str_div += '                <col style="width:27%;">';
-		str_div += '                <col style="width:16%;">';
-		str_div += '                <col style="width:30%;">';
-		str_div += '            </colsgroup>';
-		str_div += '            <tbody>';
-		
-		let order_product = row.order_product;
-		order_product.forEach(function(product) {
-			let order_status = product.order_status;
-			let txt_order_status = getOrderStatus(order_status);
+		str_div += '	<div class="no_orderlist_msg">주문 정보가 존재하지 않습니다.</div>';
+		str_div += '</div>';
+
+		div_list_mobile.append(str_div);
+	} else {
+		let slicedData = data.slice(parseInt(page - 1) * rows, rows * page);
+		slicedData.forEach(function(row) {
+			str_div += '<div class="orderlist__tab__contents">';
+			str_div += '    <div class="contents__info">';
+			str_div += '        <div class="info">';
+			str_div += '            <span class="info__title">주문번호</span>';
+			str_div += '            <span class="info__value order__code">' + row.order_code + '</span>';
+			str_div += '        </div>';
+			str_div += '        <div class="info">';
+			str_div += '            <span class="info__title">주문일</span>';
+			str_div += '            <span class="info__value">' + row.order_date + '</span>';
+			str_div += '        </div>';
+			str_div += '        <div class="detail__btn" onclick="viewDetailOrder(' + row.order_idx + ')"><span>자세히보기</span></div>';
+			str_div += '    </div>';
+			str_div += '    <div class="contents__table">';
+			str_div += '        <table>';
+			str_div += '            <colsgroup>';
+			str_div += '                <col style="width:27%;">';
+			str_div += '                <col style="width:27%;">';
+			str_div += '                <col style="width:16%;">';
+			str_div += '                <col style="width:30%;">';
+			str_div += '            </colsgroup>';
+			str_div += '            <tbody>';
 			
-			let order_btn = "";
-			let order_cancel_msg = "";
+			let order_product = row.order_product;
+			order_product.forEach(function(product) {
+				let order_status = product.order_status;
+				let txt_order_status = getOrderStatus(order_status);
+				
+				let order_btn = "";
+				let order_cancel_msg = "";
+				
+				if (order_status == "PCP" || order_status == "POP" || order_status == "POP") {
+					order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
+					order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+				} else if (order_status == "DPR" || order_status == "DCP") {
+					order_btn = '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>';
+				} else if (order_status == "DCP" && row.update_flg == true) {
+					display = "flex";
+					order_btn += '<div>';
+					order_btn += '    <button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'OEX\')">교환접수</button>';
+					order_btn += '    <button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'ORF\')">반품접수</button>';
+					order_btn += '</div>';
+				}
+				
+				str_div += '        <tr id="order_product_' + product.order_product_idx + '_m">';
+				str_div += '            <td>';
+				str_div += '                <img src=' + img_root + product.img_location + ' style="cursor: default;">';
+				str_div += '            </td>';
+				str_div += '            <td class="product_info_mob">';
+				str_div += '                <p class="product_name_mob">' + product.product_name + '</p>';
+				str_div += '                <p>' + product.product_price.toLocaleString('ko-KR') + '</p>';
+				str_div += '                <div class="color_wrap">';
+				str_div += '                    <p>' + product.color + '</p>';
+				str_div += '                    <div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>';
+				str_div += '                </div>';
+				str_div += '                <p>' + product.option_name + '</p>';
+				str_div += '            </td>';
+				str_div += '            <td>';
+				str_div += '                <p>Qty: ' + product.product_qty + '</p>';
+				str_div += '            </td>';
+				str_div += '            <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">';
+				str_div += '                <div style="padding-bottom:13px;">';
+							if(order_status == "DPR" || order_status == "DCP") {
+									str_div += '                    <div style="display:flex;flex-direction: column;align-items: flex-start;gap: 10px;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>';
+							} else {
+									str_div += '                    <div style="display:flex;align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>';
+							}
+				str_div += '                ' + order_cancel_msg;
+				str_div += '                </div>';
+				str_div += '            </td>';
+				str_div += '        </tr>';
+			});
 			
-			if (order_status == "PCP" || order_status == "POP" || order_status == "POP") {
-				order_btn = '<button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-				order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
-			} else if (order_status == "DPR" || order_status == "DCP") {
-				order_btn = '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>';
-			}
-			
-			str_div += '        <tr id="order_product_' + product.order_product_idx + '_m">';
-			str_div += '            <td>';
-			str_div += '                <img src=' + img_root + product.img_location + ' style="cursor: default;">';
-			str_div += '            </td>';
-			str_div += '            <td class="product_info_mob">';
-			str_div += '                <p class="product_name_mob">' + product.product_name + '</p>';
-			str_div += '                <p>' + product.product_price.toLocaleString('ko-KR') + '</p>';
-			str_div += '                <div class="color_wrap">';
-			str_div += '                    <p>' + product.color + '</p>';
-			str_div += '                    <div class="color_chip" style="background-color: ' + product.color_rgb + '"></div>';
-			str_div += '                </div>';
-			str_div += '                <p>' + product.option_name + '</p>';
-			str_div += '            </td>';
-			str_div += '            <td>';
-			str_div += '                <p>Qty: ' + product.product_qty + '</p>';
-			str_div += '            </td>';
-			str_div += '            <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">';
-			str_div += '                <div style="padding-bottom:13px;">';
-            if(order_status == "DPR" || order_status == "DCP") {
-                str_div += '                    <div style="display:flex;flex-direction: column;align-items: flex-start;gap: 10px;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>';
-            } else {
-                str_div += '                    <div style="display:flex;align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>';
-            }
-			str_div += '                ' + order_cancel_msg;
-			str_div += '                </div>';
-			str_div += '            </td>';
-			str_div += '        </tr>';
+			str_div += '            </tbody>';
+			str_div += '        </table>';
+			str_div += '    </div>';
+			str_div += '</div>';
 		});
 		
-		str_div += '            </tbody>';
-		str_div += '        </table>';
-		str_div += '    </div>';
-		str_div += '</div>';
-	});
+		div_list_mobile.append(str_div);
+		
+		let totalCnt = data.length;
+		let showing_page = Math.ceil(totalCnt/rows);
+		
+		orderListPaging({
+			total: totalCnt,
+			el: order_list.find('.orderlist__paging'),
+			page: page,
+			row: rows,
+			show_paging: showing_page,
+			use_form: order_list
+		});
+	}
 	
-	div_list_mobile.append(str_div);
-	
-	let totalCnt = data.length;
-	let showing_page = Math.ceil(totalCnt/rows);
-	
-	orderListPaging({
-		total: totalCnt,
-		el: order_list.find('.orderlist__paging'),
-		page: page,
-		row: rows,
-		show_paging: showing_page,
-		use_form: order_list
-	});
 }
 
 function putOrderInfo(order_idx,order_product_idx,order_status) {
 	let confirm_msg = "";
-	if (order_status == "PCP") {
+	if (order_status == "OCC") {
 		confirm_msg = "선택한 주문을 취소하시겠습니까?";
+	} else if (order_status == "OEX") {
+		confirm_msg = "선택한 주문을 교환접수 하시겠습니까?";
+	} else if (order_status == "ORF") {
+		confirm_msg = "선택한 주문을 반품접수 하시겠습니까?";
 	}
 	
 	if (confirm(confirm_msg) == true) {
@@ -412,6 +447,7 @@ function putOrderInfo(order_idx,order_product_idx,order_status) {
 			success: function(d) {
 				if (d.code == 200) {
 					getOrderInfoByIdx(order_idx,order_product_idx);
+					getOrderInfoList('OC');
 				} else {
 					exceptionHandling("디자인 필요",d.msg);
 				}

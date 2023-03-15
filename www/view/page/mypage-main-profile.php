@@ -1,6 +1,6 @@
 <style>
     .profile__wrap {
-        margin-top: 40px;
+        margin: 40px 0 100px;
         width: 100%;
         display: grid;
         grid-template-columns: repeat(16, 1fr);
@@ -129,8 +129,7 @@
         height: 409px;
         width: 490px;
         border: 1px solid #808080;
-        margin: 80px 0 51px 0;
-        padding: 0 20px 20px 20px;
+        padding: 0 20px 20px;
     }
 
     .update_btn {
@@ -140,10 +139,7 @@
     }
 
     .pw_form input {
-        height: 40px;
-        width: 450px;
-        border: 1px solid #808080;
-        margin: 0 0 10px 0;
+        margin-bottom: 10px;
     }
 
     .pw_form .none_margin_bottom {
@@ -151,11 +147,8 @@
     }
 
     .profile__tel__update__wrap {
-        height: 360px;
-        width: 490px;
         border: 1px solid #808080;
-        margin: 80px 0 51px 0;
-        padding: 0 20px 20px 20px;
+        padding: 0 20px;
     }
 
     .underline span {
@@ -330,7 +323,7 @@
         }
 
         .profile__wrap {
-            margin-top: 20px;
+            margin: 20px 0 60px;
         }
 
         .profile__tab__btn__container {
@@ -352,6 +345,7 @@
 
         .profile__pw__update__wrap {
             width: 100%;
+            padding: 20px;
         }
 
         .pw_form input {
@@ -359,7 +353,7 @@
         }
 
         .profile__tel__update__wrap {
-            width: 100%;
+            padding: 20px 20px 0;
         }
 
         .profile__tel__update__wrap .black__btn {
@@ -414,6 +408,12 @@
         }
     }
 
+    @media (max-width: 445px) {
+        .profile__tab__btn__container {
+            display: none;
+        }
+    }
+
     @media (min-width: 445px) {
         .profile__wrap .swiper.tab__btn {
             display: none;
@@ -423,38 +423,36 @@
 <div class="profile__wrap">
     <div class="profile__tab__btn__container">
         <div class="tab__btn__item" form-id="profile__set__wrap">
-            <span>계정설정</span>
+            <span data-i18n="p_information">계정설정</span>
         </div>
         <div class="tab__btn__item" form-id="profile__credit__update__wrap">
-            <span>결제수단</span>
+            <span data-i18n="p_payment_method">결제수단</span>
         </div>
         <div class="tab__btn__item" form-id="profile__customize__purchase__wrap">
-            <span>맞춤구매</span>
+            <span data-i18n="p_preference">맞춤구매</span>
         </div>
         <div class="tab__btn__item" form-id="profile__delivery__wrap" onclick="getOrderToList()">
-            <span>배송지목록</span>
+            <span data-i18n="p_address">배송지목록</span>
         </div>
         <div class="tab__btn__item" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
-            <span>마케팅설정</span>
+            <span data-i18n="p_subscription">마케팅설정</span>
         </div>
     </div>
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
-            <div class="swiper-slide tab__btn__item" style="width:60px;" form-id="profile__set__wrap">
+            <div class="swiper-slide tab__btn__item" form-id="profile__set__wrap">
                 <span>계정설정</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:60px;" form-id="profile__credit__update__wrap">
+            <div class="swiper-slide tab__btn__item" form-id="profile__credit__update__wrap">
                 <span>결제수단</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:60px;" form-id="profile__customize__purchase__wrap">
+            <div class="swiper-slide tab__btn__item" form-id="profile__customize__purchase__wrap">
                 <span>맞춤구매</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__delivery__wrap"
-                onclick="getOrderToList()">
+            <div class="swiper-slide tab__btn__item" form-id="profile__delivery__wrap" onclick="getOrderToList()">
                 <span>배송지목록</span>
             </div>
-            <div class="swiper-slide tab__btn__item" style="width:70px;" form-id="profile__marketing__wrap"
-                onclick="getMarketingCheck()">
+            <div class="swiper-slide tab__btn__item" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
                 <span>마케팅설정</span>
             </div>
         </div>
@@ -470,19 +468,19 @@
                     </colsgroup>
                     <tbody>
                         <tr>
-                            <td style="padding-top:0px;">이름</td>
+                            <td style="padding-top:0px;" data-i18n="p_full_name">이름</td>
                             <td style="padding-top:0px;">
                                 <?= $_SESSION['MEMBER_NAME'] ?>
                             </td>
                         </tr>
                         <tr>
-                            <td>이메일</td>
+                            <td data-i18n="p_email">이메일</td>
                             <td>
                                 <?= $_SESSION['MEMBER_EMAIL'] ?>
                             </td>
                         </tr>
                         <tr>
-                            <td>비밀번호</td>
+                            <td data-i18n="p_password">비밀번호</td>
                             <td>**************
                                 <input class="user_update_pw" type="hidden">
                             </td>
@@ -492,7 +490,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>휴대전화</td>
+                            <td data-i18n="p_mobile">휴대전화</td>
                             <td>
                                 <?= $_SESSION['TEL_MOBILE'] ?>
                                 <input class="user_update_tel" type="hidden">
@@ -503,7 +501,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>생년월일</td>
+                            <td data-i18n="p_birth">생년월일</td>
                             <td>
                                 <?= $_SESSION['MEMBER_BIRTH'] ?>
                             </td>
@@ -513,12 +511,12 @@
             </div>
             <div class="btn__area profile">
                 <div class="btn_padding">
-                    <button class="black__full__width__btn profile_save_btn" action-type="to_main"
+                    <button class="black__full__width__btn profile_save_btn" action-type="to_main" data-i18n="p_save"
                         onclick="putMemberPwAndTel()">저장</button>
                 </div>
                 <div>
                     <button class="white__full__width__btn profile_save_btn" action-type="move_account_del"
-                        onclick="buttonAction(this)">계정삭제</button>
+                        data-i18n="p_delete_account_01" onclick="buttonAction(this)">계정삭제</button>
                 </div>
             </div>
             <div class="footer"></div>
@@ -535,36 +533,37 @@
                 <p style="color:red;text-align:right;">&nbsp;</p>
             </div>
             <div class="pw_form">
-                <input class="current_pw" type="password" placeholder="현재 비밀번호">
+                <input class="current_pw" type="password" placeholder="현재 비밀번호"
+                data-i18n="ns:key" data-i18n-target=".current_pw">
                 <input class="tmp_update_pw" type="password" placeholder="새로운 비밀번호">
                 <input class="tmp_update_pw_check none_margin_bottom" type="password" placeholder="새로운 비밀번호 확인">
             </div>
 
             <div style="margin-top:10px;" class="contents_margin">
-                <p>비밀번호 입력 조건</p>
+                <p data-i18n="p_password_requirements">비밀번호 입력 조건</p>
             </div>
 
             <div class="contents_margin" style="margin-bottom:5px;">
-                <p>·&nbsp;&nbsp;대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자</p>
-                <p>·&nbsp;&nbsp;입력 가능 특수문자</p>
-                <p>&nbsp;&nbsp;&nbsp;!@#$%^()_-={}[]|;:<>,.?/</p>
-                <p>·&nbsp;&nbsp;공백 입력 불가능</p>
+                <p data-i18n="p_password_msg_01">·&nbsp;&nbsp;대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자</p>
+                <p data-i18n="p_special_character_msg">·&nbsp;&nbsp;입력 가능 특수문자</p>
+                <p data-i18n="p_change_password">&nbsp;&nbsp;&nbsp;!@#$%^()_-={}[]|;:<>,.?/</p>
+                <p data-i18n="p_blank_character_msg">·&nbsp;&nbsp;공백 입력 불가능</p>
             </div>
 
             <div>
-                <button class="black__btn" action-type="fin_pw_update" style="margin-top: 15px;"
+                <button class="black__btn" action-type="fin_pw_update" style="margin-top: 15px;" data-i18n="p_change"
                     onclick="checkMemberPw()">변경</button>
             </div>
         </div>
         <div class="profile__tab profile__tel__update__wrap">
             <div class="title">
-                <p style="margin-bottom: 40px;">휴대전화 번호 변경</p>
+                <p style="margin-bottom: 40px;" data-i18n="p_change_mobile_number">휴대전화 번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_tel_update">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div>
-                <p> 일회성 인증번호 발송을 위해 휴대폰 번호를 입력해 주세요.</p>
+                <p data-i18n="p_member_msg_01"> 일회성 인증번호 발송을 위해 휴대폰 번호를 입력해 주세요.</p>
             </div>
             <div class="description tel_update_error" style="width:100%;height:16.5px;margin-bottom: 4px;">
                 <p style="color:red;text-align:right;">&nbsp;</p>
@@ -573,15 +572,16 @@
                 <input type="text" name="tel_certificate" placeholder="( - ) 없이 숫자만 입력">
             </div>
             <div>
-                <p style="margin-bottom: 5px;">·&nbsp;&nbsp;통신 요금제에 따라 문자메시지 발송 비용이 발생할 수 있으며,</p>
+                <p data-i18n="p_member_msg_03" style="margin-bottom: 5px;">·&nbsp;&nbsp;통신 요금제에 따라 문자메시지 발송 비용이 발생할 수
+                    있으며,</p>
                 <p style="margin-bottom: 10px;">&nbsp;&nbsp;&nbsp;통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p>
-                <p style="margin-bottom: 36px;">·&nbsp;&nbsp;<span class="underline">개인정보처리방침</span> 및 <span
-                        class="underline">이용약관</span></p>
+                <p data-i18n="p_privacy_policy_01" style="margin-bottom: 36px;">·&nbsp;&nbsp;<span
+                        class="underline">개인정보처리방침</span> 및 <span class="underline">이용약관</span></p>
             </div>
             <div class="input__form__rows">
                 <label>
                     <input id="ck_sendcode_phone" type="checkbox" style="margin:0 10px 3px 0;">
-                    <span>문자메시지 1회 수신을 위한 개인정보처리방침 및 이용약관 동의</span><span class="alertms_tel"
+                    <span data-i18n="p_member_msg_04">문자메시지 1회 수신을 위한 개인정보처리방침 및 이용약관 동의</span><span class="alertms_tel"
                         style="color:red;text-align:right;"></span>
                 </label>
             </div>
@@ -590,47 +590,48 @@
         </div>
         <div class="profile__tab profile__tel__update__confirm__wrap">
             <div class="title" style="margin-bottom: 14px;">
-                <p>휴대전화 번호 변경</p>
+                <p data-i18n="p_change_mobile_number">휴대전화 번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_tel_update_confirm">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div>
                 <p style="margin: 0;">·&nbsp;&nbsp;+82 01055665656</p>
-                <p style="margin: 5px 0 10px 0;">&nbsp;&nbsp;인증 코드가 전송되었습니다.</p>
+                <p style="margin: 5px 0 10px 0;" data-i18n="p_member_msg_05">&nbsp;&nbsp;인증 코드가 전송되었습니다.</p>
             </div>
             <div class="pw_form">
                 <input type="text" name="tel_insert" placeholder="인증 번호 입력" style="margin-bottom: 5px;">
-                <p style="float: right;">30초 내에 재전송</p>
+                <p style="float: right;" data-i18n="p_resend_in_30">30초 내에 재전송</p>
             </div>
             <div class="contents_margin">
-                <p>·&nbsp;&nbsp;통신 요금제에 따라 문자메시지 발송 비용이 발생할 수 있으며,</p>
-                <p>&nbsp;&nbsp;통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p>
+                <p data-i18n="p_member_msg_03">·&nbsp;&nbsp;통신 요금제에 따라 문자메시지 발송 비용이 발생할 수 있으며,</p>
+                <p data-i18n="">&nbsp;&nbsp;통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p>
             </div>
             <div>
-                <button class="white__btn" style="margin-top: 48px;">인증 코드
+                <button class="white__btn" style="margin-top: 48px;" data-i18n="p_resend_the_code">인증 코드
                     재전송</button>
                 <button class="black__btn" style="margin: 10px 0 20px 0;" action-type="fin_check"
-                    onclick="buttonAction(this)">인증완료</button>
+                    onclick="buttonAction(this)" data-i18n="p_verified">인증완료</button>
             </div>
         </div>
         <div class="profile__tab profile__account__delete__wrap">
             <div class="title" style="height:19px;">
-                <p>계정삭제</p>
+                <p data-i18n="p_delete_account_02">계정삭제</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_account_delete">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
             <div class="contents_margin">
-                <p>·&nbsp;&nbsp;부정 이용을 방지하기 위하여 회원탈퇴 후 48시간 이내로 재가입이 불가합니다.</p>
-                <p>·&nbsp;&nbsp;탈퇴 즉시 개인정보가 삭제되고 어떠한 방법으로도 복원할 수 없습니다.</p>
-                <p style="margin-bottom:53px;line-height:2;">·&nbsp;&nbsp;교환, 반품, 환불 및 사후처리(A/S)등을 위하여 전자상거래 등에서의</br>
+                <p data-i18n="p_member_msg_06">·&nbsp;&nbsp;부정 이용을 방지하기 위하여 회원탈퇴 후 48시간 이내로 재가입이 불가합니다.</p>
+                <p data-i18n="p_member_msg_07">·&nbsp;&nbsp;탈퇴 즉시 개인정보가 삭제되고 어떠한 방법으로도 복원할 수 없습니다.</p>
+                <p data-i18n="p_member_msg_08" style="margin-bottom:53px;line-height:2;">·&nbsp;&nbsp;교환, 반품, 환불 및
+                    사후처리(A/S)등을 위하여 전자상거래 등에서의</br>
                     &nbsp;&nbsp;&nbsp;소비자보호에 관한 법률에 의거해 일정 기간동안 보관 후 파기됩니다.</p>
             </div>
             <div class="input__form__rows">
                 <label>
                     <input id="ck_account_delete" type="checkbox" style="margin:0 10px 3px 0;">
-                    <span>위 유의사항을 모두 확인하였고, 계정 삭제에 동의합니다.</span>
+                    <span data-i18n="p_member_msg_09">위 유의사항을 모두 확인하였고, 계정 삭제에 동의합니다.</span>
                 </label>
             </div>
             <div style="text-align:right;">
@@ -639,27 +640,28 @@
             <div>
                 <button class="white__btn" style="margin: 10px 0;" action-type="del_cancel"
                     onclick="buttonAction(this)">취소</button>
-                <button class="black__btn" action-type="account_del" onclick="buttonAction(this)">계정삭제</button>
+                <button class="black__btn" action-type="account_del" onclick="buttonAction(this)"
+                    data-i18n="p_delete_account_02">계정삭제</button>
             </div>
         </div>
         <div class="profile__tab profile__credit__update__wrap">
             <div class="title">
-                <p style="margin-bottom: 10px;">결제수단 저장</p>
+                <p style="margin-bottom: 10px;" data-i18n="p_save_pay">결제수단 저장</p>
             </div>
             <div class="description">
-                <p>&nbsp;&nbsp;빠른 주문 결제를 위해 결제수단을 미리 입력해두세요.</p>
+                <p data-i18n="p_member_msg_10">&nbsp;&nbsp;빠른 주문 결제를 위해 결제수단을 미리 입력해두세요.</p>
             </div>
             <div class="input__form__wrap" style="margin-top:20px;">
                 <div class="input__form__rows">
-                    <div class="rows__title">카드 명의</div>
+                    <div class="rows__title" data-i18n="p_card_full_name">카드 명의</div>
                     <input placeholder="이름"></input>
                 </div>
                 <div class="input__form__rows">
-                    <div class="rows__title">카드번호</div>
+                    <div class="rows__title" data-i18n="p_card_number">카드번호</div>
                     <input placeholder="( - ) 없이 숫자만 입력"></input>
                 </div>
                 <div class="input__form__rows">
-                    <div class="rows__title">유효기간</div>
+                    <div class="rows__title" data-i18n="p_expiration_date">유효기간</div>
                     <div style="display:flex; margin-bottom:10px;">
                         <select id="inquiry__type" name="inquiry__type" style="margin-right:10px;">
                             <option name="inquiry__type" selected>1</option>
@@ -676,22 +678,22 @@
                             <option name="inquiry__type">12</option>
                         </select>
                         <select id="inquiry__type" name="inquiry__type">
-                            <option name="inquiry__type" selected>2022</option>
-                            <option name="inquiry__type">2023</option>
+                            <option name="inquiry__type" selected>2023</option>
                             <option name="inquiry__type">2024</option>
                             <option name="inquiry__type">2025</option>
                             <option name="inquiry__type">2026</option>
+                            <option name="inquiry__type">2027</option>
                         </select>
                     </div>
                 </div>
                 <div class="input__form__rows">
                     <label>
                         <input type="checkbox">
-                        <span>기본 결제수단으로 저장</span>
+                        <span data-i18n="p_default_pay_method">기본 결제수단으로 저장</span>
                     </label>
                 </div>
                 <div class="profile_btn_padding">
-                    <button class="black__full__width__btn account">저장</button>
+                    <button class="black__full__width__btn account" data-i18n="p_save">저장</button>
                 </div>
                 <div class="footer"></div>
             </div>
@@ -700,40 +702,40 @@
         </div>
         <div class="profile__tab profile__customize__purchase__wrap">
             <div class="title">
-                <p style="margin-bottom: 10px;">구매 맞춤 정보 설정</p>
+                <p style="margin-bottom: 10px;" data-i18n="p_set_preferences">구매 맞춤 정보 설정</p>
             </div>
-            <div class="description">
+            <div class="description" data-i18n="p_payment_msg_01">
                 <p>&nbsp;&nbsp;구매 전 사이즈를 선택할 수 있도록 사이즈 정보를 제공해 주세요.</p>
             </div>
             <div class="input__form__wrap" style="margin-top:20px;">
                 <div class="input__form__rows">
-                    <div class="rows__title">성별</div>
+                    <div class="rows__title" data-i18n="p_gender">성별</div>
                     <div style="margin-top:10px;margin-bottom:30px;">
                         <label>
                             <input type="radio" name="gender" checked>
-                            <span>여성</span>
+                            <span data-i18n="p_woman">여성</span>
                         </label>
                         <div style="height:10px;"></div>
                         <label>
                             <input type="radio" name="gender">
-                            <span>남성</span>
+                            <span data-i18n="p_man">남성</span>
                         </label>
                     </div>
                 </div>
                 <div class="input__form__rows">
-                    <div class="rows__title">상의 사이즈</div>
+                    <div data-i18n="p_top_size" class="rows__title">상의 사이즈</div>
                     <select></select>
                 </div>
                 <div class="input__form__rows">
-                    <div class="rows__title">하의 사이즈</div>
+                    <div data-i18n="p_bottom_size" class="rows__title">하의 사이즈</div>
                     <select></select>
                 </div>
                 <div class="input__form__rows">
-                    <div class="rows__title">신발 사이즈</div>
+                    <div data-i18n="p_shoes_size" class="rows__title">신발 사이즈</div>
                     <select></select>
                 </div>
                 <div class="profile_btn_padding">
-                    <button class="black__full__width__btn" style="font-size: 11px;">저장</button>
+                    <button class="black__full__width__btn" style="font-size: 11px;" data-i18n="p_save">저장</button>
                 </div>
                 <div class="footer"></div>
             </div>
@@ -741,7 +743,8 @@
         <div class="profile__tab profile__delivery__wrap">
             <div class="list__delivery__wrap">
                 <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
-                    <p style="font-size: 13px; padding-bottom: 9.5px">기본 배송지</p>
+                    <p data-i18n="p_default_address" style="font-size: 13px; padding-bottom: 9.5px"
+                        data-i18n="p_default_address">기본 배송지</p>
                 </div>
                 <table style="width:100%">
                     <tbody class="default__list delivery_table_wrap">
@@ -749,15 +752,16 @@
                 </table style="width:100%">
                 <div class="other_list_wrap">
                     <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
-                        <p style="font-size: 13px; padding-bottom: 9.5px">다른 배송지</p>
+                        <p data-i18n="p_other_address" style="font-size: 13px; padding-bottom: 9.5px"
+                            data-i18n="p_other_address">다른 배송지</p>
                     </div>
                     <table style="width:100%">
                         <tbody class="other__list delivery_table_wrap">
                         </tbody>
                     </table>
                 </div>
-                <button class="black__full__width__btn new__delivery" action-type="update_order_to"
-                    onclick="buttonAction(this)">새로운 배송지 추가</button>
+                <button class="black__full__width__btn new__delivery" action-type="add_order_to"
+                    data-i18n="p_add_address" onclick="buttonAction(this)" data-i18n="p_add_address">새로운 배송지 추가</button>
             </div>
         </div>
 
@@ -774,11 +778,11 @@
                 <input class="order_to_place"></input>
             </div>
             <div class="input__form__rows">
-                <div class="rows__title">이름</div>
+                <div data-i18n="p_full_name" class="rows__title">이름</div>
                 <input class="order_to_name"></input>
             </div>
             <div class="input__form__rows">
-                <div class="rows__title">전화번호</div>
+                <div data-i18n="p_mobile" class="rows__title">전화번호</div>
                 <input class="order_to_mobile"></input>
             </div>
             <div class="input__form__rows">
@@ -802,7 +806,7 @@
                 </label>
             </div>
             <div class="profile_btn_padding">
-                <button class="black__full__width__btn" onclick="checkOrderToAction()">저장</button>
+                <button class="black__full__width__btn" onclick="checkOrderToAction()" data-i18n="p_save">저장</button>
             </div>
             <div class="footer"></div>
         </div>
@@ -811,34 +815,34 @@
         </div>
         <div class="profile__tab profile__marketing__wrap">
             <div class="title">
-                <p style="margin-bottom: 10px;">마케팅 정보 수신 및 활용 동의</p>
+                <p style="margin-bottom: 10px;" data-i18n="p_subscription_preferences">마케팅 정보 수신 및 활용 동의</p>
             </div>
             <div class="description">
-                <p>&nbsp;&nbsp;제품, 할인 정보, 멤버 혜택 관련 최신 소식을 받아보세요.</p>
+                <p data-i18n="p_receive_news">&nbsp;&nbsp;제품, 할인 정보, 멤버 혜택 관련 최신 소식을 받아보세요.</p>
             </div>
             <div style="margin-top:20px; margin-bottom:20px;">
                 <div class="input__form__rows marketing__receive">
                     <label>
                         <input class="all_check" type="checkbox" onclick="marketingCheckAll()">
-                        <span>전체동의</span>
+                        <span data-i18n="p_select_all">전체동의</span>
                     </label>
                 </div>
                 <div class="input__form__rows marketing__receive">
                     <label>
                         <input class="mkt_check email_check" type="checkbox" onclick="marketingCheckOne()">
-                        <span>이메일로 마케팅 소식을 수신하는데 동의합니다.</span>
+                        <span data-i18n="p_subscribe_email">이메일로 마케팅 소식을 수신하는데 동의합니다.</span>
                     </label>
                 </div>
                 <div class="input__form__rows marketing__receive">
                     <label>
                         <input class="mkt_check sms_check" type="checkbox" onclick="marketingCheckOne()">
-                        <span>SMS로 마케팅 소식을 수신하는데 동의합니다.</span>
+                        <span data-i18n="p_subscribe_sms">SMS로 마케팅 소식을 수신하는데 동의합니다.</span>
                     </label>
                 </div>
                 <div class="input__form__rows marketing__receive">
                     <label>
                         <input class="mkt_check tel_check" type="checkbox" onclick="marketingCheckOne()">
-                        <span>전화로 마케팅 소식을 수신하는데 동의합니다.</span>
+                        <span data-i18n="p_subscribe_call">전화로 마케팅 소식을 수신하는데 동의합니다.</span>
                     </label>
                 </div>
             </div>
@@ -848,13 +852,13 @@
                         onclick="mypageTabBtnClick('service', 3)">개인정보취급방침</span>을 확인하시기 바랍니다.
                 </p>
             </div>
-            <button class="black__full__width__btn" onclick="putMarketingCheck()">저장</button>
+            <button class="black__full__width__btn" onclick="putMarketingCheck()" data-i18n="p_save">저장</button>
             <div class="footer"></div>
         </div>
     </div>
 </div>
 <script>
-    
+    //$(".pw_form").localize();
     $(function () {
         $('#postcodify').postcodify({
             insertPostcode5: ".order_to_zipcode",
@@ -957,6 +961,8 @@
                 getOrderTo();
                 $('.order__to__update__wrap').show();
                 break;
+            case 'add_order_to':
+                $('.order__to__update__wrap').show();
         }
     }
 
@@ -1175,7 +1181,7 @@
                             // strDiv +=          '<div class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)">';
                             // strDiv +=              '<img src="/images/mypage/tab/select_delivery_default_change_btn.svg">';
                             // strDiv +=          '</div>';
-                            strDiv += '<button class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)" style="text-decoration: underline;">기본 배송지로 설정</button>';
+                            strDiv += '<button class="order_to_idx" idx="' + row.order_to_idx + '" onclick="changeDefaultOrderTo(this)" style="text-decoration: underline;" data-i18n="p_set_default_address" >기본 배송지로 설정</button>';
                             strDiv += '</td>';
                             strDiv += '<td>' + row.to_name + '</td>';
                             strDiv += '<td>' + row.to_mobile + '</td>';
@@ -1605,7 +1611,6 @@
     // 닫기버튼
     function closeTab(obj) {
         let actionType = $(obj).attr('action-type');
-        console.log(actionType);
         switch (actionType) {
             case 'close_pw_update':
                 $('.current_pw').val('');

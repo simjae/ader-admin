@@ -19,11 +19,6 @@ include_once("/var/www/www/api/common/check.php");
 
 error_reporting(E_ALL^ E_WARNING); 
 
-$admin_idx = 0;
-if (isset($_SESSION['ADMIN_IDX'])) {
-	$admin_idx = $_SESSION['ADMIN_IDX'];
-}
-
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
@@ -170,11 +165,6 @@ if ($order_param != null) {
 if ($page_idx != null && $country != null) {
 	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
 	if ($page_count > 0) {
-		$check_result = true;
-		if ($admin_idx == 0) {
-			$check_result = checkListLevel($db,$member_idx,$page_idx);
-		}
-		
 		$check_result = checkListLevel($db,$member_idx,$page_idx);
 		if ($check_result['result'] == false) {
 			$json_result['code'] = 402;

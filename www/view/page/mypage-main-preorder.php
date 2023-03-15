@@ -5,9 +5,11 @@
         display: grid;
         grid-template-columns: repeat(16, 1fr);
     }
+
     .preorder__wrap .title p {
         font-size: 13px;
     }
+
     .preorder__tab__btn__container {
         grid-column: 1/17;
         margin: 0 auto;
@@ -106,7 +108,9 @@
         width: 100%;
         min-width: 80px;
     }
-    .preorder__apply__form__wrap .description,.preorder__notice__wrap .description {
+
+    .preorder__apply__form__wrap .description,
+    .preorder__notice__wrap .description {
         padding-left: 6px;
     }
 
@@ -115,8 +119,13 @@
             grid-column: 1/17;
             width: 100%;
         }
+
         .preorder__wrap {
             margin-top: 20px;
+        }
+
+        .preorder__wrap .mobile__view {
+            margin: 0;
         }
 
         .preorder__tab__wrap .contents__info .info span {
@@ -186,6 +195,10 @@
 
         .preorder__tab__contents .info__value {
             margin-right: 20px;
+        }
+
+        .preorder__wrap .footer {
+            margin-bottom: 60px;
         }
     }
 

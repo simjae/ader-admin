@@ -6,7 +6,8 @@ export default function WishlistRender() {
         wrap.classList.add("wish-wrap");
         const dom =
             `
-                <div class="left__title"><span class = "allview">Wish list&nbsp;&nbsp;&nbsp;></span><span class= "allview_under">전체보기</span></div>
+                <div class="left__title"><span class = "allview">Wish list&nbsp;&nbsp;&nbsp;></span>
+                <span class= "allview_under" onclick="location.href='/order/whish'">전체보기</span></div>
                 <div class="swiper-grid">
                     <div class="wish-swiper swiper">
                         <div class="swiper-wrapper">

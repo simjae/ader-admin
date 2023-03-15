@@ -32,7 +32,6 @@ function Sidebar() {
         docflag.appendChild(sideWrap);
         $sidebar.appendChild(docflag);
     })();
-
 }
 
 /**
@@ -115,8 +114,8 @@ function Basket(el, useSidebar) {
 									<div class="cb__mark"></div>
 								</label>
 								<div class="flex gap-10">
-									<u class="ufont st__checked__btn" btn="stock">선택 삭제</u>
-									<u class="ufont st__all__btn" btn="stock">모두 삭제</u>
+									<u class="ufont st__checked__btn" btn="stock" data-i18n="s_remove_selected">선택 삭제</u>
+									<u class="ufont st__all__btn" btn="stock" data-i18n="s_remove_all">모두 삭제</u>
 								</div>			
 							</div>
 						</div>
@@ -124,24 +123,25 @@ function Basket(el, useSidebar) {
 					</div>
 					<div class="pay__box">
                         <div class="pay__row" style="display:none;">
-                        <div>제품합계</div>
+                        <div data-i18n="s_subtotal">제품합계</div>
                     <div class="product__total__price">0</div>
                      </div>
 						<div class="pay__row">
-							<div>배송비</div>
+							<div data-i18n="s_shipping_total">배송비</div>
 							<div class="deli__price" data-price_delivery="5000">0</div>
 						</div>
 						<div class="pay__row">
-							<div>합계</div>
+							<div data-i18n="s_order_total">합계</div>
 							<div class="pay__total__price">0</div>
 						</div>
-						<div class="pay__btn" id="pay_btn"><span>결제하기</span></div>
+						<div class="pay__btn" id="pay_btn"><span data-i18n="s_checkout">결제하기</span></div>
                         <div class="check_basket_btn" onClick="location.href='/order/basket/list'"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 					</div>
 				</section>
 			`;
 
             sideBox.innerHTML = contentHtml;
+            changeLanguageR();
         };
     }
 
@@ -160,13 +160,16 @@ function Basket(el, useSidebar) {
             success: function (d) {
                 let data = d.data;
 
+                let sideWrap = $("#sidebar .side__wrap");
+
                 let basket_so_info = data.basket_so_info;
                 let basket_st_info = data.basket_st_info;
-
-                if (basket_so_info.length > 0 || basket_st_info.length > 0) {
-                    writeProductListDomTree(basket_st_info, basket_so_info);
-                } else {
-                    productNull();
+                if(sideWrap.hasClass('open')) {
+                    if (basket_so_info.length > 0 || basket_st_info.length > 0) {
+                        writeProductListDomTree(basket_st_info, basket_so_info);
+                    } else {
+                        productNull();
+                    }
                 }
             }
         });
@@ -238,7 +241,7 @@ function Basket(el, useSidebar) {
 							<div class="prd__size">
 								<div class="size__box">
 									<li data-soldout="${el.stock_status}">${el.option_name}</li>
-                                    </div>
+                                </div>
                                 ${el.refund_flg && bodyWidth < 1024 ? `<p class="refund_msg">교환 반품 불가</p>` : ``}
 							</div>
 							<div class="prd__qty">
@@ -284,8 +287,8 @@ function Basket(el, useSidebar) {
 							<div class="cb__mark"></div>
 						</label>
 						<div class="flex gap-10">
-							<u class="ufont so__checked__btn" btn="stock">선택 삭제</u>
-							<u class="ufont so__all__btn" btn="stock">모두 삭제</u>
+							<u class="ufont so__checked__btn" btn="stock" data-i18n="s_remove_selected">선택 삭제</u>
+							<u class="ufont so__all__btn" btn="stock" data-i18n="s_remove_all">모두 삭제</u>
 						</div>			
 					</div>
 				</div>
@@ -343,7 +346,7 @@ function Basket(el, useSidebar) {
                 });
 
                 let reorder_class = el.reorder_flg ? "" : "disaBleBtn";
-                let reorder_text = el.reorder_flg ? "재입고 알림 신청완료" : "재입고 알림 신청하기";
+                // let reorder_text = el.reorder_flg ? "재입고 알림 신청완료" : "재입고 알림 신청하기";
 
                 product_html += `
 					<div class="product__box" data-basket_idx="${el.basket_idx}" data-stock_status="${el.stock_status}" data-product_idx="${el.product_idx}" data-option_idx="${el.option_idx}" data-reorder_flg="${el.reorder_flg}">
@@ -364,11 +367,11 @@ function Basket(el, useSidebar) {
 							<div class="option__box">
 								<div class="option__change__btn open">
 									<img src="/images/svg/edit.svg" alt="">
-									<u>옵션 변경하기</u>
+									<u data-i18n="s_change_options">옵션 변경하기</u>
 								</div>
 								<div class="reorder__btn ${reorder_class}">
 									<img src="/images/svg/reflesh.svg" alt="">
-									<u>${reorder_text}</u>
+                                    ${el.reorder_flg ? `<u data-i18n="w_basket_msg_04">재입고 알림 신청완료</u>` : `<u data-i18n="s_subscribe_for_restock_notification">재입고 알림 신청하기</u>`}
 								</div>
 							</div>
 							<div class="option__select__box hide">
@@ -388,7 +391,7 @@ function Basket(el, useSidebar) {
 								</div>
 								<div class="option__change__btn apply">
 									<img src="/images/svg/edit.svg" alt="">
-									<u>옵션 변경하기</u>
+									<u data-i18n="s_change_options">옵션 변경하기</u>
 								</div>
 							</div>
 						</div>
@@ -401,6 +404,7 @@ function Basket(el, useSidebar) {
             document.querySelector('.list__box .list__body').appendChild(docFrag);
             soldCheckedDeleteBtn();
             soldAllDeleteBtn();
+            changeLanguageR();
         }
 
         clickCheckboxSTIN();
@@ -528,6 +532,8 @@ function Basket(el, useSidebar) {
 
             if (soldSelfBox.length > 0) {
                 msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요.';
+                msgBox.dataset.i18n = 's_basket_msg_01';
+                msgBox.textContent = i18next.t('s_basket_msg_01');
                 return false;
             }
             if (checkCnt == 0) {
@@ -696,15 +702,26 @@ function Basket(el, useSidebar) {
 
     //재고없음(STSO) 전체선택 체크박스 클릭 이벤트
     function clickCheckboxSTSO() {
-        let $all_soldout_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']");
-        if ($all_soldout_checkbox != null) {
-            $all_soldout_checkbox.addEventListener("click", function () {
+        let $all_stso_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']");
+        let $stso_checkbox = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
+        if ($all_stso_checkbox != null) {
+            $all_stso_checkbox.addEventListener("click", function () {
                 let soldout_list = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
                 soldout_list.forEach(el => {
                     el.checked = this.checked;
                 });
             });
         }
+        $stso_checkbox.forEach(el => {
+			el.addEventListener("click", function() {
+				let checkedStso = document.querySelectorAll(".sold__list__box .self__cb[name='sold']:checked");
+				if($stso_checkbox.length == checkedStso.length) {
+					$all_stso_checkbox.checked = true;
+				} else {
+					$all_stso_checkbox.checked = false;
+				}
+			})
+		})
     }
 
     /************************* 공통함수 **************************/
@@ -912,7 +929,9 @@ function Basket(el, useSidebar) {
         const productBox = [...document.querySelectorAll(".sold__list__box .product__box")].find(el => el.dataset.product_idx == productIdx);
         productBox.dataset.reflg = true;
         productBox.querySelector(".reorder__btn u").innerHTML = "재입고 알림 신청완료";
-        productBox.querySelector(".reorder__btn u").classList.add('disableBtn');
+        productBox.querySelector(".reorder__btn u").dataset.i18n = "w_basket_msg_04";
+        productBox.querySelector(".reorder__btn u").textContent = i18next.t("w_basket_msg_04");
+        productBox.querySelector(".reorder__btn u").classList.add("disableBtn");
     }
 }
 /**
@@ -928,13 +947,14 @@ function Bluemark() {
         bluemarkContent.className = "bluemark-wrap";
         bluemarkContent.innerHTML =
             `<div class="bluemark-logo"><div class="bluemark-title"><span class="bluemark-square"></span><span class="bluemark-name">Bluemark</span></div></div>
-            <p class="bluemark-content">BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해<br> 제공되는 정품 인증 서비스입니다.<br>
+            <p class="bluemark-content" data-i18n="b_bluemark_info">BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해<br> 제공되는 정품 인증 서비스입니다.<br>
                 ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기<br> 위하여 적극적으로 대응중입니다.</p>
             <div class="bluemark-btn-box">
-                <a href="http://116.124.128.246/mypage?mypage_type=bluemark_verify"><div class="certification-btn"><span>블루마크 인증</span></div></a>
-                <a href="http://116.124.128.246/mypage?mypage_type=bluemark_list"><div class="certification-detail-btn"><span>블루마크 인증 내역</span></div></a>
+                <a href="http://116.124.128.246/login?r_url=/mypage?mypage_type=bluemark_verify"><div class="certification-btn"><span data-i18n="lm_verify_blue_mark">블루마크 인증</span></div></a>
+                <a href="http://116.124.128.246/login?r_url=/mypage?mypage_type=bluemark_list"><div class="certification-detail-btn"><span data-i18n="lm_verification_history">블루마크 인증 내역</span></div></a>
             </div>`
         sideBox.appendChild(bluemarkContent)
+        changeLanguageR();
     };
 }
 /**
@@ -950,16 +970,17 @@ function Language() {
         languageContent.className = "language-wrap";
         languageContent.innerHTML =
             `
-            <div class="language-title">언어선택</div>
-            <p class="language-content">아래 옵션에서 선택해 주세요.<br>
+            <div class="language-title" data-i18n="lm_choose_language">언어선택</div>
+            <p class="language-content" data-i18n="lm_menu_lang_msg">아래 옵션에서 선택해 주세요.<br>
                 선택한 언어에 해당되는 홈페이지로 리디렉션됩니다.</p>
             <div class="language-btn-box">
-                <div class="language-btn korea"><span>한국어</span></div>
-                <div class="language-btn english"><span>English</span></div>
-                <div class="language-btn china"><span>中文</span></div>
+                <div class="language-btn" data-ln="KR"><span>한국어</span></div>
+                <div class="language-btn" data-ln="EN"><span>English</span></div>
+                <div class="language-btn" data-ln="CN"><span>中文</span></div>
             </div>
         `
         sideBox.appendChild(languageContent);
+        changeLanguageR();
     };
     this.addSelectEvent = () => {
         let $$languageBtn = document.querySelectorAll(".language-btn");
@@ -971,6 +992,7 @@ function Language() {
         })
     }
 }
+
 /**
  * @author SIMJAE
  * @description 검색 생성자 함수
@@ -979,9 +1001,63 @@ function Search() {
     this.writeHtml = () => {
         let sideBox = document.querySelector(`.side__box`);
         let sideWrap = document.querySelector(`#sidebar .side__wrap`);
-        sideWrap.dataset.module = "search";
-        const searchContent = document.createElement("section");
+        
+		sideWrap.dataset.module = "search";
+        
+		const searchContent = document.createElement("section");
         searchContent.className = "search-wrap";
+		
+		let search_keyword = "";
+		let popular_product = "";
+		
+		getSearchInfoList();
+		
+		function getSearchInfoList() {
+			let country = getLanguage();
+			
+			$.ajax({
+				type: "post",
+				url: "http://116.124.128.246:80/_api/search/list/get",
+                async:false,
+				data: {
+					'country' : country
+				},
+				dataType: "json",
+				error: function () {
+					alert("추천검색어/실시간 인기 제품 조회중 오류가 발생했습니다.");
+				},
+				success: function (d) {
+					if (d.code == 200) {
+						let data = d.data;
+						if (data != null) {
+							let keyword_info = data.keyword_info;
+							writeKeywordInfo(keyword_info);
+							
+							let popular_info = data.popular_info;
+							writePopularInfo(popular_info);
+						}
+					}
+				}
+			});
+		}
+		
+		function writeKeywordInfo(keyword_info) {
+			keyword_info.forEach(function(row) {
+				search_keyword += `<li location.href="${row.menu_link}">${row.keyword_txt}</li>`;
+			});
+		}
+		
+		function writePopularInfo(popular_info) {
+			popular_info.forEach(function(row) {
+				popular_product += `
+					<div class="popular-box" onClick="location.href='/product/detail?product_idx=${row.product_idx}'">
+						<img src="${img_root}${row.img_location}" alt="">
+						<span class="product-name">${row.product_name}</span>
+					</div>
+				`;
+			});
+		}
+		
         searchContent.innerHTML =
             `
                 <div class="search-header">
@@ -992,115 +1068,17 @@ function Search() {
                     <div class="search-content current" >
                         <ul class="search-recommend">
                             <div class="search-recommend-title">추천검색어</div>
-                            <li>쇼퍼백</li>
-                            <li>트윈하트로고티셔츠</li>
-                            <li>키링</li>
-                            <li>The new is not new</li>
-                            <li>버켄스탁 콜라보레이션</li>
+                            ${search_keyword}
                         </ul>
                         <div class="search-recommend-title">실시간 인기 제품</div>
                         <div class="popular-wrap">
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWKV01BL_05_P_M_202210210000.jpg" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWTB09GN_04_P_M_202210210000.jpg" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWCA01BK_05_P_M_202210210000.jpg" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWBZ01BG_05_P_M_202210210000.jpg" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWCT06BL_06_P_M_202210210000.jpg" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWGD05GR_05_P_M_202210210000.jpg" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLASSHD04KK_06_P_M_202211181428.png" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="popular-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWJP05NV_05_P_M_202210210000.jpg" alt="">
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
+                            ${popular_product}
                         </div>
                     </div>
                     <div class="search-content result hidden" >
                         <div class="search-result-title">검색 결과</div>
                         <div class="search-result-wrap">
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWKV01BL_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWTB09GN_04_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWCA01BK_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWBZ01BG_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWCT06BL_06_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWGD05GR_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLASSHD04KK_06_P_M_202211181428.png" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWJP05NV_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWKV01BL_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWTB09GN_04_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWCA01BK_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWBZ01BG_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWCT06BL_06_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWGD05GR_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLASSHD04KK_06_P_M_202211181428.png" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
-                            <div class="search-result-box">
-                                <img src="http://116.124.128.246:81//images/product/img_BLAFWJP05NV_05_P_M_202210210000.jpg" alt=""/>
-                                <span class="product-name">Twin heart hoodie</span>
-                            </div>
+							
                         </div>
                         <div class="search-all-btn"><span>검색 결과 전체보기</span></div>
                     </div>
@@ -1108,6 +1086,7 @@ function Search() {
         `
         sideBox.appendChild(searchContent);
     };
+	
     this.mobileWriteHtml = () => {
         let mobileSearchWrap = document.querySelector(`.search__cont`);
         mobileSearchWrap.innerHTML = "";
@@ -1123,115 +1102,17 @@ function Search() {
                         <div class="search-content current" >
                             <ul class="search-recommend">
                                 <div class="search-recommend-title">추천검색어</div>
-                                <li>쇼퍼백</li>
-                                <li>트윈하트로고티셔츠</li>
-                                <li>키링</li>
-                                <li>The new is not new</li>
-                                <li>버켄스탁 콜라보레이션</li>
+                                ${search_keyword}
                             </ul>
                             <div class="search-popular-title">실시간 인기 제품</div>
                             <div class="popular-wrap">
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWKV01BL_05_P_M_202210210000.jpg" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWTB09GN_04_P_M_202210210000.jpg" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWCA01BK_05_P_M_202210210000.jpg" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWBZ01BG_05_P_M_202210210000.jpg" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWCT06BL_06_P_M_202210210000.jpg" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWGD05GR_05_P_M_202210210000.jpg" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLASSHD04KK_06_P_M_202211181428.png" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="popular-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWJP05NV_05_P_M_202210210000.jpg" alt="">
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
+                                ${popular_product}
                             </div>
                         </div>
                         <div class="search-content result hidden" >
                             <div class="search-result-title">검색 결과</div>
                             <div class="search-result-wrap">
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWKV01BL_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWTB09GN_04_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWCA01BK_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWBZ01BG_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWCT06BL_06_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWGD05GR_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLASSHD04KK_06_P_M_202211181428.png" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWJP05NV_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWKV01BL_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWTB09GN_04_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWCA01BK_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWBZ01BG_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWCT06BL_06_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWGD05GR_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLASSHD04KK_06_P_M_202211181428.png" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
-                                <div class="search-result-box">
-                                    <img src="http://116.124.128.246:81//images/product/img_BLAFWJP05NV_05_P_M_202210210000.jpg" alt=""/>
-                                    <span class="product-name">Twin heart hoodie</span>
-                                </div>
+                                
                             </div>
                             <div class="search-all-btn"><span>검색 결과 전체보기</span></div>
                         </div>
@@ -1239,17 +1120,67 @@ function Search() {
             `
         mobileSearchWrap.append(mdlBox);
     };
+	
+	function getSearchResult() {
+        let searchResult = document.querySelector(".search-content.result");
+        let searchCurrent = document.querySelector(".search-content.current");
+		
+		let search_keyword = $('#search-input').val();
+		
+		$.ajax({
+			type: "post",
+			url: "http://116.124.128.246:80/_api/search/get",
+			async:false,
+			data: {
+				'search_keyword' : search_keyword
+			},
+			dataType: "json",
+			error: function () {
+				alert("상품 검색처리중 오류가 발생했습니다.");
+			},
+			success: function (d) {
+				if (d.code == 200) {
+					let data = d.data;
+					
+					let search_result_wrap = $('.search-result-wrap');
+					search_result_wrap.html('');
+					
+					if (data != null) {
+						let search_result = "";
+						data.forEach(function(row) {
+							search_result += `
+								<div class="search-result-box" onClick="location.href='/product/detail?product_idx=${row.product_idx}'">
+									<img src="${img_root}${row.img_location}" alt=""/>
+									<span class="product-name">${row.product_name}</span>
+								</div>
+							`;
+						});
+						
+						search_result_wrap.append(search_result);
+						
+						searchCurrent.classList.add("hidden");
+						searchResult.classList.remove("hidden");
+					}
+				}
+			}
+		});
+	}
     this.addSearchEvent = () => {
         let input = document.getElementById("search-input");
-        let searchResult = document.querySelector(".search-content.result")
-        let searchCurrent = document.querySelector(".search-content.current")
-        input.addEventListener("keyup", function (event) {
+        input.addEventListener('input', debounce(getSearchResult,500));
+		
+		/*
             if (event.keyCode === 13) {
                 event.preventDefault();
-                searchCurrent.classList.add("hidden");
-                searchResult.classList.remove("hidden");
+				
+				let search_keyword = input.value;
+				
+				
+				
+                
             }
         });
+		*/
     }
 }
 
@@ -1885,7 +1816,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>주문조회</p>
+                    <p data-i18n="m_order_history">주문조회</p>
                 </div>
             </div>
             <div id="mileage_icon" class="icon__item" btn-type="mileage">
@@ -2086,14 +2017,14 @@ function User() {
             <div class="customer-btn-box">
                 <div class="customer-btn" onclick="location.href='/login/service'"><span>공지사항</span></div>
                 <div class="customer-btn" onclick="location.href='/login/faq'"><span>자주 묻는 질문</span></div>
-                <div class="customer-btn" onclick="location.href='/login'"><span>문의하기</span></div>
+                <div class="customer-btn" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=inquiry'"><span>문의하기</span></div>
             </div>
         </div>
         
         
         `
         sideBox.appendChild(loginContent);
-
+        
         $(document).ready(function () {
 
             $('#member_id').val('');
@@ -2149,6 +2080,7 @@ function User() {
                     return false;
                 }
 
+                
                 $.ajax({
                     type: 'POST',
                     url: "http://116.124.128.246:80/_api/account/login",
@@ -2253,4 +2185,29 @@ function Vctrbox(el) {
             return videoArr;
         });
     })();
+}
+
+function getLanguage() {
+    let lng = navigator.language || navigator.userLanguage;
+
+    let country = null;
+    switch (lng) {
+        case "ko-KR":
+            country = "KR";
+            break;
+
+        case "en-US":
+            country = "EN";
+            break;
+
+        case "zh-CN":
+            country = "CN";
+            break;
+
+        default:
+            country = "EN";
+            break;
+    }
+
+    return country;
 }

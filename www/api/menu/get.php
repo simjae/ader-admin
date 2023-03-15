@@ -227,7 +227,7 @@ if ($country != null) {
 									
 									$menu_sml_link = "";
 									if ($sml_data['LINK_TYPE'] != "EC") {
-										$menu_sml_link = "&menu_sort=S&menu_idx=".$sml_data['MENU_IDX'];
+										$menu_sml_link = $sml_data['LINK_URL']."&menu_sort=S&menu_idx=".$sml_data['MENU_IDX'];
 									} else {
 										$menu_sml_link = "http://".$sml_data['LINK_URL'];
 									}

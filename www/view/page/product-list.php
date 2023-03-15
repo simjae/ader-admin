@@ -48,11 +48,11 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                     </li>
                     <div class="sort-btn web rW sort__grid" data-grid="4">
                         <div class="d-i-b"><img src="/images/svg/grid-cols-2.svg" alt=""></div>
-                        <span style="white-space: nowrap;">2칸 보기</span>
+                        <span data-i18n="pl_change_layout" style="white-space: nowrap;">2칸 보기</span>
                     </div>
                     <div class="sort-btn mobile rM sort__grid" data-grid="2">
                         <div class="d-i-b"><img src="/images/svg/grid-cols-3.svg" alt=""></div>
-                        <span>3칸</span>
+                        <spa data-i18n="pl_change_layout">3칸</span>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                             <input id="order_param_POP" class="sort__cb self__cb" type="checkbox" name="order_param"
                                 value="POP" onClick="sortProductList(this);">
                             <div class="cb__mark"></div>
-                            <span>인기순</span>
+                            <span data-i18n="pl_trending">인기순</span>
                         </label>
                     </li>
                     <li class="sort-box" status="false" style="cursor:pointer;">
@@ -77,7 +77,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                             <input id="order_param_NEW" class="sort__cb self__cb" type="checkbox" name="order_param"
                                 value="NEW" onClick="sortProductList(this);">
                             <div class="cb__mark"></div>
-                            <span>신상품순</span>
+                            <span data-i18n="pl_latest">신상품순</span>
                         </label>
                     </li>
                     <li class="sort-box" status="false" style="cursor:pointer;">
@@ -85,7 +85,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                             <input id="order_param_MIN" class="sort__cb self__cb" type="checkbox" name="order_param"
                                 value="MIN" onClick="sortProductList(this);">
                             <div class="cb__mark"></div>
-                            <span>낮은 가격순</span>
+                            <span data-i18n="pl_high_price">낮은 가격순</span>
                         </label>
                     </li>
                     <li class="sort-box" status="false" style="cursor:pointer;">
@@ -93,7 +93,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                             <input id="order_param_MAX" class="sort__cb self__cb" type="checkbox" name="order_param"
                                 value="MAX" onClick="sortProductList(this);">
                             <div class="cb__mark"></div>
-                            <span>높은 가격순</span>
+                            <span data-i18n="pl_low_price">높은 가격순</span>
                         </label>
                     </li>
                 </ul>
@@ -145,8 +145,8 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                 </div>
                 <div class="filter-footer">
                     <div class="filter-btn-wraaper">
-                        <div class="reset-btn">초기화</div>
-                        <div class="select-btn"><span class="select-result">0</span>개의 제품 선택</div>
+                        <div class="reset-btn" data-i18n="pl_clear">초기화</div>
+                        <div class="select-btn" data-i18n="pl_view_product_sort"><span class="select-result">0</span>개의 제품 선택</div>
                     </div>
                 </div>
             </div>

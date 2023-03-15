@@ -41,31 +41,31 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 					<div class="img-box">
 						<img src="/images/svg/sizeguide.svg" alt="">
 					</div>
-					<div class="btn-title">사이즈가이드</div>
+					<div class="btn-title" data-i18n="pd_size_guide">사이즈가이드</div>
 				</div>
 				<div class="detail__btn__row mobile">
 					<div class="img-box">
 						<img src="/images/svg/material.svg" alt="">
 					</div>
-					<div class="btn-title">소재</div>
+					<div class="btn-title" data-i18n="pd_material">소재</div>
 				</div>
 				<div class="detail__btn__row mobile">
 					<div class="img-box">
 						<img src="/images/svg/information.svg" alt="">
 					</div>
-					<div class="btn-title">상세정보</div>
+					<div class="btn-title" data-i18n="pd_details">상세정보</div>
 				</div>
 				<div class="detail__btn__row mobile">
 					<div class="img-box">
 						<img src="/images/svg/precaution.svg" alt="">
 					</div>
-					<div class="btn-title">취급 유의사항</div>
+					<div class="btn-title" data-i18n="pd_care">취급 유의사항</div>
 				</div>
 			</div>
 			<div class="detail__refund__msg"></div>
 			<div class="detail__content__box">
 				<div class="detail-content">
-					<div class="content-header"><span></span></div>
+					<div class="content-header" data-i18n=""><span></span></div>
 					<div class="content-body"></div>
 				</div>
 				<div class="detail__btn__control">

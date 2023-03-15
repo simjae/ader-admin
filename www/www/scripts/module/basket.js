@@ -229,9 +229,6 @@ export function Basket(el, useSidebar) {
 		deleteAllBasketInfo();
 		
 		if (so_info.length > 0 ) {
-			
-			let msgBox = document.querySelector(".pay__notiy");
-			msgBox.innerText ='품절제품을 삭제 후 결제를 진행해주세요.';
 
 			//품절상품이 있을 경우  
 			let product_html = "";
@@ -520,6 +517,7 @@ export function Basket(el, useSidebar) {
 			}
 
 			if (selectArr.length > 0) {
+				msgBox.innerText = '';
 				location.href="/order/confirm?&basket_idx=" + selectArr;
 			}
 		});
@@ -681,23 +679,36 @@ export function Basket(el, useSidebar) {
 
 	//재고없음(STSO) 전체선택 체크박스 클릭 이벤트
 	function clickCheckboxSTSO(){
-		let $all_stso_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']");
-		let $stso_checkbox = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
-		$all_stso_checkbox.addEventListener("click" , function() {
-			$stso_checkbox.forEach(el => {
-				el.checked = this.checked;
+		let $all_stso_checkbox = null;
+		if ($(".sold__list__box .all__cb").length > 0) {
+			$all_stso_checkbox = document.querySelector(".sold__list__box .all__cb[name='sold']");
+		}
+		
+		let $stso_checkbox = null;
+		if ($(".sold__list__box .self__cb").length > 0) {
+			$stso_checkbox = document.querySelectorAll(".sold__list__box .self__cb[name='sold']");
+		}
+		
+		if ($all_stso_checkbox != null) {
+			$all_stso_checkbox.addEventListener("click" , function() {
+				$stso_checkbox.forEach(el => {
+					el.checked = this.checked;
+				});
 			});
-		});
-		$stso_checkbox.forEach(el => {
-			el.addEventListener("click", function() {
-				let checkedStso = document.querySelectorAll(".sold__list__box .self__cb[name='sold']:checked");
-				if($stso_checkbox.length == checkedStso.length) {
-					$all_stso_checkbox.checked = true;
-				} else {
-					$all_stso_checkbox.checked = false;
-				}
+		}
+		
+		if ($stso_checkbox != null) {
+			$stso_checkbox.forEach(el => {
+				el.addEventListener("click", function() {
+					let checkedStso = document.querySelectorAll(".sold__list__box .self__cb[name='sold']:checked");
+					if($stso_checkbox.length == checkedStso.length) {
+						$all_stso_checkbox.checked = true;
+					} else {
+						$all_stso_checkbox.checked = false;
+					}
+				})
 			})
-		})
+		}
 	}
 
 	/************************* 공통함수 **************************/

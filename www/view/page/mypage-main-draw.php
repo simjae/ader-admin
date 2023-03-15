@@ -149,7 +149,9 @@
         .draw__wrap {
             margin-top: 20px;
         }
-
+        .draw__wrap .mobile__view {
+            margin: 0;
+        }
         .contents__info .info span {
             font-size: 11px;
         }
@@ -208,40 +210,70 @@
             margin-bottom: 10px;
         }
     }
+    @media (max-width: 350px) {
+        .draw__wrap .swiper-slide.tab__btn__item{padding:0 15px 0 15px}
+        .draw__tab__btn__container {
+            display:none;
+        }
+    }
+    @media (min-width: 350px) {
+        .draw__wrap .swiper.tab__btn {
+            display: none;
+        }
+    }
 </style>
 <div class="draw__wrap">
     <div class="draw__tab__btn__container">
         <div class="tab__btn__item" form-id="draw__apply__form__wrap" onclick="getTotalDraw()">
-            <span>응모하기</span>
+            <span data-i18n="d_enter_draw">응모하기</span>
         </div>
         <div class="tab__btn__item" form-id="draw__result__wrap" onclick="getEntryDraw('result')">
-            <span>전체</span>
+            <span data-i18n="d_all">전체</span>
         </div>
         <div class="tab__btn__item" form-id="draw__ongoing__wrap" onclick="getEntryDraw('ongoing')">
-            <span>진행중</span>
+            <span data-i18n="d_in_process">진행중</span>
         </div>
         <div class="tab__btn__item" form-id="draw__win__wrap" onclick="getEntryDraw('win')">
-            <span>당첨</span>
+            <span data-i18n="d_won">당첨</span>
         </div>
         <div class="tab__btn__item" form-id="draw__not__win__wrap" onclick="getEntryDraw('not__win')">
-            <span>미당첨</span>
+            <span data-i18n="d_lost">미당첨</span>
+        </div>
+    </div>
+    <div class="swiper tab__btn">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide tab__btn__item" form-id="draw__apply__form__wrap" onclick="getTotalDraw()">
+                <span>응모하기</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="draw__result__wrap" onclick="getEntryDraw('result')">
+                <span>전체</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="draw__ongoing__wrap" onclick="getEntryDraw('ongoing')">
+                <span>진행중</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="draw__win__wrap" onclick="getEntryDraw('win')">
+                <span>당첨</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" form-id="draw__not__win__wrap" onclick="getEntryDraw('not__win')">
+                <span>미당첨</span>
+            </div>
         </div>
     </div>
     <div class="draw__tab__wrap">
         <div class="draw__tab draw__apply__form__wrap">
             <div class="title">
-                <p>드로우 응모하기</p>
+                <p data-i18n="d_draw_status_enter_draw">드로우 응모하기</p>
             </div>
             <p class="next__line__exist">
             <div class="description">
                 <div class="pc__view">
-                    <p>·&nbsp;새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,<br>
+                    <p data-i18n="d_draw_msg_01">·&nbsp;새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,<br>
                         정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.<br>
                         해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된 시스템으로,<br>
                         과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
                 </div>
                 <div class="mobile__view">
-                    <p>·&nbsp;새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,<br>
+                    <p data-i18n="d_draw_msg_01">·&nbsp;새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,<br>
                         정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및<br>
                         구매할 수 있는 권한을 부여하는 시스템입니다.<br>
                         해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br>
@@ -276,8 +308,8 @@
                 </div>
             </div>
             <div class="footer">
-                <p>·&nbsp;드로우 응모 이후 사이즈 수정은 불가합니다.</p>
-                <p>·&nbsp;당첨 여부는 문자 메시지로 개별 연락 드립니다.</p>
+                <p data-i18n="d_draw_after_msg_01">·&nbsp;드로우 응모 이후 사이즈 수정은 불가합니다.</p>
+                <p data-i18n="d_draw_after_msg_02">·&nbsp;당첨 여부는 문자 메시지로 개별 연락 드립니다.</p>
             </div>
         </div>
         <div class="draw__tab draw__win__wrap">

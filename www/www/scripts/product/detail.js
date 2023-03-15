@@ -24,6 +24,19 @@ const getProductApi = (productIdx) => {
         success: function (d) {
             makeProductListFlag(d);
             result = d.data;
+            let recent_img_location = result[0].img_thumbnail[result[0].img_thumbnail.length - 1].img_location !== undefined
+            ?result[0].img_thumbnail[result[0].img_thumbnail.length - 1].img_location
+            :result[0].img_thumbnail[0].img_location; 
+
+            console.log("🏂 ~ file: detail.js:28 ~ getProductApi ~ recent_img_location:", recent_img_location)
+            const recentProduct = {
+                product_idx: result[0].product_idx,
+                img_main: recent_img_location,
+                product_name: result[0].product_name,
+                stock_status: result[0].stock_status
+            };
+            console.log("🏂 ~ file: detail.js:33 ~ getProductApi ~ recentProduct:", recentProduct)
+            saveRecentlyViewed(recentProduct);
         }
     });
     return result;
@@ -87,16 +100,18 @@ function makeProductListFlag(d){
             let multi = colorData.split(";");
             // console.log(multi)
             // console.log(colorData)
+            // if(color.stock_status != "STSO") {
+            // }
             if (multi.length === 2) {
                 productColorHtml += `
-                    <div class="color-line" data-idx="${color.product_idx}"  style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
+                    <div class="color-line" data-idx="${color.product_idx}" data-stock="${color.stock_status}" style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
                         <p class="color-name">${color.color}</p>
                         <div class="color multi" data-title="${color.color}"></div>
                     </div>
                 `;
             } else {
                 productColorHtml += `
-                    <div class="color-line" data-idx="${color.product_idx}" data-title="${color.color}" style="--background-color:${multi[0]}">
+                    <div class="color-line" data-idx="${color.product_idx}" data-stock="${color.stock_status}" data-title="${color.color}" style="--background-color:${multi[0]}">
                         <p class="color-name">${color.color}</p>
                         <div class="color" data-title="${color.color}"></div>
                     </div>
@@ -163,7 +178,7 @@ function makeProductListFlag(d){
                 <div class="basket__box--btn">
                     <div class="basket-btn" >
                         <img src="/images/svg/basket.svg" alt="">
-                        <span class="basket-title">쇼핑백에 담기</span>
+                        <span class="basket-title" data-i18n="pd_basket_msg_05">쇼핑백에 담기</span>
                     </div>
                     <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
                         ${whish_img}
@@ -179,10 +194,10 @@ function makeProductListFlag(d){
                                 </svg>
                             </div>
                         </div>
-                        <div class='refund__msg'>제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
+                        <div class='refund__msg' data-i18n="pd_refund_msg_01">제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
                         <div class="refund-basket-btn"> 
                             <img src="/images/svg/basket.svg" alt=""> 
-                            <span class="basket-title">내용 확인 후 쇼핑백에 담기</span> 
+                            <span class="basket-title" data-i18n="pd_basket_msg_06">내용 확인 후 쇼핑백에 담기</span> 
                         </div> 
                     </div>`
                     :''}
@@ -193,27 +208,27 @@ function makeProductListFlag(d){
                     <div class="img-box">
                         <img src="/images/svg/sizeguide.svg" alt="">
                     </div>
-                    <div class="btn-title">사이즈가이드</div>
+                    <div class="btn-title" data-i18n="pd_size_guide">사이즈가이드</div>
                     <div class="detail__content__box"></div>
                 </div>
                 <div class="detail__btn__row web">
                     <div class="img-box">
                         <img src="/images/svg/material.svg" alt=""></div>
-                    <div class="btn-title">소재</div>
+                    <div class="btn-title" data-i18n="pd_material">소재</div>
                     <div class="detail__content__box"></div>
                 </div>
                 <div class="detail__btn__row web">
                     <div class="img-box">
                         <img src="/images/svg/information.svg" alt="">
                     </div>
-                    <div class="btn-title">상세정보</div>
+                    <div class="btn-title" data-i18n="pd_details">상세정보</div>
                     <div class="detail__content__box"></div>
                 </div>
                 <div class="detail__btn__row web">
                     <div class="img-box">
                         <img src="/images/svg/precaution.svg" alt="">
                     </div>
-                    <div class="btn-title">취급 유의사항</div>
+                    <div class="btn-title" data-i18n="pd_care">취급 유의사항</div>
                     <div class="detail__content__box"></div>
                 </div>
             </div>
@@ -229,7 +244,7 @@ function makeProductListFlag(d){
         <div class="basket__box--btn">
             <div class="basket-btn" >
                 <img src="/images/svg/basket.svg" alt="">
-                <span class="basket-title">쇼핑백에 담기</span>
+                <span class="basket-title" data-i18n="pd_basket_msg_05">쇼핑백에 담기</span>
             </div>
             <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
                 ${whish_img}
@@ -246,10 +261,10 @@ function makeProductListFlag(d){
                         </svg>
                     </div>
                 </div>
-                <div class='refund__msg'>제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
+                <div class='refund__msg' data-i18n="pd_refund_msg_01">제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
                 <div class="refund-basket-btn"> 
                     <img src="/images/svg/basket.svg" alt=""> 
-                    <span class="basket-title">내용 확인 후 쇼핑백에 담기</span> 
+                    <span class="basket-title" data-i18n="pd_basket_msg_06">내용 확인 후 쇼핑백에 담기</span> 
                 </div> 
             </div>`
             :''}
@@ -368,9 +383,12 @@ function followScrollBtn() {
     const thumbBtns = document.querySelectorAll(".thumb__box");
     thumbBtns.forEach(el => el.addEventListener("click", function () {
         let thumbIdx = (this.dataset.type) - 1;
-        let result = [...detailProduct].find((el, idx) => idx === thumbIdx)
-        let scrollTo = result.offsetTop
+        let result = [...detailProduct].find((el, idx) => idx === thumbIdx);
+        let scrollTo = result.offsetTop;
         toScroll(scrollTo);
+        if(pd_mainSwiper == null) {
+            return false;
+        }
         if (pd_mainSwiper.__swiper__ == true) {
             pd_mainSwiper.slideTo(thumbIdx)
         }
@@ -524,6 +542,7 @@ function basketStatusBtn() {
             let { status } = e.currentTarget.dataset;
             let sizeSelectResult = $('.size__box .select').length;
             if(status == 2 && sizeSelectResult == 0){
+                e.currentTarget.querySelector("span").dataset.i18n = "pd_choose_an_option";
                 e.currentTarget.querySelector("span").innerHTML = "옵션을 선택해주세요";
                 e.currentTarget.querySelector("img").setAttribute("src", "/images/svg/pd-unoption.svg");
                 e.currentTarget.querySelector("img").classList.remove("hidden");
@@ -533,6 +552,7 @@ function basketStatusBtn() {
             let { status } = e.currentTarget.dataset;
             let sizeSelectResult = $('.size__box .select').length;
             if(status == 2 && sizeSelectResult == 0){
+                e.currentTarget.querySelector("span").dataset.i18n = "pd_basket_msg_05";
                 e.currentTarget.querySelector("span").innerHTML = "쇼핑백에 담기";
                 e.currentTarget.querySelector("img").classList.remove("hidden");
                 e.currentTarget.querySelector("img").setAttribute("src", "/images/svg/basket.svg");
@@ -559,6 +579,7 @@ function basketBtnStatusChange(el, idx) {
                 btn.dataset.status = 1;
                 break;
             case 2:
+                btn.querySelector("span").dataset.i18n = "pd_basket_msg_05";
                 btn.querySelector("span").innerHTML = "쇼핑백에 담기";
                 btn.querySelector("img").classList.remove("hidden");
                 btn.querySelector("img").setAttribute("src", "/images/svg/basket.svg");
@@ -572,6 +593,7 @@ function basketBtnStatusChange(el, idx) {
                 btn.dataset.status = 3;
                 break;
             case 4:
+                btn.querySelector("span").dataset.i18n = "pd_choose_an_option";
                 btn.querySelector("span").innerHTML = "옵션을 선택해주세요";
                 btn.querySelector("img").setAttribute("src", "/images/svg/pd-unoption.svg");
                 btn.querySelector("img").classList.remove("hidden");
@@ -681,8 +703,13 @@ function colorNodeCheck() {
             // document.querySelector(".color-line .color-name").classList.add("select");
         });
         el.addEventListener("click", function (e) {
-            let targetIdx = e.currentTarget.dataset.idx;
-            window.location.href = `http://116.124.128.246/product/detail?product_idx=${targetIdx}`
+            let stock_status = el.dataset.stock;
+            if(stock_status == "STSO") {
+                return false
+            } else {
+                let targetIdx = e.currentTarget.dataset.idx;
+                window.location.href = `http://116.124.128.246/product/detail?product_idx=${targetIdx}`
+            }
         });
     });
 }
@@ -766,15 +793,19 @@ function mobileDetailBtnHanddler() {
         let detailContentWrap = document.querySelector(".rM-detail-containner .detail-content");
         if (idx == 0) {
             detailContentWrap.className = "detail-content sizeguide";
+            contentHeader.dataset.i18n = "pd_size_guide";
             contentHeader.innerHTML = "사이즈가이드";
         } else if (idx == 1) {
             detailContentWrap.className = "detail-content material";
+            contentHeader.dataset.i18n = "pd_material";
             contentHeader.innerHTML = "소재";
         } else if (idx == 2) {
             detailContentWrap.className = "detail-content productinfo";
+            contentHeader.dataset.i18n = "pd_details";
             contentHeader.innerHTML = "제품 상세 정보";
         } else if (idx == 3) {
             detailContentWrap.className = "detail-content precaution";
+            contentHeader.dataset.i18n = "pd_care";
             contentHeader.innerHTML = "취급 유의 사항";
         }
     }
@@ -836,16 +867,20 @@ function webDetailBtnHanddler(){
         let detailContentWrap = document.querySelector(".detail__sidebar__wrap .detail-content");
         if (idx == 0) {
             detailContentWrap.className = "detail-content sizeguide";
+            contentHeader.dataset.i18n = "pd_size_guide";
             contentHeader.innerHTML = "사이즈가이드";
             sizeguideBtnEvent();
         } else if (idx == 1) {
             detailContentWrap.className = "detail-content material";
+            contentHeader.dataset.i18n = "pd_material";
             contentHeader.innerHTML = "소재";
         } else if (idx == 2) {
             detailContentWrap.className = "detail-content productinfo";
+            contentHeader.dataset.i18n = "pd_details";
             contentHeader.innerHTML = "제품 상세 정보";
         } else if (idx == 3) {
             detailContentWrap.className = "detail-content precaution";
+            contentHeader.dataset.i18n = "pd_care";
             contentHeader.innerHTML = "취급 유의 사항";
         }
     }
@@ -876,10 +911,10 @@ function webDetailBtnHanddler(){
         const ioCallback = (entries, io) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    console.log("나타남")
+                    
                     sideBarClose();
                 }else{
-                    console.log("사라짐")
+                    
                 }
             });
         };
@@ -917,7 +952,7 @@ function getProductDetailInfo (product_idx){
                     <div class="sizeguide-btn">A4</div>
                     <div class="sizeguide-btn">A5</div>
                 </div>
-                <div class="sizeguide-noti">모델신장 179cm,착용사이즈는 A3입니다.</div>
+                <div class="sizeguide-noti" data-i18n="pd_model_msg_01">모델 신장 179cm,착용사이즈는 A3입니다.</div>
                 <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
                 <ul class="sizeguide-dct">
                     <li class="dct-row">
@@ -979,7 +1014,7 @@ function innerSideBar(){
                     <div class="sidebar__body">
                         <div class="detail__content__box">
                             <div class="detail-content precaution">
-                                <div class="content-header"><span></span></div>
+                                <div class="content-header"><span data-i18n=""></span></div>
                                 <div class="content-body"></div>
                             </div>
                         </div>
@@ -998,7 +1033,6 @@ function innerSideBar(){
 window.addEventListener('DOMContentLoaded', function () {
     let product_idx = document.querySelector("main").dataset.productidx;
     getProductApi(product_idx);
-    saveRecentlyViewed(product_idx);
     pdResponsiveSwiper();
     mobileDetailBtnHanddler();
     $('#quickview').removeClass("hidden");

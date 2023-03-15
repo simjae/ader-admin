@@ -1,0 +1,299 @@
+    main {
+        padding-top: 50px;
+        overflow-x: hidden;
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
+    }
+
+
+    .store-section.map {
+        margin-top: 100px;
+    }
+
+    .store-section .search-header {
+        display: flex;
+        gap: 10px;
+        border-bottom: 1px solid #dcdcdc;
+        max-width: 710px;
+        margin-bottom: 15px;
+    }
+
+    .store-section .search-body {
+        display: flex;
+        gap: 130px;
+        margin-bottom: 100px;
+        margin-top: 50px;
+    }
+
+    #map {
+        width: 950px;
+        height: 534.4px;
+        border: 1px solid #dcdcdc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #web-detail-wrap .banner{
+        border: 0px;
+        max-width: 590px;
+        padding: 0;
+
+    }
+    .store-section #web-detail-wrap .banner .banner-img{
+        max-width:590px;
+        height: auto;
+    }
+    .store-section #web-detail-wrap .banner figcaption{
+        margin:30px 0 15px 0;
+    }
+    .store-section {
+        grid-column: 2/15;
+    }
+
+    .store-section.brand-store {
+        margin-bottom: 40px;
+    }
+
+    .store-section.map {
+        grid-column: 2/16;
+    }
+
+
+    .web-detail-wrap .banner {
+        height: 100%;
+        border: 0px;
+        padding: 0;
+    }
+
+
+    .store-section .store-title {
+        font-size: 13px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.46;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+        margin-bottom: 40px;
+    }
+
+    .store-section .store-subtitle {
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.45;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+        margin-bottom: 10px;
+    }
+
+    .store-section.plug-store .store-subtitle {
+        margin-top: 40px;
+    }
+
+    .store-section .store-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .store-section .banner {
+        padding: 10px;
+        border: 1px solid #dcdcdc;
+        max-width: 470px;
+    }
+
+    .store-section .banner .banner-img {
+        max-width: 450px;
+        height: 250px;
+    }
+
+    .store-section .banner figcaption {
+        margin: 30px 0;
+    }
+
+    .store-section .banner .detail-view-btn {
+        height: 40px;
+        display: flex;
+        width: 230px;
+        border: 1px solid #808080;
+        border-radius: 1px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .store-section .banner .store_addr-box {
+        display: flex;
+        align-items: center;
+        gap: 0px;
+        flex-wrap: wrap;
+    }
+
+    .store-section .banner .store_addr-box .addr-svg {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .store-section .banner .store_addr-box .addr-svg img {
+        width: 12px;
+        height: 14px;
+    }
+
+    .store-section .banner .store_addr-box .addr-svg span {
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.55;
+        letter-spacing: normal;
+        text-align: left;
+        color: #808080;
+        border-bottom: solid 1px #808080;
+    }
+
+    .store-section .banner .store-name-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .store-section .banner .store-name-box img {
+        margin-bottom: 2px;
+    }
+
+    .store-section .banner .store_name {
+        font-size: 13px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.08;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+    }
+
+    .store-section .banner .store_addr {
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.45;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+        margin-right: 15px;
+    }
+
+    .store-section .banner .store_link {
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.45;
+        letter-spacing: 0.28px;
+        text-align: left;
+        color: #343434;
+        text-decoration: underline;
+    }
+
+    .store-section .banner .store_tel {
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.45;
+        letter-spacing: 0.28px;
+        text-align: left;
+        color: #343434;
+    }
+
+    .store-section .banner .store_open_date {
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 2.45;
+        letter-spacing: 0.28px;
+        text-align: left;
+        color: #343434;
+    }
+
+
+    /* 스톡키스트 */
+    .store-section.stockist-store {
+        margin-top: 100px;
+        margin-bottom: 200px;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .store-section.stockist-store .stockist-country-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .store-section.stockist-store .stockist-country-wrap .stockist-country-header {
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.45;
+        letter-spacing: normal;
+        text-align: left;
+        color: #343434;
+    }
+
+    .store-section.stockist-store .stockist-country-wrap .stockist-country-body {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .store-section.stockist-store .stockist-country-wrap .stockist-country-body .banner {
+        padding: 10px;
+        border: 1px solid #dcdcdc;
+        width: 100%;
+    }
+
+    @media (max-width: 1025px) {
+
+        main {
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+        }
+
+        .store-section .banner {
+            padding: 0;
+            border: 0px;
+            max-width: 100%;
+        }
+
+        .store-section .banner .banner-img {
+            max-width: 100%;
+            height: 200px;
+        }
+
+        .store-section .store-body {
+            gap: 60px;
+        }
+
+        .store-section .banner .store_addr-box {
+            gap: 0px;
+            flex-wrap: wrap;
+        }
+
+        .store-section .banner .store_addr-box .store_addr {
+            margin-right: 15px;
+        }
+
+        .store-section.stockist-store {
+            gap: 30px;
+        }
+    }

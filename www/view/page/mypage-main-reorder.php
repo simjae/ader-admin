@@ -160,29 +160,29 @@
 <div class="reorder__wrap">
     <div class="reorder__tab__btn__container">
         <div class="tab__btn__item" form-id="reorder__apply__wrap" onclick="getreorderList('apply')">
-            <span>신청완료</span>
+            <span data-i18n="r_reorder_history">신청완료</span>
         </div>
         <div class="tab__btn__item" form-id="reorder__alarm__wrap" onclick="getreorderList('alarm')">
-            <span>알림완료</span>
+            <span data-i18n="r_reorder_notified">알림완료</span>
         </div>
         <div class="tab__btn__item" form-id="reorder__cancel__wrap" onclick="getreorderList('cancel')">
-            <span>취소완료</span>
+            <span data-i18n="r_reorder_cancelled">취소완료</span>
         </div>
     </div>
     <div class="reorder__tab__wrap">
         <div class="reorder__tab reorder__apply__wrap">
             <div class="title">
-                <p>재입고알림 신청내역</p>
+                <p data-i18n="r_reorder_noti_history">재입고알림 신청내역</p>
             </div>
             <div class="description reorder__apply_pc">
-                <p>·&nbsp;해당제품이 재입고되면 메시지를 발송해드립니다.</p>
-                <p>·&nbsp;스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
-                <p>·&nbsp;재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와 관계없이 발송됩니다.</p>
+                <p data-i18n="r_reorder_msg_01">·&nbsp;해당제품이 재입고되면 메시지를 발송해드립니다.</p>
+                <p data-i18n="r_reorder_msg_02">·&nbsp;스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
+                <p data-i18n="r_reorder_msg_03">·&nbsp;재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와 관계없이 발송됩니다.</p>
             </div>
             <div class="description reorder__apply_mobile">
-                <p>·&nbsp;해당제품이 재입고되면 메시지를 발송해드립니다.</p>
-                <p>·&nbsp;스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
-                <p>·&nbsp;재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와<br> 관계없이 발송됩니다.</p>
+                <p data-i18n="r_reorder_msg_01">·&nbsp;해당제품이 재입고되면 메시지를 발송해드립니다.</p>
+                <p data-i18n="r_reorder_msg_02">·&nbsp;스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
+                <p data-i18n="r_reorder_msg_03">·&nbsp;재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와<br> 관계없이 발송됩니다.</p>
             </div>
             <form id="frm-reorder-list">
                 <input type="hidden" name="rows" value="10">
@@ -222,7 +222,7 @@
         </div>
         <div class="reorder__tab reorder__alarm__wrap">
             <div class="title">
-                <p>재입고알림 완료내역</p>
+                <p data-i18n="r_reorder_notified_history">재입고알림 완료내역</p>
             </div>
             <div class="contents__table">
                 <div class="pc__view">
@@ -256,7 +256,7 @@
         </div>
         <div class="reorder__tab reorder__cancel__wrap">
             <div class="title">
-                <p>재입고알림 취소내역</p>
+                <p data-i18n="r_reorder_noti_cancelled">재입고알림 취소내역</p>
             </div>
             <div class="contents__table">
                 <div class="pc__view">

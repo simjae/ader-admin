@@ -643,6 +643,7 @@
 }
 #sidebar .sold__list__box .prd_cb.all__cb {
     position: relative;
+    top: 15px;
 }
 #sidebar .sold__list__box .cb__custom.all .cb__mark {
     margin-bottom: 10px;

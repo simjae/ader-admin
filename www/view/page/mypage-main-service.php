@@ -2,7 +2,7 @@
     .service__wrap {
         display: grid;
         grid-template-columns: repeat(16, 1fr);
-        margin-top: 40px;
+        margin: 40px 0 100px;
         width: 100%;
     }
 
@@ -125,7 +125,7 @@
         }
 
         .service__wrap {
-            margin-top: 20px;
+            margin: 20px 0 60px;
         }
 
         .service__wrap .description {
@@ -154,9 +154,14 @@
         }
     }
 
+    @media (max-width: 445px) {
+        .service__tab__btn__container {
+            display:none;
+        }
+    }
     @media (min-width: 445px) {
         .service__wrap .swiper.tab__btn {
-            display: none;
+            display:none;
         }
     }
 </style>

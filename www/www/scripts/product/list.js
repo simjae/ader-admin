@@ -192,14 +192,14 @@ function productWriteHtml(grid_info) {
                         
                         ${el.product_img.product_p_img.map((img) => {
                             imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
-                                        <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                        <img class="prd-img" cnt="${el.product_idx}" data-src="${img_root}${img.img_location}" src="${img_root}${img.img_location}" alt="">
                                     </div>`
                             return imgDiv;
                             }).join("")
                         }
                         ${el.product_img.product_o_img.map((img) => {
                             imgDiv =`<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
-                                        <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
+                                        <img class="prd-img" cnt="${el.product_idx}" data-src="${img_root}${img.img_location}" src="${img_root}${img.img_location}" alt="">
                                     </div>`
                             return imgDiv;
                             }).join("")
@@ -597,12 +597,14 @@ function clickImgTypeBtn() {
         img_param.val('P');
         img_type_text = "아이템";
         $(".type-btn img").attr("src", "/images/svg/item.svg").css({ "width": "16px", "height": "12px" });
+        $('#img_type_text').attr("data-i18n", "pl_view_product");
         items.forEach(el => el.style.display = "none");
         outfits.forEach(el => el.style.display = "block");
     } else if (img_param.val() == "P") {
         img_param.val('O');
         img_type_text = "착용컷";
         $(".type-btn img").attr("src", "/images/svg/cloth.svg").css({ "width": "8px", "height": "17px" });
+        $('#img_type_text').attr("data-i18n", "pl_model_cut");
         items.forEach(el => el.style.display = "block");
         outfits.forEach(el => el.style.display = "none");
     }
@@ -650,7 +652,7 @@ function getProductListByScroll(last_idx, more_flg) {
                     if (more_flg == "true") {
                         let strDiv = "";
                         strDiv += '<div class="show_more_btn" onClick="clickShowMore();">';
-                        strDiv += '    <span class="add-btn">더보기 +</span>';
+                        strDiv += '    <span class="add-btn" data-i18n="pl_view_more">더보기 +</span>';
                         strDiv += '    <img src="" alt="">';
                         strDiv += '</div>';
 

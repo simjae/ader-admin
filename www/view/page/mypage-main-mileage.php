@@ -131,22 +131,22 @@
 <div class="mileage__wrap">
     <div class="mileage__tab__btn__container">
         <div class="tab__btn__item" form-id="mileage__total__wrap" onclick="mileageGetInfo('total')">
-            <span>전체</span>
+            <span data-i18n="ml_all">전체</span>
         </div>
         <div class="tab__btn__item" form-id="mileage__save__wrap" onclick="mileageGetInfo('save')">
-            <span>적립</span>
+            <span data-i18n="ml_earned">적립</span>
         </div>
         <div class="tab__btn__item" form-id="mileage__use__wrap" onclick="mileageGetInfo('use')">
-            <span>사용</span>
+            <span data-i18n="ml_used_a">사용</span>
         </div>
         <div class="tab__btn__item" form-id="mileage__notice__wrap">
-            <span>유의사항</span>
+            <span data-i18n="ml_notice">유의사항</span>
         </div>
     </div>
     <div class="mileage__tab__wrap">
         <div class="mileage__tab mileage__total__wrap">
             <div class="title">
-                <p>적립포인트 현황</p>
+                <p data-i18n="ml_mileage_history">적립포인트 현황</p>
             </div>
             <div class="contents__table bluemark total">
                 <table class="border__bottom__th" style="width:100%">
@@ -157,13 +157,13 @@
                     </colsgroup>
                     <thead>
                         <th>
-                            <p>현재 적립포인트</p>
+                            <p data-i18n="ml_current_mileage">현재 적립포인트</p>
                         </th>
                         <th>
-                            <p>사용된 포인트</p>
+                            <p data-i18n="ml_used_b">사용된 포인트</p>
                         </th>
                         <th>
-                            <p>환불예정 포인트</p>
+                            <p data-i18n="ml_awaiting_refund">환불예정 포인트</p>
                         </th>
                     </thead>
                     <tbody id="mileage_summary_table">
@@ -180,10 +180,10 @@
                 </table>
             </div>
             <div class="description tab__total">
-                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
-                <p>·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
-                <p>·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
-                <p>·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
+                <p data-i18n="ml_mileage_msg_01">·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
+                <p data-i18n="ml_mileage_msg_02">·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
+                <p data-i18n="ml_mileage_msg_03">·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
+                <p data-i18n="ml_mileage_msg_04">·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
             </div>
             <div class="contents__table bluemark all_list">
                 <form id="frm-mileage-total-list">
@@ -331,7 +331,7 @@
         </div>
         <div class="mileage__tab mileage__use__wrap">
             <div class="title">
-                <p>사용된 포인트</p>
+                <p data-i18n="ml_used_b">사용된 포인트</p>
             </div>
             <form id="frm-mileage-use-list">
                 <input type="hidden" name="rows" value="10">
@@ -408,10 +408,10 @@
                 <p>적립포인트 유의사항</p>
             </div>
             <div class='description tab__notice'>
-                <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
-                <p>·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
-                <p>·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
-                <p>·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
+                <p data-i18n="ml_mileage_msg_01">·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
+                <p data-i18n="ml_mileage_msg_02">·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
+                <p data-i18n="ml_mileage_msg_03">·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
+                <p data-i18n="ml_mileage_msg_04">·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
             </div>
         </div>
     </div>

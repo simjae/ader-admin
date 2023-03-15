@@ -43,6 +43,7 @@ export default function StylingRender(relevant_idx) {
 				const swiperWrap = document.querySelector(".styling-swiper .swiper-wrapper");
                 const domFrag = document.createDocumentFragment();
 
+                console.log(data)
                 data.forEach(el => {
                     let prdListSlide = document.createElement("div");
                     prdListSlide.classList.add("swiper-slide");

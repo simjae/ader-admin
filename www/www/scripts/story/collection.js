@@ -1,5 +1,6 @@
 
 let timer = null;
+let lookbookObserve;
 //api 관련 
 const getCollectionProjectList = () => {
     let country = getLanguage();
@@ -23,7 +24,29 @@ const getCollectionProjectList = () => {
     return result;
 }
 
-const getCollectionProductList = (project_idx, last_idx) => {
+// const getCollectionProductList = (project_idx, last_idx) => {
+//     let result;
+//     $.ajax({
+//         type: "post",
+//         url: "http://116.124.128.246/_api/posting/collection/product/list/get",
+//         data: {
+//             'project_idx': project_idx,
+//             'last_idx': last_idx
+//         },
+//         async: false,
+//         dataType: "json",
+//         error: function () {
+//             alert('컬렉션 상품 이미지 조회처리중 오류가 발생했습니다.');
+//         },
+//         success: function (d) {
+//             result = d.data;
+//         }
+//     })
+//     return result;
+// }
+
+
+function getCollectionProductList(project_idx, last_idx){
     let result;
     $.ajax({
         type: "post",
@@ -39,10 +62,18 @@ const getCollectionProductList = (project_idx, last_idx) => {
         },
         success: function (d) {
             result = d.data;
+            console.log(result)
         }
-    })
+    });
+    console.log(result === undefined ?"1":"2")
+    console.log(lookbookObserve)
+    if (result === undefined || result.length === 0) {
+        if (lookbookObserve) {
+            lookbookObserve.disconnect();
+        }
+    }
     return result;
-}
+};
 const getCollectionProduct = (project_idx) => {
     let result;
     $.ajax({
@@ -98,33 +129,68 @@ function appendLookbookCategory() {
         }
     });
 }
+// function appendLookbook(projectIdx, last_idx) {
+//     let lookbookResult = document.querySelector(".lookbook-result");
+//     let data = getCollectionProductList(projectIdx, last_idx);
+//     if (data === undefined) return;
+//     data.forEach(( el) => {
+//         let { c_product_idx, img_location, relevant_flg } = el;
+//         let list = makeLookbookHtml(c_product_idx, img_location);
+//         lookbookResult.appendChild(list);
+//     });
+//     const items = document.querySelectorAll('.lookbook-result .lookbook');
+//     const ioCallback = (entries, io) => {
+//         entries.forEach((entry) => {
+//             if (entry.isIntersecting) {
+//                 let lastIdx = document.querySelectorAll('.lookbook-result .lookbook').length;
+//                 io.unobserve(entry.target);
+//                 appendLookbook(projectIdx, lastIdx);
+//                 observeLastItem(io, document.querySelectorAll('.lookbook-result .lookbook'));
+//             }
+//         });
+//     };
+//     const observeLastItem = (io, items) => {
+//         const lastItem = items[items.length - 1];
+//         io.observe(lastItem);
+//         return lastItem;
+//     };
+//     const lookbookObserve = new IntersectionObserver(ioCallback, { threshold: 0.7 });
+//     observeLastItem(lookbookObserve, items);
+// }
 function appendLookbook(projectIdx, last_idx) {
+    console.log("🏂 ~ file: collection.js:161 ~ appendLookbook ~ projectIdx:", projectIdx)
     let lookbookResult = document.querySelector(".lookbook-result");
     let data = getCollectionProductList(projectIdx, last_idx);
-    if (data === undefined) return;
-    data.forEach(( el) => {
-        let { c_product_idx, img_location, relevant_flg } = el;
-        let list = makeLookbookHtml(c_product_idx, img_location);
-        lookbookResult.appendChild(list);
-    });
-    const items = document.querySelectorAll('.lookbook-result .lookbook');
-    const ioCallback = (entries, io) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                let lastIdx = document.querySelectorAll('.lookbook-result .lookbook').length;
-                io.unobserve(entry.target);
-                appendLookbook(projectIdx, lastIdx);
-                observeLastItem(io, document.querySelectorAll('.lookbook-result .lookbook'));
-            }
+    console.log(data)
+
+    if (Array.isArray(data) && data.length === 0 ){
+        lookbookObserve.disconnect();
+    }else{
+        data.forEach((el) => {
+            let { c_product_idx, img_location, relevant_flg } = el;
+            let list = makeLookbookHtml(c_product_idx, img_location);
+            lookbookResult.appendChild(list);
         });
-    };
-    const observeLastItem = (io, items) => {
-        const lastItem = items[items.length - 1];
-        io.observe(lastItem);
-        return lastItem;
-    };
-    const lookbookObserve = new IntersectionObserver(ioCallback, { threshold: 0.7 });
-    observeLastItem(lookbookObserve, items);
+        const items = document.querySelectorAll('.lookbook-result .lookbook');
+        const ioCallback = (entries, io) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    let lastIdx = document.querySelectorAll('.lookbook-result .lookbook').length;
+                    io.unobserve(entry.target);
+                    appendLookbook(projectIdx, lastIdx);
+                    observeLastItem(io, document.querySelectorAll('.lookbook-result .lookbook'));
+                }
+            });
+        };
+        const observeLastItem = (io, items) => {
+            const lastItem = items[items.length - 1];
+            io.observe(lastItem);
+            return lastItem;
+        };
+        lookbookObserve = new IntersectionObserver(ioCallback, { threshold: 0.7 });
+        observeLastItem(lookbookObserve, items);
+    }
+
 }
 function appendDetailSwiper(data) {
     let lookbookDetailSwiperWrapper = document.querySelector(".lookbook-detail-swiper .swiper-wrapper");

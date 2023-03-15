@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 결제정보 입력화면 - 배송지 정보 개별 삭제
+ | 결제정보 입력화면 - 배송지 정보 조회
  | -------
  |
  | 최초 작성	: 손성환
@@ -14,11 +14,15 @@
  +=============================================================================
 */
 
-$member_idx = 1;
-/*$member_idx = 0;
+$member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
-}*/
+}
+
+$order_to_idx = 0;
+if (isset($_POST['order_to_idx'])) {
+	$order_to_idx = $_POST['order_to_idx'];
+}
 
 if ($member_idx == 0) {
 	$json_result['code'] = 401;
@@ -26,16 +30,15 @@ if ($member_idx == 0) {
 	exit;
 }
 
-$to_idx		= $_POST['to_idx'];
-$member_idx	= $_POST['member_idx'];
-
-if ($to_idx != null && $member_idx != 0) {
-	$sql = "DELETE FROM
-				dev.ORDER_TO
-			WHERE
-				IDX = ".$to_idx." AND
-				MEMBER_IDX = ".$member_idx;
+if ($member_idx > 0 && $order_to_idx > 0) {
+	$delete_order_to_sql = "
+		DELETE FROM
+			dev.ORDER_TO
+		WHERE
+			IDX = ".$order_to_idx." AND
+			MEMBER_IDX = ".$member_idx."
+	";
 	
-	$db->query($sql);
+	$db->query($delete_order_to_sql);
 }
 ?>

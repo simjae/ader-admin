@@ -148,7 +148,9 @@
         .stanby__wrap {
             margin-top: 20px;
         }
-
+        .stanby__wrap .mobile__view {
+            margin: 0;
+        }
         .stanby__tab__contents {
             width: 100%
         }

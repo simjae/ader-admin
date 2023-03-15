@@ -4,7 +4,7 @@
         grid-template-columns: repeat(16, 1fr);
         place-items: center;
         width: 100%;
-        margin-top: 40px;
+        margin: 40px 0 100px;
         color: #343434;
     }
 
@@ -299,7 +299,7 @@
         }
 
         .as_container {
-            margin-top: 20px;
+            margin: 20px 0 60px;
         }
 
         .as__wrap__content__container p {
@@ -369,6 +369,17 @@
             margin: 0 auto;
         }
     }
+    @media (max-width: 350px) {
+        .as_container .swiper-slide.tab__btn__item{padding:0 15px 0 15px}
+        .as_tab_btn {
+            display:none;
+        }
+    }
+    @media (min-width: 350px) {
+        .as_container .swiper.tab__btn {
+            display: none;
+        }
+    }
 </style>
 
 <div class="as_container">
@@ -378,6 +389,22 @@
         <li onclick="clickAsTab (this)" tab_num="three">A/S 내역</li>
         <li onclick="clickAsTab (this)" tab_num="four" style="width: 86px;">약관 및 요금</li>
     </ul>
+    <div class="swiper tab__btn">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="one">
+                <span>A/S 신청</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="two">
+                <span>A/S 현황</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="three">
+                <span>A/S 내역</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="four">
+                <span>약관 및 요금</span>
+            </div>
+        </div>
+    </div>
     <div class="as__tab__wrap">
         <div class="tab one">
             <div class="as__wrap__content__container">

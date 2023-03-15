@@ -360,24 +360,23 @@ function getLanguage() {
 
     return country;
 }
-
 /**
  * @author SIMJAE
- * @param {String} product_idx 상품 인덱스
+ * @param {Object} product
  * @description 최근 본 상품 기록 10개로 갯수제한 
  */
-function saveRecentlyViewed(product_idx) {
-    product_idx = parseInt(product_idx)
+function saveRecentlyViewed(product) {
+    product.product_idx = parseInt(product.product_idx)
     const keyName = "recentlyViewed";
     let recentlyViewed = localStorage.getItem('recentlyViewed');
     recentlyViewed = recentlyViewed ? new Set(JSON.parse(recentlyViewed)) : new Set();
 
     const prevValue = JSON.parse(localStorage.getItem(keyName));
-    if (recentlyViewed.has(JSON.stringify(product_idx))) {
+    if (recentlyViewed.has(JSON.stringify(product.product_idx))) {
         // 이미 존재하는 상품이면 삭제 후 다시 추가하여 가장 최신 상품으로 보이도록 함
-        recentlyViewed.delete(JSON.stringify(product_idx));
+        recentlyViewed.delete(JSON.stringify(product.product_idx));
     }
-    recentlyViewed.add(JSON.stringify(product_idx));
+    recentlyViewed.add(JSON.stringify(product));
 
     if (recentlyViewed.size > 10) {
         // 최근 본 상품이 10개를 초과하면 가장 오래된 상품 삭제

@@ -153,7 +153,9 @@
             margin: 40px 0 60px;
             min-width: 340px;
         }
-
+        .membership__wrap .mobile__view {
+            margin: 0;
+        }
         .level__box {
             width: 100%;
             height: 31px;
@@ -185,6 +187,9 @@
 
         .level__info__item .title {
             height: 19px;
+        }
+        .level__info__item .title p {
+            font-size: 13px;
         }
     }
 

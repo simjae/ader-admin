@@ -468,7 +468,7 @@
                 contentWrap.classList.remove('open');
                 swiperContainer.classList.add('close-swiper');
                 btnWrap.classList.remove('open');
-            }, 30000);
+            }, 10000);
             } else {
                 contentWrap.classList.add('open');
                 swiperContainer.classList.remove('close-swiper');
@@ -483,9 +483,9 @@
 
     observer.observe(target, obConfig);
 
-    btnWrap.addEventListener('mouseenter', function() {
-        target.value = 'open';
-    })
+    // btnWrap.addEventListener('mouseenter', function() {
+    //     target.value = 'open';
+    // })
     contentWrap.addEventListener('mouseenter', function() {
         target.value = 'open';
     })
@@ -608,6 +608,12 @@
                         const recentlyViewedStr = localStorage.getItem('recentlyViewed'); 
                         const recentlyViewedArr = JSON.parse(recentlyViewedStr);
                         console.log("🏂 ~ file: quickview.php:610 ~ recentlyViewedArr:", recentlyViewedArr)
+                        if (recentlyViewedArr && recentlyViewedArr.length > 0) {
+                            const recentObj = recentlyViewedArr.filter(item => typeof(JSON.parse(item)) === 'object');
+                            recentWriteSwiperHtml(recentObj);
+                        } else {
+                            recentWriteSwiperHtml([]);
+                        }
                     }
                     if (targetData == "real") {
                         whishSwiperWrap.innerHTML = "";
@@ -691,20 +697,64 @@
         });
     }
     function resizeWidth(dataCnt) {
-        // const el = document.querySelector(".quickview-whish-swiper .quickview-swiper-wrapper");
-        const el = document.querySelector(".swiper-quick-container .quickview-swiper-wrapper");
         let arrowWidth = 30;
-        if (dataCnt > 6) {
-            el.style.width = (420 - arrowWidth) + "px";
+        let width = 420;
+        if (dataCnt >= 6) {
+            width = (420 - arrowWidth) + "px";
         }
         if (dataCnt < 5) {
-            el.style.width = (375 - arrowWidth) + "px";
+            width = (375 - arrowWidth) + "px";
         }
         if (dataCnt < 4) {
-            el.style.width = (290 - arrowWidth) + "px";
+            width = (290 - arrowWidth) + "px";
         }
         if (dataCnt < 3) {
-            el.style.width = (200 - arrowWidth) + "px";
+            width = (200 - arrowWidth) + "px";
+        }
+        console.log("🏂 ~ file: quickview.php:713 ~ resizeWidth ~ width:", width)
+        
+        $(".swiper-quick-container .quickview-swiper-wrapper").css('width',width);
+    }
+    function recentWriteSwiperHtml(data) {
+        let dataCnt = data.length;
+        console.log("🏂 ~ file: quickview.php:718 ~ recentWriteSwiperHtml ~ dataCnt:", dataCnt)
+        console.log("Object.keys Length : ",Object.keys(data).length);
+        const whishDomFlag = document.createDocumentFragment();
+        const swiperWrapper = document.createElement("div");
+        const swiperWrap = document.querySelector(".quickview-whish-swiper");
+        const nextBtn = document.createElement("div");
+
+        if (data.length === 0) {
+            let msgDiv = `<div class="wish-msg">최근 본 상품이 비어있습니다.</div>`;
+            swiperWrap.innerHTML = msgDiv;
+            $('.quickview__content__wrap .all-btn').hide();
+        } else {
+            // $('.quickview__content__wrap .all-btn').show();
+            nextBtn.className = "swiper-button-next";
+            swiperWrapper.className = "swiper-wrapper quickview-swiper-wrapper";
+            let slideDiv = "";
+            data = Array.from(data).reverse();
+            data.forEach((product, idx) => {
+                let data = JSON.parse(product);
+                let { product_idx, product_name, img_main, stock_status } = data;
+                //const domain = img_main.replace(/^(http(s)?:\/\/)?[\d\.]+(:\d+)?/, "");
+                slideDiv += `<div class="swiper-slide" data-productidx="${product_idx}">
+                                <a href="">
+                                    <div class="swiper-box"><img src="${img_root}${img_main}" alt="">
+                                        <span class="product-name">${product_name}</span>
+                                    </div>
+                                </a>
+                            </div>`;
+            });
+            swiperWrapper.innerHTML = slideDiv;
+            whishDomFlag.appendChild(swiperWrapper);
+            swiperWrap.innerHTML = "";
+            swiperWrap.appendChild(whishDomFlag);
+            swiperWrap.appendChild(nextBtn);
+            resizeWidth(dataCnt);
+            let el = ".quickview-whish-swiper";
+            // let el = ".swiper-quick-container";
+            responsiveQuickSwiper(el);
         }
     }
     function writeSwiperHtml(data) {

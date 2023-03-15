@@ -258,13 +258,13 @@
 <div class="voucher__wrap">
     <div class="voucher__tab__btn__container">
         <div class="tab__btn__item" form-id="voucher__regist__form__wrap" onclick="issueVoucherFormPrint()">
-            <span>바우처 등록</span>
+            <span data-i18n="v_registration">바우처 등록</span>
         </div>
         <div class="tab__btn__item" form-id="voucher__amount__form__wrap" onclick="voucherListGet('possession')">
-            <span>보유 바우처</span>
+            <span data-i18n="v_my_voucher">보유 바우처</span>
         </div>
         <div class="tab__btn__item" form-id="use__voucher__form__wrap" onclick="voucherListGet('use')">
-            <span>사용 바우처</span>
+            <span data-i18n="v_used_history">사용 바우처</span>
         </div>
         <div class="tab__btn__item" form-id="voucher__notice__form__wrap">
             <span>유의사항</span>
@@ -273,31 +273,31 @@
     <div class="voucher__tab__wrap">
         <div class="voucher__tab voucher__regist__form__wrap">
             <div class='title'>
-                <p>바우처 등록</p>
+                <p data-i18n="v_registration">바우처 등록</p>
             </div>
             <div class='description'>
-                <span>발급받은 바우처 번호를 입력하세요.</span>
+                <span data-i18n="v_voucher_msg_01">발급받은 바우처 번호를 입력하세요.</span>
             </div>
             <div class="form voucher_input_wrap">
                 <input type="text" id="voucher_issue_code">
-                <button class="black__full__width__btn" onclick="voucherIssue()">받기</button>
+                <button class="black__full__width__btn" data-i18n="v_register" onclick="voucherIssue()">받기</button>
 
-            </div> <span id="voucher_err_msg" style="float:right;color:red;display:none;">존재하지 않는 바우처 코드입니다.</span>
+            </div> <span id="voucher_err_msg" data-i18n="v_register" style="float:right;color:red;display:none;">존재하지 않는 바우처 코드입니다.</span>
             <div class="footer">
-                <p>· 바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p>
-                <p style="margin-top: 0px">· 대소문자 구분하여 입력해주세요.</p>
+                <p data-i18n="v_voucher_msg_02">· 바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p>
+                <p data-i18n="v_voucher_msg_03" style="margin-top: 0px">· 대소문자 구분하여 입력해주세요.</p>
             </div>
         </div>
         <div class="voucher__tab voucher__amount__form__wrap">
             <div class='title'>
-                <p>사용 가능 바우처</p>
+                <p data-i18n="v_redeemable_voucher">사용 가능 바우처</p>
             </div>
             <div class="info__wrap possession"></div>
             <div class="footer"></div>
         </div>
         <div class="voucher__tab use__voucher__form__wrap">
             <div class='title'>
-                <p>바우처 사용 내역</p>
+                <p data-i18n="v_voucher_history">바우처 사용 내역</p>
             </div>
             <div class="info__wrap use"></div>
             <div class="footer"></div>
@@ -307,10 +307,10 @@
                 <p>바우처 유의사항</p>
             </div>
             <div class='info non__border'>
-                <p>· 1개의 바우처를 여러 제품에 중복 적용할 수 없습니다.</p>
-                <p>· 사용기간에 표시되는 종료 시간의 기준은 주문 완료 시점입니다.</p>
-                <p>· 반품(취소)한 주문에 사용된 바우처 복원은 반품완료 이후 <br class="notice_br">최대 40분이 소요됩니다.</p>
-                <p>· 유효기간이 지난 바우처는 재발행 되지 않습니다.</p>
+                <p data-i18n="v_voucher_msg_04">· 1개의 바우처를 여러 제품에 중복 적용할 수 없습니다.</p>
+                <p data-i18n="v_voucher_msg_05">· 사용기간에 표시되는 종료 시간의 기준은 주문 완료 시점입니다.</p>
+                <p data-i18n="v_voucher_msg_06">· 반품(취소)한 주문에 사용된 바우처 복원은 반품완료 이후 <br class="notice_br">최대 40분이 소요됩니다.</p>
+                <p data-i18n="v_voucher_msg_07">· 유효기간이 지난 바우처는 재발행 되지 않습니다.</p>
             </div>
             <div class="footer"></div>
         </div>
@@ -407,7 +407,7 @@
                                                         </div>
                                                         <div style="display:flex;justify-content: space-between; margin-bottom: -1px">
                                                             <p>${row.voucher_name}</p>
-                                                            <p class="gray__font">${row.date_interval}일 남음</p>
+                                                            <p class="gray__font" data-i18n="v_days_left">${row.date_interval}일 남음</p>
                                                         </div>
                                                         <p>${row.sale_price_type}</p>
                                                         <p>· 바우처 대상 제품 ${parseInt(row.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
@@ -428,12 +428,12 @@
                                 }
                                 else {
                                     divClass = 'info';
-                                    useDate = `<span>사용일</span><span style="margin-left: 10px">${row.update_date}</span>`;
+                                    useDate = `<span data-i18n="v_used_on">사용일</span><span style="margin-left: 10px">${row.update_date}</span>`;
                                 }
                                 var strDiv = `
                                 <div class="${divClass}">
                                     <div class="info__title__container">
-                                        <div class="info__title__item"><span>바우처번호</span><span style="margin-left: 10px">${row.voucher_issue_code}</span></div>
+                                        <div class="info__title__item"><span data-i18n="v_voucher_code">바우처번호</span><span style="margin-left: 10px">${row.voucher_issue_code}</span></div>
                                         <div class="info__title__item">${useDate}</div>
                                     </div>
                                     <div class="table__wrap">
@@ -447,7 +447,7 @@
                                                     <td>
                                                         <p>${row.voucher_name}</p>
                                                         <p>${row.sale_price_type}</p>
-                                                        <p>· 바우처 대상 제품 ${parseInt(row.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
+                                                        <p data-i18n="v_voucher_limit_price">· 바우처 대상 제품 ${parseInt(row.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
                                                     </td>
                                                 </tr>
                                             </tbody>

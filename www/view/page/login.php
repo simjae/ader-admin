@@ -259,11 +259,19 @@ input:-webkit-autofill:active  {
         parse_str($parts['query'], $query);
         return $query[$sch_tag];
     }
+    $page_url = $_SERVER['REQUEST_URI'];
+    $r_url = getUrlParamter($page_url, 'r_url');
 
 	if (isset($_SESSION['MEMBER_IDX'])) {
+        if($r_url != null){
+            $url_str = $r_url;
+        }
+        else{
+            $url_str = '/main';
+        }
 		echo "
 			<script>
-				location.href='/main';
+				location.href='".$url_str."';
 			</script>
 		";
 	}

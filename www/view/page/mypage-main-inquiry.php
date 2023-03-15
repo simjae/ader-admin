@@ -412,6 +412,7 @@
             border-radius: 1px;
             border: 1px solid #dcdcdc;
         }
+        .search input{ font-size: 11px;}
 
     }
     
