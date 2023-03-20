@@ -248,7 +248,7 @@
             <span>신청내역</span>
         </div>
         <div class="tab__btn__item" form-id="preorder__notice__wrap">
-            <span>유의사항</span>
+            <span data-i18n="ml_notice">유의사항</span>
         </div>
     </div>
     <div class="preorder__tab__wrap">

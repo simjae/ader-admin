@@ -63,6 +63,7 @@ if ($member_idx > 0 && $basket_idx != null) {
 						0,1
 				)								AS IMG_LOCATION,
 				BI.PRODUCT_NAME					AS PRODUCT_NAME,
+				OM.BRAND						AS BRAND,
 				OM.COLOR						AS COLOR,
 				OM.COLOR_RGB					AS COLOR_RGB,
 				OO.OPTION_NAME					AS OPTION_NAME,
@@ -91,6 +92,7 @@ if ($member_idx > 0 && $basket_idx != null) {
 			$product_info[] = array(
 				'img_location'	=>$product_data['IMG_LOCATION'],
 				'product_name'	=>$product_data['PRODUCT_NAME'],
+				'brand'			=>$product_data['BRAND'],
 				'color'			=>$product_data['COLOR'],
 				'color_rgb'		=>$product_data['COLOR_RGB'],
 				'option_name'	=>$product_data['OPTION_NAME'],
@@ -161,13 +163,11 @@ if ($member_idx > 0 && $basket_idx != null) {
 		";
 		
 		$voucher_where = "
-			VM.VOUCHER_START_DATE < NOW() AND
-			VM.VOUCHER_END_DATE > NOW() AND
+			(NOW() BETWEEN VM.VOUCHER_START_DATE AND VM.VOUCHER_END_DATE) AND
 			VM.DEL_FLG = FALSE AND
 			VI.COUNTRY = '".$country."' AND
 			VI.USED_FLG = FALSE AND
-			VI.USABLE_START_DATE < NOW() AND
-			VI.USABLE_END_DATE > NOW() AND
+			(NOW() BETWEEN VI.USABLE_START_DATE AND VI.USABLE_END_DATE) AND
 			VI.MEMBER_IDX = ".$member_idx." AND
 			VI.DEL_FLG = FALSE
 		";
@@ -178,6 +178,7 @@ if ($member_idx > 0 && $basket_idx != null) {
 			SELECT
 				VI.IDX				AS VOUCHER_IDX,
 				VM.VOUCHER_NAME		AS VOUCHER_NAME,
+				VM.SALE_TYPE		AS SALE_TYPE,
 				VM.SALE_PRICE		AS SALE_PRICE,
 				VM.MILEAGE_FLG		AS MILEAGE_FLG
 			FROM
@@ -185,7 +186,6 @@ if ($member_idx > 0 && $basket_idx != null) {
 				LEFT JOIN dev.VOUCHER_ISSUE VI ON
 				VM.IDX = VI.VOUCHER_IDX
 			WHERE
-				
 				VM.MIN_PRICE <= ".$total_price." AND
 				".$voucher_where."
 		";
@@ -197,6 +197,7 @@ if ($member_idx > 0 && $basket_idx != null) {
 			$voucher_info[] = array(
 				'voucher_idx'		=>$voucher_data['VOUCHER_IDX'],
 				'voucher_name'		=>$voucher_data['VOUCHER_NAME'],
+				'sale_type'			=>$voucher_data['SALE_TYPE'],
 				'sale_price'		=>$voucher_data['SALE_PRICE'],
 				'mileage_flg'		=>$voucher_data['MILEAGE_FLG']
 			);

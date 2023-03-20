@@ -5,6 +5,11 @@
     margin-top:10px;
     margin-bottom:10px;
 }
+#sidebar .content__wrap .content__wrap__msg {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 #sidebar .font__underline.font__red{
     color:red;
     text-align:right;

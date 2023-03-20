@@ -2,7 +2,6 @@
     .as_container {
         display: grid;
         grid-template-columns: repeat(16, 1fr);
-        place-items: center;
         width: 100%;
         margin: 40px 0 100px;
         color: #343434;
@@ -11,10 +10,8 @@
     .as_tab_btn {
         grid-column: 1/17;
         margin: 0 auto;
-        display: grid;
+        display: flex;
         gap: 10px;
-        place-items: center;
-        grid-template-columns: 72px 72px 72px 86px;
     }
 
     .as_tab_btn li {
@@ -94,11 +91,11 @@
         justify-content: center;
         align-items: center;
         border: 1px solid #808080;
-        width: 56px;
         height: 23px;
         margin: auto;
-        padding: 5px 0;
+        padding: 5px 10px;
         cursor: pointer;
+        float: right;
     }
 
     .bluemark_input_wrap {
@@ -279,6 +276,23 @@
         margin-top: 40px;
     }
 
+    .apply_complete__wrap {
+        grid-column: 1/17;
+       
+        margin: 0 auto;
+    }
+
+    .apply_complete {
+        text-align: center ;
+    }
+    .as_com_title {
+        font-size: 13px;
+        margin: 100px 0 30px;
+    }
+    .as_com_contents {
+        font-size: 11px;
+    }
+
     @media (max-width: 1024px) {
         .as__tab__wrap {
             width: 100%;
@@ -355,13 +369,6 @@
         }
     }
 
-    @media (min-width: 600px) {
-        .as__tab__wrap {
-            width: 580px;
-            margin: 0 auto;
-        }
-    }
-
     @media (min-width: 1024px) {
         .as__tab__wrap {
             grid-column: 1/17;
@@ -369,12 +376,17 @@
             margin: 0 auto;
         }
     }
+
     @media (max-width: 350px) {
-        .as_container .swiper-slide.tab__btn__item{padding:0 15px 0 15px}
+        .as_container .swiper-slide.tab__btn__item {
+            padding: 0 15px 0 15px
+        }
+
         .as_tab_btn {
-            display:none;
+            display: none;
         }
     }
+
     @media (min-width: 350px) {
         .as_container .swiper.tab__btn {
             display: none;
@@ -384,29 +396,29 @@
 
 <div class="as_container">
     <ul class="as_tab_btn">
-        <li class="on" onclick="clickAsTab (this)" tab_num="one">A/S 신청</li>
-        <li onclick="clickAsTab (this)" tab_num="two">A/S 현황</li>
-        <li onclick="clickAsTab (this)" tab_num="three">A/S 내역</li>
-        <li onclick="clickAsTab (this)" tab_num="four" style="width: 86px;">약관 및 요금</li>
+        <li class="on" onclick="clickAsTab (this)" tab_num="one" style="width: 86px;" form-id="as__notice__wrap">약관 및 요금</li>
+        <li onclick="clickAsTab (this)" tab_num="two" form-id="as__apply__wrap">A/S 신청</li>
+        <li onclick="clickAsTab (this)" tab_num="three" form-id="as__condition__wrap">A/S 현황</li>
+        <li onclick="clickAsTab (this)" tab_num="four" form-id="as__history__wrap">A/S 내역</li>
     </ul>
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="one">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="one" form-id="as__notice__wrap">
+                <span>약관 및 요금</span>
+            </div>
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="two" form-id="as__apply__wrap">
                 <span>A/S 신청</span>
             </div>
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="two">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="three" form-id="as__condition__wrap">
                 <span>A/S 현황</span>
             </div>
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="three">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="four" form-id="as__history__wrap">
                 <span>A/S 내역</span>
-            </div>
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="four">
-                <span>약관 및 요금</span>
             </div>
         </div>
     </div>
     <div class="as__tab__wrap">
-        <div class="tab one">
+        <div class="tab two">
             <div class="as__wrap__content__container">
                 <div style="font-size: 13px;">A/S 서비스 신청</div>
                 <ul class="as__service__btn">
@@ -627,15 +639,6 @@
                         <button class="as__black__btn" onclick="asApplyComplete(this)">A/S 신청</button>
                         <button class="as__white__btn">취소</button>
                     </form>
-                </div>
-            </div>
-            <div class="as_bluemark_wrap apply_complete" style="display: none;">
-                <div>A/S 서비스 신청이 완료되었습니다.</div>
-                <div>
-                    <p class="description">
-                        ·&nbsp;상단의 A/S 현황 탭에서 해당 제품의 A/S 진행 과정을 열람하실 수 있습니다.</p>
-                    <p style="margin-top: 10px;">
-                        ·&nbsp;제품 회수 후에는 A/S 신청을 취소하실 수 없습니다.</p>
                 </div>
             </div>
             <div class="as_buying_wrap one_two">
@@ -889,7 +892,7 @@
         </div>
     </div>
     <div class="as__tab__wrap">
-        <div class="tab two">
+        <div class="tab three">
             <p class="as_status_title">A/S 현황</p>
             <div class="as__table__container">
                 <div class="as__contents__table" id="as_table">
@@ -1093,7 +1096,7 @@
         </div>
     </div>
     <div class="as__tab__wrap">
-        <div class="tab three">
+        <div class="tab four">
             <div class="as__wrap__content__container">
                 <div class="as_contents_list_wrap">
                     <div class="contents__info">
@@ -1101,7 +1104,7 @@
                             <span class="info__title">접수 2023.02.01</span>
                             <span class="info__value">완료 A/S 진행 중</span>
                         </div>
-                        <div class="detail__btn" onclick=""><span>자세히보기</span></div>
+                        <div class="detail__btn" onclick=""><span data-i18n="o_view_details">자세히보기</span></div>
                     </div>
                     <div class="as__table__container">
                         <div class="as__contents__table">
@@ -1181,7 +1184,7 @@
                             <span class="info__title">접수일</span>
                             <span class="info__value">2022.12.14</span>
                         </div>
-                        <div class="detail__btn" onclick=""><span>자세히보기</span></div>
+                        <div class="detail__btn" onclick=""><span data-i18n="o_view_details">자세히보기</span></div>
                     </div>
                     <div class="as__table__container">
                         <div class="as__contents__table">
@@ -1261,7 +1264,7 @@
                             <span class="info__title">접수일</span>
                             <span class="info__value">2022.12.14</span>
                         </div>
-                        <div class="detail__btn" onclick=""><span>자세히보기</span></div>
+                        <div class="detail__btn" onclick=""><span data-i18n="o_view_details">자세히보기</span></div>
                     </div>
                     <div class="as__table__container">
                         <div class="as__contents__table">
@@ -1339,7 +1342,7 @@
         </div>
     </div>
     <div class="as__tab__wrap">
-        <div class="tab four">
+        <div class="tab one">
             <div class="as__wrap__content__container">
                 <div class="title">A/S 유의사항</div>
                 <div class="description">
@@ -1348,9 +1351,9 @@
                     <p>· 제품 사용 전/후 상황에 따라 발생할 수 있는 요금이 다를 수 있습니다.</p>
                     <p>· 제품에 사용된 원자재의 상황에 따라 A/S 가능 여부가 달라질 수 있습니다.</p>
                     <p>· 제품의 디자인 및 디테일의 변경을 요청하는 A/S는 접수가 불가합니다.</p>
-                    <p>· 제품 상태에 따라 실 제품 확인이 필요할 수 있으며 유선상 안내가 어려울 수 있습니다.</p>
+                    <p>· 제품 상태에 따라 유선상 안내가 어려울 수 있습니다.</p>
                     <p>· 실 제품 입고 이후 제품 상태에 따라 금액 변동이 있을 수 있습니다.</p>
-                    <p>· 정품 여부 확인이 어려운 제품은 A/S가 불가할 수 있습니다.</p>
+                    <p>· 정품 여부 확인이 어려운 제품의 경우, A/S비용이 상이할 수 있습니다.</p>
                 </div>
             </div>
             <div class="as_payment_container">
@@ -1439,6 +1442,15 @@
             </div>
         </div>
     </div>
+    <div class="apply_complete__wrap">
+        <div class="apply_complete" style="display: none;">
+            <div class="as_com_title">A/S 서비스 신청이 완료되었습니다.</div>
+            <div class="as_com_contents">
+                <p>·&nbsp;상단의 A/S 현황 탭에서 해당 제품의 A/S 진행 과정을 열람하실 수 있습니다.</p>
+                <p style="margin-top: 10px;">·&nbsp;제품 회수 후에는 A/S 신청을 취소하실 수 없습니다.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -1475,10 +1487,11 @@
     }
 
     function asApplyComplete(obj) {
-        $('.as_buying_wrap_apply').hide();
-        if ($('.as_bluemark_wrap.apply_complete').css('display') == 'none') {
-            $('.as_bluemark_wrap.apply_complete').css('display', 'show');
-            $('.as_bluemark_wrap.apply_complete').show();
+        $('.as__tab__wrap').hide();
+        if ($('.apply_complete').css('display') == 'none') {
+            $('.apply_complete').css('display', 'show');
+            $('.apply_complete').show();
+            event.preventDefault();
         }
     }
 

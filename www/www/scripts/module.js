@@ -106,7 +106,7 @@ function Basket(el, useSidebar) {
 						<div class="list__header">
 							<div class="icon__box">
 								<img src="/images/svg/basket.svg" alt="">
-								<div class="basket_title">쇼핑백</div>
+								<div class="basket_title" data-i18n="s_shoppingbag">쇼핑백</div>
 							</div>
 							<div class="checkbox__box">
 								<label class="cb__custom all" for="">
@@ -988,6 +988,7 @@ function Language() {
             el.addEventListener("click", function () {
                 $$languageBtn.forEach(el => el.classList.remove("select"));
                 this.classList.add("select");
+                window.location.reload();
             })
         })
     }
@@ -998,6 +999,55 @@ function Language() {
  * @description 검색 생성자 함수
  */
 function Search() {
+	let search_keyword = "";
+	let popular_product = "";
+	
+	function getSearchInfoList() {
+		let country = getLanguage();
+		
+		$.ajax({
+			type: "post",
+			url: "http://116.124.128.246:80/_api/search/list/get",
+			async:false,
+			data: {
+				'country' : country
+			},
+			dataType: "json",
+			error: function () {
+				alert("추천검색어/실시간 인기 제품 조회중 오류가 발생했습니다.");
+			},
+			success: function (d) {
+				if (d.code == 200) {
+					let data = d.data;
+					if (data != null) {
+						let keyword_info = data.keyword_info;
+						writeKeywordInfo(keyword_info);
+						
+						let popular_info = data.popular_info;
+						writePopularInfo(popular_info);
+					}
+				}
+			}
+		});
+	}
+	
+	function writeKeywordInfo(keyword_info) {
+		keyword_info.forEach(function(row) {
+			search_keyword += `<li><a href="${row.menu_link}">${row.keyword_txt}</a></li>`;
+		});
+	}
+	
+	function writePopularInfo(popular_info) {
+		popular_info.forEach(function(row) {
+			popular_product += `
+				<div class="popular-box" onClick="location.href='/product/detail?product_idx=${row.product_idx}'">
+					<img src="${img_root}${row.img_location}" alt="">
+					<span class="product-name">${row.product_name}</span>
+				</div>
+			`;
+		});
+	}
+	
     this.writeHtml = () => {
         let sideBox = document.querySelector(`.side__box`);
         let sideWrap = document.querySelector(`#sidebar .side__wrap`);
@@ -1007,56 +1057,7 @@ function Search() {
 		const searchContent = document.createElement("section");
         searchContent.className = "search-wrap";
 		
-		let search_keyword = "";
-		let popular_product = "";
-		
 		getSearchInfoList();
-		
-		function getSearchInfoList() {
-			let country = getLanguage();
-			
-			$.ajax({
-				type: "post",
-				url: "http://116.124.128.246:80/_api/search/list/get",
-                async:false,
-				data: {
-					'country' : country
-				},
-				dataType: "json",
-				error: function () {
-					alert("추천검색어/실시간 인기 제품 조회중 오류가 발생했습니다.");
-				},
-				success: function (d) {
-					if (d.code == 200) {
-						let data = d.data;
-						if (data != null) {
-							let keyword_info = data.keyword_info;
-							writeKeywordInfo(keyword_info);
-							
-							let popular_info = data.popular_info;
-							writePopularInfo(popular_info);
-						}
-					}
-				}
-			});
-		}
-		
-		function writeKeywordInfo(keyword_info) {
-			keyword_info.forEach(function(row) {
-				search_keyword += `<li location.href="${row.menu_link}">${row.keyword_txt}</li>`;
-			});
-		}
-		
-		function writePopularInfo(popular_info) {
-			popular_info.forEach(function(row) {
-				popular_product += `
-					<div class="popular-box" onClick="location.href='/product/detail?product_idx=${row.product_idx}'">
-						<img src="${img_root}${row.img_location}" alt="">
-						<span class="product-name">${row.product_name}</span>
-					</div>
-				`;
-			});
-		}
 		
         searchContent.innerHTML =
             `
@@ -1090,7 +1091,10 @@ function Search() {
     this.mobileWriteHtml = () => {
         let mobileSearchWrap = document.querySelector(`.search__cont`);
         mobileSearchWrap.innerHTML = "";
-        const mdlBox = document.createElement("div");
+        
+		getSearchInfoList();
+		
+		const mdlBox = document.createElement("div");
         mdlBox.className = "mdlSearchBox";
         mdlBox.innerHTML =
             `
@@ -1168,19 +1172,6 @@ function Search() {
     this.addSearchEvent = () => {
         let input = document.getElementById("search-input");
         input.addEventListener('input', debounce(getSearchResult,500));
-		
-		/*
-            if (event.keyCode === 13) {
-                event.preventDefault();
-				
-				let search_keyword = input.value;
-				
-				
-				
-                
-            }
-        });
-		*/
     }
 }
 
@@ -1789,19 +1780,19 @@ function User() {
             </div>
             <div class="user-content">
                 <div class="content-point left">
-                    <div>적립포인트</div>
+                    <div data-i18n="m_mileage">적립포인트</div>
                     <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=mileage_first">
                         <div class="user-mileage">${member_mileage}</div>
                     </a>
                 </div>
                 <div class="content-point center">
-                    <div>충전포인트</div>
+                    <div data-i18n="m_prepaid_mileage">충전포인트</div>
                     <a class="content-link" href="http://116.124.128.246/mypage">
-                        <div class="user-point">600,000</div>
+                        <div class="user-point">0</div>
                     </a>
                 </div>
                 <div class="content-point right">
-                    <div>바우처</div>
+                    <div data-i18n="m_voucher">바우처</div>
                     <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=voucher_first">
                         <div class="user-voucher">${member_voucher}</div>
                     </a>
@@ -1826,7 +1817,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>적립포인트</p>
+                    <p data-i18n="m_mileage">적립포인트</p>
                 </div>
             </div>
             <div id="voucher_icon" class="icon__item" btn-type="voucher">
@@ -1836,7 +1827,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>바우처</p>
+                    <p data-i18n="m_voucher">바우처</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="bluemark">
@@ -1846,7 +1837,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>블루마크</p>
+                    <p data-i18n="m_blue_mark">블루마크</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="stanby">
@@ -1856,7 +1847,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>스탠바이</p>
+                    <p data-i18n="m_standby">스탠바이</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="preorder">
@@ -1866,7 +1857,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>프리오더</p>
+                    <p data-i18n="m_preorder">프리오더</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="reorder">
@@ -1876,7 +1867,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>재입고알림</p>
+                    <p data-i18n="m_notify_me">재입고알림</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="draw">
@@ -1886,7 +1877,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>드로우</p>
+                    <p data-i18n="m_draw">드로우</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="membership">
@@ -1896,7 +1887,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>멤버쉽</p>
+                    <p data-i18n="m_membership">멤버쉽</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="inquiry">
@@ -1906,7 +1897,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>문의</p>
+                    <p data-i18n="m_inquiry">문의</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="as">
@@ -1926,7 +1917,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>고객서비스</p>
+                    <p data-i18n="m_customer_care">고객서비스</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="profile">
@@ -1936,18 +1927,19 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>회원정보</p>
+                    <p data-i18n="m_account">회원정보</p>
                 </div>
             </div>
         </div>
         <div class="user-button-area">
             <a href="http://116.124.128.246/mypage">
-                <div class="user-button mypageBtn">마이페이지 홈 가기</div>
+                <div class="user-button mypageBtn" data-i18n="m_my-page">마이페이지 홈 가기</div>
             </a>
             <div class="user-button logoutBtn" onclick="logout()">로그아웃</div>
         </div>
         `
         sideBox.appendChild(userContent);
+        changeLanguageR();
     };
     let writeLoginHtml = () => {
         let login = new Login();
@@ -1959,7 +1951,7 @@ function User() {
         loginContent.innerHTML = `
         <div class="login__card">
             <div class="card__header">
-                <p class="font__large">로그인</p>
+                <p class="font__large" data-i18n="m_login">로그인</p>
                 <span class="font__underline font__red result_msg"></span>
             </div>
             <div class="card__body">
@@ -1967,16 +1959,22 @@ function User() {
                     <input type="hidden" name="country" value="KR">
                     <input type="hidden" name="member_ip" value="0.0.0.0">
                     <div class="content__wrap">
-                        <div class="content__title">이메일
-                        <p class="font__underline font__red member_id_msg"></p>
+                        <div class="content__wrap__msg">
+                            <div class="content__title" data-i18n="p_email">
+                                이메일
+                            </div>
+                            <div class="font__underline font__red member_id_msg"></div>
                         </div>
                         <div class="content__row">
                             <input type="text" id="member_id" name="member_id" value="">
                         </div>
                     </div>
                     <div class="content__wrap">
-                        <div class="content__title">비밀번호
-                        <p class="font__underline font__red member_pw_msg"></p>
+                        <div class="content__wrap__msg">
+                            <div class="content__title" data-i18n="p_password">
+                                비밀번호
+                            </div>
+                            <div class="font__underline font__red member_pw_msg"></div>
                         </div>
                         <div class="content__row">
                             <input type="password" id="member_pw" name="member_pw" value="">
@@ -2007,23 +2005,24 @@ function User() {
                 </div>
                 <div class="contour__line"></div>
                 <div class="content__wrap">
-                    <p class="font__large text__align__center">회원가입을 하시면 다양한 혜택을 경험하실 수 있습니다.</p>
+                    <p class="font__large text__align__center" data-i18n="lm_menu_msg_02">회원가입을 하시면 다양한 혜택을 경험하실 수 있습니다.</p>
                 </div>
             </div>
             <div class="card__footer">
                 <input type="button" class="black_btn" onclick="location.href='/login/join'" value="회원가입">
             </div>
-            <div class="customer-title">고객서비스</div>
+            <div class="customer-title" data-i18n="lm_customer_care_service">고객서비스</div>
             <div class="customer-btn-box">
-                <div class="customer-btn" onclick="location.href='/login/service'"><span>공지사항</span></div>
-                <div class="customer-btn" onclick="location.href='/login/faq'"><span>자주 묻는 질문</span></div>
-                <div class="customer-btn" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=inquiry'"><span>문의하기</span></div>
+                <div class="customer-btn" onclick="location.href='/login/service'"><span data-i18n="lm_notice">공지사항</span></div>
+                <div class="customer-btn" onclick="location.href='/login/faq'"><span data-i18n="lm_faq">자주 묻는 질문</span></div>
+                <div class="customer-btn" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=inquiry'"><span data-i18n="lm_inquiry">문의하기</span></div>
             </div>
         </div>
         
         
         `
         sideBox.appendChild(loginContent);
+        changeLanguageR();
         
         $(document).ready(function () {
 

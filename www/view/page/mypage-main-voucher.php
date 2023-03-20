@@ -267,7 +267,7 @@
             <span data-i18n="v_used_history">사용 바우처</span>
         </div>
         <div class="tab__btn__item" form-id="voucher__notice__form__wrap">
-            <span>유의사항</span>
+            <span data-i18n="ml_notice">유의사항</span>
         </div>
     </div>
     <div class="voucher__tab__wrap">
@@ -284,8 +284,8 @@
 
             </div> <span id="voucher_err_msg" data-i18n="v_register" style="float:right;color:red;display:none;">존재하지 않는 바우처 코드입니다.</span>
             <div class="footer">
-                <p data-i18n="v_voucher_msg_02">· 바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p>
-                <p data-i18n="v_voucher_msg_03" style="margin-top: 0px">· 대소문자 구분하여 입력해주세요.</p>
+                <span class="flex_text">·&nbsp;<p data-i18n="v_voucher_msg_02">바우처의 발급 기간, 사용 기간을 꼭 확인해주세요.</p></span>
+                <span class="flex_text">·&nbsp;<p data-i18n="v_voucher_msg_03" style="margin-top: 0px">대소문자 구분하여 입력해주세요.</p></span>
             </div>
         </div>
         <div class="voucher__tab voucher__amount__form__wrap">
@@ -304,13 +304,13 @@
         </div>
         <div class="voucher__tab voucher__notice__form__wrap">
             <div class='title'>
-                <p>바우처 유의사항</p>
+                <p data-i18n="v_voucher_notice">바우처 유의사항</p>
             </div>
             <div class='info non__border'>
-                <p data-i18n="v_voucher_msg_04">· 1개의 바우처를 여러 제품에 중복 적용할 수 없습니다.</p>
-                <p data-i18n="v_voucher_msg_05">· 사용기간에 표시되는 종료 시간의 기준은 주문 완료 시점입니다.</p>
-                <p data-i18n="v_voucher_msg_06">· 반품(취소)한 주문에 사용된 바우처 복원은 반품완료 이후 <br class="notice_br">최대 40분이 소요됩니다.</p>
-                <p data-i18n="v_voucher_msg_07">· 유효기간이 지난 바우처는 재발행 되지 않습니다.</p>
+            <span class="flex_text" style="margin-left: -6px;">·&nbsp;&nbsp;&nbsp;<p data-i18n="v_voucher_msg_04">1개의 바우처를 여러 제품에 중복 적용할 수 없습니다.</p></span>
+            <span class="flex_text" style="margin-left: -6px;">·&nbsp;&nbsp;&nbsp;<p data-i18n="v_voucher_msg_05">사용기간에 표시되는 종료 시간의 기준은 주문 완료 시점입니다.</p></span>
+            <span class="flex_text" style="margin-left: -6px;">·&nbsp;&nbsp;&nbsp;<p data-i18n="v_voucher_msg_06">반품(취소)한 주문에 사용된 바우처 복원은 반품완료 이후 <br class="notice_br">최대 40분이 소요됩니다.</p></span>
+            <span class="flex_text" style="margin-left: -6px;">·&nbsp;&nbsp;&nbsp;<p data-i18n="v_voucher_msg_07">유효기간이 지난 바우처는 재발행 되지 않습니다.</p></span>
             </div>
             <div class="footer"></div>
         </div>
@@ -370,7 +370,7 @@
                 <tbody>
                     <tr>
                         <td style="text-align:center">
-                            <p>조회결과가 없습니다.</p>
+                            <p data-i18n="v_no_history_msg">조회결과가 없습니다.</p>
                         </td>
                     </tr>
                 </tbody>
@@ -407,10 +407,10 @@
                                                         </div>
                                                         <div style="display:flex;justify-content: space-between; margin-bottom: -1px">
                                                             <p>${row.voucher_name}</p>
-                                                            <p class="gray__font" data-i18n="v_days_left">${row.date_interval}일 남음</p>
+                                                            <span style="display:flex;"> ${row.date_interval}<p class="gray__font"; data-i18n="v_days_left">일 남음</p></span>
                                                         </div>
-                                                        <p>${row.sale_price_type}</p>
-                                                        <p>· 바우처 대상 제품 ${parseInt(row.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
+                                                        <span>${row.sale_price_type}<p data-i18n="v_percent_off"></p></span> 
+                                                        <span style="display:flex;"><p data-i18n="v_voucher_limit_price_01">· 바우처 대상 제품</p>${parseInt(row.min_price).toLocaleString('ko-KR')}<p data-i18n="v_voucher_limit_price_02">원 초과 구매 시 사용 가능</p></span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -418,6 +418,7 @@
                                     </div>
                                 `;
                                 $('.info__wrap.' + str).append(strDiv);
+                                changeLanguageR();
                             }
                             else if (str == 'use') {
                                 var divClass = '';
@@ -446,8 +447,8 @@
                                                 <tr>
                                                     <td>
                                                         <p>${row.voucher_name}</p>
-                                                        <p>${row.sale_price_type}</p>
-                                                        <p data-i18n="v_voucher_limit_price">· 바우처 대상 제품 ${parseInt(row.min_price).toLocaleString('ko-KR')}원 초과 구매 시 사용 가능</p>
+                                                        <p>${row.sale_price_type}</p> 
+                                                        <span style="display:flex;"><p data-i18n="v_voucher_limit_price_01">· 바우처 대상 제품</p> ${parseInt(row.min_price).toLocaleString('ko-KR')}<p data-i18n="v_voucher_limit_price_02">원 초과 구매 시 사용 가능</p></span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -456,6 +457,7 @@
                                 </div>
                             `;
                                 $('.info__wrap.' + str).append(strDiv);
+                                changeLanguageR();
                             }
                         })
                     }
@@ -463,13 +465,14 @@
                 else {
                     let err_str = '목록을 불러오지 못했습니다.';
                     if (d.msg != null) {
-                        err_str = d.msg;
+                        err_str = d.msg
                     }
                     exceptionHandling("바우처", err_str);
                     if (d.code = 401) {
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
+                changeLanguageR();
             }
         });
     }

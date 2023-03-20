@@ -16,7 +16,9 @@
 */
 
 $country = null;
-if (isset($_POST['country'])) {
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+} else if (isset($_POST['country'])) {
 	$country = $_POST['country'];
 }
 
@@ -34,7 +36,17 @@ if ($country != null) {
 	$where = " SI.DEL_FLG = FALSE ";
 	
 	if ($store_keyword != null) {
-		$where .= " AND (SI.STORE_KEYWORD LIKE '%".$store_keyword."%') ";
+		$where .= "
+			AND (
+				COUNTRY_KR REGEXP '".$store_keyword."' OR
+				COUNTRY_EN REGEXP '".$store_keyword."' OR
+				COUNTRY_CN REGEXP '".$store_keyword."' OR
+				SI.STORE_NAME REGEXP '".$store_keyword."' OR
+				SI.STORE_ADDR REGEXP '".$store_keyword."' OR
+				SI.STORE_KEYWORD REGEXP '".$store_keyword."' OR
+				SI.INSTAGRAM_ID REGEXP '".$store_keyword."'
+			)
+		";
 	}
 	
 	$select_store_space_sql = "
@@ -46,7 +58,9 @@ if ($country != null) {
 			SI.STORE_TEL				AS STORE_TEL,
 			SI.STORE_SALE_DATE			AS STORE_SALE_DATE,
 			SI.STORE_LINK				AS STORE_LINK,
-			SI.INSTAGRAM_ID				AS INSTAGRAM_ID
+			SI.INSTAGRAM_ID				AS INSTAGRAM_ID,
+			SI.LAT						AS LAT,
+			SI.LNG						AS LNG
 		FROM
 			dev.STORE_SPACE SI
 		WHERE
@@ -96,6 +110,8 @@ if ($country != null) {
 			'store_sale_date'	=>$space_data['STORE_SALE_DATE'],
 			'store_link'		=>$space_data['STORE_LINK'],
 			'instagram_id'		=>$space_data['INSTAGRAM_ID'],
+			'lat'				=>$space_data['LAT'],
+			'lng'				=>$space_data['LNG'],
 			
 			'contents_info'		=>$contents_info
 		);
@@ -110,7 +126,9 @@ if ($country != null) {
 			SI.STORE_TEL				AS STORE_TEL,
 			SI.STORE_SALE_DATE			AS STORE_SALE_DATE,
 			SI.STORE_LINK				AS STORE_LINK,
-			SI.INSTAGRAM_ID				AS INSTAGRAM_ID
+			SI.INSTAGRAM_ID				AS INSTAGRAM_ID,
+			SI.LAT						AS LAT,
+			SI.LNG						AS LNG
 		FROM
 			dev.STORE_PLUGSHOP SI
 		WHERE
@@ -160,6 +178,8 @@ if ($country != null) {
 			'store_sale_date'	=>$plugshop_data['STORE_SALE_DATE'],
 			'store_link'		=>$plugshop_data['STORE_LINK'],
 			'instagram_id'		=>$plugshop_data['INSTAGRAM_ID'],
+			'lat'				=>$plugshop_data['LAT'],
+			'lng'				=>$plugshop_data['LNG'],
 			
 			'contents_info'		=>$contents_info
 		);
@@ -174,7 +194,9 @@ if ($country != null) {
 			SI.STORE_TEL				AS STORE_TEL,
 			SI.STORE_SALE_DATE			AS STORE_SALE_DATE,
 			SI.STORE_LINK				AS STORE_LINK,
-			SI.INSTAGRAM_ID				AS INSTAGRAM_ID
+			SI.INSTAGRAM_ID				AS INSTAGRAM_ID,
+			SI.LAT						AS LAT,
+			SI.LNG						AS LNG
 		FROM
 			dev.STORE_STOCKIST SI
 		WHERE
@@ -197,7 +219,9 @@ if ($country != null) {
 			'store_tel'			=>$stockist_data['STORE_TEL'],
 			'store_sale_date'	=>$stockist_data['STORE_SALE_DATE'],
 			'store_link'		=>$stockist_data['STORE_LINK'],
-			'instagram_id'		=>$stockist_data['INSTAGRAM_ID']
+			'instagram_id'		=>$stockist_data['INSTAGRAM_ID'],
+			'lat'				=>$stockist_data['LAT'],
+			'lng'				=>$stockist_data['LNG']
 		);
 	}
 	

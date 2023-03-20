@@ -1276,9 +1276,13 @@
         let nextbtn = document.querySelector(".styling-swiper .navigation .swiper-button-next");
         let prevbtn = document.querySelector(".styling-swiper .navigation .swiper-button-prev");
         
-        let styleTboxHeight = main_stylingSwiper.el.querySelector(".t-box").offsetHeight;
+        let styleTboxHeight = 0;
         let oneGridSize = 0;
         let mobileOneGridSize = 0;
+
+        if(main_stylingSwiper.el.querySelector(".t-box") != null){
+            styleTboxHeight = main_stylingSwiper.el.querySelector(".t-box").offsetHeight;
+        }
 
         if (screenWidth >= 1024) {
             oneGridSize = (screenWidth / 16);

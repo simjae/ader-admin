@@ -119,7 +119,6 @@
     }
 
     .description_no_margin p {
-        margin-bottom: 5px;
         font-size: 11px;
         font-family: var(--ft-no-fu);
         font-weight: normal;
@@ -131,6 +130,9 @@
         color: #343434;
         text-indent: -6px;
         word-break: break-all;
+    }
+    .text_margin_left {
+        margin-left: 6px;
     }
 
     @media (max-width: 1024px) {
@@ -209,13 +211,13 @@
 <div class="stanby__wrap">
     <div class="stanby__tab__btn__container">
         <div class="tab__btn__item" form-id="stanby__apply__form__wrap" onclick="getTotalStandby()">
-            <span>응모하기</span>
+            <span data-i18n="d_enter_draw">응모하기</span>
         </div>
         <div class="tab__btn__item" form-id="stanby__result__form__wrap" onclick="getEntryStandby()">
-            <span>응모내역</span>
+            <span data-i18n="sb_history">응모내역</span>
         </div>
         <div class="tab__btn__item" form-id="stanby__notice__wrap">
-            <span>유의사항</span>
+            <span data-i18n="ml_notice">유의사항</span>
         </div>
     </div>
     <div class="stanby__tab__wrap">
@@ -225,15 +227,15 @@
             </div>
             <div class="description_no_margin">
                 <div class="pc__view">
-                    <p>·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
-                    <p>&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
-                    <p>&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된 시스템으로,</p>
-                    <p>&nbsp;&nbsp;과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
+                    <p data-i18n="sb_standby_info_01">·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
+                    <p class="text_margin_left" data-i18n="sb_standby_info_02">&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
+                    <p class="text_margin_left" data-i18n="sb_standby_info_03">&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된 시스템으로,</p>
+                    <p class="text_margin_left" data-i18n="sb_standby_info_04">&nbsp;&nbsp;과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
                 </div>
                 <div class="mobile__view">
-                    <p>·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
-                    <p>&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
-                    <p>&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br>시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.
+                    <p data-i18n="sb_standby_info_mo_01">·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
+                    <p data-i18n="sb_standby_info_mo_02">&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
+                    <p data-i18n="sb_standby_info_mo_03">&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br>시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.
                     </p>
                 </div>
             </div>
@@ -256,23 +258,16 @@
 
         <div class="stanby__tab stanby__notice__wrap">
             <div class="title">
-                <p>스탠바이 유의사항</p>
+                <p data-i18n="sb_notice">스탠바이 유의사항</p>
             </div>
             <div class="description">
-                <p>·&nbsp;STAND BY 는 ‘아더 공식 온라인 스토어 회원가입 대상자’만 신청 가능합니다.</p>
-                <p>·&nbsp;STAND BY 는 선착순으로 진행되며, 한정 수량 종료 시, 구매가 어려울 수 있는 점 참고 바랍니다.</p>
-                <p class="next__line__exist">·&nbsp;회원 정보의 전화번호로 구매 링크가 발송되오니 참여 전</p>
-                <p>&nbsp;고객님의 회원정보의 전화번호가 현재의 번호와 동일한지 확인 바랍니다.</p>
-                <p>·&nbsp;정보 오기입으로 인해 발생되는 불이익에 대해서는 책임지지 않으니 정보 입력 후<br>재확인 부탁드립니다.</p>
-                <p>·&nbsp;STANDBY 참여자는 개별 문자(LMS)로 구매 링크가 전송됩니다.</p>
-                <p>·&nbsp;STANDBY 참여자라 하더라도 재고 소진 시 구매 기회는 보장되지 않습니다.</p>
-                <p>·&nbsp;구매는 STANDBY 참여 시 로그인 한 아이디로 구매 가능합니다.​</p>
-                <p>·&nbsp;STANDBY 참여 제품은 교환/환불 불가하며 바우처를 사용할 수 없습니다.</p>
-                <p>·&nbsp;구매링크는 문자로만 확인 가능하며, 별도로 오프라인 채널에서 확인이 어렵습니다.</p>
-                <p class="next__line__exist">·&nbsp;모바일 기기의 무선 및 네트워크 환경에 따라 문자 수신 시점에 차이가 있을 수 있으며,</p>
-                <p>&nbsp;&nbsp;해당 이슈로 인한 불이익은 책임지지 않습니다.</p>
-                <p>·&nbsp;SMS는 휴대폰을 통한 정보 수신에 동의한 회원에 한해 발송됩니다.</p>
-                <p>·&nbsp;구매 가능 시간 이후에는 구매가 불가합니다.</p>
+                <p data-i18n="sb_standby_info_05">·&nbsp;STAND BY 는 ‘아더 공식 온라인 스토어 회원가입 대상자’만 신청 가능합니다.</p>
+                <p data-i18n="sb_standby_info_06">·&nbsp;STAND BY 는 선착순으로 진행되며, 한정 수량 종료 시, 구매가 어려울 수 있는 점 참고 바랍니다.</p>
+                <p class="next__line__exist" data-i18n="sb_standby_info_07">·&nbsp;회원 정보의 전화번호로 구매 링크가 발송되오니 참여 전</p>
+                <p class="text_margin" data-i18n="sb_standby_info_08">&nbsp;고객님의 회원정보의 전화번호가 현재의 번호와 동일한지 확인 바랍니다.</p>
+                <p data-i18n="sb_standby_info_09">·&nbsp;정보 오기입으로 인해 발생되는 불이익에 대해서는 책임지지 않으니 정보 입력 후<br>재확인 부탁드립니다.</p>
+                <p data-i18n="sb_standby_info_10">·&nbsp;구매링크는 문자로만 확인 가능하며, 별도로 오프라인 채널에서 확인이 어렵습니다.</p>
+                <p data-i18n="sb_standby_info_11">·&nbsp;구매 가능 시간 이후에는 구매가 불가합니다.</p>
             </div>
             <div class="footer"></div>
         </div>
@@ -282,10 +277,11 @@
 <script>
     $('.stanby__result__form__wrap').hide();
     $('.stanby__notice__wrap').hide();
-
-    $(document).ready(function () {
-
-    })
+    // let langMode = localStorage.getItem('lang');
+    // let marginTarget = document.querySelector(".text_margin");
+    // if(marginTarget && langMode == "EN") {
+    //     marginTarget.className("text_margin_left");
+    // }
 
     function getTotalStandby() {
         $('.stanby__container').html('');

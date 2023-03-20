@@ -510,13 +510,18 @@ input::placeholder{
                 </div>
             </div>
             <div class="content__wrap content__wrap__tel">
-                <div class="content__title">휴대전화</div>
-                <div class="content__wrap grid__two">
+                <div class="content__title warm__msg__area">
+                    <p class="font__small">휴대전화</p>
+                    <p class="font__underline warn__msg tel_confirm authenfication">휴대전화 인증을 진행해주세요</p>
+                    <p class="font__underline warn__msg tel_confirm format">'-'가 포함되지 않은 휴대폰 전화를 입력해주세요</p>
+                </div>
+                <div class="content__wrap grid__two" style="margin-top:0px">
                     <div class="left__area__wrap">
+                        <input type="hidden" id="mobile_authenfication_flg" value="false">
                         <input type="text" name="tel_mobile" value="" placeholder="( - ) 없이 숫자만 입력">
                     </div>
                     <div class="right__area__wrap">
-                        <input type="button" class="black__small__btn" value="인증">
+                        <input type="button" class="black__small__btn" value="인증" onclick="mobileAuthenfication()">
                     </div>
                 </div>
             </div>
@@ -528,13 +533,13 @@ input::placeholder{
                 <div class="contnet__row warm__msg__area">
                     <div class="grid__three">
                         <div class="left__area__wrap">
-                            <input class="short__input address__input" type="number" step="1" name="birth_year" value="" placeholder="년">
+                            <input class="short__input address__input" type="number" step="1" min="1900" max="9999" name="birth_year" value="" placeholder="년">
                         </div>
                         <div class="middle__area__wrap">
-                            <input class="short__input address__input" type="number" step="1"name="birth_month" value="" placeholder="월">
+                            <input class="short__input address__input" type="number" step="1" min="1" max="12" name="birth_month" value="" placeholder="월">
                         </div>
                         <div class="right__area__wrap">
-                            <input class="short__input address__input" type="number" step="1" name="birth_day" value="" placeholder="일">
+                            <input class="short__input address__input" type="number" step="1" min="1" max="31" name="birth_day" value="" placeholder="일">
                         </div>
                     </div>
                 </div>
@@ -545,13 +550,13 @@ input::placeholder{
                 </div>
                 <div class="contnet__row warm__msg__area">
                     <div style="float:left">
-                        <input type="radio" id="gender_male" name="gender" class="login__check__option" value="F" checked>
-                        <label for="gender_male"></label>
+                        <input type="radio" id="gender_female" name="gender" value="F" checked>
+                        <label for="gender_female"></label>
                     </div>
                     <span class="font__small" style="margin-right:20px">여성</span>
                     <div style="float:left">
-                        <input type="radio" id="gender_female" name="gender" class="login__check__option" value="M">
-                        <label for="gender_female"></label>
+                        <input type="radio" id="gender_male" name="gender" value="M">
+                        <label for="gender_male"></label>
                     </div>
                     <span class="font__small">남성</span>
                 </div>
@@ -603,7 +608,7 @@ input::placeholder{
 
 <script>
 $(document).ready(function(){
-    
+    $('.warn__msg.tel_confirm').css('display','none');
     if($('#postcodify').find('postcodify_search_controls').length == 0){
         $("#postcodify").postcodify({
             insertPostcode5 : "#zipcode",
@@ -653,6 +658,10 @@ $(document).ready(function(){
             $('.postcodify_search_controls .keyword').attr('chk-flg', 'true');
         });
     }
-    
+    $('input[name=tel_mobile]').keyup(function(){
+        let only_num_regex = /[^0-9]/g;
+        let result = $('input[name=tel_mobile]').val().replace(only_num_regex,"");
+        $('input[name=tel_mobile]').val(result);
+    })
 })
 </script>

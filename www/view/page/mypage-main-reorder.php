@@ -77,7 +77,7 @@
     }
 
     .reorder__apply__wrap .description {
-        padding-left: 6px;
+        padding-left: -6px;
     }
 
     .reorder_reapply_btn {
@@ -175,9 +175,9 @@
                 <p data-i18n="r_reorder_noti_history">재입고알림 신청내역</p>
             </div>
             <div class="description reorder__apply_pc">
-                <p data-i18n="r_reorder_msg_01">·&nbsp;해당제품이 재입고되면 메시지를 발송해드립니다.</p>
-                <p data-i18n="r_reorder_msg_02">·&nbsp;스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
-                <p data-i18n="r_reorder_msg_03">·&nbsp;재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와 관계없이 발송됩니다.</p>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_01">해당제품이 재입고되면 메시지를 발송해드립니다.</p></span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_02">스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p></span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_03">재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와 관계없이 발송됩니다.</p></span>
             </div>
             <div class="description reorder__apply_mobile">
                 <p data-i18n="r_reorder_msg_01">·&nbsp;해당제품이 재입고되면 메시지를 발송해드립니다.</p>
@@ -305,7 +305,7 @@
         $('#' + table_id).html(`
         <tr>
             <td colspan="6" style="text-align:center">
-                <p>조회결과가 없습니다.</p>
+                <p data-i18n= "ml_no_history_msg">조회결과가 없습니다.</p>
             </td>
         </tr>
     `);
@@ -314,7 +314,7 @@
         $('#' + mobile_table_id).html(`
         <tr>
             <td colspan="4" style="text-align:center">
-                <p>조회결과가 없습니다.</p>
+                <p data-i18n= "ml_no_history_msg">조회결과가 없습니다.</p>
             </td>
         </tr>
     `);
@@ -350,7 +350,7 @@
                             switch (list_type) {
                                 case 'apply':
                                     strBtn = `
-                                        <p>신청완료</p>
+                                        <p data-i18n="r_reorder_history">신청완료</p>
                                         <div class="reorder_reapply_btn" style="width: 56px;" no="${row.reorder_idx}" action-type="cancel" onclick="reorderBtnAction(this)">신청취소</div>
                                     </div>
                                 `;
@@ -358,7 +358,7 @@
                                     break;
                                 case 'alarm':
                                     strBtn = `
-                                        <p>알림완료</p>
+                                        <p data-i18n="r_reorder_notified">알림완료</p>
                                         <p>${row.update_date}</p>
                                 `;
                                     text_btn_area = '';
@@ -366,7 +366,7 @@
                                     break;
                                 case 'cancel':
                                     strBtn = `
-                                        <p>취소완료</p>
+                                        <p data-i18n="r_reorder_cancelled">취소완료</p>
                                         <div class="reorder_reapply_btn" style="width: 48px;" no="${row.reorder_idx}" action-type="re_apply" onclick="reorderBtnAction(this)">재신청</div>
                                     </div>
                                 `;
@@ -453,7 +453,9 @@
                     }
                 }
             }
+            
         });
+        changeLanguageR();
     }
 
     function reorderBtnAction(obj) {

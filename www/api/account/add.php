@@ -221,6 +221,36 @@ try {
 		";
 		
 		$db->query($insert_order_to_sql);
+
+		$insert_join_mileage_sql = "
+			INSERT INTO
+				dev.MILEAGE_INFO
+			(
+				COUNTRY,
+				MEMBER_IDX,
+				ID,
+				MILEAGE_CODE,
+				MILEAGE_UNUSABLE,
+				MILEAGE_USABLE_INC,
+				MILEAGE_USABLE_DEC,
+				MILEAGE_BALANCE,
+				CREATER,
+				UPDATER
+			) 
+			VALUES(
+				'".$country."',
+				".$member_idx.",
+				'".$member_id."',
+				'NEW',
+				0,
+				5000,
+				0,
+				5000,
+				'System',
+				'System'
+			)
+		";
+		$db->query($insert_join_mileage_sql);
 	}
 	
 	$db->commit();

@@ -49,7 +49,6 @@ if ($member_idx > 0) {
 			OI.ORDER_CODE		AS ORDER_CODE,
 			OI.ORDER_TITLE		AS ORDER_TITLE,
 			OI.ORDER_STATUS		AS ORDER_STATUS,
-			OI.PREORDER_FLG		AS PREORDER_FLG,
 			DATE_FORMAT(
 				OI.ORDER_DATE,
 				'%Y.%m.%d'
@@ -71,11 +70,11 @@ if ($member_idx > 0) {
 			CASE
 				WHEN
 					OI.ORDER_STATUS = 'DCP' AND
-					NOW() > DATE_ADD(OI.DELIVERY_END_DATE, INTERVAL 7 DAY)
+					NOW() <= DATE_ADD(OI.DELIVERY_END_DATE, INTERVAL 7 DAY)
 					THEN
-						'TRUE'
+						TRUE
 				ELSE
-						'FALSE'
+						FALSE
 			END						AS UPDATE_FLG
 		FROM
 			dev.ORDER_INFO OI
@@ -91,11 +90,15 @@ if ($member_idx > 0) {
 	
 	$db->query($select_order_sql);
 	
+	$order_info = array();
 	foreach($db->fetch() as $order_data) {
 		$order_idx = $order_data['ORDER_IDX'];
 		
-		$update_flg = $order_data['UPDATE_FLG'];
-		$update_flg === 'TRUE'? true: false;
+		$preorder_flg = false;
+		$preorder_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND PREORDER_FLG = TRUE");
+		if ($preorder_cnt > 0) {
+			$preorder_flg = true;
+		}
 		
 		$order_product = array();
 		if (!empty($order_idx)) {
@@ -134,7 +137,8 @@ if ($member_idx > 0) {
 					LEFT JOIN dev.ORDERSHEET_MST OM ON
 					PR.ORDERSHEET_IDX = OM.IDX
 				WHERE
-					OP.ORDER_IDX = ".$order_idx."
+					OP.ORDER_IDX = ".$order_idx." AND
+					OP.PRODUCT_CODE NOT LIKE 'VOUXXX%'
 				ORDER BY
 					OP.IDX ASC
 			";
@@ -151,28 +155,30 @@ if ($member_idx > 0) {
 					'color_rgb'				=>$order_product_data['COLOR_RGB'],
 					'option_name'			=>$order_product_data['OPTION_NAME'],
 					'product_qty'			=>$order_product_data['PRODUCT_QTY'],
-					'product_price'			=>$order_product_data['PRODUCT_PRICE']
+					'product_price'			=>number_format($order_product_data['PRODUCT_PRICE'])
 				);
 			}
 		}
 		
-		$json_result['data'][] = array(
+		$order_info[] = array(
 			'order_idx'				=>$order_data['ORDER_IDX'],
 			'order_code'			=>$order_data['ORDER_CODE'],
 			'order_title'			=>$order_data['ORDER_TITLE'],
 			'order_status'			=>$order_data['ORDER_STATUS'],
-			'preorder_flg'			=>$order_data['PREORDER_FLG'],
+			'preorder_flg'			=>$preorder_flg,
 			'order_date'			=>$order_data['ORDER_DATE'],
 			'cancel_date'			=>$order_data['CANCEL_DATE'],
 			'exchange_date'			=>$order_data['EXCHANGE_DATE'],
 			'refund_date'			=>$order_data['REFUND_DATE'],
 			'company_name'			=>$order_data['COMPANY_NAME'],
 			'company_tel'			=>$order_data['COMPANY_TEL'],
-			'update_flg'			=>$update_flg,
+			'update_flg'			=>$order_data['UPDATE_FLG'],
 			
 			'order_product'			=>$order_product
 		);
 	}
+	
+	$json_result['data'] = $order_info;
 } else {
 	$json_result['code'] = 301;
 	$json_result['msg'] = "로그인 정보가 없습니다. 로그인 후 다시 시도해주세요.";

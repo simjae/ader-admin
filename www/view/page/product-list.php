@@ -52,7 +52,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                     </div>
                     <div class="sort-btn mobile rM sort__grid" data-grid="2">
                         <div class="d-i-b"><img src="/images/svg/grid-cols-3.svg" alt=""></div>
-                        <spa data-i18n="pl_change_layout">3칸</span>
+                        <span data-i18n="">3칸</span>
                     </div>
                 </div>
             </div>
@@ -146,7 +146,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                 <div class="filter-footer">
                     <div class="filter-btn-wraaper">
                         <div class="reset-btn" data-i18n="pl_clear">초기화</div>
-                        <div class="select-btn" data-i18n="pl_view_product_sort"><span class="select-result">0</span>개의 제품 선택</div>
+                        <div class="select-btn"><span data-i18n="pl_view_product_sort_01"></span><span class="select-result">0</span><span data-i18n="pl_view_product_sort_02">개의 제품 선택</span></div>
                     </div>
                 </div>
             </div>

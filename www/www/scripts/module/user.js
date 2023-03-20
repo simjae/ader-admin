@@ -205,6 +205,7 @@ export function User() {
         </div>
         `
         sideBox.appendChild(userContent);
+        changeLanguageR();
     };
     let writeLoginHtml = () => {
         let login = new Login();

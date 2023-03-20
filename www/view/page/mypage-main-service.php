@@ -168,31 +168,31 @@
 <div class="service__wrap">
     <div class="service__tab__btn__container">
         <div class="tab__btn__item" form-id="service__notice__wrap">
-            <span>공지사항</span>
+            <span data-i18n="lm_notice">공지사항</span>
         </div>
         <div class="tab__btn__item" form-id="service__guide__wrap">
-            <span>온라인스토어 이용가이드</span>
+            <span data-i18n="lm_online_store_guide">온라인스토어 이용가이드</span>
         </div>
         <div class="tab__btn__item" form-id="service__terms__wrap">
-            <span>이용약관</span>
+            <span data-i18n="lm_terms_and_conditions">이용약관</span>
         </div>
         <div class="tab__btn__item" form-id="service__policy__wrap">
-            <span>개인정보처리방침</span>
+            <span data-i18n="lm_privacy_policy_02">개인정보처리방침</span>
         </div>
     </div>
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
             <div class="swiper-slide tab__btn__item" form-id="service__notice__wrap">
-                <span>공지사항</span>
+                <span data-i18n="lm_notice">공지사항</span>
             </div>
             <div class="swiper-slide tab__btn__item" form-id="service__guide__wrap">
-                <span>온라인스토어 이용가이드</span>
+                <span data-i18n="lm_online_store_guide">온라인스토어 이용가이드</span>
             </div>
             <div class="swiper-slide tab__btn__item" form-id="service__terms__wrap">
-                <span>이용약관</span>
+                <span data-i18n="lm_terms_and_conditions">이용약관</span>
             </div>
             <div class="swiper-slide tab__btn__item" form-id="service__policy__wrap">
-                <span>개인정보처리방침</span>
+                <span data-i18n="lm_privacy_policy_02">개인정보처리방침</span>
             </div>
         </div>
     </div>
@@ -205,7 +205,7 @@
         </div>
         <div class="service__tab service__guide__wrap">
             <div class="title">
-                <p>온라인 스토어 이용 가이드</p>
+                <p data-i18n="lm_online_store_guide">온라인 스토어 이용 가이드</p>
             </div>
             <div class="description">
                 <h2 style="margin-top:0px;">회원가입 안내</h2>
@@ -307,7 +307,7 @@
         </div>
         <div class="service__tab service__terms__wrap">
             <div class="title">
-                <p>이용약관</p>
+                <p data-i18n="lm_terms_and_conditions">이용약관</p>
             </div>
             <div class="description">
                 <p>
@@ -581,7 +581,7 @@
         </div>
         <div class="service__tab service__policy__wrap">
             <div class="title">
-                <p>개인정보처리방침</p>
+                <p data-i18n="lm_privacy_policy_02">개인정보처리방침</p>
             </div>
             <div class="description">
                 <p>

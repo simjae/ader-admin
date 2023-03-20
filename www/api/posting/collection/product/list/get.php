@@ -64,14 +64,17 @@ if ($project_idx > 0) {
 	}
 	
 	$db->query($select_collection_product_sql);
-
+	
+	$collection_product_info = array();
 	foreach($db->fetch() as $c_product_data) {
-		$json_result['data'][] = array(
+		$collection_product_info[] = array(
 			'c_product_idx'		=>$c_product_data['C_PRODUCT_IDX'],
 			'relevant_flg'		=>$c_product_data['RELEVANT_FLG'],
 			'img_location'		=>$c_product_data['IMG_LOCATION']
 		);
 	}
+	
+	$json_result['data'] = $collection_product_info;
 }
 
 ?>

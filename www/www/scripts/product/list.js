@@ -452,6 +452,8 @@ const productListSelectGrid = () => {
                 //그리드 박스 변경
                 $webSortGrid.dataset.grid = 4;
                 $websortSpan.innerText = '4칸 보기';
+                $websortSpan.dataset.i18n = 'pl_change_layout';
+                $websortSpan.textContent = i18next.t('pl_change_layout');
                 $websortImg.src = '/images/svg/grid-cols-4.svg';
                 break;
 
@@ -462,6 +464,8 @@ const productListSelectGrid = () => {
 
                 $webSortGrid.dataset.grid = 2;
                 $websortSpan.innerText = '2칸 보기';
+                $websortSpan.dataset.i18n = 'pl_change_layout';
+                $websortSpan.textContent = i18next.t('pl_change_layout');
                 $websortImg.src = '/images/svg/grid-cols-2.svg';
                 break;
         }
@@ -478,6 +482,8 @@ const productListSelectGrid = () => {
                 $mobileSortGrid.dataset.grid = 2;
                 $mobileSortSpan.innerText = '2칸';
                 $mobileSortImg.src = '/images/svg/grid-cols-2.svg';
+                $mobileSortSpan.dataset.i18n = 'pl_change_layout';
+                $mobileSortSpan.textContent = i18next.t('pl_change_layout');
                 break;
 
             case "2":
@@ -488,6 +494,8 @@ const productListSelectGrid = () => {
                 $mobileSortGrid.dataset.grid = 3;
                 $mobileSortSpan.innerText = '3칸';
                 $mobileSortImg.src = '/images/svg/grid-cols-3.svg';
+                $mobileSortSpan.dataset.i18n = 'pl_change_layout';
+                $mobileSortSpan.textContent = i18next.t('pl_change_layout');
                 break;
 
             case "3":
@@ -498,6 +506,8 @@ const productListSelectGrid = () => {
                 $mobileSortGrid.dataset.grid = 1;
                 $mobileSortSpan.innerText = '1칸';
                 $mobileSortImg.src = '/images/svg/grid-cols-1.svg';
+                $mobileSortSpan.dataset.i18n = 'pl_change_layout';
+                $mobileSortSpan.textContent = i18next.t('pl_change_layout');
                 break;
         }
 
@@ -590,6 +600,7 @@ function clickImgTypeBtn() {
     let img_param = $('#img_param');
 
     let img_type_text = "";
+    let key = "";
     let items = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='item']");
     let outfits = document.querySelectorAll(".product-img .swiper-slide[data-imgtype='outfit']");
 
@@ -598,6 +609,7 @@ function clickImgTypeBtn() {
         img_type_text = "아이템";
         $(".type-btn img").attr("src", "/images/svg/item.svg").css({ "width": "16px", "height": "12px" });
         $('#img_type_text').attr("data-i18n", "pl_view_product");
+        key = "pl_view_product";
         items.forEach(el => el.style.display = "none");
         outfits.forEach(el => el.style.display = "block");
     } else if (img_param.val() == "P") {
@@ -605,11 +617,14 @@ function clickImgTypeBtn() {
         img_type_text = "착용컷";
         $(".type-btn img").attr("src", "/images/svg/cloth.svg").css({ "width": "8px", "height": "17px" });
         $('#img_type_text').attr("data-i18n", "pl_model_cut");
+        key = "pl_model_cut";
         items.forEach(el => el.style.display = "block");
         outfits.forEach(el => el.style.display = "none");
     }
 
-    $('#img_type_text').text(img_type_text);
+    // $('#img_type_text').text(img_type_text);
+    $('#img_type_text').text(i18next.t(key));
+
 }
 
 $("#filter-btn-toggle").click(function () {
@@ -659,6 +674,7 @@ function getProductListByScroll(last_idx, more_flg) {
                         $('.product__list__wrap').append(strDiv);
 
                         $('#more_flg').val(more_flg);
+                        document.querySelector('.add-btn').textContent = i18next.t('pl_view_more');
                     }
                 } else {
                     $('.show_more_btn').remove();
@@ -1102,12 +1118,12 @@ window.addEventListener('resize', function () {
     let breakpoint = window.matchMedia('screen and (min-width:1025px)');
     if (breakpoint.matches === true) {
         let category = document.querySelector('.product__list__wrap .prd__meun');
-        console.log(category.offsetHeight)
+        // console.log(category.offsetHeight)
         filter.style.top = `${category.offsetHeight - 2}px`;
         sort.style.top = `${category.offsetHeight - 2}px`;
     } else {
         let category = document.querySelector('.product__list__wrap .prd__meun');
-        console.log(category.offsetHeight)
+        // console.log(category.offsetHeight)
         filter.style.top = `${category.offsetHeight - 2}px`;
         sort.style.top = `${category.offsetHeight - 2}px`;
     }

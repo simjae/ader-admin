@@ -454,11 +454,13 @@ function changeLanguage(){
     function(){
         console.log('i18next initialized');
         changeText();
+        changePlaceholder();
     });
     
     i18next.on('languageChanged', function(lng) {
         localStorage.setItem('lang', lng);
         changeText();
+        changePlaceholder();
     });
     function changeText(){
         const elements = document.querySelectorAll('[data-i18n]');
@@ -467,7 +469,28 @@ function changeLanguage(){
             el.textContent = i18next.t(key);
         });
     }
-    
+    function changePlaceholder(){
+        const elements = document.querySelectorAll('[data-i18n-placeholder]');
+        elements.forEach(el => {
+            const key = el.dataset.i18nPlaceholder;
+            el.placeholder = i18next.t(key);
+        });
+    }
+}
+/**
+ * @author YOON
+ * @description 새로고침시 재번역
+ */
+function changeLanguageR() {
+    // const ln = localStorage.getItem('lang') || getLanguage();
+    // console.log("현재 언어 확인",ln);
+    const elements = document.querySelectorAll('[data-i18n]');
+    // console.log(elements);
+    elements.forEach(el => {
+        // console.log(el);
+        const key = el.dataset.i18n;
+        el.textContent = i18next.t(key);
+    });
 }
 /**
  * @author SIMJAE

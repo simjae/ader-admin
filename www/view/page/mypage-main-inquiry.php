@@ -193,7 +193,7 @@
     .search__small input {
         width: 100%;
         height: 20px;
-        font-size: 13px;
+        font-size: 10px;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
@@ -279,7 +279,8 @@
 
     .inquiry__info.inquiry__contents textarea {
         margin-top: 0px;
-        height: 250px;
+        height: 250px !important;
+        border: 1px solid #808080 !important;
         resize: none;
     }
 
@@ -465,10 +466,10 @@
 <div class="inquiry__wrap">
     <div class="inquiry__tab__btn__container">
         <div class="tab__btn__item" form-id="inquiry__faq__wrap">
-            <span>자주 찾는 질문</span>
+            <span data-i18n="lm_faq">자주 찾는 질문</span>
         </div>
         <div class="tab__btn__item" form-id="inquiry__action__wrap">
-            <span>문의하기</span>
+            <span data-i18n="lm_inquiry">문의하기</span>
         </div>
         <div class="tab__btn__item" form-id="inquiry__list__wrap">
             <span>문의내역</span>
@@ -536,15 +537,15 @@
                             <select id="inquiry_type" name="inquiry_type" style="display:none">
                                 <option value="CAR" selected>취소/환불</option>
                                 <option value="OAP">주문/결제</option>
-                                <option value="OAD">출고/배송</option>
+                                <option value="FAD">출고/배송</option>
                                 <option value="RAE">반품/교환</option>
                                 <option value="AFS">A/S</option>
                                 <option value="DAE">배송/기타문의</option>
                                 <option value="RST">재입고</option>
                                 <option value="PIQ">제품문의</option>
-                                <option value="BAR">블루마크/정가품</option>
+                                <option value="BGP">블루마크/정가품</option>
                                 <option value="VUC">바우처</option>
-                                <option value="ETC">기타서비스</option>
+                                <option value="OSV">기타서비스</option>
                             </select>
                         </div>
                     </span>

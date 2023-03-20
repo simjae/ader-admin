@@ -14,7 +14,7 @@
     </li>
     <li class="footer__content drop__menu">
         <div class="drop__down__wrap">
-            <span class="drop-title" style="font-size: 1.2rem;">법적 고지사항</span>
+            <span class="drop-title" style="font-size: 1.2rem;" data-i18n="lm_regulations">법적 고지사항</span>
             <div class="drop__btn plus-btn">
                 <span class="plus-line"></span>
                 <span class="plus-line"></span>
@@ -22,15 +22,15 @@
         </div>
         <div class="drop__down__content">
             <ul>
-                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=online_store'">온라인 스토어 이용가이드</li>
-                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=terms_of_use'">이용 약관</li>
-                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=privacy_policy'">개인정보 처리방침</li>
+                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=online_store'" data-i18n="lm_online_store_guide">온라인 스토어 이용가이드</li>
+                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=terms_of_use'" data-i18n="lm_terms_and_conditions">이용 약관</li>
+                <li class="disclaimer" onclick="location.href='/notice/privacy?notice_type=privacy_policy'" data-i18n="lm_privacy_policy_02">개인정보 처리방침</li>
             </ul>
         </div>
     </li>
     <li class="footer__content drop__menu">
         <div class="drop__down__wrap">
-            <span class="drop-title"style="font-size: 1.2rem;">소셜 미디어</span>
+            <span class="drop-title"style="font-size: 1.2rem;" data-i18n="lm_social_media">소셜 미디어</span>
             <div class="drop__btn plus-btn">
                 <span class="plus-line"></span>
                 <span class="plus-line"></span>
@@ -55,7 +55,7 @@
     </li>
     <li class="footer__content drop__menu">
         <div class="drop__down__wrap">
-            <span class="drop-title"style="font-size: 1.2rem;">고객센터</span>
+            <span class="drop-title"style="font-size: 1.2rem;" data-i18n="lm_customer_care_center">고객센터</span>
             <div class="drop__btn plus-btn">
                 <span class="plus-line"></span>
                 <span class="plus-line"></span>
@@ -70,7 +70,7 @@
     </li>
     <li class="footer__content drop__menu inf_content_m">
         <div class="drop__down__wrap">
-            <span class="drop-title"style="font-size: 1.2rem;">회사정보</span>
+            <span class="drop-title"style="font-size: 1.2rem;" data-i18n="lm_company">회사정보</span>
             <div class="drop__btn plus-btn">
                 <span class="plus-line"></span>
                 <span class="plus-line"></span>
@@ -99,19 +99,19 @@
         </li>
         <li class="footer__content" style="grid-column: 8/10;">
             <div class="f__title">
-                <span>법적 고지사항</span>
+                <span data-i18n="lm_regulations">법적 고지사항</span>
             </div>
             <div class="f_content">
                 <ul>
-                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=online_store'">온라인 스토어 이용가이드</li>
-                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=terms_of_use'">이용 약관</li>
-                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=privacy_policy'">개인정보 처리방침</li>
+                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=online_store'" data-i18n="lm_online_store_guide">온라인 스토어 이용가이드</li>
+                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=terms_of_use'" data-i18n="lm_terms_and_conditions">이용 약관</li>
+                    <li class="disclaimer" style="cursor:pointer" onclick="location.href='/notice/privacy?notice_type=privacy_policy'" data-i18n="lm_privacy_policy_02">개인정보 처리방침</li>
                 </ul>
             </div>
         </li>
         <li class="footer__content" style="grid-column: 10/11;">
             <div class="f__title">
-                <span>소셜 미디어</span>
+                <span data-i18n="lm_social_media">소셜 미디어</span>
             </div>
             <div class="f_content">
                 <div class="social">
@@ -132,7 +132,7 @@
         </li>
         <li class="footer__content" style="grid-column: 12/14;">
             <div class="f__title">
-                <span>고객센터</span>
+                <span data-i18n="lm_customer_care_center">고객센터</span>
             </div>
             <div class="f_content">
                 <p class="service">ADER 3F 53, Yeonmujang-gil,</p>
@@ -155,9 +155,10 @@
 <script>
     window.addEventListener('DOMContentLoaded', function() {
         dropMenuToggleBtn();
+        changeLanguage();
     });
-
-    let country = getLanguage();
+    
+    let country = localStorage.getItem('lang') || getLanguage();
 
     $.ajax({
         type: "post",

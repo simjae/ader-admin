@@ -35,6 +35,7 @@ const getProductApi = (productIdx) => {
                 product_name: result[0].product_name,
                 stock_status: result[0].stock_status
             };
+            console.log(result);
             console.log("🏂 ~ file: detail.js:33 ~ getProductApi ~ recentProduct:", recentProduct)
             saveRecentlyViewed(recentProduct);
         }
@@ -526,7 +527,7 @@ function basketStatusBtn() {
                                             sideBg.classList.add("open");
                                             $("#dimmer").addClass("show");
                                         }	
-                                        
+                                        addCartForGA(option_idx);
                                     }
                                 } else {
                                     exceptionHandling("[ 디자인 필요 ]", d.msg);
@@ -544,6 +545,7 @@ function basketStatusBtn() {
             if(status == 2 && sizeSelectResult == 0){
                 e.currentTarget.querySelector("span").dataset.i18n = "pd_choose_an_option";
                 e.currentTarget.querySelector("span").innerHTML = "옵션을 선택해주세요";
+                e.currentTarget.querySelector("span").textContent = i18next.t("pd_choose_an_option");
                 e.currentTarget.querySelector("img").setAttribute("src", "/images/svg/pd-unoption.svg");
                 e.currentTarget.querySelector("img").classList.remove("hidden");
             }
@@ -554,6 +556,7 @@ function basketStatusBtn() {
             if(status == 2 && sizeSelectResult == 0){
                 e.currentTarget.querySelector("span").dataset.i18n = "pd_basket_msg_05";
                 e.currentTarget.querySelector("span").innerHTML = "쇼핑백에 담기";
+                e.currentTarget.querySelector("span").textContent = i18next.t("pd_basket_msg_05");
                 e.currentTarget.querySelector("img").classList.remove("hidden");
                 e.currentTarget.querySelector("img").setAttribute("src", "/images/svg/basket.svg");
             }   
@@ -601,6 +604,8 @@ function basketBtnStatusChange(el, idx) {
                 btn.dataset.status = 4;
                 break;
         }
+        let key = btn.querySelector("span").dataset.i18n;
+        btn.querySelector("span").textContent = i18next.t(key);
     })
 
 }
@@ -808,6 +813,8 @@ function mobileDetailBtnHanddler() {
             contentHeader.dataset.i18n = "pd_care";
             contentHeader.innerHTML = "취급 유의 사항";
         }
+        let key = contentHeader.dataset.i18n;
+        contentHeader.textContent = i18next.t(key);
     }
     function sizeguideBtnEvent() {
         let $$sizeBtn = document.querySelectorAll(".rM-detail-containner .sizeguide-btn");
@@ -837,6 +844,7 @@ function webDetailBtnHanddler(){
             }
             currentIdx = clickControllBtnEvent();
             mobileSizeGuideContentBody(idx);
+            changeLanguageR();
         });
     });
     //선택되어있는 idx불러오기
@@ -883,6 +891,8 @@ function webDetailBtnHanddler(){
             contentHeader.dataset.i18n = "pd_care";
             contentHeader.innerHTML = "취급 유의 사항";
         }
+        let key = contentHeader.dataset.i18n;
+        contentHeader.textContent = i18next.t(key);
     }
      //이벤트 달기
     function sideBarOpen(e) {
@@ -952,7 +962,7 @@ function getProductDetailInfo (product_idx){
                     <div class="sizeguide-btn">A4</div>
                     <div class="sizeguide-btn">A5</div>
                 </div>
-                <div class="sizeguide-noti" data-i18n="pd_model_msg_01">모델 신장 179cm,착용사이즈는 A3입니다.</div>
+                <div class="sizeguide-noti"><span data-i18n="pd_model_msg_01">모델 신장 </span><span>179</span><span data-i18n="pd_model_msg_02">cm,착용사이즈는 </span><span>A3</span><span data-i18n="pd_model_msg_03">입니다.</span></div>
                 <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
                 <ul class="sizeguide-dct">
                     <li class="dct-row">
@@ -1029,13 +1039,118 @@ function innerSideBar(){
    
 }
 
+function addProductForGA(data){
+    const main = document.querySelector("main");
+    let country = main.dataset.country;
+    if(data[0] != null && country != null){
+        let d = data[0];
+        var productNo = d.product_idx;
+        var productBrand = d.brand;
+        var productName = d.product_name;
+        var productPrice = d.sales_price;//.replace(/[^0-9]/g,''); // replace 필요할 경우 사용
+        
+        let currency_str = null;
+        if(country == 'KR'){
+            currency_str = 'KRW';
+        }
+        else if(country == 'EN' || country == 'CN'){
+            currency_str = 'USD';
+        }
+
+        dataLayer.push({
+            'event':'view_item',
+            'ecommerce': {
+                'items': [{
+                    'item_id': productNo,
+                    'item_name': productName,
+                    'item_brand': productBrand,
+                    'item_category': '',
+                    'item_variant': '',
+                    'currency': currency_str,
+                    'price': productPrice,
+                    'quantity': 1
+                }]
+            }
+        });
+    }
+    console.log(dataLayer);
+}
+
+function addCartForGA(option_arr){
+    const main = document.querySelector("main");
+    let country = main.dataset.country;
+
+    let currency_str = null;
+    if(country == 'KR'){
+        currency_str = 'KRW';
+    }
+    else if(country == 'EN' || country == 'CN'){
+        currency_str = 'USD';
+    }
+    getOptionProductList(option_arr, currency_str);
+}
+
+//장바구니 담기를 할 수 있는지와 장바구니에 담을 목록을 구한다.
+function getOptionProductList(option_arr, currency_str){
+    const main = document.querySelector("main");
+    let country = main.dataset.country;
+    var pList = [];
+    $.ajax({
+        type: "post",
+        data: {
+            "option_idx_arr": option_arr,
+            "country": country,
+        },
+        async: false,
+        dataType: "json",
+        url: "http://116.124.128.246:80/_api/product/option/get",
+        error: function () {
+            return {
+                'totalList': pList.length,
+                'list': pList
+            };
+        },
+        success: function (d) {
+            if(d != null && d.data != null){
+                let data = d.data;
+                data.forEach(function(row){
+                    var pName = row.product_name;
+                    var pVariant = row.option_name;
+                    var pCategory = '';
+                    var pBrand = row.brand;
+                    var pQuantity = 1;
+                    var pPrice = row.sales_price;
+                    var productNo = row.product_code;
+                    pList.push({
+                        'item_name': pName,
+                        'item_variant': pVariant,
+                        'item_id': productNo,
+                        'price': pPrice,
+                        'quantity': pQuantity,
+                        'item_brand': pBrand,
+                        'item_category': pCategory
+                    });
+                });
+                dataLayer.push({
+                    'event': 'add_to_cart',
+                    'ecommerce': {
+                        'currencyCode': currency_str,
+                        'items': pList
+                    }
+                });
+            }
+            console.log(dataLayer);
+        }
+    });
+}
 
 window.addEventListener('DOMContentLoaded', function () {
     let product_idx = document.querySelector("main").dataset.productidx;
-    getProductApi(product_idx);
+    addProductForGA(getProductApi(product_idx));
     pdResponsiveSwiper();
     mobileDetailBtnHanddler();
     $('#quickview').removeClass("hidden");
+    changeLanguageR();
 });
 
 window.addEventListener('resize', function () {

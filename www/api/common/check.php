@@ -244,7 +244,7 @@ function checkIdReorder($db,$member_idx,$idx_type,$param_idx) {
 	$reorder_cnt = $product_info['reorder_cnt'];
 	
 	if ($limit_id_flg == true) {
-		$order_cnt = $db->count("dev.ORDER_INFO OI LEFT JOIN dev.ORDER_PRODUCT OP ON OI.IDX = OP.ORDER_IDX","OI.REORDER_CNT = ".$reorder_cnt." AND OI.MEMBER_IDX = ".$member_idx." AND OP.PRODUCT_IDX = ".$product_idx." AND OP.ORDER_STATUS = 'PCP' ");
+		$order_cnt = $db->count("dev.ORDER_INFO OI LEFT JOIN dev.ORDER_PRODUCT OP ON OI.IDX = OP.ORDER_IDX","OP.REORDER_CNT = ".$reorder_cnt." AND OI.MEMBER_IDX = ".$member_idx." AND OP.PRODUCT_IDX = ".$product_idx." AND OP.ORDER_STATUS = 'PCP' ");
 		
 		if ($order_cnt == 0) {
 			$check_result['result'] = true;

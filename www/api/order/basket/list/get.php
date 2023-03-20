@@ -93,6 +93,7 @@ if ($member_idx > 0 && $country != null) {
 			LEFT JOIN dev.ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		WHERE
+			BI.COUNTRY = '".$country."' AND
 			BI.MEMBER_IDX = ".$member_idx." AND
 			BI.DEL_FLG = FALSE
 		ORDER BY
@@ -182,7 +183,10 @@ if ($member_idx > 0 && $country != null) {
 		}
 	}
 	
+	$basket_cnt = $db->count("dev.BASKET_INFO","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	
 	$json_result['data'] = array(
+		'basket_cnt'		=>$basket_cnt,
 		'basket_st_info'	=>$basket_st_info,
 		'basket_so_info'	=>$basket_so_info
 	);

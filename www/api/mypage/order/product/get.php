@@ -85,7 +85,7 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 			'color_rgb'				=>$order_product_data['COLOR_RGB'],
 			'option_name'			=>$order_product_data['OPTION_NAME'],
 			'product_qty'			=>$order_product_data['PRODUCT_QTY'],
-			'product_price'			=>$order_product_data['PRODUCT_PRICE']
+			'product_price'			=>number_format($order_product_data['PRODUCT_PRICE'])
 		);
 	}
 } else {

@@ -18,7 +18,7 @@ export function Basket(el, useSidebar) {
 					<div class="list__header">
 						<div class="icon__box">
 							<img src="/images/svg/basket.svg" alt="">
-							<div class="basket_title">쇼핑백</div>
+							<div class="basket_title" data-i18n="s_shoppingbag">쇼핑백</div>
 						</div>
 						<div class="checkbox__box">
 							<label class="cb__custom all" for="">
@@ -26,8 +26,8 @@ export function Basket(el, useSidebar) {
 								<div class="cb__mark"></div>
 							</label>
 							<div class="flex gap-10">
-								<u class="ufont st__checked__btn" btn="stock">선택 삭제</u>
-								<u class="ufont st__all__btn" btn="stock">모두 삭제</u>
+								<u class="ufont st__checked__btn" btn="stock" data-i18n="s_remove_selected">선택 삭제</u>
+								<u class="ufont st__all__btn" btn="stock" data-i18n="s_remove_all">모두 삭제</u>
 							</div>			
 						</div>
 					</div>
@@ -35,18 +35,18 @@ export function Basket(el, useSidebar) {
 				</div>
 				<div class="pay__box">
 					<div class="pay__row">
-						<div>제품합계</div>
+						<div data-i18n="s_subtotal">제품합계</div>
 						<div class="product__total__price">0</div>
 					</div>
 					<div class="pay__row">
-						<div>배송비</div>
+						<div data-i18n="s_shipping_total">배송비</div>
 						<div class="deli__price" data-price_delivery="5000">0</div>
 					</div>
 					<div class="pay__row">
-						<div>총 합계</div>
+						<div data-i18n="s_order_total">총 합계</div>
 						<div class="pay__total__price">0</div>
 					</div>
-					<div class="pay__btn"><span>결제하기</span></div>
+					<div class="pay__btn"><span data-i18n="s_checkout">결제하기</span></div>
 					<div class="check_basket_btn"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 					<p class="pay__notiy">&nbsp;</p> 
 				</div>
@@ -65,7 +65,7 @@ export function Basket(el, useSidebar) {
 						<div class="list__header">
 							<div class="icon__box">
 								<img src="/images/svg/basket.svg" alt="">
-								<div class="basket_title">쇼핑백</div>
+								<div class="basket_title" data-i18n="s_shoppingbag">쇼핑백</div>
 							</div>
 							<div class="checkbox__box">
 								<label class="cb__custom all" for="">
@@ -73,8 +73,8 @@ export function Basket(el, useSidebar) {
 									<div class="cb__mark"></div>
 								</label>
 								<div class="flex gap-10">
-									<u class="ufont st__checked__btn" btn="stock">선택 삭제</u>
-									<u class="ufont st__all__btn" btn="stock">모두 삭제</u>
+									<u class="ufont st__checked__btn" btn="stock" data-i18n="s_remove_selected">선택 삭제</u>
+									<u class="ufont st__all__btn" btn="stock" data-i18n="s_remove_all">모두 삭제</u>
 								</div>			
 							</div>
 						</div>
@@ -82,18 +82,18 @@ export function Basket(el, useSidebar) {
 					</div>
 					<div class="pay__box">
 						<div class="pay__row">
-							<div>제품합계</div>
+							<div data-i18n="s_subtotal">제품합계</div>
 							<div class="product__total__price">0</div>
 						</div>
 						<div class="pay__row">
-							<div>배송비</div>
+							<div data-i18n="s_shipping_total">배송비</div>
 							<div class="deli__price" data-price_delivery="5000">0</div>
 						</div>
 						<div class="pay__row">
-							<div>총 합계</div>
+							<div data-i18n="s_order_total">총 합계</div>
 							<div class="pay__total__price">0</div>
 						</div>
-						<div class="pay__btn"><span>결제하기</span></div>
+						<div class="pay__btn"><span data-i18n="s_checkout">결제하기</span></div>
 						<div class="check_basket_btn"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
 						<p class="pay__notiy">&nbsp;</p> 
 					</div>
@@ -327,7 +327,7 @@ export function Basket(el, useSidebar) {
 							<div class="option__box">
 								<div class="option__change__btn open">
 									<img src="/images/svg/edit.svg" alt="">
-									<u>옵션 변경하기</u>
+									<u data-i18n="s_change_options">옵션 변경하기</u>
 								</div>
 								<div class="reorder__btn ${reorder_class}">
 									<img src="/images/svg/reflesh.svg" alt="">
@@ -352,7 +352,7 @@ export function Basket(el, useSidebar) {
 								</div>
 								<div class="option__change__btn apply">
 									<img src="/images/svg/edit.svg" alt="">
-									<u>옵션 변경하기</u>
+									<u data-i18n="s_change_options">옵션 변경하기</u>
 								</div>
 							</div>
 						</div>
@@ -360,6 +360,21 @@ export function Basket(el, useSidebar) {
 				`;
 				
 				docFrag.querySelector(".list__body").innerHTML = product_html;
+				let reorderBtn = document.querySelector(".reorder__btn u");
+				reorderBtn.forEach(btn => {
+					if(el.reorder_flg == true) {
+						btn.dataset.i18n = "w_basket_msg_04";
+						btn.textContent = i18next.t("w_basket_msg_04");
+					} else {
+						btn.dataset.i18n = "s_subscribe_for_restock_notification";
+						btn.textContent = i18next.t("s_subscribe_for_restock_notification");
+					}
+				})
+				let optChangeBtn = document.querySelectorAll(".option__change__btn u");
+				optChangeBtn.forEach(btn => {
+					btn.dataset.i18n = "s_change_options";
+					btn.textContent = i18next.t("s_change_options");
+				})
 			});
 			
 			document.querySelector('.list__box .list__body').appendChild(docFrag);
@@ -510,10 +525,13 @@ export function Basket(el, useSidebar) {
 
 			if(soldSelfBox.length > 0) {
 				msgBox.innerText = '품절제품을 삭제 후 결제를 진행해주세요';
+				msgBox.dataset.i18n = 's_basket_msg_01';
+				msgBox.textContent = i18next.t('s_basket_msg_01');
 				return false;
 			}
 			if(checkCnt == 0) {
 				msgBox.innerText = '결제하실 상품을 선택해주세요.';
+				return false;
 			}
 
 			if (selectArr.length > 0) {
@@ -916,6 +934,8 @@ export function Basket(el, useSidebar) {
 		const productBox = [...document.querySelectorAll(".sold__list__box .product__box")].find(el => el.dataset.product_idx == productIdx);
 		productBox.dataset.reflg = true;
 		productBox.querySelector(".reorder__btn u").innerHTML = "재입고 알림 신청완료";
+		productBox.querySelector(".reorder__btn u").dataset.i18n = "w_basket_msg_04";
+		productBox.querySelector(".reorder__btn u").textContent = i18next.t("w_basket_msg_04");
 		productBox.querySelector(".reorder__btn u").classList.add('disableBtn');
 	}
 }

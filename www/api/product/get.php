@@ -40,6 +40,7 @@ if ($product_idx > 0 && $country != null) {
 			PR.ORDERSHEET_IDX			AS ORDERSHEET_IDX,
 			PR.PRODUCT_NAME				AS PRODUCT_NAME,
 			OM.COLOR					AS COLOR,
+			OM.BRAND					AS BRAND,
 			PR.PRICE_".$country."		AS PRICE,
 			PR.DISCOUNT_".$country."	AS DISCOUNT,
 			PR.SALES_PRICE_".$country."	AS SALES_PRICE,
@@ -71,7 +72,7 @@ if ($product_idx > 0 && $country != null) {
 		$product_size = array();
 		
 		$stock_status = null;
-		
+
 		if ($product_idx != null) {
 			$img_thumbnail_sql = "
 				(
@@ -219,6 +220,7 @@ if ($product_idx > 0 && $country != null) {
 			'img_main'			=>$img_main,
 			'product_name'		=>$product_data['PRODUCT_NAME'],
 			'color'				=>$product_data['COLOR'],
+			'brand'				=>$product_data['BRAND'],
 			'price'				=>$product_data['PRICE'],
 			'discount'			=>$product_data['DISCOUNT'],
 			'sales_price'		=>$product_data['SALES_PRICE'],

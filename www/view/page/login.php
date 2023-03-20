@@ -283,7 +283,7 @@ input:-webkit-autofill:active  {
 <main>
     <div class="login__card">
         <div class="card__header">
-            <p class="font__large">로그인</p>
+            <p class="font__large" data-i18n="m_login">로그인</p>
             <span class="font__underline font__red result_msg"></span>
         </div>
         <div class="card__body">
@@ -292,16 +292,18 @@ input:-webkit-autofill:active  {
                 <input type="hidden" name="member_ip" value="0.0.0.0">
                 <input type="hidden" name="r_url" value="<?=$r_url?>">
                 <div class="content__wrap">
-                    <div class="content__title">이메일
-                    <p class="font__underline font__red member_id_msg"></p>
+                    <div class="content__wrap__msg">
+                        <div class="content__title" data-i18n="p_email">이메일</div>
+                        <div class="font__underline font__red member_id_msg"></div>
                     </div>
                     <div class="content__row">
                         <input type="text" id="member_id" name="member_id" value="">
                     </div>
                 </div>
                 <div class="content__wrap">
-                    <div class="content__title">비밀번호
-                    <p class="font__underline font__red member_pw_msg"></p>
+                    <div class="content__wrap__msg">
+                        <div class="content__title" data-i18n="p_password">비밀번호</div>
+                        <div class="font__underline font__red member_pw_msg"></div>
                     </div>
                     <div class="content__row">
                         <input type="password" id="member_pw" name="member_pw" value="">
@@ -332,7 +334,7 @@ input:-webkit-autofill:active  {
             </div>
             <div class="contour__line"></div>
             <div class="content__wrap">
-                <p class="font__large text__align__center">회원가입을 하시면 다양한 혜택을 경험하실 수 있습니다.</p>
+                <p class="font__large text__align__center" data-i18n="lm_menu_msg_02">회원가입을 하시면 다양한 혜택을 경험하실 수 있습니다.</p>
             </div>
         </div>
         <div class="card__footer">

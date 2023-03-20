@@ -87,8 +87,10 @@
         .mileage__tab__wrap {
             grid-column: 1/17;
             width: 100%;
+            padding: 0 10px;
             margin-top: 40px;
         }
+
 
         .notice_br {
             display: inline;
@@ -106,15 +108,7 @@
         .description.tab__notice {
             margin: 0;
         }
-    }
 
-    @media (min-width: 600px) {
-        .mileage__tab__wrap {
-            grid-column: 1/17;
-            width: 580px;
-            margin: 0 auto;
-            margin-top: 40px;
-        }
     }
 
     @media (min-width: 1024px) {
@@ -160,7 +154,7 @@
                             <p data-i18n="ml_current_mileage">현재 적립포인트</p>
                         </th>
                         <th>
-                            <p data-i18n="ml_used_b">사용된 포인트</p>
+                            <p data-i18n="ml_used_mileage">사용된 포인트</p>
                         </th>
                         <th>
                             <p data-i18n="ml_awaiting_refund">환불예정 포인트</p>
@@ -179,11 +173,20 @@
                     </tbody>
                 </table>
             </div>
-            <div class="description tab__total">
-                <p data-i18n="ml_mileage_msg_01">·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
-                <p data-i18n="ml_mileage_msg_02">·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
-                <p data-i18n="ml_mileage_msg_03">·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
-                <p data-i18n="ml_mileage_msg_04">·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
+            <div class="description tab__total" style="margin-left: -6px;">
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_01">주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로
+                        전환됩니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_02">적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_03">적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_04">적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
+                </span>
             </div>
             <div class="contents__table bluemark all_list">
                 <form id="frm-mileage-total-list">
@@ -202,22 +205,22 @@
                             </colsgroup>
                             <thead>
                                 <th>
-                                    <p>일자</p>
+                                    <p data-i18n="m_date">일자</p>
                                 </th>
                                 <th>
-                                    <p>주문번호</p>
+                                    <p data-i18n="m_order_number">주문번호</p>
                                 </th>
                                 <th>
-                                    <p>내용</p>
+                                    <p data-i18n="m_history">내용</p>
                                 </th>
                                 <th>
-                                    <p>구매금액</p>
+                                    <p data-i18n="m_price">구매금액</p>
                                 </th>
                                 <th>
-                                    <p>적립</p>
+                                    <p data-i18n="m_earned">적립</p>
                                 </th>
                                 <th>
-                                    <p>사용</p>
+                                    <p data-i18n="m_used">사용</p>
                                 </th>
                             </thead>
                             <tbody id="mileage_total_result">
@@ -257,7 +260,7 @@
         </div>
         <div class="mileage__tab mileage__save__wrap">
             <div class="title">
-                <p>적립된 포인트</p>
+                <p data-i18n="ml_earned_mileage">적립된 포인트</p>
             </div>
             <form id="frm-mileage-save-list">
                 <input type="hidden" name="rows" value="10">
@@ -276,22 +279,22 @@
                             </colsgroup>
                             <thead>
                                 <th>
-                                    <p>일자</p>
+                                    <p data-i18n="m_date">일자</p>
                                 </th>
                                 <th>
-                                    <p>주문번호</p>
+                                    <p data-i18n="m_order_number">주문번호</p>
                                 </th>
                                 <th>
-                                    <p>내용</p>
+                                    <p data-i18n="m_history">내용</p>
                                 </th>
                                 <th>
-                                    <p>구매금액</p>
+                                    <p data-i18n="m_price">구매금액</p>
                                 </th>
                                 <th>
-                                    <p>적립</p>
+                                    <p data-i18n="m_earned">적립</p>
                                 </th>
                                 <th>
-                                    <p>사용</p>
+                                    <p data-i18n="m_used">사용</p>
                                 </th>
                             </thead>
                             <tbody id="mileage_save_result">
@@ -331,7 +334,7 @@
         </div>
         <div class="mileage__tab mileage__use__wrap">
             <div class="title">
-                <p data-i18n="ml_used_b">사용된 포인트</p>
+                <p data-i18n="ml_used_mileage">사용된 포인트</p>
             </div>
             <form id="frm-mileage-use-list">
                 <input type="hidden" name="rows" value="10">
@@ -350,22 +353,22 @@
                             </colsgroup>
                             <thead>
                                 <th>
-                                    <p>일자</p>
+                                    <p data-i18n="m_date">일자</p>
                                 </th>
                                 <th>
-                                    <p>주문번호</p>
+                                    <p data-i18n="m_order_number">주문번호</p>
                                 </th>
                                 <th>
-                                    <p>내용</p>
+                                    <p data-i18n="m_history">내용</p>
                                 </th>
                                 <th>
-                                    <p>구매금액</p>
+                                    <p data-i18n="m_price">구매금액</p>
                                 </th>
                                 <th>
-                                    <p>적립</p>
+                                    <p data-i18n="m_earned">적립</p>
                                 </th>
                                 <th>
-                                    <p>사용</p>
+                                    <p data-i18n="m_used">사용</p>
                                 </th>
                             </thead>
                             <tbody id="mileage_use_result">
@@ -405,13 +408,22 @@
         </div>
         <div class="mileage__tab mileage__notice__wrap">
             <div class='title'>
-                <p>적립포인트 유의사항</p>
+                <p data-i18n="ml_ml_notice">적립포인트 유의사항</p>
             </div>
-            <div class='description tab__notice'>
-                <p data-i18n="ml_mileage_msg_01">·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
-                <p data-i18n="ml_mileage_msg_02">·&nbsp;적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
-                <p data-i18n="ml_mileage_msg_03">·&nbsp;적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
-                <p data-i18n="ml_mileage_msg_04">·&nbsp;적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
+            <div class='description tab__notice' style="margin-left:-6px;">
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_01">주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로
+                        전환됩니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_02">적립 포인트의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_03">적립 포인트는 1,000단위로 사용하실 수 있습니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_04">적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
+                </span>
             </div>
         </div>
     </div>
@@ -437,14 +449,14 @@
         result_table.html(`
     <tr>
         <td colspan="6" style="text-align:center">
-            <p>조회결과가 없습니다.</p>
+            <p data-i18n="ml_no_history_msg">조회결과가 없습니다.</p>
         </td>
     </tr>
     `);
         result_table_mobile.html(`
     <tr>
         <td colspan="4" style="text-align:center">
-            <p>조회결과가 없습니다.</p>
+            <p data-i18n="ml_no_history_msg">조회결과가 없습니다.</p>
         </td>
     </tr>
     `);
@@ -552,7 +564,9 @@
                             });
                         })
                     }
+                    
                 }
+
                 else {
                     let err_str = '마일리지 정보조회에 실패했습니다.';
                     if (d.msg != null) {
@@ -563,6 +577,7 @@
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
+                changeLanguageR();
             }
         });
     }

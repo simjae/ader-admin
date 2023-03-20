@@ -67,6 +67,7 @@ if ($member_idx > 0 && $country != null) {
 			LEFT JOIN dev.ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		WHERE
+			WL.COUNTRY = '".$country."' AND
 			WL.MEMBER_IDX = ".$member_idx." AND
 			WL.DEL_FLG = FALSE
 		ORDER BY

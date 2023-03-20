@@ -36,7 +36,7 @@
         text-align:center;
         color:#343434;
     }
-    .notice__privacy__wrap .tab__wrap{display:grid;gap:10px;grid-template-columns:134px 70px 100px;align-items:center;margin:0 auto;width:320px;}
+    .notice__privacy__wrap .tab__wrap{display:grid;gap:10px;grid-template-columns:1fr 1fr 1fr;align-items:center;margin:0 auto;width:350px;}
         .notice__privacy__wrap .tab__btn{border:none;height:24px;cursor:pointer;}
         .notice__privacy__wrap .tab__btn span{line-height: 24px;}
         .notice__privacy__wrap .tab__btn.selected{border:1px solid;}
@@ -101,16 +101,16 @@ $notice_type = getUrlParamter($page_url, 'notice_type');
 <main>
     <input type="hidden" id="notice_type" value="<?=$notice_type?>">
     <div class="notice__privacy__wrap">
-        <div class="title primary"><p>법적고지사항</p></div>
+        <div class="title primary"><p data-i18n="lm_regulations">법적고지사항</p></div>
         <div class="tab__wrap">
             <div class="tab__btn online_store selected" onclick="clickTabPrivacy('online_store')">
-                <span>온라인스토어 이용가이드</span>
+                <span data-i18n="lm_online_store_guide">온라인스토어 이용가이드</span>
             </div>
             <div class="tab__btn terms_of_use" onclick="clickTabPrivacy('terms_of_use')">
-                <span>이용약관</span>
+                <span data-i18n="lm_terms_and_conditions">이용약관</span>
             </div>
             <div class="tab__btn privacy_policy" onclick="clickTabPrivacy('privacy_policy')">
-                <span>개인정보처리방침</span>
+                <span data-i18n="lm_privacy_policy_02">개인정보처리방침</span>
             </div>
         </div>
         <div class="info__wrap online_store_info"></div>
@@ -145,7 +145,7 @@ function clickTabPrivacy(type){
 
 }
 
-let language = getLanguage();
+let language = localStorage.getItem('lang') || getLanguage();
 
 $.ajax({
     type: "post",

@@ -1183,8 +1183,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요."
-							style="padding-left:10px;">
+						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요." style="padding-left:10px;" onChange="setPriceMileagePoint(this);">
 						<div class="mileage_point_btn" onclick="getTotalMileage(true)"><span
 								class="mileage_point_msg">모두적용</span></div>
 					</div>
@@ -1458,6 +1457,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				} else {
 					getAddrInfo(data.order_to_info);
 				}
+				getProductForGA(data.product_info)
 				getOrderPgInfoList(data.product_info);
 				getMemberInfo(data.member_info);
 				
@@ -1722,11 +1722,16 @@ update_addr_btn.addEventListener("click", function () {
 	$(".edit_box").removeClass("hidden");
 });
 const add_addr_btn = document.querySelector(".address-info .save-btn");
+add_addr_btn.addEventListener("click", function() {
+	let edditBox = document.querySelector(".edit-box");
+	listAddr();
+});
 
 function listAddr() {
 	let to_place = document.querySelector(".tmp_to_place");
 	let to_name = document.querySelector(".tmp_to_name");
 	let to_mobile = document.querySelector(".tmp_to_mobile");
+
 	let addrSearch = document.querySelector(".postcodify_search_controls .keyword");
 
 	if (to_place.value === "" || to_place.value == null) {
@@ -1761,10 +1766,10 @@ function listAddr() {
 	document.querySelector("#to_place").value = to_place.value;
 	document.querySelector("#to_name").value = to_name.value;
 	document.querySelector("#to_mobile").value = to_mobile.value;
-	document.querySelector("#to_zipcode").value = to_zipcode;
-	document.querySelector("#to_road_addr").value = to_road_addr;
-	document.querySelector("#to_lot_addr").value = to_lot_addr;
-	document.querySelector("#to_detail_addr").value = to_detail_addr;
+	document.querySelector("#to_zipcode").value = put_addr_wrap.querySelector(".tmp_to_zipcode").value;
+	document.querySelector("#to_road_addr").value = put_addr_wrap.querySelector(".tmp_to_road_addr").value;
+	document.querySelector("#to_lot_addr").value = put_addr_wrap.querySelector(".tmp_to_lot_addr").value;
+	document.querySelector("#to_detail_addr").value = put_addr_wrap.querySelector(".tmp_to_detail_addr").value;
 
 	let resetInput = document.querySelectorAll(".edit-box .input-row input");
 	resetInput.forEach((el) => {
@@ -1963,8 +1968,8 @@ function setVoucherInfoList(voucher_cnt,voucher_info) {
 				$('#use_mileage').attr('disabled', false);
 				$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
 			} else {
-
 				$('#use_mileage').val(0);
+				$('#price_mileage_point').val(0);
 				$('#use_mileage').attr('disabled', true);
 				$('.mileage_point_btn').attr('onClick', 'return false;');
 
@@ -2153,6 +2158,7 @@ next_step_btn.addEventListener("click", function () {
 		toggleBtn.classList.add("hidden");
 	}
 	if (nameData == '' || mobileData == '' || zipcodeData == '') {
+		exceptionHandling("","주소지를 적어주세요.");
 		return false;
 	}
 	if (next_step_level == 2) {
@@ -2380,7 +2386,7 @@ function addTmpOrderInfo() {
 		}
 	});
 }
-
+ 
 function setTossPayment(order_info) {
 	tossPayments.requestPayment('카드', {
 		amount: order_info.price_total,
@@ -2390,5 +2396,34 @@ function setTossPayment(order_info) {
 		successUrl: 'http://116.124.128.246/order/check',
 		failUrl: 'http://116.124.128.246/order/check',
 	});
+}
+
+function setPriceMileagePoint(obj) {
+	let price_mileage_point = $(obj).val();
+	$('#price_mileage_point').val(price_mileage_point);
+}
+
+function getProductForGA(items){
+    var products = [];
+    if(items != null){
+        items.forEach(function(item){
+            var product = {
+                'item_name': item.product_name,
+                'item_variant': item.option_name,
+                'price': item.sales_price,
+                'quantity': item.product_qty, 
+                'brand': item.brand,
+                'item_category': ''
+            } 
+            products.push(product);
+        })
+    }
+    dataLayer.push({
+        'event': 'begin_checkout',
+        'ecommerce': {
+        'items': products
+        }
+    });
+	console.log(dataLayer);
 }
 </script>

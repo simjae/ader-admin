@@ -13,10 +13,13 @@
     .profile__tab__btn__container {
         grid-column: 1/17;
         margin: 0 auto;
-        display: grid;
+        display: flex;
         gap: 10px;
-        grid-template-columns: 80px 80px 80px 90px 80px;
         font-size: 11px;
+    }
+
+    .profile__tab__btn__container .tab__btn__item {
+        padding: 0 10px;
     }
 
     .profile__tab__wrap {
@@ -41,6 +44,12 @@
         line-height: normal;
         letter-spacing: normal;
         text-align: left;
+    }
+
+    .profile__wrap .description p {
+        text-indent: 0;
+        line-height: 2;
+        margin: 0;
     }
 
     .list__delivery__wrap {
@@ -121,10 +130,6 @@
         height: 12px;
     }
 
-    .profile__wrap .description p {
-        line-height: 2;
-    }
-
     .profile__pw__update__wrap {
         height: 409px;
         width: 490px;
@@ -159,8 +164,7 @@
         height: 360px;
         width: 490px;
         border: 1px solid #808080;
-        margin: 80px 0 51px 0;
-        padding: 0 20px 20px 20px;
+        padding: 20px;
 
     }
 
@@ -168,8 +172,7 @@
         height: 360px;
         width: 490px;
         border: 1px solid #808080;
-        margin: 80px 0 51px 0;
-        padding: 0 20px 20px 20px;
+        padding: 20px;
 
     }
 
@@ -314,6 +317,9 @@
         padding-top: 40px;
     }
 
+    /* .profile__payment__update__wrap {
+        display: none;
+    } */
     @media (max-width: 1024px) {
 
         .profile__tab__wrap {
@@ -324,11 +330,6 @@
 
         .profile__wrap {
             margin: 20px 0 60px;
-        }
-
-        .profile__tab__btn__container {
-            gap: 5px;
-            grid-template-columns: 60px 60px 60px 70px 70px;
         }
 
         .profile__wrap .contents__table {
@@ -425,7 +426,7 @@
         <div class="tab__btn__item" form-id="profile__set__wrap">
             <span data-i18n="p_information">계정설정</span>
         </div>
-        <div class="tab__btn__item" form-id="profile__credit__update__wrap">
+        <div class="tab__btn__item" form-id="profile__payment__wrap">
             <span data-i18n="p_payment_method">결제수단</span>
         </div>
         <div class="tab__btn__item" form-id="profile__customize__purchase__wrap">
@@ -441,19 +442,19 @@
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
             <div class="swiper-slide tab__btn__item" form-id="profile__set__wrap">
-                <span>계정설정</span>
+                <span data-i18n="p_information">계정설정</span>
             </div>
-            <div class="swiper-slide tab__btn__item" form-id="profile__credit__update__wrap">
-                <span>결제수단</span>
+            <div class="swiper-slide tab__btn__item" form-id="profile__payment__wrap">
+                <span data-i18n="p_payment_method">결제수단</span>
             </div>
             <div class="swiper-slide tab__btn__item" form-id="profile__customize__purchase__wrap">
-                <span>맞춤구매</span>
+                <span data-i18n="p_preference">맞춤구매</span>
             </div>
             <div class="swiper-slide tab__btn__item" form-id="profile__delivery__wrap" onclick="getOrderToList()">
-                <span>배송지목록</span>
+                <span data-i18n="p_address">배송지목록</span>
             </div>
             <div class="swiper-slide tab__btn__item" form-id="profile__marketing__wrap" onclick="getMarketingCheck()">
-                <span>마케팅설정</span>
+                <span data-i18n="p_subscription">마케팅설정</span>
             </div>
         </div>
     </div>
@@ -485,8 +486,8 @@
                                 <input class="user_update_pw" type="hidden">
                             </td>
                             <td>
-                                <button class="update_btn" action-type="pw_update"
-                                    onclick="buttonAction(this)">수정</button>
+                                <button class="update_btn" action-type="pw_update" onclick="buttonAction(this)"
+                                    data-i18n="p_edit">수정</button>
                             </td>
                         </tr>
                         <tr>
@@ -496,8 +497,8 @@
                                 <input class="user_update_tel" type="hidden">
                             </td>
                             <td>
-                                <button class="update_btn" action-type="tel_update"
-                                    onclick="buttonAction(this)">수정</button>
+                                <button class="update_btn" action-type="tel_update" onclick="buttonAction(this)"
+                                    data-i18n="p_edit">수정</button>
                             </td>
                         </tr>
                         <tr>
@@ -524,7 +525,7 @@
 
         <div class="profile__tab profile__pw__update__wrap">
             <div class="title" style="height:20px;">
-                <p style="margin-bottom: 20px;">비밀번호 변경</p>
+                <p style="margin-bottom: 20px;" data-i18n="p_change_password">비밀번호 변경</p>
                 <div class="close" onclick="closeTab(this)" action-type="close_pw_update">
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
@@ -534,9 +535,11 @@
             </div>
             <div class="pw_form">
                 <input class="current_pw" type="password" placeholder="현재 비밀번호"
-                data-i18n="ns:key" data-i18n-target=".current_pw">
-                <input class="tmp_update_pw" type="password" placeholder="새로운 비밀번호">
-                <input class="tmp_update_pw_check none_margin_bottom" type="password" placeholder="새로운 비밀번호 확인">
+                    data-i18n-placeholder="p_current_password">
+                <input class="tmp_update_pw" type="password" placeholder="새로운 비밀번호"
+                    data-i18n-placeholder="p_new_password">
+                <input class="tmp_update_pw_check none_margin_bottom" type="password" placeholder="새로운 비밀번호 확인"
+                    data-i18n-placeholder="p_confirm_new_password">
             </div>
 
             <div style="margin-top:10px;" class="contents_margin">
@@ -544,10 +547,12 @@
             </div>
 
             <div class="contents_margin" style="margin-bottom:5px;">
-                <p data-i18n="p_password_msg_01">·&nbsp;&nbsp;대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자</p>
-                <p data-i18n="p_special_character_msg">·&nbsp;&nbsp;입력 가능 특수문자</p>
-                <p data-i18n="p_change_password">&nbsp;&nbsp;&nbsp;!@#$%^()_-={}[]|;:<>,.?/</p>
-                <p data-i18n="p_blank_character_msg">·&nbsp;&nbsp;공백 입력 불가능</p>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="p_password_msg_01">대소문자/숫자/특수문자 중 3가지 이상 조합, 8자-16자
+                    </p></span>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="p_special_character_msg">입력 가능 특수문자</p></span>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="p_change_password">!@#$%^()_-={}[]|;:<>,.?/</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="p_blank_character_msg">공백 입력 불가능</p></span>
             </div>
 
             <div>
@@ -569,14 +574,19 @@
                 <p style="color:red;text-align:right;">&nbsp;</p>
             </div>
             <div class="pw_form" style="margin-bottom: 10px;">
-                <input type="text" name="tel_certificate" placeholder="( - ) 없이 숫자만 입력">
+                <input type="text" name="tel_certificate" placeholder="( - ) 없이 숫자만 입력"
+                    data-i18n-placeholder="p_member_msg_02">
             </div>
             <div>
-                <p data-i18n="p_member_msg_03" style="margin-bottom: 5px;">·&nbsp;&nbsp;통신 요금제에 따라 문자메시지 발송 비용이 발생할 수
-                    있으며,</p>
-                <p style="margin-bottom: 10px;">&nbsp;&nbsp;&nbsp;통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p>
-                <p data-i18n="p_privacy_policy_01" style="margin-bottom: 36px;">·&nbsp;&nbsp;<span
-                        class="underline">개인정보처리방침</span> 및 <span class="underline">이용약관</span></p>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="p_member_msg_03_1" style="margin-bottom: 5px;">
+                        통신 요금제에 따라 문자메시지 발송 비용이 발생할 수 있으며,</p></span>
+                <span class="flex_text">&nbsp;&nbsp;&nbsp;<p data-i18n="p_member_msg_03_2" style="margin-bottom: 5px;">
+                        통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p></span>
+                <span class="flex_text" style="margin-bottom: 36px;">·&nbsp;&nbsp;
+                    <p data-i18n="p_privacy_policy_01" class="underline">개인정보처리방침</p>
+                    <p data-i18n="p_privacy_policy_02">&nbsp;및</p>
+                    <p data-i18n="p_privacy_policy_03" class="underline">이용약관</p>
+                </span>
             </div>
             <div class="input__form__rows">
                 <label>
@@ -585,8 +595,8 @@
                         style="color:red;text-align:right;"></span>
                 </label>
             </div>
-            <button class="black__btn" style="margin: 20px 0;" action-type="send_code"
-                onclick="buttonAction(this)">코드전송</button>
+            <button class="black__btn" style="margin: 20px 0;" action-type="send_code" onclick="buttonAction(this)"
+                data-i18n="p_send_code">코드전송</button>
         </div>
         <div class="profile__tab profile__tel__update__confirm__wrap">
             <div class="title" style="margin-bottom: 14px;">
@@ -596,21 +606,28 @@
                 </div>
             </div>
             <div>
-                <p style="margin: 0;">·&nbsp;&nbsp;+82 01055665656</p>
+                <p style="margin: 0;">+82 01055665656</p>
                 <p style="margin: 5px 0 10px 0;" data-i18n="p_member_msg_05">&nbsp;&nbsp;인증 코드가 전송되었습니다.</p>
             </div>
             <div class="pw_form">
-                <input type="text" name="tel_insert" placeholder="인증 번호 입력" style="margin-bottom: 5px;">
+                <input type="text" name="tel_insert" placeholder="인증 번호 입력" style="margin-bottom: 5px;"
+                    data-i18n-placeholder="p_type_code">
                 <p style="float: right;" data-i18n="p_resend_in_30">30초 내에 재전송</p>
             </div>
             <div class="contents_margin">
-                <p data-i18n="p_member_msg_03">·&nbsp;&nbsp;통신 요금제에 따라 문자메시지 발송 비용이 발생할 수 있으며,</p>
-                <p data-i18n="">&nbsp;&nbsp;통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p>
+                <span class="flex_text">
+                    <p data-i18n="p_member_msg_03_1" style="margin-bottom: 5px;">·&nbsp;&nbsp;통신 요금제에 따라 문자메시지 발송 비용이
+                        발생할 수 있으며,</p>
+                </span>
+                <span class="flex_text">
+                    <p data-i18n="p_member_msg_03_2" style="margin-bottom: 5px;">&nbsp;&nbsp;통신사의 문제로 인해 문자 메시지 발송이 지연될
+                        수 있습니다.</p>
+                </span>
             </div>
             <div>
                 <button class="white__btn" style="margin-top: 48px;" data-i18n="p_resend_the_code">인증 코드
                     재전송</button>
-                <button class="black__btn" style="margin: 10px 0 20px 0;" action-type="fin_check"
+                <button class="black__btn" style="margin: 10px 0 0;" action-type="fin_check"
                     onclick="buttonAction(this)" data-i18n="p_verified">인증완료</button>
             </div>
         </div>
@@ -638,13 +655,44 @@
                 <p class="alertms_del" style="color:red;">&nbsp;</p>
             </div>
             <div>
-                <button class="white__btn" style="margin: 10px 0;" action-type="del_cancel"
-                    onclick="buttonAction(this)">취소</button>
+                <button class="white__btn" style="margin: 10px 0;" action-type="del_cancel" onclick="buttonAction(this)"
+                    data-i18n="o_cancel">취소</button>
                 <button class="black__btn" action-type="account_del" onclick="buttonAction(this)"
                     data-i18n="p_delete_account_02">계정삭제</button>
             </div>
         </div>
-        <div class="profile__tab profile__credit__update__wrap">
+        <div class="profile__tab profile__payment__wrap">
+            <div class="profile__payment__list__wrap">
+                <div class="default__payment__wrap">
+                    <div class="title">
+                        <p data-i18n="p_dafault_payment_method">기본 결제수단</p>
+                    </div>
+                    <table>
+                        <tbody class="delivery__table__wrap">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="other__payment__wrap">
+                    <div class="title">
+                        <p data-i18n="p_other_payment_method">다른 결제수단</p>
+                    </div>
+                    <table>
+                        <tbody class="other__delivery__table__wrap">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="black__full__width__btn new__payment" action-type="add_payment" onclick="buttonAction(this)"
+                data-i18n="p_add_new_payment_method">
+                새로운 결제수단 추가
+            </button>
+        </div>
+        <div class="profile__tab profile__payment__update__wrap">
+            <div class="close" onclick="closeTab(this)" action-type="close_add_payment" style="float: right;">
+                <img src="/images/mypage/tmp_img/X-12.svg" />
+            </div>
             <div class="title">
                 <p style="margin-bottom: 10px;" data-i18n="p_save_pay">결제수단 저장</p>
             </div>
@@ -654,35 +702,36 @@
             <div class="input__form__wrap" style="margin-top:20px;">
                 <div class="input__form__rows">
                     <div class="rows__title" data-i18n="p_card_full_name">카드 명의</div>
-                    <input placeholder="이름"></input>
+                    <input class="payment__name" placeholder="이름" data-i18n-placeholder="p_full_name"></input>
                 </div>
                 <div class="input__form__rows">
                     <div class="rows__title" data-i18n="p_card_number">카드번호</div>
-                    <input placeholder="( - ) 없이 숫자만 입력"></input>
+                    <input class="payment__number" placeholder="( - ) 없이 숫자만 입력"
+                        data-i18n-placeholder="p_member_msg_02"></input>
                 </div>
                 <div class="input__form__rows">
                     <div class="rows__title" data-i18n="p_expiration_date">유효기간</div>
                     <div style="display:flex; margin-bottom:10px;">
-                        <select id="inquiry__type" name="inquiry__type" style="margin-right:10px;">
-                            <option name="inquiry__type" selected>1</option>
-                            <option name="inquiry__type">2</option>
-                            <option name="inquiry__type">3</option>
-                            <option name="inquiry__type">4</option>
-                            <option name="inquiry__type">5</option>
-                            <option name="inquiry__type">6</option>
-                            <option name="inquiry__type">7</option>
-                            <option name="inquiry__type">8</option>
-                            <option name="inquiry__type">9</option>
-                            <option name="inquiry__type">10</option>
-                            <option name="inquiry__type">11</option>
-                            <option name="inquiry__type">12</option>
+                        <select id="payment_valid_month" name="payment_valid_month" style="margin-right:10px;">
+                            <option name="payment_valid_month" selected>1</option>
+                            <option name="payment_valid_month">2</option>
+                            <option name="payment_valid_month">3</option>
+                            <option name="payment_valid_month">4</option>
+                            <option name="payment_valid_month">5</option>
+                            <option name="payment_valid_month">6</option>
+                            <option name="payment_valid_month">7</option>
+                            <option name="payment_valid_month">8</option>
+                            <option name="payment_valid_month">9</option>
+                            <option name="payment_valid_month">10</option>
+                            <option name="payment_valid_month">11</option>
+                            <option name="payment_valid_month">12</option>
                         </select>
-                        <select id="inquiry__type" name="inquiry__type">
-                            <option name="inquiry__type" selected>2023</option>
-                            <option name="inquiry__type">2024</option>
-                            <option name="inquiry__type">2025</option>
-                            <option name="inquiry__type">2026</option>
-                            <option name="inquiry__type">2027</option>
+                        <select id="payment_valid_year" name="payment_valid_year">
+                            <option name="payment_valid_year" selected>2023</option>
+                            <option name="payment_valid_year">2024</option>
+                            <option name="payment_valid_year">2025</option>
+                            <option name="payment_valid_year">2026</option>
+                            <option name="payment_valid_year">2027</option>
                         </select>
                     </div>
                 </div>
@@ -698,8 +747,7 @@
                 <div class="footer"></div>
             </div>
         </div>
-        <div class="profile__tab profile__credit__list__wrap">
-        </div>
+
         <div class="profile__tab profile__customize__purchase__wrap">
             <div class="title">
                 <p style="margin-bottom: 10px;" data-i18n="p_set_preferences">구매 맞춤 정보 설정</p>
@@ -743,8 +791,7 @@
         <div class="profile__tab profile__delivery__wrap">
             <div class="list__delivery__wrap">
                 <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
-                    <p data-i18n="p_default_address" style="font-size: 13px; padding-bottom: 9.5px"
-                        data-i18n="p_default_address">기본 배송지</p>
+                    <p data-i18n="p_default_address" style="font-size: 13px; padding-bottom: 9.5px">기본 배송지</p>
                 </div>
                 <table style="width:100%">
                     <tbody class="default__list delivery_table_wrap">
@@ -752,8 +799,7 @@
                 </table style="width:100%">
                 <div class="other_list_wrap">
                     <div class="tilte" style="border-bottom: solid 1px #dcdcdc;">
-                        <p data-i18n="p_other_address" style="font-size: 13px; padding-bottom: 9.5px"
-                            data-i18n="p_other_address">다른 배송지</p>
+                        <p data-i18n="p_other_address" style="font-size: 13px; padding-bottom: 9.5px">다른 배송지</p>
                     </div>
                     <table style="width:100%">
                         <tbody class="other__list delivery_table_wrap">
@@ -761,7 +807,7 @@
                     </table>
                 </div>
                 <button class="black__full__width__btn new__delivery" action-type="add_order_to"
-                    data-i18n="p_add_address" onclick="buttonAction(this)" data-i18n="p_add_address">새로운 배송지 추가</button>
+                    data-i18n="p_add_address" onclick="buttonAction(this)">새로운 배송지 추가</button>
             </div>
         </div>
 
@@ -846,11 +892,30 @@
                     </label>
                 </div>
             </div>
-            <div class="description" style="margin-bottom:40px; width: 420px;">
-                <p> · 귀하의 개인정보를 이용하는 방법 및 귀하의 개인정보 접근,<br class="notice_br">변경 및 삭제 요청 방법에 대한
-                    자세한 정보는<br class="notice_br"><span class="underline" style="cursor:pointer"
-                        onclick="mypageTabBtnClick('service', 3)">개인정보취급방침</span>을 확인하시기 바랍니다.
-                </p>
+            <div class="description" style="margin-bottom:40px; width: 430px;">
+                <div class="pc__view">
+                    <span class="flex_text">·&nbsp;&nbsp;
+                        <p data-i18n="p_member_msg_11_1">귀하의 개인정보를 이용하는 방법 및 귀하의 개인정보 접근, 변경 및 삭제 요청 방법에 대한</p>
+                    </span>
+                    <span class="flex_text" style="margin-left:9px;">
+                        <p data-i18n="p_member_msg_11_2">자세한 정보는&nbsp;</p>
+                        <p data-i18n="p_member_msg_11_3" style="cursor:pointer"
+                            onclick="mypageTabBtnClick('service', 3)" class="underline">개인정보취급방침</p>
+                        <p data-i18n="p_member_msg_11_4">을 확인하시기 바랍니다.</p>
+                    </span>
+                </div>
+                <div class="mobile__view">
+                    <span span class="flex_text">·&nbsp;
+                        <p data-i18n="p_member_msg_11_5">귀하의 개인정보를 이용하는 방법 및 귀하의 개인정보 접근,</p>
+                    </span>
+                    <p data-i18n="p_member_msg_11_6" style="margin-left:6px;">변경 및 삭제 요청 방법에 대한 자세한 정보는</p>
+                    <span class="flex_text">
+                        <p data-i18n="p_member_msg_11_3" onclick="mypageTabBtnClick('service', 3)"
+                            style="cursor:pointer; margin-left:6px;" class="underline">
+                            개인정보취급방침</p>
+                        <p data-i18n="p_member_msg_11_4">을 확인하시기 바랍니다.</p>
+                    </span>
+                </div>
             </div>
             <button class="black__full__width__btn" onclick="putMarketingCheck()" data-i18n="p_save">저장</button>
             <div class="footer"></div>
@@ -858,7 +923,10 @@
     </div>
 </div>
 <script>
-    //$(".pw_form").localize();
+
+    let countryData = getLanguage();
+
+
     $(function () {
         $('#postcodify').postcodify({
             insertPostcode5: ".order_to_zipcode",
@@ -963,6 +1031,10 @@
                 break;
             case 'add_order_to':
                 $('.order__to__update__wrap').show();
+                break;
+            case 'add_payment':
+                $('.profile__payment__update__wrap').show();
+                break;
         }
     }
 
@@ -1120,10 +1192,9 @@
             return false;
         }
     }
-    let countryData = getLanguage();
+
     function getOrderToList() {
         $('.order__to__update__wrap').hide();
-
         let delivery_table = $('.delivery_table_wrap');
         delivery_table.html('');
         $.ajax({
@@ -1165,8 +1236,8 @@
                         strDiv += '<td>' + headData.to_zipcode + '</td>';
                         strDiv += '<td style="padding-right: 0; margin-top: 20px;">';
                         strDiv += '     <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
-                        strDiv += '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
-                        strDiv += '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
+                        strDiv += '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)" data-i18n="p_edit">수정</button>';
+                        strDiv += '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)" data-i18n="p_delete">삭제</button>';
                         strDiv += '</div>';
                         strDiv += '</td>';
                         strDiv += '</tr>';
@@ -1191,13 +1262,14 @@
                             strDiv += '<td>' + row.to_zipcode + '</td>';
                             strDiv += '<td style="padding-right: 0; margin-top: 20px; padding-bottom: 20px;">';
                             strDiv += '<div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
-                            strDiv += '     <button class="gray__mypage__btn" idx="' + row.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)">수정</button>';
-                            strDiv += '     <button class="white__full__width__btn" idx="' + row.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
+                            strDiv += '     <button class="gray__mypage__btn" idx="' + row.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)" data-i18n="p_edit">수정</button>';
+                            strDiv += '     <button class="white__full__width__btn"  data-i18n="p_delete" idx="' + row.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)">삭제</button>';
                             strDiv += '</div>';
                             strDiv += '</td>';
                             strDiv += '</tr>';
                         });
                         otherList.append(strDiv);
+                        changeLanguageR();
                     }
                     else {
                         $('.other_list_wrap').hide();
@@ -1608,6 +1680,42 @@
             }
         })
     }
+    /** 결제수단 불러오기 */
+    function getPaymentList() {
+
+    }
+    /** 결제수단 추가하기 */
+    function addPayment() {
+        let payName = "";
+    }
+    /** 결제수단 업데이트하기 */
+    function putPayment() {
+
+    }
+    /** 결제수단 지우기 */
+    function deletePayment() {
+
+    }
+    /** 카드 유효성 체크 함수 */
+    function checkCardType(cardNumber) {
+        // 카드 번호 유효성 검사
+        if (/[^0-9-\s]+/.test(cardNumber)) {
+            return "invalid";
+        }
+
+        // 카드 종류 체크
+        if (/^4/.test(cardNumber)) {
+            return "Visa";
+        } else if (/^5[1-5]/.test(cardNumber)) {
+            return "MasterCard";
+        } else if (/^3[47]/.test(cardNumber)) {
+            return "American Express";
+        } else if (/^(?:2131|1800|35\d{3})\d{11}$/.test(cardNumber)) {
+            return "JCB";
+        } else {
+            return "unknown";
+        }
+    }
     // 닫기버튼
     function closeTab(obj) {
         let actionType = $(obj).attr('action-type');
@@ -1645,6 +1753,10 @@
                 $('.post_change_result').hide();
                 $('.order__to__update__wrap').hide();
                 $('.profile__delivery__wrap').show();
+                break;
+            case 'close_add_payment':
+                $('.profile__payment__update__wrap').hide();
+                $('.profile__payment__wrap').show();
         }
     }
 </script>

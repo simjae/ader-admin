@@ -70,5 +70,9 @@ if ($member_idx > 0 && ($product_idx > 0 || $whish_idx > 0)) {
 	";
 
 	$db->query($delete_whish_sql);
+	
+	$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	
+	$json_result['data'] = $whish_cnt;
 }
 ?>

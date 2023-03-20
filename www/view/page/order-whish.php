@@ -156,7 +156,6 @@
     }
 
     .content.right {
-        display: none;
         position: sticky;
         height: 100vh;
         top: 40px;
@@ -768,7 +767,7 @@ if ($member_idx == 0) {
                 </div>
                 <div class="basket-link-btn-wrap">
                     <div class="basket-link-btn" onclick="basketAddBtnHandler();">
-                        <span>선택 제품 쇼핑백으로 이동하기</span>
+                        <span data-i18n="w_basket_msg_03">선택 제품 쇼핑백으로 이동하기</span>
                     </div>
                 </div>
             </div>
@@ -780,8 +779,9 @@ if ($member_idx == 0) {
 <script>
     window.addEventListener('DOMContentLoaded', function () {
         getWhishProductList();
-
+        
     });
+    
     let shirinkStart = 10;
     $(window).scroll(function () {
         let scroll = currentScroll();
@@ -870,6 +870,7 @@ if ($member_idx == 0) {
                     sizeSelectHandler();
                     removeProductBtnHandler();
                     productBtnStatus();
+                    changeLanguageR();
                 }
             }
         });
@@ -952,7 +953,7 @@ if ($member_idx == 0) {
                                 </div>
                             </div>
                             <div data-optionidx="" data-idx="${el.product_idx}" class="product-select-btn">
-                                <span>선택하기</span>
+                                <span data-i18n="w_select">선택하기</span>
                             </div>
                         </div>
 
@@ -1073,8 +1074,9 @@ if ($member_idx == 0) {
                         notTaget = [...sizeEl].filter(el => el.dataset.status != 3)
                     }
                     notTaget.forEach(el => el.classList.remove("select"));
-
+                    
                 }
+
                 productBtnStatus(whishIdx, sizeStatus);
                 function reorderCheck() {
                     let reorder = document.querySelectorAll(".size[data-reorder='true']");
@@ -1101,23 +1103,26 @@ if ($member_idx == 0) {
                 let getSizeText = szieTextArr;
                 let getSizeIdx = szieIdxArr;
                 let getProduct = e.currentTarget.dataset.idx;
-
                 if (e.currentTarget.classList.contains("select")) {
                     //사이즈가 1개이상 선택되어 있고, 버튼이 선택해제로 활성화 상태
-
+                    
                     resetSizeBox(whish_idx);
                     removeAddList(whish_idx);
                     e.currentTarget.classList.remove("select");
                     e.currentTarget.querySelector("span").innerHTML = "선택하기";
+                    e.currentTarget.querySelector("span").dataset.i18n = "w_select";
+                    e.currentTarget.querySelector("span").textContent = i18next.t("w_select");
                 } else {
                     //사이즈가 선택이 안되어있고, 버튼이 선택하기로 비활성화 상태
-
+                    
                     /* --------사이즈 선택없이 버튼 누를경우 --------*/
-
+                    
                     if (!sizeEl.length) {
                         e.currentTarget.classList.remove("select");
                         e.currentTarget.classList.add("option");
                         e.currentTarget.children[0].innerHTML = "옵션을 선택해주세요";
+                        e.currentTarget.children[0].dataset.i18n = "w_select_option";
+                        e.currentTarget.children[0].textContent = i18next.t("w_select_option");
                         return false;
                     }
 
@@ -1144,6 +1149,8 @@ if ($member_idx == 0) {
 
                         el.offsetParent.querySelector(".size__box").classList.add("disable");
                         el.querySelector("span").innerHTML = "선택해제";
+                        el.querySelector("span").dataset.i18n = "w_remove";
+                        el.querySelector("span").textContent = i18next.t("w_remove");
                     }
 
                 }
@@ -1297,6 +1304,8 @@ if ($member_idx == 0) {
         $$productSelectBtn.forEach(el => {
             el.classList.remove("select");
             el.querySelector("span").innerHTML = "선택하기";
+            el.querySelector("span").dataset.i18n = "w_select";
+            el.querySelector("span").textContent = i18next.t("w_select");
         });
     }
 
@@ -1340,8 +1349,9 @@ if ($member_idx == 0) {
             switch (parseInt(idx)) {
                 case 0:
                     el.querySelector("span").innerHTML = "품절된 제품입니다.";
+                    el.querySelector("span").dataset.i18n = "w_basket_msg_02";
+                    el.querySelector("span").textContent = i18next.t("w_basket_msg_02");
                     el.dataset.status = 0;
-                    el.classList.add()
                     break;
                 case 1:
                     el.querySelector("span").innerHTML = "재입고 알림 신청하기";
@@ -1349,6 +1359,8 @@ if ($member_idx == 0) {
                     break;
                 case 2:
                     el.querySelector("span").innerHTML = "선택하기";
+                    el.querySelector("span").dataset.i18n = "w_select";
+                    el.querySelector("span").textContent = i18next.t("w_select");
                     el.dataset.status = 2;
                     break;
                 case 3:

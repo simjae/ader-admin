@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0a72707a-f7ff-4c56-8318-26f7cbcf3903" name="Changes" comment="Changes">
+      <change beforePath="$PROJECT_DIR$/www/api/menu/get.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/api/menu/get.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/api/product/get.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/api/product/get.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/api/product/list/get.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/api/product/list/get.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/components/basket.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/components/basket.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/main.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/main.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/mypage-main-as.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/mypage-main-as.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/mypage-main-bluemark.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/mypage-main-bluemark.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/mypage-main-mileage.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/mypage-main-mileage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/mypage-main-orderlist.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/mypage-main-orderlist.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/mypage-main-profile.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/mypage-main-profile.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/mypage-main-reorder.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/mypage-main-reorder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/mypage-main.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/mypage-main.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/order-complete.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/order-complete.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/order-confirm.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/order-confirm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/view/page/product-list.php" beforeDir="false" afterPath="$PROJECT_DIR$/www/view/page/product-list.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/common/basket.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/common/basket.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/common/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/common/common.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/common/nav.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/common/nav.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/module/foryou.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/module/foryou.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/module/styling.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/module/styling.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/product/detail.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/product/detail.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/product/list.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/product/list.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/css/story/collection.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/css/story/collection.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/scripts/module.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/scripts/module.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/scripts/module/basket.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/scripts/module/basket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/scripts/nav.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/scripts/nav.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/scripts/product/detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/scripts/product/detail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/scripts/product/list.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/scripts/product/list.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/www/scripts/story/collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/www/scripts/story/collection.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2MiLGn6HqDxQzUjrAyxnT3V8jYY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0a72707a-f7ff-4c56-8318-26f7cbcf3903" name="Changes" comment="" />
+      <created>1678245365061</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678245365061</updated>
+      <workItem from="1678245367254" duration="101000" />
+      <workItem from="1678245471993" duration="8000" />
+      <workItem from="1678245489756" duration="41000" />
+      <workItem from="1678245658143" duration="52000" />
+      <workItem from="1678245718878" duration="147000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

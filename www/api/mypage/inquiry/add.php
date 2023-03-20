@@ -68,8 +68,7 @@ if($inquiry_type != null && $inquiry_title != null && $inquiryTextBox != null){
     $db->query($insert_sql);
 
     $board_idx = $db->last_id();
-
-    if(!empty($board_idx)){
+    if(!empty($board_idx) && count($_FILES) > 0){
         $path = "/var/www/admin/www/images/inquiry/";
         for($i = 1; $i <=5 ; $i++){
             $file_obj = $_FILES['board_img'.$i];

@@ -230,12 +230,12 @@
     line-height: 1.42;
 }
 /*검색*/
-#sidebar .search-wrap{
-    /* top: 50%; */
+#sidebar .search-wrap {
+    top: 150px;
     width: 70%;
     left: 50%;
     position: absolute;
-    transform: translate(-50%, 30%);
+    transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -313,13 +313,17 @@
 #sidebar .popular-box img, #sidebar .search-result-box img{
     background-color: #f8f8f8;
 }
-#sidebar .search-all-btn{
+#sidebar .search-all-btn {
     font-size: 13px;
     line-height: 1.46;
     color: #000;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 30px;
+}
+#sidebar .search-all-btn span {
+    cursor: pointer;
 }
 /* 쇼핑백 */
 #sidebar .basket__wrap{

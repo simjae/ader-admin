@@ -135,10 +135,10 @@
 										}).join("")
 										}
 										<li class="pobox all-view" onclick="location.href="/posting/collaboration">
-											<a href="/posting/collaboration" class="menu-ul">
+											<a href="/posting/collaboration" class="menu-ul" data-i18n="lm_view_collaborations_01">
 												콜라보레이션
 											</a>
-											<a href="/posting/collaboration" class="menu-ul">
+											<a href="/posting/collaboration" class="menu-ul" data-i18n="lm_view_collaborations_02">
 												전체보기
 											</a>
 										</li>
@@ -175,10 +175,16 @@
 						</li>
 						<li class="flex wishlist__btn" data-cnt="${whishCnt === undefined?"":whishCnt}"  data-type="W"><img class="wishlist-svg" style="height:14px" src="/images/svg/wishlist.svg" alt=""><span class="wish count"></span></li>
 						<li class="flex basket__btn side-bar" data-cnt="${basketCnt === undefined?"":basketCnt}" data-type="B"><img class="basket-svg" style="height:14px" src="/images/svg/basket.svg" alt=""><span class="basket count"></span></li>
-						<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
-							<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
-							<span>` + userName + `</span>
-						</li>
+						${member_info != null ? 
+							`<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
+								<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
+								<span>` + userName + `</span>
+							</li>` : 
+							`<li class="web alg__r login__wrap mypage__icon side-bar" data-type="L">
+								<img class="user-svg" style="height:14px" src="/images/svg/user-bk.svg" alt="">
+								<span>MY</span>
+							</li>`}
+						
 						<li class="flex pr-3 lg:hidden mobileMenu">
 							<div class="hamburger" id="hamburger">
 								<div class="line"></div>
@@ -295,6 +301,14 @@
 			});
 		});
 		*/
+		
+		let lrgLang = ["m_trending", "m_men", "m_women", "m_life_style", "m_collaboration", "m_story", "m_stockist"];
+		let menu_lrg = document.querySelectorAll(".drop.web .menu-ul.lrg");
+		for(let i = 0; i < menu_lrg.length; i++) {
+			menu_lrg[i].dataset.i18n = lrgLang[i];
+			menu_lrg[i].textContent = i18next.t(lrgLang[i]);
+		}
+		changeLanguageR();
 	}
 	
 	const webPostingStoryHtml = (d) => {
@@ -504,13 +518,13 @@
 		menuHtml += `
 				<ul class="bottom">
 					<li class="flex" onclick="location.href='/mypage'">
-						<img src="/images/svg/user-bk.svg" style="width:14px" alt=""><span>` + userName + `</span>
+						${member_info != null ? `<img src="/images/svg/user-bk.svg" style="width:14px" alt=""><span>${userName}</span>` : `<img src="/images/svg/user-bk.svg" style="width:14px" alt=""><span data-i18n="m_login">로그인</span>`}
 					</li>
 					<li class="mobile-search-wrap">
 						<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:14px" alt=""><span>검색</span></div>
 					</li>
 					<li class="mobile-customer-wrap">
-						<div class="mobile__customer__btn lrg__title non_underline"><img src="/images/svg/customer-bk.svg" style="width:14px" alt=""><span>고객서비스</span></div>
+						<div class="mobile__customer__btn lrg__title non_underline"><img src="/images/svg/customer-bk.svg" style="width:14px" alt=""><span data-i18n="lm_customer_care_service">고객서비스</span></div>
 					</li>
 					<li class="flex bluemark">
 						<div class="mobile__bluemark__btn"><div class="bluemark-icon"></div><span>Bluemark</span></div>
@@ -545,8 +559,8 @@
 					<div class="mobile__language__wrap">
 						<div class="mobile__language__title" data-i18n="lm_choose_language">언어 선택</div>
 						<div class="mobile__language__description">
-							<p data-i18n="lm_menu_msg_01">아래 옵션에서 선택해 주세요.</p>
-							<p>선택한 언어에 해당되는 홈이지로 리디렉션됩니다.</p>
+							<p data-i18n="lm_menu_lang_msg_01">아래 옵션에서 선택해 주세요.</p>
+							<p data-i18n="lm_menu_lang_msg_02">선택한 언어에 해당되는 홈이지로 리디렉션됩니다.</p>
 						</div>
 						<div class="mobile__language__btn__wrap">
 							<div class="language__btn__kr" data-ln='KR'>한국어</div>
@@ -559,13 +573,40 @@
 		mobileMenu.innerHTML = menuHtml;
 		document.querySelector(".side__menu").appendChild(domfrag);
 
-		midClassPosition = $('.mid').eq(0).position().top;
-		topClassPosition = $('.top').eq(0).position().top;
-		ulInterval = midClassPosition - topClassPosition;
+		
+		midClassPos = $('.mid').eq(0).position();
+		topClassPos = $('.top').eq(0).position();
+		clickPos= $('.top .lrg').eq(1).position();
+		prevPos = $('.top .lrg').eq(0).position();
 
-		clickPosition= $('.top .lrg').eq(1).position().top;
-		prevPosition = $('.top .lrg').eq(0).position().top;
-		lrgInterval = clickPosition - prevPosition;
+		midClassPosTop = 0;
+		topClassPosTop = 0;
+		clickPosTop = 0;
+		prevPosTop = 0;
+
+		if(typeof(midClassPos) == 'object'){
+			midClassPosTop = midClassPos.top;
+		}
+		if(typeof(topClassPos) == 'object'){
+			topClassPosTop = topClassPos.top;
+		}
+		if(typeof(clickPos) == 'object'){
+			clickPosTop = clickPos.top;
+		}
+		if(typeof(prevPos) == 'object'){
+			prevPosTop = prevPos.top;
+		}
+
+		ulInterval = midClassPosTop - topClassPosTop;
+		lrgInterval = clickPosTop - prevPosTop;
+
+		let lrgLang = ["m_trending", "m_men", "m_women", "m_life_style", "m_collaboration", "m_story"];
+		let menu_lrg = document.querySelectorAll(".lrg .lrg__title");
+		for(let i = 0; i < menu_lrg.length; i++) {
+			menu_lrg[i].dataset.i18n = lrgLang[i];
+			menu_lrg[i].textContent = i18next.t(lrgLang[i]);
+		}
+		changeLanguageR();
 		
 		menuLrgClick();
 		logoutClick();
@@ -583,7 +624,7 @@
 				<ul class="mid">
 					<li class="lrg" data-lrg="6" data-type="ST">
 						<div class="lrg__back__btn"></div>
-						<div class="lrg__title non_underline"><span>스토리</span></div>
+						<div class="lrg__title non_underline"><span data-i18n="m_story">스토리</span></div>
 						<div class="mdlBox">
 							<ul class="mdl">
 								<li>
@@ -611,7 +652,7 @@
 								<li class="div__line">
 								</li>
 								<li>
-									<div class="sub__title" data-i18n="lm_archive"><a href="http://116.124.128.246/story/main">아카이브</a></div>
+									<div class="sub__title"><a href="http://116.124.128.246/story/main" data-i18n="lm_archive">아카이브</a></div>
 									<ul class="list__grid">
 										<li class="st__box">
 											<div class="mid-a archiveTitle" onclick="location.href='/posting/collection'">컬렉션</div>
@@ -650,7 +691,7 @@
 										<li class="div__line">
 										</li>
 										<li class="st__box">
-											<div class="mid-a archiveTitle" data-i18n="lm_editorial" onclick="location.href='/posting/editorial'">에디토리얼</div>
+											<div class="mid-a archiveTitle" data-i18n="lm_editorial" onclick="location.href='/posting/editorial'" data-i18n="lm_editorial">에디토리얼</div>
 											<div class="archiveBox">
 												<ul>
 		`;
@@ -670,7 +711,7 @@
 							</ul>
 						</div>
 					</li>
-					<li class="mobile-store-search-wrap"><span>매장찾기</span></li>
+					<li class="mobile-store-search-wrap"><span data-i18n="m_stockist">매장찾기</span></li>
 				</ul>
 		`;
 		
@@ -879,6 +920,7 @@
 			$('.header__menu .side-bar .language-text').html(currentLang);
 			i18next.changeLanguage(currentLang);
 			// if(btnParrentClass === '.language-btn-box'){ sidebarClose();}
+			window.location.reload();
 		});
 		
 		function setSelectedLanguage(btns, lang) {
@@ -1152,5 +1194,6 @@
 
 	window.addEventListener('DOMContentLoaded', function() {
 		getMenuListApi();
+		changeLanguageR();
 //		windowResponsive();
 	});

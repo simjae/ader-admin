@@ -120,7 +120,7 @@ if ($country != null) {
 		
 	$db->query($menu_lrg_sql);
 	
-	foreach($db->fetch() as $lrg_data) {	
+	foreach($db->fetch() as $lrg_data) {
 		$menu_lrg_idx = $lrg_data['MENU_IDX'];
 		
 		$menu_lrg_link = "";
@@ -130,6 +130,7 @@ if ($country != null) {
 			$menu_lrg_link = "http://".$lrg_data['LINK_URL'];
 		}
 		
+		$menu_mdl = array();
 		if (!empty($menu_lrg_idx)) {
 			$menu_slide_sql ="
 				SELECT
@@ -186,7 +187,6 @@ if ($country != null) {
 				
 				$db->query($menu_mdl_sql);
 				
-				$menu_mdl = array();
 				foreach($db->fetch() as $mdl_data) {
 					$menu_mdl_idx = $mdl_data['MENU_IDX'];
 					
@@ -199,8 +199,8 @@ if ($country != null) {
 						$menu_mdl_link = "http://".$mdl_data['LINK_URL'];
 					}
 					
+					$menu_sml = array();
 					if (!empty($menu_mdl_idx)) {
-						$menu_sml = array();
 						if ($menu_mdl_type != "PO") {
 							$sml_cnt = $db->count("dev.MENU_SML MS","MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND MS.DEL_FLG = FALSE");
 							
@@ -250,18 +250,18 @@ if ($country != null) {
 						);
 					}
 				}
-				
-				$menu_lrg[] = array(
-					'menu_title'	=>$lrg_data['MENU_TITLE'],
-					'menu_type'		=>$lrg_data['LINK_TYPE'],
-					
-					'menu_link'		=>$menu_lrg_link,
-					
-					'menu_slide'	=>$menu_slide,
-					'menu_mdl'		=>$menu_mdl
-				);
 			}
 		}
+		
+		$menu_lrg[] = array(
+			'menu_title'	=>$lrg_data['MENU_TITLE'],
+			'menu_type'		=>$lrg_data['LINK_TYPE'],
+			
+			'menu_link'		=>$menu_lrg_link,
+			
+			'menu_slide'	=>$menu_slide,
+			'menu_mdl'		=>$menu_mdl
+		);
 	}
 	
 	$select_posting_story_sql = "

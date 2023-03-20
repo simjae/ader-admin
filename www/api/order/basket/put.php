@@ -198,6 +198,7 @@ if ($basket_idx != null && $stock_status != null) {
 						INSERT INTO
 							dev.BASKET_INFO
 						(
+							COUNTRY,
 							MEMBER_IDX,
 							MEMBER_ID,
 							PRODUCT_IDX,
@@ -211,6 +212,7 @@ if ($basket_idx != null && $stock_status != null) {
 							UPDATER
 						)
 						SELECT
+							'".$country."'		AS COUNTRY,
 							".$member_idx."		AS MEMBER_IDX,
 							'".$member_id."'	AS MEMBER_ID,
 							PR.IDX				AS PRODUCT_IDX,

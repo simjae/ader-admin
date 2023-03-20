@@ -622,6 +622,10 @@
         padding: 0 7px 0 7px
     }
 
+    .flex_text {
+        display: flex;
+    }
+
     /* 충전포인트 숨기기 */
     #charging_icon {
         display: none;
@@ -792,7 +796,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
             <div class="mypage__items profile_info">
                 <div class="point__item" style="cursor:pointer" info-type="mileage" onclick="memberInfoClick(this)">
                     <div class="point__title" data-i18n="m_mileage">적립포인트</div>
-                    <div class="point__value" id="m_mileage"></div>
+                    <div class="point__value" id="mileage_value"></div>
 
                 </div>
                 <div class="point__item" style="cursor:pointer" info-type="charging" onclick="memberInfoClick(this)">
@@ -1284,6 +1288,9 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                 case 'inquiry':
                     mypageTabBtnClick('inquiry', 1);
                     break;
+                case 'inquiry_list':
+                    mypageTabBtnClick('inquiry', 2);
+                    break;
                 case 'as_first':
                     mypageTabBtnClick('as', 0);
                     break;
@@ -1307,6 +1314,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         $('.icon__item[btn-type=' + type + ']').addClass('click__icon__item');
         swiperMypage.slideTo($(`.icon__item[btn-type='${type}']`).index() - 1);
         $(`.${type}__wrap`).find('.tab__btn__item').eq(tab_idx).click();
+        changeLanguageR();
     }
 
     function memberInfoClick(obj) {

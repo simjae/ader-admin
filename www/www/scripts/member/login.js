@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	changeLanguageR();
 	$('#member_id').val('');
 	var usermember_id = getCookie("usermember_id");
 	if(usermember_id) {
@@ -420,8 +421,26 @@ function memberPwConfirm(str){
 		//공백 포함 예외처리
 	}
 }
+function mobileAuthenfication(){
+	var tel_regex = new RegExp('^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$');
+
+	var tel = $('.content__wrap__tel').find('input[name=tel_mobile]').val();
+	if(tel_regex.test(tel) === false){
+		$('.warn__msg.tel_confirm').css('display','none');
+		$('.warn__msg.tel_confirm.format').css('display','block');
+		$('.warn__msg.tel_confirm.format').css('visibility','visible');
+		$('#mobile_authenfication_flg').val('false');
+	}
+	else{
+		$('.warn__msg.tel_confirm').css('display','none');
+		$('#mobile_authenfication_flg').val('true');
+	}
+}
 //.css('visibility','hidden');
 function joinAction(){
+	var birth_year_regex = new RegExp('^[1-9]{1}[1-9]{1}[1-9]{1}[1-9]{1}$');
+	var birth_month_regex = new RegExp('^[1-9]{1}$|^0{1}[1-9]{1}$|^1{1}[0-2]{1}$');
+	var birth_day_regex = new RegExp('^[1-9]{1}$|^0{1}[1-9]{1}$|^[1-2]{1}[0-9]{1}$|^3{1}[0-1]{1}$');
 	var mail_regex = new RegExp('^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$');
 	var member_id = $('input[name="member_id"]').val();
 	var member_pw = $('input[name="member_pw"]').val();
@@ -432,6 +451,8 @@ function joinAction(){
 	var birth_day = $('input[name="birth_day"]').val();
 	var addr_chk_flg = $('.postcodify_search_controls .keyword').attr('chk-flg');
 	var terms_of_service_flg = $('#terms_of_service_flg').is(':checked');
+	var mobile_authenfication_flg = $('#mobile_authenfication_flg').val();
+	var detail_addr = $('#addr_detail').val();
 
 	mail_regex.test(member_id);
 
@@ -453,13 +474,14 @@ function joinAction(){
 		$('.warn__msg.member_name').css('visibility','visible');
 		return false;
 	}
-	else if(birth_year == '' || birth_month == '' || birth_day == ''){
-		$('.warn__msg.birth').css('visibility','visible');
-		return false;
-	}
 	else if(addr_chk_flg == 'false'){
 		$('.warn__msg.essential').css('visibility','visible');
 		$('.warn__msg.essential').text('도로명/지번 주소를 검색 후 선택해주세요');
+		return false;
+	}
+	else if(detail_addr == ''){
+		$('.warn__msg.essential').css('visibility','visible');
+		$('.warn__msg.essential').text('상세주소를 입력해주세요');
 		return false;
 	}
 	else if(terms_of_service_flg == false){
@@ -467,7 +489,19 @@ function joinAction(){
 		$('.warn__msg.essential').text('필수항목을 선택해주세요');
 		return false;
 	}
-
+	else if(mobile_authenfication_flg == 'false'){
+		$('.warn__msg.tel_confirm').css('display','none');
+		$('.warn__msg.tel_confirm.authenfication').css('display','block');
+		$('.warn__msg.tel_confirm.authenfication').css('visibility','visible');
+		return false;
+	}
+	else if (   birth_year_regex.test(birth_year) === false || 
+		birth_month_regex.test(birth_month) === false || 
+		birth_day_regex.test(birth_day) === false ) 
+	{
+		$('.warn__msg.birth').css('visibility', 'visible');
+		return false;
+	}
 	$.ajax(
 		{
 			url: "http://116.124.128.246:80/_api/account/add",

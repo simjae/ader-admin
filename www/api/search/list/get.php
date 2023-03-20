@@ -54,52 +54,22 @@ if ($country != null) {
 			$menu_table = "";
 			switch($menu_sort) {
 				case "L" :
-					$menu_table = "dev.MENU_LRG";
+					$menu_table = " dev.MENU_LRG ";
 					break;
 				
 				case "M" :
-					$menu_table = "dev.MENU_MDL";
+					$menu_table = " dev.MENU_MDL ";
 					break;
 				
 				case "S" :
-					$menu_table = "dev.MENU_SML";
+					$menu_table = " dev.MENU_SML ";
 					break;
 			}
 			
 			$select_menu_sql = "
 				SELECT
-					MENU_TITLE		AS MENU_TITLE,
-					CASE
-						WHEN
-							MI.MENU_TYPE = 'PR'
-							THEN
-								(
-									SELECT
-										CONCAT(
-											S_PPR.PAGE_URL,
-											S_PPR.IDX,
-											'".$menu_param."'
-										)
-									FROM
-										dev.PAGE_PRODUCT S_PPR
-									WHERE
-										S_PPR.IDX = MI.PAGE_IDX
-								)
-						WHEN
-							MI.MENU_TYPE = 'PO'
-							THEN
-								(
-									SELECT
-										CONCAT(
-											S_PPO.PAGE_URL,
-											S_PPO.IDX
-										)
-									FROM
-										dev.PAGE_POSTING S_PPO
-									WHERE
-										S_PPO.IDX = MI.PAGE_IDX
-								)
-					END				AS MENU_LINK
+					MI.MENU_TITLE		AS MENU_TITLE,
+					MI.LINK_URL			AS LINK_URL
 				FROM
 					".$menu_table." MI
 				WHERE
@@ -109,7 +79,7 @@ if ($country != null) {
 			$db->query($select_menu_sql);
 			
 			foreach($db->fetch() as $menu_data) {
-				$menu_link = $menu_data['MENU_LINK'];
+				$menu_link = $menu_data['LINK_URL'].$menu_param;
 			}
 		}
 		

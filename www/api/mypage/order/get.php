@@ -31,7 +31,6 @@ if ($member_idx > 0 && $order_idx > 0) {
 			OI.ORDER_CODE		AS ORDER_CODE,
 			OI.ORDER_TITLE		AS ORDER_TITLE,
 			OI.ORDER_STATUS		AS ORDER_STATUS,
-			OI.PREORDER_FLG		AS PREORDER_FLG,
 			DATE_FORMAT(
 				OI.ORDER_DATE,
 				'%Y.%m.%d'
@@ -95,6 +94,13 @@ if ($member_idx > 0 && $order_idx > 0) {
 	foreach($db->fetch() as $order_data) {
 		$order_idx = $order_data['ORDER_IDX'];
 		
+		$preorder_flg = false;
+		$preorder_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND PREORDER_FLG = TRUE");
+		
+		if ($preorder_cnt > 0) {
+			$preorder_flg = true;
+		}
+		
 		$update_flg = $order_data['UPDATE_FLG'];
 		$update_flg === 'TRUE'? true: false;
 		
@@ -135,7 +141,8 @@ if ($member_idx > 0 && $order_idx > 0) {
 					LEFT JOIN dev.ORDERSHEET_MST OM ON
 					PR.ORDERSHEET_IDX = OM.IDX
 				WHERE
-					OP.ORDER_IDX = ".$order_idx."
+					OP.ORDER_IDX = ".$order_idx." AND
+					OP.PRODUCT_CODE NOT LIKE 'VOUXXX%'
 				ORDER BY
 					OP.IDX ASC
 			";
@@ -161,7 +168,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 				'order_code'			=>$order_data['ORDER_CODE'],
 				'order_title'			=>$order_data['ORDER_TITLE'],
 				'order_status'			=>$order_data['ORDER_STATUS'],
-				'preorder_flg'			=>$order_data['PREORDER_FLG'],
+				'preorder_flg'			=>$preorder_flg,
 				'order_date'			=>$order_data['ORDER_DATE'],
 				'cancel_date'			=>$order_data['CANCEL_DATE'],
 				'exchange_date'			=>$order_data['EXCHANGE_DATE'],

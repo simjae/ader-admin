@@ -513,7 +513,7 @@
 <div class="inquiry__action__wrap">
     <form id="frm-inquiry">
         <div class="title" style="font-size: 13px; text-align: center;">
-            <p>문의하기</p>
+            <p data-i18n="lm_inquiry">문의하기</p>
         </div>
         <div class="inquiry__info inquiry__title">
             <span>
@@ -560,6 +560,5 @@
 </div>
 
 <script>
-
-
+changeLanguageR();
 </script>

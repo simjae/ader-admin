@@ -93,7 +93,7 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 		$check_result_level = checkProductLevel($db,$member_level,"PRD",$product_idx);
 		if ($check_result_level['result'] == false) {
 			$json_result['code'] = 401;
-			$json_result['msg'] = "부적절한 상품이 선택되었습니다. 쇼핑백에 담으려는 상품을 확인해주세요.";
+			$json_result['msg'] = "현재 회원 등급으로 구매할 수 없는 상품이 선택되었습니다. 쇼핑백에 담으려는 상품을 확인해주세요.";
 			
 			return $json_result;
 		}
@@ -125,6 +125,7 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 					INSERT INTO
 						dev.BASKET_INFO
 					(
+						COUNTRY,
 						MEMBER_IDX,
 						MEMBER_ID,
 						PRODUCT_IDX,
@@ -138,6 +139,7 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 						UPDATER
 					)
 					SELECT
+						'".$country."'		AS COUNTRY,
 						".$member_idx."		AS MEMBER_IDX,
 						'".$member_id."'	AS MEMBER_ID,
 						PR.IDX				AS PRODUCT_IDX,
@@ -240,6 +242,7 @@ if ($add_type == "whish" && $member_idx > 0 && $country != null && count($whish_
 					INSERT INTO
 						dev.BASKET_INFO
 					(
+						COUNTRY,
 						MEMBER_IDX,
 						MEMBER_ID,
 						PRODUCT_IDX,
@@ -253,6 +256,7 @@ if ($add_type == "whish" && $member_idx > 0 && $country != null && count($whish_
 						UPDATER
 					)
 					SELECT
+						'".$country."'		AS COUNTRY,
 						".$member_idx."		AS MEMBER_IDX,
 						'".$member_id."'	AS MEMBER_ID,
 						PR.IDX				AS PRODUCT_IDX,

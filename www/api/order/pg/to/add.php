@@ -14,15 +14,21 @@
  +=============================================================================
 */
 
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+}
+
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-if ($member_idx == 0) {
+if ($member_idx == 0 || $country == null) {
 	$json_result['code'] = 401;
 	$json_result['msg'] = "로그인 후 다시 시도해 주세요.";
-	exit;
+	
+	return $json_result;
 }
 
 $to_place			= $_POST['to_place'];
@@ -38,6 +44,7 @@ if ($member_idx > 0) {
 		INSERT INTO
 			dev.ORDER_TO
 		(
+			COUNTRY,
 			MEMBER_IDX,
 			TO_PLACE,
 			TO_NAME,
@@ -47,6 +54,7 @@ if ($member_idx > 0) {
 			TO_ROAD_ADDR,
 			TO_DETAIL_ADDR
 		) VALUES (
+			'".$country."',
 			".$member_idx.",
 			'".$to_place."',
 			'".$to_name."',

@@ -65,7 +65,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 			<div class="detail__refund__msg"></div>
 			<div class="detail__content__box">
 				<div class="detail-content">
-					<div class="content-header" data-i18n=""><span></span></div>
+					<div class="content-header"><span data-i18n=""></span></div>
 					<div class="content-body"></div>
 				</div>
 				<div class="detail__btn__control">
