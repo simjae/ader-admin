@@ -49,12 +49,12 @@ if ($member_idx != 0 && $country != null) {
 	";
 	
 	$json_result = array(
-		'total' => $db->count("	dev.BLUEMARK_INFO BI
-								LEFT JOIN dev.SHOP_PRODUCT PR ON
+		'total' => $db->count("	BLUEMARK_INFO BI
+								LEFT JOIN SHOP_PRODUCT PR ON
 								PR.IDX = BI.PRODUCT_IDX
-								LEFT JOIN dev.ORDERSHEET_MST OM ON
+								LEFT JOIN ORDERSHEET_MST OM ON
 								OM.IDX = PR.ORDERSHEET_IDX
-								LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+								LEFT JOIN ORDERSHEET_OPTION OO ON
 								BI.OPTION_IDX = OO.IDX",$where_cnt),
 		'page' => $page
 	);
@@ -71,7 +71,7 @@ if ($member_idx != 0 && $country != null) {
 					S_PI.IMG_LOCATION,'/var/www/admin/www',''
 					) AS IMG_LOCATION
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE 
 					S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND 
 					IMG_TYPE = 'P' AND 
@@ -86,12 +86,12 @@ if ($member_idx != 0 && $country != null) {
 			OO.OPTION_NAME				AS OPTION_NAME,
 			DATE_FORMAT(BI.UPDATE_DATE, '%Y.%m.%d')				AS UPDATE_DATE
 		FROM
-			dev.BLUEMARK_INFO BI
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			BLUEMARK_INFO BI
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PR.IDX = BI.PRODUCT_IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			LEFT JOIN ORDERSHEET_MST OM ON
 			OM.IDX = PR.ORDERSHEET_IDX
-			LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+			LEFT JOIN ORDERSHEET_OPTION OO ON
 			BI.OPTION_IDX = OO.IDX
 		".$where."
 		ORDER BY

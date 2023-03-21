@@ -24,16 +24,16 @@ $qty_date_sql = "";
 if($regist_type != null && $product_idx != null){
     switch($regist_type){
         case 'STANDBY':
-            $regist_table = 'dev.PAGE_STANDBY';
-			$qty_table = "dev.QTY_STANDBY";
+            $regist_table = 'PAGE_STANDBY';
+			$qty_table = "QTY_STANDBY";
             break;
         case 'DRAW':
-            $regist_table = 'dev.PAGE_DRAW';
-			$qty_table = "dev.QTY_DRAW";
+            $regist_table = 'PAGE_DRAW';
+			$qty_table = "QTY_DRAW";
             break;
         case 'PREORDER':
-            $regist_table = 'dev.PAGE_PREORDER';
-			$qty_table = "dev.QTY_PREORDER";
+            $regist_table = 'PAGE_PREORDER';
+			$qty_table = "QTY_PREORDER";
             break;
     }
 
@@ -45,13 +45,13 @@ if($regist_type != null && $product_idx != null){
 			PR.PRODUCT_NAME		AS PRODUCT_NAME,
 			CASE
 				WHEN
-					(SELECT COUNT(*) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
+					(SELECT COUNT(*) FROM PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
 					THEN
 						(
 							SELECT
 								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = PR.IDX AND
 								S_PI.IMG_TYPE = 'P' AND
@@ -74,7 +74,7 @@ if($regist_type != null && $product_idx != null){
 			(SELECT COLOR FROM ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR,
 			PR.UPDATE_DATE		AS UPDATE_DATE
 		FROM
-			dev.SHOP_PRODUCT PR
+			SHOP_PRODUCT PR
 		WHERE
 			PR.IDX = ".$product_idx." ";
    
@@ -91,7 +91,7 @@ if($regist_type != null && $product_idx != null){
 					SELECT
 						IFNULL(SUM(STOCK_QTY),0)
 					FROM
-						dev.PRODUCT_STOCK S_PS
+						PRODUCT_STOCK S_PS
 					WHERE
 						S_PS.PRODUCT_IDX = ".$product_idx." AND
 						S_PS.OPTION_IDX = OO.IDX AND
@@ -101,20 +101,20 @@ if($regist_type != null && $product_idx != null){
 					SELECT
 						IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 					FROM
-						dev.ORDER_PRODUCT S_OP
+						ORDER_PRODUCT S_OP
 					WHERE
 						S_OP.PRODUCT_IDX = ".$product_idx." AND
 						S_OP.OPTION_IDX = OO.IDX AND
 						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 				)					AS ORDER_QTY
 			FROM
-				dev.ORDERSHEET_OPTION OO
+				ORDERSHEET_OPTION OO
 			WHERE
 				OO.ORDERSHEET_IDX = (
 					SELECT
 						S_PR.ORDERSHEET_IDX
 					FROM
-						dev.SHOP_PRODUCT S_PR
+						SHOP_PRODUCT S_PR
 					WHERE
 						IDX = ".$product_idx."
 				)

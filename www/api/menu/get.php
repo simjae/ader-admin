@@ -42,8 +42,8 @@ $member_info = array();
 if ($member_idx > 0) {
 	$login_flg = true;
 	
-	$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
-	$basket_cnt = $db->count("dev.BASKET_INFO","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+	$whish_cnt = $db->count("WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	$basket_cnt = $db->count("BASKET_INFO","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
 	
 	$select_member_sql = "
 		SELECT
@@ -53,7 +53,7 @@ if ($member_idx > 0) {
 				SELECT 
 					S_MI.MILEAGE_BALANCE
 				FROM 
-					dev.MILEAGE_INFO S_MI
+					MILEAGE_INFO S_MI
 				WHERE 
 					S_MI.MEMBER_IDX = MB.IDX
 				ORDER BY 
@@ -65,7 +65,7 @@ if ($member_idx > 0) {
 				SELECT
 					COUNT(S_VI.IDX)
 				FROM 
-					dev.VOUCHER_ISSUE S_VI
+					VOUCHER_ISSUE S_VI
 				WHERE
 					S_VI.MEMBER_IDX = MB.IDX AND
 					S_VI.DEL_FLG = FALSE AND
@@ -112,7 +112,7 @@ if ($country != null) {
 			ML.LINK_TYPE		AS LINK_TYPE,
 			ML.LINK_URL			AS LINK_URL
 		FROM
-			dev.MENU_LRG ML
+			MENU_LRG ML
 		WHERE
 			ML.COUNTRY = '".$country."' AND
 			ML.DEL_FLG = FALSE
@@ -140,7 +140,7 @@ if ($country != null) {
 					ME.LINK_TYPE		AS LINK_TYPE,
 					ME.LINK_URL			AS LINK_URL
 				FROM
-					dev.MENU_SLIDE ME
+					MENU_SLIDE ME
 				WHERE
 					ME.MENU_IDX = ".$menu_lrg_idx." AND
 					ME.COUNTRY = '".$country."'
@@ -167,7 +167,7 @@ if ($country != null) {
 				);
 			}
 			
-			$mdl_cnt = $db->count("dev.MENU_MDL MM","MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND MM.DEL_FLG = FALSE");
+			$mdl_cnt = $db->count("MENU_MDL MM","MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND MM.DEL_FLG = FALSE");
 			
 			if ($mdl_cnt > 0) {
 				$menu_mdl_sql ="
@@ -178,7 +178,7 @@ if ($country != null) {
 						MM.LINK_TYPE	AS LINK_TYPE,
 						MM.LINK_URL		AS LINK_URL
 					FROM
-						dev.MENU_MDL MM
+						MENU_MDL MM
 					WHERE
 						MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND
 						MM.COUNTRY = '".$country."' AND
@@ -202,7 +202,7 @@ if ($country != null) {
 					$menu_sml = array();
 					if (!empty($menu_mdl_idx)) {
 						if ($menu_mdl_type != "PO") {
-							$sml_cnt = $db->count("dev.MENU_SML MS","MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND MS.DEL_FLG = FALSE");
+							$sml_cnt = $db->count("MENU_SML MS","MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND MS.DEL_FLG = FALSE");
 							
 							if ($sml_cnt > 0) {
 								$menu_sml_sql ="
@@ -213,7 +213,7 @@ if ($country != null) {
 										MS.LINK_TYPE	AS LINK_TYPE,
 										MS.LINK_URL		AS LINK_URL
 									FROM
-										dev.MENU_SML MS
+										MENU_SML MS
 									WHERE
 										MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND
 										MS.COUNTRY = '".$country."' AND
@@ -282,8 +282,8 @@ if ($country != null) {
 				''
 			)					AS PAGE_URL
 		FROM
-			dev.POSTING_STORY PS
-			LEFT JOIN dev.PAGE_POSTING PP ON
+			POSTING_STORY PS
+			LEFT JOIN PAGE_POSTING PP ON
 			PS.PAGE_IDX = PP.IDX
 		WHERE
 			PS.COUNTRY = '".$country."' AND

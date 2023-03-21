@@ -27,7 +27,7 @@ $to_road_addr			= $_POST['to_road_addr'];
 $to_road_detail_addr	= $_POST['to_road_detail_addr'];
 
 if ($to_place != null || $to_name != null || $to_zipcode != null || $to_lot_addr != null || $to_road_addr != null) {
-	$to_cnt => $db->count("dev.ORDER_TO"," MEMBER_IDX = ".$member_idx." AND TO_PLACE = ".$to_place." AND TO_NAME = ".$to_name." AND TO_ZIPCODE = ".$to_zipcode." AND TO_LOT_ADDR = ".$to_lot_addr." AND TO_ROAD_ADDR = ".$to_road_addr);
+	$to_cnt => $db->count("ORDER_TO"," MEMBER_IDX = ".$member_idx." AND TO_PLACE = ".$to_place." AND TO_NAME = ".$to_name." AND TO_ZIPCODE = ".$to_zipcode." AND TO_LOT_ADDR = ".$to_lot_addr." AND TO_ROAD_ADDR = ".$to_road_addr);
 	
 	if ($to_cnt > 0) {
 		$code = 402;
@@ -36,7 +36,7 @@ if ($to_place != null || $to_name != null || $to_zipcode != null || $to_lot_addr
 	}
 	
 	$sql = "INSERT INTO
-					dev.ORDER_TO
+					ORDER_TO
 				(
 					MEMBER_IDX,
 					TO_PLACE,

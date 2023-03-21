@@ -19,7 +19,7 @@ $sql = 	"SELECT
 			COUNTRY,
 			CURRENCY
 		FROM
-			dev.PRODUCT_CURRENCY";
+			PRODUCT_CURRENCY";
 
 $db->query($sql);
 foreach($db->fetch() as $data) {

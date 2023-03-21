@@ -18,13 +18,19 @@
 $sort_type 			= $_POST['sort_type'];				//정렬 타입
 $sort_value 		= $_POST['sort_value'];				//정렬 값
 
-$translate 			= $_POST['translate'];				//번역 상태
+$rows				= $_POST['rows'];
+$page				= $_POST['page'];
 
-$rows = $_POST['rows'];
-$page = $_POST['page'];
+$order = '';
+if ($sort_value != null && $sort_type != null) {
+	$order = ' RE.'.$sort_value." ".$sort_type." ";
+} else {
+	$order = ' RE.IDX DESC';
+}
 
 //검색 유형 - 디폴트
-$sql = "SELECT
+$select_page_recommend_sql = "
+	SELECT
 			RE.IDX			AS PAGE_IDX,
 			RE.PAGE_TITLE	AS PAGE_TITLE,
 			RE.PAGE_MEMO	AS PAGE_MEMO,
@@ -33,7 +39,7 @@ $sql = "SELECT
 				SELECT
 					COUNT(S_RP.IDX)
 				FROM
-					dev.RECOMMEND_PRODUCT S_RP
+					RECOMMEND_PRODUCT S_RP
 				WHERE
 					S_RP.PAGE_IDX = RE.IDX
 			)				AS PRODUCT_QTY,
@@ -42,7 +48,7 @@ $sql = "SELECT
 			RE.UPDATE_DATE	AS UPDATE_DATE,
 			RE.UPDATER		AS UPDATER
 		FROM
-			dev.PAGE_RECOMMEND RE
+			PAGE_RECOMMEND RE
 		WHERE
 			RE.DEL_FLG = FALSE
 		";
@@ -50,10 +56,10 @@ $sql = "SELECT
 $limit_start = (intval($page)-1)*$rows;
 
 if ($rows != null) {
-	$sql .= " LIMIT ".$limit_start.",".$rows;
+	$select_page_recommend_sql .= " LIMIT ".$limit_start.",".$rows;
 }
 
-$cnt = $db->count("dev.PAGE_RECOMMEND RE","RE.DEL_FLG = FALSE");
+$cnt = $db->count("PAGE_RECOMMEND RE","RE.DEL_FLG = FALSE");
 
 $json_result = array(
 	'total' => $cnt,
@@ -61,19 +67,20 @@ $json_result = array(
 	'page' => $page
 );
 
-$db->query($sql);
-foreach($db->fetch() as $data) {
+$db->query($select_page_recommend_sql);
+
+foreach($db->fetch() as $recommend_data) {
 	$json_result['data'][] = array(
 		'num'			=>$cnt--,
-		'page_idx'		=>$data['PAGE_IDX'],
-		'page_title'	=>$data['PAGE_TITLE'],
-		'page_memo'		=>$data['PAGE_MEMO'],
-		'active_flg'	=>$data['ACTIVE_FLG'],
-		'product_qty'	=>$data['PRODUCT_QTY'],
-		'create_date'	=>$data['CREATE_DATE'],
-		'creater'		=>$data['CREATER'],
-		'update_date'	=>$data['UPDATE_DATE'],
-		'updater'		=>$data['UPDATER']
+		'page_idx'		=>$recommend_data['PAGE_IDX'],
+		'page_title'	=>$recommend_data['PAGE_TITLE'],
+		'page_memo'		=>$recommend_data['PAGE_MEMO'],
+		'active_flg'	=>$recommend_data['ACTIVE_FLG'],
+		'product_qty'	=>$recommend_data['PRODUCT_QTY'],
+		'create_date'	=>$recommend_data['CREATE_DATE'],
+		'creater'		=>$recommend_data['CREATER'],
+		'update_date'	=>$recommend_data['UPDATE_DATE'],
+		'updater'		=>$recommend_data['UPDATER']
 	);
 }
 ?>

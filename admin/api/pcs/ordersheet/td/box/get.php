@@ -14,66 +14,40 @@
  +=============================================================================
 */
 
-$sel_box_idx    	                        = $_POST['sel_box_idx'];			    //박스 idx
-$box_type                                   = $_POST['box_type'];
+$sel_box_idx		= $_POST['sel_box_idx'];
 
-if($box_type == 'load' || $box_type == 'deliver'){
-    $where = '';
-    $table = '';
-    if($sel_box_idx != null){
-        $where = ' WHERE IDX = '.$sel_box_idx;
-    }
-    
-    switch($box_type){
-        case 'load':
-            $table .= ' dev.LOAD_BOX_INFO ';
-            break;
-        case 'deliver':
-            $table .= ' dev.DELIVER_BOX_INFO ';
-            break;
-    }
-    $sql = 	'SELECT
-                IDX                                         AS BOX_IDX,
-                BOX_NAME                                    AS BOX_NAME,
-                BOX_WIDTH                                   AS BOX_WIDTH,
-                BOX_LENGTH                                  AS BOX_LENGTH,
-                BOX_HEIGHT                                  AS BOX_HEIGHT,
-                BOX_VOLUME                                  AS BOX_VOLUME
-            FROM 
-                '.$table.'
-                '.$where;
-    
-    $db->query($sql);
-    foreach($db->fetch() as $data) {
-        $json_result['data'][] = array(
-            'box_idx'		                =>intval($data['BOX_IDX']),
-            'box_name'				        =>$data['BOX_NAME'],
-            'box_width'			            =>$data['BOX_WIDTH'],
-            'box_length'			        =>$data['BOX_LENGTH'],
-            'box_height'			        =>$data['BOX_HEIGHT'],
-            'box_volume'			        =>$data['BOX_VOLUME']
-        );
-    }
+if($sel_box_idx != null){
+	$where = '';
+	if($sel_box_idx != null){
+		$where = ' WHERE IDX = '.$sel_box_idx;
+	}
+	
+	$select_box_info_sql = "
+		SELECT
+			IDX				AS BOX_IDX,
+			BOX_NAME		AS BOX_NAME,
+			BOX_WIDTH		AS BOX_WIDTH,
+			BOX_LENGTH		AS BOX_LENGTH,
+			BOX_HEIGHT		AS BOX_HEIGHT,
+			BOX_VOLUME		AS BOX_VOLUME
+		FROM
+			BOX_INFO
+		WHERE
+			IDX = ".$sel_box_idx."
+	";
+	
+	$db->query($select_box_info_sql);
+	
+	foreach($db->fetch() as $box_data) {
+		$json_result['data'][] = array(
+			'box_idx'		=>intval($box_data['BOX_IDX']),
+			'box_name'		=>$box_data['BOX_NAME'],
+			'box_width'		=>$box_data['BOX_WIDTH'],
+			'box_length'	=>$box_data['BOX_LENGTH'],
+			'box_height'	=>$box_data['BOX_HEIGHT'],
+			'box_volume'	=>$box_data['BOX_VOLUME']
+		);
+	}
 }
-else if($box_type == 'all'){
-    $db->query("SELECT IDX,BOX_NAME FROM dev.LOAD_BOX_INFO");
-
-    foreach($db->fetch() as $data) {
-        $json_result['load_box_data'][] = array(
-            'box_idx'		                =>intval($data['IDX']),
-            'box_name'				        =>$data['BOX_NAME']
-        );
-    }
-
-    $db->query("SELECT IDX,BOX_NAME FROM dev.DELIVER_BOX_INFO");
-    
-    foreach($db->fetch() as $data) {
-        $json_result['deliver_box_data'][] = array(
-            'box_idx'		                =>intval($data['IDX']),
-            'box_name'				        =>$data['BOX_NAME']
-        );
-    }
-}
-
 
 ?>

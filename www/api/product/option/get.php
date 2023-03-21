@@ -40,10 +40,10 @@ if ($option_idx_arr != null && $country != null) {
 			OM.BRAND					AS BRAND,
 			PR.SALES_PRICE_".$country."	AS SALES_PRICE
 		FROM
-			dev.SHOP_PRODUCT PR
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			SHOP_PRODUCT PR
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX 
-            LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+            LEFT JOIN ORDERSHEET_OPTION OO ON
             OM.IDX = OO.ORDERSHEET_IDX
 		WHERE
             OO.IDX IN (".implode(',',$option_idx_arr).")";

@@ -38,7 +38,7 @@ if ($member_idx == 0 || $member_id == null) {
 if ($member_idx > 0 && $basket_idx != null) {
 	$delete_basket_sql = "
 		UPDATE
-			dev.BASKET_INFO
+			BASKET_INFO
 		SET
 			DEL_FLG = TRUE,
 			UPDATE_DATE = NOW(),

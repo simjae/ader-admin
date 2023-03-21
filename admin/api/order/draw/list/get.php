@@ -26,11 +26,23 @@ $price_max				= $_POST['price_max'];
 $display_flg			= $_POST['display_flg'];
 
 $entry_start_date		= $_POST['entry_start_date'];
+$entry_start_time		= $_POST['entry_start_time'];
 $entry_end_date			= $_POST['entry_end_date'];
+$entry_end_time			= $_POST['entry_end_time'];
+
+$purchase_start_date	= $_POST['purchase_start_date'];
+$purchase_start_time	= $_POST['purchase_start_time'];
+$purchase_end_date		= $_POST['purchase_end_date'];
+$purchase_end_time		= $_POST['purchase_end_time'];
+
 $announce_start_date	= $_POST['announce_start_date'];
 $announce_end_date		= $_POST['announce_end_date'];
-$purchase_start_date	= $_POST['purchase_start_date'];
-$purchase_end_date		= $_POST['purchase_end_date'];
+
+$rows				= $_POST['rows'];
+$page				= $_POST['page'];
+
+$sort_value			= $_POST['sort_value'];	
+$sort_type			= $_POST['sort_type'];
 
 if ($entry_start_date != null) {
 	if (isset($_POST['entry_start_time'])) {
@@ -79,12 +91,6 @@ if ($purchase_end_date != null) {
 		$purchase_end_date = "'".$purchase_end_date." 00:00'";
 	}
 }
-
-$sort_type 				= $_POST['sort_type'];				//정렬 타입
-$sort_value 			= $_POST['sort_value'];				//정렬 값
-
-$rows					= $_POST['rows'];
-$page					= $_POST['page'];
 
 //검색 유형 - 디폴트
 $where = '1=1';
@@ -148,7 +154,7 @@ if ($qty_min != null || $qty_max != null) {
 					SELECT
 						SUM(S_QD.PRODUCT_QTY)
 					FROM
-						dev.QTY_DRAW S_QD
+						QTY_DRAW S_QD
 					WHERE
 						S_QD.DRAW_IDX = PD.IDX
 				)
@@ -207,21 +213,41 @@ if ($purchase_start_date != null || $purchase_end_date != null) {
 	if ($purchase_start_date != null && $purchase_end_date == null) {
 		$where .= " AND (PD.PURCHASE_START_DATE >= ".$purchase_start_date.") ";
 	} else if ($purchase_start_date == null && $purchase_end_date != null) {
-		$where .= " AND (PD.PURCHASE_END <= ".$purchase_end_date.") ";
+		$where .= " AND (PD.PURCHASE_END_DATE <= ".$purchase_end_date.") ";
 	} else if ($purchase_start_date != null && $purchase_end_date != null) {
-		$where .= " AND (PD.ENTRY_START_DATE >= ".$purchase_start_date." AND PD.ENTRY_END_DATE <= ".$purchase_end_date.") ";
+		$where .= " AND (PD.PURCHASE_START_DATE >= ".$purchase_start_date." AND PD.PURCHASE_END_DATE <= ".$purchase_end_date.") ";
 	}
 }
 
-$total_cnt = $db->count("dev.PAGE_DRAW PD",$where_cnt);
+$total_cnt = $db->count("PAGE_DRAW PD
+						LEFT JOIN SHOP_PRODUCT PR ON
+						PD.PRODUCT_IDX = PR.IDX",$where_cnt);
 
 $json_result = array(
-	'total' => $db->count("dev.PAGE_DRAW PD",$where),
+	'total' => $db->count("PAGE_DRAW PD
+							LEFT JOIN SHOP_PRODUCT PR ON
+							PD.PRODUCT_IDX = PR.IDX",$where),
 	'total_cnt' => $total_cnt,
 	'page' => $page
 );
 
+$order = '';
+if ($sort_value != null && $sort_type != null) {
+	$alias = "";
+	if(strpos($sort_value, 'PRODUCT_NAME') !== false){
+		$alias = 'PR';
+	} else {
+		$alias = 'PD';
+	}
+	$order = ' '.$alias.'.'.$sort_value." ".$sort_type." ";
+} else {
+	$order = ' PD.IDX DESC';
+}
+
 $limit_start = (intval($page)-1)*$rows;
+if ($rows != null) {
+	$limit .= " LIMIT ".$limit_start.",".$rows;
+}
 
 $select_draw_sql = "
 	SELECT
@@ -235,7 +261,7 @@ $select_draw_sql = "
 					SELECT
 						COUNT(S_PI.IDX)
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -246,7 +272,7 @@ $select_draw_sql = "
 						SELECT
 							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.DEL_FLG = FALSE AND
@@ -269,24 +295,25 @@ $select_draw_sql = "
 		PD.ANNOUNCE_DATE		AS ANNOUNCE_DATE,
 		PD.PURCHASE_START_DATE	AS PURCHASE_START_DATE,
 		PD.PURCHASE_END_DATE	AS PURCHASE_END_DATE,
-		(SELECT COLOR FROM dev.ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR,
+		OM.COLOR				AS COLOR,
 		PD.CREATE_DATE			AS CREATE_DATE,
 		PD.CREATER				AS CREATER,
 		PD.UPDATE_DATE			AS UPDATE_DATE,
 		PD.UPDATER				AS UPDATER
 	FROM
-		dev.PAGE_DRAW PD
-		LEFT JOIN dev.SHOP_PRODUCT PR ON
+		PAGE_DRAW PD
+		LEFT JOIN SHOP_PRODUCT PR ON
 		PD.PRODUCT_IDX = PR.IDX
+		LEFT JOIN ORDERSHEET_MST OM ON
+		PR.ORDERSHEET_IDX = OM.IDX
 	WHERE
 		".$where."
 	ORDER BY
 		PD.DISPLAY_NUM ASC
+	".$limit."
 ";
 
-if ($rows != null) {
-	$select_draw_sql .= " LIMIT ".$limit_start.",".$rows;
-}
+
 
 $db->query($select_draw_sql);
 
@@ -295,20 +322,21 @@ foreach($db->fetch() as $draw_data) {
 	
 	$qty_info = array();
 	if (!empty($draw_idx)) {
-		$select_qty_sql = "
+		$select_qty_draw_sql = "
 			SELECT
 				QD.IDX					AS QTY_IDX,
+				QD.PRODUCT_IDX			AS PRODUCT_IDX,
 				QD.OPTION_IDX			AS OPTION_IDX,
 				QD.OPTION_NAME			AS OPTION_NAME,
 				QD.BARCODE				AS BARCODE,
 				QD.PRODUCT_QTY			AS PRODUCT_QTY
 			FROM
-				dev.QTY_DRAW QD
+				QTY_DRAW QD
 			WHERE
 				QD.DRAW_IDX = ".$draw_idx."
 		";
 		
-		$db->query($select_qty_sql);
+		$db->query($select_qty_draw_sql);
 		
 		foreach($db->fetch() as $qty_data) {
 			$qty_info[] = array(
@@ -316,7 +344,9 @@ foreach($db->fetch() as $draw_data) {
 				'option_idx'		=>$qty_data['OPTION_IDX'],
 				'option_name'		=>$qty_data['OPTION_NAME'],
 				'barcode'			=>$qty_data['BARCODE'],
-				'product_qty'		=>$qty_data['PRODUCT_QTY']
+				'product_qty'		=>$qty_data['PRODUCT_QTY'],
+				'order_cnt'			=>$db->count("ENTRY_DRAW","DRAW_IDX=".$draw_idx." AND PRODUCT_IDX = ".$qty_data['PRODUCT_IDX']." AND OPTION_IDX = ".$qty_data['OPTION_IDX']." AND PURCHASE_FLG = TRUE AND DEL_FLG = FALSE"),
+				'entry_cnt'			=>$db->count("ENTRY_DRAW","DRAW_IDX=".$draw_idx." AND PRODUCT_IDX = ".$qty_data['PRODUCT_IDX']." AND OPTION_IDX = ".$qty_data['OPTION_IDX']." AND DEL_FLG = FALSE")
 			);
 		}
 	}
@@ -330,7 +360,7 @@ foreach($db->fetch() as $draw_data) {
 		'img_location'			=>$draw_data['IMG_LOCATION'],
 		'product_code'			=>$draw_data['PRODUCT_CODE'],
 		'product_name'			=>$draw_data['PRODUCT_NAME'],
-		'sales_price'			=>$draw_data['SALES_PRICE'],
+		'sales_price'			=>number_format($draw_data['SALES_PRICE']),
 		'display_flg'			=>$draw_data['DISPLAY_FLG'],
 		'entry_start_date'		=>$draw_data['ENTRY_START_DATE'],
 		'entry_end_date'		=>$draw_data['ENTRY_END_DATE'],

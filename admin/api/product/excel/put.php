@@ -50,11 +50,11 @@ if($order_sheet != null && count($order_sheet) != 0){
         $val[3] = trim($val[3]);
 
         $json_result['data_cnt'] = count($order_sheet);
-        $product_code_cnt = $db->count("dev.SHOP_PRODUCT"," PRODUCT_CODE='".$val[3]."'");
+        $product_code_cnt = $db->count("SHOP_PRODUCT"," PRODUCT_CODE='".$val[3]."'");
         if($val[3] != null){
             if($product_code_cnt == 0 ){
                 $product_insert_sql = "
-                    INSERT INTO dev.SHOP_PRODUCT (
+                    INSERT INTO SHOP_PRODUCT (
                         PRODUCT_TYPE,
                         PRODUCT_STYLE_CODE,
                         PRODUCT_CODE,
@@ -248,8 +248,8 @@ if($order_sheet != null && count($order_sheet) != 0){
                     'UPDATER'                   =>'Admin',
                     'UPDATE_DATE'               =>date("Y-m-d H:i:s",time())
                 );
-                $db->update('dev.SHOP_PRODUCT',$values,$where,array($val[3]));
-                $db->query('SELECT IDX FROM dev.SHOP_PRODUCT WHERE PRODUCT_CODE = "'.$val[3].'" ');
+                $db->update('SHOP_PRODUCT',$values,$where,array($val[3]));
+                $db->query('SELECT IDX FROM SHOP_PRODUCT WHERE PRODUCT_CODE = "'.$val[3].'" ');
                 foreach( $db->fetch() as $data){
                     $product_idx = $data['IDX'];
                 }
@@ -261,10 +261,10 @@ if($order_sheet != null && count($order_sheet) != 0){
 
                 if($option_info_arr[$val[3]] != null){
                     foreach($option_info_arr[$val[3]] as $option_data){
-                        $option_cnt = $db->count("dev.PRODUCT_OPTION", "OPTION_CODE='".$option_data[1][0]."_".$option_data[1][1]."'");
+                        $option_cnt = $db->count("PRODUCT_OPTION", "OPTION_CODE='".$option_data[1][0]."_".$option_data[1][1]."'");
                         if($option_cnt == 0){
                             $option_info_query = "
-                                INSERT INTO dev.PRODUCT_OPTION
+                                INSERT INTO PRODUCT_OPTION
                                     (   OPTION_CODE,
                                         OPTION_NAME,
                                         PRODUCT_IDX,
@@ -298,7 +298,7 @@ if($order_sheet != null && count($order_sheet) != 0){
                         }
                         else{
                             $option_info_query = "
-                                UPDATE dev.PRODUCT_OPTION
+                                UPDATE PRODUCT_OPTION
                                 SET
                                     STOCK_GRADE         = '".$option_data[1][2]."',
                                     CATEGORY_NAME       = '".$option_data[1][3]."',
@@ -399,7 +399,7 @@ if($sales_info_sheet != null && count($sales_info_sheet) != 0){
             'UPDATER'                   =>'Admin',
             'UPDATE_DATE'               =>date("Y-m-d H:i:s",time())
         );
-        $db->update('dev.SHOP_PRODUCT', $values,$where,array($current_code));
+        $db->update('SHOP_PRODUCT', $values,$where,array($current_code));
         array_push($sales_info_true, array('product_code' => $current_code, 'row_num' => $i + $excel_start_row));
         /*
         쿼리가 실행되지 못했을 경우의 조건 추가 개발 필요
@@ -455,7 +455,7 @@ if ($img_sheet != null) {
                 else{
                     $img_url = "'".$path.$upload_file[$j]['filename']."'";
                 }
-                $insert_sql = "INSERT INTO dev.PRODUCT_IMG (
+                $insert_sql = "INSERT INTO PRODUCT_IMG (
                                         PRODUCT_IDX,
                                         IMG_TYPE,
                                         PRODUCT_CODE,

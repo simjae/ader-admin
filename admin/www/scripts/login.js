@@ -21,14 +21,20 @@ function login() {
 				url:'/_api/account/login',
 				type:'POST',
 				data:$("#frm").serialize(),
-				error:function(data){
+				error:function(d){
 					$("#alert-box > span").html("모듈에 문제가 발생했습니다.");
 					$("#alert-box").removeClass('display-hide')
 				},
-				success:function(data){
-					if(data.code == "200") { // 로그인 성공
+				success:function(d){
+					if(d.code == "200") { // 로그인 성공
 						//location.reload();
-						location.href='main';
+						let permition_type = d.data;
+						console.log(permition_type);
+						if (permition_type == "PCS") {
+							location.href = "/pcs";
+						} else {
+							location.href = "/analysis/dashboard";
+						}
 					}
 					else {	// 로그인 실패
 						$("#alert-box > span").html("로그인 실패입니다. 로그인정보 재확인 후 다시 시도하여 주십시오.");

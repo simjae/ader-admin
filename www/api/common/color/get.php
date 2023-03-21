@@ -25,8 +25,8 @@ if ($product_idx != null && $country != null) {
 				PR.DISCOUNT_".$country."	AS DISCOUNT,
 				PR.SALES_PRICE_".$country."	AS SALES_PRICE
 			FROM
-				dev.SHOP_PRODUCT PR
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				SHOP_PRODUCT PR
+				LEFT JOIN ORDERSHEET_MST OM ON
 				PR.ORDERSHEET_IDX = OM.IDX
 			WHERE
 				PR.IDX = ".$product_idx;

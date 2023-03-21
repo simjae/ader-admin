@@ -29,7 +29,7 @@ if ($country != null && $category_type != null) {
 					IDX,
 					TITLE
 				FROM 
-					dev.FAQ_CATEGORY
+					FAQ_CATEGORY
 				WHERE
 					FATHER_NO = 0
 				AND
@@ -54,7 +54,7 @@ if ($country != null && $category_type != null) {
 					DISTINCT CODE_VALUE,
 					CODE_NAME
 				FROM
-					dev.CODE_MST
+					CODE_MST
 				WHERE
 					CODE_TYPE = 'BOARD_CATEGORY'
 				AND 

@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 게시판 글목록 일괄선택 후 엑션 API
+ | FAQ 등록
  | -----------
  |
  | 최초 작성	: 박성혁
@@ -15,32 +15,13 @@
 */
 
 /** 변수 정리 **/
-$category_idx       = $_POST['category_idx'];
 $subcategory_idx    = $_POST['subcategory_idx'];
 $question           = $_POST['question'];
 $answer             = $_POST['answer'];
 $answer	            = str_replace("<p>&nbsp;</p>","",$answer);
 
-$max_seq_sql = "
-        SELECT
-            MAX(SEQ)    AS MAX_SEQ
-        FROM
-            dev.FAQ
-        WHERE 
-            CATEGORY_NO = ".$subcategory_idx."
-";
-$db->query($max_seq_sql);
-foreach($db->fetch() as $data){
-    $max_seq = $data['MAX_SEQ'];
-}
-if($max_seq != null){
-    $max_seq++;
-}
-else{
-    $max_seq = 1;
-}
 $sql = "
-        INSERT dev.FAQ(
+        INSERT FAQ(
             SEQ,
             CATEGORY_NO,
             SUBCATEGORY,
@@ -49,20 +30,21 @@ $sql = "
             STATUS,
             REG_DATE
         )
-        VALUES(
-            ".$max_seq.",
-            ".$subcategory_idx.",
-            (SELECT 
-                TITLE
-            FROM 
-                dev.FAQ_CATEGORY
-            WHERE
-                IDX = ".$subcategory_idx."),
+        SELECT
+            IFNULL(MAX(FAQ.SEQ) + 1, 1),
+            FC.IDX,
+            FC.TITLE,
             '".$question."',
             '".$answer."',
             'Y',
             NOW()
-        ) 
+        FROM
+            FAQ_CATEGORY FC LEFT JOIN
+            FAQ  FAQ 
+        ON
+            FAQ.CATEGORY_NO = FC.IDX
+        WHERE
+            FC.IDX = ".$subcategory_idx."
 ";
 $db->query($sql);
 

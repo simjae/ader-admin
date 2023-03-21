@@ -1,3 +1,5 @@
+<?php include_once("check.php"); ?>
+
 <h1>
 	대시보드
 	<small>리포트 & 통계</small>

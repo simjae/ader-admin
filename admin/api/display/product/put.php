@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 상품 페이지 목록 - 일괄선택 후 복사&삭제
+ | 상품 진열 페이지 - 페이지 정보 수정
  | -----------
  |
  | 최초 작성	: 박성혁
@@ -14,15 +14,21 @@
  +=============================================================================
 */
 
-/** 변수 정리 **/
-$select_idx				= $_POST['select_idx'];
-$action_type			= $_POST['action_type'];
+include_once("/var/www/admin/api/common/common.php");
 
-$page_idx				= $_POST['page_idx'];				//idx
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+/** 변수 정리 **/
+$session_id				= sessionCheck();
+$copy_flg				= $_POST['copy_flg'];
+$display_toggle_flg		= $_POST['display_toggle_flg'];
+$update_flg				= $_POST['update_flg'];
+
+$page_idx				= $_POST['page_idx'];
+
 $page_title         	= $_POST['page_title'];				//페이지 타이틀
 $page_memo     			= $_POST['page_memo'];				//페이지 비고
 
-$display_member_level	= $_POST['display_member_level'];	//접근제한 타입
 $member_level           = $_POST['member_level'];          	//접근대상 LEVEL LIST
 $prodIp					= $_POST['prodIp'];             	//차단 IP LIST
 
@@ -41,149 +47,150 @@ $seo_description		= $_POST['seo_description'];		//메타태그2
 $seo_keywords			= $_POST['seo_keywords'];			//메타태그3
 $seo_alt_text			= $_POST['seo_alt_text'];			//메타태그4
 
-$where = " 1=1 ";
-$idx_list="";
-if ($select_idx != null) {
-	$idx_list = implode(',',$select_idx);
-	$where .= " AND IDX IN (".$idx_list.")";
-} else if ($page_idx != null) {
-	$where .= " AND IDX = ".$page_idx;
-}
-
-$sql = "";
-if ($action_type != null) {
-	switch ($action_type) {
-		case "page_copy" :
-			$db->query("SHOW TABLE STATUS WHERE NAME='PAGE_PRODUCT_DISPLAY'");
-			$max_idx = 0;
-			foreach($db->fetch() as $data) {
-				$max_idx = intval($data['Auto_increment']);
-			}
+if ($copy_flg != null && $page_idx != null) {
+	try {
+		for ($i=0; $i<count($page_idx); $i++) {
+			$copy_page_product_sql = "
+				INSERT INTO
+					PAGE_PRODUCT
+				(
+					BANNER_IDX,
+					PAGE_TITLE,
+					PAGE_MEMO,
+					PAGE_URL,
+					DISPLAY_MEMBER_LEVEL,
+					DISPLAY_START_DATE,
+					DISPLAY_END_DATE,
+					SEO_EXPOSURE_FLG,
+					SEO_TITLE,
+					SEO_AUTHOR,
+					SEO_DESCRIPTION,
+					SEO_KEYWORDS,
+					SEO_ALT_TEXT,
+					CREATER,
+					UPDATER
+				)
+				SELECT
+					PP.BANNER_IDX				AS BANNER_IDX,
+					CONCAT(
+						PP.PAGE_TITLE,'_copy'
+					)							AS PAGE_TITLE,
+					PP.PAGE_MEMO				AS PAGE_MEMO,
+					PP.PAGE_URL					AS PAGE_URL,
+					PP.DISPLAY_MEMBER_LEVEL		AS DISPLAY_MEMBER_LEVEL,
+					PP.DISPLAY_START_DATE		AS DISPLAY_START_DATE,
+					PP.DISPLAY_END_DATE			AS DISPLAY_END_DATE,
+					PP.SEO_EXPOSURE_FLG			AS SEO_EXPOSURE_FLG,
+					PP.SEO_TITLE				AS SEO_TITLE,
+					PP.SEO_AUTHOR				AS SEO_AUTHOR,
+					PP.SEO_DESCRIPTION			AS SEO_DESCRIPTION,
+					PP.SEO_KEYWORDS				AS SEO_KEYWORDS,
+					PP.SEO_ALT_TEXT				AS SEO_ALT_TEXT,
+					PP.CREATER					AS CREATER,
+					PP.UPDATER					AS UPDATER
+				FROM
+					PAGE_PRODUCT PP
+				WHERE
+					IDX = ".$page_idx[$i]."
+			";
 			
-			for ($i=0; $i<count($select_idx); $i++) {
-				$sql = "INSERT INTO dev.PAGE_PRODUCT_DISPLAY
-						(
-							PAGE_TITLE,
-							PAGE_MEMO,
-							PAGE_URL,
-							PRODUCT_CNT,
-							STOCK_OUT_CNT,
-							DISPLAY_FLG,
-							DISPLAY_START_DATE,
-							DISPLAY_END_DATE,
-							DISPLAY_LOCATION,
-							SEO_EXPOSURE_FLG,
-							SEO_TITLE,
-							SEO_DESCRIPTION,
-							SEO_KEYWORDS,
-							SEO_ALT_TEXT,
-							CREATER,
-							UPDATER
-						)
-					SELECT    
-						CONCAT(PAGE_TITLE,'_복사'),
-						PAGE_MEMO,
-						CONCAT(
-							'/test/page/product?page_idx=',
-							".$max_idx."
-						),
-						PRODUCT_CNT,
-						STOCK_OUT_CNT,
-						FALSE,
-						DISPLAY_START_DATE,
-						DISPLAY_END_DATE,
-						DISPLAY_LOCATION,
-						SEO_EXPOSURE_FLG,
-						SEO_TITLE,
-						SEO_DESCRIPTION,
-						SEO_KEYWORDS,
-						SEO_ALT_TEXT,
-						'Admin',
-						'Admin'
-					FROM 
-						dev.PAGE_PRODUCT_DISPLAY
+			$db->query($copy_page_product_sql);
+			
+			$tmp_page_idx = $db->last_id();
+			
+			if (!empty($tmp_page_idx)) {
+				$insert_product_grid_sql = "
+					INSERT INTO
+						PRODUCT_GRID
+					(
+						PAGE_IDX,
+						DISPLAY_NUM,
+						TYPE,
+						BACKGROUND_COLOR,
+						SIZE,
+						BANNER_IDX,
+						PRODUCT_IDX,
+						PRODUCT_CODE,
+						LINK_URL,
+						CREATE_DATE,
+						CREATER,
+						UPDATE_DATE,
+						UPDATER
+					)
+					SELECT
+						".$tmp_page_idx."		AS PAGE_IDX,
+						PG.DISPLAY_NUM			AS DISPLAY_NUM,
+						PG.TYPE					AS TYPE,
+						PG.BACKGROUND_COLOR		AS BACKGROUND_COLOR,
+						PG.SIZE					AS SIZE,
+						PG.BANNER_IDX			AS BANNER_IDX,
+						PG.PRODUCT_IDX			AS PRODUCT_IDX,
+						PG.PRODUCT_CODE			AS PRODUCT_CODE,
+						PG.LINK_URL				AS LINK_URL,
+						PG.CREATE_DATE			AS CREATE_DATE,
+						PG.CREATER				AS CREATER,
+						PG.UPDATE_DATE			AS UPDATE_DATE,
+						PG.UPDATER				AS UPDATER
+					FROM
+						PRODUCT_GRID PG
 					WHERE
-						IDX = ".$select_idx[$i].";";
-				$max_idx++;
-				$db->query($sql);
+						PG.PAGE_IDX = ".$page_idx[$i]." AND
+						PG.DEL_FLG = FALSE
+				";
+				
+				$db->query($insert_product_grid_sql);
 			}
-			
-			break;
+		}
+	} catch(mysqli_sql_exception $exception){
+		$db->rollback();
 		
-		case "page_delete" :
-			$sql = "UPDATE
-                    dev.PAGE_PRODUCT_DISPLAY
-                SET
-                    DEL_FLG = TRUE
-                WHERE
-                    ".$where;
-			break;
-		
-		case "display_true" :
-			$sql = "UPDATE
-                    dev.PAGE_PRODUCT_DISPLAY
-                SET
-                    DISPLAY_FLG = TRUE
-                WHERE
-                    ".$where;
-			break;
-		
-		case "display_false" :
-			$sql = "UPDATE
-                    dev.PAGE_PRODUCT_DISPLAY
-                SET
-                    DISPLAY_FLG = FALSE
-                WHERE
-                    ".$where;
-			break;
-	}
-	
-	if ($action_type != "page_copy") {
-		$db->query($sql);
+		print_r($exception);
+		$json_result['code'] = 301;
+		$json_result['msg'] = "상품 진열정보 저장처리중 에러가 발생했습니다. 진열 하려는 상품의 진열정보를 확인해주세요.";
 	}
 }
 
-if ($page_idx != null) {
-	$display_level = "";
-	if($display_member_level != null){
-		switch($display_member_level){
-			case 'all':
-				$display_level = 'all';
-				break;
-			
-			case 'member':
-				$display_level = 'member';
-				break;
-			
-			case 'level':
-				if ($member_level != null) {
-					$display_level = implode(',',$member_level);
-				}
-				break;
-		}
-	}
+if ($display_toggle_flg != null && $page_idx != null) {
+	$display_page_product_sql = "
+		UPDATE
+			PAGE_PRODUCT
+		SET
+			DISPLAY_FLG = ".$display_flg."
+		WHERE
+			IDX IN (".implode(",",$page_idx).")
+	";
+	
+	$db->query($display_page_product_sql);
+}
 
+if ($update_flg != null && $page_idx != null) {
 	$display_start_date = "";
 	$display_end_date = "";
+	
 	if($display_flg != null){
 		if ($display_flg == "true") {
 			$display_start_date = "NOW()";
 			$display_end_date = "9999-12-31 23:59";
 		} else {
-			$display_start_date = "'".$display_from." ".$display_from_h.":".$display_from_m."'";
+			$display_start_date = $display_from." ".$display_from_h.":".$display_from_m;
 			$display_end_date = $display_to." ".$display_to_h.":".$display_to_m;
 		}
 	}
-
-	//상품 목록 페이지 등록
-	$sql = "
-		UPDATE 
-			dev.PAGE_PRODUCT_DISPLAY
+	
+	if ($member_level != null) {
+		$member_level = implode(",",$member_level);
+	} else {
+		$member_level = "ALL";
+	}
+	
+	$update_page_product_sql = "
+		UPDATE
+			PAGE_PRODUCT
 		SET
 			PAGE_TITLE					= '".$page_title."',
 			PAGE_MEMO					= '".$page_memo."',
-			DISPLAY_MEMBER_LEVEL		= '".$display_level."',
-			DISPLAY_START_DATE			= ".$display_start_date.",
+			DISPLAY_MEMBER_LEVEL		= '".$member_level."',
+			DISPLAY_START_DATE			= '".$display_start_date."',
 			DISPLAY_END_DATE			= '".$display_end_date."',
 			SEO_EXPOSURE_FLG			= ".$seo_exposure_flg.",
 			SEO_TITLE					= '".$seo_title."',
@@ -191,24 +198,12 @@ if ($page_idx != null) {
 			SEO_DESCRIPTION				= '".$seo_description."',
 			SEO_KEYWORDS				= '".$seo_keywords."',
 			UPDATE_DATE					= NOW(),
-			UPDATER						= 'Admin'
+			UPDATER						= '".$session_id."'
 		WHERE
-			".$where;
-	$db->query($sql);
-
-	//차단 IP 업데이트
-	$db->query("DELETE FROM dev.IP_BAN WHERE PAGE_IDX = ".$page_idx);
-	foreach($prodIp as $ip){
-		$sql = "INSERT INTO dev.IP_BAN
-				(
-					PAGE_IDX,
-					IP
-				) VALUES (
-					".$page_idx.",
-					'".$ip."'
-				)
-		";
-		$db->query($sql);
-	}
+			IDX = ".$page_idx."
+	";
+	
+	$db->query($update_page_product_sql);
 }
+
 ?>

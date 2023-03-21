@@ -13,8 +13,10 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/admin/api/common/common.php");
 
 /** 변수 정리 **/
+$session_id			= sessionCheck();
 $board_idx          = $_POST['board_idx'];
 $page_idx           = $_POST['page_idx'];
 $put_type           = $_POST['put_type'];
@@ -54,13 +56,13 @@ switch($put_type){
         }
         $sql = "
                 UPDATE 
-                    dev.PAGE_BOARD
+                    PAGE_BOARD
                 SET
                     EXPOSURE_FLG = true,
                     EXPOSURE_START_DATE = ".$exposure_start_date.",
                     EXPOSURE_END_DATE   = ".$exposure_end_date.",
                     UPDATE_DATE = NOW(),
-                    UPDATER = 'Admin'
+                    UPDATER = '".$session_id."'
                 WHERE
                     ".$where."
         ";
@@ -71,7 +73,7 @@ switch($put_type){
                 SELECT 
                     MAX(SEQ) AS MAX_SEQ 
                 FROM 
-                    dev.BOARD_REPLY
+                    BOARD_REPLY
                 WHERE 
                     BOARD_IDX = ".$page_idx." 
                 AND 
@@ -90,7 +92,7 @@ switch($put_type){
             $max_seq = 0;
         }
         $insert_reply_sql = "
-                INSERT  dev.BOARD_REPLY(
+                INSERT  BOARD_REPLY(
                     BOARD_IDX,
                     SEQ,
                     DEPTH,
@@ -103,28 +105,32 @@ switch($put_type){
                     UPDATE_DATE,
                     UPDATER
                 )
-                VALUES(
+                SELECT
                     ".$page_idx.",
                     ".$max_seq.",
                     1,
-                    0,
-                    'Admin',
-                    '홍길동',
+                    IDX,
+                    ADMIN_ID,
+                    ADMIN_NAME,
                     '".$answer_contents."',
                     NOW(),
-                    'Admin',
+                    ADMIN_NAME,
                     NOW(),
-                    'Admin'
-                )
+                    ADMIN_NAME
+                FROM
+                    ADMIN
+                WHERE
+                    ADMIN_ID = '".$session_id."'
+                
         ";
         $db->query($insert_reply_sql);
         $sql = "
                 UPDATE 
-                    dev.PAGE_BOARD
+                    PAGE_BOARD
                 SET
                     ANSWER_STATE = 'RCP',
                     UPDATE_DATE = NOW(),
-                    UPDATER = 'Admin'
+                    UPDATER = '".$session_id."'
                 WHERE
                     ".$where."
         ";

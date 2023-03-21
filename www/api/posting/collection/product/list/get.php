@@ -44,13 +44,13 @@ if ($project_idx > 0) {
 						''
 					)
 				FROM
-					dev.COLLECTION_IMG S_CI
+					COLLECTION_IMG S_CI
 				WHERE
 					S_CI.C_PRODUCT_IDX = CP.IDX AND
 					S_CI.IMG_SIZE = 'M'
 			)					AS IMG_LOCATION
 		FROM
-			dev.COLLECTION_PRODUCT CP
+			COLLECTION_PRODUCT CP
 		WHERE
 			CP.PROJECT_IDX = ".$project_idx."
 		ORDER BY

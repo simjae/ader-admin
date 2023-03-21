@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CONTROL CENTER</title>
+	<title>ADER WCC</title>
 	<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<meta http-equiv="Content-Style-Type" content="text/css" />
@@ -84,6 +84,10 @@
 		var url = window.location.pathname;
 		var path = url.substr(1,3);
 		if (path == "pcs") {
+			$('title').text('ADER PCS');
+			$('.header .ader__logo .sub__logo img').attr('src', '/images/pcs-logo.svg');
+			$('.header .ader__logo .sub__logo img').css('height', '15px');
+			$('.header .ader__logo .sub__logo img').css('width', '40px');
 			$('.header').css('background-color','#0000c5');
 			$('#backend').hide();
 			$('#product_management').show();
@@ -95,20 +99,33 @@
 		}
 	});
 </script>
+
+<?php include_once("check.php"); ?>
+
 <body>
 <div class="logo__benner">
 	<div></div>
 </div>
 <div class="header">
-	<div class="ader__logo">
+	<div class="ader__logo" onclick="location.href='/analysis/dashboard'" style="cursor:pointer">
 		<span class="main__logo"><img src="/images/header-logo.svg" alt=""></span>
-		<span class="sub__logo"><img src="/images/center-logo.svg" alt="" style="width: 66px;"></span>
+		<span class="sub__logo"><img src="/images/webcontrolcenter-logo.svg" alt="" style="height: 15px;"></span>
 	</div>
-	<div class="profile__wrap">
-		<div class="profile__logo"></div>
-		<div class="profile__name">관리자</div>
-		<img src="/images/arrow-down.svg" alt="">
+<?php 
+	$request_uri = explode("?",$_SERVER['REQUEST_URI']);
+	$permition_url = $request_uri[0];
+
+	$admin_idx = $_SESSION['ADMIN_IDX'];
+
+
+	if (!isset($admin_idx)) {
+?>
+	<div class="profile__wrap" onclick="location.href='/login'" style="cursor:pointer">
+		<div class="profile__name">로그인</div>
 	</div>
+<?php	
+	}
+?>
 	<!-- <div class="navigator__wrap">
 		<div class="navigator__title">고객관리</div>
 		<div class="navigator__bar">
@@ -124,19 +141,19 @@
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap" onclick="location.href='/analysis/dashboard'">
-						<span class="nav__title" data-url="/dashboard">대시보드</span>
+						<span class="nav__title" data-url="/dashboard">1. 대시보드</span>
 					</div>
 				</div>
 			</div>
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">상점관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+						<span class="nav__title">2. 상점</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/store/info">기본정보관리</div>
-						<div class="nav__child" data-url="/store/admin">운영자 관리</div>
-						<div class="nav__child" data-url="/store/notice">홈페이지 내 알림메시지 설정</div>
+						<div class="nav__child" data-url="/store/policy">2-1. 이용약관 관리</div>
+						<div class="nav__child" data-url="/store/admin">2-2. 운영자 관리</div>
+						<!--<div class="nav__child" data-url="/store/notice">2-3. 알림메시지 설정</div>-->
 						<div class="nav__child" data-url="/store/add_on">부가서비스 이용내역 조회</div>
 						<div class="nav__child" data-url="/store/seo">검색엔진 최적화 설정</div>
 						<div class="nav__child" data-url="/store/channel">채널관리(마케팅)</div>
@@ -146,83 +163,98 @@
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">고객관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+						<span class="nav__title">3. 회원</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/member/info" >회원 조회</div>
-						<div class="nav__child" data-url="/member/visit" >회원 방문관리</div>
-						<div class="nav__child" data-url="/member/reserve">적립금 관리</div>
-						<div class="nav__child" data-url="/member/coupon">쿠폰관리</div>
-						<div class="nav__child" data-url="/member/sms" >재입고 SMS 발송 관리</div>
-						<div class="nav__child" data-url="/member/mail" >자동 메일 발송 설정</div>
-						<div class="nav__child" data-url="/member/kakao">SMS(카카오톡) 사용 설정</div>
+						<div class="nav__child" data-url="/member/info">3-1. 회원 조회</div>
+						<div class="nav__child" data-url="/member/mileage">3-2. 적립금 관리</div>
+						<div class="nav__child" data-url="/member/voucher">3-3. 바우처 관리</div>
+						<div class="nav__child" data-url="/member/visit" >3-4. 회원 접속 관리</div>
+						<div class="nav__child" data-url="/display/board" >3-5. 게시판 관리</div>
+						<div class="nav__child" data-url="/member/reorder/sms" >3-6. 재입고 SMS 발송</div>
+						<div class="nav__child" data-url="/member/mail" >3-7. 자동 메일 발송</div>
+						<div class="nav__child" data-url="/member/sms">3-8. SMS 설정</div>
 					</div>	
 				</div>	
 			</div>
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">상품관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+						<span class="nav__title">4. 상품</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/product/classify">상품 분류 관리</div>
-						<div class="nav__child" data-url="/product/register">개별 상품 등록</div>
-						<div class="nav__child" data-url="/product/regist">독립몰 상품 등록</div>
-						<div class="nav__child" data-url="/product/set">세트 상품 등록</div>
-						<div class="nav__child" data-url="/product/excel">엑셀 등록</div>
-						<div class="nav__child" data-url="/product/list">상품 목록</div>
-						<div class="nav__child" data-url="/product/update">상품 정보 일괄 변경</div>
-						<div class="nav__child" data-url="/product/delete">삭제 상품 목록</div>
-						<div class="nav__child" data-url="/product/stock">상품 재고 관리</div>
-						<div class="nav__child" data-url="/product/bluemark">블루마크</div>
-						<div class="nav__child" data-url="/product/recommend">추천 상품</div>
+						<div class="nav__child" data-url="/product/classify">4-1. 상품 분류</div>
+						<div class="nav__child" data-url="/product/list">4-2. 상품 목록</div>
+						<div class="nav__child" data-url="/product/regist">4-3. 상품 적용</div>
+						<div class="nav__child" data-url="/display/product">4-4. 상품 진열</div>
+						<div class="nav__child" data-url="/product/update">4-5. 상품 일괄 변경</div>
+						<div class="nav__child" data-url="/product/indp/regist">4-6. 개별 상품 등록</div>
+						<div class="nav__child" data-url="/product/set">4-7. 상품 세트 등록</div>
+						<div class="nav__child" data-url="/product/excel">4-8. 엑셀 등록</div>
+						<div class="nav__child" data-url="/product/delete">4-9. 삭제 상품 관리</div>
+						<div class="nav__child" data-url="/product/stock">4-10. 상품 재고 현황</div>
+						<div class="nav__child" data-url="/product/bluemark">4-11. 블루마크 관리</div>
+						<div class="nav__child" data-url="/product/recommend">4-12. 추천 상품 관리</div>
+						<div class="nav__child" data-url="/product/filter">4-13. 상품 필터 관리</div>
 					</div>	
 				</div>	
 			</div>
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">전시관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+						<span class="nav__title">5. 전시</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/display/product">상품 진열</div>
-						<div class="nav__child" data-url="/display/board" >게시판 관리</div>
-						<div class="nav__child" data-url="/display/posting" >게시물 관리</div>
-						<div class="nav__child" data-url="/display/whats/list" >What's New 관리</div>
-						<div class="nav__child" data-url="/display/whats/regist"style="display:none;">What's New 등록</div>
-						<div class="nav__child" data-url="/display/popup/list" >팝업 관리</div>
+						<div class="nav__child" data-url="/display/landing">5-1. 랜딩 페이지 관리</div>
+						<div class="nav__child" data-url="/display/posting/story" >5-2. 스토리 관리</div>
+						<div class="nav__child" data-url="/display/posting" >5-3. 게시물 관리</div>
+						<div class="nav__child" data-url="/display/menu">5-4. 카테고리 관리</div>
+						<div class="nav__child" data-url="/display/popup/list" >5-5. 팝업 관리</div>
+						<div class="nav__child" data-url="/display/search">5-6. 검색 관리</div>
+						<div class="nav__child" data-url="/display/store" >5-7. 매장보기 관리</div>
+
+
+						<div class="nav__child" data-url="/display/whats/regist" style="display:none;">What's New 등록</div>
 						<div class="nav__child" data-url="/display/popup/regist" style="display:none;">팝업 등록</div>
-						<div class="nav__child" data-url="/display/event" >이벤트 관리</div>
-						<div class="nav__child" data-url="/display/draw" >드로우 관리</div>
-						<div class="nav__child" data-url="/display/menu">메뉴 편집</div>
-						<div class="nav__child" data-url="/display/store" >매장보기 관리</div>
-						<div class="nav__child" data-url="/display/landing">랜딩페이지 관리</div>
 					</div>	
 				</div>	
 			</div>
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">주문관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+						<span class="nav__title">6. 프로모션</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/order/list" >전체 주문 조회</div>
-						<div class="nav__child" data-url="/order/management" >취소/교환/반품/환불 관리</div>
-						<div class="nav__child" data-url="/order/deposit">자동입금 내역확인</div>
-						<div class="nav__child" data-url="/order/deliver" >배송 설정</div>
-						<div class="nav__child" data-url="/order/receipt">현금영수증 관리</div>
-						<div class="nav__child" data-url="/order/admin">관리자 메모 조회</div>
+					<!--<div class="nav__child" data-url="/display/event" >6-1. 이벤트 관리</div>-->
+					<div class="nav__child" data-url="/display/standby" >6-1. 스탠바이 관리</div>
+						<div class="nav__child" data-url="/display/preorder" >6-2. 프리오더 관리</div>
+						<div class="nav__child" data-url="/display/draw" >6-3. 드로우 관리</div>
 					</div>	
 				</div>	
 			</div>
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">분석/대시보드</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">  
+						<span class="nav__title">7. 주문</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/analysis/exel">통합엑셀 다운로드</div>
-						<div class="nav__child" data-url="/analysis/dashboard">대시보드</div>
+						<div class="nav__child" data-url="/order/list" >7-1. 전체 주문 조회</div>
+						<div class="nav__child" data-url="/order/management" >7-2. 취소/교환/반품/환불</div>
+						<div class="nav__child" data-url="/order/deposit">7-3. 자동입금 확인 관리</div>
+						<div class="nav__child" data-url="/order/deliver" >7-4. 배송 설정</div>
+						<div class="nav__child" data-url="/order/receipt">7-5. 현금영수증 관리</div>
+						<div class="nav__child" data-url="/order/admin">7-6. 관리자 메모 조회</div>
+					</div>	
+				</div>	
+			</div>
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">8. 분석</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">  
+					</div>
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/analysis/exel">8-1. 통합 엑셀 다운로드</div>
+						<div class="nav__child" data-url="/analysis/dashboard" style="display:none;">대시보드</div>
 					</div>	
 				</div>	
 			</div>
@@ -241,36 +273,65 @@
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">항목관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+						<span class="nav__title">1. 항목 관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
 					</div>
 					
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pcs/ordersheet/line">라인 관리</div>
-						<div class="nav__child" data-url="/pcs/ordersheet/wkla">W/K/L/A 관리</div>
-						<div class="nav__child" data-url="/pcs/ordersheet/load_box">적재박스 관리</div>
-						<div class="nav__child" data-url="/pcs/ordersheet/td_sub_material">포장 부자재 관리</div>
-						<div class="nav__child" data-url="/pcs/ordersheet/delivery_sub_material">배송 부자재 관리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/line">1-1. 항목::LINE</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/line_type">1-2. 항목::LINE 타입</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/wkla">1-3. 항목::WKLA</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/custom_clearance">1-4. 항목::해외통관</div>
 					</div>	
 				</div>	
 			</div>
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">오더시트</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+						<span class="nav__title">2. 부자재 관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
 					</div>
 					
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pcs/ordersheet/classify">오더시트 분류 관리</div>
-						<div class="nav__child" data-url="/pcs/ordersheet/list">오더시트 리스트</div>
-						<div class="nav__child" data-url="/pcs/ordersheet/history">오더시트 히스토리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/box">2-1. 부자재::배송박스</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/package_sub_material">2-2. 부자재::포장 부자재</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/delivery_sub_material">2-3. 부자재::배송 부자재</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/sub_material/excel">2-4. 부자재::엑셀 등록</div>
 					</div>	
 				</div>	
 			</div>
-			
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">샘플 정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+						<span class="nav__title">3. 상품 관리 (오더시트)</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+					</div>
+					
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pcs/ordersheet/classify">3-1. 상품::카테고리</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/list">3-2. 상품::제품 리스트</div>
+						<div class="nav__child" data-url="/pcs/ordersheet/excel">3-3. 상품::엑셀 등록</div>
+						<?php
+							if ($history_flg == true) {
+						?>
+						<div class="nav__child" data-url="/pcs/ordersheet/history">3-4. 상품::LOG</div>
+						<?php
+							}
+						?>
+					</div>	
+				</div>	
+			</div>
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">5. 홀세일 관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
+					</div>
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pcs/wholesale/list">홀세일 리스트 조회</div>
+					</div>	
+				</div>	
+			</div>
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">6. 샘플 관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
 					</div>
 					
 					<div class="nav__child__wrap">
@@ -278,28 +339,27 @@
 					</div>	
 				</div>	
 			</div>
-			
 			<div class="nav__parent__wrap">
 				<div class="nav__parent">
 					<div class="nav__title__wrap">
-						<span class="nav__title">홀세일 정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">	    
-					</div>
-					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/pcs/wholesale/list">홀세일 리스트 조회</div>
-					</div>	
-				</div>	
-			</div>
-			
-			<div class="nav__parent__wrap">
-				<div class="nav__parent">
-					<div class="nav__title__wrap">
-						<span class="nav__title">공장별 수주정보</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+						<span class="nav__title">7. 생산업체 관리</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
 					</div>
 					<div class="nav__child__wrap">
 						<div class="nav__child" data-url="/pcs/factory/list">공장별 수주 정보 조회</div>
 					</div>	
 				</div>	
 			</div>
+			<div class="nav__parent__wrap">
+				<div class="nav__parent">
+					<div class="nav__title__wrap">
+						<span class="nav__title">8. 블루마크</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">		    
+					</div>
+					<div class="nav__child__wrap">
+						<div class="nav__child" data-url="/pcs/bluemark">8-1 블루마크::관리</div>
+					</div>	
+				</div>	
+			</div>
+
 			<!--
 			<div class="nav__parent__wrap" id="btn_backend">
 				<div class="nav__parent">

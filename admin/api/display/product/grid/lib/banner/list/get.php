@@ -41,15 +41,15 @@ if ($banner_memo != null) {
 $banner_table = "";
 switch ($banner_type) {
 	case "HED" :
-		$banner_table = "dev.BANNER_HED BI";
+		$banner_table = "BANNER_HED BI";
 		break;
 	
 	case "IMG" :
-		$banner_table = "dev.BANNER_IMG BI";
+		$banner_table = "BANNER_IMG BI";
 		break;
 	
 	case "VID" :
-		$banner_table = "dev.BANNER_VID BI";
+		$banner_table = "BANNER_VID BI";
 		break;
 }
 

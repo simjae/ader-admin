@@ -15,6 +15,7 @@
 					.banner__select__img__area {width:18vw;height:21vh;border:1px solid #bfbfbf;margin-right:15px;padding:15px;cursor:pointer;}
 						.banner__img {background-color:gray;width:100%;height:100%;}
 			.banner__select__btn__wrap {height:5vh;display:flex;margin-top:15px;padding-top:8px;}
+				.banner_copy_btn {width:120px;margin-right:15px;text-align:center;float:right;}
 				.banner_regist_btn {width:120px;margin-right:15px;text-align:center;float:right;}
 				.banner_delete_btn {width:120px;margin-right:15px;text-align:center;float:right;}
 		
@@ -25,7 +26,10 @@
 	.contents__info__container {width:71vw;display:none;}
 		.contents__data__wrap {width:71vw;height:38vh;display:flex;padding:15px;}
 		
-		.contents__product__wrap {width:71vw;height:36vh;display:flex;padding:15px;}
+		.contents__product__wrap {width:71vw;height:36vh;display:block;padding:15px;overflow-y:auto;}
+			.contents__product {min-width:100%;width:100%;height:200px;margin-bottom:20px;display:-webkit-inline-box;overflow-x:auto;}
+				.contents__product .product__img__wrap {width:200px;border:1px solid #bfbfbf;border-radius:2px;padding:10px;display:block;margin-right:10px;}
+					.product__img__wrap .display_num_btn {width:30px;text-align:center;padding:5px;margin-top:5px;margin-bottom:5px;}
 			.wrap__bg--wh{background-color: #fff;padding: 10px;margin: 10px 0;}
 			.product-tree {display: grid;gap: 20px;grid-template-columns: 400px 2fr;}
 			.tree__chart h3 {line-height: 2;}
@@ -56,33 +60,56 @@
 					.images__select__img__area {width:9vw;height:18vh;border:1px solid #bfbfbf;margin-right:15px;padding:15px;cursor:pointer;}
 						.images__img {background-color:gray;width:100%;height:100%;}
 			.images__select__btn__wrap {height:5vh;display:flex;margin-top:15px;padding-top:8px;}
+				.images_copy_btn {width:120px;margin-right:15px;text-align:center;float:right;}
 				.images_regist_btn {width:120px;margin-right:15px;text-align:center;float:right;}
 				.images_delete_btn {width:120px;margin-right:15px;text-align:center;float:right;}
 		
 		.images__data__wrap {width:71vw;height:39vh;display:flex;padding:15px;}
 		.images__data__btn__wrap {height:5vh;margin-top:15px;}
 			.images_update_btn {width:120px;height:30px;text-align:center;color:#ffffff;background-color:#000000;margin-right:15px;float:right;}
+
+.save_main_btn {width:150px;height:30px;background-color:#000000;color:#ffffff;border:1px solid #bfbfbf;float:right;padding:5px;text-align:center;font-size:0.8rem;cursor:pointer;}
+
+.select_copy {width:150px;height:30px;border:1px solid #bfbfbf;border-radius:5px;float:right;margin-right:10px;}
+.save_font {font-size:12px;font-family:'NanumSquareRound',sans-serif;line-height:2.8;float:right;margin-right:10px;}
 </style>
 
-<?php
-	/*$admin_idx = 0;
-	if (isset($_SESSION['ADMIN_IDX'])) {
-		$admin_idx = $_SESSION['ADMIN_IDX'];
-	}
-	
-	if ($admin_idx == 0) {
-		echo "
-			<script>
-				location.href = '/login';
-			</script>
-		";
-	}*/
-?>
+<?php include_once("check.php"); ?>
 
-<div class="filter-wrap" style="margin-bottom:20px">
-	<button class="landing_tab_btn tap__button" country="KR" style="background-color:#000;color:#fff;font-weight:500;width:180px;" onClick="landingTabBtnClick(this);">한국몰</button>
-	<button class="landing_tab_btn tap__button" country="EN" style="width:180px;" onClick="landingTabBtnClick(this);">영문몰</button>
-	<button class="landing_tab_btn tap__button" country="CN" style="width:180px;" onClick="landingTabBtnClick(this);">중문몰</button>
+<div class="filter-wrap" style="width:100%;margin-bottom:20px;display:flex;">
+	<div style="width:50%;">
+		<button class="landing_tab_btn tap__button" country="KR" style="background-color:#000;color:#fff;font-weight:500;width:180px;" onClick="landingTabBtnClick(this);">한국몰</button>
+		<button class="landing_tab_btn tap__button" country="EN" style="width:180px;" onClick="landingTabBtnClick(this);">영문몰</button>
+		<button class="landing_tab_btn tap__button" country="CN" style="width:180px;" onClick="landingTabBtnClick(this);">중문몰</button>
+	</div>
+	
+	<input type="hidden" id="save_type" value="BNR">
+	
+	<div style="width:50%;">
+		<div class="btn" style="float:right;" onClick="copySearchInfo();">복사</div>				
+		
+		<font class="save_font">로 복사</font>
+		
+		<select id="country_to" class="select_copy">
+			<option value="KR">한국몰</option>
+			<option value="EN">영문몰</option>
+			<option value="CN">중문몰</option>
+		</select>
+		
+		<font class="save_font">데이터를</font>
+		
+		<select id="country_from" class="select_copy" style="">
+			<option value="KR">한국몰</option>
+			<option value="EN">영문몰</option>
+			<option value="CN">중문몰</option>
+		</select>
+		
+		<select id="copy_type" class="select_copy" style="">
+			<option value="BNR">메인 배너</option>
+			<option value="CNT">메인 컨텐츠</option>
+			<option value="IMG">메인 이미지</option>
+		</select>
+	</div>
 </div>
 
 <input id="country" type="hidden" value="KR">
@@ -119,6 +146,8 @@ function landingTabBtnClick(obj) {
 }
 
 function toggleContainer(country,selector_type) {
+	$('#save_type').val(selector_type);
+	
 	$('.selector_' + country).css('border','none');
 	$('.selector_' + selector_type + '_' + country).css('border','3px solid #000000');
 	
@@ -159,6 +188,7 @@ function clickMainBanner(obj) {
 
 function resetMainBannerInfo(country) {
 	let frm = $('#frm-put_BNR_' + country);
+	
 	let div_container = $('.container_BNR_' + country);
 	let div_data = div_container.find('.banner__data__wrap');
 	
@@ -180,6 +210,7 @@ function resetMainBannerInfo(country) {
 
 function getMainBannerInfo(country,banner_idx) {
 	let frm = $('#frm-put_BNR_' + country);
+	
 	let div_container = $('.container_BNR_' + country);
 	let div_data = div_container.find('.banner__data__wrap');
 	
@@ -204,6 +235,8 @@ function getMainBannerInfo(country,banner_idx) {
 					data.forEach(function(row) {
 						div_container.find('.recent_idx').val(row.banner_idx);
 						div_container.find('.recent_num').val(row.display_num);
+						
+						div_container.find('.img_location').val(row.img_location);
 						
 						let bg_color = row.background_color;
 						div_data.find('.bg_color_' + bg_color).prop('checked',true);
@@ -235,6 +268,7 @@ function getMainBannerInfo(country,banner_idx) {
 					});
 				}
 				
+				div_container.find('.check_img_location_btn').attr('check_result',false);
 			}
 		}
 	});
@@ -271,18 +305,11 @@ function getMainBannerInfoList(country) {
 					
 					div_slide.append(strDiv);
 				}
+				
+				div_container.find('.check_img_location_btn').attr('check_result',false);
+			} else {
+				alert(d.msg);
 			}
-			/*else {
-				if (d.code == 400) {
-					confirm(
-						d.msg,
-						function() {
-							location.href="/login";
-						}
-					);
-					
-				}
-			}*/
 		}
 	});
 }
@@ -299,7 +326,7 @@ function addMainBannerInfo(country) {
 		dataType: "json",
 		url: config.api + "display/landing/banner/add",
 		error: function() {
-			alert("메인 배너 추가처리에 실패했습니다.");
+			alert("메인 배너 추가처리중 오류가 발생했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
@@ -320,36 +347,80 @@ function addMainBannerInfo(country) {
 
 function putMainBannerInfo(country) {
 	let frm = $('#frm-put_BNR_' + country);
-	let div_container = $('.container_BNR_' + country);
-	let div_data = div_container.find('.banner__data__wrap');
 	
 	let banner_idx = frm.find('.banner_idx').val();
-	
-	if (banner_idx > 0) {
-		var formData = new FormData();
-		formData = frm.serializeObject();
-		
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "display/landing/banner/put",
-			error: function() {
-				alert("메인 배너 수정처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					getMainBannerInfo(country,banner_idx);
-					alert('선택한 메인 배너가 수정되었습니다.');
-				} else {
-					alert("메인 배너 수정처리에 실패했습니다. 수정하려는 메인 배너를 확인해주세요.");
-				}
-			}
-		});
-	} else {
+	if (banner_idx == 0) {
 		alert('수정하려는 메인 배너를 선택해주세요.');
 		return false;
 	}
+	
+	let div_container = $('.container_BNR_' + country);
+	let check_img_location_btn = div_container.find('.check_img_location_btn');
+	let check_result = check_img_location_btn.attr('check_result');
+	
+	if (check_result == 'false') {
+		alert('수정하려는 이미지의 경로를 체크해주세요.');
+		return false;
+	}
+	
+	let formData = new FormData();
+	formData = frm.serializeObject();
+		
+	$.ajax({
+		type: "post",
+		data: formData,
+		dataType: "json",
+		url: config.api + "display/landing/banner/put",
+		error: function() {
+			alert("메인 배너 수정처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				getMainBannerInfoList(country,banner_idx);
+				resetMainBannerInfo(country);
+				
+				check_img_location_btn.attr('check_result',false);
+			
+				alert('선택한 메인 배너가 수정되었습니다.');
+			} else {
+				alert("메인 배너 수정처리에 실패했습니다. 수정하려는 메인 배너를 확인해주세요.");
+			}
+		}
+	});
+}
+
+function copyMainBanner(country) {
+	let frm = $('#frm-put_BNR_' + country);
+	
+	let banner_idx = frm.find('.banner_idx').val();
+	if (banner_idx == 0) {
+		alert('복사하려는 메인 배너를 선택해주세요.');
+		return false;
+	}
+		
+	$.ajax({
+		type: "post",
+		data: {
+			'banner_idx' : banner_idx
+		},
+		dataType: "json",
+		url: config.api + "display/landing/banner/copy",
+		error: function() {
+			alert("메인 배너 복사처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				getMainBannerInfoList(country,banner_idx);
+				resetMainBannerInfo(country);
+				
+				check_img_location_btn.attr('check_result',false);
+			
+				alert('선택한 메인 배너가 복사되었습니다.');
+			} else {
+				alert("메인 배너 복사처리에 실패했습니다. 복사하려는 메인 배너를 확인해주세요.");
+			}
+		}
+	});
 }
 
 function deleteMainBanner(country) {
@@ -412,6 +483,8 @@ function getMainContentsInfo (country) {
 						div_data.find('.title').val(row.title);
 						div_data.find('.sub_title').val(row.sub_title);
 						
+						div_container.find('.img_location').val(row.img_location);
+						
 						let btn1_display_flg = row.btn1_display_flg;
 						if (btn1_display_flg == true) {
 							$('#CNT_btn1_display_flg_TRUE_' + country).prop('checked',true);
@@ -436,11 +509,15 @@ function getMainContentsInfo (country) {
 						div_data.find('.btn2_url').val(row.btn2_url);
 					});
 				}
+				
+				div_container.find('.check_img_location_btn').attr('check_result',false);
+				
+				getMainContentsProductList(country);
 			}
 		}
 	});
 	
-	let tree_length = $('.js--tree_KR').children().length;
+	let tree_length = $('.js--tree_' + country).children().length;
 	if (tree_length == 0) {
 		$('.js--tree_' + country).jstree({
 			core : {
@@ -505,7 +582,7 @@ function getMainContentsInfo (country) {
 }
 
 function getMainContentsProduct(country,md_category_node,md_category_depth) {
-	let result_table = $('.result_table_KR');
+	let result_table = $('.result_table_' + country);
 	
 	$.ajax({
 		type: "post",
@@ -517,7 +594,7 @@ function getMainContentsProduct(country,md_category_node,md_category_depth) {
 		dataType: "json",
 		url: config.api + "display/landing/contents/product/get",
 		error: function() {
-			alert("메인 컨텐츠 조회처리에 실패했습니다.");
+			alert("메인 컨텐츠 대표제품 조회처리에 실패했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
@@ -611,38 +688,167 @@ function getMainContentsProduct(country,md_category_node,md_category_depth) {
 	});
 }
 
-function putMainContentsInfo(country) {
-	let frm = $('#frm-put_CNT_' + country);
-	let div_container = $('.container_CNT_' + country);
-	let div_data = div_container.find('.contents__data__wrap');
-	
-	let contents_idx = frm.find('.contents_idx').val();
-	
-	if (contents_idx > 0) {
-		var formData = new FormData();
-		formData = frm.serializeObject();
-		
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "display/landing/contents/put",
-			error: function() {
-				alert("메인 컨텐츠 수정처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					alert('선택한 메인 컨텐츠가 수정되었습니다.');
-					getMainContentsInfo(country,contents_idx);
-				} else {
-					alert("메인 컨텐츠 수정처리에 실패했습니다. 수정하려는 메인 컨텐츠를 확인해주세요.");
+function getMainContentsProductList(country) {
+	$.ajax({
+		type: "post",
+		data: {
+			'country' : country
+		},
+		dataType: "json",
+		url: config.api + "display/landing/contents/product/list/get",
+		error: function() {
+			alert("메인 컨텐츠 상품 리스트 조회처리중 오류가 발생했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				let data = d.data;
+				if (data != null) {
+					let strDiv = "";
+					
+					$('.contents__product').html('');
+					
+					data.forEach(function(row) {
+						strDiv += '<div class="contents_product product__img__wrap" style="display:flex;width:250px;">';
+						strDiv += '    <div class="product__img" style="background-image:url(\'' + row.img_location + '\');"></div>';
+						strDiv += '    ';
+						strDiv += '    <div>';
+						strDiv += '        <div style="font-size:12px;">' + row.product_name + '</div><br>';
+						strDiv += '        <div style="font-size:12px;">' + row.product_code + '</div><br>';
+						strDiv += '        <div style="font-size:12px;color:#EF5012;">' + row.update_date + '</div>';
+						
+						strDiv += '        <div class="btn display_num_btn" onClick="contentsProductDisplayNumCheck(\'' + country + '\',' + row.c_product_idx + ',' + row.display_num + ',\'up\');">';
+						strDiv += '            <i class="xi-angle-left"></i>';
+						strDiv += '            <span class="tooltip top">위로</span>';
+						strDiv += '        </div>';
+						
+						strDiv += '        <div class="btn display_num_btn" onClick="contentsProductDisplayNumCheck(\'' + country + '\',' + row.c_product_idx + ',' + row.display_num + ',\'down\');">';
+						strDiv += '            <i class="xi-angle-right"></i>';
+						strDiv += '            <span class="tooltip top">아래로</span>';
+						strDiv += '        </div>';
+						
+						strDiv += '        <div class="btn delete_story_btn" onClick="deleteContentsProduct(\'' + country + '\',' + row.c_product_idx + ')">삭제</div>';
+						strDiv += '    </div>';
+						strDiv += '</div>';
+					});
+					
+					$('.contents__product').append(strDiv);
 				}
 			}
-		});
-	} else {
+		}
+	});
+}
+
+function contentsProductDisplayNumCheck(country,recent_idx,recent_num,action_type) {
+	let contents_product = $('.container_CNT_' + country).find('.contents_product');
+	let cnt = contents_product.length;
+	
+	if (action_type == "up") {
+		if (recent_num == 1) {
+			alert('진열순서를 변경할 수 없습니다');
+			return false;
+		} else {
+			contentsProductUpdateDisplayNum(country,action_type,recent_idx,recent_num);
+		}
+	} else if (action_type == "down") {
+		if (recent_num == cnt) {
+			alert('진열순서를 변경할 수 없습니다');
+			return false;
+		} else {
+			contentsProductUpdateDisplayNum(country,action_type,recent_idx,recent_num);
+		}
+	}
+}
+
+function contentsProductUpdateDisplayNum(country,action_type,recent_idx,recent_num) {
+	$.ajax({
+		url: config.api + "display/landing/contents/product/put",
+		type: "post",
+		data: {
+			'display_num_flg': true,
+			'country': country,
+			'action_type': action_type,
+			'recent_idx': recent_idx,
+			'recent_num': recent_num
+		},
+		dataType: "json",
+		error: function() {
+			alert('대표제품 진열순서 변경처리중 오류가 발생했습니다.');
+		},
+		success: function(d) {
+			if (d.code == 200) {
+				getMainContentsProductList(country);
+			} else {
+				alert('진열순서 변경 처리에 실패했습니다. 변경하려는 대표제품의 진열순서를 확인해주세요.');
+			}
+		}
+	});
+}
+
+function deleteContentsProduct(country,c_product_idx) {
+	$.ajax({
+		url: config.api + "display/landing/contents/product/delete",
+		type: "post",
+		data: {
+			'c_product_idx': c_product_idx,
+		},
+		dataType: "json",
+		error: function() {
+			alert('대표제품 삭제처리중 오류가 발생했습니다.');
+		},
+		success: function(d) {
+			if (d.code == 200) {
+				getMainContentsProductList(country);
+			} else {
+				alert('대표제품 삭제 처리에 실패했습니다. 삭제하려는 대표제품을 확인해주세요.');
+			}
+		}
+	});
+}
+
+function putMainContentsInfo(country) {
+	let frm = $('#frm-put_CNT_' + country);
+	
+	let contents_idx = frm.find('.contents_idx').val();
+	if (contents_idx == 0) {
 		alert('수정하려는 메인 컨텐츠를 선택해주세요.');
 		return false;
 	}
+	
+	let div_container = $('.container_CNT_' + country);
+	let check_img_location_btn = div_container.find('.check_img_location_btn');
+	let check_result = check_img_location_btn.attr('check_result');
+	
+	if (check_result == 'false') {
+		alert('수정하려는 이미지의 경로를 체크해주세요.');
+		return false;
+	}
+	
+	var formData = new FormData();
+	formData = frm.serializeObject();
+	
+	$.ajax({
+		type: "post",
+		data: formData,
+		dataType: "json",
+		url: config.api + "display/landing/contents/put",
+		error: function() {
+			alert("메인 컨텐츠 수정처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				getMainContentsInfo(country,contents_idx);
+				
+				
+				check_img_location_btn.attr('check_result',false);
+				
+				getMainContentsProductList(country)
+				
+				alert('선택한 메인 컨텐츠가 수정되었습니다.');
+			} else {
+				alert("메인 컨텐츠 수정처리에 실패했습니다. 수정하려는 메인 컨텐츠를 확인해주세요.");
+			}
+		}
+	});
 }
 
 function putMainContentsProduct(obj) {
@@ -700,7 +906,7 @@ function clickMainImages(obj) {
 		$(obj).attr('select','false')
 		$(obj).css('border','1px solid #bfbfbf');
 		
-		resetMainImagesInfo();
+		resetMainImagesInfo(country);
 	}
 }
 
@@ -725,6 +931,7 @@ function resetMainImagesInfo(country) {
 
 function getMainImagesInfo(country,img_idx) {
 	let frm = $('#frm-put_IMG_' + country);
+	
 	let div_container = $('.container_IMG_' + country);
 	let div_data = div_container.find('.images__data__wrap');
 	
@@ -750,6 +957,8 @@ function getMainImagesInfo(country,img_idx) {
 						div_container.find('.recent_idx').val(row.img_idx);
 						div_container.find('.recent_num').val(row.display_num);
 						
+						div_container.find('.img_location').val(row.img_location);
+						
 						let bg_color = row.background_color;
 						div_data.find('.bg_color_' + bg_color).prop('checked',true);
 						div_data.find('.title').val(row.title);
@@ -768,6 +977,7 @@ function getMainImagesInfo(country,img_idx) {
 					});
 				}
 				
+				div_container.find('.check_img_location_btn').attr('check_result',false);
 			}
 		}
 	});
@@ -805,6 +1015,7 @@ function getMainImagesInfoList(country) {
 					div_slide.append(strDiv);
 				}
 				
+				div_container.find('.check_img_location_btn').attr('check_result',false);
 			}
 		}
 	});
@@ -844,40 +1055,87 @@ function addMainImages(country) {
 
 function putMainImagesInfo(country) {
 	let frm = $('#frm-put_IMG_' + country);
+	
+	let img_idx = frm.find('.img_idx').val();
+	if (img_idx == 0) {
+		alert('수정하려는 메인 이미지를 선택해주세요.');		
+		return false;
+	}
+	
 	let div_container = $('.container_IMG_' + country);
 	let div_data = div_container.find('.images__data__wrap');
 	
-	let img_idx = frm.find('.img_idx').val();
+	let check_img_location_btn = div_container.find('.check_img_location_btn');
+	let check_result = check_img_location_btn.attr('check_result');
 	
-	if (img_idx > 0) {
-		var formData = new FormData();
-		formData = frm.serializeObject();
-		
-		$.ajax({
-			type: "post",
-			data: formData,
-			dataType: "json",
-			url: config.api + "display/landing/images/put",
-			error: function() {
-				alert("메인 이미지 수정처리에 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					alert('선택한 메인 이미지가 수정되었습니다.');
-					getMainBannerInfo(country,img_idx);
-				} else {
-					alert("메인 이미지 수정처리에 실패했습니다. 수정하려는 메인 이미지를 확인해주세요.");
-				}
-			}
-		});
-	} else {
-		alert('수정하려는 메인 이미지를 선택해주세요.');
+	if (check_result == 'false') {
+		alert('수정하려는 이미지의 경로를 체크해주세요.');
 		return false;
 	}
+	
+	var formData = new FormData();
+	formData = frm.serializeObject();
+	
+	$.ajax({
+		type: "post",
+		data: formData,
+		dataType: "json",
+		url: config.api + "display/landing/images/put",
+		error: function() {
+			alert("메인 이미지 수정처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				getMainImagesInfoList(country);
+				resetMainImagesInfo(country);
+				
+				check_img_location_btn.attr('check_result',false);
+				
+				alert('선택한 메인 이미지가 수정되었습니다.');
+			} else {
+				alert("메인 이미지 수정처리에 실패했습니다. 수정하려는 메인 이미지를 확인해주세요.");
+			}
+		}
+	});
+}
+
+function copyMainImages(country) {
+	let frm = $('#frm-put_IMG_' + country);
+	
+	let img_idx = frm.find('.img_idx').val();
+	if (img_idx == 0) {
+		alert('복사하려는 메인 이미지를 선택해주세요.');		
+		return false;
+	}
+	
+	$.ajax({
+		type: "post",
+		data: {
+			'img_idx' : img_idx
+		},
+		dataType: "json",
+		url: config.api + "display/landing/images/copy",
+		error: function() {
+			alert("메인 이미지 복사처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				getMainImagesInfoList(country);
+				resetMainImagesInfo(country);
+				
+				check_img_location_btn.attr('check_result',false);
+				
+				alert('선택한 메인 이미지가 복사되었습니다.');
+			} else {
+				alert("메인 이미지 복사처리에 실패했습니다. 복사하려는 메인 이미지를 확인해주세요.");
+			}
+		}
+	});
 }
 
 function deleteMainImages(country) {
 	let frm = $('#frm-put_IMG_' + country);
+	
 	let img_idx = frm.find('.img_idx').val();
 	
 	if (img_idx > 0) {
@@ -977,5 +1235,176 @@ function updateDisplayNum(country,obj_type,action_type,recent_idx,recent_num) {
 			}
 		}
 	});
+}
+
+function checkImgLocation(country,check_type) {
+	let div_container = $('.container_' + check_type + '_' + country);
+	
+	let img_location = div_container.find('.img_location').val();
+	if (img_location == "" || img_location == null) {
+		alert('등록하려는 이미지의 경로를 입력해주세요.');
+		return false;
+	}
+	
+	$.ajax({
+		url: config.api + "display/landing/check",
+		type: "post",
+		data: {
+			'img_location': img_location
+		},
+		dataType: "json",
+		error: function() {
+			alert('이미지 경로 체크처리중 오류가 발생했습니다.');
+		},
+		success: function(d) {
+			let check_img_location_btn = div_container.find('.check_img_location_btn');
+			if (d.code == 200) {
+				check_img_location_btn.attr('check_result',true);
+				alert(d.msg);
+			} else {
+				check_img_location_btn.attr('check_result',false);
+				alert(d.msg);
+			}
+		}
+	});
+}
+
+function saveMainInfo(country) {
+	let save_type = $('#save_type').val();
+	
+	$.ajax({
+		url: config.api + "display/landing/save/add",
+		type: "post",
+		data: {
+			'country': country,
+			'save_type' : save_type
+		},
+		dataType: "json",
+		beforeSend: function(){
+			loadingWithMask('/images/default/loading_img.gif');
+		},
+		error: function() {
+			alert('메인랜딩 저장처리중 오류가 발생했습니다.');
+		},
+		success: function(d) {
+			let code = d.code;
+			if (code == 200) {
+				switch (save_type) {
+					case "BNR" :
+						getMainBannerInfoList(country);
+						break;
+					
+					case "CNT" :
+						getMainContentsInfo(country);
+						break;
+					
+					case "IMG" :
+						getMainImagesInfoList(country);
+						break;
+				}
+				
+				closeLoadingWithMask();
+				
+				alert('선택한 국가의 메인 정보가 저장되었습니다.');
+			}
+		}
+	});
+}
+
+function copySearchInfo() {
+	let copy_type = $('#copy_type').val();
+	let copy_name = "";
+	if (copy_type == "BNR") {
+		copy_name = "메인 배너";
+	} else if (copy_type == "CNT") {
+		copy_name = "메인 컨텐츠";
+	} else if (copy_type == "IMG") {
+		copy_name = "메인 이미지";
+	}
+	
+	let country_from = $('#country_from').val();
+	let country_to = $('#country_to').val();
+	
+	if (country_from == country_to) {
+		alert('동일한 국가로 복사할 수 없습니다.');
+		return false;
+	}
+	
+	confirm(
+		copy_name + '을(를) 복사하시겠습니까? 기존에 작성된 ' + copy_name + ' 정보는 전부 삭제됩니다.',
+		function() {
+			$.ajax({
+				type: "post",
+				url: config.api + "display/landing/save/copy",
+				data: {
+					'copy_type' : copy_type,
+					'country_from': country_from,
+					'country_to': country_to
+				},
+				dataType: "json",
+				beforeSend: function(){
+					loadingWithMask('/images/default/loading_img.gif')
+				},
+				error: function() {
+					alert(copy_name + ' 복사처리중 오류가 발생했습니다.');
+				},
+				success: function(d) {
+					if (d.code == 200) {
+						switch (copy_type) {
+							case "BNR" :
+								getMainBannerInfoList(country_to);
+								break;
+							
+							case "CNT" :
+								getMainContentsInfo(country_to);
+								break;
+							
+							case "IMG" :
+								getMainImagesInfoList(country_to);
+								break;
+						}
+						
+						closeLoadingWithMask();
+						
+						alert(copy_name + "이(가) 복사되었습니다.");
+					}
+				}
+			});
+		}
+	)
+}
+
+function loadingWithMask(gif) {
+	var maskHeight = $(document).height();
+	var maskWidth  = window.document.body.clientWidth;
+	var top = 0;
+	var left = 0;
+
+	top = ( $(window).height()) / 2 + $(window).scrollTop();
+	left = ( $(window).width()) / 2 + $(window).scrollLeft();
+
+	//화면에 출력할 마스크를 설정해줍니다.
+	var mask	   = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+	
+	let strDiv = "";
+	strDiv += '<div id="loading_img">';
+	strDiv += '	<img src="' + gif + '" style="width:75px; height:75px;"/>';
+	strDiv += '</div>';
+
+	$('body').append(mask);
+	$('body').append(strDiv);
+	
+	$('#loading_img').css('top',top);
+	$('#loading_img').css('left',left);
+
+	$('#mask_loading').css({'width' : maskWidth,'height': maskHeight,'opacity' : '0.5'}); 
+
+	$('#mask_loading').show();
+	$('#loading_img').show();
+}
+
+function closeLoadingWithMask() {
+    $('#mask_loading, #loading_img').hide();
+    $('#mask_loading, #loading_img').empty();  
 }
 </script>

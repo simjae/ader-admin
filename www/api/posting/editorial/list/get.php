@@ -32,7 +32,7 @@ if ($size_type != null) {
 			PP.IDX				AS PAGE_IDX,
 			PP.PAGE_TITLE		AS PAGE_TITLE
 		FROM
-			dev.PAGE_POSTING PP
+			PAGE_POSTING PP
 		WHERE
 			PP.COUNTRY = '".$country."' AND
 			PP.POSTING_TYPE = 'EDTL' AND
@@ -48,7 +48,7 @@ if ($size_type != null) {
 	foreach($db->fetch() as $page_data) {
 		$page_idx = $page_data['PAGE_IDX'];
 		
-		$contents_cnt = $db->count("dev.EDITORIAL_THUMB","PAGE_IDX = ".$page_idx." AND DEL_FLG = FALSE");
+		$contents_cnt = $db->count("EDITORIAL_THUMB","PAGE_IDX = ".$page_idx." AND DEL_FLG = FALSE");
 		
 		if (!empty($page_idx) && $contents_cnt > 0) {
 			$contents_location = null;
@@ -61,8 +61,8 @@ if ($size_type != null) {
 						''
 					)			AS CONTENTS_LOCATION
 				FROM
-					dev.EDITORIAL_THUMB ET
-					LEFT JOIN dev.EDITORIAL_CONTENTS EC ON
+					EDITORIAL_THUMB ET
+					LEFT JOIN EDITORIAL_CONTENTS EC ON
 					ET.IDX = EC.THUMB_IDX
 				WHERE
 					ET.PAGE_IDX = ".$page_idx." AND

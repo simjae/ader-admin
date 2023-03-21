@@ -17,49 +17,45 @@
 $country		= $_POST['country'];
 
 if ($country != null) {
-	$db->query("DELETE FROM dev.POSTING_STORY WHERE COUNTRY = '".$country."'");
+	$db->query("DELETE FROM POSTING_STORY WHERE COUNTRY = '".$country."'");
 	
-	$db_result = $db->affectedRows();
+	$insert_posting_story_sql = "
+		INSERT INTO
+			POSTING_STORY
+		(
+			COUNTRY,
+			STORY_TYPE,
+			PAGE_IDX,
+			DISPLAY_NUM,
+			IMG_LOCATION,
+			STORY_TITLE,
+			STORY_SUB_TITLE,
+			STORY_MEMO,
+			
+			CREATER,
+			UPDATER
+		)
+		SELECT
+			TP.COUNTRY			AS COUNTRY,
+			TP.STORY_TYPE		AS STORY_TYPE,
+			TP.PAGE_IDX			AS PAGE_IDX,
+			TP.DISPLAY_NUM		AS DISPLAY_NUM,
+			TP.IMG_LOCATION		AS IMG_LOCATION,
+			TP.STORY_TITLE		AS STORY_TITLE,
+			TP.STORY_SUB_TITLE	AS STORY_SUB_TITLE,
+			TP.STORY_MEMO		AS STORY_MEMO,
+			
+			TP.CREATER			AS CREATER,
+			TP.UPDATER			AS UPDATER
+		FROM
+			TMP_POSTING_STORY TP
+		WHERE
+			TP.COUNTRY = '".$country."' AND
+			TP.DEL_FLG = FALSE
+		ORDER BY
+			TP.IDX ASC
+	";
 	
-	if ($db_result > 0) {
-		$insert_story_sql = "
-			INSERT INTO
-				dev.POSTING_STORY
-			(
-				COUNTRY,
-				STORY_COLUMN,
-				DISPLAY_NUM,
-				IMG_LOCATION,
-				STORY_TITLE,
-				STORY_SUB_TITLE,
-				STORY_MEMO,
-				PAGE_IDX,
-				ACTIVE_FLG,
-				CREATER,
-				UPDATER
-			)
-			SELECT
-				TP.COUNTRY			AS COUNTRY,
-				TP.STORY_COLUMN		AS STORY_COLUMN,
-				TP.DISPLAY_NUM		AS DISPLAY_NUM,
-				TP.IMG_LOCATION		AS IMG_LOCATION,
-				TP.STORY_TITLE		AS STORY_TITLE,
-				TP.STORY_SUB_TITLE	AS STORY_SUB_TITLE,
-				TP.STORY_MEMO		AS STORY_MEMO,
-				TP.PAGE_IDX			AS PAGE_IDX,
-				TP.ACTIVE_FLG		AS ACTIVE_FLG,
-				TP.CREATER			AS CREATER,
-				TP.UPDATER			AS UPDATER
-			FROM
-				dev.TMP_POSTING_STORY TP
-			WHERE
-				TP.COUNTRY = '".$country."'
-			ORDER BY
-				TP.STORY_COLUMN ASC,
-				TP.DISPLAY_NUM ASC
-		";
-		
-		$db->query($insert_story_sql);
-	}
+	$db->query($insert_posting_story_sql);
 }
 ?>

@@ -48,7 +48,7 @@ if($member_idx == 0){
 }
 
 if ($country != null && $reorder_idx > 0 && $action_type != null) {
-	$reorder_cnt = $db->count("dev.PRODUCT_REORDER","IDX = ".$reorder_idx." AND MEMBER_IDX = ".$member_idx);
+	$reorder_cnt = $db->count("PRODUCT_REORDER","IDX = ".$reorder_idx." AND MEMBER_IDX = ".$member_idx);
 	
 	if ($reorder_cnt > 0) {
 		$set = "";
@@ -60,7 +60,7 @@ if ($country != null && $reorder_idx > 0 && $action_type != null) {
 		
 		$update_reorder_sql = "
 			UPDATE 
-				dev.PRODUCT_REORDER
+				PRODUCT_REORDER
 			SET
 				".$set."
 				UPDATE_DATE = NOW(),

@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | What's New - 일괄선택 후 복사&삭제
+ | 게시물 관리 페이지 - 게시물 정보 수정
  | -----------
  |
  | 최초 작성	: 박성혁
@@ -14,17 +14,21 @@
  +=============================================================================
 */
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-/** 변수 정리 **/
-$select_idx				= $_POST['select_idx'];
-$action_type			= $_POST['action_type'];
-$tab_num				= $_POST['tab_num'];
+include_once("/var/www/admin/api/common/common.php");
 
-$page_idx				= $_POST['page_idx'];				//idx
+$session_id				= sessionCheck();
+
+$copy_flg				= $_POST['copy_flg'];
+$display_toggle_flg		= $_POST['display_toggle_flg'];
+$update_flg				= $_POST['update_flg'];
+
+$page_idx				= $_POST['page_idx'];
+
 $page_title         	= $_POST['page_title'];				//페이지 타이틀
-$page_title				= str_replace("'","\'",$page_title);
 $page_memo     			= $_POST['page_memo'];				//페이지 비고
-$page_memo				= str_replace("'","\'",$page_memo);
+
+$member_level           = $_POST['member_level'];          	//접근대상 LEVEL LIST
+$prodIp					= $_POST['prodIp'];             	//차단 IP LIST
 
 $display_flg            = $_POST['display_flg'];        	//진열 플래그
 $display_from     		= $_POST['display_from'];			//진열 시작일
@@ -41,140 +45,73 @@ $seo_description		= $_POST['seo_description'];		//메타태그2
 $seo_keywords			= $_POST['seo_keywords'];			//메타태그3
 $seo_alt_text			= $_POST['seo_alt_text'];			//메타태그4
 
-$table = " dev.PAGE_POSTING ";
-$where = 'IDX IN ('.$select_idx.')';
-
-if ($select_idx != null && $select_idx != '') {
-	$db->begin_transaction();
-    try {
-		if($action_type == 'page_copy'){
-			switch($tab_num){
-				case '01':
-					$type_str = "collection";
-					break;
-				case '02':
-					$type_str = "editorial";
-					break;
-				case '03':
-					$type_str = "collaboration";
-					break;
-				case '04':
-					$type_str = "exhibition";
-					break;
-				case '05':
-					$type_str = "lookbook";
-					break;
-			}
-			$select_idx_arr = explode(',',$select_idx);
-			
-			$db->query("SHOW TABLE STATUS WHERE NAME='PAGE_POSTING'");
-			$max_idx = 0;
-			foreach($db->fetch() as $data) {
-				$max_idx = intval($data['Auto_increment']);
-			}
-			foreach($select_idx_arr as $idx){
-				$sql = "
-						INSERT INTO ".$table." 
-						(
-							POSTING_TYPE,
-							COUNTRY,
-							PAGE_TITLE,
-							PAGE_URL,
-							PAGE_MEMO,
-							
-							DISPLAY_FLG,
-							DISPLAY_START_DATE,
-							DISPLAY_END_DATE,
-							
-							SEO_EXPOSURE_FLG,
-							SEO_TITLE,
-							SEO_AUTHOR,
-							SEO_DESCRIPTION,
-							SEO_KEYWORDS,
-							SEO_ALT_TEXT,
-							
-							CREATER,
-							UPDATER
-						)
-						SELECT    
-							POSTING_TYPE,
-							COUNTRY,
-							CONCAT(PAGE_TITLE,'_복사'),
-							CONCAT(
-								'/posting/".$type_str."?page_idx=".$max_idx."'
-							),
-							CONCAT(PAGE_MEMO,'_복사'),
-							
-							FALSE,
-							DISPLAY_START_DATE,
-							DISPLAY_END_DATE,
-							
-							SEO_EXPOSURE_FLG,
-							SEO_TITLE,
-							SEO_AUTHOR,
-							SEO_DESCRIPTION,
-							SEO_KEYWORDS,
-							SEO_ALT_TEXT,
-							
-							'Admin',
-							'Admin'
-						FROM 
-							".$table." 
-						WHERE
-							IDX = ".$idx;
-							
-				$max_idx++;
-				$db->query($sql);
-			}
-		}
-		else{
-			switch ($action_type) {
-				case 'page_delete':
-					$sql = "
-						UPDATE 
-							".$table."
-						SET
-							DEL_FLG = TRUE
-						WHERE
-							".$where."
-					";
-					break;
-				case 'display_true':
-					$sql = "
-						UPDATE 
-							".$table."
-						SET
-							DISPLAY_FLG = TRUE
-						WHERE
-							".$where."
-					";
-					break;
-				case 'display_false':
-					$sql = "
-						UPDATE 
-							".$table."
-						SET
-							DISPLAY_FLG = FALSE
-						WHERE
-							".$where."
-					";
-					break;
-			}
-			$db->query($sql);
-		}
-		$db->commit();
-	} catch(mysqli_sql_exception $exception){
-		echo $exception->getMessage();
-		$json_result['code'] = 301;
-		$db->rollback();
-		$msg = "등록작업에 실패했습니다.";
+if ($copy_flg != null && $page_idx != null) {
+	for ($i=0; $i<count($page_idx); $i++) {
+		$copy_page_posting_sql = "
+			INSERT INTO
+				PAGE_POSTING
+			(
+				COUNTRY,
+				POSTING_TYPE,
+				PAGE_TITLE,
+				PAGE_URL,
+				DISPLAY_START_DATE,
+				DISPLAY_END_DATE,
+				SEO_EXPOSURE_FLG,
+				SEO_TITLE,
+				SEO_AUTHOR,
+				SEO_DESCRIPTION,
+				SEO_KEYWORDS,
+				SEO_ALT_TEXT,
+				CREATER,
+				UPDATER
+			)
+			SELECT
+				PP.COUNTRY				AS COUNTRY,
+				PP.POSTING_TYPE			AS POSTING_TYPE,
+				CONCAT(
+					PP.PAGE_TITLE,'_copy'
+				)						AS PAGE_TITLE,
+				PP.PAGE_URL				AS PAGE_URL,
+				PP.DISPLAY_START_DATE	AS DISPLAY_START_DATE,
+				PP.DISPLAY_END_DATE		AS DISPLAY_END_DATE,
+				PP.SEO_EXPOSURE_FLG		AS SEO_EXPOSURE_FLG,
+				PP.SEO_TITLE			AS SEO_TITLE,
+				PP.SEO_AUTHOR			AS SEO_AUTHOR,
+				PP.SEO_DESCRIPTION		AS SEO_DESCRIPTION,
+				PP.SEO_KEYWORDS			AS SEO_KEYWORDS,
+				PP.SEO_ALT_TEXT			AS SEO_ALT_TEXT,
+				'".$session_id."'		AS CREATER,
+				'".$session_id."'		AS UPDATER
+			FROM
+				PAGE_POSTING PP
+			WHERE
+				PP.IDX = ".$page_idx[$i]."
+		";
+		
+		$db->query($copy_page_posting_sql);
 	}
 }
 
-//dev.PAGE put
-if ($page_idx != null) {
+if ($display_toggle_flg != null && $page_idx != null) {
+	$display_page_posting_sql = "
+		UPDATE
+			PAGE_POSTING
+		SET
+			DISPLAY_FLG = ".$display_toggle_flg.",
+			UPDATE_DATE = NOW(),
+			UPDATER = '".$session_id."'
+		WHERE
+			IDX IN (".implode(",",$page_idx).")
+	";
+	
+	$db->query($display_page_posting_sql);
+}
+
+if ($update_flg != null && $page_idx != null) {
 	$display_start_date = "";
 	$display_end_date = "";
+	
 	if($display_flg != null){
 		if ($display_flg == "true") {
 			$display_start_date = "NOW()";
@@ -185,26 +122,26 @@ if ($page_idx != null) {
 		}
 	}
 	
-	$sql = "UPDATE
-				dev.PAGE_POSTING
-			SET
-				PAGE_TITLE			= '".$page_title."',
-				PAGE_URL			= '".$page_url."',
-				PAGE_MEMO			= '".$page_memo."',
-				DISPLAY_START_DATE	= ".$display_start_date.",
-				DISPLAY_END_DATE	= '".$display_end_date."',
-				
-				SEO_EXPOSURE_FLG	= ".$seo_exposure_flg.",
-				SEO_TITLE			= '".$seo_title."',
-				SEO_AUTHOR			= '".$seo_author."',
-				SEO_DESCRIPTION		= '".$seo_description."',
-				SEO_KEYWORDS		= '".$seo_keywords."',
-				SEO_ALT_TEXT		= '".$seo_alt_text."',
-				
-				UPDATE_DATE			= NOW(),
-				UPDATER				= 'Admin'
-			WHERE
-				IDX = ".$page_idx;
-	$db->query($sql);
+	$update_page_posting_sql = "
+		UPDATE
+			PAGE_POSTING
+		SET
+			PAGE_TITLE					= '".$page_title."',
+			PAGE_MEMO					= '".$page_memo."',
+			DISPLAY_START_DATE			= '".$display_start_date."',
+			DISPLAY_END_DATE			= '".$display_end_date."',
+			SEO_EXPOSURE_FLG			= ".$seo_exposure_flg.",
+			SEO_TITLE					= '".$seo_title."',
+			SEO_AUTHOR					= '".$seo_author."',
+			SEO_DESCRIPTION				= '".$seo_description."',
+			SEO_KEYWORDS				= '".$seo_keywords."',
+			UPDATE_DATE					= NOW(),
+			UPDATER						= '".$session_id."'
+		WHERE
+			IDX = ".$page_idx."
+	";
+	
+	$db->query($update_page_posting_sql);
 }
+
 ?>

@@ -70,7 +70,7 @@ if ($member_idx == 0 || $country == null) {
 }
 
 if ($basket_idx != null && $stock_status != null) {
-	$basket_cnt = $db->count("dev.BASKET_INFO","IDX = ".$basket_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+	$basket_cnt = $db->count("BASKET_INFO","IDX = ".$basket_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
 		
 	if ($basket_cnt == 0) {
 		$json_result['code'] = 301;
@@ -99,7 +99,7 @@ if ($basket_idx != null && $stock_status != null) {
 					SELECT
 						IFNULL(SUM(STOCK_QTY),0)
 					FROM
-						dev.PRODUCT_STOCK S_PS
+						PRODUCT_STOCK S_PS
 					WHERE
 						S_PS.PRODUCT_IDX = BI.PRODUCT_IDX AND
 						S_PS.OPTION_IDX = BI.OPTION_IDX AND
@@ -109,14 +109,14 @@ if ($basket_idx != null && $stock_status != null) {
 					SELECT
 						IFNULL(SUM(OP.PRODUCT_QTY),0)
 					FROM
-						dev.ORDER_PRODUCT OP
+						ORDER_PRODUCT OP
 					WHERE
 						OP.PRODUCT_IDX = BI.PRODUCT_IDX AND
 						OP.OPTION_IDX = BI.OPTION_IDX AND
 						OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 				)					AS ORDER_QTY
 			FROM
-				dev.BASKET_INFO BI
+				BASKET_INFO BI
 			WHERE
 				BI.IDX = ".$basket_idx."
 		";
@@ -141,7 +141,7 @@ if ($basket_idx != null && $stock_status != null) {
 			
 			$update_basket_sql="
 				UPDATE
-					dev.BASKET_INFO BI
+					BASKET_INFO BI
 				SET
 					BI.PRODUCT_QTY = ".$basket_qty.",
 					BI.UPDATER = '".$member_id."',
@@ -179,7 +179,7 @@ if ($basket_idx != null && $stock_status != null) {
 			try {
 				$delete_basket_sql = "
 					UPDATE
-						dev.BASKET_INFO
+						BASKET_INFO
 					SET
 						DEL_FLG = TRUE,
 						UPDATE_DATE = NOW(),
@@ -196,7 +196,7 @@ if ($basket_idx != null && $stock_status != null) {
 				if ($db_result > 0) {
 					$insert_basket_sql = "
 						INSERT INTO
-							dev.BASKET_INFO
+							BASKET_INFO
 						(
 							COUNTRY,
 							MEMBER_IDX,
@@ -225,8 +225,8 @@ if ($basket_idx != null && $stock_status != null) {
 							'".$member_id."'	AS CREATER,
 							'".$member_id."'	AS UPDATER
 						FROM
-							dev.SHOP_PRODUCT PR
-							LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+							SHOP_PRODUCT PR
+							LEFT JOIN ORDERSHEET_OPTION OO ON
 							PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 						WHERE
 							PR.IDX = ".$product_idx." AND

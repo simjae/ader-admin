@@ -55,7 +55,7 @@ if($sample_idx != null){
 				UPDATE_DATE		AS UPDATE_DATE,
 				UPDATER			AS UPDATER
 			FROM
-				dev.SAMPLE_INFO
+				SAMPLE_INFO
 			WHERE
 				IDX = ".$sample_idx."
 		";
@@ -126,8 +126,8 @@ else{
 	}
 	
 	$limit_start = (intval($page)-1)*$rows;
-	$total = $db->count("dev.SAMPLE_INFO SI",$where);
-	$total_cnt = $db->count("dev.SAMPLE_INFO SI",$where_cnt);
+	$total = $db->count("SAMPLE_INFO SI",$where);
+	$total_cnt = $db->count("SAMPLE_INFO SI",$where_cnt);
 	
 	$json_result = array(
 		'total' => $total,
@@ -153,7 +153,7 @@ else{
 							SELECT
 								COUNT(S_OI.IDX)
 							FROM
-								dev.ORDERSHEET_IMG S_OI
+								ORDERSHEET_IMG S_OI
 							WHERE
 								S_OI.ORDERSHEET_IDX = SI.ORDERSHEET_IDX AND
 								IMG_TYPE = 'P' AND
@@ -164,7 +164,7 @@ else{
 								SELECT
 									S_OI.IMG_LOCATION
 								FROM
-									dev.ORDERSHEET_IMG S_OI
+									ORDERSHEET_IMG S_OI
 								WHERE
 									S_OI.ORDERSHEET_IDX = SI.ORDERSHEET_IDX AND
 									S_OI.IMG_TYPE = 'P' AND
@@ -182,7 +182,7 @@ else{
 				SI.UPDATE_DATE		AS UPDATE_DATE,
 				SI.UPDATER			AS UPDATER
 			FROM
-				dev.SAMPLE_INFO 	SI
+				SAMPLE_INFO 	SI
 			WHERE
 				".$where."
 			ORDER BY

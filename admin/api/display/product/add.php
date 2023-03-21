@@ -14,12 +14,14 @@
  +=============================================================================
 */
 
-$page_title             = $_POST['page_title'];           	//페이지 타이틀
-$page_memo		        = $_POST['page_memo'];     			//페이지 비고
+include_once("/var/www/admin/api/common/common.php");
 
-$display_member_level	= $_POST['display_member_level'];	//접근제한 타입
+$session_id				= sessionCheck();
+$page_title         	= $_POST['page_title'];				//페이지 타이틀
+$page_memo     			= $_POST['page_memo'];				//페이지 비고
+
 $member_level           = $_POST['member_level'];          	//접근대상 LEVEL LIST
-$prodIp                 = $_POST['prodIp'];             	//차단 IP LIST
+$prodIp					= $_POST['prodIp'];             	//차단 IP LIST
 
 $display_flg            = $_POST['display_flg'];        	//진열 플래그
 $display_from     		= $_POST['display_from'];			//진열 시작일
@@ -36,30 +38,9 @@ $seo_description		= $_POST['seo_description'];		//메타태그2
 $seo_keywords			= $_POST['seo_keywords'];			//메타태그3
 $seo_alt_text			= $_POST['seo_alt_text'];			//메타태그4
 
-$table = " dev.PAGE_PRODUCT_DISPLAY ";
-
-//제한등급 문자열 생성
-$display_level = "";
-if($display_member_level != null){
-    switch($display_member_level){
-        case 'all':
-            $display_level = 'all';
-            break;
-        
-		case 'member':
-			$display_level = 'member';
-            break;
-        
-		case 'level':
-			if ($member_level != null) {
-				$display_level = implode(',',$member_level);
-			}
-            break;
-    }
-}
-
 $display_start_date = "";
 $display_end_date = "";
+
 if($display_flg != null){
 	if ($display_flg == "true") {
 		$display_start_date = "NOW()";
@@ -70,71 +51,57 @@ if($display_flg != null){
 	}
 }
 
-//상품 진열 페이지 등록
-$db->query("SHOW TABLE STATUS WHERE NAME='PAGE_PRODUCT_DISPLAY'");
-$max_idx = 0;
-foreach($db->fetch() as $data) {
-	$max_idx = intval($data['Auto_increment']);
+if ($member_level != null) {
+	$member_level = implode(",",$member_level);
+} else {
+	$member_level = "0";
 }
 
-$sql = "
-	INSERT INTO ".$table." (
+$insert_page_product_sql = "
+	INSERT INTO
+		PAGE_PRODUCT
+	(
 		PAGE_TITLE,
 		PAGE_MEMO,
 		PAGE_URL,
 		DISPLAY_MEMBER_LEVEL,
-		DISPLAY_FLG,
 		DISPLAY_START_DATE,
 		DISPLAY_END_DATE,
-
 		SEO_EXPOSURE_FLG,
 		SEO_TITLE,
 		SEO_AUTHOR,
 		SEO_DESCRIPTION,
 		SEO_KEYWORDS,
-		
-		CREATE_DATE,
+		SEO_ALT_TEXT,
 		CREATER,
-		UPDATE_DATE,
 		UPDATER
-	)
-	VALUES (
+	) VALUES (
 		'".$page_title."',
 		'".$page_memo."',
-		CONCAT(
-			'/test/page/product?page_idx=',
-			".$max_idx."
-		),
-		'".$display_level."',
-		FALSE,
-		".$display_start_date.",
+		'/product/list?page_idx=',
+		'".$member_level."',
+		'".$display_start_date."',
 		'".$display_end_date."',
 		".$seo_exposure_flg.",
 		'".$seo_title."',
 		'".$seo_author."',
 		'".$seo_description."',
 		'".$seo_keywords."',
-		NOW(),
-		'Admin',
-		NOW(),
-		'Admin'
+		'".$seo_alt_text."',
+		'".$session_id."',
+		'".$session_id."'
 	)
 ";
 
-$db->query($sql);
+$db->query($insert_page_product_sql);
 
-if($db){
-	$db->query("SELECT LAST_INSERT_ID() AS IDX");
-	foreach($db->fetch() as $data){
-		$page_idx = $data['IDX'];
-	}
-}
+$page_idx = $db->last_id();
 
-//새롭게 등록된 페이지 IDX를 기반으로
-//차단 IP등록
-$table = " dev.IP_BAN ";
-foreach($prodIp as $ip){
-	$sql = "INSERT INTO dev.IP_BAN
+if (!empty($page_idx)) {
+	foreach($prodIp as $ip){
+		$insert_ip_sql = "
+			INSERT INTO
+				IP_BAN
 			(
 				PAGE_IDX,
 				IP
@@ -142,7 +109,10 @@ foreach($prodIp as $ip){
 				".$page_idx.",
 				'".$ip."'
 			)
-	";
-	$db->query($sql);
+		";
+		
+		$db->query($insert_ip_sql);
+	}
 }
+
 ?>

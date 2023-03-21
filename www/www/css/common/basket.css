@@ -683,6 +683,7 @@
     }
     
     .basket__wrap .pay__box {
+        border-top: 1px solid #dcdcdc;
         font-family: var(--ft-no)!important;
         padding: 20px 10px 0;
         top: 0;
@@ -701,16 +702,16 @@
     }
     .tui-select-box {
         padding-bottom: 10px;
-        border-bottom: 1px solid #eeeeee;
+        /* border-bottom: 1px solid #eeeeee; */
     }
-    .total-price-wrap {
+    /* .total-price-wrap {
         border-top: unset !important;
-    }
+    } */
     .calculation-box {
         gap: 10px !important;
     }
     .header-box-top {
-        border-bottom: 1px solid #eeeeee;
+        /* border-bottom: 1px solid #eeeeee; */
         margin-bottom: 10px;
     }
     /* 사이드 장바구니 */

@@ -28,13 +28,13 @@ if ($country != null && $category_no != null) {
 			IDX,
 			SUBCATEGORY
 		FROM
-			dev.FAQ
+			FAQ
 		WHERE
 			(CATEGORY_NO = ".$category_no." OR
              CATEGORY_NO IN (SELECT
                                 IDX
                             FROM
-                                dev.FAQ_CATEGORY
+                                FAQ_CATEGORY
                             WHERE 
                                 FATHER_NO = ".$category_no.")
             )

@@ -41,7 +41,7 @@ else{
     $member_count = 0;
 	$sql = "
 		UPDATE 
-			dev.MEMBER_".$country." 
+			MEMBER_".$country." 
 		SET 
 			MEMBER_PW = '".md5($member_pw)."',
             PW_DATE = NOW()

@@ -13,27 +13,24 @@
  | 
  +=============================================================================
 */
-$box_type       = $_POST['box_type'];
-$sel_idx        = $_POST['sel_idx'];
 
-$table = '';
+$box_idx		= $_POST['box_idx'];
 
-if($box_type != null){
-    switch($box_type){
-        case 'LOAD':
-            $table = " dev.LOAD_BOX_INFO ";
-            break;
-        case 'DELIVER':
-            $table = " dev.DELIVER_BOX_INFO ";
-            break;
-    }
-    $sql = 	'
-            DELETE FROM
-                '.$table.'
-            WHERE
-                IDX = '.$sel_idx.'
-    ';
-    
-    $db->query($sql);
+if ($box_idx != null) {
+	$box_cnt = $db->count("ORDERSHEET_MST","LOAD_BOX_IDX = ".$box_idx);
+	
+	if ($box_cnt > 0) {
+		$json_result['code'] = 301;
+		$json_result['msg'] = "오더시트 정보에 등록되어있는 적재박스는 삭제할 수 없습니다.";
+	} else {
+		$delete_box_info_sql = "
+			DELETE FROM
+				BOX_INFO
+			WHERE
+				IDX = ".$box_idx."
+		";
+		
+		$db->query($delete_box_info_sql);
+	}
 }
 ?>

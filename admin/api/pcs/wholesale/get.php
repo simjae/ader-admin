@@ -48,7 +48,7 @@ if ($product_code != null || $country != null || $buyer != null) {
 							IFNULL(DATE_FORMAT(MAX(S_WI.DUE_DATE), '%Y-%m-%d'),'')
 						)
 					FROM
-						dev.WHOLESALE_INFO S_WI
+						WHOLESALE_INFO S_WI
 					WHERE
 						S_WI.PRODUCT_CODE = WI.PRODUCT_CODE	AND
 						S_WI.BUYER   = WI.BUYER	AND
@@ -57,7 +57,7 @@ if ($product_code != null || $country != null || $buyer != null) {
 				)					AS DUE_DATE_TEXT,
 				SUM(WI.PRODUCT_QTY)	AS PRODUCT_SUM_QTY
 			FROM
-				dev.WHOLESALE_INFO WI
+				WHOLESALE_INFO WI
 			WHERE
 				WI.DEL_FLG = FALSE
 			AND

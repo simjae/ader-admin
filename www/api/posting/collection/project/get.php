@@ -33,7 +33,7 @@ if ($project_idx == 0) {
 	return $json_result;
 }*/
 
-$page_cnt = $db->count("dev.COLLECTION_PROJECT","COUNTRY = '".$country."'");
+$page_cnt = $db->count("COLLECTION_PROJECT","COUNTRY = '".$country."'");
 
 if ($page_cnt > 0) {
 	$select_collection_project_sql = "
@@ -48,7 +48,7 @@ if ($page_cnt > 0) {
 				''
 			)						AS THUMB_LOCATION
 		FROM
-			dev.COLLECTION_PROJECT CP
+			COLLECTION_PROJECT CP
 		WHERE
 			CP.COUNTRY = '".$country."'
 		ORDER BY

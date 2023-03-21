@@ -6,6 +6,9 @@
 		font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#a0a0a0;cursor: not-allowed;
 	}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-filter" action="pcs/ordersheet/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
@@ -144,14 +147,20 @@
 						</div>
 					</div>
 				</div>
-				
-				<div class="content__wrap">
-					<div class="content__title">네비게이션</div>
-					<div class="content__row">
-						<input type="text" name="navigation" value="">
+				<div class="content__wrap grid__half">
+					<div class="half__box__wrap">
+						<div class="content__title">네비게이션</div>
+						<div class="content__row">
+							<input type="text" name="navigation" value="">
+						</div>
+					</div>
+					<div class="half__box__wrap">
+						<div class="content__title">부자재 명</div>
+						<div class="content__row">
+							<input type="text" name="sub_material_name" value="">
+						</div>
 					</div>
 				</div>
-
 				<div class="content__wrap">
 					<div class="content__title">상품 가격</div>
 					<div class="price_type_td">
@@ -223,8 +232,6 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
 						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PRODUCT_NAME|ASC">상품명 순</option>
 						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
@@ -246,11 +253,12 @@
 					</select>
 				</div>
 			</div>
-			
+
 			<div class="table table__wrap">
 				<div class="table__filter">
 					<div class="filrer__wrap">
-						<div style="width: 140px;" class="filter__btn" action_type="toggle_update_flg" onclick="ordersheetActionCheck(this)">오더시트 작성 완료</div>
+						<div style="width: 140px;" class="filter__btn" action_type="update_flg_true" onclick="ordersheetActionCheck(this)">오더시트 작성 완료</div>
+						<div style="width: 140px;" class="filter__btn" action_type="update_flg_false" onclick="ordersheetActionCheck(this)">오더시트 작성완료 해제</div>
 						<div style="width: 140px;" class="filter__btn" action_type="ordersheet_delete" onclick="ordersheetActionCheck(this)">삭제</div>
 						<div style="width: 140px;" class="filter__btn" onclick="excelDownload();">엑셀 다운로드</div>
 					</div>                
@@ -571,7 +579,8 @@ function getOrdersheetTabInfo(){
                             </td>
 							<td>${preorder_status}</td>
 				            <td style="cursor:pointer" onclick="location.href='/pcs/ordersheet?ordersheet_idx=${row.ordersheet_idx}'">
-				                <div class="product__img__wrap">
+				                <p style="margin-bottom:5px;color:#ff7f00">※ 클릭하시면 상세페이지로 이동합니다.</p>
+								<div class="product__img__wrap">
 				                    <div class="product__img" style="${background_url}"></div>
 				                    <div>
 				                        <p>${row.product_name}</p><br>
@@ -658,6 +667,18 @@ function ordersheetActionCheck(obj) {
 	var select_idx = [];
 	var length = $('#frm-list').find('.select').length;
 	
+	var action_name = "";
+	switch(action_type){
+		case "ordersheet_delete" :
+			action_name = "오더시트 삭제";
+			break;
+		case "update_flg_true" :
+			action_name = "오더시트 진행완료 설정";
+			break;
+		case "update_flg_false" :
+			action_name = "오더시트 진행완료 해제";
+			break;
+	}
 	for (var i=0; i<length; i++) {
 		if ($('#frm-list').find('.select').eq(i).prop('checked') == true) {
 			select_idx.push($('#frm-list').find('.select').eq(i).val());
@@ -665,19 +686,8 @@ function ordersheetActionCheck(obj) {
 	}
 	if (select_idx.length == 0) {
 		alert(action_name + ' 처리 할 상품를 선택해주세요.');
-	} else {
-		var cnt = 0;
-		
-		var action_name = "";
-		
-		switch (action_type) {
-			case "toggle_update_flg":
-				action_name = "오더시트 진행여부 변경";
-				break;
-			case "ordersheet_delete" :
-				action_name = "오더시트 삭제";
-				break;
-		}
+	} 
+	else {
 		$('.action_type').val(action_type);
 		$('.action_name').val(action_name);
 		
@@ -712,11 +722,14 @@ function ordersheetAction(len){
 	formData = $("#frm-list").serializeObject();
 	
 	switch(action_type){
-		case 'toggle_update_flg':
-			api_str = 'put';
-			break;
 		case 'ordersheet_delete':
 			api_str = 'delete';
+			break;
+		case 'update_flg_true':
+			api_str = 'put';
+			break;
+		case 'update_flg_false':
+			api_str = 'put';
 			break;
 	}
 

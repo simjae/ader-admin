@@ -19,10 +19,10 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 include_once("/var/www/admin/api/common/common.php");
 
 $session_id			= sessionCheck();
-$collection_idx		= $_POST['collection_idx'];
+$country			= $_POST['country'];
+$project_idx		= $_POST['project_idx'];
 $ftp_dir			= $_POST['ftp_dir'];
 
-//print_r('old_ftp_dir:'.$ftp_dir.' ');
 $tmp_arr = explode("/",$ftp_dir);
 $img_dir = $tmp_arr[intval(count($tmp_arr) - 1)];
 
@@ -30,12 +30,11 @@ array_pop($tmp_arr);
 
 $ftp_dir_new = implode('/',$tmp_arr);
 
-
-if ($collection_idx != null && $img_dir != null) {
+if ($project_idx != null && $img_dir != null) {
 	$db->begin_transaction();
 	try {
 		$ftp_dir = "/ader_prod_img/posting/collection/".$img_dir;
-		$server_img_path = "/var/www/admin/www/images/posting/collection/".$img_dir;
+		$server_img_path = "/var/www/admin/www/images/posting/collection/".$country."/".$img_dir;
 		
 		
 		$upload_result = url_to_file_up_posting($ftp_dir_new,$server_img_path,$img_dir);
@@ -45,27 +44,28 @@ if ($collection_idx != null && $img_dir != null) {
 		if ($product_cnt > 0 && !empty($upload_file)) {
 			$display_num = 1;
 
-			$init_product_sql = "
+			$delete_collection_product_sql = "
 				DELETE FROM
-					dev.COLLECTION_PRODUCT
+					COLLECTION_PRODUCT
 				WHERE
-					COLLECTION_IDX = ".$collection_idx."
+					PROJECT_IDX = ".$project_idx."
 			";
-			$db->query($init_product_sql);
+			
+			$db->query($delete_collection_product_sql);
 
 			for ($i=0; $i<$product_cnt; $i++) {
-				$insert_product_sql = "
+				$insert_collection_product_sql = "
 					INSERT INTO
-						dev.COLLECTION_PRODUCT
+						COLLECTION_PRODUCT
 					(
-						DISPLAY_NUM,
-						COLLECTION_IDX
+						PROJECT_IDX,
+						DISPLAY_NUM
 					) VALUES (
-						".$display_num.",
-						".$collection_idx."
+						".$project_idx.",
+						".$display_num."
 					)
 				";
-				$db->query($insert_product_sql);
+				$db->query($insert_collection_product_sql);
 				
 				$c_product_idx = $db->last_id();
 				
@@ -76,15 +76,15 @@ if ($collection_idx != null && $img_dir != null) {
 						$img_location = "";
 						if($upload_file[($i*3) + $j]['img_size'] == 'L'){
 							$img_location = $upload_file[($i*3) + $j]['url'];
+						} else{
+							$img_location = $server_img_path.$upload_file[($i*3) + $j]['filename'];
 						}
-						else{
-							$img_location = $server_img_path.'/'.$upload_file[($i*3) + $j]['filename'];
-						}
+						
 						$img_size = $upload_file[($i*3) + $j]['img_size'];
 
-						$insert_img_sql = "
+						$insert_collection_img_sql = "
 							INSERT INTO
-								dev.COLLECTION_IMG
+								COLLECTION_IMG
 							(
 								C_PRODUCT_IDX,
 								IMG_SIZE,
@@ -102,43 +102,8 @@ if ($collection_idx != null && $img_dir != null) {
 							)
 						";
 						
-						$db->query($insert_img_sql);
+						$db->query($insert_collection_img_sql);
 					}
-					/*
-					for ($i=0; $i<count($upload_file); $i++) {
-						$img_url = $img_location = $upload_file[$i]['url'];
-						$img_location = "";
-						if($upload_file[$i]['img_size'] == 'L'){
-							$img_location = $upload_file[$i]['url'];
-						} else{
-							$img_location = $server_img_path.'/'.$upload_file[$i]['filename'];
-						}
-						
-						$img_size = $upload_file[$i]['img_size'];
-						
-						$insert_img_sql = "
-							INSERT INTO
-								dev.COLLECTION_IMG
-							(
-								C_PRODUCT_IDX,
-								IMG_SIZE,
-								IMG_URL,
-								IMG_LOCATION,
-								CREATER,
-								UPDATER
-							) VALUES (
-								".$c_product_idx.",
-								'".$img_size."',
-								'".$img_url."',
-								'".$img_location."',
-								'".$session_id."',
-								'".$session_id."'
-							)
-						";
-						
-						$db->query($insert_img_sql);
-					}
-					*/
 				}
 			}
 		}
@@ -148,8 +113,8 @@ if ($collection_idx != null && $img_dir != null) {
 		$json_result['code'] = 200;
 		$json_result['msg'] = "컬렉션 상품 이미지 등록에 성공했습니다.";
 	} catch(mysqli_sql_exception $exception){
-		print_r($exception);
 		$db->rollback();
+		print_r($exception);
 		
 		$json_result['code'] = 301;
 		$json_result['msg'] = "컬렉션 상품 이미지 등록에 실패했습니다.";
@@ -223,7 +188,8 @@ function url_to_file_up_collection($ftp_dir,$server_img_path,$img_dir){
 						
 					$filename_mdl = "";
 					if ($width > $makesize_mdl || $height > $makesize_mdl) {            
-						$filename_mdl = "/img_".$img_dir."_".$cnt."_M_".time().".".$ext;
+						//$filename_mdl = "/img_".$img_dir."_".$cnt."_M_".time().".".$ext;
+						$filename_mdl = "img_".$img_dir."_".$cnt."_M_".time().".".$ext;
 
 						if ($width >= $height) {
 							$mdl_width = $makesize_mdl;
@@ -271,7 +237,7 @@ function url_to_file_up_collection($ftp_dir,$server_img_path,$img_dir){
 					}
 						
 					if ($width > $makesize_sml || $height > $makesize_sml) {            
-						$filename_sml = "/img_".$img_dir."_".$cnt."_S_".time().".".$ext;
+						$filename_sml = "img_".$img_dir."_".$cnt."_S_".time().".".$ext;
 
 						if ($width >= $height) {
 							$sml_width = $makesize_sml;

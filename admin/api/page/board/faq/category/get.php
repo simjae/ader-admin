@@ -2,48 +2,43 @@
 /*
  +=============================================================================
  | 
- | FAQ 상세 카테고리 조회 API
+ | FAQ 내용
  | -------
  |
- | 최초 작성	: 박성혁
- | 최초 작성일	: 2022.07.25
+ | 최초 작성	: 양한빈
+ | 최초 작성일	: 2016. 8. 3
  | 최종 수정일	: 
  | 버전		: 1.0
  | 설명		: 
  | 
  +=============================================================================
 */
-
-/** 변수 정리 **/
-$category_idx		= $_POST['category_idx'];				//IDX
-
+$no = intval($no);
+$category_no = intval($category_no);
 $where = ' 1=1 ';
-
-
-$sql = "
-        SELECT 
-            IDX,
-            SEQ,
-            FATHER_NO,
-            LANG,
-            TITLE
-        FROM 
-            dev.FAQ_CATEGORY
-        WHERE 
-            FATHER_NO = ".$category_idx."
-        AND 
-            STATUS = 'Y'
-        ORDER BY 
-            SEQ ASC;
-";
-$db->query($sql);
-foreach($db->fetch() as $data){
-    $json_result['data'][] = array(
-        'idx'           => $data['IDX'],
-        'seq'           => $data['SEQ'],
-        'father_no'     => $data['FATHER_NO'],
-        'lang'          => $data['LANG'],
-        'title'         => $data['TITLE']
-    );
+$where_values = null;
+if($category_no > 0) {
+	$where .= ' AND (CATEGORY_NO='.$category_no.' OR CATEGORY_NO IN (SELECT IDX FROM FAQ_CATEGORY WHERE FATHER_NO = '.$category_no.' )) ';
+}
+if($no > 0) {
+	$where .= ' AND IDX='.$no.' ';
+}
+$json_result['total'] = $db->count('FAQ',$where);
+$db->query('
+	SELECT 
+			* 
+		FROM FAQ
+	WHERE 
+		'.$where.'
+	ORDER BY 
+		SEQ,IDX'
+);
+foreach($db->fetch() as $data) {
+	$json_result['data'][] = array(
+		'no'=>intval($data['IDX']),
+		'category_no'=>intval($data['CATEGORY_NO']),
+		'question'=>$data['QUESTION'],
+		'answer'=>$data['ANSWER']
+	);
 }
 ?>

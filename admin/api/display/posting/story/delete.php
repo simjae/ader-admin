@@ -14,58 +14,58 @@
  +=============================================================================
 */
 
-$country		= $_POST['country'];
-$story_column	= $_POST['story_column'];
-$story_idx		= $_POST['story_idx'];
+$country			= $_POST['country'];
+$story_type			= $_POST['story_type'];
+$story_idx			= $_POST['story_idx'];
 
-if ($story_column != null && $story_idx != null) {
-	$delete_story_sql = "
+if ($story_type != null && $story_idx != null) {
+	$delete_posting_story_sql = "
 		UPDATE
-			dev.TMP_POSTING_STORY
+			TMP_POSTING_STORY
 		SET
 			DEL_FLG = TRUE
 		WHERE
-			STORY_COLUMN = ".$story_column." AND
-			IDX = ".$story_idx."
+			IDX = ".$story_idx." AND
+			STORY_TYPE = '".$story_type."'
 	";
 	
-	$db->query($delete_story_sql);
+	$db->query($delete_posting_story_sql);
 	
 	$db_result = $db->affectedRows();
 	
 	if ($db_result > 0) {
-		$select_story_sql = "
+		$select_posting_story_sql = "
 			SELECT
 				PS.IDX			AS STORY_IDX
 			FROM
-				dev.TMP_POSTING_STORY PS
+				TMP_POSTING_STORY PS
 			WHERE
 				PS.COUNTRY = '".$country."' AND
-				PS.STORY_COLUMN = ".$story_column."
+				PS.STORY_TYPE = '".$story_type."'
 			ORDER BY
 				PS.DISPLAY_NUM ASC
 		";
 		
-		$db->query($select_story_sql);
+		$db->query($select_posting_story_sql);
 		
 		$display_num = 1;
-		foreach($db->fetch() as $data) {
-			$story_idx = $data['STORY_IDX'];
+		foreach($db->fetch() as $story_data) {
+			$tmp_idx = $story_data['STORY_IDX'];
 			
-			$update_story_sql = "
-				UPDATE
-					dev.TMP_POSTING_STORY
-				SET
-					DISPLAY_NUM = ".$display_num."
-				WHERE
-					IDX = ".$story_idx." AND
-					STORY_COLUMN = ".$story_column." AND
-					COUNTRY = '".$country."'
-			";
-			
-			$db->query($update_story_sql);
-			
-			$display_num++;
+			if (!empty($tmp_idx)) {
+				$update_posting_story_sql = "
+					UPDATE
+						TMP_POSTING_STORY
+					SET
+						DISPLAY_NUM = ".$display_num."
+					WHERE
+						IDX = ".$tmp_idx."
+				";
+				
+				$db->query($update_posting_story_sql);
+				
+				$display_num++;
+			}
 		}
 	}
 }

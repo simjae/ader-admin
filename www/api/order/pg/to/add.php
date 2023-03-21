@@ -42,7 +42,7 @@ $to_detail_addr		= $_POST['to_detail_addr'];
 if ($member_idx > 0) {
 	$insert_order_to_sql = "
 		INSERT INTO
-			dev.ORDER_TO
+			ORDER_TO
 		(
 			COUNTRY,
 			MEMBER_IDX,

@@ -14,16 +14,23 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
 $factory_idx	= $_POST['factory_idx'];
 
 if ($factory_idx != null) {
-	$sql = "UPDATE
-				dev.FACTORY_INFO
-			SET
-				DEL_FLG = TRUE
-			WHERE
-				IDX = ".$factory_idx;
+	$delete_factory_sql = "
+		UPDATE
+			FACTORY_INFO
+		SET
+			DEL_FLG = TRUE,
+			UPDATE_DATE = NOW(),
+			UPDATER = '".$session_id."'
+		WHERE
+			IDX = ".$factory_idx."
+	";
 	
-	$db->query($sql);
+	$db->query($delete_factory_sql);
 }
 ?>

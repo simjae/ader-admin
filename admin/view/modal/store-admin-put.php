@@ -1,39 +1,31 @@
 <style>
-.table__toggle__btn {
-	background-color:#000;color:#fff;width:110px;height:28px;text-align:center;font-size:12px;font-weight:300;border-radius:2px;line-height:2.4;
-	cursor:pointer;
-}
+.table__wrap {margin-top:0px!important;}
+.table__toggle__btn {background-color:#fafafa;border:1px solid #000000;color:#000000;width:100%;height:28px;text-align:center;font-size:12px;font-weight:300;line-height:2.4;cursor:pointer;margin-top:15px;}
+.modal > .con > .body.modal__wrap{height:90vh!important;display:flex;flex-direction:column;}
+.modal__wrap, .modal__wrap .modal__body{height:90vh}
+.modal__wrap .modal__body{flex: 1;overflow-y:scroll}
+.xi-close{float:right;}
 </style>
 
-<div class="body">
-	<h1>
-		관리자 정보 관리
-		<a onclick="modal_close();" class="btn-close">
-			<i class="xi-close"></i>
-		</a>
-	</h1>
+<div class="body modal__wrap">
+	<div class="modal__header">
+		<h1>
+			운영자 정보 수정
+			<a onclick="modal_close();" class="btn-close">
+				<i class="xi-close" ></i>
+			</a>
+		</h1>
+	</div>
 	
-    <div class="contents">
+    <div class="contents modal__body" >
 		<form id="frm-put" action="store/admin/put">
+			<input type="hidden" name="admin_update_flg" value="true">
 			<input class="admin_idx" type="hidden" name="admin_idx" value="">
 			
 			<h2>기본 정보</h2>
 			<div class="form-group">
 				<input type="text" name="admin_id" value="" required="" readonly>
 				<label class="control-label">아이디</label>
-			</div>
-
-			<div class="form-group">
-				<select class="fSelect" style="width:163px;" name="permition_idx">
-					<option value="ALL" checked>전체</option>
-					<option value="1">메인 관리자</option>
-					<option value="2">기획</option>
-					<option value="3">디자인</option>
-					<option value="4">생산</option>
-					<option value="5">온라인</option>
-					<option value="6">브랜드</option>
-				</select>
-				<label class="control-label">권한</label>
 			</div>
 
 			<div class="form-group">
@@ -85,1431 +77,370 @@
 				<label class="control-label">팩스</label>
 			</div>
 			
-			<h2>권한</h2>
-			<div class="form-group" style="padding-left:0px;">
-				<div id="table_toggle_store" class="table__toggle__btn" style="margin-top:15px;">+상점관리</div>
-				<TABLE class="list table_toggle_store" style="margin-top:10px;font-size:0.5rem;display:none;">
-					<TBODY>
-						<TR>
-							<TD rowspan="10" style="width:100px;">상점관리</TD>
-						</TR>
-						
-						<TR>
-							<TD rowspan="4" style="width:100px;">기본정보관리</TD>
-						</TR>
-						
-						<TR>
-							<TD>한국몰</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_info_kr_false" type="radio" name="store_info_kr" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_info_kr_true" type="radio" name="store_info_kr" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						
-						<TR>
-							<TD>영문몰</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_info_en_false" type="radio" name="store_info_en" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_info_en_true" type="radio" name="store_info_en" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						
-						<TR>
-							<TD>중문몰</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_info_cn_false" type="radio" name="store_info_cn" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_info_cn_true" type="radio" name="store_info_cn" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>운영자 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_admin_false" type="radio" name="store_admin" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_admin_true" type="radio" name="store_admin" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>홈패이제 내 알림메시지 설정</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_notice_false" type="radio" name="store_notice" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_notice_true" type="radio" name="store_notice" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>부가서비스 이용내역 조회</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_add_on_false" type="radio" name="store_add_on" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>							
-								<div class="row form-group">
-									<label>
-										<input id="store_add_on_true" type="radio" name="store_add_on" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>검색엔진 최적화 설정</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_seo_false" type="radio" name="store_seo" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_seo_true" type="radio" name="store_seo" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>채널관리(마케팅)</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_channel_false" type="radio" name="store_channel" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="store_channel_true" type="radio" name="store_channel" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
+			<div sort="COMMON" class="table__toggle__btn toggle_permition">공통</div>
+			<input type="hidden" name="permition_idx" value="">
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_COMMON">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
 					</TBODY>
 				</TABLE>
-				
-				<div id="table_toggle_member" class="table__toggle__btn" style="margin-top:15px;">+고객관리</div>
-				<TABLE class="list table_toggle_member" style="margin-top:15px;font-size:0.5rem;display:none;">
-					<TBODY>
-						<TR>
-							<TD rowspan="17" style="width:100px;">고객관리</TD>
-						</TR>
-						
-						<TR>
-							<TD rowspan="7" style="width:100px;">회원조회</TD>
-						</TR>
-						
-						<TR>
-							<TD>회원조회</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_list_false" type="radio" name="member_info_member_list" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_list_true" type="radio" name="member_info_member_list" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>휴면회원</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_sleep_false" type="radio" name="member_info_member_sleep" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_sleep_true" type="radio" name="member_info_member_sleep" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>탈퇴회원</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_drop_false" type="radio" name="member_info_member_drop" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_drop_true" type="radio" name="member_info_member_drop" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>주문회원</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_order_false" type="radio" name="member_info_member_order" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_order_true" type="radio" name="member_info_member_order" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>구매액순 조회</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_price_false" type="radio" name="member_info_member_price" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_price_true" type="radio" name="member_info_member_price" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>회원등급 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_level_false" type="radio" name="member_info_member_level" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_info_member_level_true" type="radio" name="member_info_member_level" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD rowspan="4">회원 방문관리</TD>
-						</TR>
-						
-						<TR>
-							<TD>회원 로그인 관리</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_visit_member_login_false" type="radio" name="member_visit_member_login" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>							
-								<div class="row form-group">
-									<label>
-										<input id="member_visit_member_login_true" type="radio" name="member_visit_member_login" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>부정의심 로그인 관리</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_visit_member_suspicious_false" type="radio" name="member_visit_member_suspicious" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>							
-								<div class="row form-group">
-									<label>
-										<input id="member_visit_member_suspicious_true" type="radio" name="member_visit_member_suspicious" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>OFF 방문기록</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_visit_member_offline_false" type="radio" name="member_visit_member_offline" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>							
-								<div class="row form-group">
-									<label>
-										<input id="member_visit_member_offline_true" type="radio" name="member_visit_member_offline" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>적립금 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_reserve_false" type="radio" name="member_reserve" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_reserve_true" type="radio" name="member_reserve" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>쿠폰관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_coupon_false" type="radio" name="member_coupon" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_coupon_true" type="radio" name="member_coupon" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>재입고 SMS<br>발송 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_sms_false" type="radio" name="member_sms" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_sms_true" type="radio" name="member_sms" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>자동 메일<br>발송 설정</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_mail_false" type="radio" name="member_mail" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_mail_true" type="radio" name="member_mail" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>SMS(카카오톡)<br>사용 설정</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_kakao_false" type="radio" name="member_kakao" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="member_kakao_true" type="radio" name="member_kakao" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
+			</div>
+			
+			<div sort="DASHBOARD" class="table__toggle__btn toggle_permition">1. 대시보드</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_DASHBOARD">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
 					</TBODY>
 				</TABLE>
-				
-				<div id="table_toggle_product" class="table__toggle__btn" style="margin-top:15px;">+상품관리</div>
-				<TABLE class="list table_toggle_product" style="margin-top:15px;font-size:0.5rem;display:none;">
-					<TBODY>
-						<TR>
-							<TD rowspan="18" style="width:100px;">상품관리</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>상품 분류 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_classify_false" type="radio" name="product_classify" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_classify_true" type="radio" name="product_classify" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>개별 상품 등록</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_register_false" type="radio" name="product_register" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_register_true" type="radio" name="product_register" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>세트 상품 등록</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_set_false" type="radio" name="product_set" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_set_true" type="radio" name="product_set" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD rowspan="3">엑셀 등록</TD>
-						</TR>
-						
-						<TR>
-							<TD>엑셀 상품 등록</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_excel_regist_false" type="radio" name="product_excel_regist" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_excel_regist_true" type="radio" name="product_excel_regist" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>엑셀 상품 수정</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_excel_update_false" type="radio" name="product_excel_update" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_excel_update_true" type="radio" name="product_excel_update" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>상품 목록</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_list_false" type="radio" name="product_list" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_list_true" type="radio" name="product_list" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>상품 정보 일괄변경</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_update_false" type="radio" name="product_update" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_update_true" type="radio" name="product_update" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD rowspan="3">삭제 상품 목록</TD>
-						</TR>
-						
-						<TR>
-							<TD>삭제 상품 목록</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_delete_delete_product_false" type="radio" name="product_delete_delete_product" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_delete_delete_product_true" type="radio" name="product_delete_delete_product" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>개인 결제 목록</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_delete_personal_order_false" type="radio" name="product_delete_personal_order" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_delete_personal_order_true" type="radio" name="product_delete_personal_order" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD rowspan="4">상품 재고 관리</TD>
-						</TR>
-						
-						<TR>
-							<TD>상품재고 등록</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_stock_register_false" type="radio" name="product_stock_register" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="product_stock_register_true" type="radio" name="product_stock_register" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>상품 재고 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_stock_list_false" type="radio" name="product_stock_list" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="product_stock_list_true" type="radio" name="product_stock_list" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>품절 재고 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_stock_sold_out_false" type="radio" name="product_stock_sold_out" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="product_stock_sold_out_true" type="radio" name="product_stock_sold_out" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>블루마크</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_bluemark_false" type="radio" name="product_bluemark" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="product_bluemark_true" type="radio" name="product_bluemark" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>추천 상품</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="product_recommend_false" type="radio" name="product_recommend" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="product_recommend_true" type="radio" name="product_recommend" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
+			</div>
+			
+			<div sort="STORE" class="table__toggle__btn toggle_permition">2. 상점관리</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_STORE">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
 					</TBODY>
 				</TABLE>
-				
-				<div id="table_toggle_display" class="table__toggle__btn" style="margin-top:15px;">+전시관리</div>
-				<TABLE class="list table_toggle_display" style="margin-top:15px;font-size:0.5rem;display:none;">
-					<TBODY>
-						<TR>
-							<TD rowspan="20" style="width:100px;">전시관리</TD>
-						<TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>상품 진열</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_product_false" type="radio" name="display_product" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_product_true" type="radio" name="display_product" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD rowspan="5">게시판 관리</TD>
-						</TR>
-						
-						<TR>
-							<TD>1:1문의</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_inquiry_false" type="radio" name="display_board_inquiry" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_inquiry_true" type="radio" name="display_board_inquiry" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>후기 게시판</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_review_false" type="radio" name="display_board_review" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_review_true" type="radio" name="display_board_review" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>공지사항</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_notice_false" type="radio" name="display_board_notice" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_notice_true" type="radio" name="display_board_notice" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>FAQ</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_faq_false" type="radio" name="display_board_faq" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_board_faq_true" type="radio" name="display_board_faq" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD rowspan="5">게시물 관리</TD>
-						</TR>
-						
-						<TR>
-							<TD>컬렉션</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_collection_false" type="radio" name="display_posting_collection" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_collection_true" type="radio" name="display_posting_collection" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>에디토리얼</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_editorial_false" type="radio" name="display_posting_editorial" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_editorial_true" type="radio" name="display_posting_editorial" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>콜라보레이션</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_collaboration_false" type="radio" name="display_posting_collaboration" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_collaboration_true" type="radio" name="display_posting_collaboration" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>기획전</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_exhibition_false" type="radio" name="display_posting_exhibition" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_posting_exhibition_true" type="radio" name="display_posting_exhibition" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>What's New 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_whats_false" type="radio" name="display_whats" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_whats_true" type="radio" name="display_whats" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>팝업관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_popup_false" type="radio" name="display_popup" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_popup_true" type="radio" name="display_popup" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>이벤트 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_event_false" type="radio" name="display_event" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_event_true" type="radio" name="display_event" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>-</TD>
-							<TD>드로우 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_draw_false" type="radio" name="display_draw" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_draw_true" type="radio" name="display_draw" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>메뉴 편집</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_menu_false" type="radio" name="display_menu" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="display_menu_true" type="radio" name="display_menu" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>매장보기 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_store_false" type="radio" name="display_store" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_store_true" type="radio" name="display_store" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>-</TD>
-							<TD>랜딩페이지 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="display_landing_false" type="radio" name="display_landing" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="display_landing_true" type="radio" name="display_landing" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
+			</div>
+			
+			<div sort="MEMBER" class="table__toggle__btn toggle_permition">3. 회원</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_MEMBER">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
 					</TBODY>
 				</TABLE>
-				
-				<div id="table_toggle_order" class="table__toggle__btn" style="margin-top:15px;">+주문관리</div>
-				<TABLE class="list table_toggle_order" style="margin-top:15px;font-size:0.5rem;display:none;">
-					<TBODY>
-						<TR>
-							<TD rowspan="7" style="width:100px;">주문관리</TD>
-						</TR>
-						
-						<TR>
-							<TD>전체 주문 조회</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_list_false" type="radio" name="order_list" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">	
-									<label>
-										<input id="order_list_true" type="radio" name="order_list" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>취소/교환/반품/환불 관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_management_false" type="radio" name="order_management" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_management_true" type="radio" name="order_management" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>자동입금 내역확인</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_deposit_false" type="radio" name="order_deposit" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_deposit_true" type="radio" name="order_deposit" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>배송 설정</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_deliver_false" type="radio" name="order_deliver" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_deliver_true" type="radio" name="order_deliver" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>현금영수증<br>관리</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_receipt_false" type="radio" name="order_receipt" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_receipt_true" type="radio" name="order_receipt" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-
-						<TR>
-							<TD>관리자 메모 조회</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_admin_false" type="radio" name="order_admin" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="order_admin_true" type="radio" name="order_admin" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
+			</div>
+			
+			<div sort="PRODUCT" class="table__toggle__btn toggle_permition">4. 상품</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_PRODUCT">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
 					</TBODY>
 				</TABLE>
-				
-				<div id="table_toggle_analysis" class="table__toggle__btn" style="margin-top:15px;">+분석/대시보드</div>
-				<TABLE class="list table_toggle_analysis" style="margin-top:15px;font-size:0.5rem;display:none;">
-					<TBODY>
-						<TR>
-							<TD rowspan="3" style="width:100px;">분석/대시보드</TD>
-						</TR>
-						
-						<TR>
-							<TD>통합엑셀 다운로드</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="analysis_excel_false" type="radio" name="analysis_excel" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="analysis_excel_true" type="radio" name="analysis_excel" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
-						
-						<TR>
-							<TD>대시보드</TD>
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="analysis_dashboard_false" type="radio" name="analysis_dashboard" value="false" checked>
-										<span>불가</span>
-									</label>
-								</div>
-							</TD>
-							
-							<TD>
-								<div class="row form-group">
-									<label>
-										<input id="analysis_dashboard_true" type="radio" name="analysis_dashboard" value="true">
-										<span>허가</span>
-									</label>
-								</div>
-							</TD>
-						</TR>
+			</div>
+			
+			<div sort="DISPLAY" class="table__toggle__btn toggle_permition">5. 전시</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_DISPLAY">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="PROMOTION" class="table__toggle__btn toggle_permition">6. 프로모션</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_PROMOTION">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="ORDER" class="table__toggle__btn toggle_permition">7. 주문</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_ORDER">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="COLUMN" class="table__toggle__btn toggle_permition">항목관리</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_COLUMN">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="SUBMATERIAL" class="table__toggle__btn toggle_permition">부자재관리</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_SUBMATERIAL">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="ORDERSHEET" class="table__toggle__btn toggle_permition">상품관리(오더시트)</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_ORDERSHEET">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="WHOLESALE" class="table__toggle__btn toggle_permition">홀세일관리</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_WHOLESALE">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="SAMPLE" class="table__toggle__btn toggle_permition">샘플관리</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_SAMPLE">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="FACTORY" class="table__toggle__btn toggle_permition">생산업체관리</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_FACTORY">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
+					</TBODY>
+				</TABLE>
+			</div>
+			
+			<div sort="BLUEMARK" class="table__toggle__btn toggle_permition">블루마크</div>
+			<div class="table__wrap table" style="display:none;">
+				<TABLE class="table_BLUEMARK">
+					<colgroup>
+						<col width="5%;">
+						<col width="40%;">
+						<col width="40%;">
+						<col width="5%;">
+						<col width="15%;">
+					</colgroup>
+					<THEAD>
+						<tr>
+							<th>권한구분</th>
+							<th>권한이름</th>
+							<th>권한URL</th>
+							<th>권한탭</th>
+							<th>권한설정</th>
+						</tr>
+					</THEAD>
+					<TBODY class="result_body">
 					</TBODY>
 				</TABLE>
 			</div>
 		</form>
 	</div>
-	<div class="footer">
+	
+	<div class="footer modal__footer">
 		<a onclick="modal_cancel();" class="btn"><i class="xi-close"></i>작성 취소</a>
 		<a onclick="putAdminInfo();" class="btn red"><i class="xi-check"></i>적용</a>
 	</div>
@@ -1535,20 +466,11 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('.table__toggle__btn').click(function() {
-		var table_id = $(this).attr('id');
-		var btn_text = $(this).text();
-		
-		var display = $('.' + table_id).css('display');
-		
-		if (display == "none") {
-			btn_text = btn_text.replace('+','-');
-		} else {
-			btn_text = btn_text.replace('-','+');
+	$('.toggle_permition').click(function() {
+		let sort = $(this).attr('sort');
+		if (sort != null) {
+			$('.table_' + sort).parent().toggle();
 		}
-		
-		$(this).text(btn_text);
-		$('.' + table_id).toggle();
 	});
 });
 
@@ -1556,7 +478,7 @@ function getAdminInfo() {
 	$.ajax({
 		type: "post",
 		data: {
-			'admin_idx' : <?=$admin_idx?>
+			'admin_idx' : "<?=$admin_idx?>"
 		},
 		dataType: "json",
 		url: config.api + "store/admin/get",
@@ -1568,7 +490,6 @@ function getAdminInfo() {
 				let data = d.data[0];
 				
 				$("input[name='admin_idx']").val(data.admin_idx);
-				$("select[name=permition_idx]").val(data.permition_idx);
 				$("input[name='admin_id']").val(data.admin_id);
 				$("input[name='admin_name']").val(data.admin_name);
 				$("input[name='admin_nick']").val(data.admin_nick);
@@ -1583,93 +504,94 @@ function getAdminInfo() {
 					$('#profile_img').attr('src','/images/ico-avatar.png');
 				}
 				
-				/*permitionRadioCheck('store_info_kr',data['data'][0].store_info_kr);
-				permitionRadioCheck('store_info_en',data['data'][0].store_info_en);
-				permitionRadioCheck('store_info_cn',data['data'][0].store_info_cn);
-				permitionRadioCheck('store_admin',data['data'][0].store_admin);
-				permitionRadioCheck('store_notice',data['data'][0].store_notice);
-				permitionRadioCheck('store_add_on',data['data'][0].store_add_on);
-				permitionRadioCheck('store_seo',data['data'][0].store_seo);
-				permitionRadioCheck('store_channel',data['data'][0].store_channel);
-				
-				permitionRadioCheck('member_info_member_list',data['data'][0].member_info_member_list);
-				permitionRadioCheck('member_info_member_sleep',data['data'][0].member_info_member_sleep);
-				permitionRadioCheck('member_info_member_drop',data['data'][0].member_info_member_drop);
-				permitionRadioCheck('member_info_member_order',data['data'][0].member_info_member_order);
-				permitionRadioCheck('member_info_member_price',data['data'][0].member_info_member_price);
-				permitionRadioCheck('member_info_member_level',data['data'][0].member_info_member_level);
-				permitionRadioCheck('member_visit_member_login',data['data'][0].member_visit_member_login);
-				permitionRadioCheck('member_visit_member_suspicious',data['data'][0].member_visit_member_suspicious);
-				permitionRadioCheck('member_visit_member_offline',data['data'][0].member_visit_member_offline);
-				permitionRadioCheck('member_reserve',data['data'][0].member_reserve);
-				permitionRadioCheck('member_coupon',data['data'][0].member_coupon);
-				permitionRadioCheck('member_sms',data['data'][0].member_sms);
-				permitionRadioCheck('member_mail',data['data'][0].member_mail);
-				permitionRadioCheck('member_kakao',data['data'][0].member_kakao);
-				
-				permitionRadioCheck('product_classify',data['data'][0].product_classify);
-				permitionRadioCheck('product_register',data['data'][0].product_register);
-				permitionRadioCheck('product_set',data['data'][0].product_set);
-				permitionRadioCheck('product_excel_regist',data['data'][0].product_excel_regist);
-				permitionRadioCheck('product_excel_update',data['data'][0].product_excel_update);
-				permitionRadioCheck('product_list',data['data'][0].product_list);
-				permitionRadioCheck('product_update',data['data'][0].product_update);
-				permitionRadioCheck('product_delete_delete_product',data['data'][0].product_delete_delete_product);
-				permitionRadioCheck('product_delete_personal_order',data['data'][0].product_delete_personal_order);
-				permitionRadioCheck('product_stock_register',data['data'][0].product_stock_register);
-				permitionRadioCheck('product_stock_list',data['data'][0].product_stock_list);
-				permitionRadioCheck('product_stock_sold_out',data['data'][0].product_stock_sold_out);
-				permitionRadioCheck('product_bluemark',data['data'][0].product_bluemark);
-				permitionRadioCheck('product_recommend',data['data'][0].product_recommend);
-				
-				permitionRadioCheck('display_product',data['data'][0].display_product);
-				permitionRadioCheck('display_board_inquiry',data['data'][0].display_board_inquiry);
-				permitionRadioCheck('display_board_review',data['data'][0].display_board_review);
-				permitionRadioCheck('display_board_notice',data['data'][0].display_board_notice);
-				permitionRadioCheck('display_board_faq',data['data'][0].display_board_faq);
-				permitionRadioCheck('display_posting_collection',data['data'][0].display_posting_collection);
-				permitionRadioCheck('display_posting_editorial',data['data'][0].display_posting_editorial);
-				permitionRadioCheck('display_posting_collaboration',data['data'][0].display_posting_collaboration);
-				permitionRadioCheck('display_posting_exhibition',data['data'][0].display_posting_exhibition);
-				permitionRadioCheck('display_whats',data['data'][0].display_whats);
-				permitionRadioCheck('display_popup',data['data'][0].display_popup);
-				permitionRadioCheck('display_event',data['data'][0].display_event);
-				permitionRadioCheck('display_draw',data['data'][0].display_draw);
-				permitionRadioCheck('display_menu',data['data'][0].display_menu);
-				permitionRadioCheck('display_store',data['data'][0].display_store);
-				permitionRadioCheck('display_landing',data['data'][0].display_landing);
-
-				permitionRadioCheck('order_list',data['data'][0].order_list);
-				permitionRadioCheck('order_management',data['data'][0].order_management);
-				permitionRadioCheck('order_deposit',data['data'][0].order_deposit);
-				permitionRadioCheck('order_deliver',data['data'][0].order_deliver);
-				permitionRadioCheck('order_receipt',data['data'][0].order_receipt);
-				permitionRadioCheck('order_admin',data['data'][0].order_admin);
-
-				permitionRadioCheck('analysis_excel',data['data'][0].analysis_excel);
-				permitionRadioCheck('analysis_dashboard',data['data'][0].analysis_dashboard);*/
+				let permition_mapping = data.permition_mapping;
+				getAdminPermitionList(permition_mapping);
 			}
 		}
 	});
 }
 
-function permitionRadioCheck(permition_name,permition_val) {
-	if (permition_val == true) {
-		$('#' + permition_name + '_true').prop('checked',true);
-		$('#' + permition_name + '_false').prop('checked',false);
-	} else {
-		$('#' + permition_name + '_true').prop('checked',false);
-		$('#' + permition_name + '_false').prop('checked',true);
-	}
+function getAdminPermitionList(permition_mapping) {
+	$.ajax({
+		type: "post",
+		dataType: "json",
+		url: config.api + "store/admin/permition/get",
+		error: function() {
+			alert("운영자 삭제 처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				let permition_sort = d.data.permition_sort;
+				let permition_info = d.data.permition_info;
+				
+				if (permition_sort != null && permition_info != null) {
+					for (let i=0; i<permition_sort.length; i++) {
+						let sort_value = permition_sort[i];
+						
+						let permition_table = $('.table_' + sort_value);
+						let result_body = permition_table.find('.result_body');
+						
+						let strDiv = "";
+						
+						let num = 0;
+						permition_info[sort_value].forEach(function(row) {
+							num++;
+							
+							strDiv += '<TR>';
+							strDiv += '    <TD>' + row.permition_type + '</TD>';
+							strDiv += '    <TD>' + row.permition_name + '</TD>';
+							strDiv += '    <TD>' + row.permition_url + '</TD>';
+							strDiv += '    <TD>' + row.permition_tab + '</TD>';
+							
+							strDiv += '    <TD>';
+							strDiv += '        <div class="flex" style="gap:10px;">';
+							
+							let checked_true = "";
+							let checked_false = "";
+							
+							if (permition_mapping[row.permition_idx] == true) {
+								checked_true = "checked";
+							} else {
+								checked_false = "checked";
+							}
+							
+							strDiv += '            <label class="rd__square">';
+							strDiv += '                <input class="permition_idx" type="radio" permition_idx="' + row.permition_idx + '" name="radio_' + sort_value + '_' + num + '" value="true" ' + checked_true + '>';
+							strDiv += '                <div><div></div></div>';
+							strDiv += '                <span>권한허용</span>';
+							strDiv += '            </label>';
+							
+							strDiv += '            <label class="rd__square">';
+							strDiv += '                <input class="permition_idx" type="radio" name="radio_' + sort_value + '_' + num + '" value="false" ' + checked_false + '>';
+							strDiv += '                <div><div></div></div>';
+							strDiv += '                <span>권한없음</span>';
+							strDiv += '            </label>';
+							
+							strDiv += '        </div>';
+							strDiv += '    </TD>';
+
+							strDiv += '</TR>';
+						});
+						
+						result_body.append(strDiv);
+					}
+				}
+			}
+		}
+	});
 }
 
 function putAdminInfo(){
-	let admin_id = $('input[name=admin_id]');
-	let admin_name = $('input[name=admin_name]');
-	let admin_pw = $('input[name=admin_pw]');
-	let pw_new = $('input[name=pw_new]');
-	let pw_confirm = $('input[name=pw_confirm]');
-	let admin_email = $('input[name=admin_email]');
+	let frm = $('#frm-put');
+	
+	let admin_id = frm.find('input[name=admin_id]');
+	let admin_name = frm.find('input[name=admin_name]');
+	let admin_pw = frm.find('input[name=admin_pw]');
+	let pw_new = frm.find('input[name=pw_new]');
+	let pw_confirm = frm.find('input[name=pw_confirm]');
+	let admin_email = frm.find('input[name=admin_email]');
+	
+	let permition_idx = frm.find('input[name=permition_idx]');
 	
 	let reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 	let spl_id = admin_id.val().search(/\s/g);
@@ -1707,10 +629,6 @@ function putAdminInfo(){
 	if(admin_pw.val().length == 0){
 		alert("관리자 정보 변경을 위해 현재 비밀번호를 입력해주세요.",admin_pw.focus());
 		return false;
-	} else {
-		if(pwValidationCheck(admin_pw) == false){
-			return false;
-		};
 	}
 	
 	if (pw_new.val().length > 0 || pw_confirm.val().length > 0) {
@@ -1742,6 +660,17 @@ function putAdminInfo(){
 		}
 	}
 	
+	let tmp_permition_idx = [];
+	let cnt = $('.permition_idx').length;
+	for (let i=0; i<cnt; i++) {
+		let tmp_idx = $('.permition_idx').eq(i);
+		if (tmp_idx.prop('checked') == true && tmp_idx.val() == "true") {
+			tmp_permition_idx.push(tmp_idx.attr('permition_idx'));
+		}
+	}
+	
+	permition_idx.val(tmp_permition_idx);
+	
 	let formData = new FormData();
 	formData = $("#frm-put").serializeObject();
 	
@@ -1758,7 +687,7 @@ function putAdminInfo(){
 				},
 				success: function(d) {
 					if(d.code == 200) {
-						confirm(
+						alert(
 							"선택한 운영자 정보가 수정되었습니다.",
 							function() {
 								insertLog("상점관리 > 운영자 관리 > 운영자 목록","운영자 개별 정보수정: ",1);

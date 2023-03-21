@@ -14,38 +14,35 @@
  +=============================================================================
 */
 
-$country			= $_POST['country'];
-$collection_idx		= $_POST['collection_idx'];
+$project_idx		= $_POST['project_idx'];
 $c_product_idx		= $_POST['c_product_idx'];
 $product_idx		= $_POST['product_idx'];
 
-if ($country != null && $collection_idx != null && $c_product_idx != null && $product_idx != null) {
+if ($country != null && $project_idx != null && $c_product_idx != null && $product_idx != null) {
 	$product_cnt = $db->count(
-		"dev.COLLECTION_RELEVANT_PRODUCT",
-		"COUNTRY = '".$country."' AND COLLECTION_IDX = ".$collection_idx." AND C_PRODUCT_IDX = ".$c_product_idx." AND PRODUCT_IDX = ".$product_idx
+		"COLLECTION_RELEVANT_PRODUCT",
+		"PROJECT_IDX = ".$project_idx." AND C_PRODUCT_IDX = ".$c_product_idx." AND PRODUCT_IDX = ".$product_idx
 	);
 	
 	if ($product_cnt > 0) {
 		$json_result['code'] = 301;
 		$json_result['msg'] = "이미 등록된 상품입니다.";
 	} else {
-		$insert_relevant_sql = "
+		$insert_relevant_product_sql = "
 			INSERT INTO
-				dev.COLLECTION_RELEVANT_PRODUCT
+				COLLECTION_RELEVANT_PRODUCT
 			(
-				COUNTRY,
-				COLLECTION_IDX,
+				PROJECT_IDX,
 				C_PRODUCT_IDX,
 				PRODUCT_IDX
 			) VALUES (
-				'".$country."',
-				".$collection_idx.",
+				".$project_idx.",
 				".$c_product_idx.",
 				".$product_idx."
 			)
 		";
 		
-		$db->query($insert_relevant_sql);
+		$db->query($insert_relevant_product_sql);
 	}
 }
 

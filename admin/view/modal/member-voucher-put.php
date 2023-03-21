@@ -130,6 +130,48 @@
                 </div>
             </div>
             <div class="content__wrap">
+                <div class="content__title">바우처적용 상품선택</div>
+                <div class="content__row form-group" style="padding-left:0px!important;">
+                    <label class="rd__square">
+                        <input type="radio" name="except_product_flg" value="FALSE" checked>
+                        <span>특정 상품</span>
+                    </label>
+                    <label class="rd__square">
+                        <input type="radio" name="except_product_flg" value="TRUE">
+                        <span>제외 상품</span>
+                    </label>
+                </div>
+            </div>
+            <div class="content__wrap">
+                <div class="content__title">바우처적용 상품목록</div>
+                <div class="content__row">
+                    <div class="table table__wrap">
+                        <div class="overflow-x-auto">
+                            <TABLE style="width:99%">
+                                <thead>
+                                    <tr>
+                                        <TH style="width:3%;">삭제</TH>
+                                        <TH style="width:3%;">상품<br>구분</TH>
+                                        <TH>상품 코드</TH>
+                                        <TH>상품명</TH>
+                                        <TH style="width:8%;">판매가<br>(한국몰)</TH>
+                                        <TH style="width:8%;">판매가<br>(영문몰)</TH>
+                                        <TH style="width:8%;">판매가<br>(중국몰)</TH>
+                                        <TH style="width:50px;">총 재고량</TH>
+                                        <TH style="width:50px;">재고수량</TH>
+                                        <TH style="width:50px;">판매수량</TH>
+                                        <TH style="width:50px;">안전재고</TH>
+                                    </tr>
+                                </thead>
+                                <tbody id="voucher_product_table">
+                                    
+                                </tbody>
+                            </TABLE>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content__wrap">
                 <div class="content__title">상세 설명</div>
                 <div class="content__row" style="height:120px!important">
                     <textarea name="description" value="" style="height:100%;width:90%;border:solid 1px;resize:none;"></textarea>
@@ -325,6 +367,8 @@ function getVoucherInfo(idx){
                 $('input[name="min_price"]').val(row.min_price);
                 $('input[name="description"]').val(row.description);
 
+                $(`input[name=except_product_flg]:input[value="${row.except_product_flg == '1'?'TRUE':'FALSE'}"]`).attr('checked',true);
+
                 if(row.member_level == 'ALL'){
                     $('.detail__member__level').hide();
                     $('input[name="member_level_flg"]:input[value="ALL"]').attr('checked', true);
@@ -344,6 +388,98 @@ function getVoucherInfo(idx){
                 $('select[name="voucher_date_type"]').val(row.voucher_date_type).prop('selected', true);
                 $('input[name="voucher_date_param"]').val(row.voucher_date_param);
                 $('#tot_issue_num').text(row.tot_issue_num);
+
+                if(row.voucher_product != null && row.voucher_product.data.length > 0){
+                    row.voucher_product.data.forEach(function(voucher_product_row){
+                        let strDiv = "";
+
+                        strDiv += '<TR>';
+                        strDiv += `		<td onclick="voucherProductDelete(this)"><a class="btn red"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>
+                                            <input type="hidden" name="product_idx_list[]" value="${voucher_product_row.product_idx}">
+                                        </td>`;
+                        var product_type = "";
+                        if (voucher_product_row.product_type == "B") {
+                            product_type = "일반";
+                        } else if (voucher_product_row.product_type == "S") {
+                            product_type = "세트";
+                        }
+                        strDiv += '    <td>' + product_type + '</td>';
+                        strDiv += '    <td>' + voucher_product_row.product_code + '</td>';
+
+                        let background_url = "background-image:url('" + voucher_product_row.img_location + "');";
+                        strDiv += '    <TD>';
+                        strDiv += '        <div class="product__img__wrap">';
+                        strDiv += '            <div class="product__img" style="' + background_url + '">';
+                        strDiv += '            </div>';
+                        strDiv += '            <div>';
+                        strDiv += '                <p>' + voucher_product_row.product_name + '</p><br>';
+                        strDiv += '                <p style="color:#EF5012">' + voucher_product_row.update_date + '</p>';
+                        strDiv += '            </div>';
+                        strDiv += '        </div>';
+                        strDiv += '    </TD>';
+
+                        let discount_kr = voucher_product_row.discount_kr;
+                        strDiv += '    <td style="text-align: right;">';
+                        if (discount_kr > 0) {
+                            strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+                            strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + voucher_product_row.price_kr.toLocaleString('ko-KR') + "</span></br>";
+                            strDiv += '        <span>' + voucher_product_row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
+                        } else {
+                            if(voucher_product_row.price_kr != null){
+                                strDiv += '        ' + voucher_product_row.price_kr.toLocaleString('ko-KR');
+                            }
+                        }
+                        strDiv += '    </td>';
+
+                        let discount_en = voucher_product_row.discount_en;
+                        strDiv += '    <td style="text-align: right;">';
+                        if (discount_en > 0) {
+                            strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+                            strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + voucher_product_row.price_en.toLocaleString('ko-KR') + "</span></br>";
+                            strDiv += '        <span>' + voucher_product_row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
+                        } else {
+                            if(voucher_product_row.price_en != null){
+                                strDiv += '        ' + voucher_product_row.price_en.toLocaleString('ko-KR');
+                            }
+                        }
+                        strDiv += '    </td>';
+
+                        let discount_cn = voucher_product_row.discount_cn;
+                        strDiv += '    <td style="text-align: right;">';
+                        if (discount_cn > 0) {
+                            strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+                            strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + voucher_product_row.price_cn.toLocaleString('ko-KR') + "</span></br>";
+                            strDiv += '        <span>' + voucher_product_row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
+                        } else {
+                            if(voucher_product_row.price_cn != null){
+                                strDiv += '        ' + voucher_product_row.price_cn.toLocaleString('ko-KR');
+                            }
+                        }
+                        strDiv += '    </td>';
+
+                        let stock_qty = voucher_product_row.stock_qty;
+                        let order_qty = voucher_product_row.order_qty;
+                        let safe_qty = voucher_product_row.safe_qty;
+
+                        let product_qty = stock_qty - order_qty;
+
+                        strDiv += '    <TD style="width:50px;">' + product_qty + '</TD>';
+                        strDiv += '    <TD style="width:50px;">' + stock_qty + '</TD>';
+                        strDiv += '    <TD style="width:50px;">' + order_qty + '</TD>';
+                        strDiv += '    <TD style="width:50px;">' + safe_qty + '</TD>';
+                        strDiv += '</TR>';
+
+                        $('#voucher_product_table').append(strDiv);
+                    });
+                }
+                else{
+                    strDiv = `
+                        <TD class="default_td" colspan="11">
+                            바우처적용 상품이 없습니다
+                        </TD>
+                    `;
+                    $('#voucher_product_table').append(strDiv);
+                }
             }
         }
     });
@@ -373,7 +509,9 @@ function updateVoucher(){
         });
     })
 }
-
+function voucherProductDelete(obj){
+	$(obj).parent().remove();
+}
 function cancelUpdateVoucher(){
     confirm('바우처목록 창으로 돌아가시겠습니까?', function(){
         modal_close();

@@ -53,14 +53,14 @@ if ($member_idx == 0 || $member_id == null) {
 if ($whish_idx > 0 && $product_idx > 0 && $option_idx > 0 && $product_qty > 0) {
 	$update_whish_sql = "
 		UPDATE
-			dev.WHISH_LIST WL,
+			WHISH_LIST WL,
 			(
 				SELECT
 					IDX				AS OPTION_IDX,
 					BARCODE			AS BARCODE,
 					OPTION_NAME		AS OPTION_NAME
 				FROM
-					dev.ORDERSHEET_OPTION
+					ORDERSHEET_OPTION
 				WHERE
 					S_OO.IDX =".$option_idx."
 			) AS OO

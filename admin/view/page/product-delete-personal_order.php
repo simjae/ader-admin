@@ -1,11 +1,17 @@
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
-	<form id="frm-list_02" action="product/delete/get">
+	<form id="frm-filter_IND" action="product/list/get">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+		
 		<input type="hidden" name="delete_flg" value="true">
-		<input type="hidden" name="tab_num" value="02">
+		<input type="hidden" name="tab_status" value="IND">
+		
 		<input type="hidden" class="rows" name="rows" value="10">
 		<input type="hidden" class="page" name="page" value="1">
+	
+		<input id="select_column_IND" type="hidden" name="select_column" value="">
 	
 		<div class="card__header">
 			<div class="card__header">
@@ -30,56 +36,72 @@
 						<option value="creater">등록아이디</option>
 					</select>
 					
-					<input type="text" name="search_keyword[]" value="" style="width:70%;">
+					<input type="text" class="search_keyword" name="search_keyword[]" value="" style="width:70%;">
 					
 					<button type="button" action_type="remove" style="width:30px;height:30px;border:1px solid;background-color:#ffffff;cursor:pointer;" onClick="searchTypeBtnClick(this);">-</button>
 					<button type="button" action_type="append" style="width:30px;height:30px;border:1px solid;background-color:#ffffff;cursor:pointer;" onClick="searchTypeBtnClick(this);">+</button>
 				</div>
 			</div>
+			
+			<div class="content__wrap">
+				<div class="content__title">상품 구분</div>
+				<div class="content__row">
+					<div class="rd__block">
+						<input id="product_type_all_IND" type="radio" name="product_type" value="ALL" checked>
+						<label for="product_type_all_IND">전체</label>
+						
+						<input id="product_type_b_IND" type="radio" name="product_type" value="B" >
+						<label for="product_type_b_IND">기본상품</label>
+						
+						<input id="product_type_s_IND" type="radio" name="product_type" value="S" >
+						<label for="product_type_s_IND">세트상품</label>
+					</div>
+				</div>
+			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">상품 분류</div>
 				<div class="content__row">
-				<div class="cb__color">
-					<label>
-						<input type="checkbox" name="product_type_all" value="">
-						<span>전체 상품분류 보기</span>
-					</label>
-				</div>
-				<select class="fSelect category eCategory eCategory1" depth="1" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-				</select>
+					<div class="cb__color">
+						<label>
+							<input type="checkbox" name="product_type_all" value="">
+							<span>전체 상품분류 보기</span>
+						</label>
+					</div>
+					<select class="fSelect category eCategory eCategory1" depth="1" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+					</select>
 
-				<select class="fSelect category eCategory eCategory2" depth="2" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 02</option>
-				</select>
-				<select class="fSelect category eCategory eCategory3" depth="3" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 03</option>
-				</select>
-				<select class="fSelect category eCategory eCategory4" depth="4" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 04</option>
-				</select>
-				<select class="fSelect category eCategory eCategory5" depth="5" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 05</option>
-				</select>
-				<select class="fSelect category eCategory eCategory6" depth="6" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
-					<option value="">상품분류 06</option>
-				</select>
-				<div class="cb__color">
-					<label>
-						<input type="checkbox" name="child_search_flg" value="true">
-						<span>하위분류 포함검색</span>
-					</label>
-					
-					<label>
-						<input type="checkbox" name="none_category_flg" value="true">
-						<span>분류 미등록 상품 검색</span>
-					</label>
-				</div>
-		
-
+					<select class="fSelect category eCategory eCategory2" depth="2" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 02</option>
+					</select>
+					<select class="fSelect category eCategory eCategory3" depth="3" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 03</option>
+					</select>
+					<select class="fSelect category eCategory eCategory4" depth="4" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 04</option>
+					</select>
+					<select class="fSelect category eCategory eCategory5" depth="5" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 05</option>
+					</select>
+					<select class="fSelect category eCategory eCategory6" depth="6" name="inner_category_idx[]" style="font-size:0.5rem;width:120px;" onChange="productCategoryChange(this);">
+						<option value="">상품분류 06</option>
+					</select>
+					<div class="cb__color">
+						<label>
+							<input type="checkbox" name="child_search_flg" value="true">
+							<span>하위분류 포함검색</span>
+						</label>
+						
+						<label>
+							<input type="checkbox" name="none_category_flg" value="true">
+							<span>분류 미등록 상품 검색</span>
+						</label>
+					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
-				<div class="content__title">기간</div>
+				<div class="content__title">상품 등록일</div>
 				<div class="content__row">
 					<select class="fSelect category" name="date_type" style="width:163px;">
 						<option value="CREATE_DATE">상품등록일</option>
@@ -98,103 +120,59 @@
 							<div class="search_date_personal date__picker" date_type="personal" date="03m" type="button" onclick="searchDateClick(this);">3개월</div>
 						</div>
 						<div class="content__date__picker">
-							<input id="personal_from" class="date_param" type="date" name="personal_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="personal" onChange="dateParamChange(this);">
+							<input id="personal_from" class="date_param" type="date" name="prod_date_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="personal" onChange="dateParamChange(this);">
 							<font>~</font>
-							<input id="personal_to" class="date_param" type="date" name="personal_to" placeholder="To" readonly style="width:150px;" date_type="personal" onChange="dateParamChange(this);">
+							<input id="personal_to" class="date_param" type="date" name="prod_date_to" placeholder="To" readonly style="width:150px;" date_type="personal" onChange="dateParamChange(this);">
 						</div>
 					</div>
 				</div>
 			</div>
 			
 			<div class="card__body--hide detail_hidden" style="display: none;">
-				<div class="content__wrap">
-					<div class="content__title">재고관리 사용</div>
-					<div class="content__row">
-						<div class="rd__block">
-							<input id="personal_stock_management_all" type="radio" name="stock_management" value="all" checked>
-							<label for="personal_stock_management_all">전체</label>
+				<div class="content__wrap grid__half">
+					<div class="half__box__wrap">
+						<div class="content__title">재고수량</div>
+						<div class="content__row">
+							<select class="fSelect" name="stock_type" style="width:163px;">
+								<option value="stock">재고수량</option>
+								<option value="safe">안전재고</option>
+							</select>
 							
-							<input id="personal_stock_management_true" type="radio" name="stock_management" value="true">
-							<label for="personal_stock_management_true">사용 함</label>
-							
-							<input id="personal_stock_management_false" type="radio" name="stock_management" value="false">
-							<label for="personal_stock_management_false">사용 안함</label>
+							<input type="number" name="stock_min" value="" style="height:28px;border:solid 1px #bfbfbf;width:50px;margin-right:5px;">개
+							~
+							<input type="number" name="stock_max" value="" style="height:28px;border:solid 1px #bfbfbf;width:50px;margin-right:5px;">개
 						</div>
 					</div>
-				</div>
-				
-				<div class="content__wrap">
-					<div class="content__title">재고수량</div>
-					<div class="content__row">
-						<select class="fSelect" name="stock_type" style="width:163px;">
-							<option value="stock">재고수량</option>
-							<option value="safe">안전재고</option>
-						</select>
-						
-						<input type="number" name="stock_min" value="" style="height:28px;border:solid 1px #bfbfbf;width:50px;margin-right:5px;">개
-						~
-						<input type="number" name="stock_max" value="" style="height:28px;border:solid 1px #bfbfbf;width:50px;margin-right:5px;">개
-					</div>
-				</div>
-				
-				<div class="content__wrap">
-					<div class="content__title">재고관리 등급</div>
-					<div class="content__row">
-						<div class="rd__block">
-							<input id="personal_stock_grade_all" type="radio" name="stock_grade" value="all" checked>
-							<label for="personal_stock_grade_all">전체</label>
-							<input id="personal_stock_grade_A" type="radio" name="stock_grade" value="A" >
-							<label for="personal_stock_grade_A">일반 재고</label>
-							<input id="personal_stock_grade_B" type="radio" name="stock_grade" value="B" >
-							<label for="personal_stock_grade_B">중요 재고</label>
-						</div>
-					</div>
-				</div>
-				
-				<div class="content__wrap">
-					<div class="content__title">품절 사용</div>
-					<div class="content__row">
-						<div class="rd__block">
-							<input id="personal_sold_out_flg_all" type="radio" name="sold_out_flg" value="all" checked>
-							<label for="personal_sold_out_flg_all">전체</label>
-							
-							<input id="personal_sold_out_flg_true" type="radio" name="sold_out_flg" value="true">
-							<label for="personal_sold_out_flg_true">사용 함</label>
-							
-							<input id="personal_sold_out_flg_false" type="radio" name="sold_out_flg" value="false">
-							<label for="personal_sold_out_flg_false">사용 안함</label>
-						</div>
-					</div>
-				</div>
-				
-				<div class="content__wrap">
-					<div class="content__title">품절 상태</div>
-					<div class="content__row">
-						<div class="rd__block">
-							<input id="personal_sold_out_status_all" type="radio" name="sold_out_status" value="all" checked>
-							<label for="personal_sold_out_status_all">전체</label>
-							
+					
+					<div class="half__box__wrap">
+						<div class="content__title">품절 상태</div>
+						<div class="content__row">
+							<div class="rd__block">
+								<input id="sold_out_status_all" type="radio" name="sold_out_status" value="all" checked>
+								<label for="sold_out_status_all">전체</label>
+								
 
-							<input id="personal_sold_out_status_false" type="radio" name="sold_out_status" value="false">
-							<label for="personal_sold_out_status_false">품절</label>
-							
-							<input id="personal_sold_out_status_true" type="radio" name="sold_out_status" value="true">
-							<label for="personal_sold_out_status_true">품절 아님</label>
+								<input id="sold_out_status_false" type="radio" name="sold_out_status" value="false">
+								<label for="sold_out_status_false">품절</label>
+								
+								<input id="sold_out_status_true" type="radio" name="sold_out_status" value="true">
+								<label for="sold_out_status_true">품절 아님</label>
+							</div>
 						</div>
 					</div>
 				</div>
-				
+								
 				<div class="content__wrap grid__half">
 					<div class="half__box__wrap">
 						<div class="content__title">진열 상태</div>
 						<div class="content__row">
 							<div class="rd__block">
-								<input id="personal_display_status_all" type="radio" name="display_status" value="all" checked>
-								<label for="personal_display_status_all">전체</label>
-								<input id="personal_display_status_true" type="radio" name="display_status" value="true">
-								<label for="personal_display_status_true">진열 함</label>
-								<input id="personal_display_status_false" type="radio" name="display_status" value="false">
-								<label for="personal_display_status_false">진열 안함</label>
+								<input id="display_status_all" type="radio" name="display_status" value="all" checked>
+								<label for="display_status_all">전체</label>
+								<input id="display_status_true" type="radio" name="display_status" value="true">
+								<label for="display_status_true">진열 함</label>
+								<input id="display_status_false" type="radio" name="display_status" value="false">
+								<label for="display_status_false">진열 안함</label>
 							</div>
 						</div>
 					</div>
@@ -203,14 +181,14 @@
 						<div class="content__title">판매 여부</div>
 						<div class="content__row">
 							<div class="rd__block">
-								<input id="personal_sale_flg_all" type="radio" name="sale_flg" value="all" checked>
-								<label for="personal_sale_flg_all">전체</label>
+								<input id="sale_flg_all" type="radio" name="sale_flg" value="all" checked>
+								<label for="sale_flg_all">전체</label>
 								
-								<input id="personal_sale_flg_true" type="radio" name="sale_flg" value="true">
-								<label for="personal_sale_flg_true">판매 함</label>
+								<input id="sale_flg_true" type="radio" name="sale_flg" value="true">
+								<label for="sale_flg_true">판매 함</label>
 								
-								<input id="personal_sale_flg_false" type="radio" name="sale_flg" value="false">
-								<label for="personal_sale_flg_false">판매 안함</label>
+								<input id="sale_flg_false" type="radio" name="sale_flg" value="false">
+								<label for="sale_flg_false">판매 안함</label>
 							</div>
 						</div>
 					</div>
@@ -246,58 +224,44 @@
 					<div class="content__row">
 						<div class="cb__color">
 							<label>
-								<input type="checkbox" name="unclassified" value="">
+								<input type="checkbox" name="unclassified" value="TRUE">
 								<span>분류 미등록 상품 검색</span>
 							</label>
 						</div>
 					</div>
 				</div>
-				
-				<div class="content__wrap">
-					<div class="content__title">번역 상태</div>
-					<div class="content__row">
-						<select class="fSelect" name="translate_flg" style="width:163px;">
-							<option value="">번역상태 선택</option>
-							<option value="false">미번역</option>
-							<option value="true">번역완료</option>
-						</select>
-					</div>
-				</div>
 			</div>
-			
 		</div>
 		<div class="card__footer">
 			<div class="footer__btn__wrap">
-				<div class="detail_toggle" toggle="hide" onclick="detailToggleClick(this)">상세 검색 열기 +</div>
+				<div class="detail_toggle" toggle="hide" tab_status="IND" onclick="detailToggleClick(this)">상세 검색 열기 +</div>
 				<div class="btn__wrap--lg">
-					<div  class="blue__color__btn" onClick="getDeleteTabInfo_02();"><span>검색</span></div>
-					<div class="defult__color__btn" onClick="init_fileter('frm-list_02', 'getDeleteTabInfo_02');"><span>초기화</span></div>
+					<div  class="blue__color__btn" onClick="getDelProductInfoList('IND');"><span>검색</span></div>
+					<div class="defult__color__btn" onClick="init_fileter('frm-filter_IND', 'getDelProductInfoList');"><span>초기화</span></div>
 				</div>
 			</div>
 		</div> 
 	</form>
 </div>
 <div class="content__card">
-	<form id="frm-02-01" action="product/delete/put">
+	<form id="frm-list_IND" action="product/delete/put">
 		<input type="hidden" class="action_type" name="action_type">
 				
 		<div class="card__header">
-			<h3>결제 목록 검색 결과</h3>
+			<h3>개인 결제 목록 검색 결과</h3>
 			<div class="drive--x"></div>
 		</div>
 		<div class="card__body">
 			<div class="info__wrap " style="justify-content:space-between; align-items: center;">
 				<div class="body__info--count">
 					<div class="drive--left"></div>
-					총 상품 수 <font class="cnt_02_total info__count" >0</font>개 / 검색결과 <font class="cnt_02_result info__count" >0</font>개
+					총 상품 수 <font class="cnt_IND_total info__count" >0</font>개 / 검색결과 <font class="cnt_IND_result info__count" >0</font>개
 				</div>
 					
 				<div class="content__row">
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
 						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PRODUCT_NAME|ASC">상품명 순</option>
 						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
@@ -327,152 +291,49 @@
 						<div style="width: 140px;" class="filter__btn" onclick="excelDownload();">엑셀 다운로드</div>
 					</div>                             
 					<div>
-						<div class="table__setting__btn">설정</div>
+						<div class="btn" style="width:100px;text-align:center;float:right;" onClick="openSelectColumnModal('IND')">설정</div>
 					</div>    
 				</div>
-				<div class="overflow-x-auto">
-					<TABLE id="excel_table_02">
-						<THEAD>
-							<TR>
-								<TH style="width:3%;">
-									<div class="row form-group">
-										<label>
-											<input type="checkbox" onClick="selectAllClick(this);">
-											<span></span>
-										</label>
-									</div>
-								</TH>
-								<TH style="width:5%;">No.</TH>
-								<TH style="width:3%;">상품<br>구분</TH>
-								<TH>스타일 코드</TH>
-								<TH>컬러 코드</TH>
-								<TH>상품 코드</TH>
-								<TH>상품명</TH>
-								<TH style="width:8%;">판매가<br>(한국몰)</TH>
-								<TH style="width:8%;">판매가<br>(영문몰)</TH>
-								<TH style="width:8%;">판매가<br>(중국몰)</TH>
-							</TR>
-						</THEAD>
-						
-						<TBODY id="result_table_02">
-							<TR>
-								<TD class="default_td" colspan="8">
-									조회 결과가 없습니다
-								</TD>
-							</TR>
-						</TBODY>
-					</TABLE>
+				<div class="double__table__container">
+					<div class="overflow-x-auto top__scroll">
+						<table class="checkbox__table">
+							<colgroup>
+								<col width="3%">
+							</colgroup>
+							<thead>
+								<tr class="checkbox_tr">
+									<th class="check__box__area">
+										<div class="td__wrap">
+											<div class="cb__color">
+												<label>
+													<input type="checkbox" onClick="selectAllClick(this);">
+													<span></span>
+												</label>
+											</div>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody id="result_checkbox_table_IND">
+							</tbody>
+						</table>
+					</div>
+					<div class="overflow-x-auto top__scroll">
+						<TABLE id="result_table_IND"></TABLE>
+					</div>
 				</div>
 			</div>
 			<div class="padding__wrap">
-				<input type="hidden" class="total_cnt" tab_num="02" value="0" onChange="setPaging(this);">
-				<input type="hidden" class="result_cnt" tab_num="02" value="0" onChange="setPaging(this);">
-            	<div class="paging_02"></div>
+				<input type="hidden" class="total_cnt" tab_status="IND" value="0" onChange="setPaging(this);">
+				<input type="hidden" class="result_cnt" tab_status="IND" value="0" onChange="setPaging(this);">
+            	<div class="paging_IND"></div>
         	</div>
 		</div>
 	</form>
 </div>
 <script>
 $(document).ready(function() {
-	getDeleteTabInfo_02();
+	getDelProductInfoList('IND');
 });
 
-function getDeleteTabInfo_02() {
-	$("#result_table_02").html('');
-	
-	var strDiv = '';
-	strDiv += '<TD class="default_td" colspan="10">';
-	strDiv += '    조회 결과가 없습니다';
-	strDiv += '</TD>';
-	
-	$("#result_table_02").append(strDiv);
-	
-	var rows = $('#frm-list_02').find('.rows').val();
-	var page = $('#frm-list_02').find('.page').val();
-	
-	get_contents($("#frm-list_02"),{
-		pageObj : $(".paging_02"),
-		html : function(d) {
-			if (d.length > 0) {
-				$("#result_table_02").html('');
-			}
-			
-			d.forEach(function(row) {
-				var strDiv = "";
-				strDiv += '<TR>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="cb__color">';
-				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" class="select" name="select_idx[]" value="' + row.no + '">';
-				strDiv += '                    <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + row.num + '</TD>';
-				var product_type = "";
-				if (row.product_type == "B") {
-					product_type = "일반";
-				} else if (row.product_type == "S") {
-					product_type = "세트";
-				}
-				strDiv += '    <td>' + product_type + '</td>';
-				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
-				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
-				strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.product_code + '</font></td>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="product__img__wrap">';
-				
-				var background_url = "background-image:url('" + row.img_location + "');";
-				
-				strDiv += '            <div class="product__img" style="' + background_url + '">';
-				strDiv += '            </div>';
-				strDiv += '            <div>';
-				strDiv += '                <p>' + row.product_name + '</p><br>';
-				strDiv += '            	   <p style="color:#EF5012">' + row.update_date + '</p>';
-				strDiv += '            </div>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_kr = row.discount_kr;
-				if (discount_kr > 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
-				} else {
-					strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
-				}
-				
-				strDiv += '    </td>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_en = row.discount_en;
-				if (discount_en > 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
-				} else {
-					strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
-				}
-				
-				strDiv += '    </td>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_cn = row.discount_cn;
-				if (discount_cn > 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
-				} else {
-					strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
-				}
-				
-				strDiv += '    </td>';
-				strDiv += '</tr>';
-				
-				$("#result_table_02").append(strDiv);
-			});
-		},
-	},rows,page);
-}
 </script>

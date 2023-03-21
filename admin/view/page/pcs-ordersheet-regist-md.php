@@ -11,6 +11,9 @@
 	}
 	.size_textarea{width:90%; height:150px;resize: none;border: solid 1px #bfbfbf;}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
     <div class="card__header">
         <h3>개별상품등록 [MD]</h3>
@@ -29,11 +32,11 @@
 								<TR>
 									<TD style="width:10%;">스타일코드</TD>
 									<TD>
-										<input id="style_code" class="product_code_unit" type="text" name="style_code" maxlength="9" value="" >
+										<input id="style_code" class="product_code_unit" type="text" name="style_code" maxlength="15" value="" >
 									</TD>
 									<TD style="width:10%;">컬러코드</TD>
 									<TD>
-										<input id="color_code" class="product_code_unit" type="text" name="color_code" maxlength="2" value="" >
+										<input id="color_code" class="product_code_unit" type="text" name="color_code" maxlength="15" value="" >
 									</TD>
 									<TD style="width:10%;">상품코드</TD>
 									<TD>
@@ -123,41 +126,55 @@
 									</TD>
                                 </TR>
                                 <TR>
-									<TD>소재</TD>
+									<TD>상품 이름</TD>
 									<TD colspan="3">
-                                    <input type="text" id="material" name="material" value="">
+										<input type="text" id="product_name" name="product_name" value="">
 									</TD>
 									<TD>상품 그래픽</TD>
 									<TD colspan="3">
                                         <input id="graphic" type="text" name="graphic" value="">
 									</TD>
 								</TR>
-                                <TR>
-									<TD>상품 핏</TD>
-									<TD colspan="3">
-                                        <input id="fit" type="text" name="fit" value="">
-									</TD>
-									<TD>상품 이름</TD>
-									<TD colspan="3">
-										<input type="text" id="product_name" name="product_name" value="">
-									</TD>
-								</TR>
 								<TR>
 									<TD>상품 사이즈</TD>
-									<TD>
+									<TD colspan="3">
 										<input type="text" id="product_size" name="product_size" value="">
 									</TD>
 									<TD>상품 색상</TD>
-									<TD>
+									<TD colspan="3">
 										<input id="color" type="text" name="color" value="">
 									</TD>
-									<TD>RGB 코드</TD>
-									<TD>
-										<input id="color_rgb" type="text" name="color_rgb" value="">
+								</TR>
+								<TR>
+									<TD>ID당 구매 제한우뮤</TD>
+									<TD colspan="3">
+										<div class="flex" style="gap: 10px;">
+											<label class="rd__square">
+												<input type="radio" name="limit_id_flg" value="false" checked>
+												<div><div></div></div>
+												<span>제한안함</span>
+											</label>
+											<label class="rd__square">
+												<input type="radio" name="limit_id_flg" value="true">
+												<div><div></div></div>
+												<span>제한함</span>
+											</label>
+										</div>
 									</TD>
-									<TD>팬톤 코드</TD>
-									<TD>
-										<input id="pantone_code" type="text" name="pantone_code" value="">
+									<TD>구매수량 제한 유무</TD>
+									<TD colspan="3">
+										<div class="flex" style="gap: 10px;">
+											<label class="rd__square">
+												<input type="radio" name="limit_product_qty_flg" value="false" checked>
+												<div><div></div></div>
+												<span>제한안함</span>
+											</label>
+											<label class="rd__square">
+												<input type="radio" name="limit_product_qty_flg" value="true">
+												<div><div></div></div>
+												<span>제한함</span>
+											</label>
+										</div>
 									</TD>
 								</TR>
 								<TR>
@@ -165,9 +182,9 @@
 									<TD colspan="3">
 										<input type="text" id="md_category_guide" name="md_category_guide" value="">
 									</TD>
-									<TD>구매 수량 제한</TD>
+									<TD>구매제한 수량</TD>
 									<TD>
-										<input type="text" id="limit_qty" name="limit_qty" value="">
+										<input type="text" id="limit_product_qty" name="limit_product_qty" value="">
 									</TD>
 									<TD>구매 멤버 제한</TD>
 									<TD>
@@ -254,22 +271,15 @@
 									</TD>
 								</tr>
 								<tr>
-									<TD>최초 TP작성 완료일</TD>
-									<TD>
-										<input id="tp_completion_date" type="date" name="tp_completion_date"
-												value="" date_type="tp_completion" onchange="dateParamChange(this)">
-									</TD>
 									<TD>입고 요청일</TD>
-									<TD>
+									<TD colspan="3">
 										<input id="receive_request_date" type="date" name="receive_request_date"
-												value="" date_type="receive_request" onchange="dateParamChange(this)">
+												value="" date_type="receive_request">
 									</TD>
-									<TD>입고 요청 - 최초 TP작성 완료 날짜차이 </TD>
-									<TD id="date_interval"></TD>
 									<TD>런칭일</TD>
-									<TD>
+									<TD colspan="3">
 										<input id="launching_date" type="date" name="launching_date"
-												value="" date_type="launching" onchange="dateParamChange(this)">
+												value="" date_type="launching">
 									</TD>
 								</tr>
 							</TBODY>
@@ -358,45 +368,6 @@ $(document).ready(function() {
 		}
 	});
 });
-
-function dateParamChange(obj) {
-	var date_type = $(obj).attr('date_type');
-	var startDate = new Date($('#tp_completion_date').val());
-	var endDate = new Date($('#receive_request_date').val()); 
-
-	var dateInterval = 0;
-	if(startDate.length != 0 && endDate != 0 ){
-		dateInterval = getDateInterval(startDate, endDate);
-	}
-
-	if(dateInterval != NaN && dateInterval < 0){
-		alert('입고 요청일을 TP작성 완료일 이후 일자로 지정해주세요');
-		$('#date_interval').text(dateInterval + '일');
-		return false;
-	}
-	else if(dateInterval != NaN && dateInterval >= 0){
-		$('#date_interval').text(dateInterval + '일');
-	}
-	/*
-	var paramDate = '';
-	var dateTypeStr = '';
-	switch(date_type){
-		case 'tp_completion':
-			paramDate = new Date($('#tp_completion_date').val());
-			dateTypeStr = '최초 TP 작성 완료일';
-			break;
-		case 'receive_request':
-			paramDate = new Date($('#receive_request_date').val());
-			dateTypeStr = '입고 요청일';
-			break;
-		case 'launching':
-			paramDate = new Date($('#launching').val());
-			dateTypeStr = '런칭 예정일';
-			break;
-	}
-	*/
-}
-
 function lineInfoGet(){
 	$.ajax({
         type: "post",
@@ -469,7 +440,7 @@ function setMdCategory(depth,d){
 			md_cate_name = '소분류';
 			break;
 		case 4:
-			md_cate_name = '대분류';
+			md_cate_name = '세분류';
 			break;
 	}
 	var eCategory = $('.eCategory' + depth);
@@ -629,13 +600,13 @@ function ordersheetRegister() {
 		alert('상품코드를 입력해주세요.');
 		return false;
 	}
-	
+
 	var product_name = $('#product_name').val();
 	if (product_name.length == 0 || product_name == null) {
 		alert('상품명을 입력해주세요.');
 		return false;
 	}
-
+	
 	var category_lrg_idx = parseInt($('.eCategory1').val());
 	var category_mdl_idx = parseInt($('.eCategory2').val());
 	var category_sml_idx = parseInt($('.eCategory3').val());
@@ -649,31 +620,6 @@ function ordersheetRegister() {
 	var duplicate_check = $('#duplicate_check').val();
 	if (duplicate_check != 'true') {
 		alert('등록하려는 상품의 상품코드를 확인해주세요.');
-		return false;
-	}
-	
-	var color_rgb = $('#color_rgb').val();
-	var result = color_rgb.indexOf(';');
-	if(result < 0){
-		color_rgb += ';';
-	}
-	var color_rgb_arr = color_rgb.split(";");
-	var err_cnt = 0;
-	for(var i = 0; i < color_rgb_arr.length; i++){
-		var code_regex = /#[A-Za-z0-9]{6,8}/;
-		if(color_rgb_arr[i].length > 0 && color_rgb_arr[i].length <= 9){
-			if(code_regex.test(color_rgb_arr[i]) == false){
-				err_cnt++;
-			}
-		}
-		else{
-			if(color_rgb_arr[i].length != 0){
-				err_cnt++;
-			}
-		}
-	}
-	if(err_cnt > 0){
-		alert('색상코드가 유효하지 않습니다. 정확한 색상코드를 입력해주세요.');
 		return false;
 	}
 

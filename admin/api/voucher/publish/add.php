@@ -14,6 +14,9 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id				= sessionCheck();
 $country                = $_POST['country'];
 $voucher_name	        = $_POST['voucher_name'];
 $voucher_code	        = $_POST['voucher_code'];
@@ -51,7 +54,7 @@ if ($voucher_name != null) {
 if ($voucher_code != null) {
     $voucher_code_arr = array();
     $voucher_code_arr[0] = "VOUCHER_CODE,";
-    $voucher_code_arr[1] = "'".$voucher_code."',";
+    $voucher_code_arr[1] = "'".strtoupper($voucher_code)."',";
 }
 
 if ($on_off_type != null) {
@@ -94,13 +97,13 @@ if ($voucher_type != null) {
         if ($issue_start_date != null) {
             $issue_start_date_arr = array();
             $issue_start_date_arr[0] = "ISSUE_START_DATE,";
-            $issue_start_date_arr[1] = "'".$issue_start_date."',";
+            $issue_start_date_arr[1] = "STR_TO_DATE('".$issue_start_date."','%Y-%m-%d %H:%i'),";
         }
         
         if ($issue_end_date != null) {
             $issue_end_date_arr = array();
             $issue_end_date_arr[0] = "ISSUE_END_DATE,";
-            $issue_end_date_arr[1] = "'".$issue_end_date."',";
+            $issue_end_date_arr[1] = "STR_TO_DATE('".$issue_end_date."','%Y-%m-%d %H:%i'),";
         }
         
         if ($voucher_date_type != null) {
@@ -109,22 +112,22 @@ if ($voucher_type != null) {
             $voucher_date_type_arr[1] = "'".$voucher_date_type."',";
         }
         
-        if ($voucher_date_param == null) {
+        if ($voucher_date_param != null) {
             $voucher_date_param_arr = array();
             $voucher_date_param_arr[0] = "VOUCHER_DATE_PARAM,";
-            $voucher_date_param_arr[1] = "'".$voucher_date_param."',";
+            $voucher_date_param_arr[1] = " ".$voucher_date_param.",";
         }
         
         if ($voucher_start_date != null) {
             $voucher_start_date_arr = array();
             $voucher_start_date_arr[0] = "VOUCHER_START_DATE,";
-            $voucher_start_date_arr[1] = "'".$voucher_start_date."',";
+            $voucher_start_date_arr[1] = "STR_TO_DATE('".$voucher_start_date."','%Y-%m-%d %H:%i'),";
         }
         
         if ($voucher_end_date != null) {
             $voucher_end_date_arr = array();
             $voucher_end_date_arr[0] = "VOUCHER_END_DATE,";
-            $voucher_end_date_arr[1] = "'".$voucher_end_date."',";
+            $voucher_end_date_arr[1] = "STR_TO_DATE('".$voucher_end_date."','%Y-%m-%d %H:%i'),";
         }
     }
 }
@@ -163,8 +166,18 @@ if ($member_level_flg != null) {
         $member_level_arr[1] = "'".implode(",",$member_level)."',";
     }
 }
+
+$except_product_flg = NULL;
+$except_product_flg = $_POST['except_product_flg'];
+if ($except_product_flg != null) {
+    $except_product_flg_arr = array();
+    $except_product_flg_arr[0] = "EXCEPT_PRODUCT_FLG,";
+    $except_product_flg_arr[1] = " ".$except_product_flg.", ";
+}
+
+
 $sql = "INSERT INTO
-            dev.VOUCHER_MST
+            VOUCHER_MST
             (
                 ".$country_arr[0]."
                 ".$voucher_name_arr[0]."
@@ -202,9 +215,37 @@ $sql = "INSERT INTO
                 ".$min_price_arr[1]."
                 ".$description_arr[1]."
                 ".$member_level_arr[1]."
-                'Admin',
-                'Admin'
+                '".$session_id."',
+                '".$session_id."'
             )";
 
 $db->query($sql);
+
+$voucher_idx = $db->last_id();
+
+if(!empty($voucher_idx)){
+    $product_idx_list = NULL;
+    $product_idx_list = $_POST['product_idx_list'];
+    if($product_idx_list != NULL){
+        $insert_voucher_product_sql = "
+            INSERT INTO VOUCHER_PRODUCT
+            (
+                VOUCHER_IDX,
+                PRODUCT_IDX,
+                CREATER,
+                UPDATER
+            )
+            SELECT
+                ".$voucher_idx.",
+                IDX,
+                '".$session_id."',
+                '".$session_id."'
+            FROM
+                SHOP_PRODUCT
+            WHERE
+                IDX IN (".implode(',',$product_idx_list).")
+        ";
+        $db->query($insert_voucher_product_sql);
+    }
+}
 ?>

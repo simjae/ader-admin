@@ -35,7 +35,7 @@ if (isset($_POST['product_idx'])) {
 
 if ($member_idx > 0 && $product_idx != null) {
 	//찜한 상품 리스트 등록 전 동일 상품 중복체크
-	$whish_list_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
+	$whish_list_cnt = $db->count("WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
 	
 	if ($whish_list_cnt > 0) {
 		$json_result['code'] = 402;
@@ -45,7 +45,7 @@ if ($member_idx > 0 && $product_idx != null) {
 	} else {
 		$insert_whish_sql = "
 			INSERT INTO
-				dev.WHISH_LIST
+				WHISH_LIST
 			(
 				COUNTRY,
 				MEMBER_IDX,
@@ -66,7 +66,7 @@ if ($member_idx > 0 && $product_idx != null) {
 				'".$member_id."'	AS CREATER,
 				'".$member_id."'	AS UPDATER
 			FROM
-				dev.SHOP_PRODUCT
+				SHOP_PRODUCT
 			WHERE
 				IDX = ".$product_idx."
 		";
@@ -74,7 +74,7 @@ if ($member_idx > 0 && $product_idx != null) {
 		$db->query($insert_whish_sql);
 	}
 	
-	$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	$whish_cnt = $db->count("WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
 	
 	$json_result['data'] = $whish_cnt;
 }

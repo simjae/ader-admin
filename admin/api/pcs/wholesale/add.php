@@ -14,6 +14,9 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
 $ordersheet_idx		= $_POST['ordersheet_idx'];
 $country			= $_POST['country'];
 $buyer				= $_POST['buyer'];
@@ -25,7 +28,7 @@ if ($ordersheet_idx != null) {
 	if(is_array($ordersheet_idx) == true){
 		foreach($ordersheet_idx as $key => $val){
 			$sql = "INSERT INTO
-					dev.WHOLESALE_INFO
+					WHOLESALE_INFO
 				(
 					ORDERSHEET_IDX,
 					STYLE_CODE,
@@ -53,10 +56,10 @@ if ($ordersheet_idx != null) {
 					'".$due_date[$key]."',
 					".$product_qty[$key].",
 					'".$memo[$key]."',
-					'Admin',
-					'Admin'
+					'".$session_id."',
+					'".$session_id."'
 				FROM
-					dev.ORDERSHEET_MST
+					ORDERSHEET_MST
 				WHERE
 					IDX = ".$val;
 			
@@ -65,7 +68,7 @@ if ($ordersheet_idx != null) {
 	}
 	else{
 		$sql = "INSERT INTO
-					dev.WHOLESALE_INFO
+					WHOLESALE_INFO
 				(
 					ORDERSHEET_IDX,
 					STYLE_CODE,
@@ -93,10 +96,10 @@ if ($ordersheet_idx != null) {
 					'".$due_date."',
 					".$product_qty.",
 					'".$memo."',
-					'Admin',
-					'Admin'
+					'".$session_id."',
+					'".$session_id."'
 				FROM
-					dev.ORDERSHEET_MST
+					ORDERSHEET_MST
 				WHERE
 					IDX = ".$ordersheet_idx;
 		$db->query($sql);

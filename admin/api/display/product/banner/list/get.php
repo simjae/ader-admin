@@ -29,15 +29,15 @@ if ($banner_type != null) {
 	$banner_table = "";
 	switch ($banner_type) {
 		case "HED" :
-			$banner_table = "dev.BANNER_HEAD";
+			$banner_table = "BANNER_HEAD";
 			break;
 		
 		case "IMG" :
-			$banner_table = "dev.BANNER_IMG";
+			$banner_table = "BANNER_IMG";
 			break;
 		
 		case "VID" :
-			$banner_table = "dev.BANNER_VID";
+			$banner_table = "BANNER_VID";
 			break;
 	}
 

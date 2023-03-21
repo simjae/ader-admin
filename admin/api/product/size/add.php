@@ -28,7 +28,7 @@
     $value_sql  = "";
 
     if($product_code != null){
-        $db->query('SELECT IDX FROM dev.SHOP_PRODUCT WHERE PRODUCT_CODE = "'.$product_code.'" ');
+        $db->query('SELECT IDX FROM SHOP_PRODUCT WHERE PRODUCT_CODE = "'.$product_code.'" ');
         foreach($db->fetch() as $data){
             $product_idx = $data['IDX'];
         }
@@ -63,7 +63,7 @@
         }
     }
     $sql = "
-            INSERT INTO dev.PRODUCT_SIZE (
+            INSERT INTO PRODUCT_SIZE (
                 PRODUCT_IDX,
                 PRODUCT_CODE,
                 SIZE_NAME,

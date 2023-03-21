@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="339" viewBox="0 0 320 339">
+  <g id="그룹_8024" data-name="그룹 8024" transform="translate(-20 -917)">
+    <rect id="사각형_2301" data-name="사각형 2301" width="320" height="339" transform="translate(20 917)" fill="none"/>
+    <g id="그룹_8022" data-name="그룹 8022" transform="translate(18305 -6252)">
+      <g id="그룹_7808" data-name="그룹 7808" transform="translate(-657 4072)">
+        <line id="선_2771" data-name="선 2771" y2="269.747" transform="translate(-17499.5 3110.5)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2772" data-name="선 2772" y2="5" transform="translate(-17497 3110) rotate(90)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2773" data-name="선 2773" y2="5" transform="translate(-17497 3379.747) rotate(90)" fill="none" stroke="#343434" stroke-width="1"/>
+      </g>
+      <g id="그룹_7916" data-name="그룹 7916" transform="translate(-15001.203 24964.297) rotate(90)">
+        <line id="선_2771-2" data-name="선 2771" y2="22.297" transform="translate(-17499.5 3110.5)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2772-2" data-name="선 2772" y2="5" transform="translate(-17497 3110) rotate(90)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2773-2" data-name="선 2773" y2="5" transform="translate(-17497 3132.297) rotate(90)" fill="none" stroke="#343434" stroke-width="1"/>
+      </g>
+      <g id="그룹_7915" data-name="그룹 7915" transform="translate(-24064.951 3439)">
+        <path id="사각형_2294" data-name="사각형 2294" d="M0,0H15.119a0,0,0,0,1,0,0V259.012a7.833,7.833,0,0,1-7.833,7.833H6.5a6.5,6.5,0,0,1-6.5-6.5V0A0,0,0,0,1,0,0Z" transform="translate(5934.809 3746.402)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <circle id="타원_123" data-name="타원 123" cx="2.142" cy="2.142" r="2.142" transform="translate(5940.479 3925.559)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <circle id="타원_124" data-name="타원 124" cx="2.142" cy="2.142" r="2.142" transform="translate(5940.479 3934.126)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <circle id="타원_125" data-name="타원 125" cx="2.142" cy="2.142" r="2.142" transform="translate(5940.479 3943.197)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <circle id="타원_126" data-name="타원 126" cx="2.142" cy="2.142" r="2.142" transform="translate(5940.479 3952.017)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <circle id="타원_127" data-name="타원 127" cx="2.142" cy="2.142" r="2.142" transform="translate(5940.479 3960.836)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <circle id="타원_128" data-name="타원 128" cx="2.142" cy="2.142" r="2.142" transform="translate(5940.479 3969.907)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <rect id="사각형_2295" data-name="사각형 2295" width="21.07" height="10.205" rx="2.919" transform="translate(5931.881 3743)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

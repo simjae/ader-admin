@@ -1,8 +1,10 @@
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-filter" action="product/recommend/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
-		<input type="hidden" class="tab_num" name="tab_num" value="01">
+		
 		<input type="hidden" class="rows" name="rows" value="10">
 		<input type="hidden" class="page" name="page" value="1">
 
@@ -49,17 +51,17 @@
 			<div class="table table__wrap">
 				<div class="table__filter">
 					<div class="filrer__wrap">
-						<div style="width: 140px;" class="filter__btn" onclick="openPageRecommendRegistModal();">등록</div>
+						<div style="width: 140px;" class="filter__btn" onclick="location.href='/product/recommend/regist';">등록</div>
 						<div style="width: 140px;" class="filter__btn" onclick="deletePageRecommend();">삭제</div>
 					</div>                                
 				</div>
-				<TABLE id="excel_table">
+				<TABLE id="excel_table" class="table_list">
 					<THEAD>
 						<TR>
 							<TH style="width:3%;">
 								<div class="cb__color">
 									<label>
-										<input type="checkbox" onClick="selectAllClick(this);">
+										<input type="checkbox" table_type="list" onClick="selectAllClick(this);">
 										<span></span>
 									</label>
 								</div>
@@ -127,32 +129,36 @@ function setPaging(obj) {
 }
 
 function selectAllClick(obj) {
+	let table_type = $(obj).attr('table_type');
+	let table = $('.table_' + table_type);
+	
 	if ($(obj).prop('checked') == true) {
-		$(obj).prop('checked',true);
-		$("#result_table").find('.select').prop('checked',true);
+		table.find('.select').prop('checked',true);
 	} else {
-		$(obj).attr('checked',false);
-		$("#result_table").find('.select').prop('checked',false);
+		table.find('.select').prop('checked',false);
 	}
 }
 
 function getPageRecommendList(){
-	$("#result_table").html('');
+	let frm = $('#frm-filter');
+	let result_table = $("#result_table");
+	result_table.html('');
 	
 	var strDiv = '';
 	strDiv += '<TD class="default_td" colspan="10" style="text-align:left;">';
 	strDiv += '    조회 결과가 없습니다';
 	strDiv += '</TD>';
 	
-	$("#result_table").append(strDiv);
+	result_table.append(strDiv);
 	
-	var rows = $("#frm-filter").find('.rows').val();
-	var page = $("#frm-filter").find('.page').val();
-	get_contents($("#frm-filter"),{
+	var rows = frm.find('.rows').val();
+	var page = frm.find('.page').val(1);
+	
+	get_contents(frm,{
 		pageObj : $(".paging"),
 		html : function(d) {
 			if (d.length > 0) {
-				$("#result_table").html('');
+				result_table.html('');
 			}
 			
 			d.forEach(function(row) {
@@ -167,7 +173,7 @@ function getPageRecommendList(){
 				strDiv += '        </div>';
 				strDiv += '    </td>';
 				strDiv += '    <TD>' + row.num + '</TD>';
-				strDiv += '    <TD style="cursor:pointer;" onClick="openPageRecommendUpdateModal(' + row.page_idx + ');">' + row.page_title + '</TD>';
+				strDiv += '    <TD style="cursor:pointer;" onClick="location.href=\'/product/recommend/update?page_idx=' + row.page_idx + '\';">' + row.page_title + '</TD>';
 				strDiv += '    <TD>' + row.page_memo + '</TD>';
 				
 				let active_flg = "";
@@ -184,7 +190,7 @@ function getPageRecommendList(){
 				strDiv += '    <TD>' + row.updater + '</TD>';
 				strDiv += '</TR>';
 				
-				$("#result_table").append(strDiv);
+				result_table.append(strDiv);
 			});
 		},
 	},rows, page);
@@ -206,7 +212,7 @@ function deletePageRecommend() {
 		for (let i=0; i<cnt; i++) {
 			let checkbox = $('.page_idx').eq(i);
 			if (checkbox.prop('checked') == true) {
-				let checked_val = checkbox.eq(i).val();
+				let checked_val = checkbox.val();
 				page_idx.push(checked_val);
 			}
 		}
@@ -220,7 +226,7 @@ function deletePageRecommend() {
 				dataType: "json",
 				url: config.api + "product/recommend/delete",
 				error: function() {
-					alert('추천상품 리스트 삭제 처리에 실패했습니다. 삭제하려는 추천상품 리스트를 확인해주세요.');
+					alert('추천상품 리스트 삭제처리중 오류가 발생했주세요.');
 				},
 				success: function(d) {
 					if(d.code == 200) {
@@ -238,4 +244,5 @@ function deletePageRecommend() {
 		return false;
 	}
 }
+
 </script>

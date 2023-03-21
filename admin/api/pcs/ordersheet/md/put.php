@@ -13,17 +13,117 @@
  | 
  +=============================================================================
 */
+
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$ordersheet_idx     = $_POST['ordersheet_idx'];
-$update_date 		= $_POST['update_date'];
-$overwrite_flg		= $_POST['overwrite_flg'];
+$session_id				= sessionCheck();
+$ordersheet_idx     	= $_POST['ordersheet_idx'];
+
+$update_date 			= $_POST['update_date'];
+$overwrite_flg			= $_POST['overwrite_flg'];
+
+$style_code				= $_POST['style_code'];
+$color_code				= $_POST['color_code'];
+$product_code			= $_POST['product_code'];
+
+$preorder_flg			= $_POST['preorder_flg'];
+$refund_flg				= $_POST['refund_flg'];
+$limit_id_flg			= $_POST['limit_id_flg'];
+$limit_product_qty_flg	= $_POST['limit_product_qty_flg'];
+
+$line_idx = 0;
+if (isset($_POST['line_idx']) && $_POST['line_idx'] != "") {
+	$line_idx = "'".$_POST['line_idx']."'";
+}
+
+$graphic = "NULL";
+if (isset($_POST['graphic']) && $_POST['graphic'] != "") {
+	$graphic = "'".$_POST['graphic']."'";
+}
+
+$product_name = "NULL";
+if (isset($_POST['product_name']) && $_POST['product_name'] != "") {
+	$product_name = $_POST['product_name'];
+}
+
+$product_size = "NULL";
+if (isset($_POST['product_size']) && $_POST['product_size'] != "") {
+	$product_size = "'".$_POST['product_size']."'";
+}
+
+$color = "NULL";
+if (isset($_POST['color']) && $_POST['color'] != "") {
+	$color = "'".$_POST['color']."'";
+}
+
+$md_category_guide = "NULL";
+if (isset($_POST['md_category_guide']) && $_POST['md_category_guide'] != "") {
+	$md_category_guide = "'".$_POST['md_category_guide']."'";
+}
+
+$limit_product_qty = 0;
+if (isset($_POST['limit_product_qty']) && $_POST['limit_product_qty'] != "") {
+	$limit_product_qty = $_POST['limit_product_qty'];
+}
+
+$limit_member = "NULL";
+if (isset($_POST['limit_member']) && $_POST['limit_member'] != "") {
+	$limit_member = "'".$_POST['limit_member']."'";
+}
+
+//오더시트 - price
+$price_cost = 0;
+if (isset($_POST['price_cost']) && $_POST['price_cost'] != "") {
+	$price_cost = $_POST['price_cost'];
+}
+
+$price_kr = 0;
+if (isset($_POST['price_kr']) && $_POST['price_kr'] != "") {
+	$price_kr = $_POST['price_kr'];
+}
+
+$price_kr_gb = 0;
+if (isset($_POST['price_kr_gb']) && $_POST['price_kr_gb'] != "") {
+	$price_kr_gb = $_POST['price_kr_gb'];
+}
+
+$price_en = 0;
+if (isset($_POST['price_en']) && $_POST['price_en'] != "") {
+	$price_en = $_POST['price_en'];
+}
+
+$price_cn = 0;
+if (isset($_POST['price_en']) && $_POST['price_en'] != "") {
+	$price_en = $_POST['price_en'];
+}
+
+$product_qty = 0;
+if (isset($_POST['product_qty']) && $_POST['product_qty'] != "") {
+	$product_qty = $_POST['product_qty'];
+}
+
+$safe_qty = 0;
+if (isset($_POST['safe_qty']) && $_POST['safe_qty'] != "") {
+	$safe_qty = $_POST['safe_qty'];
+}
+
+$launching_date = "NULL";
+if (isset($_POST['launching_date']) && $_POST['launching_date'] != "") {
+	$launching_date = "'".$_POST['launching_date']."'";
+}
+
+$receive_request_date = "NULL";
+if (isset($_POST['receive_request_date']) && $_POST['receive_request_date'] != "") {
+	$receive_request_date = "'".$_POST['receive_request_date']."'";
+}
 
 $verify_ordersheet_query = "
     SELECT
         UPDATE_DATE
     FROM 
-        dev.ORDERSHEET_MST
+        ORDERSHEET_MST
     WHERE 
         IDX = ".$ordersheet_idx."
 ";
@@ -44,20 +144,6 @@ if ($update_date != $last_update_date) {
 }
 
 if($ordersheet_idx != null){
-	$preorder_flg = $_POST['preorder_flg'];
-	if ($preorder_flg != null) {
-		$preorder_flg_str = " PREORDER_FLG = ".$preorder_flg.",";
-	}
-	$refund_flg = $_POST['refund_flg'];
-	if ($refund_flg != null) {
-		$refund_flg_str = " REFUND_FLG = ".$refund_flg.",";
-	}
-	$line_idx = $_POST['line_idx'];
-	$line_idx_str = " LINE_IDX = ".$line_idx.",";
-
-
-
-	
 	$md_category = $_POST['md_category'];
 	$category_idx = 0;
 	if(is_array($md_category)){
@@ -97,135 +183,57 @@ if($ordersheet_idx != null){
 		$category_idx_str = " CATEGORY_IDX = '".$category_idx."',";
 	}
 
-	$graphic = $_POST['graphic'];
-	$graphic_str = " GRAPHIC = '".$graphic."',";
-
-	$fit = $_POST['fit'];
-	$fit_str = " FIT = '".$fit."',";
-
-	$material = $_POST['material'];
-	$material_str = " MATERIAL = '".$material."',";
-
-	$product_name = $_POST['product_name'];
-	$product_name_str = " PRODUCT_NAME = '".$product_name."',";
-
-	$product_size = $_POST['product_size'];
-	$product_size_str = " PRODUCT_SIZE = '".$product_size."',";
-
-	$color = $_POST['color'];
-	$color_str = " COLOR = '".$color."',";
-
-	$color_rgb = $_POST['color_rgb'];
-	$color_rgb_str = " COLOR_RGB = '".$color_rgb."',";
-
-	$pantone_code = $_POST['pantone_code'];
-	$pantone_code_str = " PANTONE_CODE = '".$pantone_code."',";
-
-	$md_category_guide = $_POST['md_category_guide'];
-	$md_category_guide_str = " MD_CATEGORY_GUIDE = '".$md_category_guide."',";
-
-	$limit_qty = $_POST['limit_qty'];
-	$limit_qty_str = " LIMIT_QTY = '".$limit_qty."',";
-
-	$limit_member = $_POST['limit_member'];
-	$limit_member_str = " LIMIT_MEMBER = '".$limit_member."',";
-
-	//오더시트 - price
-	$price_cost = $_POST['price_cost'] != null?$_POST['price_cost'] : '0';
-	$price_cost_str = " PRICE_COST = ".$price_cost.",";
-
-	$price_kr = $_POST['price_kr'] != null?$_POST['price_kr'] : '0';
-	$price_kr_str = " PRICE_KR = ".$price_kr.",";
-
-	$price_kr_gb = $_POST['price_kr_gb'] != null?$_POST['price_kr_gb'] : '0';
-	$price_kr_gb_str = " PRICE_KR_GB = ".$price_kr_gb.",";
-
-	$price_en = $_POST['price_en'] != null?$_POST['price_en'] : '0';
-	$price_en_str = " PRICE_EN = ".$price_en.",";
-
-	$price_cn = $_POST['price_en'] != null?$_POST['price_cn'] : '0';
-	$price_cn_str = " PRICE_CN = ".$price_cn.",";
-
-	$product_qty = $_POST['product_qty'];
-	$product_qty_str = " PRODUCT_QTY = '".$product_qty."',";
-
-	$safe_qty = $_POST['safe_qty'];
-	$safe_qty_str = " SAFE_QTY = '".$safe_qty."',";
-
-	$launching_date = $_POST['launching_date'] != null ? $_POST['launching_date'] : 'NULL';
-	$launching_date_str = " LAUNCHING_DATE = '".$launching_date."',";
-
-	$receive_request_date = $_POST['receive_request_date'] != null ? $_POST['receive_request_date'] : 'NULL';
-	$receive_request_date_str = " RECEIVE_REQUEST_DATE = '".$receive_request_date."',";
-
-	$tp_completion_date = $_POST['tp_completion_date'] != null ? $_POST['tp_completion_date'] : 'NULL';
-	$tp_completion_date_str = " TP_COMPLETION_DATE = '".$tp_completion_date."',";
-	
-	$verify_ordersheet_query = "
-		SELECT
-			UPDATE_DATE
-		FROM 
-			dev.ORDERSHEET_MST
-		WHERE 
-			IDX = ".$ordersheet_idx."
-	";
-
-	$db->query($verify_ordersheet_query);
-	foreach($db->fetch() as $verify_data){
-		$last_update_date = $verify_data['UPDATE_DATE'];
-	}
-
 	$db->begin_transaction();
 
 	try{
 		//검색 유형 - 디폴트
-		$sql = 	"UPDATE
-					dev.ORDERSHEET_MST
-				SET
-					".$style_code_str."
-					".$color_code_str."
-					".$product_code_str."
-					".$preorder_flg_str."
-					".$refund_flg_str."
-					".$line_idx_str."
-					".$category_lrg_str."
-					".$category_mdl_str."
-					".$category_sml_str."
-					".$category_dtl_str."
-					".$category_idx_str."
-					".$material_str."
-					".$graphic_str."
-					".$fit_str."
-					".$product_name_str."
-					".$product_size_str."
-					".$color_str."
-					".$color_rgb_str."
-					".$pantone_code_str."
-					".$md_category_guide_str."
-					".$limit_member_str."
-					".$limit_qty_str."
-					".$price_cost_str."
-					".$price_kr_str."
-					".$price_kr_gb_str."
-					".$price_en_str."
-					".$price_cn_str."
-					".$product_qty_str."
-					".$safe_qty_str."
-					".$launching_date_str."
-					".$receive_request_date_str."
-					".$tp_completion_date_str."
+		$update_ordersheet_mst_sql = "
+			UPDATE
+				ORDERSHEET_MST
+			SET
+				STYLE_CODE				= '".$style_code."',
+				COLOR_CODE				= '".$color_code."',
+				PRODUCT_CODE			= '".$product_code."',
+				PREORDER_FLG			= ".$preorder_flg.",
+				REFUND_FLG				= ".$refund_flg.",
+				LINE_IDX				= ".$line_idx.",
+				".$category_lrg_str."
+				".$category_mdl_str."
+				".$category_sml_str."
+				".$category_dtl_str."
+				".$category_idx_str."
+				GRAPHIC					= ".$graphic.",
+				PRODUCT_NAME			= '".$product_name."',
+				PRODUCT_SIZE			= ".$product_size.",
+				COLOR					= ".$color.",
+				MD_CATEGORY_GUIDE		= ".$md_category_guide.",
+				LIMIT_MEMBER			= ".$limit_member.",
+				LIMIT_ID_FLG			= ".$limit_id_flg.",
+				LIMIT_PRODUCT_QTY_FLG	= ".$limit_product_qty_flg.",
+				LIMIT_PRODUCT_QTY		= ".$limit_product_qty.",
+				PRICE_COST				= ".$price_cost.",
+				PRICE_KR				= ".$price_kr.",
+				PRICE_KR_GB				= ".$price_kr_gb.",
+				PRICE_EN				= ".$price_en.",
+				PRICE_CN				= ".$price_cn.",
+				PRODUCT_QTY				= ".$product_qty.",
+				SAFE_QTY				= ".$safe_qty.",
+				LAUNCHING_DATE			= ".$launching_date.",
+				RECEIVE_REQUEST_DATE	= ".$receive_request_date.",
 
-					UPDATE_DATE = NOW(),
-					UPDATER = 'Admin'
-					WHERE
-						IDX = ".$ordersheet_idx."
-				";
-		$db->query($sql);
-		$update_row_cnt = $db->mysqli_affected_rows();
+				UPDATE_DATE = NOW(),
+				UPDATER = '".$session_id."'
+			WHERE
+				IDX = ".$ordersheet_idx."
+		";
+		
+		$db->query($update_ordersheet_mst_sql);
+		
+		$db_result = $db->mysqli_affected_rows();
 
-		if ($update_row_cnt > 0) {
-			$history_sql = "
-				INSERT INTO dev.ORDERSHEET_HISTORY
+		if ($db_result > 0) {
+			$insert_ordersheet_history_sql = "
+				INSERT INTO ORDERSHEET_HISTORY
 				(	
 					ORDERSHEET_IDX,
 					ORDERSHEET_AUTH,
@@ -235,9 +243,7 @@ if($ordersheet_idx != null){
 					HISTORY_MSG,
 					CREATE_DATE,
 					CREATER
-				)
-				VALUES
-				(
+				) VALUES (
 					".$ordersheet_idx.",
 					'MD',
 					'U',
@@ -245,20 +251,23 @@ if($ordersheet_idx != null){
 					'".$product_name."',
 					'[".$product_code."] ".$product_name."의 오더시트 기획 수정이 완료되었습니다.',
 					NOW(),
-					'Admin'
+					'".$session_id."'
 				)
 			";
-			$db->query($history_sql);
+			
+			$db->query($insert_ordersheet_history_sql);
 		}
+		
 		$db->commit();
 	} 
 	catch(mysqli_sql_exception $exception){
-		$json_result['code'] = 301;
 		$db->rollback();
-		$msg = "수정작업에 실패했습니다.";
+		
+		print_r($exception);
+		$json_result['code'] = 301;
+		$json_result['msg'] = "오더시트 기획정보 수정처리중 오류가 발생했습니다.";
 	}
-}
-else{
+} else{
 	$json_result['code'] = 301;
 	$json_result['msg'] = '오더시트 정보를 얻는데 실패했습니다.';
 }

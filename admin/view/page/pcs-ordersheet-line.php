@@ -9,6 +9,8 @@
     .line_memo{ width:100px!important }
 </style>
 
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-filter" action="pcs/ordersheet/md/line/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="ASC">
@@ -39,11 +41,17 @@
                 <div class="half__box__wrap">
                     <div class="content__title">타입</div>
                     <div class="content__row">
-                        <select name="line_type" class="fSelect" style="width:163px;float:right;margin-right:10px;">
+                        <select name="line_type_idx" class="fSelect" style="width:163px;float:right;margin-right:10px;">
                             <option value="">타입을 선택해주세요</option>
-                            <option value="C">컬렉션 라인</option>
-                            <option value="O">오리진 라인</option>
-                            <option value="T">티피컬 라인</option>
+<?php 
+                        $db->query('SELECT IDX, TYPE_NAME FROM dev.LINE_TYPE');
+                                
+                        foreach($db->fetch() as $line_type_data){
+?>
+                            <option value="<?=$line_type_data['IDX']?>"><?=$line_type_data['TYPE_NAME']?></option>
+<?php
+                        }
+?>
                         </select>
                     </div>
                 </div>
@@ -92,6 +100,7 @@
                 총 라인 수 <font class="cnt_total info__count" >0</font>개
             </div>
             <div class="content__row">
+                <div class="btn" onclick="lineTotalUpdate()" style="color:#ffffff;background-color:#ffa500">일괄 수정</div>
                 <select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
                     <option value="LINE_NAME|ASC" selected>라인명 순</option>    
                     <option value="LINE_NAME|DESC">라인명 역순</option>
@@ -108,7 +117,7 @@
                 </select>
             </div>
         </div>
-        
+        <font class="info__count">* 사용중인 상품 수를 클릭하시면 상품목록을 보실 수 있습니다.</font>
         <div class="table table__wrap">
             <TABLE>
                 <THEAD>
@@ -154,16 +163,24 @@
                 <tbody>
                     <tr>
                     <td>
-                        <button type="button" class="white_btn" onclick="lineInsert(this)">생성</button></td>
+                        <div type="button" class="btn" onclick="lineInsert(this)">생성</div></td>
                         <td><input type="text" name="line_name" value=""></td>
                         <td>
-                            <div class="content__row">
-                                <select name="line_type" class="fSelect" style="width:163px;float:right;margin-right:10px;">
-                                    <option value="">타입을 선택해주세요</option>
-                                    <option value="C">컬렉션 라인</option>
-                                    <option value="O">오리진 라인</option>
-                                    <option value="T">티피컬 라인</option>
-                                </select>
+                            <div class="content__wrap">
+                                <div class="content__row">
+                                    <select name="line_type_idx" class="fSelect" style="width:163px;float:right;margin-right:10px;">
+                                        <option value="">타입을 선택해주세요</option>
+<?php 
+                                $db->query('SELECT IDX, TYPE_NAME FROM dev.LINE_TYPE');
+                                        
+                                foreach($db->fetch() as $line_type_data){
+?>
+                                        <option value="<?=$line_type_data['IDX']?>"><?=$line_type_data['TYPE_NAME']?></option>
+<?php
+                                }
+?>
+                                    </select>
+                                </div>
                             </div>
                         </td>
                         <td><input type="text" name="line_memo" value=""></td>
@@ -178,6 +195,12 @@
 var category = null;
 $(document).ready(function() {
 	getLineTabInfo();
+
+    $((document)).on('keypress', function(e){
+        if(e.keyCode == '13'){
+            $('.modal .red.btn').click();
+        }
+    });
 });
 
 function init_fileter(frm_id, func_name){
@@ -218,27 +241,15 @@ function getLineTabInfo(){
 			}
 
 			d.forEach(function(row) {
-                var type_str = '';
-                switch(row.line_type){
-                    case 'C':
-                        type_str = '컬렉션 라인';
-                        break;
-                    case 'O':
-                        type_str = '오리진 라인';
-                        break;
-                    case 'T':
-                        type_str = '티피컬 라인';
-                        break;
-                }
                 strDiv = `
                         <tr> 
-				            <td>${row.num}</td>
-				            <td><button type="button" class="white_btn" action_type="LINE_PUT" sel_idx="${row.line_idx}" onclick="lineAction(this)">수정</button></td>
-                            <td><button type="button" class="white_btn" action_type="LINE_DELETE" sel_idx="${row.line_idx}" onclick="lineAction(this)">삭제</button></td>
-							<td><input class="line_name" type="text" value="${row.line_name}"></td>
-				            <td>${type_str}</td>
-                            <td><input class="line_memo" type="text" value="${row.line_memo}"></td>
-                            <td class="product_cnt">${row.use_product_cnt}</td>
+				            <td>${row.num}<input type="hidden" name="line_idx_list[]" value="${row.line_idx}"></td>
+				            <td><div type="button" class="btn" action_type="LINE_PUT" sel_idx="${row.line_idx}" onclick="lineAction(this)">수정</div></td>
+                            <td><div type="button" class="btn" action_type="LINE_DELETE" sel_idx="${row.line_idx}" onclick="lineAction(this)">삭제</div></td>
+							<td><input class="line_name" type="text" name="line_name_list[]" value="${row.line_name}"></td>
+				            <td>${row.type_name}</td>
+                            <td><input class="line_memo" type="text" name="line_memo_list[]" value="${row.line_memo}"></td>
+                            <td class="product_cnt" style="cursor:pointer" onclick="openLineUseProductModal(${row.line_idx})">${row.use_product_cnt}</td>
 				        </tr>
 				`;
 				$("#result_line_table").append(strDiv);
@@ -274,79 +285,147 @@ function orderChange(obj) {
 }
 
 function lineAction(obj){
-    var sel_tr = $(obj).parent().parent();
     var action_type = $(obj).attr('action_type');
-    var sel_idx = $(obj).attr('sel_idx');
-	var action_name = '';
-    var api_str = '';
-    
-	switch(action_type){
-		case 'LINE_PUT':
-			action_name = '라인 수정';
-            api_str = "put";
-            var param_obj = {
-                'sel_idx' : sel_idx,
-                'line_name' : sel_tr.find('.line_name').eq(0).val(),
-                'line_memo' : sel_tr.find('.line_memo').eq(0).val()
+    var action_str = '';
+    if(action_type == "LINE_PUT"){
+        action_str = '수정';
+    }
+    else if(action_type == "LINE_DELETE"){
+        action_str = '삭제';
+    }
+    confirm('선택하신 라인 정보를 ' + action_str + '하시겠습니까?', function(){
+        var sel_tr = $(obj).parent().parent();
+        var sel_idx = $(obj).attr('sel_idx');
+        var action_name = '';
+        var api_str = '';
+        
+        switch(action_type){
+            case 'LINE_PUT':
+                action_name = '라인 수정';
+                api_str = "put";
+                var param_obj = {
+                    'sel_idx' : sel_idx,
+                    'line_name' : sel_tr.find('.line_name').eq(0).val(),
+                    'line_memo' : sel_tr.find('.line_memo').eq(0).val()
+                }
+                break;
+            case 'LINE_DELETE':
+                var product_cnt = sel_tr.find('.product_cnt').text();
+                var param_obj = {
+                    'sel_idx' : sel_idx
+                }
+                if(product_cnt > 0){
+                    alert('이미 해당 라인을 사용중인 제품이 있습니다.');
+                    return false;
+                }
+                else{
+                    action_name = "라인 삭제";
+                    api_str = "delete";
+                }
+                break;
+        }
+
+        $.ajax({
+            type: "post",
+            data: param_obj,
+            dataType: "json",
+            url: config.api + "pcs/ordersheet/md/line/"+api_str,
+            error: function() {
+                alert(action_name + ' 처리에 실패했습니다.');
+            },
+            success: function(d) {
+                if(d.code == 200) {
+                    alert(action_name + ' 처리에 성공했습니다.');
+                    getLineTabInfo();
+                }
+                else{
+                    alert(d.msg);
+                }
             }
-			break;
-        case 'LINE_DELETE':
-            var product_cnt = sel_tr.find('.product_cnt').text();
-            var param_obj = {
-                'sel_idx' : sel_idx
-            }
-            if(product_cnt > 0){
-                alert('이미 해당 라인을 사용중인 제품이 있습니다.');
+        });
+    })
+}
+function lineTotalUpdate(){
+    confirm('현재 기입된 라인정보를 일괄 수정하시겠습니까?', function(){
+        var formData = new FormData();
+        formData = $('#frm-list-line').serializeObject();
+
+        if(formData['line_name_list[]'] != null && formData['line_name_list[]'].length > 0){
+            if(exceptionCheck(formData['line_name_list[]']) == false){
+                alert('라인명을 입력해주세요');
                 return false;
             }
-            else{
-                action_name = "라인 삭제";
-                api_str = "delete";
-            }
-            break;
-	}
-
-	$.ajax({
-		type: "post",
-		data: param_obj,
-		dataType: "json",
-		url: config.api + "pcs/ordersheet/md/line/"+api_str,
-		error: function() {
-			alert(action_name + ' 처리에 실패했습니다.');
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				alert(action_name + ' 처리에 성공했습니다.');
-				getLineTabInfo();
+            $.ajax({
+                type: "post",
+                data: formData,
+                dataType: "json",
+                url: config.api + "pcs/ordersheet/md/line/put",
+                error: function() {
+                    alert('라인 일괄수정작업이 실패했습니다.');
+                },
+                success: function(d) {
+                    if(d.code == 200) {
+                        alert('라인 일괄수정작업을 성공했습니다.');
+                        getLineTabInfo();
+                    }
+                    else{
+                        alert(d.msg);
+                    }
+                }
+            });
+        }
+        else{
+            alert('수정할 수 있는 라인타입명이 존재하지 않습니다.');
+            return false;
+        } 
+    });
+}
+function exceptionCheck(data){
+    existFlg = true;
+	
+	if(Array.isArray(data)){
+		data.forEach(function(row){
+			let trim_row = row.trim();
+			if(trim_row == null || trim_row.length == 0){
+				existFlg = false;
 			}
-            else{
-                alert(d.msg);
-            }
+		})
+	}
+	else{
+		let trim_row = data.trim();
+		if(trim_row == null || trim_row.length == 0){
+			existFlg = false;
 		}
-	});
+	}
+    return existFlg;
+}
+function lineInsert(obj){
+    confirm('라인을 추가하시겠습니까?', function(){
+        var formData = new FormData();
+        formData = $("#frm-line").serializeObject();
+
+        $.ajax({
+            type: "post",
+            data: formData,
+            dataType: "json",
+            url: config.api + "pcs/ordersheet/md/line/add",
+            error: function() {
+                alert('라인 등록에 실패했습니다.');
+            },
+            success: function(d) {
+                if(d.code == 200) {
+                    alert('라인 등록에 성공했습니다.');
+                    getLineTabInfo();
+                }
+                else{
+                    alert(d.msg);
+                }
+            }
+        });
+    });
 }
 
-function lineInsert(obj){
-    var formData = new FormData();
-	formData = $("#frm-line").serializeObject();
-
-    $.ajax({
-		type: "post",
-		data: formData,
-		dataType: "json",
-		url: config.api + "pcs/ordersheet/md/line/add",
-		error: function() {
-			alert('라인 등록에 실패했습니다.');
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				alert('라인 등록에 성공했습니다.');
-				getLineTabInfo();
-			}
-            else{
-                alert(d.msg);
-            }
-		}
-	});
+function openLineUseProductModal(idx) {
+    modal('/use_product', `line_idx=${idx}`);
 }
 </script>

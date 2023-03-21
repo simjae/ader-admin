@@ -1,6 +1,6 @@
 <div class="content__card" style="margin: 0;">
 	<input id="param" type="hidden" value="<?=$param?>">
-	<form id="frm-filter_modal" action="posting/story/modal/list/get">
+	<form id="frm-filter_modal" action="display/posting/story/modal/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="IDX">
 		
@@ -8,7 +8,11 @@
 		<input type="hidden" class="page" name="page" value="1">
 
 		<div class="card__header">
-			<h3>게시물 전체 검색</h3>
+			<h3>게시물 전체 검색
+				<a onclick="modal_close();" class="btn-close" style="float:right">
+					<i class="xi-close"></i>
+				</a>
+			</h3>
 			<div class="drive--x"></div>
 		</div>
 		
@@ -36,28 +40,23 @@
 							</label>
 							
 							<label>
-								<input class="posting_type" type="checkbox" name="posting_type[]" value="COLA" onClick="checkPostingType(this);">
-								<span>콜라보레이션</span>
-							</label>
-							
-							<label>
-								<input class="posting_type" type="checkbox" name="posting_type[]" value="COLC" onClick="checkPostingType(this);">
-								<span>콜렉션</span>
-							</label>
-							
-							<label>
 								<input class="posting_type" type="checkbox" name="posting_type[]" value="EDTL" onClick="checkPostingType(this);">
 								<span>에디토리얼</span>
 							</label>
 							
 							<label>
-								<input class="posting_type" type="checkbox" name="posting_type[]" value="EXHB" onClick="checkPostingType(this);">
-								<span>기획전</span>
+								<input class="posting_type" type="checkbox" name="posting_type[]" value="RNWY" onClick="checkPostingType(this);">
+								<span>런웨이</span>
 							</label>
 							
 							<label>
-								<input class="posting_type" type="checkbox" name="posting_type[]" value="LKBK" onClick="checkPostingType(this);">
-								<span>룩북</span>
+								<input class="posting_type" type="checkbox" name="posting_type[]" value="COLC" onClick="checkPostingType(this);">
+								<span>컬렉션</span>
+							</label>
+							
+							<label>
+								<input class="posting_type" type="checkbox" name="posting_type[]" value="COLA" onClick="checkPostingType(this);">
+								<span>콜라보레이션</span>
 							</label>
 						</div>
 					</div>
@@ -144,8 +143,6 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC" selected>등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
 						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PRODUCT_NAME|ASC">상품명 순</option>
 					</select>
@@ -164,26 +161,8 @@
 			
 			<div class="table table__wrap">
 				<div class="overflow-x-auto">
-					<TABLE id="excel_table" style="width:100%;">
-						<THEAD>
-							<TR>
-								<TH style="width:250px;">게시물 선택</TH>	
-								<TH style="width:250px;">게시물 타입</TH>
-								<TH style="width:500px;">게시물 타이틀</TH>
-								<TH style="width:500px;">게시물 메모</TH>
-								<TH style="width:500px;">게시물 URL</TH>
-								<TH style="width:150px;">게시물 진열상태</TH>
-								<TH style="width:350px;">게시물 진열기간</TH>
-								<TH style="width:200px;">게시물 조회수</TH>
-							</TR>
-						</THEAD>
-						<TBODY id="result_table_modal">
-							<TR>
-								<TD class="default_td" colspan="13" style="text-align:left;">
-									조회 결과가 없습니다?.
-								</TD>
-							</TR>
-						</TBODY>
+					<TABLE id="page_table_modal" style="width:100%;">
+						
 					</TABLE>
 				</div>
 			</div>
@@ -201,26 +180,6 @@
 $(document).ready(function() {
 	getPostingPage();
 });
-
-function init_fileter(frm_id, func_name){
-	var formObj = $('#'+frm_id);
-	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked',true);
-	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked',true);
-
-	formObj.find('.fSelect').prop("selectedIndex", 0);
-
-	formObj.find('input[type=checkbox]').attr("checked", false);
-	formObj.find('input[type=text]').val('');
-	formObj.find('input[type=date]').val('');
-
-	formObj.find('.date__picker').css('background-color','#ffffff');
-	formObj.find('.date__picker').css('color','#000000');
-	formObj.find('input[name="search_date"]').val('');
-	
-	$('.posting_type').eq(0).prop('checked',true);
-	
-	window[func_name]();
-}
 
 function checkPostingType(obj) {
 	let posting_type = $(obj).val();
@@ -243,7 +202,16 @@ function setModalPaging(obj) {
 }
 
 function getPostingPage(){
-	$("#result_table_modal").html('');
+	let frm = $('#frm-filter_modal');
+	let param = $('#param').val();
+	let tmp_arr = param.split('_');
+	
+	let action = tmp_arr[0];
+	let country = tmp_arr[1];
+	let story_type = tmp_arr[2];
+	
+	let result_table = $("#result_table_modal");
+	result_table.html('');
 	
 	var strDiv = '';
 	strDiv += '<TR>';
@@ -254,34 +222,15 @@ function getPostingPage(){
 	
 	$("#result_table_modal").append(strDiv);
 	
-	var rows = $("#frm-filter_modal").find('.rows').val();
-	var page = $("#frm-filter_modal").find('.page').val();
-	get_contents($("#frm-filter_modal"),{
+	var rows = frm.find('.rows').val();
+	var page = frm.find('.page').val();
+	get_contents(frm),{
 		pageObj : $(".paging"),
 		html : function(d) {
 			if (d.length > 0) {
-				$("#result_table_modal").html('');
+				result_table.html('');
 			}
 			
-			d.forEach(function(row) {
-				let strDiv = "";
-				strDiv += '<TR>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="btn" page_idx="' + row.page_idx + '" onClick="addPostingPage(this);">';
-				strDiv += '            게시물 선택';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + row.posting_type + '</TD>';
-				strDiv += '    <TD>' + row.page_title + '</TD>';
-				strDiv += '    <TD>' + row.page_memo + '</TD>';
-				strDiv += '    <TD>' + row.page_url + '</TD>';
-				strDiv += '    <TD>' + row.display_status + '</TD>';
-				strDiv += '    <TD>' + row.display_start_date + ' ~ '+ row.display_end_date + '</TD>';
-				strDiv += '    <TD>' + row.page_view + '</TD>';
-				strDiv += '</TR>';
-				
-				$("#result_table_modal").append(strDiv);
-			});
 		},
 	},rows, page);
 }
@@ -292,13 +241,14 @@ function addPostingPage(obj) {
 	
 	let action = tmp_arr[0];
 	let country = tmp_arr[1];
-	let frm_id = "frm-" + action + "_" + country;
-	console.log(frm_id);
+	let story_type = tmp_arr[2];
+	
+	let frm = $("#frm-" + action + "_" + country);
 	let page_idx = $(obj).attr('page_idx');
-	$('#' + frm_id).find('.page_idx').val(page_idx);
+	frm.find('.page_idx').val(page_idx);
 	
 	$.ajax({
-		url: config.api + "posting/story/modal/get",
+		url: config.api + "display/posting/story/modal/get",
 		type: "post",
 		data: {
 			'page_idx': page_idx,
@@ -347,5 +297,25 @@ function addPostingPage(obj) {
 			}
 		}
 	});
+}
+
+function init_fileter(frm_id, func_name){
+	var formObj = $('#'+frm_id);
+	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked',true);
+	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked',true);
+
+	formObj.find('.fSelect').prop("selectedIndex", 0);
+
+	formObj.find('input[type=checkbox]').attr("checked", false);
+	formObj.find('input[type=text]').val('');
+	formObj.find('input[type=date]').val('');
+
+	formObj.find('.date__picker').css('background-color','#ffffff');
+	formObj.find('.date__picker').css('color','#000000');
+	formObj.find('input[name="search_date"]').val('');
+	
+	$('.posting_type').eq(0).prop('checked',true);
+	
+	window[func_name]();
 }
 </script>

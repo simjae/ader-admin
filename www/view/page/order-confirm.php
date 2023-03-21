@@ -2017,6 +2017,8 @@ function getTotalMileage(calc_flg) {
 				let price_mileage_point = document.querySelector(".price_mileage_point");
 				price_mileage_point.dataset.price_mileage_point = mileage_point;
 				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
+				
+				$('#price_mileage_point').val(mileage_point);
 
 				if (calc_flg == true) {
 					$('.mileage_point_msg').text('적용취소');

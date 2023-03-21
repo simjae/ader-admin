@@ -51,32 +51,26 @@ if ($search_type != null && $search_keyword != null) {
 			break;
 	}
 }
-if ($search_date != null) {
+if ($search_date != null && $search_date != 'all') {
 	switch ($search_date) {
 		case "today" :
 			$where .= " AND (EVENT.FINPUT_DATE >= CURDATE()) ";
 			break;
-		
 		case "01d" :
 			$where .= " AND (EVENT.FINPUT_DATE >= (CURDATE() - INTERVAL 1 DAY)) ";
 			break;
-		
 		case "03d" :
 			$where .= " AND (EVENT.FINPUT_DATE >= (CURDATE() - INTERVAL 3 DAY)) ";
 			break;
-		
 		case "07d" :
 			$where .= " AND (EVENT.FINPUT_DATE >= (CURDATE() - INTERVAL 7 DAY)) ";
 			break;
-		
 		case "15d" :
 			$where .= " AND (EVENT.FINPUT_DATE >= (CURDATE() - INTERVAL 15 DAY)) ";
 			break;
-		
 		case "01m" :
 			$where .= " AND (EVENT.FINPUT_DATE >= (CURDATE() - INTERVAL 1 MONTH)) ";
 			break;
-		
 		case "03m" :
 			$where .= " AND (EVENT.FINPUT_DATE >= (CURDATE() - INTERVAL 3 MONTH)) ";
 			break;
@@ -124,16 +118,16 @@ $sql = '
 		EVENT.TXT_5,
 		EVENT.IP,
 		EVENT.CONTENTS,
+		EVENT.RAW_DATA,
 		IF(EVENT.STATUS = "Y", true, false) AS STATUS,
 		EVENT.FINPUT_DATE,
 		EVENT.LINPUT_DATE,
-		EVENT_INFO.EVENT_TITLE 	AS EVENT_TITLE,
-		IF(MK.MEMBER_BIRTH IS NULL, "-", MK.MEMBER_BIRTH) AS MEMBER_BIRTH
+		EVENT_INFO.EVENT_TITLE 	AS EVENT_TITLE
 	FROM '.$tables.' 
 	WHERE 
 		'.$where.'
-	'.$order;
-//'.$limit 제거;
+	'.$order.'
+	'.$limit;
 
 $db->query($sql);
 foreach($db->fetch() as $data) {
@@ -144,7 +138,6 @@ foreach($db->fetch() as $data) {
 		'name'		=>$data['NAME'],
 		'id'		=>$data['ID'],
 		'email'		=>$data['EMAIL'],
-		'member_birth'	=>$data['MEMBER_BIRTH'],
 		'tel'		=>$data['TEL'],
 		'zipcode'	=>$data['ZIPCODE'],
 		'address1'	=>$data['ADDRESS1'],
@@ -153,6 +146,7 @@ foreach($db->fetch() as $data) {
 		'info_1'	=>$data['TXT_1'],
 		'info_2'	=>$data['TXT_2'],
 		'info_3'	=>$data['TXT_3'],
+		'raw_data'  =>$data['RAW_DATA'],
 		'status'	=>($data['STATUS']=='Y')?true:false,
 		'join_date'	=>$data['FINPUT_DATE']
 	);

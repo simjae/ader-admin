@@ -79,8 +79,8 @@ if ($sort_value != null && $sort_type != null) {
 $limit_start = (intval($page)-1)*$rows;
 
 $json_result = array(
-	'total' => $db->count("dev.PAGE_PRODUCT PP",$where),
-	'total_cnt' => $db->count("dev.PAGE_PRODUCT PP",$where_cnt),
+	'total' => $db->count("PAGE_PRODUCT PP",$where),
+	'total_cnt' => $db->count("PAGE_PRODUCT PP",$where_cnt),
 	'page' => $page
 );
 
@@ -98,7 +98,7 @@ $sql = "SELECT
 				PP.DISPLAY_END_DATE, '%Y-%m-%d %H:%i'
 			)						AS DISPLAY_END_DATE
 		FROM
-			dev.PAGE_PRODUCT PP
+			PAGE_PRODUCT PP
 		WHERE
 			".$where."
 		ORDER BY
@@ -138,7 +138,7 @@ foreach($db->fetch() as $data) {
 		'page_idx'				=>$data['PAGE_IDX'],
 		'posting_type'			=>"상품",
 		'page_title'			=>$data['PAGE_TITLE'],
-		'page_url'				=>$data['PAGE_URL'],
+		'page_url'				=>$data['PAGE_URL'].$data['PAGE_IDX'],
 		'page_memo'				=>$data['PAGE_MEMO'],
 		'page_view'				=>$data['PAGE_VIEW'],
 		'display_status'		=>$display_status,

@@ -16,7 +16,7 @@
 $refund_idx = $_POST['refund_idx'];
 
 $sql = "DELETE FROM
-			dev.PRODUCT_REFUND
+			PRODUCT_REFUND
 		WHERE
 			IDX = ".$refund_idx;
 $db->query($sql);

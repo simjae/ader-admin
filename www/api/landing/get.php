@@ -44,7 +44,7 @@ if ($country != null) {
 			BTN2_URL				AS BTN2_URL,
 			BTN2_DISPLAY_FLG		AS BTN2_DISPLAY_FLG
 		FROM
-			dev.MAIN_BANNER MB
+			MAIN_BANNER MB
 		WHERE
 			MB.COUNTRY = '".$country."' AND
 			MB.DEL_FLG = FALSE
@@ -87,7 +87,7 @@ if ($country != null) {
 			MC.BTN2_URL				AS BTN2_URL,
 			MC.BTN2_DISPLAY_FLG		AS BTN2_DISPLAY_FLG
 		FROM
-			dev.MAIN_CONTENTS MC
+			MAIN_CONTENTS MC
 		WHERE
 			MC.COUNTRY = '".$country."' AND
 			MC.DEL_FLG = FALSE
@@ -122,7 +122,7 @@ if ($country != null) {
 						''
 					)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					IMG_TYPE = 'P' AND
@@ -135,7 +135,7 @@ if ($country != null) {
 			PR.PRODUCT_NAME			AS PRODUCT_NAME
 		FROM
 			CONTENTS_PRODUCT CP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			LEFT JOIN SHOP_PRODUCT PR ON
 			CP.PRODUCT_IDX = PR.IDX
 		WHERE
 			CP.COUNTRY = '".$country."'
@@ -166,7 +166,7 @@ if ($country != null) {
 			MI.BTN_URL				AS BTN_URL,
 			MI.BTN_DISPLAY_FLG		AS BTN_DISPLAY_FLG
 		FROM
-			dev.MAIN_IMG MI
+			MAIN_IMG MI
 		WHERE
 			MI.COUNTRY = '".$country."' AND
 			MI.DEL_FLG = FALSE

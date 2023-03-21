@@ -37,7 +37,7 @@ if ($country != null && $member_idx > 0) {
 			MB.RECEIVE_SMS_FLG		AS RECEIVE_SMS_FLG,
 			MB.RECEIVE_EMAIL_FLG	AS RECEIVE_EMAIL_FLG
 		FROM 
-			dev.MEMBER_".$country." MB
+			MEMBER_".$country." MB
 		WHERE 
 			MB.IDX = ".$member_idx."
 	";

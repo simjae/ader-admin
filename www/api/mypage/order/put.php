@@ -45,7 +45,7 @@ if (isset($_POST['order_status'])) {
 }
 
 if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
-	$order_cnt = $db->count("dev.ORDER_PRODUCT","IDX = ".$order_product_idx." AND ORDER_IDX = ".$order_idx);
+	$order_cnt = $db->count("ORDER_PRODUCT","IDX = ".$order_product_idx." AND ORDER_IDX = ".$order_idx);
 	
 	if ($order_cnt > 0) {
 		//주문상태변경 - 주문취소
@@ -55,8 +55,8 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 					OI.PG_PAYMENT_KEY		AS PG_PAYMENT_KEY,
 					OP.PRODUCT_PRICE		AS PRODUCT_PRICE
 				FROM
-					dev.ORDER_INFO OI
-					LEFT JOIN dev.ORDER_PRODUCT OP ON
+					ORDER_INFO OI
+					LEFT JOIN ORDER_PRODUCT OP ON
 					OI.IDX = OP.ORDER_IDX
 				WHERE
 					OI.IDX = ".$order_idx." AND
@@ -124,7 +124,7 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 						
 						$update_order_product_sql = "
 							UPDATE
-								dev.ORDER_PRODUCT
+								ORDER_PRODUCT
 							SET
 								ORDER_STATUS = '".$order_status."',
 								PG_CANCEL_DATE = '".$pg_cancel_date."',
@@ -140,13 +140,13 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 						
 						if ($db_result > 0) {
 							//주문정보 상태 변경
-							$order_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_IDX = ".$order_idx);
-							$order_cancel_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND ORDER_STATUS = 'OCC'");
+							$order_cnt = $db->count("ORDER_PRODUCT","ORDER_IDX = ".$order_idx);
+							$order_cancel_cnt = $db->count("ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND ORDER_STATUS = 'OCC'");
 							
 							if ($order_cnt == $order_cancel_cnt) {
 								$update_order_info_sql = "
 									UPDATE
-										dev.ORDER_INFO
+										ORDER_INFO
 									SET
 										ORDER_STATUS = '".$order_status."',
 										CANCEL_DATE = '".$pg_cancel_date."',
@@ -180,7 +180,7 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 			
 			$update_order_product_sql = "
 				UPDATE
-					dev.ORDER_PRODUCT
+					ORDER_PRODUCT
 				SET
 					ORDER_STATUS = '".$order_status."',
 					".$update_status_date."
@@ -212,8 +212,8 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 }
 
 function putOrderInfoStatus($db,$order_idx,$order_status,$member_id) {
-	$order_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_IDX = ".$order_idx);
-	$order_status_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND ORDER_STATUS = '".$order_status."'");
+	$order_cnt = $db->count("ORDER_PRODUCT","ORDER_IDX = ".$order_idx);
+	$order_status_cnt = $db->count("ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND ORDER_STATUS = '".$order_status."'");
 	
 	if ($order_cnt == $order_status_cnt) {
 		$update_status_date = "";
@@ -225,7 +225,7 @@ function putOrderInfoStatus($db,$order_idx,$order_status,$member_id) {
 		
 		$update_order_info_sql = "
 			UPDATE
-				dev.ORDER_INFO
+				ORDER_INFO
 			SET
 				ORDER_STATUS = '".$order_status."',
 				".$update_status_date."

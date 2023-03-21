@@ -57,7 +57,7 @@ if ($basket_idx > 0) {
 				SELECT
 					IFNULL(SUM(STOCK_QTY),0)
 				FROM
-					dev.PRODUCT_STOCK S_PS
+					PRODUCT_STOCK S_PS
 				WHERE
 					S_PS.PRODUCT_IDX = PR.IDX AND
 					S_PS.STOCK_DATE <= NOW()
@@ -66,27 +66,27 @@ if ($basket_idx > 0) {
 				SELECT
 					IFNULL(SUM(OP.PRODUCT_QTY),0)
 				FROM
-					dev.ORDER_PRODUCT OP
+					ORDER_PRODUCT OP
 				WHERE
 					OP.PRODUCT_IDX = PR.IDX AND
 					OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 			)	AS ORDER_QTY
 		FROM
-			dev.ORDERSHEET_MST OM
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			ORDERSHEET_MST OM
+			LEFT JOIN SHOP_PRODUCT PR ON
 			OM.IDX = PR.ORDERSHEET_IDX
 		WHERE
 			OM.STYLE_CODE = (
 				SELECT
 					S_PR.STYLE_CODE
 				FROM
-					dev.SHOP_PRODUCT S_PR
+					SHOP_PRODUCT S_PR
 				WHERE
 					S_PR.IDX IN (
 						SELECT
 							S_BI.PRODUCT_IDX
 						FROM
-							dev.BASKET_INFO S_BI
+							BASKET_INFO S_BI
 						WHERE
 							S_BI.IDX = ".$basket_idx." AND
 							S_BI.MEMBER_IDX = ".$member_idx."
@@ -98,7 +98,7 @@ if ($basket_idx > 0) {
 					SELECT
 						LEVEL_IDX
 					FROM
-						dev.MEMBER_".$country." S_MB
+						MEMBER_".$country." S_MB
 					WHERE
 						IDX = ".$member_idx."
 				)

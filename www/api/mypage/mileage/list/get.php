@@ -66,14 +66,14 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 									SELECT 
 										*
 									FROM
-										dev.MILEAGE_INFO
+										MILEAGE_INFO
 									WHERE
 										MEMBER_IDX = ".$member_idx." AND
 										COUNTRY = '".$country."'
 								) MI
-								LEFT JOIN dev.MILEAGE_CODE MC ON
+								LEFT JOIN MILEAGE_CODE MC ON
 								MI.MILEAGE_CODE = MC.MILEAGE_CODE
-								LEFT JOIN dev.ORDER_INFO OI ON
+								LEFT JOIN ORDER_INFO OI ON
 								MI.ORDER_CODE = OI.ORDER_CODE",$where_cnt),
 		'page' => $page
 	);
@@ -100,13 +100,13 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 				SELECT 
 					*
 				FROM
-					dev.MILEAGE_INFO
+					MILEAGE_INFO
 				WHERE
 					MEMBER_IDX = ".$member_idx."
 			) MI
-			LEFT JOIN dev.MILEAGE_CODE MC ON
+			LEFT JOIN MILEAGE_CODE MC ON
 			MI.MILEAGE_CODE = MC.MILEAGE_CODE
-			LEFT JOIN dev.ORDER_INFO OI ON
+			LEFT JOIN ORDER_INFO OI ON
 			MI.ORDER_CODE = OI.ORDER_CODE
 		".$where."
 		ORDER BY

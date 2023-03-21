@@ -14,8 +14,12 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+
+$session_id			= sessionCheck();
 $btn_action_flg		= $_POST['btn_action_flg'];
 $display_num_flg	= $_POST['display_num_flg'];
 $update_flg			= $_POST['update_flg'];
@@ -45,7 +49,7 @@ if($btn_action_flg == true && $country != null && $preorder_idx != null){
 	}
 	$sql = "
 		UPDATE
-			dev.PAGE_PREORDER
+			PAGE_PREORDER
 		SET
 			DISPLAY_FLG = 	CASE WHEN
 								DISPLAY_FLG = FALSE 
@@ -70,7 +74,7 @@ if ($display_num_flg == true && $country != null && $recent_idx != null && $rece
 		case "up" :
 			$prev_sql ="
 				UPDATE
-					dev.PAGE_PREORDER
+					PAGE_PREORDER
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -82,7 +86,7 @@ if ($display_num_flg == true && $country != null && $recent_idx != null && $rece
 			
 			$sql = "
 				UPDATE
-					dev.PAGE_PREORDER
+					PAGE_PREORDER
 				SET
 					DISPLAY_NUM = ".intval($recent_num - 1)."
 				WHERE
@@ -96,7 +100,7 @@ if ($display_num_flg == true && $country != null && $recent_idx != null && $rece
 		case "down" :
 			$prev_sql ="
 				UPDATE
-					dev.PAGE_PREORDER
+					PAGE_PREORDER
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -107,7 +111,7 @@ if ($display_num_flg == true && $country != null && $recent_idx != null && $rece
 			
 			$sql = "
 				UPDATE
-					dev.PAGE_PREORDER
+					PAGE_PREORDER
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1)."
 				WHERE
@@ -129,7 +133,7 @@ if ($display_num_flg == true && $country != null && $recent_idx != null && $rece
 }
 
 if ($update_flg != null && $country != null && $preorder_idx != null && $product_idx != null && $qty_info != null) {
-	$entry_cnt = $db->count("dev.ENTRY_PREORDER","PREORDER_IDX = ".$preorder_idx);
+	$entry_cnt = $db->count("ENTRY_PREORDER","PREORDER_IDX = ".$preorder_idx);
 	
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 401;
@@ -138,14 +142,14 @@ if ($update_flg != null && $country != null && $preorder_idx != null && $product
 		try {
 			$update_preorder_sql = "
 				UPDATE
-					dev.PAGE_PREORDER	PP,
+					PAGE_PREORDER	PP,
 					(
 						 SELECT
 							IDX				AS PRODUCT_IDX,
 							PRODUCT_CODE	AS PRODUCT_CODE,
 							PRODUCT_NAME	AS PRODUCT_NAME
 						 FROM
-							dev.SHOP_PRODUCT
+							SHOP_PRODUCT
 						 WHERE
 							IDX = ".$product_idx."
 					) AS TMP
@@ -156,10 +160,10 @@ if ($update_flg != null && $country != null && $preorder_idx != null && $product
 					PP.PRODUCT_NAME = TMP.PRODUCT_NAME,
 					PP.SALES_PRICE = ".$sales_price.",
 					PP.DISPLAY_FLG = ".$display_flg.",
-					PP.ENTRY_START_DATE = STR_TO_DATE('".$entry_start_date."','%Y%m%d%H%i%s'),
-					PP.ENTRY_END_DATE = STR_TO_DATE('".$entry_end_date."','%Y%m%d%H%i%s'),
+					PP.ENTRY_START_DATE = STR_TO_DATE('".$entry_start_date."','%Y-%m-%d %H:%i'),
+					PP.ENTRY_END_DATE = STR_TO_DATE('".$entry_end_date."','%Y-%m-%d %H:%i'),
 					PP.UPDATE_DATE = NOW(),
-					PP.UPDATER = 'Admin'
+					PP.UPDATER = '".$session_id."'
 				WHERE
 					IDX = ".$preorder_idx."
 			";
@@ -168,7 +172,7 @@ if ($update_flg != null && $country != null && $preorder_idx != null && $product
 			$preorder_db_result = $db->affectedRows();
 			
 			if ($preorder_db_result > 0) {
-				$db->query("DELETE FROM dev.QTY_PREORDER WHERE PREORDER_IDX = ".$preorder_idx);
+				$db->query("DELETE FROM QTY_PREORDER WHERE PREORDER_IDX = ".$preorder_idx);
 				
 				$qty_db_result = 0;
 				for ($i=0; $i<count($qty_info); $i++) {
@@ -180,7 +184,7 @@ if ($update_flg != null && $country != null && $preorder_idx != null && $product
 					}
 					$insert_qty_sql = "
 						INSERT INTO
-							dev.QTY_PREORDER
+							QTY_PREORDER
 						(
 							COUNTRY,
 							PREORDER_IDX,

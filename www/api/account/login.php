@@ -55,7 +55,7 @@ if (isset($_POST['r_url'])) {
 	$r_url = $_POST['r_url'];
 }
 
-$member_cnt = $db->count("dev.MEMBER_".$country,"MEMBER_ID = '".$member_id."'");
+$member_cnt = $db->count("MEMBER_".$country,"MEMBER_ID = '".$member_id."'");
 
 if ($member_cnt > 0) {
 	$select_member_sql = "
@@ -107,14 +107,14 @@ if ($member_cnt > 0) {
 			VM.DATE_AGO_PARAM		AS DATE_AGO_PARAM,
 			VM.DATE_LATER_PARAM		AS DATE_LATER_PARAM
 		FROM 
-			dev.MEMBER_".$country." MB
+			MEMBER_".$country." MB
 			LEFT JOIN
 			(
 				SELECT
 					DATE_AGO_PARAM,
 					DATE_LATER_PARAM
 				FROM
-					dev.VOUCHER_MST
+					VOUCHER_MST
 				WHERE
 					COUNTRY = 'KR' AND VOUCHER_TYPE = 'BR'
 				LIMIT 1
@@ -140,7 +140,7 @@ if ($member_cnt > 0) {
 			} else if ($status == 'SLP') {
 				$update_SLP_member_sql = "
 					UPDATE 
-						dev.MEMBER_".$country." 
+						MEMBER_".$country." 
 					SET 
 						SLEEP_OFF_DATE = NOW(), 
 						MEMBER_STATUS = 'NML'
@@ -163,7 +163,7 @@ if ($member_cnt > 0) {
 			
 			$update_NML_member_sql = "
 				UPDATE
-					dev.MEMBER_".$country."
+					MEMBER_".$country."
 				SET
 					IP = '".$member_ip."',
 					LOGIN_CNT = LOGIN_CNT + 1,

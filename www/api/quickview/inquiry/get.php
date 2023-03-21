@@ -29,7 +29,7 @@ if ($country != null && $faq_idx != null) {
 			QUESTION,
 			ANSWER
 		FROM
-			dev.FAQ
+			FAQ
 		WHERE
 			IDX = ".$faq_idx."
 	";

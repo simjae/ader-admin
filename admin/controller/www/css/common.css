@@ -276,7 +276,7 @@ input[type='date']:focus::before,input[type='date']:valid::before {display: none
 .table__wrap [color-scheme="light"] .accented {accent-color: rgb(210, 39, 136);}
 
 .table__wrap fieldset {display: flex;border: none;}
-.table__wrap .default_td{text-align: center;}
+.table__wrap .default_td{text-align: left;}
 /* checkbox & radio color */
 
 

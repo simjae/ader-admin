@@ -14,59 +14,34 @@
  +=============================================================================
 */
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-/** 변수 정리 **/
-$sel_level_idx = $_POST['sel_level_idx'];
+include_once("/var/www/admin/api/common/common.php");
 
-$db->begin_transaction();
-try {
-	$tables = "dev.MEMBER_LEVEL";
+$session_id		= sessionCheck();
 
-	$where = "";
-	$sel_level_list_str = implode(',',$sel_level_idx);
-	if ($sel_level_idx != null) {
-		$where .= " AND IDX IN (".$sel_level_list_str.")";
-	}
+$level_idx		= $_POST['level_idx'];
 
-	//수정항목
-	$db->query("
-		UPDATE 
-			dev.MEMBER_KR 
-		SET 
-			LEVEL_IDX = 1 
-		WHERE 
-			LEVEL_IDX IN (".$sel_level_list_str.")
-	");
-	$db->query("
-		UPDATE 
-			dev.MEMBER_EN 
-		SET 
-			LEVEL_IDX = 1 
-		WHERE 
-			LEVEL_IDX IN (".$sel_level_list_str.")
-	");
-	$db->query("
-		UPDATE 
-			dev.MEMBER_CN 
-		SET 
-			LEVEL_IDX = 1 
-		WHERE 
-			LEVEL_IDX IN (".$sel_level_list_str.")
-	");
-
-	$sql = "DELETE FROM
-				".$tables."
+if ($level_idx != null) {
+	$member_kr_cnt = $db->count("MEMBER_KR","LEVEL_IDX IN (".implode(",",$level_idx).") AND MEMBER_STATUS = 'NML'");
+	$member_en_cnt = $db->count("MEMBER_EN","LEVEL_IDX IN (".implode(",",$level_idx).") AND MEMBER_STATUS = 'NML'");
+	$member_cn_cnt = $db->count("MEMBER_CN","LEVEL_IDX IN (".implode(",",$level_idx).") AND MEMBER_STATUS = 'NML'");
+	
+	if ($member_kr_cnt > 0 || $member_en_cnt > 0 || $member_cn_cnt > 0) {
+		$json_result['code'] = 301;
+		$json_result['msg'] = "선택 한 레벨의 멤버가 존재 할 경우 삭제할 수 없습니다.";
+	} else {
+		$update_level_sql = "
+			UPDATE
+				MEMBER_LEVEL
+			SET
+				DEL_FLG = TRUE,
+				UPDATE_DATE = NOW(),
+				UPDATER = '".$session_id."'
 			WHERE
-				".$where;
-
-	$db->query($sql);
-	$db->commit();
-}
-catch(mysqli_sql_exception $exception){
-	echo $exception->getMessage();
-	$json_result['code'] = 301;
-	$db->rollback();
-	$msg = "회원등급 초기화 처리에 실패했습니다.";
+				IDX IN (".implode(",",$level_idx).")
+		";
+		
+		$db->query($update_level_sql);
+	}
 }
 
 ?>

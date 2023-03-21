@@ -10,6 +10,9 @@
 		cursor:pointer;
 	}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-list" action="pcs/factory/list/get">
 		<input type="hidden" name="ordersheet_idx" value="">

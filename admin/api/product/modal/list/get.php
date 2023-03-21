@@ -30,11 +30,13 @@ $sort_value 		= $_POST['sort_value'];				//정렬 값
 $rows = $_POST['rows'];
 $page = $_POST['page'];
 
-$where_cnt=" PR.DEL_FLG = FALSE 
-		AND	 PR.PRODUCT_TYPE = 'B' 
-		AND  PR.INDP_FLG = FALSE ";
+$where = "
+	PR.PRODUCT_TYPE = 'B' AND
+	PR.DEL_FLG = FALSE  AND
+	PR.INDP_FLG = FALSE
+";
 
-$where = "";
+$where_cnt = $where;
 
 if ($search_type != null && $search_keyword != null) {
 	$type_arr = array();
@@ -99,7 +101,7 @@ if($stock_type != null && ($stock_min != null || $stock_max != null)){
 									SUM(PS.STOCK_QTY),0
 								)
 							FROM
-								dev.PRODUCT_STOCK PS
+								PRODUCT_STOCK PS
 							WHERE
 								 PS.STOCK_DATE <= NOW() AND
 								 PS.PRODUCT_IDX = PR.IDX
@@ -109,7 +111,7 @@ if($stock_type != null && ($stock_min != null || $stock_max != null)){
 									SUM(S_OP.PRODUCT_QTY),0
 								)
 							FROM
-								dev.ORDER_PRODUCT S_OP
+								ORDER_PRODUCT S_OP
 							WHERE
 								S_OP.PRODUCT_IDX = PR.IDX AND
 								S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
@@ -121,7 +123,7 @@ if($stock_type != null && ($stock_min != null || $stock_max != null)){
 									SUM(STOCK_SAFE_QTY),0
 								)
 							FROM
-								dev.PRODUCT_STOCK S_PS
+								PRODUCT_STOCK S_PS
 							WHERE
 								S_PS.PRODUCT_IDX = PR.IDX
 						) ";
@@ -157,7 +159,7 @@ if ($sold_out_status != null && $sold_out_status != "all") {
 									0
 								)
 							FROM
-								dev.PRODUCT_STOCK S_PS
+								PRODUCT_STOCK S_PS
 							WHERE
 								S_PS.STOCK_DATE <= NOW() AND
 								S_PS.PRODUCT_IDX = PR.IDX
@@ -167,7 +169,7 @@ if ($sold_out_status != null && $sold_out_status != "all") {
 									SUM(S_OP.PRODUCT_QTY),0
 								)
 							FROM
-								dev.ORDER_PRODUCT S_OP
+								ORDER_PRODUCT S_OP
 							WHERE
 								S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
 								S_OP.PRODUCT_IDX = PR.IDX
@@ -218,8 +220,6 @@ if($price_type != null && $price_min != null && $price_max != null){
 	}
 }
 
-$where = $where_cnt.$where;
-
 /** 정렬 조건 **/
 $order = '';
 if ($sort_value != null && $sort_type != null) {
@@ -230,86 +230,89 @@ if ($sort_value != null && $sort_type != null) {
 
 $limit_start = (intval($page)-1)*$rows;
 $json_result = array(
-	'total' => $db->count("dev.SHOP_PRODUCT PR",$where),
-	'total_cnt' => $db->count("dev.SHOP_PRODUCT PR",$where_cnt),
+	'total' => $db->count("SHOP_PRODUCT PR",$where),
+	'total_cnt' => $db->count("SHOP_PRODUCT PR",$where_cnt),
 	'page' => $page
 );
 
-$sql = "SELECT
-			PR.IDX				AS PRODUCT_IDX,
-			PR.STYLE_CODE		AS STYLE_CODE,
-			PR.COLOR_CODE		AS COLOR_CODE,
-			PR.PRODUCT_CODE		AS PRODUCT_CODE,
-			PR.PRODUCT_TYPE		AS PRODUCT_TYPE,
-			PR.PRODUCT_NAME		AS PRODUCT_NAME,
-			CASE
-				WHEN
-					(SELECT COUNT(*) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
-					THEN
-						(
-							SELECT
-								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-							FROM
-								dev.PRODUCT_IMG S_PI
-							WHERE
-								S_PI.PRODUCT_IDX = PR.IDX AND
-								S_PI.IMG_TYPE = 'P' AND
-								S_PI.IMG_SIZE = 'S'
-							LIMIT
-								0,1
-						)
-				ELSE
-					'/images/default_product_img.jpg'
-			END					AS IMG_LOCATION,
-			PR.PRICE_KR			AS PRICE_KR,
-			PR.DISCOUNT_KR		AS DISCOUNT_KR,
-			PR.SALES_PRICE_KR	AS SALES_PRICE_KR,
-			PR.PRICE_EN			AS PRICE_EN,
-			PR.DISCOUNT_EN		AS DISCOUNT_EN,
-			PR.SALES_PRICE_EN	AS SALES_PRICE_EN,
-			PR.PRICE_CN			AS PRICE_CN,
-			PR.DISCOUNT_CN		AS DISCOUNT_CN,
-			PR.SALES_PRICE_CN	AS SALES_PRICE_CN,
-			(
-				SELECT
-					IFNULL(SUM(S_PS.STOCK_QTY),0)
-				FROM
-					dev.PRODUCT_STOCK S_PS
-				WHERE
-					S_PS.PRODUCT_IDX = PR.IDX AND
-					S_PS.STOCK_DATE <= NOW()
-			)	AS STOCK_QTY,
-			(
-				SELECT
-					IFNULL(SUM(S_PS.STOCK_SAFE_QTY),0)
-				FROM
-					dev.PRODUCT_STOCK S_PS
-				WHERE
-					S_PS.PRODUCT_IDX = PR.IDX AND
-					S_PS.STOCK_DATE <= NOW()
-			)	AS SAFE_QTY,
-			(
-				SELECT
-					IFNULL(SUM(S_OP.PRODUCT_QTY),0)
-				FROM
-					dev.ORDER_PRODUCT S_OP
-				WHERE
-					S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
-					S_OP.PRODUCT_IDX = PR.IDX
-			)	AS ORDER_QTY,
-			PR.UPDATE_DATE		AS UPDATE_DATE
-		FROM
-			dev.SHOP_PRODUCT PR
-		WHERE
-			".$where."
-		ORDER BY
-			".$order;
+$select_product_sql = "
+	SELECT
+		PR.IDX				AS PRODUCT_IDX,
+		PR.STYLE_CODE		AS STYLE_CODE,
+		PR.COLOR_CODE		AS COLOR_CODE,
+		PR.PRODUCT_CODE		AS PRODUCT_CODE,
+		PR.PRODUCT_TYPE		AS PRODUCT_TYPE,
+		PR.PRODUCT_NAME		AS PRODUCT_NAME,
+		CASE
+			WHEN
+				(SELECT COUNT(*) FROM PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
+				THEN
+					(
+						SELECT
+							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+						FROM
+							PRODUCT_IMG S_PI
+						WHERE
+							S_PI.PRODUCT_IDX = PR.IDX AND
+							S_PI.IMG_TYPE = 'P' AND
+							S_PI.IMG_SIZE = 'S'
+						LIMIT
+							0,1
+					)
+			ELSE
+				'/images/default_product_img.jpg'
+		END					AS IMG_LOCATION,
+		PR.PRICE_KR			AS PRICE_KR,
+		PR.DISCOUNT_KR		AS DISCOUNT_KR,
+		PR.SALES_PRICE_KR	AS SALES_PRICE_KR,
+		PR.PRICE_EN			AS PRICE_EN,
+		PR.DISCOUNT_EN		AS DISCOUNT_EN,
+		PR.SALES_PRICE_EN	AS SALES_PRICE_EN,
+		PR.PRICE_CN			AS PRICE_CN,
+		PR.DISCOUNT_CN		AS DISCOUNT_CN,
+		PR.SALES_PRICE_CN	AS SALES_PRICE_CN,
+		(
+			SELECT
+				IFNULL(SUM(S_PS.STOCK_QTY),0)
+			FROM
+				PRODUCT_STOCK S_PS
+			WHERE
+				S_PS.PRODUCT_IDX = PR.IDX AND
+				S_PS.STOCK_DATE <= NOW()
+		)	AS STOCK_QTY,
+		(
+			SELECT
+				IFNULL(SUM(S_PS.STOCK_SAFE_QTY),0)
+			FROM
+				PRODUCT_STOCK S_PS
+			WHERE
+				S_PS.PRODUCT_IDX = PR.IDX AND
+				S_PS.STOCK_DATE <= NOW()
+		)	AS SAFE_QTY,
+		(
+			SELECT
+				IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+			FROM
+				ORDER_PRODUCT S_OP
+			WHERE
+				S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
+				S_OP.PRODUCT_IDX = PR.IDX
+		)	AS ORDER_QTY,
+		PR.UPDATE_DATE		AS UPDATE_DATE
+	FROM
+		SHOP_PRODUCT PR
+	WHERE
+		".$where."
+	ORDER BY
+		".$order."
+";
 
 if ($rows != null && $select_idx_flg == null) {
-	$sql .= " LIMIT ".$limit_start.",".$rows;
+	$select_product_sql .= " LIMIT ".$limit_start.",".$rows;
 }
 
-$db->query($sql);
+$db->query($select_product_sql);
+
 foreach($db->fetch() as $data) {
 	$json_result['data'][] = array(
 		'product_idx'		=>$data['PRODUCT_IDX'],

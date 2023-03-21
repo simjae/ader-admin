@@ -17,94 +17,91 @@
 $country	= $_POST['country'];
 
 if ($country != null) {
-	$sql = "SELECT
-				PS.IDX				AS STORY_IDX,
-				PS.STORY_COLUMN		AS STORY_COLUMN,
-				PS.DISPLAY_NUM		AS DISPLAY_NUM,
-				IFNULL(
-					REPLACE(
-						PS.IMG_LOCATION,
-						'/var/www/admin/www',''
-					),
-					'/images/default_thumbnail_img.jpg'
-				)					AS IMG_LOCATION,
-				PS.STORY_TITLE		AS STORY_TITLE,
-				PS.STORY_SUB_TITLE	AS STORY_SUB_TITLE,
-				PS.ACTIVE_FLG		AS ACTIVE_FLG
-			FROM
-				dev.TMP_POSTING_STORY PS
-			WHERE
-				PS.COUNTRY = '".$country."' AND
-				PS.DEL_FLG = FALSE
-			ORDER BY
-				PS.DISPLAY_NUM ASC";
+	$select_posting_story_sql = "
+		SELECT
+			PS.IDX				AS STORY_IDX,
+			PS.STORY_TYPE		AS STORY_TYPE,
+			PS.DISPLAY_NUM		AS DISPLAY_NUM,
+			IFNULL(
+				REPLACE(
+					PS.IMG_LOCATION,
+					'/var/www/admin/www',''
+				),
+				'/images/default_thumbnail_img.jpg'
+			)					AS IMG_LOCATION,
+			PS.STORY_TITLE		AS STORY_TITLE,
+			PS.STORY_SUB_TITLE	AS STORY_SUB_TITLE
+		FROM
+			TMP_POSTING_STORY PS
+		WHERE
+			PS.COUNTRY = '".$country."' AND
+			PS.DEL_FLG = FALSE
+		ORDER BY
+			PS.DISPLAY_NUM ASC
+	";
 	
-	$db->query($sql);
+	$db->query($select_posting_story_sql);
 	
-	$column_01_new = array();
-	$column_02_prj = array();
-	$column_03_lkb = array();
-	$column_04_edt = array();
+	$column_NEW = array();
+	$column_COLC = array();
+	$column_RNWY = array();
+	$column_EDTL = array();
 	
-	foreach($db->fetch() as $data) {
-		$story_column = $data['STORY_COLUMN'];
+	foreach($db->fetch() as $story_data) {
+		$story_type = $story_data['STORY_TYPE'];
 		
-		switch ($story_column) {
-			case 1 :
-				$column_01_new[] = array(
-					'story_idx'			=>$data['STORY_IDX'],
-					'story_column'		=>$data['STORY_COLUMN'],
-					'display_num'		=>$data['DISPLAY_NUM'],
-					'img_location'		=>$data['IMG_LOCATION'],
-					'story_title'		=>$data['STORY_TITLE'],
-					'story_sub_title'	=>$data['STORY_SUB_TITLE'],
-					'active_flg'		=>$data['ACTIVE_FLG']
+		switch ($story_type) {
+			case "NEW" :
+				$column_NEW[] = array(
+					'story_idx'			=>$story_data['STORY_IDX'],
+					'story_type'		=>$story_data['STORY_TYPE'],
+					'display_num'		=>$story_data['DISPLAY_NUM'],
+					'img_location'		=>$story_data['IMG_LOCATION'],
+					'story_title'		=>$story_data['STORY_TITLE'],
+					'story_sub_title'	=>$story_data['STORY_SUB_TITLE']
 				);
 				break;
 			
-			case 2 :
-				$column_02_prj[] = array(
-					'story_idx'			=>$data['STORY_IDX'],
-					'story_column'		=>$data['STORY_COLUMN'],
-					'display_num'		=>$data['DISPLAY_NUM'],
-					'img_location'		=>$data['IMG_LOCATION'],
-					'story_title'		=>$data['STORY_TITLE'],
-					'story_sub_title'	=>$data['STORY_SUB_TITLE'],
-					'active_flg'		=>$data['ACTIVE_FLG']
+			case "COLC" :
+				$column_COLC[] = array(
+					'story_idx'			=>$story_data['STORY_IDX'],
+					'story_type'		=>$story_data['STORY_TYPE'],
+					'display_num'		=>$story_data['DISPLAY_NUM'],
+					'img_location'		=>$story_data['IMG_LOCATION'],
+					'story_title'		=>$story_data['STORY_TITLE'],
+					'story_sub_title'	=>$story_data['STORY_SUB_TITLE']
 				);
 				break;
 			
-			case 3 :
-				$column_03_lkb[] = array(
-					'story_idx'			=>$data['STORY_IDX'],
-					'story_column'		=>$data['STORY_COLUMN'],
-					'display_num'		=>$data['DISPLAY_NUM'],
-					'img_location'		=>$data['IMG_LOCATION'],
-					'story_title'		=>$data['STORY_TITLE'],
-					'story_sub_title'	=>$data['STORY_SUB_TITLE'],
-					'active_flg'		=>$data['ACTIVE_FLG']
+			case "RNWY" :
+				$column_RNWY[] = array(
+					'story_idx'			=>$story_data['STORY_IDX'],
+					'story_type'		=>$story_data['STORY_TYPE'],
+					'display_num'		=>$story_data['DISPLAY_NUM'],
+					'img_location'		=>$story_data['IMG_LOCATION'],
+					'story_title'		=>$story_data['STORY_TITLE'],
+					'story_sub_title'	=>$story_data['STORY_SUB_TITLE']
 				);
 				break;
 			
-			case 4 :
-				$column_04_edt[] = array(
-					'story_idx'			=>$data['STORY_IDX'],
-					'story_column'		=>$data['STORY_COLUMN'],
-					'display_num'		=>$data['DISPLAY_NUM'],
-					'img_location'		=>$data['IMG_LOCATION'],
-					'story_title'		=>$data['STORY_TITLE'],
-					'story_sub_title'	=>$data['STORY_SUB_TITLE'],
-					'active_flg'		=>$data['ACTIVE_FLG']
+			case "EDTL" :
+				$column_EDTL[] = array(
+					'story_idx'			=>$story_data['STORY_IDX'],
+					'story_type'		=>$story_data['STORY_TYPE'],
+					'display_num'		=>$story_data['DISPLAY_NUM'],
+					'img_location'		=>$story_data['IMG_LOCATION'],
+					'story_title'		=>$story_data['STORY_TITLE'],
+					'story_sub_title'	=>$story_data['STORY_SUB_TITLE']
 				);
 				break;
 		}
 	}
 	
 	$json_result['data'][] = array(
-		'column_01_new' =>$column_01_new,
-		'column_02_prj' =>$column_02_prj,
-		'column_03_lkb' =>$column_03_lkb,
-		'column_04_edt' =>$column_04_edt
+		'column_NEW' =>$column_NEW,
+		'column_COLC' =>$column_COLC,
+		'column_RNWY' =>$column_RNWY,
+		'column_EDTL' =>$column_EDTL
 	);
 }
 ?>

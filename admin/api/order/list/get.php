@@ -18,7 +18,7 @@ $tab_status			= $_POST['tab_status'];			//주문상태
 $country			= $_POST['country'];			//쇼핑몰 국가
 $order_status		= $_POST['order_status'];		//검색방식 - 상태
 	
-$keyword_type		= $_POST['keyword_type'];		//주문정보 검색 타입
+$search_keyword		= $_POST['search_keyword'];		//주문정보 검색 타입
 $keyword_param		= $_POST['keyword_param'];		//주문정보 - 검색어 파라미터
 	
 $date_type			= $_POST['date_type'];			//기간
@@ -26,7 +26,7 @@ $date_param			= $_POST['date_param'];			//기간 - 파라미터
 $date_from			= $_POST['date_from'];			//기간 시작일
 $date_to			= $_POST['date_to'];			//기간 종료일
 	
-$product_type		= $_POST['product_type'];		//주문상품 검색 타입
+$search_product		= $_POST['search_product'];		//주문상품 검색 타입
 $product_param		= $_POST['product_param'];		//주문상품 - 검색어 파라미터
 	
 $price_type			= $_POST['price_type'];			//금액 조건
@@ -42,20 +42,23 @@ $qty_max			= $_POST['qty_max'];			//주문 상품 수 최대값
 $pg_payment			= $_POST['pg_payment'];			//결제수단
 $discount_type		= $_POST['dicsount_type'];		//할인수단
 
-$rows = $_POST['rows'];
-$page = $_POST['page'];
+$rows				= $_POST['rows'];
+$page				= $_POST['page'];
+
+$sort_value			= $_POST['sort_value'];	
+$sort_type			= $_POST['sort_type'];	
+
+$select_product_flg	= $_POST['select_product_flg'];
+$select_column		= $_POST['select_column'];
 
 //검색 유형 - 디폴트
 $where = '1=1';
 
-$where .= " AND (OP.PRODUCT_CODE NOT LIKE 'BOU%') ";
+$where .= " AND (OP.PRODUCT_CODE NOT LIKE 'VOUXXX%') ";
 
 if ($tab_status != null || $order_status != null) {
-	if ($order_status != null && $order_status[0] != "ALL") {
-		for ($i=0; $i<count($order_status); $i++) {
-			$order_status[$i] = "'".$order_status[$i]."'";
-		}
-		$where .= " AND (OI.ORDER_STATUS IN (".implode(',',$order_status)."))";
+	if ($order_status != null && $order_status != "ALL") {
+		$where .= " AND (OI.ORDER_STATUS = '".$order_status."')";
 	} else {
 		switch ($tab_status) {
 			case "ORD_ALL" :
@@ -63,19 +66,68 @@ if ($tab_status != null || $order_status != null) {
 				break;
 			
 			case "MNG_ALL" :
-				$where .= " AND (OI.ORDER_STATUS IN ('OCC','OEX','OEP','ORF','ORP'))";
+				$where .= " AND (OP.ORDER_STATUS IN ('OCC','OEX','OEP','ORF','ORP'))";
 				break;
 			
 			case "OC" :
-				$where .= " AND (OI.ORDER_STATUS IN ('OCC'))";
+				$cancel_type = NULL;
+				$cancel_type = $_POST['cancel_type'];
+				
+				if($cancel_type != "ALL" && $cancel_type != NULL){
+					if ($cancel_type == 'OIC') {
+						$where .= " AND (OI.ORDER_STATUS LIKE '%OC%') ";
+					} else if($cancel_type == 'OPC'){
+						$where .= "
+							AND (
+								OP.ORDER_STATUS LIKE '%OC%' AND
+								OI.ORDER_STATUS NOT LIKE '%OC%'
+							)
+						";
+					}
+				} else {
+					$where .= " AND (OP.ORDER_STATUS LIKE '%OC%' ) ";
+				}
 				break;
 			
 			case "OE" :
-				$where .= " AND (OI.ORDER_STATUS IN ('OEX','OEP'))";
+				$exchange_type = NULL;
+				$exchange_type = $_POST['exchange_type'];
+				
+				if ($exchange_type != "ALL" && $exchange_type != NULL) {
+					if ($exchange_type == 'OIE') {
+						$where .= " AND (OI.ORDER_STATUS LIKE '%OE%') ";
+					}
+					else if ($exchange_type == 'OPE') {
+						$where .= "
+							AND (
+								OP.ORDER_STATUS LIKE '%OE%' AND
+								OI.ORDER_STATUS NOT LIKE '%OE%'
+							)
+						";
+					}
+				} else {
+					$where .= " AND (OP.ORDER_STATUS LIKE '%OE%' ) ";
+				}
 				break;
 			
 			case "OR" :
-				$where .= " AND (OI.ORDER_STATUS IN ('ORF','ORP'))";
+				$refund_type = NULL;
+				$refund_type = $_POST['refund_type'];
+				
+				if ($refund_type != "ALL" && $refund_type != NULL){
+					if ($refund_type == 'OIR') {
+						$where .= " AND (OI.ORDER_STATUS LIKE '%OR%') ";
+					} else if ($refund_type == 'OPR') {
+						$where .= "
+							AND (
+								OP.ORDER_STATUS LIKE '%OR%' AND
+								OI.ORDER_STATUS NOT LIKE '%OR%'
+							)
+						";
+					}
+				} else{
+					$where .= " AND (OP.ORDER_STATUS LIKE '%OR%' ) ";
+				}
 				break;
 			
 			default :
@@ -93,63 +145,65 @@ if ($country != null) {
 }
 
 //주문정보 검색
-if ($keyword_type != null && $keyword_param != null) {	
+if ($search_keyword != null && $keyword_param != null) {	
 	$tmp_where = "";
-	for ($i=0; $i<count($keyword_type); $i++) {
-		$param_where = "";
-		if (strlen($tmp_where) > 0) {
-			$tmp_where .= " AND ";
+	for ($i=0; $i<count($search_keyword); $i++) {
+		if($search_keyword[$i] != null && $search_keyword != 'ALL'){
+			$param_where = "";
+			switch ($search_keyword[$i]) {
+				//주문정보 검색 - 주문 번호
+				case "order_code" :
+					$param_where .= ' (OI.ORDER_CODE LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+				
+				//주문정보 검색 - 운송장 번호
+				case "delivery_num" :
+					$param_where .= ' (OI.DELIVERY_NUM LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+				
+				//주문정보 검색 - 멤버 이름
+				case "member_name" :
+					$param_where .= ' (OI.MEMBER_NAME LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+				
+				//주문정보 검색 - 멤버 아이디
+				case "member_id" :
+					$param_where .= ' (OI.MEMBER_ID LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+				
+				//주문정보 검색 - 멤버 휴대폰 번호
+				case "member_tel" :
+					$param_where .= " (REPLACE(OI.MEMBER_MOBILE,'-','') LIKE '%".$keyword_param[$i]."%') ";
+					break;
+				
+				//주문정보 검색 - 멤버 이메일
+				case "member_email" :
+					$param_where .= ' (OI.MEMBER_EMAIL LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+				
+				//주문정보 검색 - 배송지
+				case "to_place" :
+					$param_where .= ' (OI.TO_PLACE LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+	
+				//주문정보 검색 - 수령자 이름
+				case "to_name" :
+					$param_where .= ' (OI.TO_NAME LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+	
+				//주문정보 검색 - 수령자 휴대폰 번호
+				case "to_mobile" :
+					$param_where .= " (REPLACE(OI.TO_MOBILE,'-','') LIKE '%".$keyword_param[$i]."%') ";
+					break;
+	
+				//주문정보 검색 - 주문 메모
+				case "order_memo" :
+					$param_where .= ' (OI.ORDER_MEMO LIKE "%'.$keyword_param[$i].'%") ';
+					break;
+			}
 		}
-		switch ($keyword_type[$i]) {
-			//주문정보 검색 - 주문 번호
-			case "order_code" :
-				$param_where .= ' (OI.ORDER_CODE LIKE "%'.$keyword_param[$i].'%") ';
-				break;
-			
-			//주문정보 검색 - 운송장 번호
-			case "delivery_num" :
-				$param_where .= ' (OI.DELIVERY_NUM LIKE "%'.$keyword_param[$i].'%") ';
-				break;
-			
-			//주문정보 검색 - 멤버 이름
-			case "member_name" :
-				$param_where .= ' (OI.MEMBER_NAME LIKE "%'.$keyword_param[$i].'%") ';
-				break;
-			
-			//주문정보 검색 - 멤버 아이디
-			case "member_id" :
-				$param_where .= ' (OI.MEMBER_ID LIKE "%'.$keyword_param[$i].'%") ';
-				break;
-			
-			//주문정보 검색 - 멤버 휴대폰 번호
-			case "member_tel" :
-				$param_where .= " (REPLACE(OI.MEMBER_TEL,'-','') LIKE '%".$keyword_param[$i]."%') ";
-				break;
-			
-			//주문정보 검색 - 멤버 이메일
-			case "member_email" :
-				$param_where .= ' (OI.MEMBER_EMAIL LIKE "%'.$keyword_param[$i].'%") ';
-				break;
-			
-			//주문정보 검색 - 배송지
-			case "to_place" :
-				$param_where .= ' (OI.TO_PLACE LIKE "%'.$keyword_param[$i].'%") ';
-				break;
-
-			//주문정보 검색 - 수령자 이름
-			case "to_name" :
-				$param_where .= ' (OI.TO_NAME LIKE "%'.$keyword_param[$i].'%") ';
-				break;
-
-			//주문정보 검색 - 수령자 휴대폰 번호
-			case "to_mobile" :
-				$param_where .= " (REPLACE(OI.TO_MOBILE,'-','') LIKE '%".$keyword_param[$i]."%') ";
-				break;
-
-			//주문정보 검색 - 주문 메모
-			case "order_memo" :
-				$param_where .= ' (OI.ORDER_MEMO LIKE "%'.$keyword_param[$i].'%") ';
-				break;
+		if (strlen($param_where) > 0 && strlen($tmp_where) > 0) {
+			$tmp_where .= " AND ";
 		}
 		
 		$tmp_where .= $param_where;
@@ -171,22 +225,25 @@ if ($date_type != null && $date_type != "ALL" && ($date_param != null || $date_f
 			case "today" :
 				$where .= ' AND (OI.'.$date_type.' = CURDATE()) ';
 				break;
-			case "yesterday" :
+			case "01d" :
 				$where .= ' AND (OI.'.$date_type.' >= (CURDATE() - INTERVAL 1 DAY)) ';
 				break;
-			case "3d" :
+			case "03d" :
 				$where .= ' AND (OI.'.$date_type.' >= (CURDATE() - INTERVAL 3 DAY)) ';
 				break;
-			case "1w" :
+			case "07d" :
 				$where .= ' AND (OI.'.$date_type.' >= (CURDATE() - INTERVAL 7 DAY)) ';
 				break;
-			case "1m" :
+			case "15d" :
+				$where .= ' AND (OI.'.$date_type.' >= (CURDATE() - INTERVAL 15 DAY)) ';
+				break;
+			case "01m" :
 				$where .= ' AND (OI.'.$date_type.' >= (CURDATE() - INTERVAL 1 MONTH)) ';
 				break;
-			case "3m" :
+			case "03m" :
 				$where .= ' AND (OI.'.$date_type.' >= (CURDATE() - INTERVAL 3 MONTH)) ';
 				break;
-			case "1y" :
+			case "01y" :
 				$where .= ' AND (OI.'.$date_type.' >= (CURDATE() - INTERVAL 1 YEAR)) ';
 				break;
 		}
@@ -202,38 +259,41 @@ if ($date_type != null && $date_type != "ALL" && ($date_param != null || $date_f
 }
 
 //주문상품 검색 - 상품 코드, 상품 이름, 상품 태그, 상품 제조사, 상품 공급사
-if ($product_type != null && $product_param != null) {
+if ($search_product != null && $product_param != null) {
 	$tmp_where = "";
-	for ($i=0; $i<count($product_type); $i++) {
-		$param_where = "";
-		if (strlen($tmp_where) > 0) {
-			$tmp_where .= " AND ";
+	for ($i=0; $i<count($search_product); $i++) {
+		if($search_product[$i] != null && $product_param != 'ALL'){
+			$param_where = "";
+
+			switch ($search_product[$i]) {
+				//주문상품 검색 - 상품 코드
+				case "code" :
+					$param_where .= ' (PR.PRODUCT_CODE LIKE "%'.$product_param[$i].'%") ';
+					break;
+				
+				//주문상품 검색 - 상품 이름
+				case "name" :
+					$param_where .= ' (PR.PRODUCT_NAME LIKE "%'.$product_param[$i].'%") ';
+					break;
+				
+				//주문상품 검색 - 상품 태그
+				case "tag" :
+					$param_where .= ' (PR.PRODUCT_TAG LIKE "%'.$product_param[$i].'%") ';
+					break;
+				
+				//주문상품 검색 - 상품 제조사
+				case "manufacturer" :
+					$param_where .= ' (OM.MANUFACTURER LIKE "%'.$product_param[$i].'%") ';
+					break;
+				
+				//주문상품 검색 - 상품 공급사
+				case "supplier" :
+					$param_where .= ' (OM.SUPPLIER LIKE "%'.$product_param[$i].'%") ';
+					break;
+			}
 		}
-		switch ($product_type[$i]) {
-			//주문상품 검색 - 상품 코드
-			case "code" :
-				$param_where .= ' (PR.PRODUCT_CODE LIKE "%'.$product_param[$i].'%") ';
-				break;
-			
-			//주문상품 검색 - 상품 이름
-			case "name" :
-				$param_where .= ' (PR.PRODUCT_NAME LIKE "%'.$product_param[$i].'%") ';
-				break;
-			
-			//주문상품 검색 - 상품 태그
-			case "tag" :
-				$param_where .= ' (PR.PRODUCT_TAG LIKE "%'.$product_param[$i].'%") ';
-				break;
-			
-			//주문상품 검색 - 상품 제조사
-			case "manufacturer" :
-				$param_where .= ' (OM.MANUFACTURER LIKE "%'.$product_param[$i].'%") ';
-				break;
-			
-			//주문상품 검색 - 상품 공급사
-			case "supplier" :
-				$param_where .= ' (OM.SUPPLIER LIKE "%'.$product_param[$i].'%") ';
-				break;
+		if (strlen($param_where) > 0 && strlen($tmp_where) > 0) {
+			$tmp_where .= " AND ";
 		}
 		
 		$tmp_where .= $param_where;
@@ -265,7 +325,7 @@ if ($member_level != null && $member_level != "ALL") {
 
 //멤버 상태
 if ($member_status != null) {
-	$where .= " AND (OI.MEMBER_STATUS = '".$member_status."') ";
+	$where .= " AND (OI.MEMBER_STATUS = '".implode(',',$member_status)."') ";
 }
 
 //금액 조건 - 상품 금액, 할인 금액, 실제 결제 금액
@@ -281,14 +341,16 @@ if (($price_type != null && $price_type != "ALL") && ($price_min != null || $pri
 
 //주문 상품 수량
 if (($qty_min != null && intval($qty_min) > 0) || ($qty_max != null && intval($qty_max) > 0)) {
-	$tmp_where="(
-					SELECT
-						SUM(S_OP.PRODUCT_QTY)
-					FROM
-						dev.ORDER_PRODUCT S_OP
-					WHERE
-						S_OP.ORDER_IDX = OI.IDX
-				) ";
+	$tmp_where="
+		(
+			SELECT
+				SUM(S_OP.PRODUCT_QTY)
+			FROM
+				ORDER_PRODUCT S_OP
+			WHERE
+				S_OP.ORDER_IDX = OI.IDX
+		)
+	";
 	
 	if (intval($qty_min) > 0 && intval($qty_max) == 0) {
 		$tmp_where .= " >= ".$qty_min." ";
@@ -300,11 +362,11 @@ if (($qty_min != null && intval($qty_min) > 0) || ($qty_max != null && intval($q
 	
 	$tmp_where .= " IS TRUE ";
 	
-	$where .=" AND (";
+	$where .=" AND ( ";
 	
 	$where .= $tmp_where;
 	
-	$where .= ") ";
+	$where .= " ) ";
 }
 
 //결제수단
@@ -315,23 +377,33 @@ if ($pg_payment != null && $pg_payment != "ALL") {
 //할인수단
 if ($discount_type != null) {
 	$where ="  AND (";
-	$tmp_where='(
-					SELECT
-						COUNT(S_OP.IDX)
-					FROM
-						dev.ORDER_PRODUCT S_OP
-					WHERE
-						S_OP.ORDER_IDX = OI.IDX AND
-						S_OP.PRODUCT_CODE LIKE "'.$discount_type.'%"
-				) > 0 IS TRUE';
+	$tmp_where="
+		(
+			SELECT
+				COUNT(S_OP.IDX)
+			FROM
+				ORDER_PRODUCT S_OP
+			WHERE
+				S_OP.ORDER_IDX = OI.IDX AND
+				S_OP.PRODUCT_CODE LIKE '".$discount_type."%'
+		) > 0 IS TRUE
+	";
+	
 	$where .= $tmp_where;
-	$where .= ") ";
+	$where .= " ) ";
 }
 
 /** 정렬 조건 **/
 $order = '';
 if ($sort_value != null && $sort_type != null) {
-	$order = ' OI.'.$sort_value." ".$sort_type." ";
+	$alias = "";
+	if($sort_value == 'PRODUCT_NAME' || $sort_value == 'SALES_PRICE_KR' || $sort_value == 'SALES_PRICE_EN' || $sort_value == 'SALES_PRICE_CN'){
+		$alias = 'PR';
+	} else {
+		$alias = 'OI';
+	}
+	
+	$order = ' '.$alias.'.'.$sort_value." ".$sort_type." ";
 } else {
 	$order = ' OI.IDX DESC';
 }
@@ -340,46 +412,98 @@ $limit_start = (intval($page)-1)*$rows;
 
 $json_result = array(
 	'total' => $db->count("
-						dev.ORDER_INFO OI
-						LEFT JOIN dev.ORDER_PRODUCT OP ON
-						OI.IDX = OP.ORDER_IDX
-						LEFT JOIN dev.SHOP_PRODUCT PR ON
-						OP.PRODUCT_IDX = PR.IDX
-						LEFT JOIN dev.DELIVERY_COMPANY DC ON
-						OI.DELIVERY_IDX = DC.IDX
-						LEFT JOIN dev.MEMBER_LEVEL ML ON
-						OI.MEMBER_LEVEL = ML.IDX",
-						$where
-					),
-	'total_cnt' => $db->count(
-						"dev.ORDER_INFO OI
-						LEFT JOIN dev.ORDER_PRODUCT OP ON
-						OI.IDX = OP.ORDER_IDX",
-						$where_cnt
-					),
+		(
+			SELECT
+				DISTINCT OI.IDX					AS ORDER_IDX
+			FROM
+				ORDER_INFO OI
+				LEFT JOIN ORDER_PRODUCT OP ON
+				OI.IDX = OP.ORDER_IDX
+				LEFT JOIN SHOP_PRODUCT PR ON
+				OP.PRODUCT_IDX = PR.IDX
+				LEFT JOIN DELIVERY_COMPANY DC ON
+				OI.DELIVERY_IDX = DC.IDX
+				LEFT JOIN MEMBER_LEVEL ML ON
+				OI.MEMBER_LEVEL = ML.IDX
+			WHERE
+				".$where."
+		) TMP",
+		" 1=1 "
+	),
+	'total_cnt' => $db->count("
+		(
+			SELECT
+				DISTINCT OI.IDX					AS ORDER_IDX
+			FROM
+				ORDER_INFO OI
+				LEFT JOIN ORDER_PRODUCT OP ON
+				OI.IDX = OP.ORDER_IDX
+				LEFT JOIN SHOP_PRODUCT PR ON
+				OP.PRODUCT_IDX = PR.IDX
+				LEFT JOIN DELIVERY_COMPANY DC ON
+				OI.DELIVERY_IDX = DC.IDX
+				LEFT JOIN MEMBER_LEVEL ML ON
+				OI.MEMBER_LEVEL = ML.IDX
+			WHERE
+				".$where_cnt."
+		) TMP",
+		" 1=1 "
+	),
 	'page' => $page
 );
 
-$sql = "SELECT
+$select_order_idx_sql = "
+	SELECT
+		DISTINCT OI.IDX					AS ORDER_IDX
+	FROM
+		ORDER_INFO OI
+		LEFT JOIN ORDER_PRODUCT OP ON
+		OI.IDX = OP.ORDER_IDX
+		LEFT JOIN SHOP_PRODUCT PR ON
+		OP.PRODUCT_IDX = PR.IDX
+		LEFT JOIN DELIVERY_COMPANY DC ON
+		OI.DELIVERY_IDX = DC.IDX
+		LEFT JOIN MEMBER_LEVEL ML ON
+		OI.MEMBER_LEVEL = ML.IDX
+	WHERE
+		".$where."
+";
+
+if ($rows != null) {
+	$select_order_idx_sql .= " LIMIT ".$limit_start.",".$rows;
+}
+
+$db->query($select_order_idx_sql);
+
+$order_idx_arr = array();
+foreach($db->fetch() as $idx_data) {
+	$order_idx_arr[] = $idx_data['ORDER_IDX'];
+}
+
+$result_where = "";
+
+$extra_sql = "";
+if (strlen($select_column) > 0 && $select_column != null) {
+	$column_arr = explode(",",$select_column);
+	$extra_sql = setExtraSql($db,$column_arr);
+}
+
+if(count($order_idx_arr) > 0){
+	$select_order_info_sql = "
+		SELECT
 			OI.IDX					AS ORDER_IDX,
 			OI.COUNTRY				AS COUNTRY,
-			OI.ORDER_STATUS			AS OI_STATUS,
-			OI.ORDER_DATE			AS ORDER_DATE,
-			IFNULL(
-				OI.CANCEL_DATE,'-'
-			)						AS OI_CANCEL_DATE,
-			IFNULL(
-				OI.EXCHANGE_DATE,'-'
-			)						AS OI_EXCHANGE_DATE,
-			IFNULL(
-				OI.REFUND_DATE,'-'
-			)						AS OI_REFUND_DATE,
+			OI.ORDER_STATUS			AS ORDER_STATUS,
+			DATE_FORMAT(
+				OI.ORDER_DATE,
+				'%Y-%m-%d %H:%i'
+			)						AS ORDER_DATE,
 			OI.ORDER_CODE			AS ORDER_CODE,
 			
 			OI.MEMBER_IDX			AS MEMBER_IDX,
-			ML.TITLE				AS MEMBER_LEVEL,
 			OI.MEMBER_ID			AS MEMBER_ID,
 			OI.MEMBER_NAME			AS MEMBER_NAME,
+			ML.TITLE				AS MEMBER_LEVEL,
 			
 			OI.PRICE_PRODUCT		AS PRICE_PRODUCT,
 			OI.PRICE_MILEAGE_POINT	AS PRICE_MILEAGE_POINT,
@@ -387,127 +511,381 @@ $sql = "SELECT
 			OI.PRICE_DISCOUNT		AS PRICE_DISCOUNT,
 			OI.PRICE_DELIVERY		AS PRICE_DELIVERY,
 			OI.PRICE_TOTAL			AS PRICE_TOTAL,
-			OI.PG_PAYMENT			AS PG_PAYMENT,
-			OI.PG_PRICE				AS PG_PRICE,
-			
-			OP.ORDER_STATUS			AS OP_STATUS,
-			IFNULL(
-				OP.CANCEL_DATE,'-'
-			)						AS OP_CANCEL_DATE,
-			IFNULL(
-				OP.EXCHANGE_DATE,'-'
-			)						AS OP_EXCHANGE_DATE,
-			IFNULL(
-				OP.REFUND_DATE,'-'
-			)						AS OP_REFUND_DATE,
-			OP.PRODUCT_IDX			AS PRODUCT_IDX,
-			OP.PRODUCT_TYPE			AS PRODUCT_TYPE,
-			OP.PRODUCT_CODE			AS PRODUCT_CODE,
-			OP.PRODUCT_NAME			AS PRODUCT_NAME,
-			OP.OPTION_IDX			AS OPTION_IDX,
-			OP.OPTION_NAME			AS OPTION_NAME,
-			OP.BARCODE				AS BARCODE,
-			OP.PRODUCT_QTY			AS PRODUCT_QTY,
-			OP.PRODUCT_PRICE		AS PRODUCT_PRICE,
-			OP.REVIEW_TYPE			AS REVIEW_TYPE,
-			
-			OI.DELIVERY_TYPE		AS DELIVERY_TYPE,
-			IFNULL(
-				OI.DELIVERY_DATE,'-'
-			)						AS DELIVERY_DATE,
-			IFNULL(
-				OI.DELIVERY_STATUS,'-'
-			)						AS DELIVERY_STATUS,
-			IFNULL(
-				OI.DELIVERY_START_DATE,'-'
-			)						AS DELIVERY_START_DATE,
-			IFNULL(
-				OI.DELIVERY_END_DATE,'-'
-			)						AS DELIVERY_END_DATE,
-			IFNULL(
-				DC.COMPANY_NAME,'-'
-			)						AS COMPANY_NAME,
-			IFNULL(
-				OI.DELIVERY_NUM,'-'
-			)						AS DELIVERY_NUM,			
-			
-			IFNULL(
-				OI.ORDER_MEMO,'-'
-			)						AS ORDER_MEMO,
-			OI.CREATE_DATE			AS CREATE_DATE,
-			OI.UPDATE_DATE			AS UPDATE_DATE
+			".$extra_sql."
+			OI.CREATE_DATE,
+			OI.CREATER,
+			OI.UPDATE_DATE,
+			OI.UPDATER
 		FROM
-			dev.ORDER_INFO OI
-			LEFT JOIN dev.ORDER_PRODUCT OP ON
-			OI.IDX = OP.ORDER_IDX
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
-			OP.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.DELIVERY_COMPANY DC ON
+			ORDER_INFO OI
+			LEFT JOIN DELIVERY_COMPANY DC ON
 			OI.DELIVERY_IDX = DC.IDX
-			LEFT JOIN dev.MEMBER_LEVEL ML ON
+			LEFT JOIN MEMBER_LEVEL ML ON
 			OI.MEMBER_LEVEL = ML.IDX
 		WHERE
-			".$where."
-		ORDER BY 
-			".$order;
+			OI.IDX IN (".implode(',',$order_idx_arr).")
+		ORDER BY
+			".$order."
+	";
+	
+	$db->query($select_order_info_sql);
+	
+	foreach($db->fetch() as $order_data){
+		$order_idx = $order_data['ORDER_IDX'];
+		
+		$order_product_info = array();
+		if (!empty($order_idx) && $select_product_flg != "false") {
+			$select_order_product_sql = "
+				SELECT
+					OP.ORDER_STATUS			AS ORDER_STATUS,
+					IFNULL(
+						DATE_FORMAT(
+							OP.CANCEL_DATE,
+							'%Y-%m-%d %H:%i'
+						),'-'
+					)						AS CANCEL_DATE,
+					IFNULL(
+						DATE_FORMAT(
+							OP.EXCHANGE_DATE,
+							'%Y-%m-%d %H:%i'
+						),'-'
+					)						AS EXCHANGE_DATE,
+					IFNULL(
+						DATE_FORMAT(
+							OP.REFUND_DATE,
+							'%Y-%m-%d %H:%i'
+						),'-'
+					)						AS REFUND_DATE,
+					
+					OP.PRODUCT_TYPE			AS PRODUCT_TYPE,
+					(
+						SELECT
+							REPLACE(
+								S_PI.IMG_LOCATION,
+								'/var/www/admin/www',
+								''
+							)
+						FROM
+							PRODUCT_IMG S_PI
+						WHERE
+							S_PI.PRODUCT_IDX = OP.PRODUCT_IDX AND
+							S_PI.IMG_TYPE = 'P' AND
+							S_PI.IMG_SIZE = 'S'
+						ORDER BY
+							S_PI.IDX ASC
+						LIMIT
+							0,1
+					)						AS IMG_LOCATION,
+					OP.PRODUCT_CODE			AS PRODUCT_CODE,
+					OP.PRODUCT_NAME			AS PRODUCT_NAME,
+					PR.UPDATE_DATE			AS UPDATE_DATE,
+					OP.OPTION_IDX			AS OPTION_IDX,
+					OP.OPTION_NAME			AS OPTION_NAME,
+					OP.BARCODE				AS BARCODE,
+					OP.PRODUCT_QTY			AS PRODUCT_QTY,
+					OP.PRODUCT_PRICE		AS PRODUCT_PRICE,
+					OP.REVIEW_TYPE			AS REVIEW_TYPE
+				FROM
+					ORDER_PRODUCT OP 
+					LEFT JOIN SHOP_PRODUCT PR ON
+					OP.PRODUCT_IDX = PR.IDX
+				WHERE
+					OP.ORDER_IDX = ".$order_idx."
+			";
 
-if ($rows != null && $select_idx_flg == null) {
-	$sql .= " LIMIT ".$limit_start.",".$rows;
+			$db->query($select_order_product_sql);
+			
+			foreach($db->fetch() as $product_data){
+				$order_product_info[] = array(
+					'order_status'			=>$product_data['ORDER_STATUS'],
+					'txt_order_status'		=>setTxtParam($product_data['ORDER_STATUS']),
+					'cancel_date'			=>setTxtParam($product_data['CANCEL_DATE']),
+					'exchange_date'			=>setTxtParam($product_data['EXCHANGE_DATE']),
+					'refund_date'			=>setTxtParam($product_data['REFUND_DATE']),
+					
+					'product_type'			=>setTxtParam($product_data['PRODUCT_TYPE']),
+					'img_location'			=>$product_data['IMG_LOCATION'],
+					'product_code'			=>$product_data['PRODUCT_CODE'],
+					'product_name'			=>$product_data['PRODUCT_NAME'],
+					'update_date'			=>$product_data['UPDATE_DATE'],
+					'option_name'			=>$product_data['OPTION_NAME'],
+					'barcode'				=>$product_data['BARCODE'],
+					'product_qty'			=>$product_data['PRODUCT_QTY'],
+					'product_price'			=>number_format($product_data['PRODUCT_PRICE']),
+					'review_type'			=>$product_data['REVIEW_TYPE']
+				);
+			}
+		}
+		
+		$txt_country = "";
+		switch ($order_data['COUNTRY']) {
+			case "KR" :
+				$txt_country = "한국몰";
+				break;
+			
+			case "EN" :
+				$txt_country = "영문몰";
+				break;
+			
+			case "CN" :
+				$txt_country = "중문몰";
+				break;
+		}
+		
+		$order_exchange_cnt = $db->count("ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND ORDER_STATUS = 'OEX'");
+		$order_refund_cnt = $db->count("ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND ORDER_STATUS = 'ORF'");
+		
+		$mapping_cnt = $db->count("ORDER_MAPPING","ORDER_CODE = '".$order_data['ORDER_CODE']."'");
+		
+		$json_result['data'][] = array(
+			'order_idx'					=>$order_data['ORDER_IDX'],
+			'country'					=>$order_data['COUNTRY'],
+			'txt_country'				=>$txt_country,
+			'order_status'				=>$order_data['ORDER_STATUS'],
+			'txt_order_status'			=>setTxtParam($order_data['ORDER_STATUS']),
+			'order_date'				=>setTxtDateParam($order_data['ORDER_DATE']),
+			'cancel_date'				=>setTxtDateParam($order_data['CANCEL_DATE']),
+			'exchange_date'				=>setTxtDateParam($order_data['EXCHANGE_DATE']),
+			'refund_date'				=>setTxtDateParam($order_data['REFUND_DATE']),
+			'order_code'				=>$order_data['ORDER_CODE'],
+			
+			'pg_mid'					=>$order_data['PG_MID'],
+			'pg_payment'				=>$order_data['PG_PAYMENT'],
+			'pg_payment_key'			=>$order_data['PG_PAYMENT_KEY'],
+			'pg_status'					=>$order_data['PG_STATUS'],
+			'pg_date'					=>$order_data['PG_DATE'],
+			'pg_price'					=>$order_data['PG_PRICE'],
+			'pg_currency'				=>$order_data['PG_CURRENCY'],
+			'pg_receipt_url'			=>$order_data['PG_RECEIPT_URL'],
+			
+			'price_product'				=>number_format($order_data['PRICE_PRODUCT']),
+			'price_mileage_point'		=>number_format($order_data['PRICE_MILEAGE_POINT']),
+			'price_charge_point'		=>number_format($order_data['PRICE_CHARGE_POINT']),
+			'price_discount'			=>number_format($order_data['PRICE_DISCOUNT']),
+			'price_delivery'			=>number_format($order_data['PRICE_DELIVERY']),
+			'price_total'				=>number_format($order_data['PRICE_TOTAL']),
+			
+			'member_idx'				=>$order_data['MEMBER_IDX'],
+			'member_id'					=>$order_data['MEMBER_ID'],
+			'member_name'				=>$order_data['MEMBER_NAME'],
+			'member_level'				=>$order_data['MEMBER_LEVEL'],
+			
+			'delivery_num'				=>$order_data['DELIVERY_NUM'],
+			'delivery_type'				=>setTxtParam($order_data['DELIVERY_TYPE']),
+			'delivery_date'				=>$order_data['DELIVERY_DATE'],
+			'delivery_status'			=>setTxtParam($order_data['DELIVERY_STATUS']),
+			'delivery_start_date'		=>$order_data['DELIVERY_START_DATE'],
+			'delivery_end_date'			=>$order_data['DELIVERY_END_DATE'],
+			'company_name'				=>$order_data['COMPANY_NAME'],
+			'order_exchange_cnt'		=>$order_exchange_cnt,
+			'order_refund_cnt'			=>$order_refund_cnt,
+			
+			'order_memo'				=>$order_data['ORDER_MEMO'],
+			'mapping_cnt'				=>$mapping_cnt,
+			
+			'order_product_info'		=>$order_product_info
+		);
+	}
 }
 
-$db->query($sql);
-foreach($db->fetch() as $data) {
-	$json_result['data'][] = array(
-		'num'						=>$total_cnt--,
-		'order_idx'					=>$data['ORDER_IDX'],
-		'country'					=>$data['COUNTRY'],
-		'oi_status'					=>$data['OI_STATUS'],
-		'order_date'				=>$data['ORDER_DATE'],
-		'oi_cancel_date'			=>$data['OI_CANCEL_DATE'],
-		'oi_exchange_date'			=>$data['OI_EXCHANGE_DATE'],
-		'oi_refund_date'			=>$data['OI_REFUND_DATE'],
-		'order_code'				=>$data['ORDER_CODE'],
-		
-		'member_idx'				=>$data['MEMBER_IDX'],
-		'member_level'				=>$data['MEMBER_LEVEL'],
-		'member_id'					=>$data['MEMBER_ID'],
-		'member_name'				=>$data['MEMBER_NAME'],
+function setTxtDateParam($param) {
+	$tmp_arr = explode(" ",$param);
+	$txt_param = $tmp_arr[0]."<br/>".$tmp_arr[1];
+	
+	return $txt_param;
+}
 
-		'price_product'				=>$data['PRICE_PRODUCT'],
-		'price_mileage_point'		=>$data['PRICE_MILEAGE_POINT'],
-		'price_charge_point'		=>$data['PRICE_CHARGE_POINT'],
-		'price_discount'			=>$data['PRICE_DISCOUNT'],
-		'price_delivery'			=>$data['PRICE_DELIVERY'],
-		'price_total'				=>$data['PRICE_TOTAL'],
-		'pg_payment'				=>$data['PG_PAYMENT'],
-		'pg_price'					=>$data['PG_PRICE'],
+function setTxtParam($param) {
+	$txt_param = "";
+	
+	switch ($param) {
+		//상품 타입
+		case "B" :
+			$txt_param = "일반상품";
+			break;
 		
-		'op_status'					=>$data['OP_STATUS'],
-		'op_cancel_date'			=>$data['OP_CANCEL_DATE'],
-		'op_exchange_date'			=>$data['OP_EXCHANGE_DATE'],
-		'op_refund_date'			=>$data['OP_REFUND_DATE'],
-		'product_idx'				=>$data['PRODUCT_IDX'],
-		'product_type'				=>$data['PRODUCT_TYPE'],
-		'product_code'				=>$data['PRODUCT_CODE'],
-		'product_name'				=>$data['PRODUCT_NAME'],
-		'option_idx'				=>$data['OPTION_IDX'],
-		'option_name'				=>$data['OPTION_NAME'],
-		'barcode'					=>$data['BARCODE'],
-		'product_qty'				=>$data['PRODUCT_QTY'],
-		'product_price'				=>$data['PRODUCT_PRICE'],
-		'review_type'				=>$data['REVIEW_TYPE'],
+		case "S" :
+			$txt_param = "세트상품";
+			break;
 		
-		'delivery_type'				=>$data['DELIVERY_TYPE'],
-		'delivery_date'				=>$data['DELIVERY_DATE'],
-		'delivery_status'			=>$data['DELIVERY_STATUS'],
-		'delivery_start_date'		=>$data['DELIVERY_START_DATE'],
-		'delivery_end_date'			=>$data['DELIVERY_END_DATE'],
-		'company_name'				=>$data['COMPANY_NAME'],
-		'delivery_num'				=>$data['DELIVERY_NUM'],
+		//주문상태
+		case "PCP" :
+			$txt_param = "결제완료";
+			break;
 		
-		'order_memo'				=>$data['ORDER_MEMO'],
-		'create_date'				=>$data['CREATE_DATE'],
-		'update_date'				=>$data['UPDATE_DATE']
-	);
+		case "PPR" :
+			$txt_param = "상품준비";
+			break;
+		
+		case "POP" :
+			$txt_param = "프리오더 준비";
+			break;
+		
+		case "POD" :
+			$txt_param = "프리오더 상품 생산";
+			break;
+		
+		case "DPR" :
+			$txt_param = "배송준비";
+			break;
+		
+		case "DPG" :
+			$txt_param = "배송중";
+			break;
+			
+		case "DCP" :
+			$txt_param = "배송완료";
+			break;
+		
+		case "OCC" :
+			$txt_param = "주문취소";
+			break;
+		
+		case "OEX" :
+			$txt_param = "주문교환";
+			break;
+		
+		case "OEP" :
+			$txt_param = "교환완료";
+			break;
+		
+		case "ORF" :
+			$txt_param = "주문환불";
+			break;
+		
+		case "ORP" :
+			$txt_param = "환불완료";
+			break;
+		
+		//배송유형
+		case "KR" :
+			$txt_param = "국내배송";
+			break;
+		
+		case "FR" :
+			$txt_param = "해외배송";
+			break;
+		
+		//배송상태
+		case "MRD" :
+			$txt_param = "멤버 재배송";
+			break;
+		
+		case "ARD" :
+			$txt_param = "아더 재배송";
+			break;
+	}
+	
+	return $txt_param;
+}
+
+function setExtraSql($db,$column_arr) {
+	$extra_sql = "";
+	
+	for ($i=0; $i<count($column_arr); $i++) {
+		switch ($column_arr[$i]) {
+			case "cancel_date" :
+				$extra_sql .= "
+					IFNULL(
+						DATE_FORMAT(
+							OI.CANCEL_DATE,
+							'%Y-%m-%d %H:%i'
+						),
+						'-'
+					)												AS CANCEL_DATE,
+				";
+				break;
+			
+			case "exchange_date" :
+				$extra_sql .= "
+					IFNULL(
+						DATE_FORMAT(
+							OI.EXCHANGE_DATE,
+							'%Y-%m-%d %H:%i'
+						),
+						'-'
+					)												AS EXCHANGE_DATE,
+				";
+				break;
+			
+			case "refund_date" :
+				$extra_sql .= "
+					IFNULL(
+						DATE_FORMAT(
+							OI.REFUND_DATE,
+							'%Y-%m-%d %H:%i'
+						),
+						'-'
+					)												AS REFUND_DATE,
+				";
+				break;
+			
+			case "pg_date" :
+				$extra_sql .= " PG_DATE								AS PG_DATE, ";
+				break;
+			
+			case "pg_payment" :
+				$extra_sql .= " PG_PAYMENT							AS PG_PAYMENT, ";
+				break;
+			
+			case "pg_status" :
+				$extra_sql .= " PG_STATUS							AS PG_STATUS, ";
+				break;
+			
+			case "pg_currency" :
+				$extra_sql .= " PG_CURRENCY							AS PG_CURRENCY, ";
+				break;
+			
+			case "pg_price" :
+				$extra_sql .= " PG_PRICE							AS PG_PRICE, ";
+				break;
+			
+			case "pg_mid" :
+				$extra_sql .= " PG_MID								AS PG_MID, ";
+				break;
+			
+			case "pg_payment_key" :
+				$extra_sql .= " PG_PAYMENT_KEY						AS PG_PAYMENT_KEY, ";
+				break;
+			
+			case "pg_receipt_url" :
+				$extra_sql .= " PG_RECEIPT_URL						AS PG_RECEIPT_URL, ";
+				break;
+			
+			case "delivery_num" :
+				$extra_sql .= " IFNULL(OI.DELIVERY_NUM,'-')			AS DELIVERY_NUM, ";
+				break;
+			
+			case "delivery_type" :
+				$extra_sql .= " IFNULL(OI.DELIVERY_TYPE,'-')		AS DELIVERY_TYPE, ";
+				break;
+			
+			case "delivery_date" :
+				$extra_sql .= " IFNULL(OI.DELIVERY_DATE,'-')		AS DELIVERY_DATE, ";
+				break;
+			
+			case "delivery_status" :
+				$extra_sql .= " IFNULL(OI.DELIVERY_STATUS,'-')		AS DELIVERY_STATUS, ";
+				break;
+			
+			case "delivery_start_date" :
+				$extra_sql .= " IFNULL(OI.DELIVERY_START_DATE,'-')	AS DELIVERY_START_DATE, ";
+				break;
+			
+			case "delivery_end_date" :
+				$extra_sql .= " IFNULL(OI.DELIVERY_END_DATE,'-')		AS DELIVERY_END_DATE, ";
+				break;
+			
+			case "company_name" :
+				$extra_sql .= " IFNULL(DC.COMPANY_NAME,'-')			AS COMPANY_NAME, ";
+				break;
+			
+			case "order_memo" :
+				$extra_sql .= " IFNULL(OI.ORDER_MEMO,'-')		AS ORDER_MEMO, ";
+				break;
+		}
+	}
+	
+	return $extra_sql;
 }
 ?>

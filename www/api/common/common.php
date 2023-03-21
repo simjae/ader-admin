@@ -18,8 +18,8 @@ function checkProduct($db,$product_idx,$country,$member_idx) {
 	$product_result = false;
 	
 	$product_cnt = $db->count(
-		"dev.SHOP_PRODUCT PR",
-		"PR.IDX = ".$product_idx." AND (PR.LIMIT_MEMBER = 0 OR PR.LIMIT_MEMBER REGEXP (SELECT LEVEL_IDX FROM dev.MEMBER_".$country." S_MB WHERE S_MB.IDX = ".$member_idx."))"
+		"SHOP_PRODUCT PR",
+		"PR.IDX = ".$product_idx." AND (PR.LIMIT_MEMBER = 0 OR PR.LIMIT_MEMBER REGEXP (SELECT LEVEL_IDX FROM MEMBER_".$country." S_MB WHERE S_MB.IDX = ".$member_idx."))"
 	);
 	
 	if ($product_cnt > 0) {
@@ -38,7 +38,7 @@ function checkProductStockQty($db,$product_idx,$option_idx) {
 				SELECT
 					IFNULL(SUM(STOCK_QTY),0)
 				FROM
-					dev.PRODUCT_STOCK S_PS
+					PRODUCT_STOCK S_PS
 				WHERE
 					S_PS.PRODUCT_IDX = PR.IDX AND
 					S_PS.OPTION_IDX = ".$option_idx." AND
@@ -48,14 +48,14 @@ function checkProductStockQty($db,$product_idx,$option_idx) {
 				SELECT
 					IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 				FROM
-					dev.ORDER_PRODUCT S_OP
+					ORDER_PRODUCT S_OP
 				WHERE
 					S_OP.PRODUCT_IDX = PR.IDX AND
 					S_OP.OPTION_IDX = ".$option_idx." AND
 					S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 			)	AS ORDER_QTY
 		FROM
-			dev.SHOP_PRODUCT PR
+			SHOP_PRODUCT PR
 		WHERE
 			PR.IDX = ".$product_idx."
 	";
@@ -87,7 +87,7 @@ function getProductColor($db,$product_idx) {
 						SELECT
 							IFNULL(SUM(STOCK_QTY),0)
 						FROM
-							dev.PRODUCT_STOCK S_PS
+							PRODUCT_STOCK S_PS
 						WHERE
 							S_PS.PRODUCT_IDX = PR.IDX AND
 							S_PS.STOCK_DATE <= NOW()
@@ -96,14 +96,14 @@ function getProductColor($db,$product_idx) {
 						SELECT
 							IFNULL(SUM(OP.PRODUCT_QTY),0)
 						FROM
-							dev.ORDER_PRODUCT OP
+							ORDER_PRODUCT OP
 						WHERE
 							OP.PRODUCT_IDX = PR.IDX AND
 							OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 					)	AS ORDER_QTY
 				FROM
-					dev.SHOP_PRODUCT PR
-					LEFT JOIN dev.ORDERSHEET_MST OM ON
+					SHOP_PRODUCT PR
+					LEFT JOIN ORDERSHEET_MST OM ON
 					PR.ORDERSHEET_IDX = OM.IDX
 				WHERE
 					PR.SALE_FLG = TRUE AND
@@ -111,7 +111,7 @@ function getProductColor($db,$product_idx) {
 						SELECT
 							S_PR.STYLE_CODE
 						FROM
-							dev.SHOP_PRODUCT S_PR
+							SHOP_PRODUCT S_PR
 						WHERE
 							S_PR.IDX = ".$product_idx."
 					)";
@@ -135,7 +135,7 @@ function getProductColor($db,$product_idx) {
 				}
 				
 				if ($member_idx > 0) {
-					$reorder_cnt = $db->count("dev.PRODUCT_REORDER","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
+					$reorder_cnt = $db->count("PRODUCT_REORDER","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx);
 					
 					if ($reorder_cnt > 0) {
 						$reorder_flg = true;
@@ -173,7 +173,7 @@ function getProductSize($db,$product_idx) {
 					SELECT
 						COUNT(IDX)
 					FROM
-						dev.PRODUCT_STOCK S_PS_1
+						PRODUCT_STOCK S_PS_1
 					WHERE
 						S_PS_1.OPTION_IDX = OO.IDX AND
 						S_PS_1.STOCK_DATE > NOW()
@@ -182,7 +182,7 @@ function getProductSize($db,$product_idx) {
 					SELECT
 						IFNULL(SUM(STOCK_QTY),0)
 					FROM
-						dev.PRODUCT_STOCK S_PS_2
+						PRODUCT_STOCK S_PS_2
 					WHERE
 						S_PS_2.OPTION_IDX = OO.IDX AND
 						S_PS_2.STOCK_DATE <= NOW()
@@ -191,16 +191,16 @@ function getProductSize($db,$product_idx) {
 					SELECT
 						IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 					FROM
-						dev.ORDER_PRODUCT S_OP
+						ORDER_PRODUCT S_OP
 					WHERE
 						S_OP.OPTION_IDX = OO.IDX AND
 						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 				) AS ORDER_QTY
 			FROM
-				dev.SHOP_PRODUCT PR
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				SHOP_PRODUCT PR
+				LEFT JOIN ORDERSHEET_MST OM ON
 				PR.ORDERSHEET_IDX = OM.IDX
-				LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+				LEFT JOIN ORDERSHEET_OPTION OO ON
 				OM.IDX = OO.ORDERSHEET_IDX
 			WHERE
 				PR.IDX = ".$product_idx." AND

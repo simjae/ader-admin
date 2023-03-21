@@ -54,7 +54,7 @@ if($factory_idx != null){
 				UPDATE_DATE		AS UPDATE_DATE,
 				UPDATER			AS UPDATER
 			FROM
-				dev.FACTORY_INFO
+				FACTORY_INFO
 			WHERE
 				IDX = ".$factory_idx."
 		";
@@ -125,8 +125,8 @@ else{
 	}
 	
 	$limit_start = (intval($page)-1)*$rows;
-	$total = $db->count("dev.FACTORY_INFO FI",$where);
-	$total_cnt = $db->count("dev.FACTORY_INFO FI",$where_cnt);
+	$total = $db->count("FACTORY_INFO FI",$where);
+	$total_cnt = $db->count("FACTORY_INFO FI",$where_cnt);
 	
 	$json_result = array(
 		'total' => $total,
@@ -152,7 +152,7 @@ else{
 							SELECT
 								COUNT(S_OI.IDX)
 							FROM
-								dev.ORDERSHEET_IMG S_OI
+								ORDERSHEET_IMG S_OI
 							WHERE
 								S_OI.ORDERSHEET_IDX = FI.ORDERSHEET_IDX AND
 								IMG_TYPE = 'P' AND
@@ -163,7 +163,7 @@ else{
 								SELECT
 									S_OI.IMG_LOCATION
 								FROM
-									dev.ORDERSHEET_IMG S_OI
+									ORDERSHEET_IMG S_OI
 								WHERE
 									S_OI.ORDERSHEET_IDX = FI.ORDERSHEET_IDX AND
 									S_OI.IMG_TYPE = 'P' AND
@@ -181,7 +181,7 @@ else{
 				FI.UPDATE_DATE		AS UPDATE_DATE,
 				FI.UPDATER			AS UPDATER
 			FROM
-				dev.FACTORY_INFO	FI
+				FACTORY_INFO	FI
 			WHERE
 				".$where."
 			ORDER BY

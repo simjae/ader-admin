@@ -31,7 +31,7 @@ if ($country != null && $standby_idx != null) {
 						SELECT
 							COUNT(S_PI.IDX)
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.IMG_TYPE = 'P' AND
@@ -42,7 +42,7 @@ if ($country != null && $standby_idx != null) {
 							SELECT
 								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = PR.IDX AND
 								S_PI.DEL_FLG = FALSE AND
@@ -66,8 +66,8 @@ if ($country != null && $standby_idx != null) {
 			PS.PURCHASE_END_DATE	AS PURCHASE_END_DATE,
 			(SELECT COLOR FROM ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR
 		FROM
-			dev.PAGE_STANDBY PS
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_STANDBY PS
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PS.PRODUCT_IDX = PR.IDX
 		WHERE
 			PS.IDX = ".$standby_idx."
@@ -89,7 +89,7 @@ foreach($db->fetch() as $standby_data) {
 				QS.BARCODE				AS BARCODE,
 				QS.PRODUCT_QTY			AS PRODUCT_QTY
 			FROM
-				dev.QTY_STANDBY QS
+				QTY_STANDBY QS
 			WHERE
 				QS.STANDBY_IDX = ".$standby_idx."
 		";

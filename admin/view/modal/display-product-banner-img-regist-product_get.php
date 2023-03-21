@@ -8,7 +8,11 @@
 		<input type="hidden" class="page" name="page" value="1">
 
 		<div class="card__header">
-			<h3>상품 페이지 전체 검색</h3>
+			<h3>상품 페이지 전체 검색
+				<a onclick="modal_close();" class="btn-close" style="float:right">
+					<i class="xi-close"></i>
+				</a>
+			</h3>
 			<div class="drive--x"></div>
 		</div>
 		
@@ -93,8 +97,6 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC" selected>등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
 						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PRODUCT_NAME|ASC">상품명 순</option>
 					</select>

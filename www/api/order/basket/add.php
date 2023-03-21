@@ -79,7 +79,7 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 	try {
 		$basket_cnt = 0;
 		for ($i=0; $i<count($option_idx); $i++) {
-			$tmp_cnt = $db->count("dev.BASKET_INFO","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND OPTION_IDX = ".$option_idx[$i]." AND DEL_FLG = FALSE ");
+			$tmp_cnt = $db->count("BASKET_INFO","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND OPTION_IDX = ".$option_idx[$i]." AND DEL_FLG = FALSE ");
 			$basket_cnt += $tmp_cnt;
 		}
 		
@@ -123,7 +123,7 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 			if ($stock_result == true) {
 				$insert_basket_sql = "
 					INSERT INTO
-						dev.BASKET_INFO
+						BASKET_INFO
 					(
 						COUNTRY,
 						MEMBER_IDX,
@@ -152,8 +152,8 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 						'".$member_id."'	AS CREATER,
 						'".$member_id."'	AS UPDATER
 					FROM
-						dev.SHOP_PRODUCT PR
-						LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+						SHOP_PRODUCT PR
+						LEFT JOIN ORDERSHEET_OPTION OO ON
 						PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 					WHERE
 						PR.IDX = ".$product_idx." AND
@@ -240,7 +240,7 @@ if ($add_type == "whish" && $member_idx > 0 && $country != null && count($whish_
 			for ($j=0; $j<count($option_idx_arr); $j++) {
 				$insert_basket_sql = "
 					INSERT INTO
-						dev.BASKET_INFO
+						BASKET_INFO
 					(
 						COUNTRY,
 						MEMBER_IDX,
@@ -269,10 +269,10 @@ if ($add_type == "whish" && $member_idx > 0 && $country != null && count($whish_
 						'".$member_id."'	AS CREATER,
 						'".$member_id."'	AS UPDATER
 					FROM
-						dev.WHISH_LIST WL
-						LEFT JOIN dev.SHOP_PRODUCT PR ON
+						WHISH_LIST WL
+						LEFT JOIN SHOP_PRODUCT PR ON
 						WL.PRODUCT_IDX = PR.IDX
-						LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+						LEFT JOIN ORDERSHEET_OPTION OO ON
 						PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 					WHERE
 						WL.IDX = ".$whish_idx." AND
@@ -298,7 +298,7 @@ function checkWhishList($db,$member_idx,$whish_info) {
 	for ($i=0; $i<count($whish_info); $i++) {
 		$whish_idx = $whish_info[$i]['whish_idx'];
 		
-		$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND IDX = ".$whish_idx);
+		$whish_cnt = $db->count("WHISH_LIST","MEMBER_IDX = ".$member_idx." AND IDX = ".$whish_idx);
 		
 		if ($whish_cnt == 0) {
 			$err_cnt++;
@@ -323,14 +323,14 @@ function checkWhishListDuplicate($db,$member_idx,$whish_info) {
 		
 		for ($j=0; $j<count($option_idx); $j++) {
 			$check_basket_cnt = $db->count(
-				"dev.BASKET_INFO BI",
+				"BASKET_INFO BI",
 				"
 					BI.MEMBER_IDX = ".$member_idx." AND
 					BI.PRODUCT_IDX = (
 						SELECT
 							PRODUCT_IDX
 						FROM
-							dev.WHISH_LIST
+							WHISH_LIST
 						WHERE
 							IDX = ".$whish_idx."
 					) AND
@@ -367,7 +367,7 @@ function checkWhishListStockQty($db,$whish_info) {
 						SELECT
 							IFNULL(SUM(STOCK_QTY),0)
 						FROM
-							dev.PRODUCT_STOCK S_PS
+							PRODUCT_STOCK S_PS
 						WHERE
 							S_PS.PRODUCT_IDX = PR.IDX AND
 							S_PS.OPTION_IDX = ".$option_idx_arr[$j]." AND
@@ -377,15 +377,15 @@ function checkWhishListStockQty($db,$whish_info) {
 						SELECT
 							IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 						FROM
-							dev.ORDER_PRODUCT S_OP
+							ORDER_PRODUCT S_OP
 						WHERE
 							S_OP.PRODUCT_IDX = PR.IDX AND
 							S_OP.OPTION_IDX = ".$option_idx_arr[$j]." AND
 							S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
 					)	AS ORDER_QTY
 				FROM
-					dev.WHISH_LIST WL
-					LEFT JOIN dev.SHOP_PRODUCT PR ON
+					WHISH_LIST WL
+					LEFT JOIN SHOP_PRODUCT PR ON
 					WL.PRODUCT_IDX = PR.IDX
 				WHERE
 					WL.IDX = ".$whish_idx."

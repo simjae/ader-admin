@@ -25,7 +25,7 @@ if ($country != null) {
 	try {
 		$insert_banner_sql = "
 			INSERT INTO
-				dev.MAIN_BANNER
+				TMP_MAIN_BANNER
 			(
 				COUNTRY,
 				DISPLAY_NUM,
@@ -58,41 +58,21 @@ if ($country != null) {
 		$banner_idx = $db->last_id();
 		
 		if (!empty($banner_idx)) {
-			$select_banner_sql = "
-				SELECT
-					MB.IDX		AS BANNER_IDX
-				FROM
-					dev.MAIN_BANNER MB
+			$update_banner_sql = "
+				UPDATE
+					TMP_MAIN_BANNER MB
+				SET
+					DISPLAY_NUM = DISPLAY_NUM + 1
 				WHERE
 					MB.IDX != ".$banner_idx." AND
+					MB.COUNTRY = '".$country."' AND
 					MB.DEL_FLG = FALSE
 				ORDER BY
 					DISPLAY_NUM ASC
 			";
 			
-			$db->query($select_banner_sql);
+			$db->query($update_banner_sql);
 			
-			$display_num = 2;
-			
-			foreach($db->fetch() as $banner_data) {
-				$tmp_idx = $banner_data['BANNER_IDX'];
-				
-				if (!empty($tmp_idx)) {
-					$update_banner_sql = "
-						UPDATE
-							dev.MAIN_BANNER
-						SET
-							DISPLAY_NUM = ".$display_num."
-						WHERE
-							IDX = ".$tmp_idx." AND
-							DEL_FLG = FALSE
-					";
-					
-					$db->query($update_banner_sql);
-					
-					$display_num++;
-				}
-			}
 		} else {
 			$json_result['code'] = 301;
 			$json_result['msg'] = "메인 배너  등록에 실패했습니다.";

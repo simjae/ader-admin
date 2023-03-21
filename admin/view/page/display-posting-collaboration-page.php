@@ -1,15 +1,15 @@
 <style>
-.cola__left__area {width:17vw;padding:10px;}
-	.cola__selector {width:100%;height:22vh;cursor:pointer;padding:5px;margin-bottom:10px;}
+.cola__left__area {width:20vw;padding:10px;height:100vh;overflow-y:auto;}
+	.cola__selector {width:100%;height:26vh;cursor:pointer;padding:5px;margin-bottom:10px;}
 		.cola__selector__img {width:100%;height:17vh;background-image:url('/images/main/main_banner_sample.jpg');background-repeat: no-repeat;background-size: cover;background-position: center;}
-		.cola__selector__desc__wrap {width:100%;height:5vh;}
+		.cola__selector__desc__wrap {width:100%;height:7vh;}
 			.cola__title__wrap {padding-top:10px;width:50%;display:flex;}
 				.page__title {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-size:14px;}
 			.cola__btn__wrap {padding-top:10px;width:50%;}
 				.get_collaboration_btn {width:65px;text-align:center;float:right;font-size:0.5rem;padding:0px;height:20px;padding-top:3px;}
-				.copy_collaboration_btn {width:35px;text-align:center;float:right;font-size:0.5rem;padding:0px;height:20px;padding-top:3px;margin-right:10px;}
+				.copy_column_btn {width:65px;text-align:center;float:right;font-size:0.5rem;padding:0px;height:20px;padding-top:4px;margin-top:3px;}
 
-.cola__right__area {width:68vw;}
+.cola__right__area {width:65vw;height:100vh;overflow-y:auto;}
 	.cola__title {font-family: NanumSquareRound;font-size:14px;}
 	.delete_collaboration_product {margin-top:15px;float:right;background-color:#000000;color:white;margin-left:5px;}
 
@@ -17,20 +17,34 @@
 .product_display_num_btn {margin-top:15px;float:right;margin-left:5px;}
 </style>
 
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
+	<?php
+		function getUrlParamter($url, $sch_tag) {
+			$parts = parse_url($url);
+			parse_str($parts['query'], $query);
+			return $query[$sch_tag];
+		}
+		
+		$page_url = $_SERVER['REQUEST_URI'];
+		$country = getUrlParamter($page_url, 'country');
+	?>
 	<div class="card__header">
 		<h3>메인랜딩</h3>
 		<div class="drive--x"></div>
 	</div>
 	
 	<form id="frm-put" action="display/posting/collaboration/put">
+		<input id="country" type="hidden" name="country" value="<?=$country?>">
+		<input id="update_flg" type="hidden" name="update_flg" value="false">
+		
 		<div class="card__body" style="display:flex;">
 			<div class="cola__left__area" style="">
 			</div>
 			
 			<div class="cola__right__area">
-				<input id="collaboration_idx" type="hidden" name="collaboration_idx" value="">
-				<input id="country" type="hidden" name="country" value="">
+				<input id="collaboration_idx" type="hidden" name="collaboration_idx" value="0">
 				<div style="display:flex;padding:10px;">
 					<i id="bookmark_flg" class="xi-star-o" style="margin-right:5px;"></i>
 					<p class="cola__title"></p>
@@ -267,16 +281,136 @@ $(document).ready(function() {
 	getCollaborationInfoList();
 });
 
+function resetCollaboration() {
+	$('#collaboration_idx').val(0);
+	$('#country').val('');
+	
+	$('#bookmark_flg_TRUE').prop('checked',false);
+	$('#bookmark_flg_FALSE').prop('checked',true);
+	
+	$('#bookmark_flg').attr('class','xi-star-o');
+	
+	$('.cola__title').text('콜라보레이션을 선택해주세요');
+	
+	$('#posting_status_TRUE').prop('checked',false);
+	$('#posting_status_FALSE').prop('checked',true);
+	
+	$('.page_title').val('');
+	$('#display_start_date').val('');
+	$('#display_end_date').val('');
+	$('.display_num').val('');
+	
+	column_table.html('');
+	let strDiv = "";
+	strDiv += '<tr>';
+	strDiv += '    <td>';
+	strDiv += '        <input type="text" name="phs_column_name[]" value="" placeholder="항목 물리명을 입력해주세요.">';
+	strDiv += '    </td>';
+	strDiv += '    <td>';
+	strDiv += '        <input type="text" name="lgc_column_name[]" value="" placeholder="항목 논리명을 입력해주세요.">';
+	strDiv += '    </td>';
+	strDiv += '    <td>';
+	strDiv += '        <input type="text" name="column_value[]" value="" placeholder="항목값을 입력해주세요.">';
+	strDiv += '    </td>';
+	strDiv += '    <td>';
+	strDiv += '        <div style="display:flex">';
+	strDiv += '            <div class="btn" style="margin-right:5px;" action_type="ADD" onClick="checkColumnAction(this);">';
+	strDiv += '                <i class="xi-plus-min"></i>';
+	strDiv += '            </div>';
+	strDiv += '            <div class="btn" action_type="DEL" onClick="checkColumnAction(this)">';
+	strDiv += '                <i class="xi-minus-min"></i>';
+	strDiv += '            </div>';
+	strDiv += '        </div>';
+	strDiv += '    </td>';
+	strDiv += '</tr>';
+	
+	column_table.append(strDiv);
+	
+	$('#product_list_flg_TRUE').prop('checked',false);
+	$('#product_list_flg_FALSE').prop('checked',true);
+	
+	$('#product_link_flg_TRUE').prop('checked',false);
+	$('#product_link_flg_FALSE').prop('checked',true);
+	
+	$('.js--tree').remove();
+	$('#tree__area').append('<div class="js--tree"></div>');
+	
+	$('.js--tree').jstree({
+		core : {
+			data : {
+				url : config.api + 'product/category/get',
+				data : {'tab_num' : '02'},
+				dataType : "json"
+			},
+			'strings' : { 'loading' : "데이터 로딩중입니다.", 'New node' : "새 분류" },
+			'check_callback' : function(o, n, p, i, m) {
+				
+				if(m && m.dnd && m.pos !== 'i') { return false; }
+				if(o === "move_node") {
+					if(this.get_node(n).parent === this.get_node(p).id) { return false; }
+				}
+				
+				return true;
+			},
+			'themes' : {
+				'responsive' : false,
+				'variant' : 'small',
+				'stripes' : false, 
+				'dot' : true,
+				'icons' : false
+			}
+		},
+		'sort' : function(a, b) {
+			return this.get_type(a) === this.get_type(b) ? (this.get_text(a) > this.get_text(b) ? 1 : -1) : (this.get_type(a) >= this.get_type(b) ? 1 : -1);
+		},
+		'contextmenu' : {
+			'items' : function(node) {
+				var tmp = $.jstree.defaults.contextmenu.items();
+				tmp.create.label = "새 분류";
+				tmp.rename.label = "명칭 변경";
+				if(node.parent != "#") tmp.remove.label = "삭제";
+				else delete tmp.remove;
+				delete tmp.ccp;
+				return tmp;
+			}
+		},
+		'unique' : {
+			'duplicate' : function (name, counter) {
+				return name + ' ' + counter;
+			}
+		},
+		"plugins": ["dnd", "search"],
+		"search": {
+			"show_only_matches": true,
+			"show_only_matches_children": true,
+		}
+	}).on("select_node.jstree", function (e, data) {
+		let md_category_node = 0;
+		let md_category_depth = 0;
+		
+		sel_node = data.node;
+		md_category_node = sel_node.original.no;
+		md_category_depth = sel_node.parents.length;
+		
+		let collaboration_idx = $('#collaboration_idx').val();
+		getCollaborationProduct(collaboration_idx,md_category_node,md_category_depth);
+	});
+}
+
 function getCollaborationInfoList() {
+	let country = $('#country').val();
 	let div_wrap = $('.cola__left__area');
 	div_wrap.html('');
 	
 	$.ajax({
 		type: "post",
+		data: {
+			'country' : country
+		},
 		dataType: "json",
 		url: config.api + "display/posting/collaboration/list/get",
 		error: function() {
-			alert("메인 배너 조회처리에 실패했습니다.");
+			alert("콜라보레이션 리스트 조회처리중 오류가 발생했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
@@ -287,36 +421,47 @@ function getCollaborationInfoList() {
 					
 					let collaboration_idx = data[0].collaboration_idx;
 					$('#collaboration_idx').val(collaboration_idx);
-					getCollaborationInfo(collaboration_idx);
 					
 					data.forEach(function(row) {
 						let background_url = "background-image:url('" + row.main_img_location + "');background-repeat: no-repeat;background-size:cover;background-position:center;";
 						
-						strDiv += '<div class="cola__selector display_obj">';
-						strDiv += '    <div class="cola__selector__img" style="' + background_url + '"></div>';
-						strDiv += '    <div class="cola__selector__desc__wrap" style="display:flex;">';
-						strDiv += '        <div class="cola__title__wrap">';
+						let selector_class = "";
+						let star = "";
 						
 						let bookmark_flg = row.bookmark_flg;
-						let star = "";
 						if (bookmark_flg == true) {
 							star = "xi-star";
+							selector_class = "bookmarked";
 						} else {
 							star = "xi-star-o";
 						}
+						
+						strDiv += '<div id="selector_' + row.collaboration_idx + '" class="cola__selector display_obj ' + selector_class + '">';
+						strDiv += '    <div class="cola__selector__img" style="' + background_url + '"></div>';
+						strDiv += '    <div class="cola__selector__desc__wrap" style="display:flex;">';
+						strDiv += '        <div class="cola__title__wrap">';
 						strDiv += '            <i class="' + star + '" style="margin-right:5px;"></i>';
 						strDiv += '            <font class="page__title">' + row.page_title + '</font>';
 						strDiv += '        </div>';
 						strDiv += '        <div class="cola__btn__wrap">';
-						strDiv += '            <div class="btn get_collaboration_btn" onClick="getCollaborationInfo(' + row.collaboration_idx + ');">불러오기</div>';
-						strDiv += '            <div class="btn list_display_num_btn" onClick="displayNumCheck(\'LST\',\'down\',' + row.collaboration_idx + ',' + row.display_num + ');"><i class="xi-angle-down"></i></div>';
-						strDiv += '            <div class="btn list_display_num_btn" onClick="displayNumCheck(\'LST\',\'up\',' + row.collaboration_idx + ',' + row.display_num + ');"><i class="xi-angle-up"></i></div>';
+						strDiv += '            <div style="height:50%;">';
+						strDiv += '                <div class="btn get_collaboration_btn" onClick="getCollaborationInfo(' + row.collaboration_idx + ');">불러오기</div>';
+						strDiv += '                <div class="btn list_display_num_btn" onClick="displayNumCheck(\'LST\',\'down\',' + row.collaboration_idx + ',' + row.display_num + ');"><i class="xi-angle-down"></i></div>';
+						strDiv += '                <div class="btn list_display_num_btn" onClick="displayNumCheck(\'LST\',\'up\',' + row.collaboration_idx + ',' + row.display_num + ');"><i class="xi-angle-up"></i></div>';
+						strDiv += '            </div>';
+						strDiv += '            <div style="height:50%;">';
+						strDiv += '                <div id="copy_column_btn_' + row.collaboration_idx + '" class="btn copy_column_btn" onClick="copyCollaborationColumn(' + row.collaboration_idx + ');">항목복사</div>';
+						strDiv += '            </div>';
 						strDiv += '        </div>';
 						strDiv += '    </div>';
 						strDiv += '</div>';
 					});
 					
 					div_wrap.append(strDiv);
+					
+					getCollaborationInfo(collaboration_idx);
+					
+					$('.cola__selector').eq(0).css('border','3px solid #000000');
 				}
 			}
 		}
@@ -326,6 +471,14 @@ function getCollaborationInfoList() {
 function getCollaborationInfo(collaboration_idx) {
 	let column_table = $('.column_table');
 	
+	$('.cola__selector').css('border','none');
+	
+	let selector = $('#selector_' + collaboration_idx);
+	selector.css('border','3px solid #000000');
+	
+	$('.copy_column_btn').show();
+	$('#copy_column_btn_' +  collaboration_idx).hide();
+	
 	$.ajax({
 		type: "post",
 		data : {
@@ -334,7 +487,7 @@ function getCollaborationInfo(collaboration_idx) {
 		dataType: "json",
 		url: config.api + "display/posting/collaboration/get",
 		error: function() {
-			alert("메인 배너 조회처리에 실패했습니다.");
+			alert("콜라보레이션 개별 조회처리중 오류가 발생했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
@@ -343,7 +496,6 @@ function getCollaborationInfo(collaboration_idx) {
 				if (data != null) {
 					data.forEach(function(row) {
 						$('#collaboration_idx').val(row.collaboration_idx);
-						$('#country').val(row.country);
 						let bookmark_flg = row.bookmark_flg;
 						let star = "";
 						if (bookmark_flg == true) {
@@ -375,9 +527,10 @@ function getCollaborationInfo(collaboration_idx) {
 						$('.display_num').val(row.display_num);
 						
 						column_table.html('');
-						let column_info = row.column_info;
 						let strDiv = "";
-						if (column_info != null) {
+						
+						let column_info = row.column_info;
+						if (column_info != null && column_info.length > 0) {
 							column_info.forEach(function(column) {
 								strDiv += '<tr>';
 								strDiv += '    <td>';
@@ -424,6 +577,7 @@ function getCollaborationInfo(collaboration_idx) {
 							strDiv += '    </td>';
 							strDiv += '</tr>';
 						}
+						
 						column_table.append(strDiv);
 						
 						let product_list_flg = row.product_list_flg;
@@ -522,6 +676,7 @@ function getCollaborationInfo(collaboration_idx) {
 					
 					$('.js--tree').remove();
 					$('#tree__area').append('<div class="js--tree"></div>');
+					
 					$('.js--tree').jstree({
 						core : {
 							data : {
@@ -588,15 +743,45 @@ function getCollaborationInfo(collaboration_idx) {
 	});
 }
 
-function putCollaborationInfo() {
+function copyCollaborationColumn(copy_idx) {
+	let collaboration_idx = $('#collaboration_idx').val();
+	if (collaboration_idx == 0) {
+		alert('복사한 항목이 추가 될 콜라보레이션을 선택 후 다시 시도해주세요.');
+	}
 	
+	$.ajax({
+		type: "post",
+		data: {
+			'copy_flg' : true,
+			'copy_idx' : copy_idx,
+			'collaboration_idx' : collaboration_idx,
+		},
+		dataType: "json",
+		url: config.api + "display/posting/collaboration/put",
+		error: function() {
+			alert("콜라보레이션 항목 복사처리중 오류가 발생했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				getCollaborationInfo(collaboration_idx);
+				alert("선택한 콜라보레이션의 항목이 복사되었습니다.");
+			} else {
+				alert(d.msg);
+				return false;
+			}
+		}
+	});
 }
 
 function checkColumnAction(obj) {
 	let action_type = $(obj).attr('action_type');
 	
 	if (action_type == "DEL") {
-		let div_tr = $(obj).parent().parent().parent().remove();
+		let cnt = $('.column_table').find('tr').length;
+		
+		if (cnt > 1) {
+			$(obj).parent().parent().parent().remove();
+		}
 	} else if (action_type == "ADD") {
 		let strDiv = "";
 		strDiv += '<tr>';
@@ -639,7 +824,7 @@ function getCollaborationProduct(collaboration_idx,md_category_node,md_category_
 		dataType: "json",
 		url: config.api + "display/posting/collaboration/product/get",
 		error: function() {
-			alert("메인 컨텐츠 조회처리에 실패했습니다.");
+			alert("콜라보레이션 상품 조회처리중 오류가 발생했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
@@ -748,7 +933,7 @@ function putCollaborationProduct(obj) {
 		dataType: "json",
 		url: config.api + "display/posting/collaboration/product/put",
 		error: function() {
-			alert("메인 컨텐츠 수정처리에 실패했습니다.");
+			alert("콜라보레이션 상품 수정처리중 오류가 발생했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
@@ -764,7 +949,7 @@ function putCollaborationProduct(obj) {
 				
 				getCollaborationProductList();
 			} else {
-				alert("메인 컨텐츠 상품 선택처리에 실패했습니다. 선택하려는 메인 컨텐츠의 상품을 확인해주세요.");
+				alert("콜라보레이션 수정처리에 실패했습니다. 선택하려는 메인 컨텐츠의 상품을 확인해주세요.");
 			}
 		}
 	});
@@ -783,7 +968,7 @@ function getCollaborationProductList() {
 		dataType: "json",
 		url: config.api + "display/posting/collaboration/product/list/get",
 		error: function() {
-			alert("메인 배너 조회처리에 실패했습니다.");
+			alert("콜라보레이션 상품 리스트 조회처리중 오류가 발생했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
@@ -885,7 +1070,7 @@ function deleteCollaborationProduct(obj) {
 				dataType: "json",
 				url: config.api + "display/posting/collaboration/product/delete",
 				error: function() {
-					alert("메인 배너 조회처리에 실패했습니다.");
+					alert("콜라보레이션 상품 삭제처리중 오류가 발생했습니다.");
 				},
 				success: function(d) {
 					if(d.code == 200) {
@@ -908,12 +1093,22 @@ function displayNumCheck(obj_type,action_type,recent_idx,recent_num) {
 		div_container = $('.cola__product__wrap');
 	}
 	
+	let bookmark_cnt = 0;
+	if (obj_type == "LST") {
+		bookmark_cnt = $('.bookmarked').length;
+	}
+	
+	console.log(bookmark_cnt);
+	
 	if (recent_idx > 0 && recent_num > 0) {
 		let cnt = div_container.find('.display_obj').length;
 		
 		if (action_type == "up") {
 			if (recent_num == 1) {
-				alert('진열순서를 변경할 수 없습니다');
+				alert('진열순서를 변경할 수 없습니다.');
+				return false;
+			} else if (obj_type == "LIST" && recent_num >= bookmark_cnt) {
+				alert('진열순서를 변경하려는 콜라보레이션의 즐겨찾기 해제 후 다시 시도해주세요.');
 				return false;
 			} else {
 				updateDisplayNum(obj_type,action_type,recent_idx,recent_num);
@@ -922,8 +1117,11 @@ function displayNumCheck(obj_type,action_type,recent_idx,recent_num) {
 			if (recent_num == cnt) {
 				alert('진열순서를 변경할 수 없습니다');
 				return false;
+			} else if (obj_type == "LIST" && recent_num <= bookmark_cnt) {
+				alert('진열순서를 변경하려는 콜라보레이션의 즐겨찾기 해제 후 다시 시도해주세요.');
+				return false;
 			} else {
-				updateDisplayNum(country,obj_type,action_type,recent_idx,recent_num);
+				updateDisplayNum(obj_type,action_type,recent_idx,recent_num);
 			}
 		}
 	} else {
@@ -932,7 +1130,7 @@ function displayNumCheck(obj_type,action_type,recent_idx,recent_num) {
 	}
 }
 
-function updateDisplayNum(country,obj_type,action_type,recent_idx,recent_num) {
+function updateDisplayNum(obj_type,action_type,recent_idx,recent_num) {
 	let dir_api = "";
 	let collaboration_idx = 0
 	if (obj_type == "PRD") {
@@ -952,7 +1150,7 @@ function updateDisplayNum(country,obj_type,action_type,recent_idx,recent_num) {
 		},
 		dataType: "json",
 		error: function() {
-			alert('게시물 스토리 진열순서 변경처리중 오류가 발생했습니다.');
+			alert('콜라보레이션 진열순서 변경처리중 오류가 발생했습니다.');
 		},
 		success: function(d) {
 			let code = d.code;
@@ -964,35 +1162,37 @@ function updateDisplayNum(country,obj_type,action_type,recent_idx,recent_num) {
 					getCollaborationProductList();
 				}
 			} else {
-				alert('진열순서 변경 처리에 실패했습니다. 변경하려는 진열순서를 확인해주세요.');
+				alert('콜라보레이션 진열순서 변경처리에 실패했습니다. 변경하려는 진열순서를 확인해주세요.');
 			}
 		}
 	});
 }
 
 function putCollaborationInfo() {
+	let collaboration_idx = $('#collaboration_idx').val();
+	$('#update_flg').val(true);
+	
 	let frm = $('#frm-put');
 	let formData = new FormData();
 	formData = frm.serializeObject();
 	
 	$.ajax({
 		type: "post",
+		url: config.api + "display/posting/collaboration/put",
 		data: formData,
 		dataType: "json",
-		url: config.api + "display/posting/collaboration/put",
 		error: function() {
-			alert("메인 배너 수정처리에 실패했습니다.");
+			alert("콜라보레이션 수정처리중 오류가 발생했습니다.");
 		},
 		success: function(d) {
 			if(d.code == 200) {
-				confirm(
-					'콜라보레이션 정보가 정상적으로 수정되었습니다.',
-					function() {
-						location.href="/display/posting";
-					}
-				);
+				$('#update_flg').val(false);
+				getCollaborationInfoList();
+				getCollaborationInfo(collaboration_idx);
+				
+				alert('콜라보레이션 정보가 수정되었습니다.');
 			} else {
-				alert("메인 배너 수정처리에 실패했습니다. 수정하려는 메인 배너를 확인해주세요.");
+				alert("콜라보레이션 수정처리에 실패했습니다. 수정하려는 콜라보레이션 정보를 확인해주세요.");
 			}
 		}
 	});

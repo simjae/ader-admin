@@ -1,16 +1,9 @@
 <style>
-	.card__grid{
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		column-gap: 10px;
-	}
-	.card__grid .content__card{
-		height: 350px;
-	}
-	
+.card__grid{display: grid;grid-template-columns: 1fr 1fr 1fr;column-gap: 10px;}
+.card__grid .content__card{height: 350px;}
 </style>
 
-
+<?php include_once("check.php"); ?>
 
 <div class="content__card" style="height:200px ;">
 	<div class="card__header">

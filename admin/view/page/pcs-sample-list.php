@@ -1,8 +1,9 @@
 <style>
-	.white_btn{
-		font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;
-	}
+.white_btn{font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-filter" action="pcs/sample/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">

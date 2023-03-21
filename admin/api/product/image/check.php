@@ -13,9 +13,8 @@
  | 
  +=============================================================================
 */
-$url_path = $_POST['url_path'];
-$product_code = $_POST['product_code'];
-
+$url_path			= $_POST['url_path'];
+$product_code		= $_POST['product_code'];
 $host = '203.245.9.174';
 $user = 'aderwms';
 $password = 'bv1229';
@@ -34,39 +33,40 @@ if(!$result){
     echo "login error";
 }
 
-$type_arr = ['outfit', 'product', 'detail'];
 $result_arr = [];
-foreach($type_arr as $type){
-    $chech_path = $url_path;
-    $check_contents = ftp_nlist($conn,$total_path);
-    
-    if($check_contents != null){
-        $total_path = $url_path."/".$type;
-        $contents = ftp_nlist($conn,$total_path);
-        $file_array = array();
+$outfit_file_array = [];
+$product_file_array = [];
+$detail_file_array = [];
 
-        foreach($contents as $key=>$val){
-            $explode_arr = explode('.', $val);
-            $ext = $explode_arr[count($explode_arr) - 1];
+if($url_path != null){
+    $contents = ftp_nlist($conn,$url_path);
+    foreach($contents as $key=>$val){
+        $explode_arr = explode('.', $val);
+        $ext = $explode_arr[count($explode_arr) - 1];
 
-            if($ext == 'gif' || $ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
-                $tmp_name = str_replace($total_path,'',$contents[$key]);
-                $file_name_arr = explode('_',$tmp_name);
-                array_push($file_array,"http://".$host."/".$total_path.$tmp_name);
-            }
+        if($ext == 'gif' || $ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
+            if(strpos($val, 'outfit') != false){
+                $outfit_file_arr[] = "http://".$host."/".$val;
+			}
+			else if(strpos($val, 'product') != false){
+                $product_file_arr[] = "http://".$host."/".$val;
+			}
+			else if(strpos($val, 'detail') != false){
+                $detail_file_arr[] = "http://".$host."/".$val;
+			}
+	
+			
         }
-        array_push($result_arr,array(
-                    'type'      => $type,
-                    'file_list' => $file_array
-        ));
     }
-    else{
-        $json_result['code'] = 300;
-        $json_result['msg'] = '폴더가 존재하지 않습니다.';
-    }
+    array_push($result_arr, array('type'=>'outfit', 'file_list'=>$outfit_file_arr));
+    array_push($result_arr, array('type'=>'product', 'file_list'=>$product_file_arr));
+    array_push($result_arr, array('type'=>'detail', 'file_list'=>$detail_file_arr));
+    
+    ftp_close($conn);
+    $json_result['data'] = $result_arr;
 }
-
-ftp_close($conn);
-
-$json_result['data'] = $result_arr;
+else {
+    $json_result['code'] = 300;
+    $json_result['msg'] = '폴더가 존재하지 않습니다.';
+}
 ?>

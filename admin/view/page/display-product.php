@@ -1,5 +1,11 @@
+<style>
+.edit_page_btn {font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;line-height:25px;cursor:pointer;}
+</style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
-	<form id="frm-list" action="display/product/list/get">
+	<form id="frm-filter" action="display/product/list/get">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		
@@ -13,17 +19,19 @@
 			</div>
 			<div class="drive--x"></div>
 		</div>
+		
 		<div class="card__body">
 			<div class="content__wrap">
 				<div class="content__title">검색</div>
 				<div class="content__row">
-					<select id="search" name="search" class="fSelect" style="width:130px;">
+					<select id="search" name="search_type" class="fSelect" style="width:130px;">
 						<option value="page_title">페이지명</option>
 						<option value="page_memo">비고(내용)</option>
 					</select>
 					<input name="search_keyword" type="text" value="" style="width:15%;">
 				</div>
 			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">진열 상태</div>
 				<div class="content__row">
@@ -45,18 +53,7 @@
 					</div>
 				</div>
 			</div>
-			<!--
-			<div class="content__wrap">
-				<div class="content__title">상품수</div>
-				<div class="content__row">
-					<input type="number" name="product_min" class="" value="" style="width:100px;">
-					<span class="">개</span> 
-					<span> ~ </span>
-					<input type="number" name="product_max" class="" value="" style="width:100px;">
-					<span class="">개</span>
-				</div>
-			</div>
-			-->
+			
 			<div class="content__wrap">
 				<div class="content__title">등록일</div>
 				<div class="content__row">
@@ -64,6 +61,7 @@
 						<input class="search_date_type" type="hidden" name="search_date_type" value="">
 						<input class="search_date" type="hidden" name="search_date" value="">
 						
+						<div class="date__picker" date_type="create" date="all" type="button"  onclick="searchDateClick(this);">전체</div>
 						<div class="date__picker" date_type="create" date="today" type="button"  onclick="searchDateClick(this);">오늘</div>
 						<div class="date__picker" date_type="create" date="01d" type="button"  onclick="searchDateClick(this);">어제</div>
 						<div class="date__picker" date_type="create" date="03d" type="button"  onclick="searchDateClick(this);">3일</div>
@@ -71,6 +69,7 @@
 						<div class="date__picker" date_type="create" date="15d" type="button"  onclick="searchDateClick(this);">15일</div>
 						<div class="date__picker" date_type="create" date="01m" type="button"  onclick="searchDateClick(this);">1개월</div>
 						<div class="date__picker" date_type="create" date="03m" type="button"  onclick="searchDateClick(this);">3개월</div>
+						<div class="date__picker" date_type="create" date="01y" type="button"  onclick="searchDateClick(this);">1년</div>
 					</div>
 					
 					<div class="content__date__picker">
@@ -81,18 +80,23 @@
 				</div>
 			</div>
 		</div>
+		
 		<div class="card__footer">
 			<div class="footer__btn__wrap" style="grid: none;">
 				<div class="btn__wrap--lg">
 					<div  class="blue__color__btn" onClick="getPageProductList();"><span>검색</span></div>
-					<div class="defult__color__btn" onClick="init_fileter('frm-list','getPageProductList')"><span>초기화</span></div>
+					<div class="defult__color__btn" onClick="init_fileter('frm-filter','getPageProductList')"><span>초기화</span></div>
 				</div>
 			</div>
 		</div> 
 	</form>
 </div>
+<div class="hidden">
+	<input type="hidden" id="sel_page_idx">
+	<input type="file" id="display_product_file">
+</div>
 <div class="content__card">
-	<form id="frm-01" action="display/product/put">
+	<form id="frm-list" action="display/product/put">
 		<input type="hidden" class="action_type" name="action_type">
 		<div class="card__header">
 			<h3>상품 진열 페이지 리스트 결과</h3>
@@ -135,28 +139,30 @@
 						<div class="filter__btn" style="width: 130px;" onclick="deletePageProduct()">페이지 삭제</div>
 						<div class="filter__btn" style="width: 130px;" onclick="displayPageProduct('TRUE')">진열</div>
 						<div class="filter__btn" style="width: 130px;" onclick="displayPageProduct('FALSE')">진열취소</div>
-					</div>                                
-					<div>
-						<div class="table__setting__btn">설정</div>
+						<div class="filter__btn" style="width: 150px;"><a style="color:black" href="http://116.124.128.246:81/excel_form/진열상품 등록 엑셀.xlsx" download="">엑셀양식 다운로드</a></div>
 					</div>  
 				</div>
 				<div class="overflow-x-auto">
-					<TABLE style="width:150%;">
+					<TABLE style="min-width:100%;width:auto;">
 						<colgroup>
-							<col style="width:2%;">
-							<col style="width:3%;">
-							<col style="width:5%;">
-							<col style="width:5%;">
-							<col style="width:5%;">
+							<col style="width:50px;">
+							<col style="width:80px;">
+							<col style="width:100px;">
+							<col style="width:100px;">
+							<col style="width:100px;">
+							<col style="width:100px;">
+							<col style="width:100px;">
+							<col style="width:200px;">
+							
+							<col style="width:150px;">
 							<col style="width:auto;">
 							<col style="width:auto;">
 							<col style="width:auto;">
-							<col style="width:auto;">
-							<col style="width:8%;">
-							<col style="width:8%;">
-							<col style="width:8%;">
-							<col style="width:8%;">
-							<col style="width:8%;">
+							
+							<col style="width:150px;">
+							<col style="width:150px;">
+							<col style="width:150px;">
+							<col style="width:150px;">
 						</colgroup>
 						<THEAD>
 							<TR>
@@ -170,14 +176,16 @@
 								</TH>
 								<TH>No.</TH>
 								<TH>미리보기</TH>
-								<TH>페이지 편집</TH>
+								<TH>페이지편집</TH>
+								<TH>상품등록</TH>
+								<TH>상품진열</TH>
 								<TH>진열상태</TH>
 								<TH>진열기간</TH>
 								
 								<TH>구매가능멤버</TH>
-								<TH>페이지명(내부용)</TH>
-								<TH>비고(내부용)</TH>
-								<TH>URL</TH>
+								<TH>진열페이지 타이틀</TH>
+								<TH>진열페이지 비고</TH>
+								<TH>진열페이지 URL</TH>
 								
 								<TH>등록일</TH>
 								<TH>등록자</TH>
@@ -186,11 +194,7 @@
 							</TR>
 						</THEAD>
 						<TBODY id="result_table">
-							<TR>
-								<TD class="default_td" colspan="13">
-									조회 결과가 없습니다
-								</TD>
-							</TR>
+							
 						</TBODY>
 					</TABLE>
 				</div>
@@ -207,6 +211,16 @@
 <script>
 $(document).ready(function() {
 	getPageProductList();
+	$('#display_product_file').on('change', function(e){
+		confirm('엑셀로 대량등록 작업 시, 기존 진열정보는 삭제됩니다. 진행하시겠습니까?', function(){
+			var files = e.target.files;
+			var sel_page_idx = $('#sel_page_idx').val();
+			if(files != null){
+				uploadSheet(files, sel_page_idx);
+			};
+			e.target.value = '';
+		});
+	})
 });
 
 function openProductDisplayUpdateModal(idx) {
@@ -230,7 +244,6 @@ function searchDateClick(obj) {
 }
 
 function dateParamChange(obj) {
-	
 	var date_from = $("#create_from").val();
 	var date_to = $("#create_to").val();
 
@@ -250,10 +263,10 @@ function dateParamChange(obj) {
 		return false;
 	}
 	
-	frm.find('.date__picker').css('background-color','#ffffff');
-	frm.find('.date__picker').css('color','#000000');
+	$('.date__picker').css('background-color','#ffffff');
+	$('.date__picker').css('color','#000000');
 	
-	frm.find('.search_date').val('');
+	$('.search_date').val('');
 }
 
 function selectAllClick(obj) {
@@ -289,60 +302,70 @@ function getPageProductList() {
 	
 	var strDiv = '';
 	strDiv += '<TR>';
-	strDiv += '    <TD class="default_td" colspan="13" style="text-align:left;">';
+	strDiv += '    <TD class="default_td" colspan="16" style="text-align:left;">';
 	strDiv += '        조회 결과가 없습니다';
 	strDiv += '    </TD>';
 	strDiv += '</TR>';
 	
 	result_table.append(strDiv);
 	
-	let frm = $('#frm-list');
+	let frm = $('#frm-filter');
 	var rows = frm.find('.rows').val();
 	var page = frm.find('.page').val(1);
 	
 	get_contents(frm,{
 		pageObj : $(".paging"),
 		html : function(d) {
-			if (d.length > 0) {
-				result_table.html('');
+			if(d != null){
+				if (d.length > 0) {
+					result_table.html('');
+				}
+				
+				var strDiv = "";
+				d.forEach(function(row) {				
+					let display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
+					
+					strDiv += '<TR>';
+					strDiv += '    <td>';
+					strDiv += '        <div class="cb__color">';
+					strDiv += '            <label>';
+					strDiv += '                <input type="checkbox" name="page_idx[]" class="select" value="' + row.page_idx + '" >';
+					strDiv += '                <span></span>';
+					strDiv += '            </label>';
+					strDiv += '        </div>';
+					strDiv += '    </td>';
+					strDiv += '    <td>' + row.num + '</td>';
+					strDiv += '    <TD style="text-align:center;">';
+					strDiv += '        <div class="edit_page_btn" type="button" onClick="window.open(\'http://116.124.128.246/product/list?page_idx=' + row.page_idx + '\');">미리보기</div>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD style="text-align:center;">';
+					strDiv += '        <div class="edit_page_btn" type="button" onClick="openProductModal(' + row.page_idx + ')">페이지편집</div>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD style="text-align:center;">';
+					strDiv += '        <div type="button" class="edit_page_btn" onclick="displayProductUpload(' + row.page_idx + ')">상품등록</div>';
+					strDiv += '    </TD>';
+
+					strDiv += '    <TD style="text-align:center;">';
+					strDiv += '        <div class="edit_page_btn" type="button" onClick="location.href=\'/display/product/page?page_idx=' + row.page_idx + '\';">상품진열</div>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD>' + row.display_status + '</TD>';
+					strDiv += '    <TD>' + display_date + '</TD>';
+
+					strDiv += '    <td>' + row.display_member_level + '</td>';
+					strDiv += '    <TD><font style="cursor:pointer;" onClick="openProductDisplayUpdateModal(' + row.page_idx + ');">' + row.page_title + '</font></TD>';
+					strDiv += '    <td>' + row.page_memo + '</td>';
+					strDiv += '    <td>' + row.page_url + row.page_idx + '</td>';
+
+					strDiv += '    <td>' + row.create_date + '</td>';
+					strDiv += '    <td>' + row.creater + '</td>';
+					strDiv += '    <td>' + row.update_date + '</td>';
+					strDiv += '    <td>' + row.updater + '</td>';
+					strDiv += '</TR>';
+				});
+				
+				result_table.append(strDiv);
 			}
 			
-			var strDiv = "";
-			d.forEach(function(row) {				
-				let display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
-				
-				strDiv += '<TR>';
-				strDiv += '    <td>';
-				strDiv += '        <div class="cb__color">';
-				strDiv += '            <label>';
-				strDiv += '                <input type="checkbox" name="page_idx[]" class="select" value="' + row.page_idx + '" >';
-				strDiv += '                <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </td>';
-				strDiv += '    <td>' + row.num + '</td>';
-				strDiv += '    <TD style="text-align:center;">';
-				strDiv += '        <button type="button" page_idx="' + row.page_idx + '" style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">미리보기</button>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD style="text-align:center;">';
-				strDiv += '        <button type="button" page_idx="' + row.page_idx + '" page_url="' + row.page_url + '" style="font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;" onClick="location.href=\'/display/product/page?page_idx=' + row.page_idx + '\';">페이지 편집</button>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + row.display_status + '</TD>';
-				strDiv += '    <TD>' + display_date + '</TD>';
-
-				strDiv += '    <td>' + row.display_member_level + '</td>';
-				strDiv += '    <TD><font style="cursor:pointer;" onClick="openProductDisplayUpdateModal(' + row.page_idx + ');">' + row.page_title + '</font></TD>';
-				strDiv += '    <td>' + row.page_memo + '</td>';
-				strDiv += '    <td>' + row.page_url + '</td>';
-
-				strDiv += '    <td>' + row.create_date + '</td>';
-				strDiv += '    <td>' + row.creater + '</td>';
-				strDiv += '    <td>' + row.update_date + '</td>';
-				strDiv += '    <td>' + row.updater + '</td>';
-				strDiv += '</TR>';
-			});
-			
-			result_table.append(strDiv);
 		},
 	},rows,1);
 }
@@ -475,8 +498,12 @@ function displayPageProduct(display_flg) {
 	}
 }
 
+function openProductModal(page_idx) {
+	modal('/put','page_idx=' + page_idx);
+}
+
 function init_fileter(frm_id, func_name){
-	var formObj = $('#'+frm_id);
+	var formObj = $('#' + frm_id);
 	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked', true);
 	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked', true);
 
@@ -492,5 +519,53 @@ function init_fileter(frm_id, func_name){
 	formObj.find('input[name="search_date"]').val('');
 	
 	window[func_name]();
+}
+
+function displayProductUpload(idx){
+	$('#sel_page_idx').val(idx);
+	$("#display_product_file").click();
+	
+}
+function uploadSheet(obj,idx){
+    var files = obj;
+    var reader = new FileReader();
+	reader.readAsBinaryString(files[0]);
+    reader.onload = function () {
+        let data = reader.result;
+        let workBook = XLSX.read(data, { type: 'binary'});
+        workBook.SheetNames.forEach(function (sheetName) {
+            if(sheetName == '진열상품 정보'){
+                display_product_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 2, header:1});
+				//console.log(display_product_sheet);
+				json_str = JSON.stringify(display_product_sheet);
+				putDisplayProductExcel(json_str, files.name, idx);
+            }
+        })
+    };
+}
+
+function putDisplayProductExcel(str, name, idx){
+	if(str != null && str.length > 0){
+		$.ajax({
+			type: "post",
+			data: {
+				'display_product_sheet':str,
+				'sel_idx' : idx
+			},
+			dataType: "json",
+			url: config.api + "display/product/excel/add",
+			error: function() {
+				alert('진열상품 등록처리에 실패했습니다.');
+			},
+			success: function(d) {
+				if(d.code == 200){
+					alert('진열상품 엑셀등록이 완료되었습니다.')
+				} else{
+					alert(d.msg);
+				}
+				getPageProductList();
+			}
+		});
+	}
 }
 </script>

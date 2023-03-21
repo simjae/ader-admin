@@ -1,38 +1,9 @@
 <style>
-	.white__btn {
-		cursor: pointer;
-		display: flex;
-		font-size: 13px;
-		align-items: center;
-		justify-content: center;
-		width: 120px;
-		height: 30px;
-		border-radius: 2px;
-		padding: 10px;
-		border: 1px solid #000000;
-		background-color: #ffffff;
-		color: #000000;
-		margin-right: 10px;
-	}
-
-	.gray__btn {
-		display: flex;
-		font-size: 13px;
-		align-items: center;
-		justify-content: center;
-		width: 120px;
-		height: 30px;
-		border-radius: 2px;
-		padding: 10px;
-		border: 1px solid #000000;
-		background-color: #bcbcbc;
-		color: #000000;
-		margin-right: 10px;
-	}
-	.birth__date__param{
-		width:60px!important;
-	}
+.white__btn {cursor: pointer;display: flex;font-size: 13px;align-items: center;justify-content: center;width: 120px;height: 30px;border-radius: 2px;padding: 10px;border: 1px solid #000000;background-color: #ffffff;color: #000000;margin-right: 10px;}
+.gray__btn {display: flex;font-size: 13px;align-items: center;justify-content: center;width: 120px;height: 30px;border-radius: 2px;padding: 10px;border: 1px solid #000000;background-color: #bcbcbc;color: #000000;margin-right: 10px;}
+.birth__date__param{width:60px!important;}
 </style>
+
 <div class="content__card">
 	<form id="frm-birth-put" action="voucher/birth/put">
 		<input type="hidden" name="voucher_type" value="BR">
@@ -89,11 +60,15 @@
 		<div class="drive--x"></div>
 		<form id="frm-birth-detail-filter" action="voucher/birth/issue/get">
 			<input type="hidden" name="voucher_idx" value="">
+			
 			<input type="hidden" name="country" value="">
+			
 			<input type="hidden" class="rows" name="rows" value="10">
 			<input type="hidden" class="page" name="page" value="1">
+			
 			<div class="content__wrap ">
 				<div class="content__title">검색 월</div>
+				
 				<div class="content__row">
 					<select name="search_month" onChange="">
 						<option value="" selected>전체</option>
@@ -112,6 +87,7 @@
 					</select>
 				</div>
 			</div>
+			
 			<div class="content__wrap grid__half">
 				<div class="half__box__wrap">
 					<div class="content__title">회원 아이디</div>
@@ -126,6 +102,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="content__wrap">
 				<div class="content__title">멤버 등급</div>
 				<div class="content__row">
@@ -136,20 +113,30 @@
 						</div>
 						<span>전체</span>
 					</label>
+<?php
+						$get_member_level_sql = "
+							SELECT
+								IDX,
+								TITLE
+							FROM
+								dev.MEMBER_LEVEL
+							WHERE
+								DEL_FLG = FALSE
+						";
+						$db->query($get_member_level_sql);
+
+						foreach($db->fetch() as $level_info){
+?>
 					<label class="rd__square">
-						<input type="radio" name="member_level" value="1">
+						<input type="radio" name="issue_member_level" value="<?=$level_info['IDX']?>">
 						<div>
 							<div></div>
 						</div>
-						<span>일반 멤버</span>
-					</label>
-					<label class="rd__square">
-						<input type="radio" name="member_level" value="2">
-						<div>
-							<div></div>
-						</div>
-						<span>Ader family</span>
-					</label>
+						<span><?=$level_info['TITLE']?></span>
+					</label>			    
+<?php
+						}
+?>
 				</div>
 			</div>
 
@@ -180,6 +167,7 @@
 						</label>
 					</div>
 				</div>
+				
 				<div class="half__box__wrap">
 					<div class="content__title">등록여부</div>
 					<div class="content__row">
@@ -219,6 +207,7 @@
 				</div>
 			</div>
 		</form>
+		
 		<form id="frm-birth-detail-list">
 			<div class="card__body">
 				<div class="info__wrap " style="justify-content:space-between; align-items: center;">
@@ -230,29 +219,33 @@
 				</div>
 				<div class="card__content">
 					<div class="table table__wrap">
-						<table>
+						<div class="table__filter">
+							<div class="filrer__wrap">
+								<div style="width: 140px;" class="filter__btn" onclick="excelDownload('all');">엑셀 다운로드</div>
+							</div>                                
+						</div>	
+						<table id="excel_table">
 							<colgroup>
-								<col width="3%">
-								<col width="7%">
-								<col width="7%">
-								<col width="auto">
-								<col width="10%">
-								<col width="10%">
-								<col width="10%">
-								<col width="10%">
-								<col width="20%">
-								<col width="15%">
-
+								<col width="80px;">
+								<col width="150px;">
+								<col width="100px;">
+								<col width="150px;">
+								<col width="150px;">
+								<col width="150px;">
+								<col width="200px;">
+								<col width="150px;">
+								<col width="300px;">
+								<col width="300px;">
 							</colgroup>
 							<thead>
 								<TH>순번</TH>
 								<th>발급 바우처 코드</th>
 								<th>사용여부</th>
-								<th>아이디</th>
-								<th>회원명</th>
-								<th>생일일자</th>
-								<th>회원레벨</th>
-								<th>연락처(TEL)</th>
+								<th>회원이름</th>
+								<th>회원ID</th>
+								<th>회원등급</th>
+								<th>회원생일</th>
+								<th>휴대전화</th>
 								<th>사용가능 일자</th>
 								<th>사용일자</th>
 							</thead>
@@ -344,26 +337,35 @@
 		});
 	}
 	function getBirthMemberInfo() {
-		$("#result_birth_voucher_issue_table").html('');
+		let result_table = $("#result_birth_voucher_issue_table");
+		result_table.html('');
+		
 		var strDiv = '';
-		strDiv += '<TD class="default_td" colspan="9">';
+		strDiv += '<TD class="default_td" colspan="10">';
 		strDiv += '    조회 결과가 없습니다';
 		strDiv += '</TD>';
 
-		$("#result_birth_voucher_issue_table").append(strDiv);
+		result_table.append(strDiv);
 
 		var filter_detail_obj = $("#frm-birth-detail-filter");
 		var list_detail_obj = $('#frm-birth-detail-list');
 
 		var rows = filter_detail_obj.find('.rows').val();
 		var page = filter_detail_obj.find('.page').val();
+		
 		get_contents(filter_detail_obj, {
 			pageObj: list_detail_obj.find(".paging"),
 			html: function (d) {
 				if (d.length > 0) {
-					$("#result_birth_voucher_issue_table").html('');
+					result_table.html('');
 				}
+				
 				d.forEach(function (row) {
+					let detail_link = "";
+					if (row.country != null && row.member_idx != null) {
+						detail_link = ' style="text-decoration:underline;cursor:pointer;" onclick="javascript:void(window.open(\'http://116.124.128.246:81/member/detail?country=' + row.country + '&member_idx=' + row.member_idx + '\', \'회원상세 페이지\',\'width=#, height=#\'))" ';
+					}
+					
 					var used_str = '';
 					var used_date_str = '';
 					if (row.used_flg != null) {
@@ -381,20 +383,38 @@
 						<tr>
 							<td>${row.num}</td>
 							<td>${row.voucher_issue_code}</td>
-							<td>${used_str}</td>
-							<td>${row.member_id}</td>
-							<td>${row.member_name}</td>
+							<td>${row.used_flg}</td>
+							<td ${detail_link}>${row.member_id}</td>
+							<td ${detail_link}>${row.member_name}</td>
 							<td>${row.member_birth}</td>
 							<td>${row.member_level}</td>
 							<td>${row.tel_mobile}</td>
 							<td>사용가능 시작일 : ${row.usable_start_date}<br>사용가능 종료일 : ${row.usable_end_date}</td>
-							<td>${used_date_str}</td>
+							<td>${row.update_date}</td>
 						</tr>
-				`;
+					`;
 
-					$("#result_birth_voucher_issue_table").append(strDiv);
+					result_table.append(strDiv);
 				});
 			},
 		}, rows, page);
 	}
+
+	function excelDownload(str) {
+	if ($('#result_birth_voucher_issue_table').find('.default_td').length > 0) {
+		alert('회원 데이터가 없습니다.');
+	} else {
+		
+		var sheet_name = "";
+		var file_name = "";
+		var today = new Date();
+		var file_date = today.getFullYear() + (('0' + (today.getMonth() + 1)).slice(-2)) + (('0' + today.getDate()).slice(-2));
+		
+		sheet_name = "회원 목록";
+		file_name = "회원리스트_" + file_date;
+		insertLog("멤버관리:바우처 ", "생일바우처_멤버리스트_엑셀다운로드 : "+file_name+"xlsx", 1);
+		var wb = XLSX.utils.table_to_book(document.getElementById('excel_table'), {sheet:sheet_name,raw:true});
+		XLSX.writeFile(wb, (file_name + '.xlsx'));
+	}
+}
 </script>

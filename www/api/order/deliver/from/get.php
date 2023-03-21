@@ -24,7 +24,7 @@ if ($member_idx != null && $from_idx != null) {
 				OF.FROM_MOBILE	AS FROM_MOBILE,
 				OF.FROM_EMAIL	AS FROM_EMAIL
 			FROM
-				dev.ORDER_FROM OF
+				ORDER_FROM OF
 			WHERE
 				OF.IDX = ".$from_idx." AND 
 				OF.MEMBER_IDX = ".$member_idx;

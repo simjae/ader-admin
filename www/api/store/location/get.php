@@ -23,7 +23,7 @@ $select_store_location_sql = "
 			SPC.LAT			AS LAT,
 			SPC.LNG			AS LNG
 		FROM
-			dev.STORE_SPACE SPC
+			STORE_SPACE SPC
 		WHERE
 			SPC.STORE_ADDR IS NOT NULL AND
 			SPC.LAT IS NOT NULL AND
@@ -36,7 +36,7 @@ $select_store_location_sql = "
 			PLG.LAT			AS LAT,
 			PLG.LNG			AS LNG
 		FROM
-			dev.STORE_PLUGSHOP PLG
+			STORE_PLUGSHOP PLG
 		WHERE
 			PLG.STORE_ADDR IS NOT NULL AND
 			PLG.LAT IS NOT NULL AND
@@ -49,7 +49,7 @@ $select_store_location_sql = "
 			STC.LAT			AS LAT,
 			STC.LNG			AS LNG
 		FROM
-			dev.STORE_STOCKIST STC
+			STORE_STOCKIST STC
 		WHERE
 			STC.STOCKIST_TYPE = 'GLB' AND
 			STC.STORE_ADDR IS NOT NULL AND

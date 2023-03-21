@@ -14,39 +14,36 @@
  +=============================================================================
 */
 
-$admin_idx = 0;
+/*$admin_idx = 0;
 if (isset($_SESSION['ADMIN_IDX'])) {
 	$admin_idx = $_SESSION['ADMIN_IDX'];
-}
+}*/
+
+$country		= $_POST['country'];
 
 $select_collaboration_sql = "
 	SELECT
 		PC.IDX				AS COLLABORATION_IDX,
 		PC.DISPLAY_NUM		AS DISPLAY_NUM,
 		PP.PAGE_TITLE		AS PAGE_TITLE,
-		CC.COLUMN_VALUE		AS MAIN_IMG_LOCATION,
 		(
 			SELECT
 				COUNT(S_CB.IDX)
 			FROM
-				dev.COLLABORATION_BOOKMARK S_CB
+				COLLABORATION_BOOKMARK S_CB
 			WHERE
-				S_CB.ADMIN_IDX = ".$admin_idx." AND
 				S_CB.COLLABORATION_IDX = PC.IDX
 		)					AS BOOKMARK_CNT
 	FROM
-		dev.PAGE_POSTING PP
-		LEFT JOIN dev.POSTING_COLLABORATION PC ON
+		PAGE_POSTING PP
+		LEFT JOIN POSTING_COLLABORATION PC ON
 		PP.IDX = PC.PAGE_IDX
-		LEFT JOIN dev.COLLABORATION_COLUMN CC ON
-		PC.IDX = CC.COLLABORATION_IDX
 	WHERE
+		PP.COUNTRY = '".$country."' AND
 		PP.POSTING_TYPE = 'COLA' AND
 		PP.DEL_FLG = FALSE AND
-		PC.DEL_FLG = FALSE AND
-		CC.PHS_COLUMN_NAME = 'MAIN_IMG'
+		PC.DEL_FLG = FALSE
 	ORDER BY
-		BOOKMARK_CNT DESC,
 		DISPLAY_NUM ASC
 ";
 
@@ -56,7 +53,25 @@ foreach($db->fetch() as $collaboration_data) {
 	$collaboraion_idx = $collaboration_data['COLLABORATION_IDX'];
 	$bookmark_cnt = $collaboration_data['BOOKMARK_CNT'];
 	
+	$select_main_img_sql = "
+		SELECT
+			CC.COLUMN_VALUE		AS MAIN_IMG_LOCATION
+		FROM
+			COLLABORATION_COLUMN CC
+		WHERE
+			CC.COLLABORATION_IDX = ".$collaboraion_idx." AND
+			CC.PHS_COLUMN_NAME = 'MAIN_IMG'
+	";
+	
+	$db->query($select_main_img_sql);
+	
+	$main_img_location = "/images/default_main_img.jpg";
+	foreach($db->fetch() as $img_data) {
+		$main_img_location = $img_data['MAIN_IMG_LOCATION'];
+	}
+	
 	$bookmark_flg = false;
+	
 	if ($bookmark_cnt > 0) {
 		$bookmark_flg = true;
 	}
@@ -65,7 +80,7 @@ foreach($db->fetch() as $collaboration_data) {
 		'collaboration_idx'		=>$collaboration_data['COLLABORATION_IDX'],
 		'display_num'			=>$collaboration_data['DISPLAY_NUM'],
 		'page_title'			=>$collaboration_data['PAGE_TITLE'],
-		'main_img_location'		=>$collaboration_data['MAIN_IMG_LOCATION'],
+		'main_img_location'		=>$main_img_location,
 		'bookmark_flg'			=>$bookmark_flg
 	);
 }

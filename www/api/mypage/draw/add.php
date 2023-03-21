@@ -46,14 +46,14 @@ if ($country == null || $member_idx == 0) {
 }
 
 if ($country != null && $member_idx > 0 && $draw_idx > 0 && $option_idx > 0) {
-	$draw_cnt = $db->count("dev.PAGE_DRAW","IDX = ".$draw_idx." AND COUNTRY = '".$country."' AND DISPLAY_STATUS = TRUE AND ENTRY_START_DATE >= NOW() AND ENTRY_END_DATE < NOW()");
+	$draw_cnt = $db->count("PAGE_DRAW","IDX = ".$draw_idx." AND COUNTRY = '".$country."' AND DISPLAY_STATUS = TRUE AND ENTRY_START_DATE >= NOW() AND ENTRY_END_DATE < NOW()");
 	if ($draw_cnt == 0) {
 		$json_result['code'] = 302;
 		$json_result['msg'] = '해당 드로우는 현재 진행중이지 않습니다.';
 		return $json_result;
 	}
 	
-	$entry_cnt = $db->count("dev.ENTRY_DRAW","COUNTRY = '".$country."' AND DRAW_IDX = ".$draw_idx." AND MEMBER_IDX = ".$member_idx);
+	$entry_cnt = $db->count("ENTRY_DRAW","COUNTRY = '".$country."' AND DRAW_IDX = ".$draw_idx." AND MEMBER_IDX = ".$member_idx);
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 302;
 		$json_result['msg'] = '동일한 드로우를 중복신청할 수 없습니다.';
@@ -62,7 +62,7 @@ if ($country != null && $member_idx > 0 && $draw_idx > 0 && $option_idx > 0) {
 	
 	$insert_entry_sql = "
 		INSERT INTO
-			dev.ENTRY_DRAW
+			ENTRY_DRAW
 		(
 			COUNTRY,
 			DRAW_IDX,
@@ -85,10 +85,10 @@ if ($country != null && $member_idx > 0 && $draw_idx > 0 && $option_idx > 0) {
 			'".$member_id."'	AS CREATER,
 			'".$member_id."'	AS UPDATER
 		FROM
-			dev.PAGE_DRAW PD
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_DRAW PD
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PD.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+			LEFT JOIN ORDERSHEET_OPTION OO ON
 			PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 		WHERE
 			PD.IDX = ".$draw_idx." AND

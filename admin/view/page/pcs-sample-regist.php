@@ -1,15 +1,11 @@
 <style>
-	.checked{background-color:#707070!important;color:#ffffff!important;}
-	.unchecked{background-color:#ffffff!important;color:#000000!important;}
-	.btn__gray{
-		height: 20px;
-		color: #fff;
-		padding: 3.5px 20px;
-		border-radius: 2px;
-		background-color: #bfbfbf;
-		cursor:pointer;
-	}
+.checked{background-color:#707070!important;color:#ffffff!important;}
+.unchecked{background-color:#ffffff!important;color:#000000!important;}
+.btn__gray{height: 20px;color: #fff;padding: 3.5px 20px;border-radius: 2px;background-color: #bfbfbf;cursor:pointer;}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-list" action="pcs/sample/list/get">
 		<input type="hidden" name="ordersheet_idx" value="">	

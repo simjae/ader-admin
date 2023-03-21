@@ -7,7 +7,7 @@
 	<input id="tab_num" type="hidden" value="01">
 	
 	<div id="stock_tab_01" class="row stock_tab">
-		<?php include_once("product-stock-register.php"); ?>
+		<?php include_once("product-stock-regist.php"); ?>
 	</div>
 	
 	<div id="stock_tab_02" class="row stock_tab" style="display:none;margin-top:0px;">
@@ -22,7 +22,7 @@
 $(document).ready(function() {
 	getProductCategory(0,0);
 });
-function init_fileter(frm_id, func_name){
+function init_filter(frm_id, func_name){
 	var formObj = $('#'+frm_id);
 	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked', true);
 	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked', true);
@@ -63,7 +63,7 @@ function searchTypeBtnClick(obj) {
 	var search_type = $('#frm-list_' + tab_num).find('.search_type');
 	var length = search_type.length;
 	var action_type = $(obj).attr('action_type');
-	
+	console.log(length);
 	if (action_type == "append") {
 		if (length < 9) {
 			var strDiv = "";
@@ -213,18 +213,10 @@ function searchDateClick(obj) {
 	$('.date_param').css('color','#000');
 
 	var date_type = $(obj).attr('date_type');
-
-	if (date_type == "stock_regist") {
-		$('.search_date_stock_regist').not($(obj)).css('background-color','#ffffff');
-		$('#search_date_stock_regist').val(date);
-		$('#stock_regist_from').val('');
-		$('#stock_regist_from').val('');
-	} else if (date_type == "stock") {
-		$('.search_date_stock').not($(obj)).css('background-color','#ffffff');
-		$('#search_date_stock').val(date);
-		$('#stock_from').val('');
-		$('#stock_to').val('');
-	}
+	$('.search_date_' + date_type).not($(obj)).css('background-color','#ffffff');
+	$('#search_date_' + date_type).val(date);
+	$('#' + date_type + '_from').val('');
+	$('#' + date_type + '_to').val('');
 }
 
 function dateParamChange(obj) {
@@ -399,7 +391,17 @@ function rowsChange(obj) {
 	$('#frm-list_' + tab_num).find('.rows').val(rows);
 	$('#frm-list_' + tab_num).find('.page').val(1);
 
-	getProdTabInfo();
+	switch(tab_num){
+		case '01':
+			getProductStockList();
+			break;
+		case '02':
+			getProductStockInfo_02();
+			break;
+		case '03':
+			getProductStockInfo_03();
+			break;
+	}
 }
 
 function orderChange(obj) {
@@ -411,7 +413,17 @@ function orderChange(obj) {
 	$('#frm-list_' + tab_num).find('.sort_value').val(order_value[0]);
 	$('#frm-list_' + tab_num).find('.sort_type').val(order_value[1]);
 
-	getProdTabInfo();
+	switch(tab_num){
+		case '01':
+			getProductStockList();
+			break;
+		case '02':
+			getProductStockInfo_02();
+			break;
+		case '03':
+			getProductStockInfo_03();
+			break;
+	}
 }
 
 function selectGroupCheck(obj) {

@@ -50,7 +50,7 @@ if ($country != null && $draw_idx != null) {
 						SELECT
 							COUNT(S_PI.IDX)
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.IMG_TYPE = 'P' AND
@@ -61,7 +61,7 @@ if ($country != null && $draw_idx != null) {
 							SELECT
 								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = PR.IDX AND
 								S_PI.DEL_FLG = FALSE AND
@@ -85,8 +85,8 @@ if ($country != null && $draw_idx != null) {
 			PD.PURCHASE_START_DATE	AS PURCHASE_START_DATE,
 			PD.PURCHASE_END_DATE	AS PURCHASE_END_DATE
 		FROM
-			dev.PAGE_DRAW PD
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_DRAW PD
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PD.PRODUCT_IDX = PR.IDX
 		WHERE
 			PD.IDX = ".$draw_idx." AND
@@ -111,7 +111,7 @@ if ($country != null && $draw_idx != null) {
 					QD.BARCODE				AS BARCODE,
 					QD.PRODUCT_QTY			AS PRODUCT_QTY
 				FROM
-					dev.QTY_DRAW QD
+					QTY_DRAW QD
 				WHERE
 					QD.DRAW_IDX = ".$draw_idx."
 			";
@@ -164,15 +164,15 @@ if ($country != null && $draw_idx != null) {
 						$entry_where .= " AND (ED.CREATE_DATE BETWEEN '".$apply_start_date."' AND '".$apply_end_date."') ";
 					}
 
-					$total += $db->count("dev.ENTRY_DRAW ED
-											LEFT JOIN dev.ORDER_INFO OI ON
+					$total += $db->count("ENTRY_DRAW ED
+											LEFT JOIN ORDER_INFO OI ON
 											ED.ORDER_IDX = OI.IDX
-											LEFT JOIN dev.ORDER_PRODUCT OP ON
+											LEFT JOIN ORDER_PRODUCT OP ON
 											ED.ORDER_IDX = OP.ORDER_IDX", $entry_where);
-					$total_cnt += $db->count("dev.ENTRY_DRAW ED
-											LEFT JOIN dev.ORDER_INFO OI ON
+					$total_cnt += $db->count("ENTRY_DRAW ED
+											LEFT JOIN ORDER_INFO OI ON
 											ED.ORDER_IDX = OI.IDX
-											LEFT JOIN dev.ORDER_PRODUCT OP ON
+											LEFT JOIN ORDER_PRODUCT OP ON
 											ED.ORDER_IDX = OP.ORDER_IDX", $entry_where_cnt);
 
 					$entry_info = array();
@@ -186,10 +186,10 @@ if ($country != null && $draw_idx != null) {
 							ED.PURCHASE_FLG			AS PURCHASE_FLG,
 							ED.ORDER_IDX			AS ORDER_IDX
 						FROM
-							dev.ENTRY_DRAW ED
-							LEFT JOIN dev.ORDER_INFO OI ON
+							ENTRY_DRAW ED
+							LEFT JOIN ORDER_INFO OI ON
 							ED.ORDER_IDX = OI.IDX
-							LEFT JOIN dev.ORDER_PRODUCT OP ON
+							LEFT JOIN ORDER_PRODUCT OP ON
 							ED.ORDER_IDX = OP.ORDER_IDX
 						WHERE
 							".$entry_where."
@@ -234,8 +234,8 @@ if ($country != null && $draw_idx != null) {
 									OI.TO_DETAIL_ADDR		AS TO_DETAIL_ADDR,
 									OI.ORDER_MEMO			AS TO_ORDER_MEMO
 								FROM
-									dev.ORDER_INFO OI
-									LEFT JOIN dev.ORDER_PRODUCT OP ON
+									ORDER_INFO OI
+									LEFT JOIN ORDER_PRODUCT OP ON
 									OI.IDX = OP.ORDER_IDX
 								WHERE
 									OI.IDX = ".$order_idx."
@@ -245,6 +245,8 @@ if ($country != null && $draw_idx != null) {
 							
 							foreach($db->fetch() as $order_data) {
 								$order_info[] = array(
+									'member_mobile'			=>$order_data['MEMBER_MOBILE'],
+									'member_email'			=>$order_data['MEMBER_EMAIL'],
 									'order_code'			=>$order_data['ORDER_CODE'],
 									'order_product_code'	=>$order_data['ORDER_PRODUCT_CODE'],
 									'order_status'			=>$order_data['ORDER_STATUS'],

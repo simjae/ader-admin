@@ -89,7 +89,7 @@ if ($country != null && $member_idx > 0 && $order_to_idx > 0) {
 	try {
 		$update_order_to_sql = "
 			UPDATE
-				dev.ORDER_TO
+				ORDER_TO
 			SET
 				".$to_place_sql."
 				".$to_name_sql."
@@ -113,7 +113,7 @@ if ($country != null && $member_idx > 0 && $order_to_idx > 0) {
 			if ($db_result > 0) {
 				$update_default_flg_sql = "
 					UPDATE
-						dev.ORDER_TO
+						ORDER_TO
 					SET
 						DEFAULT_FLG = FALSE
 					WHERE

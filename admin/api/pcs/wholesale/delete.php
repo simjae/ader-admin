@@ -14,16 +14,23 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
 $wholesale_idx	= $_POST['wholesale_idx'];
 
 if ($wholesale_idx != null) {
-	$sql = "UPDATE
-				dev.WHOLESALE_INFO
-			SET
-				DEL_FLG = TRUE
-			WHERE
-				IDX = ".$wholesale_idx;
+	$delete_wholesale_sql = "
+		UPDATE
+			WHOLESALE_INFO
+		SET
+			DEL_FLG = TRUE,
+			UPDATE_DATE = NOW(),
+			UPDATER = '".$session_id."'
+		WHERE
+			IDX = ".$wholesale_idx."
+	";
 	
-	$db->query($sql);
+	$db->query($delete_wholesale_sql);
 }
 ?>

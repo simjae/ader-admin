@@ -34,7 +34,7 @@ if ($action_type != null) {
 	switch ($action_type) {
 		case "DELETE" :
 			$sql = "UPDATE
-						dev.BLUEMARK_INFO BI
+						BLUEMARK_INFO BI
 					SET
 						BI.DEL_FLG = TRUE,
 						BI.UPDATER = 'Admin',

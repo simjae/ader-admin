@@ -1,22 +1,6 @@
 <style>
-.white__btn{
-	width:120px;
-	height:30px;
-	border:1px solid #000000;
-	background-color:#ffffff;
-	color:#000000;
-	margin-right:10px;
-	cursor:pointer;
-}
-.gray__btn{
-	width:80px;
-	height:30px;
-	border:1px solid #000000;
-	background-color:#dcdcdc;
-	color:#000000;
-	margin-right:10px;
-	cursor:pointer;
-}
+.receive_true_btn {font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;}
+.receive_false_btn {font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff;border-radius:5px;}
 </style>
 <div class="content__card">
 	<div class="card__header">
@@ -89,53 +73,72 @@
 		<div class="drive--x"></div>
 		<div class="online__voucher">
 			<div class="flex" style="gap:50px;margin:20px 0;">
-				<div class="category__tab" issue_type="member_level" style="color:#140f82;border-bottom: 3px solid #140f82;text-align: center;cursor: pointer;" onClick="issueTypeTabClick(this);">멤버 레벨 지정</div>
+				<div class="category__tab" issue_type="member_level" style="color:#140f82;border-bottom: 3px solid #140f82;text-align: center;cursor: pointer;" onClick="issueTypeTabClick(this);">일괄 발급</div>
 				<div class="category__tab" issue_type="member_idx" style="height:30px;color:#707070;text-align:center;cursor:pointer;" onClick="issueTypeTabClick(this);">개별 발급</div>
 			</div>
 			<div class="issue__form member_level">
-				<div class="content__wrap grid__half">
-					<div class="half__box__wrap">
-						<div class="content__title">멤버 레벨 지정</div>
-						<div class="content__row form-group" style="padding-left:0px!important;">
-							<?php
-								$sql = "SELECT
-											TITLE,
-											IDX
-										FROM
-											dev.MEMBER_LEVEL
-										WHERE
-											DEL_FLG = FALSE";
-								
-								$db->query($sql);
-								foreach($db->fetch() as $data) {
-							?>
-							<label>
-								<input type="checkbox" class="member_level" name="issue_member_level[]" value="<?=$data['IDX']?>">
-								<span><?=$data['TITLE']?></span>
-							</label>
-							<?php
-								}
-							?>
-						</div>
+				<div class="content__wrap">
+					<div class="content__title">
+						<p>중복발급여부<p>
 					</div>
-					<div class="half__box__wrap">
-						<button type="button" class="white__btn" voucher_type="LV" onclick="registIssueInfo(this)">발급</button>
+					<div class="content__row">
+						</label><label class="rd__square">
+							<input type="radio" name="duplicate_flg" value="true" checked>
+							<div><div></div></div>
+							<span>중복방지</span>
+						</label>
+						<label class="rd__square">
+							<input type="radio" name="duplicate_flg" value="false" >
+							<div><div></div></div>
+							<span>중복발행</span>
+						</label>
 					</div>
 				</div>
-			</div>
-			
-			<div class="issue__form member_birth">
-				<div class="content__wrap grid__half">
-					<div class="half__box__wrap">
-						<div class="content__title">생일 지정</div>
-						<div class="content__row" style="width:40%;">
+				<div class="content__wrap">
+					<div class="content__title">
+						<p>멤버 지정</p>
+					</div>
+					<div class="content__row form-group" style="padding-left:0px!important;">
+						<?php
+							$sql = "SELECT
+										TITLE,
+										IDX
+									FROM
+										dev.MEMBER_LEVEL
+									WHERE
+										DEL_FLG = FALSE";
+							
+							$db->query($sql);
+							foreach($db->fetch() as $data) {
+						?>
+						<label>
+							<input type="checkbox" class="member_level" name="issue_member_level[]" value="<?=$data['IDX']?>">
+							<span><?=$data['TITLE']?></span>
+						</label>
+						<?php
+							}
+						?>
+					</div>
+				</div>
+				<div class="content__wrap">
+					<div class="content__title">
+						<p>생년월일<p>
+					</div>
+					<div class="content__row">
+						<div class="content__date__wrap">
 							<div class="content__date__picker">
-								<input class="display_date" type="date" id="member_birthday"  placeholder="From" readonly="" style="width:150px" onChange="">
+								<input class="date_param" type="date" id="birth_date" class="margin-bottom-6" style="width:150px;">
 							</div>
 						</div>
+						<div class="btn" onclick="$('#birth_date').val('')">초기화</div>
 					</div>
-					<div class="half__box__wrap">
-						<button type="button" class="white__btn" voucher_type="BR" onclick="registIssueInfo(this)">발급</button>
+				</div>
+				<div class="card__footer">
+					<div class="footer__btn__wrap" style="grid: none;">
+						<div class="btn__wrap--lg">
+							<div class="blue__color__btn" voucher_type="BATCH" onClick="registIssueInfo(this)"><span>바우처 발급</span></div>
+							<div class="defult__color__btn" onClick="returnVoucherPage()"><span>뒤로가기</span></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -144,48 +147,104 @@
 				<div class="card__header">
 					<h3>회원 검색창</h3>
 				</div>
-				<form id="frm-member-filter" action="voucher/issue/member/list/get">
-					<input type="hidden" name="country" value="KR">
+				<form id="frm-member-filter" action="member/info/list/get">
 					<input type="hidden" class="rows" name="rows" value="10">
 					<input type="hidden" class="page" name="page" value="1">
 
 					<div class="card__body">
-						<div claszs="body__info--count" style="display: block;margin:20px 0;">
-							<div class="drive--left"></div>
-							<div class="flex justify-between" style="gap:20px;">
+						<div class="content__wrap">
+							<div class="content__title">국가</div>
+							<div class="content__row">
+								<select name="country" class="fSelect" style="width:163px;">
+									<option value="KR" selected="">한국몰</option>
+									<option value="EN">영문몰</option>
+									<option value="CN">중문몰</option>
+								</select>
 							</div>
 						</div>
+						
 						<div class="content__wrap">
-							<div class="content__title">발행 멤버 레벨</div>
+							<div class="content__title">회원정보</div>
+							<div class="content__row">
+								<select name="search_type" class="fSelect" style="width:163px;">
+									<option value="member_id" selected="">아이디</option>
+									<option value="member_name">이름</option>
+									<option value="tel_mobile">휴대폰번호</option>
+									<option value="member_addr">주소</option>
+								</select>
+
+								<input class="content__input" type="text" name="search_keyword" value="" style="width:70%;">
+							</div>
+						</div>
+						
+						<div class="content__wrap">
+							<div class="content__title">발행 멤버</div>
 							<div class="content__row">
 								<label class="rd__square">
 									<input type="radio" name="member_level" value="ALL" checked>
 									<div><div></div></div>
 									<span>전체</span>
 								</label>
-								<label class="rd__square">
-									<input type="radio" name="member_level" value="1" >
-									<div><div></div></div>
-									<span>일반 멤버</span>
-								</label>
-								<label class="rd__square">
-									<input type="radio" name="member_level" value="2">
-									<div><div></div></div>
-									<span>Ader family</span>
-								</label>
+								<?php
+									$sql = "SELECT
+												TITLE,
+												IDX
+											FROM
+												dev.MEMBER_LEVEL
+											WHERE
+												DEL_FLG = FALSE";
+									
+									$db->query($sql);
+									foreach($db->fetch() as $data) {
+								?>
+									<label class="rd__square">
+										<input type="radio" name="member_level" value="<?=$data['IDX']?>" >
+										<div><div></div></div>
+										<span><?=$data['TITLE']?></span>
+									</label>
+								<?php
+									}
+								?>
+							</div>
+						</div>
+						<div class="content__wrap">
+							<div class="content__title">성별</div>
+							<div class="content__row">
+								<div class="rd__block">
+									<input type="radio" id="member_gender_SLP_ALL" class="radio__input" value="ALL" name="member_gender" checked>
+									<label for="member_gender_SLP_ALL">전체</label>
+
+									<input type="radio" id="member_gender_SLP_M" class="radio__input" value="M" name="member_gender"/>
+									<label for="member_gender_SLP_M">남</label>
+									
+									<input type="radio" id="member_gender_SLP_F" class="radio__input" value="F" name="member_gender"/>
+									<label for="member_gender_SLP_F">여</label>
+								</div>
 							</div>
 						</div>
 						<div class="content__wrap grid__half">
 							<div class="half__box__wrap">
-								<div class="content__title">회원명</div>
+								<div class="content__title">가입일/생일</div>
 								<div class="content__row">
-									<input type="text" name="member_name" value="">
+									<select class="fSelect" name="day_type" style="width:163px;">
+										<option value="JOIN_DATE" checked>가입일</option>
+										<option value="MEMBER_BIRTH">생일</option>
+									</select>
+									
+									<div class="content__date__picker" style="margin-left:10px;">
+										<input type="date" name="day_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;">
+											~
+										<input type="date" name="day_to" placeholder="To" readonly style="width:150px;">
+									</div>
 								</div>
 							</div>
+							
 							<div class="half__box__wrap">
-								<div class="content__title">회원 아이디</div>
+								<div class="content__title">나이</div>
 								<div class="content__row">
-									<input type="text" name="member_id" value="">
+									<input type="text" name="min_age" value="" style="width:80px;margin-right:5px;">세
+										~
+									<input type="text" name="max_age" value="" style="width:80px;margin-right:5px;">세
 								</div>
 							</div>
 						</div>
@@ -195,7 +254,7 @@
 					<div class="footer__btn__wrap" style="grid: none;">
 						<div class="btn__wrap--lg">
 						<div  class="blue__color__btn" onClick="getMemberTabInfo()"><span>검색</span></div>
-							<div class="defult__color__btn" onClick="init_fileter('frm-filter','getMemberTabInfo()');"><span>초기화</span></div>
+							<div class="defult__color__btn" onClick="init_fileter('frm-member-filter','getMemberTabInfo()');"><span>초기화</span></div>
 						</div>
 					</div>
 				</div> 
@@ -210,23 +269,43 @@
 							총 회원 수 <font class="cnt_total info__count" >0</font>개 / 검색결과 <font class="cnt_result info__count" >0</font>개
 						</div>
 						<div class="table__wrap table">
-							<TABLE style="width:50%">
+							<TABLE style="min-width:100%;width:auto;">
 								<colgroup>
-									<col width="15%">
-									<col width="28%">
-									<col width="28%">
-									<col width="28%">
+									<col width="150px;">
+									<col width="80px">
+									<col width="150px">
+									<col width="150px">
+									<col width="250px">
+									<col width="50px">
+									<col width="100px">
+									<col width="50px">
+									<col width="120px">
+									<col width="50px">
+									<col width="100px">
+									<col width="100px">
+									<col width="450px">
+									<col width="auto;">
 								</colgroup>
 								<THEAD>
 									<TR>
-										<TH>선택</TH>
-										<TH>아이디</TH>
-										<TH>이름</TH>
-										<TH>멤버레벨</TH>
+										<TH>회원선택</TH>
+										<TH>쇼핑몰</TH>
+										<TH>가입일</TH>
+										<TH>최근로그인</TH>
+										<TH>회원정보</TH>
+										<TH>회원상태</TH>
+										<TH>휴대전화</TH>
+										<TH>회원성별</TH>
+										<TH>회원생일</TH>
+										<TH>회원나이</TH>
+										<TH>거주지역</TH>
+										<TH>지역번호</TH>
+										<TH>주소</TH>
+										<TH>메일/SMS/메모</TH>
 									</TR>
 								</THEAD>
-								
 								<TBODY id="result_member_list_table">
+									
 								</TBODY>
 							</TABLE>
 						</div>
@@ -243,6 +322,23 @@
 					<div class="drive--x"></div>
 				</div>
 				<div class="card__body">
+					<div class="content__wrap">
+						<div class="content__title">
+							<p>중복발급여부<p>
+						</div>
+						<div class="content__row">
+							</label><label class="rd__square">
+								<input type="radio" name="member_duplicate_flg" value="true" checked>
+								<div><div></div></div>
+								<span>중복방지</span>
+							</label>
+							<label class="rd__square">
+								<input type="radio" name="member_duplicate_flg" value="false" >
+								<div><div></div></div>
+								<span>중복발행</span>
+							</label>
+						</div>
+					</div>
 					<div class="table table__wrap">
 						<div class="overflow-x-auto">
 							<TABLE style="width:50%">
@@ -257,7 +353,7 @@
 										<Th>삭제</TH>
 										<TH>아이디</TH>
 										<TH>이름</TH>
-										<TH>멤버레벨</TH>
+										<TH>멤버</TH>
 									</TR>
 								</THEAD>
 								<TBODY id="selected_member_table">
@@ -305,6 +401,7 @@ $(document).ready(function() {
 		$('.offline__voucher').hide();
 		getVoucherList();
 	});
+	
 	$('.voucher__list__select').find('select').on('change', function(){
 		var on_off_type = $('.issue__voucher__category').find('select[name="on_off_type"]').val();
 		var counrty = $('.issue__voucher__category').find('select[name="country"]').val();
@@ -318,7 +415,9 @@ $(document).ready(function() {
 			$('.offline__voucher').show();
 		}
 		$('#frm-member-filter').find('input[name="country"]').val(counrty);
-	})
+	});
+	
+	getMemberTabInfo();
 });
 
 function getVoucherList(){
@@ -331,6 +430,7 @@ function getVoucherList(){
 			'country' : country,
 			'on_off_type' : on_off_type,
 			'voucher_type' : 'ALL',
+			'voucher_status' : 'IVP',
 			'rows' : 1000,
 			'page' : 1
 		},
@@ -360,14 +460,15 @@ function getVoucherList(){
 }
 
 function getMemberTabInfo(){
-	$("#result_member_list_table").html('');
+	let result_table = $("#result_member_list_table");
+	result_table.html('');
 	
 	var strDiv = '';
 	strDiv += '<TD class="default_td" colspan="4">';
 	strDiv += '    조회 결과가 없습니다';
 	strDiv += '</TD>';
 	
-	$("#result_member_list_table").append(strDiv);
+	result_table.append(strDiv);
 	
 	var filter_obj = $("#frm-member-filter");
 	var list_obj = $('#frm-member-list');
@@ -378,24 +479,71 @@ function getMemberTabInfo(){
 	get_contents(filter_obj,{
 		pageObj : list_obj.find(".paging"),
 		html : function(d) {
-			if (d.length > 0) {
-				$("#result_member_list_table").html('');
+			if(d != null){
+				if (d.length > 0) {
+					result_table.html('');
+				}
+				
+				let strDiv = "";
+				d.forEach(function(row) {
+					let detail_link = "";
+					if (row.country != null && row.member_idx != null) {
+						detail_link = ' style="text-decoration:underline;cursor:pointer;" onclick="javascript:void(window.open(\'http://116.124.128.246:81/member/detail?country=' + row.country + '&member_idx=' + row.member_idx + '\', \'회원상세 페이지\',\'width=#, height=#\'))" ';
+					}
+					
+					strDiv += '<TR>';
+					strDiv += '    <TD>';
+					strDiv += '        <div class="btn" style="text-align:center;width:150px;" member_idx="' + row.member_idx + '" country="' + row.country + '" onclick="addMember(this)">추가</div>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD>' + row.txt_country + '</TD>';
+					strDiv += '    <TD>' + row.join_date + '</TD>';
+					strDiv += '    <TD>' + row.login_date + '</TD>';
+					strDiv += '    <TD ' + detail_link + '>';
+					strDiv += '        ' + row.member_name + '<br/>';
+					strDiv += '        ' + row.member_id + '<br/>';
+					strDiv += '        ' + row.member_level + '<br/>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD>' + row.member_status + '</TD>';
+					strDiv += '    <TD>' + row.tel_mobile + '</TD>';
+					strDiv += '    <TD>' + row.member_gender + '</TD>';
+					strDiv += '    <TD>' + row.member_birth + '</TD>';
+					strDiv += '    <TD>' + row.age + '</TD>';
+					strDiv += '    <TD>' + row.region + '</TD>';
+					strDiv += '    <TD>' + row.zipcode + '</TD>';
+					strDiv += '    <TD>';
+					strDiv += '        '+ row.road_addr + '<br/>';
+					strDiv += '        '+ row.lot_addr + '<br/>';
+					strDiv += '        '+ row.detail_addr + '<br/>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD>';
+					strDiv += '        <div class="row">';
+
+					if (row.receive_sms_flg == true) {
+						strDiv += '        <button class="receive_true_btn" style="">SMS</button>';
+					} else {
+						strDiv += '        <button class="receive_false_btn">SMS</button>';
+					}
+
+					if (row.receive_push_flg == true) {
+						strDiv += '        <button class="receive_true_btn">알림</button>';
+					} else {
+						strDiv += '        <button class="receive_false_btn">알림</button>';
+					}
+
+					if (row.receive_email_flg == true) {
+						strDiv += '        <button class="receive_true_btn">메일</button>';
+					} else {
+						strDiv += '        <button class="receive_false_btn">메일</button>';
+					}
+						
+					strDiv += '            <button style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff;border-radius:5px;">메모</button>';
+					strDiv += '        </div>';
+					strDiv += '    </TD>';
+					strDiv += '</TR>';
+				});
+				
+				result_table.append(strDiv);
 			}
-			d.forEach(function(row) {
-				var strDiv = "";
-				strDiv = `
-						<TR>	
-							<TD>
-								<button type="button" class="gray__btn" member_idx="${row.no}" country="${row.country}" onclick="addMember(this)">추가</button>
-							</TD>
-							<TD>${row.member_id}</TD>
-							<TD>${row.member_name}</TD>
-							<TD>${row.level}</TD>
-						</TR>
-				`;
-				$("#result_member_list_table").append(strDiv);
-				//$("#result_member_list_table").append(strDiv);
-			});
 		},
 	},rows, page);
 }
@@ -480,15 +628,23 @@ function registIssueInfo(obj){
 	var issue_level_arr = [];
 	var member_arr = [];
 	confirm('기입하신 조건으로 바우처를 발급하시겠습니까?', function(){
+		let duplicate_flg = $('input[name="duplicate_flg"]:checked').val();
+		let member_duplicate_flg = $('input[name="member_duplicate_flg"]:checked').val();
+
 		switch(voucher_type){
-			case 'LV':
+			case 'BATCH':
+				let birth_date = $('#birth_date').val();
+				api_param.member_birth = birth_date;
+
 				var issue_level_cnt = $('input[name="issue_member_level[]"]:checked').length;
 				if(issue_level_cnt > 0){
 					for(var i = 0;i < issue_level_cnt; i++){
 						issue_level_arr.push($('input[name="issue_member_level[]"]:checked').eq(i).val());
 					}
 					api_param.member_level = issue_level_arr;
+					
 				}
+				api_param.duplicate_flg = duplicate_flg;
 				break;
 			case 'MB':
 				var member_cnt = $('#selected_member_table').find('input').length;
@@ -497,6 +653,7 @@ function registIssueInfo(obj){
 						member_arr.push($('#selected_member_table').find('input').eq(i).val());
 					}
 					api_param.member_idx = member_arr;
+					api_param.duplicate_flg = member_duplicate_flg;
 				}
 				break;
 			case 'OFF':
@@ -514,7 +671,9 @@ function registIssueInfo(obj){
 			},
 			success: function(d) {
 				if(d.code == 200) {
-					alert('바우처를 발급하였습니다.');
+					alert('바우처를 발급하였습니다. 바우처 목록창으로 돌아갑니다.', function(){
+						location.href = 'http://116.124.128.246:81/member/voucher';
+					});
 				}
 				else{
 					alert(d.msg);

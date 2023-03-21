@@ -101,21 +101,22 @@
 					
 					<div class="content__date__wrap">
 						<div class="content__date__btn">
-							<input id="date_param_ALL" type="hidden" name="date_param" value="" style="width:150px;">
+							<input id="date_param_OCO" type="hidden" name="date_param" value="" style="width:150px;">
 
-							<div class="date_param_ALL date__picker" date_type="ALL" date="today"	type="button" onclick="searchDateClick(this);">오늘</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="01d"		type="button" onclick="searchDateClick(this);">어제</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="03d"		type="button" onclick="searchDateClick(this);">3일</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="07d"		type="button" onclick="searchDateClick(this);">7일</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="15d"		type="button" onclick="searchDateClick(this);">15일</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="01m"		type="button" onclick="searchDateClick(this);">1개월</div>
-							<div class="date_param_ALL date__picker" date_type="ALL" date="03m"		type="button" onclick="searchDateClick(this);">3개월</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="today"	type="button" onclick="searchDateClick(this);">오늘</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="01d"	type="button" onclick="searchDateClick(this);">어제</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="03d"	type="button" onclick="searchDateClick(this);">3일</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="07d"	type="button" onclick="searchDateClick(this);">7일</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="15d"	type="button" onclick="searchDateClick(this);">15일</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="01m"	type="button" onclick="searchDateClick(this);">1개월</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="03m"	type="button" onclick="searchDateClick(this);">3개월</div>
+							<div class="search_date_OCO date__picker" date_type="OCO" date="01y"	type="button" onclick="searchDateClick(this);">1년</div>
 						</div>
 						
 						<div class="content__date__picker">
-							<input id="date_from_all" class="date_param_ALL" type="date" name="date_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="all" onChange="dateParamChange(this);">
+							<input id="date_from_OCO" class="date_param_OCO" type="date" name="date_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="OCO" onChange="dateParamChange(this);">
 								<font>~</font>
-							<input id="date_to_all" class="date_param_ALL" type="date" name="date_to" placeholder="To" readonly style="width:150px;" date_type="all" onChange="dateParamChange(this);">
+							<input id="date_to_OCO" class="date_param_OCO" type="date" name="date_to" placeholder="To" readonly style="width:150px;" date_type="OCO" onChange="dateParamChange(this);">
 						</div>
 					</div>
 				</div>
@@ -309,8 +310,6 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
 						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PRODUCT_NAME|ASC">상품명 순</option>
 						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>

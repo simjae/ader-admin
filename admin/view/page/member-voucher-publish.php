@@ -1,28 +1,7 @@
 <style>
-	.white__btn {
-		cursor: pointer;
-		display: flex;
-		font-size: 13px;
-		align-items: center;
-		justify-content: center;
-		width: 140px;
-		height: 22px;
-		border-radius: 2px;
-		padding: 10px;
-		border: solid 1px #707070;
-	}
-
-	.white__btn {
-		width: 120px;
-		height: 30px;
-		border: 1px solid #000000;
-		background-color: #ffffff;
-		color: #000000;
-		margin-right: 10px;
-	}
 </style>
 <div class="content__card">
-	<form id="frm-filter" action="voucher/publish/list/get">
+	<form id="frm-filter-publish" action="voucher/publish/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
 		<input type="hidden" class="rows" name="rows" value="10">
@@ -95,20 +74,30 @@
 						</div>
 						<span>전체</span>
 					</label>
+<?php
+						$get_member_level_sql = "
+							SELECT
+								IDX,
+								TITLE
+							FROM
+								dev.MEMBER_LEVEL
+							WHERE
+								DEL_FLG = FALSE
+						";
+						$db->query($get_member_level_sql);
+
+						foreach($db->fetch() as $level_info){
+?>
 					<label class="rd__square">
-						<input type="radio" name="member_level" value="1">
+						<input type="radio" name="member_level" value="<?=$level_info['IDX']?>">
 						<div>
 							<div></div>
 						</div>
-						<span>일반 멤버</span>
-					</label>
-					<label class="rd__square">
-						<input type="radio" name="member_level" value="2">
-						<div>
-							<div></div>
-						</div>
-						<span>Ader family</span>
-					</label>
+						<span><?=$level_info['TITLE']?></span>
+					</label>			    
+<?php
+						}
+?>
 				</div>
 			</div>
 			<div class="content__wrap">
@@ -131,7 +120,7 @@
 			<div class="footer__btn__wrap" style="grid: none;">
 				<div class="btn__wrap--lg">
 					<div class="blue__color__btn" onClick="getPublishVoucherInfo()"><span>검색</span></div>
-					<div class="defult__color__btn" onClick="init_fileter('frm-list', 'getPublishVoucherInfo')">
+					<div class="defult__color__btn" onClick="init_fileter('frm-filter', 'getPublishVoucherInfo')">
 						<span>초기화</span></div>
 				</div>
 			</div>
@@ -152,7 +141,7 @@
 				</div>
 
 				<div class="content__row">
-					<select style="width:163px;float:right;margin-right:10px;" onChange="changeOrderVoucher(this);">
+					<select style="width:163px;float:right;margin-right:10px;" tab_status="publish" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC">등록일 순</option>
 						<option value="VOUCHER_NAME|DESC">바우처명 역순</option>
@@ -167,9 +156,8 @@
 						<option value="TOT_ISSUE_NUM|ASC">발급 수량 순</option>
 					</select>
 					<select name="rows" style="width:163px;margin-right:10px;float:right;"
-						onChange="changeRowsVoucher(this);">
-						<option value="5" selected>5개씩보기</option>
-						<option value="10">10개씩보기</option>
+						tab_status="publish" onChange="rowsChange(this);">
+						<option value="10" selected>10개씩보기</option>
 						<option value="20">20개씩보기</option>
 						<option value="30">30개씩보기</option>
 						<option value="50">50개씩보기</option>
@@ -190,16 +178,18 @@
 				<div class="overflow-x-auto">
 					<table style="width:100%">
 						<colgroup>
-							<col width="5%">
-							<col width="10%">
-							<col width="10%">
-							<col width="auto">
-							<col width="20%">
-							<col width="10%">
-							<col width="auto">
-							<col width="5%">
-							<col width="15%">
-							<col width="15%">
+							<col width="50px;">
+							<col width="80px;">
+							<col width="100px;">
+							<col width="auto;">
+							<col width="100px;">
+							<col width="200px;">
+							<col width="200px;">
+							<col width="100px;">
+							<col width="100px;">
+							<col width="100px;">
+							<col width="100px;">
+							<col width="100px;">
 						</colgroup>
 						<thead>
 							<tr>
@@ -212,12 +202,14 @@
 									</div>
 								</TH>
 								<th>국가</th>
-								<th>타입</th>
-								<th>이름</th>
-								<th>발급 멤버 레벨</th>
-								<th>상태</th>
-								<th>발급 기간</th>
-								<th>수량</th>
+								<th>온라인/오프라인<br/>타입</th>
+								<th>바우처이름</th>
+								<th>바우처상태</th>
+								<th>바우처<br/>발급가능기간</th>
+								<th>바우처<br/>사용기간</th>
+								<th>발행수량</th>
+								<th>발급수량</th>
+								<th>발급가능수량</th>
 								<th>편집</th>
 								<th>조회</th>
 							</tr>
@@ -290,20 +282,30 @@
 						</div>
 						<span>전체</span>
 					</label>
+<?php
+						$get_member_level_sql = "
+							SELECT
+								IDX,
+								TITLE
+							FROM
+								dev.MEMBER_LEVEL
+							WHERE
+								DEL_FLG = FALSE
+						";
+						$db->query($get_member_level_sql);
+
+						foreach($db->fetch() as $level_info){
+?>
 					<label class="rd__square">
-						<input type="radio" name="issue_member_level" value="1">
+						<input type="radio" name="issue_member_level" value="<?=$level_info['IDX']?>">
 						<div>
 							<div></div>
 						</div>
-						<span>일반 멤버</span>
-					</label>
-					<label class="rd__square">
-						<input type="radio" name="issue_member_level" value="2">
-						<div>
-							<div></div>
-						</div>
-						<span>Ader family</span>
-					</label>
+						<span><?=$level_info['TITLE']?></span>
+					</label>			    
+<?php
+						}
+?>
 				</div>
 			</div>
 
@@ -466,7 +468,7 @@
 
 		$("#result_publish_voucher_table").append(strDiv);
 
-		var filter_obj = $("#frm-filter");
+		var filter_obj = $("#frm-filter-publish");
 		var list_obj = $('#frm-list');
 
 		var rows = filter_obj.find('.rows').val();
@@ -474,81 +476,104 @@
 		get_contents(filter_obj, {
 			pageObj: list_obj.find(".paging"),
 			html: function (d) {
-				if (d.length > 0) {
-					$("#result_publish_voucher_table").html('');
-				}
-				d.forEach(function (row) {
-					var on_off_type_str = '';
-					if (row.on_off_type != null) {
-						if (row.on_off_type == 'ON') {
-							on_off_type_str = '온라인';
-						}
-						else if (row.on_off_type == 'OFF') {
-							on_off_type_str = '오프라인';
-						}
+				if(d != null){
+					if (d.length > 0) {
+						$("#result_publish_voucher_table").html('');
 					}
-					var country_str = '';
-					if (row.country != null) {
-						if (row.country == 'KR') {
-							country_str = '한국몰';
+					d.forEach(function (row) {
+						let mst_link = "";
+						if (row.no != null) {
+							mst_link = ' style="text-decoration:underline;cursor:pointer;" onclick="javascript:void(window.open(\'http://116.124.128.246:81/voucher/mst?voucher_idx=' + row.no + '\', \'바우처 페이지\',\'width=#, height=#\'))" ';
 						}
-						else if (row.country == 'EN') {
-							country_str = '영문몰';
+						
+						let issue_link = "";
+						if (row.no != null && row.issue_cnt > 0) {
+							issue_link = ' style="text-decoration:underline;cursor:pointer;" onclick="javascript:void(window.open(\'http://116.124.128.246:81/voucher/issue?voucher_idx=' + row.no + '\', \'바우처 페이지\',\'width=#, height=#\'))" ';
 						}
-						else if (row.country == 'CN') {
-							country_str = '중국몰';
+						
+						var on_off_type_str = '';
+						if (row.on_off_type != null) {
+							if (row.on_off_type == 'ON') {
+								on_off_type_str = '온라인';
+							}
+							else if (row.on_off_type == 'OFF') {
+								on_off_type_str = '오프라인';
+							}
 						}
-					}
-					//'ALL'이면 '전체',
-					//아닐 경우, idx에 해당하는 MEMBER_LEVEL 타이틀을 열거한 문자열 지정
-					var member_level_str = '';
-					if (row.member_level != null) {
-						if (row.member_level == 'ALL') {
-							member_level_str = '전체';
+						var country_str = '';
+						if (row.country != null) {
+							if (row.country == 'KR') {
+								country_str = '한국몰';
+							}
+							else if (row.country == 'EN') {
+								country_str = '영문몰';
+							}
+							else if (row.country == 'CN') {
+								country_str = '중국몰';
+							}
 						}
-						else {
-							var member_level_arr = [];
-							row.member_level.split(',').forEach(function (idx) {
-								if (idx == '1') {
-									level_str = '일반회원';
+						/*
+						'ALL'이면 '전체',
+						아닐 경우, idx에 해당하는 MEMBER_LEVEL 타이틀을 열거한 문자열 지정
+						*/
+						var member_level_str = '';
+						if (row.member_level != null) {
+							if (row.member_level == 'ALL' || row.member_level.length == 0) {
+								member_level_str = '전체';
+							}
+							else {
+								var member_level_arr = [];
+								if(row.member_info != null && row.member_info != []){
+									row.member_info.forEach(function(level){
+										member_level_arr.push(level.level_title);
+									})
 								}
-								else if (idx == '2') {
-									level_str = 'Ader Family';
-								}
-								member_level_arr.push(level_str);
-							})
-							member_level_str = member_level_arr.join(', ');
+								
+								member_level_str = member_level_arr.join(', ');
+							}
 						}
-					}
-					var strDiv = "";
-					strDiv = `
-							<tr>
-								<td>
-									<div class="cb__color">
-										<label>
-											<input type="checkbox" class="select" name="sel_idx[]" value="${row.no}">
-											<span></span>
-										</label>
-									</div>
-								</td>
-								<td>${country_str}</td>
-								<td>${on_off_type_str}</td>
-								<td>${row.voucher_name}</td>
-								<td>${member_level_str}</td>
-								<td>${row.voucher_status}</td>
-								<td>발급 시작:${row.issue_start_date}<br>발급 종료:${row.issue_end_date}</td>
-								<td>${row.tot_issue_num}</td>
-								<td>
-									<div class="white__btn" modal_type="put" voucher_idx="${row.no}" onclick="openVoucherMoveModal(this)">편집</div>
-								</td>
-								<td>
-									<div class="white__btn" voucher_idx="${row.no}" country="${row.country}" onclick="viewVoucherInfo(this)">조회</div>
-								</td>
-							</tr>
-				`;
+						var strDiv = "";
+						strDiv = `
+								<tr>
+									<td>
+										<div class="cb__color">
+											<label>
+												<input type="checkbox" class="select" name="sel_idx[]" value="${row.no}">
+												<span></span>
+											</label>
+										</div>
+									</td>
+									<td>${country_str}</td>
+									<td>${on_off_type_str}</td>
+									<td ${mst_link}>${row.voucher_name}</td>
+									<td>${row.voucher_status}</td>
+									<td>발급 시작:${row.issue_start_date}<br>발급 종료:${row.issue_end_date}</td>
+						`;
+						
+						if (row.voucher_date_type == "FXD") {
+							strDiv += `<td>발급 시작:${row.voucher_start_date}<br>발급 종료:${row.voucher_end_date}</td>`;
+						} else if (row.voucher_date_type == "PRD") {
+							strDiv += `<td>등록 이후 <br>${row.voucher_date_param}일 동안 사용가능</td>`;
+						} else {
+							strDiv += `<td></td>`;
+						}
+						
+						strDiv += `
+									<td>${row.tot_issue_num}</td>
+									<td ${issue_link}>${row.issue_cnt}</td>
+									<td>${row.issue_left}</td>
+									<td>
+										<div class="btn" modal_type="put" voucher_idx="${row.no}" onclick="moveVoucherPage(this)">편집</div>
+									</td>
+									<td>
+										<div class="btn" voucher_idx="${row.no}" country="${row.country}" onclick="viewVoucherInfo(this)">조회</div>
+									</td>
+								</tr>
+					`;
 
-					$("#result_publish_voucher_table").append(strDiv);
-				});
+						$("#result_publish_voucher_table").append(strDiv);
+					});
+				}
 			},
 		}, rows, page);
 	}
@@ -619,20 +644,26 @@
 					//아닐 경우, idx에 해당하는 MEMBER_LEVEL 타이틀을 열거한 문자열 지정
 					var member_level_str = '';
 					if (row.member_level != null) {
-						if (row.member_level == 'ALL') {
+						if (row.member_level == 'ALL' || row.member_level.length == 0) {
 							member_level_str = '전체';
 						}
 						else {
 							var member_level_arr = [];
+							if(row.member_info != null && row.member_info != []){
+								row.member_info.forEach(function(level){
+									member_level_arr.push(level.level_title);
+								})
+							}
+							/*
 							row.member_level.split(',').forEach(function (idx) {
 								if (idx == '1') {
-									level_str = '일반회원';
+									member_level_str = '일반회원';
 								}
 								else if (idx == '2') {
-									level_str = 'Ader Family';
+									member_level_str = 'Ader Family';
 								}
-								member_level_arr.push(level_str);
-							})
+								member_level_arr.push(member_level_str);
+							})*/
 							member_level_str = member_level_arr.join(', ');
 						}
 					}
@@ -730,47 +761,55 @@
 			get_contents(filter_detail_obj, {
 				pageObj: list_detail_obj.find(".paging"),
 				html: function (d) {
-					if (d.length > 0) {
-						$("#result_voucher_issue_table").html('');
-					}
-					d.forEach(function (row) {
-						var used_str = '';
-						var used_date_str = '';
-						if (row.used_flg != null) {
-							if (row.used_flg == true) {
-								used_str = '사용';
-								used_date_str = row.update_date;
-							}
-							else if (row.used_flg == false) {
-								used_str = '미사용';
-								used_date_str = '-';
-							}
+					if(d != null){
+						if (d.length > 0) {
+							$("#result_voucher_issue_table").html('');
 						}
-						var strDiv = "";
-						strDiv = `
-							<tr>
-								<td>
-									<div class="cb__color">
-										<label>
-											<input type="checkbox" class="select" name="sel_idx[]" value="${row.no}">
-											<input type="hidden" class="used_flg" value="${row.used_flg}">
-											<span></span>
-										</label>
-									</div>
-								</td>
-								<td>${row.voucher_issue_code}</td>
-								<td>${row.member_id}</td>
-								<td>${row.member_name}</td>
-								<td>${row.member_level}</td>
-								<td>${row.voucher_add_date}</td>
-								<td>사용가능 시작일 : ${row.usable_start_date}<br>사용가능 종료일 : ${row.usable_end_date}</td>
-								<td>${used_date_str}</td>
-								<td>${used_str}</td>
-							</tr>
-					`;
+						d.forEach(function (row) {
+							let detail_link = "";
+							if (row.country != null && row.member_idx != null) {
+								detail_link = ' style="text-decoration:underline;cursor:pointer;" onclick="javascript:void(window.open(\'http://116.124.128.246:81/member/detail?country=' + row.country + '&member_idx=' + row.member_idx + '\', \'회원상세 페이지\',\'width=#, height=#\'))" ';
+							}
+							
+							var used_str = '';
+							var used_date_str = '';
+							if (row.used_flg != null) {
+								if (row.used_flg == true) {
+									used_str = '사용';
+									used_date_str = row.update_date;
+								}
+								else if (row.used_flg == false) {
+									used_str = '미사용';
+									used_date_str = '-';
+								}
+							}
+							var strDiv = "";
+							strDiv = `
+								<tr>
+									<td>
+										<div class="cb__color">
+											<label>
+												<input type="checkbox" class="select" name="sel_idx[]" value="${row.no}">
+												<input type="hidden" class="used_flg" value="${row.used_flg}">
+												<span></span>
+											</label>
+										</div>
+									</td>
+									<td>${row.voucher_issue_code}</td>
+									<td ${detail_link}>${row.member_id}</td>
+									<td ${detail_link}>${row.member_name}</td>
+									<td>${row.member_level}</td>
+									<td>${row.voucher_add_date}</td>
+									<td>사용가능 시작일 : ${row.usable_start_date}<br>사용가능 종료일 : ${row.usable_end_date}</td>
+									<td>${used_date_str}</td>
+									<td>${used_str}</td>
+								</tr>
+						`;
 
-						$("#result_voucher_issue_table").append(strDiv);
-					});
+							$("#result_voucher_issue_table").append(strDiv);
+						});
+					}
+					
 				},
 			}, rows, page);
 		})
@@ -927,10 +966,14 @@
 		getSelectVoucherInfo();
 	}
 
-	function openVoucherMoveModal(obj) {
+	function moveVoucherPage(obj) {
 		var modal_type = $(obj).attr('modal_type');
 		var voucher_idx = $(obj).attr('voucher_idx');
+		location.href = 'http://116.124.128.246:81/member/voucher/publish/put?voucher_idx=' + voucher_idx;
+		//modal(modal_type, `voucher_idx=${voucher_idx}`);
+	}
 
-		modal(modal_type, `voucher_idx=${voucher_idx}`);
+	function voucherProductDelete(obj){
+		$(obj).parent().remove();
 	}
 </script>

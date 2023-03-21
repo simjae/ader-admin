@@ -20,7 +20,7 @@ if (isset($_SESSION['COUNTRY'])) {
 
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
-  $member_idx = $_SESSION['MEMBER_IDX'];
+	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
 if ($country == null || $member_idx == 0) {
@@ -30,29 +30,29 @@ if ($country == null || $member_idx == 0) {
 }
 
 if ($country != null && $member_idx > 0) {
-  $select_payment_to_sql = "
-  SELECT
-    MC.CARD_NAME AS CARD_NAME,
-    MC.CARD_NUMBER AS CARD_NUMBER,
-    MC.CARD_VALID_YEAR AS CARD_VALID_YEAR,
-    MC.CARD_VALID_MONTH AS CARD_VALID_MONTH,
-    MC.CARD_DEFAULT_FLG AS CARD_DEFAULT_FLG
-  FROM
-    dev.MEMBER_".$country." MC
-  WHERE
-    IDX = ".$member_idx."
-  ";
+	$select_payment_to_sql = "
+		SELECT
+			MC.CARD_NAME AS CARD_NAME,
+			MC.CARD_NUMBER AS CARD_NUMBER,
+			MC.CARD_VALID_YEAR AS CARD_VALID_YEAR,
+			MC.CARD_VALID_MONTH AS CARD_VALID_MONTH,
+			MC.CARD_DEFAULT_FLG AS CARD_DEFAULT_FLG
+		FROM
+			MEMBER_".$country." MC
+		WHERE
+			IDX = ".$member_idx."
+	";
 
-  $db->query($select_payment_to_sql);
+	$db->query($select_payment_to_sql);
 
-  foreach($db->fetch() as $data) {
-    $json_result['data'][] = array(
-      'card_name'		     =>$data['CARD_NAME'],
+	foreach($db->fetch() as $data) {
+		$json_result['data'][] = array(
+			'card_name'				 =>$data['CARD_NAME'],
 			'card_number'			 =>$data['CARD_NUMBER'],
 			'card_valid_year'	 =>$data['CARD_VALID_YEAR'],
 			'card_valid_month' =>$data['CARD_VALID_MONTH'],
 			'card_default_flg' =>$data['CARD_DEFAULT_FLG']
-    );
-  }
+		);
+	}
 }
 ?>

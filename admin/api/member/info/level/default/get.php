@@ -14,31 +14,40 @@
  +=============================================================================
 */
 
-/** 변수 정리 **/
-$tables = " dev.MEMBER_LEVEL ML";
+$select_default_level_sql = "
+	SELECT
+		(
+			SELECT
+				DISTINCT DEFAULT(S_MB.LEVEL_IDX)
+			FROM
+				MEMBER_KR S_MB
+		)				AS DEFAULT_LEVEL_KR,
+		(
+			SELECT
+				DISTINCT DEFAULT(S_MB.LEVEL_IDX)
+			FROM
+				MEMBER_EN S_MB
+		)				AS DEFAULT_LEVEL_EN,
+		(
+			SELECT
+				DISTINCT DEFAULT(S_MB.LEVEL_IDX)
+			FROM
+				MEMBER_CN S_MB
+		)				AS DEFAULT_LEVEL_CN
+	FROM
+		MEMBER_LEVEL LV
+	GROUP BY
+		DEFAULT_LEVEL_KR
+";
 
-/** DB 처리 **/
+$db->query($select_default_level_sql);
 
-$json_result = array(
-	'total' => $db->count($tables,$where),
-	'page' => intval($page)
-);
-
-	//검색항목
-$sql = "SELECT
-			(SELECT DISTINCT DEFAULT(LEVEL_IDX) FROM dev.MEMBER_KR) AS DEFAULT_LEVEL,
-			IDX,
-			TITLE
-		FROM
-			".$tables;
-
-$db->query($sql);
-
-foreach($db->fetch() as $data) {
+foreach($db->fetch() as $level_data) {
 	$json_result['data'][] = array(
-		'default_level'=>$data['DEFAULT_LEVEL'],
-		'idx'=>$data['IDX'],
-		'title'=>$data['TITLE']
+		'default_level_kr'		=>$level_data['DEFAULT_LEVEL_KR'],
+		'default_level_en'		=>$level_data['DEFAULT_LEVEL_EN'],
+		'default_level_cn'		=>$level_data['DEFAULT_LEVEL_CN']
 	);
 }
+
 ?>

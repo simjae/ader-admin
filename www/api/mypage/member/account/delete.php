@@ -33,7 +33,7 @@ if ($member_idx == 0 || $country == null) {
 if ($country != null && $member_idx != 0) {
 	$delete_member_sql = "
 		UPDATE
-			dev.MEMBER_".$country."
+			MEMBER_".$country."
 		SET
 			MEMBER_STATUS = 'DRP',
 			DROP_TYPE = 'NDP',

@@ -30,7 +30,7 @@ if ($member_idx != null && $from_idx != null) {
 				OT.TO_ROAD_ADDR			AS TO_ROAD_ADDR,
 				OT.TO_ROAD_DETAIL_ADDR	AS TO_ROAD_DETAIL_ADDR
 			FROM
-				dev.ORDER_TO OT
+				ORDER_TO OT
 			WHERE
 				OT.IDX = ".$to_idx." AND 
 				OT.MEMBER_IDX = ".$member_idx;

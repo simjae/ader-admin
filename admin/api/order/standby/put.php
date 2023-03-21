@@ -16,6 +16,9 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id				= sessionCheck();
 $btn_action_flg			= $_POST['btn_action_flg'];
 $display_num_flg		= $_POST['display_num_flg'];
 $update_flg				= $_POST['update_flg'];
@@ -47,7 +50,7 @@ if($btn_action_flg == true && $country != null && $standby_idx != null){
 	}
 	$sql = "
 		UPDATE
-			dev.PAGE_STANDBY
+			PAGE_STANDBY
 		SET
 			DISPLAY_FLG = 	CASE WHEN
 								DISPLAY_FLG = FALSE 
@@ -71,7 +74,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 		case "up" :
 			$prev_sql ="
 				UPDATE
-					dev.PAGE_STANDBY
+					PAGE_STANDBY
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -82,7 +85,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 			
 			$sql = "
 					UPDATE
-						dev.PAGE_STANDBY
+						PAGE_STANDBY
 					SET
 						DISPLAY_NUM = ".intval($recent_num - 1)."
 					WHERE
@@ -95,7 +98,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 		case "down" :
 			$prev_sql ="
 				UPDATE
-					dev.PAGE_STANDBY
+					PAGE_STANDBY
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -106,7 +109,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 			
 			$sql = "
 				UPDATE
-					dev.PAGE_STANDBY
+					PAGE_STANDBY
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1)."
 				WHERE
@@ -128,7 +131,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 }
 
 if ($update_flg != null && $country != null && $standby_idx != null && $product_idx != null && $qty_info != null) {
-	$entry_cnt = $db->count("dev.ENTRY_STANDBY","STANDBY_IDX = ".$standby_idx);
+	$entry_cnt = $db->count("ENTRY_STANDBY","STANDBY_IDX = ".$standby_idx);
 	
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 401;
@@ -137,14 +140,14 @@ if ($update_flg != null && $country != null && $standby_idx != null && $product_
 		try {
 			$update_standby_sql = "
 				UPDATE
-					dev.PAGE_STANDBY PS,
+					PAGE_STANDBY PS,
 					(
 						 SELECT
 							IDX				AS PRODUCT_IDX,
 							PRODUCT_CODE	AS PRODUCT_CODE,
 							PRODUCT_NAME	AS PRODUCT_NAME
 						 FROM
-							dev.SHOP_PRODUCT
+							SHOP_PRODUCT
 						 WHERE
 							IDX = ".$product_idx."
 					) AS TMP
@@ -156,13 +159,13 @@ if ($update_flg != null && $country != null && $standby_idx != null && $product_
 					PS.SALES_PRICE = ".$sales_price.",
 					PS.DISPLAY_FLG = ".$display_flg.",
 
-					PS.ENTRY_START_DATE = STR_TO_DATE('".$entry_start_date."','%Y%m%d%H%i%s'),
-					PS.ENTRY_END_DATE = STR_TO_DATE('".$entry_end_date."','%Y%m%d%H%i%s'),
-					PS.PURCHASE_START_DATE = STR_TO_DATE('".$purchase_start_date."','%Y%m%d%H%i%s'),
-					PS.PURCHASE_END_DATE = STR_TO_DATE('".$purchase_end_date."','%Y%m%d%H%i%s'),
+					PS.ENTRY_START_DATE = STR_TO_DATE('".$entry_start_date."','%Y-%m-%d %H:%i'),
+					PS.ENTRY_END_DATE = STR_TO_DATE('".$entry_end_date."','%Y-%m-%d %H:%i'),
+					PS.PURCHASE_START_DATE = STR_TO_DATE('".$purchase_start_date."','%Y-%m-%d %H:%i'),
+					PS.PURCHASE_END_DATE = STR_TO_DATE('".$purchase_end_date."','%Y-%m-%d %H:%i'),
 
 					PS.UPDATE_DATE = NOW(),
-					PS.UPDATER = 'Admin'
+					PS.UPDATER = '".$session_id."'
 				WHERE
 					PS.IDX = ".$standby_idx."
 			";
@@ -172,7 +175,7 @@ if ($update_flg != null && $country != null && $standby_idx != null && $product_
 			$standby_db_result = $db->affectedRows();
 			
 			if ($standby_db_result > 0) {
-				$db->query("DELETE FROM dev.QTY_STANDBY WHERE STANDBY_IDX = ".$standby_idx);
+				$db->query("DELETE FROM QTY_STANDBY WHERE STANDBY_IDX = ".$standby_idx);
 				
 				$qty_db_result = 0;
 				for ($i=0; $i<count($qty_info); $i++) {
@@ -181,7 +184,7 @@ if ($update_flg != null && $country != null && $standby_idx != null && $product_
 					}
 					$insert_qty_sql = "
 						INSERT INTO
-							dev.QTY_STANDBY
+							QTY_STANDBY
 						(
 							COUNTRY,
 							STANDBY_IDX,

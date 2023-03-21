@@ -5,9 +5,11 @@
         display: grid;
         grid-template-columns: repeat(16, 1fr);
     }
-    .reorder__wrap .title p{
+
+    .reorder__wrap .title p {
         font-size: 13px;
     }
+
     .reorder__wrap .title {
         margin-bottom: 10px;
     }
@@ -64,16 +66,12 @@
     .text__btn__area {
         display: flex;
         align-items: center;
+        float: left;
     }
 
     .text__btn__area.mobile {
         display: block;
-        width: 56px;
         text-align: center;
-    }
-
-    .text__btn__area.mobile.cancel {
-        display: grid;
     }
 
     .reorder__apply__wrap .description {
@@ -88,6 +86,7 @@
         cursor: pointer;
         height: 23px;
         margin-left: 10px;
+        padding: 0 10px;
     }
 
     @media (max-width: 1024px) {
@@ -124,11 +123,9 @@
             margin-left: 0;
         }
 
-        .text__btn__area.mobile.cancel {
-            display: grid;
-            justify-items: center;
+        .reorder__wrap .title {
+            margin-top: 0;
         }
-        .reorder__wrap .title {margin-top: 0;}
     }
 
     @media (min-width: 600px) {
@@ -175,14 +172,21 @@
                 <p data-i18n="r_reorder_noti_history">재입고알림 신청내역</p>
             </div>
             <div class="description reorder__apply_pc">
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_01">해당제품이 재입고되면 메시지를 발송해드립니다.</p></span>
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_02">스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p></span>
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_03">재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와 관계없이 발송됩니다.</p></span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_01">해당제품이 재입고되면 메시지를 발송해드립니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_02">스팸메시지로 등록 시 SMS 발송이 제한될 수
+                        있습니다.</p></span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_03">재입고알림을 신청하시면 회원님의 SMS 수신
+                        동의여부와 관계없이 발송됩니다.</p></span>
             </div>
             <div class="description reorder__apply_mobile">
-                <p data-i18n="r_reorder_msg_01">·&nbsp;해당제품이 재입고되면 메시지를 발송해드립니다.</p>
-                <p data-i18n="r_reorder_msg_02">·&nbsp;스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
-                <p data-i18n="r_reorder_msg_03">·&nbsp;재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와<br> 관계없이 발송됩니다.</p>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="r_reorder_msg_01">해당제품이 재입고되면 메시지를 발송해드립니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="r_reorder_msg_02">스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
+                </span>
+                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="r_reorder_msg_03">재입고알림을 신청하시면 회원님의 SMS 수신 동의여부와<br>
+                        관계없이
+                        발송됩니다.</p></span>
             </div>
             <form id="frm-reorder-list">
                 <input type="hidden" name="rows" value="10">
@@ -193,10 +197,10 @@
                             <colsgroup>
                                 <col style="width:120px;">
                                 <col style="width:120px;">
-                                <col style="width:120px;">
-                                <col style="width:120px;">
-                                <col style="width:120px;">
                                 <col style="width:110px;">
+                                <col style="width:110px;">
+                                <col style="width:110px;">
+                                <col style="width:140px;">
                             </colsgroup>
                             <tbody id="apply_reorder_result_table" class="reorder__result__table">
                             </tbody>
@@ -230,10 +234,10 @@
                         <colsgroup>
                             <col style="width:120px;">
                             <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
                             <col style="width:110px;">
+                            <col style="width:110px;">
+                            <col style="width:110px;">
+                            <col style="width:140px;">
                         </colsgroup>
                         <tbody id="alarm_reorder_result_table" class="reorder__result__table">
                         </tbody>
@@ -264,10 +268,10 @@
                         <colsgroup>
                             <col style="width:120px;">
                             <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
-                            <col style="width:120px;">
                             <col style="width:110px;">
+                            <col style="width:110px;">
+                            <col style="width:110px;">
+                            <col style="width:140px;">
                         </colsgroup>
                         <tbody id="cancel_reorder_result_table" class="reorder__result__table">
                         </tbody>
@@ -351,7 +355,7 @@
                                 case 'apply':
                                     strBtn = `
                                         <p data-i18n="r_reorder_history">신청완료</p>
-                                        <div class="reorder_reapply_btn" style="width: 56px;" no="${row.reorder_idx}" action-type="cancel" onclick="reorderBtnAction(this)">신청취소</div>
+                                        <div class="reorder_reapply_btn" no="${row.reorder_idx}" action-type="cancel" onclick="reorderBtnAction(this)">신청취소</div>
                                     </div>
                                 `;
 
@@ -367,7 +371,7 @@
                                 case 'cancel':
                                     strBtn = `
                                         <p data-i18n="r_reorder_cancelled">취소완료</p>
-                                        <div class="reorder_reapply_btn" style="width: 48px;" no="${row.reorder_idx}" action-type="re_apply" onclick="reorderBtnAction(this)">재신청</div>
+                                        <div class="reorder_reapply_btn" no="${row.reorder_idx}" action-type="re_apply" onclick="reorderBtnAction(this)" data-i18n="r_notify_me">재신청</div>
                                     </div>
                                 `;
 
@@ -452,10 +456,9 @@
                         $('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
                     }
                 }
+                changeLanguageR();
             }
-            
         });
-        changeLanguageR();
     }
 
     function reorderBtnAction(obj) {

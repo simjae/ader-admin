@@ -16,36 +16,40 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id				= sessionCheck();
+
 $tmp_flg				= $_POST['tmp_flg'];
 
 $page_idx               = $_POST['page_idx'];
 $json_param				= $_POST['json_param'];
 
-//$db->begin_transaction();
+$db->begin_transaction();
 
-//try {
+try {
 	//tmp_flg 확인 후 상품 전시정보 저장 테이블 설정		tmp_flg : TRUE[진열 그리드/진열 그리드 칼럼 테이블] / FALSE[tmp_진열 그리드/tmp_진열 그리드 칼럼 테이블]
 	$tbl_grid = array();
 	if ($tmp_flg == "true") {
-		$tbl_grid[0] = "dev.TMP_PRODUCT_GRID";
-		$tbl_grid[1] = "dev.TMP_GRID_COLUMN";
+		$tbl_grid[0] = "TMP_PRODUCT_GRID";
+		$tbl_grid[1] = "TMP_GRID_COLUMN";
 	} else if ($tmp_flg == "false") {
-		$tbl_grid[0] = "dev.PRODUCT_GRID";
-		$tbl_grid[1] = "dev.GRID_COLUMN";
+		$tbl_grid[0] = "PRODUCT_GRID";
+		$tbl_grid[1] = "GRID_COLUMN";
 		
 		//임시저장이 아닌 경우 상품 전시정보 저장 전 기존 진열 진열 그리드/진열 그리드 칼럼 테이블 논리 삭제
-		$update_grid_sql = "UPDATE dev.PRODUCT_GRID SET DEL_FLG = TRUE WHERE PAGE_IDX = ".$page_idx;
+		$update_grid_sql = "UPDATE PRODUCT_GRID SET DEL_FLG = TRUE WHERE PAGE_IDX = ".$page_idx;
 		$db->query($update_grid_sql);
 
-		$update_grid_column_sql = "UPDATE dev.GRID_COLUMN SET DEL_FLG = TRUE WHERE PAGE_IDX = ".$page_idx;
+		$update_grid_column_sql = "UPDATE GRID_COLUMN SET DEL_FLG = TRUE WHERE PAGE_IDX = ".$page_idx;
 		$db->query($update_grid_column_sql);
 	}
 
 	//상품 전시정보 저장 전 진열 tmp_진열 그리드/tmp_진열 그리드 칼럼 테이블 물리 삭제
-	$delete_tmp_grid_sql = "DELETE FROM dev.TMP_PRODUCT_GRID WHERE PAGE_IDX = ".$page_idx;
+	$delete_tmp_grid_sql = "DELETE FROM TMP_PRODUCT_GRID WHERE PAGE_IDX = ".$page_idx;
 	$db->query($delete_tmp_grid_sql);
 	
-	$delete_tmp_grid_column_sql = "DELETE FROM dev.TMP_GRID_COLUMN WHERE PAGE_IDX = ".$page_idx;
+	$delete_tmp_grid_column_sql = "DELETE FROM TMP_GRID_COLUMN WHERE PAGE_IDX = ".$page_idx;
 	$db->query($delete_tmp_grid_column_sql);
 	
 	if($page_idx != null && $json_param != null){
@@ -93,8 +97,8 @@ $json_param				= $_POST['json_param'];
 					".$grid_row->product_idx.",
 					'".$grid_row->product_code."',
 					'".$link_url."',
-					'Admin',
-					'Admin'
+					'".$session_id."',
+					'".$session_id."'
 				)
 			";
 			
@@ -181,8 +185,8 @@ $json_param				= $_POST['json_param'];
 							".$column_row->column_align_13.",
 							".$column_row->column_align_14.",
 							
-							'Admin',
-							'Admin'
+							'".$session_id."',
+							'".$session_id."'
 						)
 					";
 					
@@ -191,9 +195,11 @@ $json_param				= $_POST['json_param'];
 			}
 		}
 	}
-//} catch(mysqli_sql_exception $exception){
-//	$db->rollback();
-//	$json_result['code'] = 301;
-//	$json_result['msg'] = "상품 진열정보 저장처리중 에러가 발생했습니다. 진열 하려는 상품의 진열정보를 확인해주세요.";
-//}
+	
+	$db->commit();
+} catch(mysqli_sql_exception $exception){
+	$db->rollback();
+	$json_result['code'] = 301;
+	$json_result['msg'] = "상품 진열정보 저장처리중 에러가 발생했습니다. 진열 하려는 상품의 진열정보를 확인해주세요.";
+}
 ?>

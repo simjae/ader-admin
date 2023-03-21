@@ -23,7 +23,7 @@ $country		= $_POST['country'];
 if ($banner_idx != null && $country != null) {
 	$delete_banner_sql = "
 		UPDATE
-			dev.MAIN_BANNER
+			TMP_MAIN_BANNER
 		SET
 			DEL_FLG = TRUE,
 			UPDATE_DATE = NOW(),
@@ -41,16 +41,8 @@ if ($banner_idx != null && $country != null) {
 			SELECT
 				MB.IDX		AS BANNER_IDX
 			FROM
-				dev.MAIN_BANNER MB
+				TMP_MAIN_BANNER MB
 			WHERE
-				MB.DISPLAY_NUM > (
-					SELECT
-						S_MB.DISPLAY_NUM
-					FROM
-						dev.MAIN_BANNER S_MB
-					WHERE
-						S_MB.IDX = ".$banner_idx."
-				) AND
 				MB.COUNTRY = '".$country."' AND
 				MB.DEL_FLG = FALSE
 			ORDER BY
@@ -59,20 +51,23 @@ if ($banner_idx != null && $country != null) {
 		
 		$db->query($select_banner_sql);
 		
-		$db->foreach($db->fetch() as $banner_data) {
+		$display_num = 1;
+		foreach($db->fetch() as $banner_data) {
 			$tmp_idx = $banner_data['BANNER_IDX'];
 			
 			if (!empty($tmp_idx)) {
 				$update_banner_sql = "
 					UPDATE
-						dev.MAIN_BANNER
+						TMP_MAIN_BANNER
 					SET
-						DISPLAY_NUM = DISPLAY_NUM - 1
+						DISPLAY_NUM = ".$display_num."
 					WHERE
 						IDX = ".$tmp_idx."
 				";
 				
 				$db->query($update_banner_sql);
+				
+				$display_num++;
 			}
 		}
 	}

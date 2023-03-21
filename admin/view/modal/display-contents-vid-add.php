@@ -2,7 +2,7 @@
 #seo{margin-top : 50px;}
 .sub{margin-top : 10px;}
 </style>
-<div class="content__card" style="margin: 0;">
+<div class="content__card modal__view" style="margin: 0;">
 	<form id="frm-add" action="display/contents/add">
 		<input type="hidden" name="contents_type" value="VID">
 	

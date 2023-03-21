@@ -1,4 +1,3 @@
-
 <style>
 .tap__button{width: 160px;}
 .content__card .content__wrap{padding: 5px;}
@@ -6,40 +5,43 @@
 .receive_false_btn {font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#000000;color:#ffffff;border-radius:5px;}
 .more_info_btn {font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;}
 </style>
-	<div class="filter-wrap" style="margin-bottom:20px">
-		<button class="member_tab_btn tap__button" tab_status="INF" style="background-color: #000;color: #fff;font-weight: 500;" onClick="memberTabBtnClick(this);">회원조회</button>
-		<button class="member_tab_btn tap__button" tab_status="SLP" onClick="memberTabBtnClick(this);">휴면회원</button>
-		<button class="member_tab_btn tap__button" tab_status="DRP" onClick="memberTabBtnClick(this);">탈퇴회원</button>
-		<button class="member_tab_btn tap__button" tab_status="ORD" onClick="memberTabBtnClick(this);">주문회원</button>
-		<button class="member_tab_btn tap__button" tab_status="PRC" onClick="memberTabBtnClick(this);">구매액순 조회</button>
-		<button class="member_tab_btn tap__button" tab_status="MLV" onClick="memberTabBtnClick(this);">회원등급 관리</button>
-	</div>
-	
-	<input id="tab_status" type="hidden" value="INF">
-	
-	<div id="member_tab_INF" class="row member_tab">
-		<?php include_once("member-info-member_list.php"); ?>
-	</div>
-	
-	<div id="member_tab_SLP" class="row member_tab" style="display:none;">
-		<?php include_once("member-info-member_sleep.php"); ?>
-	</div>
-	
-	<div id="member_tab_DRP" class="row member_tab" style="display:none;">
-		<?php include_once("member-info-member_drop.php"); ?> 
-	</div>
-	
-	<div id="member_tab_ORD" class="row member_tab" style="display:none;">
-		<?php include_once("member-info-member_order.php"); ?>
-	</div>
-	
-	<div id="member_tab_PRC" class="row member_tab" style="display:none;">
-		<?php include_once("member-info-member_price.php"); ?>
-	</div>
-	
-	<div id="member_tab_MLV" class="row member_tab" style="display:none;">
-		<?php include_once("member-info-member_level.php"); ?>
-	</div>
+
+<?php include_once("check.php"); ?>
+
+<div class="filter-wrap" style="margin-bottom:20px">
+	<button class="member_tab_btn tap__button" tab_status="INF" style="background-color: #000;color: #fff;font-weight: 500;" onClick="memberTabBtnClick(this);">회원조회</button>
+	<button class="member_tab_btn tap__button" tab_status="SLP" onClick="memberTabBtnClick(this);">휴면회원</button>
+	<button class="member_tab_btn tap__button" tab_status="DRP" onClick="memberTabBtnClick(this);">탈퇴회원</button>
+	<button class="member_tab_btn tap__button" tab_status="ORD" onClick="memberTabBtnClick(this);">주문회원</button>
+	<button class="member_tab_btn tap__button" tab_status="PRC" style="padding:10px 30px;" onClick="memberTabBtnClick(this);">구매액순 조회</button>
+	<button class="member_tab_btn tap__button" tab_status="MLV" style="padding:10px 30px;" onClick="memberTabBtnClick(this);">회원등급 관리</button>
+</div>
+
+<input id="tab_status" type="hidden" value="INF">
+
+<div id="member_tab_INF" class="row member_tab">
+	<?php include_once("member-info-list.php"); ?>
+</div>
+
+<div id="member_tab_SLP" class="row member_tab" style="display:none;">
+	<?php include_once("member-info-sleep.php"); ?>
+</div>
+
+<div id="member_tab_DRP" class="row member_tab" style="display:none;">
+	<?php include_once("member-info-drop.php"); ?> 
+</div>
+
+<div id="member_tab_ORD" class="row member_tab" style="display:none;">
+	<?php include_once("member-info-order.php"); ?>
+</div>
+
+<div id="member_tab_PRC" class="row member_tab" style="display:none;">
+	<?php include_once("member-info-price.php"); ?>
+</div>
+
+<div id="member_tab_MLV" class="row member_tab" style="display:none;">
+	<?php include_once("member-info-level.php"); ?>
+</div>
 
 <script>
 function memberTabBtnClick(obj) {
@@ -153,7 +155,7 @@ function selectAllClick(obj) {
 }
 
 function getCheckedMemberIdx(tab_status) {
-	let result_table = $('#result_table_INF');
+	let result_table = $('#result_table_' + tab_status);
 	let checkbox = result_table.find('.select')
 	let cnt = checkbox.length;
 	
@@ -174,7 +176,14 @@ function setSuspicionMember(suspicion_flg) {
 	let country = frm.find('.country').val();
 	
 	let member_idx = getCheckedMemberIdx(tab_status);
-	
+
+	let result_msg = '';
+	if(suspicion_flg == 'TRUE'){
+		result_msg = '선택한 멤버가 의심회원으로 설정되었습니다.';
+	}
+	else if (suspicion_flg == 'FALSE'){
+		result_msg = '선택한 멤버가 의심회원에서 해제되었습니다.';
+	}
 	if (member_idx.length > 0) {
 		$.ajax({
 			type: "post",
@@ -191,6 +200,7 @@ function setSuspicionMember(suspicion_flg) {
 			success: function(d) {
 				if (d.code == 200) {
 					getMemberInfoList(tab_status);
+					alert(result_msg);
 				} else {
 					alert(d.msg);
 				}
@@ -226,6 +236,7 @@ function setDropMember() {
 			success: function(d) {
 				if (d.code == 200) {
 					getMemberInfoList(tab_status);
+					alert('선택한 멤버가 탈퇴처리되었습니다.');
 				} else {
 					alert(d.msg);
 				}
@@ -373,6 +384,10 @@ function getMemberInfoList(tab_status) {
 				
 				case "PRC" :
 					setMemberInfoList_PRC(d);
+					break;
+				
+				case "MLV" :
+					setMemberInfoList_MLV(d);
 					break;
 			}
 		},

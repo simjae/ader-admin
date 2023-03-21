@@ -31,7 +31,7 @@ if ($relevant_idx != null && $country != null) {
 					SELECT
 						REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -48,8 +48,8 @@ if ($relevant_idx != null && $country != null) {
 				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
 				OM.COLOR					AS COLOR
 			FROM
-				dev.SHOP_PRODUCT PR
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				SHOP_PRODUCT PR
+				LEFT JOIN ORDERSHEET_MST OM ON
 				PR.ORDERSHEET_IDX = OM.IDX
 			WHERE
 				PR.IDX IN (".$relevant_idx.")";
@@ -63,7 +63,7 @@ if ($relevant_idx != null && $country != null) {
 			$whish_flg = false;
 			
 			if ($member_idx > 0) {
-				$whish_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
+				$whish_cnt = $db->count("WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
 				
 				if ($whish_cnt > 0) {
 					$whish_flg = true;

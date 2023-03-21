@@ -16,59 +16,56 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$country			= $_POST['country'];
-$collection_idx		= $_POST['collection_idx'];
+$project_idx		= $_POST['project_idx'];
 $c_product_idx		= $_POST['c_product_idx'];
 $relevant_idx		= $_POST['relevant_idx'];
 
-if ($country != null && $collection_idx != null && $c_product_idx != null && $relevant_idx != null) {
+if ($project_idx != null && $c_product_idx != null && $relevant_idx != null) {
 	$db->begin_transaction();
 	
 	try {
-		$delete_relevant_sql = "
+		$delete_relevant_product_sql = "
 			DELETE FROM
-				dev.COLLECTION_RELEVANT_PRODUCT
+				COLLECTION_RELEVANT_PRODUCT
 			WHERE
-				IDX = ".$relevant_idx." AND
-				COUNTRY = '".$country."' AND
-				COLLECTION_IDX = ".$collection_idx." AND
-				C_PRODUCT_IDX = ".$c_product_idx."
+				IDX = ".$relevant_idx."
 		";
-		$db->query($delete_relevant_sql);
+		
+		$db->query($delete_relevant_product_sql);
 		
 		$db_result = $db->affectedRows();
 		
 		if ($db_result > 0) {
-			$select_relevant_sql = "
+			$select_relevant_product_sql = "
 				SELECT
-					CP.IDX		AS C_PRODUCT_IDX
+					RP.IDX		AS RELEVANT_IDX
 				FROM
-					dev.COLLECTION_RELEVANT_PRODUCT CP
+					COLLECTION_RELEVANT_PRODUCT RP
 				WHERE
-					CP.COUNTRY = '".$country."' AND
-					CP.COLLECTION_IDX = ".$collection_idx." AND
-					CP.C_PRODUCT_IDX = ".$c_product_idx."
+					RP.PROJECT_IDX = ".$project_idx." AND
+					RP.C_PRODUCT_IDX = ".$c_product_idx."
 				ORDER BY
-					CP.DISPLAY_NUM ASC
+					RP.DISPLAY_NUM ASC
 			";
 			
-			$db->query($select_relevant_sql);
+			$db->query($select_relevant_product_sql);
 			
 			$display_num = 1;
+			
 			foreach($db->fetch() as $product_data) {
-				$tmp_idx = $product_data['C_PRODUCT_IDX'];
+				$tmp_idx = $product_data['RELEVANT_IDX'];
 				
 				if (!empty($tmp_idx)) {
-					$update_relevant_sql = "
+					$update_relevant_product_sql = "
 						UPDATE
-							dev.COLLECTION_RELEVANT_PRODUCT
+							COLLECTION_RELEVANT_PRODUCT
 						SET
 							DISPLAY_NUM = ".$display_num."
 						WHERE
 							IDX = ".$tmp_idx."
 					";
 					
-					$db->query($update_relevant_sql);
+					$db->query($update_relevant_product_sql);
 					
 					$display_num++;
 				}
@@ -81,6 +78,7 @@ if ($country != null && $collection_idx != null && $c_product_idx != null && $re
 		$json_result['msg'] = "선택한 상품이 삭제되었씁니다.";
 	} catch(mysqli_sql_exception $exception){
 		$db->rollback();
+		print_r($exception);
 		
 		$json_result['code'] = 301;
 		$json_result['msg'] = "메인 배너 등록에 실패했습니다.";

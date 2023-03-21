@@ -1,38 +1,12 @@
 <style>
-	.flex__wrap{
-		display: flex;
-		justify-content: space-between;
-	}
-	.wrap__bg--wh {
-		background-color: #fff;
-		padding: 10px;
-		margin: 10px 0;
-	}
-	.defult__btn{
-		color: black;
-		background-color: #fff;
-		border-radius: 5px;
-		text-align: center;
-		padding:  5px;
-		border: 1px solid #484848;
-	}
-	.search__btn{
-		color: black;
-		background-color: #11aba6;
-		border-radius: 5px;
-		text-align: center;
-		padding:  5px;
-		border: 1px solid #11aba6;
-	}
-	.delete__btn{
-		background: red;
-		margin: 10px 0;
-		width: 80px;
-		color: #fff;
-		border-radius: 5px;
-		padding: 5px;
-	}
+.flex__wrap{display: flex;justify-content: space-between;}
+.wrap__bg--wh {background-color: #fff;padding: 10px;margin: 10px 0;}
+.defult__btn{color: black;background-color: #fff;border-radius: 5px;text-align: center;padding:  5px;border: 1px solid #484848;}
+.search__btn{color: black;background-color: #11aba6;border-radius: 5px;text-align: center;padding:  5px;border: 1px solid #11aba6;}
+.delete__btn{background: red;margin: 10px 0;width: 80px;color: #fff;border-radius: 5px;padding: 5px;}
 </style>
+
+<?php include_once("check.php"); ?>
 
 <div class="content__card">
 	<div class="card__header">
@@ -89,7 +63,7 @@
 					<div class="content__date__wrap">
 						<div class="content__date__btn">							
 							<input id="search_date_bluemark" type="hidden" name="search_date" value="" style="width:150px;">
-
+							<div class="search_date_bluemark date__picker" date_type="bluemark" date="all" type="button" onclick="searchDateClick(this);">전체</div>
 							<div class="search_date_bluemark date__picker" date_type="bluemark" date="today" type="button" onclick="searchDateClick(this);">오늘</div>
 							<div class="search_date_bluemark date__picker" date_type="bluemark" date="01d" type="button" onclick="searchDateClick(this);">어제</div>
 							<div class="search_date_bluemark date__picker" date_type="bluemark" date="03d" type="button" onclick="searchDateClick(this);">3일</div>
@@ -97,6 +71,7 @@
 							<div class="search_date_bluemark date__picker" date_type="bluemark" date="15d" type="button" onclick="searchDateClick(this);">15일</div>
 							<div class="search_date_bluemark date__picker" date_type="bluemark" date="01m" type="button" onclick="searchDateClick(this);">1개월</div>
 							<div class="search_date_bluemark date__picker" date_type="bluemark" date="03m" type="button" onclick="searchDateClick(this);">3개월</div>
+							<div class="search_date_bluemark date__picker" date_type="bluemark" date="01y" type="button" onclick="searchDateClick(this);">1년</div>
 						</div>
 						
 						<div class="content__date__picker">
@@ -132,8 +107,6 @@
 				<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 					<option value="CREATE_DATE|DESC">등록일 역순</option>
 					<option value="CREATE_DATE|ASC">등록일 순</option>
-					<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-					<option value="UPDATE_DATE|ASC">삭제일 순</option>
 					<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 					<option value="PRODUCT_NAME|ASC">상품명 순</option>
 					<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
@@ -163,28 +136,10 @@
 				<div class="hidden">
 					<input type="file" id="bluemark_upload">
 				</div>
-				<div class="table__filter">
-					<div class="filrer__wrap">
-						<div class="filter__btn" onClick="bluemarkUpload();">블루마크 등록</div>
-						<div class="filter__btn" action_type="delete" onClick="bluemarkActionClick(this);">삭제</div>
-						<div class="filter__btn" onClick="excelDownload();">엑셀 다운로드</div>
-					</div>                          
-					<div>
-						<div class="table__setting__btn">설정</div>
-					</div>      
-				</div>
 				<div class="overflow-x-auto">
 					<table id="excel_table" style="width:150%;">
 						<thead>
 							<tr>
-								<th style="width:1%;">
-									<div class="cb__color">
-										<label>
-											<input type="checkbox" name="selectAll" onclick="selectAllClick(this)">
-											<span></span>
-										</label>
-									</div>
-								</th>
 								<th style="width:40px;">번호</th>
 								<th style="width:100px;">상품코드</th>
 								<th style="width:150px;">상품이름</th>
@@ -199,7 +154,6 @@
 								<th style="width:100px;">연락처</th>
 								<th style="width:150px;">이메일</th>
 								<th style="width:150px;">인증일</th>
-								<th style="width:150px;">작업</th>
 							</tr>
 						</thead>
 						
@@ -226,12 +180,14 @@
 $(document).ready(function() {
 	getBluemarkInfo();
 	$('#bluemark_upload').on('change', function(e){
-		var files = e.target.files;
+		confirm('선택하신 시트로 블루마크를 추가하시겠습니까?', function(){
+			var files = e.target.files;
 		
-		if(files != null){
-			uploadSheet(files);
-		};
-		e.target.value = '';
+			if(files != null){
+				uploadSheet(files);
+			};
+			e.target.value = '';
+		});
 	})
 });
 
@@ -259,20 +215,12 @@ function getBluemarkInfo(){
 			d.forEach(function(row) {
 				var strDiv = "";
 				strDiv += '<TR>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="cb__color">';
-				strDiv += '            <label for="">';
-				strDiv += '                <input type="checkbox" class="select" name="select_idx" value="' + row.idx + '">';
-				strDiv += '                <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
 				strDiv += '    <TD>' + row.num + '</TD>';
 				strDiv += '    <TD>' + row.product_code + '</TD>';
 				strDiv += '    <TD>' + row.product_name + '</TD>';
 				strDiv += '    <TD>' + row.barcode + '</TD>';
 				strDiv += '    <TD>' + row.option_name + '</TD>';
-				strDiv += '	   <TD><font style="cursor:pointer;" onClick="openBluemarkLogModal(' + row.idx + ');">' + row.serial_code + '</font></TD>';
+				strDiv += '	   <TD><font style="cursor:pointer;" >' + row.serial_code + '</font></TD>';
 				strDiv += '    <TD>' + row.season + '</TD>';
 				strDiv += '    <TD>' + row.create_date + '</TD>';
 				strDiv += '    <TD>';
@@ -293,9 +241,6 @@ function getBluemarkInfo(){
 				strDiv += '    <TD>' + row.tel_mobile + '</TD>';
 				strDiv += '    <TD>' + row.email + '</TD>';
 				strDiv += '    <TD>' + row.reg_date + '</TD>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="defult__btn" onclick="bluemarkDelAction(this)" style="width: 70px;background: red; color: #fff;cursor:pointer"><i  class="xi-trash"></i>삭제</div>';
-				strDiv += '    </TD>';
 				strDiv += '</TR>';
 				
 				$("#result_table").append(strDiv);
@@ -369,131 +314,5 @@ function selectAllClick(obj) {
 }
 function bluemarkUpload(){
 	$("#bluemark_upload").click();
-}
-function uploadSheet(obj){
-    var files = obj;
-    var reader = new FileReader();
-	reader.readAsBinaryString(files[0]);
-    reader.onload = function () {
-        let data = reader.result;
-        let workBook = XLSX.read(data, { type: 'binary'});
-        workBook.SheetNames.forEach(function (sheetName) {
-            if(sheetName == '블루마크업로드'){
-                stock_sheet = XLSX.utils.sheet_to_json(workBook.Sheets[sheetName], {range : 1, header:1});
-				json_str = JSON.stringify(stock_sheet);
-				putBluemarkExcel(json_str, files.name);
-            }
-        })
-    };
-}
-function putBluemarkExcel(str, name){
-	if(str != null && str.length > 0){
-		$.ajax({
-			type: "post",
-			data: {
-				'bluemark_sheet':str
-			},
-			dataType: "json",
-			url: config.api + "product/bluemark/add",
-			error: function() {
-				alert('블루마크 등록처리에 실패했습니다.');
-			},
-			success: function(d) {
-				if(d.code == 200){
-					alert(d.success_cnt + "건의 블루마크가 추가되었습니다.");
-					insertLog("상품관리 > 블루마크 ", " 파일명 : " + name + "xlsx, 등록된 건수 ", d.success_cnt);
-				} else{
-					alert('다음행의 블루마크 데이터를 확인해주세요.<br>' + d.bluemark_fail);
-					alert(d.msg);
-				}
-				getBluemarkInfo();
-			}
-		});
-	}
-}
-function openBluemarkLogModal(idx){
-	if(idx != null){
-		modal('log', 'idx=' + idx);
-	}
-}
-function bluemarkActionClick(obj) {
-	confirm("작업을 계속 진행하시겠습니까?",function() {
-		var action_type = $(obj).attr('action_type');
-		var action_name = "";
-		var select_idx	= "";
-		$("#frm-list").find('input[name="action_type"]').val(action_type);
-
-		var formData = new FormData();
-		formData = $("#frm-list").serializeObject();
-
-		switch(action_type){
-			case 'delete':
-				action_name = "삭제";
-				break;
-		}
-		if (formData.select_idx.length == 0) {
-			alert(action_name + ' 처리 할 블루마크를 선택해주세요.');
-		} else {
-			$.ajax({
-				type: "post",
-				data: formData,
-				dataType: "json",
-				url: config.api + "product/bluemark/put",
-				error: function() {
-					alert(action_name + " 처리에 실패했습니다.");
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						alert(action_name + ' 처리에 성공했습니다.');
-						insertLog("상품관리 > 블루마크 ", " 블루마크 일괄삭제 ", formData.select_idx.length);
-						$("#frm-list").find('input[name="selectAll"]').prop('checked', false);
-						getBluemarkInfo();
-					}
-				}
-			});
-		}
-	});
-}
-function bluemarkDelAction(obj) {
-	confirm("작업을 계속 진행하시겠습니까?",function() {
-		var sel_idx = $(obj).parents('tr').find('.select').val();
-		
-		if (select_idx.length > 0) {
-			$.ajax({
-				type: "post",
-				data: { 'select_idx'  : sel_idx,
-						'action_type' : 'delete'},
-				dataType: "json",
-				url: config.api + "product/bluemark/put",
-				error: function() {
-					alert("삭제 처리에 실패했습니다.");
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						insertLog("상품관리 > 블루마크 ", " 블루마크 단일삭제 ", 1);
-						alert('삭제  처리에 성공했습니다.');
-						getBluemarkInfo();
-					}
-				}
-			});
-		} 
-	})
-}
-function excelDownload() {
-	if ($("#frm-list").find('.default_td').length > 0) {
-		alert('다운로드 할 블루마크를 검색해주세요.');
-	} else {
-		var sheet_name = "";
-		var file_name = "";
-		var today = new Date();
-		var file_date = today.getFullYear() + (('0' + (today.getMonth() + 1)).slice(-2)) + (('0' + today.getDate()).slice(-2));
-		
-		sheet_name = "블루마크";
-		file_name = "블루마크_" + file_date;
-		
-		insertLog("상품관리 > 블루마크 ", "엑셀다운로드 : "+file_name+"xlsx", 1);
-		var wb = XLSX.utils.table_to_book(document.getElementById('excel_table'), {sheet:sheet_name,raw:true});
-		XLSX.writeFile(wb, (file_name + '.xlsx'));
-	}
 }
 </script>

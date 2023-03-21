@@ -18,13 +18,14 @@
 $page_idx	= $_POST['page_idx'];
 
 if($page_idx != null){
-	$sql = "UPDATE
-				dev.PAGE_RECOMMEND
-			SET
-				DEL_FLG = TRUE
-			WHERE
-				IDX IN (".implode(",",$page_idx).")";
+	$delete_page_recommend_sql = "
+		UPDATE
+			PAGE_RECOMMEND
+		SET
+			DEL_FLG = TRUE
+		WHERE
+			IDX IN (".implode(",",$page_idx).")";
 	
-	$db->query($sql);
+	$db->query($delete_page_recommend_sql);
 }
 ?>

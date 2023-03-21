@@ -2,10 +2,10 @@
 /*
  +=============================================================================
  | 
- | 상품 목록 페이지 조회 API
+ | 상품 진열 페이지 - 페이지 리스트 조회
  | -------
  |
- | 최초 작성	: 박성혁
+ | 최초 작성	: 손성환
  | 최초 작성일	: 2022.07.25
  | 최종 수정일	: 
  | 버전		: 1.0
@@ -15,125 +15,110 @@
 */
 
 /** 변수 정리 **/
-$page_idx			= $_POST['page_idx'];			//IDX
+$search_type		= $_POST['search_type'];
+$search_keyword     = $_POST['search_keyword'];
 
-$search_type		= $_POST['search_type'];	//검색 타입
-$search_keyword     = $_POST['search_keyword'];	//검색 키워드
-
-$display_status      = $_POST['display_status'];	//진열 상태
+$display_status      = $_POST['display_status'];
 
 $search_date        = $_POST['search_date'];
-$create_from        = $_POST['create_from'];     //등록일 검색 시작일자
-$create_to			= $_POST['create_to'];      //등록일 검색 종료일자
+$create_from        = $_POST['create_from'];
+$create_to			= $_POST['create_to'];
 
-$product_min    	= $_POST['product_min'];	//검색 상품갯수 최대값
-$product_max    	= $_POST['product_max'];	//검색 상품갯수 최소값
-
-$title				= $_POST['title'];
-$url				= $_POST['url'];			//PAGE URL : 중복체크
+$page_title			= $_POST['page_title'];
+$page_memo			= $_POST['page_meom'];
 
 $rows = $_POST['rows'];
 $page = $_POST['page'];
 
-$ip_list = array();
-$mem_level_list = array();
-$grade_str = '';
-
 $sort_value = $_POST['sort_value'];
 $sort_type 	= $_POST['sort_type'];
 
-/** 검색 조건 **/
 $where = "1=1";
 $where .= " AND (PP.DEL_FLG = FALSE)";
 $cnt_where .= $where;
 
-/* 검색조건 : IDX (단일 페이지 업데이트 창에서 사용) */
-if(isset($page_idx)){
-	$where .= ' AND IDX = '.$page_idx.' ';
-} else {
-	/* 검색조건 : 검색타입 - 검색키워드 */
-	if ($search_type != null && $search_keyword != null) {
-		switch ($search_type) {
-			case "subject" :
-				$where .=  " AND PP.PAGE_TITLE LIKE '%".$search_keyword."%' ";
-				break;
-			
-			case "content" :
-				$where .=  " AND PP.PAGE_MEMO LIKE '%".$search_keyword."%' ";
-				break;
-		}
+/* 검색조건 : 검색타입 - 검색키워드 */
+if ($search_type != null && $search_keyword != null) {
+	switch ($search_type) {
+		case "page_title" :
+			$where .=  " AND PP.PAGE_TITLE LIKE '%".$search_keyword."%' ";
+			break;
+		
+		case "page_memo" :
+			$where .=  " AND PP.PAGE_MEMO LIKE '%".$search_keyword."%' ";
+			break;
 	}
-	
-	/* 검색조건 진열예약, 진열상태 */ 
-	if($display_status != null && $display_status != "all"){
-		switch ($display_status) {
-			case "true" :
-				$where .= " AND (PP.DISPLAY_FLG = TRUE AND NOW() >= DISPLAY_START_DATE AND NOW() <= DISPLAY_END_DATE) ";
-				break;
-			
-			case "false" :
-				$where .= " AND (PP.DISPLAY_FLG = FALSE) ";
-				break;
-			
-			case "wait" :
-				$where .= " AND (PP.DISPLAY_FLG = TRUE AND NOW() < DISPLAY_START_DATE) ";
-				break;
-			
-			case "end" :
-				$where .= " AND (PP.DISPLAY_FLG = TRUE AND NOW() >= DISPLAY_START_DATE AND NOW() >= DISPLAY_END_DATE) ";
-				break;
-		}
-	}
+}
 
-	if($display_reserve != null){
-		$where .=  " AND DISPLAY_RESERVE_FLG = ".intval($displayReserve)." ";
+/* 검색조건 진열예약, 진열상태 */ 
+if ($display_status != null && $display_status != "ALL") {
+	switch ($display_status) {
+		case "DPC" :
+			$where .= " AND (PP.DISPLAY_FLG = TRUE AND PP.DISPLAY_START_DATE <= NOW() AND PP.DISPLAY_END_DATE >= NOW())";
+			break;
+		
+		case "DWT" :
+			$where .= " AND (PP.DISPLAY_FLG = TRUE AND PP.DISPLAY_START_DATE >= NOW())";
+			break;
+		
+		case "DED" :
+			$where .= " AND (PP.DISPLAY_FLG = TRUE AND PP.DISPLAY_END_DATE < NOW())";
+			break;
+		
+		case "DNO" :
+			$where .= " AND (PP.DISPLAY_FLG = FALSE)";
+			break;
 	}
+}
+
+/* 검색조건 : 등록일 */
+if ($search_date != null && $search_date != 'all') {
+	$tmp_date = "DATE_FORMAT(PP.CREATE_DATE,'%Y-%m-%d')";
 	
-	/* 검색조건 : 등록일 */
-	if ($search_date != null) {
-		switch ($search_date) {
-			case "today" :
-				$where .= ' AND (PP.CREATE_DATE >= CURDATE()) ';
-				break;
-			
-			case "01d" :
-				$where .= ' AND (PP.CREATE_DATE >= (CURDATE() - INTERVAL 1 DAY)) ';
-				break;
-			
-			case "03d" :
-				$where .= ' AND (PP.CREATE_DATE >= (CURDATE() - INTERVAL 3 DAY)) ';
-				break;
-			
-			case "07d" :
-				$where .= ' AND (PP.CREATE_DATE >= (CURDATE() - INTERVAL 7 DAY)) ';
-				break;
-			
-			case "15d" :
-				$where .= ' AND (PP.CREATE_DATE >= (CURDATE() - INTERVAL 15 DAY)) ';
-				break;
-			
-			case "01m" :
-				$where .= ' AND (PP.CREATE_DATE >= (CURDATE() - INTERVAL 1 MONTH)) ';
-				break;
-			
-			case "03m" :
-				$where .= ' AND (PP.CREATE_DATE >= (CURDATE() - INTERVAL 3 MONTH)) ';
-				break;
-		}
+	switch ($search_date) {
+		case "today" :
+			$where .= ' AND ('.$tmp_date.' = CURDATE()) ';
+			break;
+		
+		case "01d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 1 DAY)) ';
+			break;
+		
+		case "03d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 3 DAY)) ';
+			break;
+		
+		case "07d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 7 DAY)) ';
+			break;
+		
+		case "15d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 15 DAY)) ';
+			break;
+		
+		case "01m" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 1 MONTH)) ';
+			break;
+		
+		case "03m" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 3 MONTH)) ';
+			break;
+		
+		case "01y" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 1 YEAR)) ';
+			break;
 	}
+}
+
+if ($create_from != null || $create_to != null) {
 	
-	if ($create_from != null && $create_to != null) {
+	if ($create_from != null && $create_to == null) {
+		$where .= " AND (PP.CREATE_DATE >= '".$create_from."')";
+	} else if ($create_from == null && $create_to != null) {
+		$where .= " AND (PP.CREATE_DATE <= '".$create_to."')";
+	} else if ($create_from != null && $create_to != null) {
 		$where .= " AND (PP.CREATE_DATE BETWEEN '".$create_from."' AND '".$create_to."') ";
 	}
-
-	//검색 유형 - 상품가격
-	if($product_min != null){
-		$where .= " AND PP.PRODUCT_CNT >= ".$product_min." ";
-	} 
-
-	if($product_max != null){
-		$where .= " AND PP.PRODUCT_CNT <= ".$product_max." ";
-	}	
 }
 
 /** 정렬 조건 **/
@@ -146,25 +131,12 @@ if ($sort_value != null && $sort_type != null) {
 
 /** DB 처리 **/
 $json_result = array(
-	'total' => $db->count("dev.PAGE_PRODUCT PP",$where),
-	'total_cnt' => $db->count("dev.PAGE_PRODUCT PP",$cnt_where),
+	'total' => $db->count("PAGE_PRODUCT PP",$where),
+	'total_cnt' => $db->count("PAGE_PRODUCT PP",$cnt_where),
 	'page' => intval($page)
 );
 
 $limit_start = (intval($page)-1)*$rows;
-
-$display_sql = "";
-if ($page_idx != null) {
-	$display_sql .= " DATE_FORMAT(PP.DISPLAY_START_DATE,	'%Y-%m-%d')	AS START_DATE, ";
-	$display_sql .= " DATE_FORMAT(PP.DISPLAY_START_DATE,	'%H')		AS START_H, ";
-	$display_sql .= " DATE_FORMAT(PP.DISPLAY_START_DATE,	'%i')		AS START_M, ";
-	$display_sql .= " DATE_FORMAT(PP.DISPLAY_END_DATE,		'%Y-%m-%d')	AS END_DATE, ";
-	$display_sql .= " DATE_FORMAT(PP.DISPLAY_END_DATE,		'%H')		AS END_H, ";
-	$display_sql .= " DATE_FORMAT(PP.DISPLAY_END_DATE,		'%i')		AS END_M, ";
-} else {
-	$display_sql .= " DATE_FORMAT(DISPLAY_START_DATE,		'%Y-%m-%d %H:%i')	AS START_DATE, ";
-	$display_sql .= " DATE_FORMAT(DISPLAY_END_DATE,			'%Y-%m-%d %H:%i')	AS END_DATE, ";
-}
 
 $sql = "SELECT
 			PP.IDX						AS PAGE_IDX,
@@ -175,7 +147,14 @@ $sql = "SELECT
 			PP.DISPLAY_MEMBER_LEVEL		AS DISPLAY_MEMBER_LEVEL,
 			
 			PP.DISPLAY_FLG				AS DISPLAY_FLG,
-			".$display_sql."
+			DATE_FORMAT(
+				PP.DISPLAY_START_DATE,
+				'%Y-%m-%d %H:%i'
+			)							AS DISPLAY_START_DATE,
+			DATE_FORMAT(
+				PP.DISPLAY_END_DATE,
+				'%Y-%m-%d %H:%i'
+			)							AS DISPLAY_END_DATE,
 			
 			PP.SEO_EXPOSURE_FLG			AS SEO_EXPOSURE_FLG,
 			PP.SEO_TITLE				AS SEO_TITLE,
@@ -183,12 +162,18 @@ $sql = "SELECT
 			PP.SEO_DESCRIPTION			AS SEO_DESCRIPTION,
 			PP.SEO_KEYWORDS				AS SEO_KEYWORDS,
 			PP.SEO_ALT_TEXT				AS SEO_ALT_TEXT,
-            PP.CREATE_DATE				AS CREATE_DATE,
+            DATE_FORMAT(
+				PP.CREATE_DATE,
+				'%Y-%m-%d %H:%i'
+			)							AS CREATE_DATE,
             PP.CREATER					AS CREATER,
-            PP.UPDATE_DATE				AS UPDATE_DATE,
+            DATE_FORMAT(
+				PP.UPDATE_DATE,
+				'%Y-%m-%d %H:%i'
+			)							AS UPDATE_DATE,
             PP.UPDATER					AS UPDATER
 		FROM
-			dev.PAGE_PRODUCT PP
+			PAGE_PRODUCT PP
 		WHERE
 			".$where."
 		ORDER BY
@@ -199,50 +184,85 @@ if ($rows != null) {
 }
 
 $db->query($sql);
-foreach($db->fetch() as $data) {
+foreach($db->fetch() as $page_data) {
+	$display_member_level = "";
+	if ($page_data['DISPLAY_MEMBER_LEVEL'] != "0") {
+		$select_member_level_sql = "
+			SELECT
+				ML.TITLE		AS MEMBER_LEVEL
+			FROM
+				MEMBER_LEVEL ML
+			WHERE
+				ML.IDX IN (".$page_data['DISPLAY_MEMBER_LEVEL'].")
+		";
+		
+		$db->query($select_member_level_sql);
+		
+		$member_level = array();
+		foreach($db->fetch() as $level_data) {
+			$member_level[] = array(
+				'member_level'		=>$level_data['MEMBER_LEVEL']
+			);
+		}
+		
+		if (count($member_level) > 1) {
+			$display_member_level = $member_level[0]['member_level']."<br/>외 ".(count($member_level)-1)."개 등급";
+		} else {
+			$display_member_level = $member_level[0]['member_level'];
+		}
+	} else {
+		$display_member_level = "전체";
+	}
+	
+	$now = strtotime(date('Y-m-d H:i:s'));
+	
+	$display_status = "";
+	$display_flg = $page_data['DISPLAY_FLG'];
+	$display_start_date = $page_data['DISPLAY_START_DATE'];
+	$display_end_date = $page_data['DISPLAY_END_DATE'];
+	
+	if ($display_flg == false) {
+		$display_status = "진열안함";
+	} else if ($display_flg == true) {
+		if ($display_end_date == '9999-12-31 23:59') {
+			$display_status = "상시진열";
+		} else {
+			if (strtotime($display_start_date) >= $now) {
+				$display_status = "진열대기";
+			} else if (strtotime($display_end_date) < $now) {
+				$display_status = "진열종료";
+			} else if (strtotime($display_start_date) <= $now && strtotime($display_end_date) >= $now) {
+				$display_status = "진열중";
+			}
+		}
+	}
+	
 	$json_result['data'][] = array(
 		'num'							=>$total_cnt--,
-		'page_idx'						=>$data['PAGE_IDX'],
-		'page_title'                	=>$data['PAGE_TITLE'],
-		'page_memo'                 	=>$data['PAGE_MEMO'],
-		'page_url'                  	=>$data['PAGE_URL'],
-		'product_cnt'               	=>$data['PRODUCT_CNT'],
-		'display_member_level'      	=>$data['DISPLAY_MEMBER_LEVEL'],
+		'page_idx'						=>$page_data['PAGE_IDX'],
+		'page_title'                	=>$page_data['PAGE_TITLE'],
+		'page_memo'                 	=>$page_data['PAGE_MEMO'],
+		'page_url'                  	=>$page_data['PAGE_URL'],
+		'product_cnt'               	=>$page_data['PRODUCT_CNT'],
+		'display_member_level'      	=>$display_member_level,
 		
-		'display_flg'               	=>$data['DISPLAY_FLG'],
-        'start_date'        			=>$data['START_DATE'],
-		'start_h'   	     			=>$data['START_H'],
-		'start_m'       	 			=>$data['START_M'],
-		'end_date'          			=>$data['END_DATE'],
-		'end_h'     	     			=>$data['END_H'],
-		'end_m'   		       			=>$data['END_M'],
+		'display_flg'					=>$display_flg,
+		'display_status'				=>$display_status,
+		'display_start_date'			=>$page_data['DISPLAY_START_DATE'],
+		'display_end_date'				=>$page_data['DISPLAY_END_DATE'],
 		
-		'seo_exposure_flg'				=>$data['SEO_EXPOSURE_FLG'],
-		'seo_title'						=>$data['SEO_TITLE'],
-		'seo_author'					=>$data['SEO_AUTHOR'],
-		'seo_description'				=>$data['SEO_DESCRIPTION'],
-		'seo_keywords'					=>$data['SEO_KEYWORDS'],
-		'seo_alt_text'					=>$data['SEO_ALT_TEXT'],
+		'seo_exposure_flg'				=>$page_data['SEO_EXPOSURE_FLG'],
+		'seo_title'						=>$page_data['SEO_TITLE'],
+		'seo_author'					=>$page_data['SEO_AUTHOR'],
+		'seo_description'				=>$page_data['SEO_DESCRIPTION'],
+		'seo_keywords'					=>$page_data['SEO_KEYWORDS'],
+		'seo_alt_text'					=>$page_data['SEO_ALT_TEXT'],
 		
-		'create_date'               	=>$data['CREATE_DATE'],
-		'creater'                   	=>$data['CREATER'],
-		'update_date'               	=>$data['UPDATE_DATE'],
-		'updater'                   	=>$data['UPDATER']
+		'create_date'               	=>$page_data['CREATE_DATE'],
+		'creater'                   	=>$page_data['CREATER'],
+		'update_date'               	=>$page_data['UPDATE_DATE'],
+		'updater'                   	=>$page_data['UPDATER']
 	);
 }
 
-if(isset($page_idx)){
-	$ip_sql = "
-		SELECT 	
-			IP
-		FROM
-			dev.IP_BAN
-		WHERE
-			PAGE_IDX = ".$page_idx;
-	$db->query($ip_sql);
-	foreach($db->fetch() as $data) {
-		array_push($ip_list, $data['IP']);
-	}
-	$json_result['data']['ip'] = $ip_list;
-}
 ?>

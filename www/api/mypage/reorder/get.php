@@ -70,10 +70,10 @@ if($country != null && $member_idx > 0 && $list_type != null){
 			break;
 	}
 	$json_result = array(
-		'total' => $db->count("	dev.PRODUCT_REORDER REO
-								LEFT OUTER JOIN  dev.SHOP_PRODUCT PR ON
+		'total' => $db->count("	PRODUCT_REORDER REO
+								LEFT OUTER JOIN  SHOP_PRODUCT PR ON
 								REO.PRODUCT_IDX = PR.IDX
-								LEFT JOIN dev.ORDERSHEET_MST OM ON
+								LEFT JOIN ORDERSHEET_MST OM ON
 								PR.ORDERSHEET_IDX = OM.IDX",$where_cnt),
 		'page' => $page
 	);
@@ -96,7 +96,7 @@ if($country != null && $member_idx > 0 && $list_type != null){
 				SELECT
 					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					S_PI.DEL_FLG = FALSE AND
@@ -112,10 +112,10 @@ if($country != null && $member_idx > 0 && $list_type != null){
 				'%Y.%m.%d'
 			)								AS UPDATE_DATE
 		FROM
-			dev.PRODUCT_REORDER REO
-			LEFT OUTER JOIN  dev.SHOP_PRODUCT PR ON
+			PRODUCT_REORDER REO
+			LEFT OUTER JOIN  SHOP_PRODUCT PR ON
 			REO.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		".$where."
 		ORDER BY

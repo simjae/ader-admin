@@ -14,25 +14,28 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$draw_idx	= $_POST['draw_idx'];
+$session_id		= sessionCheck();
+$draw_idx		= $_POST['draw_idx'];
 
 if ($draw_idx != null) {
 	try {
-		$draw_cnt = $db->count("dev.PAGE_DRAW","IDX = ".$draw_idx." AND DISPLAY_FLG = TRUE AND ANNOUNCE_DATE < NOW() AND DEL_FLG = FALSE AND PURCHASE_END_DATE < NOW()");
+		$draw_cnt = $db->count("PAGE_DRAW","IDX = ".$draw_idx." AND DISPLAY_FLG = TRUE AND ANNOUNCE_DATE < NOW() AND DEL_FLG = FALSE AND PURCHASE_END_DATE < NOW()");
 		if ($draw_cnt == 0) {
 			$json_result['code'] = 301;
 			$json_result['msg'] = "선택된 드로우는 현재 당첨처리가 불가능합니다. 드로우 당첨일을 확인해주세요.";
 		}
 		
-		$entry_cnt = $db->count("dev.ENTRY_DRAW","DRAW_IDX = ".$draw_idx);
+		$entry_cnt = $db->count("ENTRY_DRAW","DRAW_IDX = ".$draw_idx);
 		if ($entry_cnt == 0) {
 			$json_result['code'] = 301;
 			$json_result['msg'] = "응모 인원이 없는 드로우는 당첨처리할 수 없습니다.";
 		}
 		
-		$prize_cnt = $db->count("dev.ENTRY_DRAW","DRAW_IDX = ".$draw_idx." AND PRIZE_FLG = TRUE");
+		$prize_cnt = $db->count("ENTRY_DRAW","DRAW_IDX = ".$draw_idx." AND PRIZE_FLG = TRUE");
 		if ($prize_cnt > 0) {
 			$json_result['code'] = 301;
 			$json_result['msg'] = "선택된 드로우는 이미 당첨 처리가 완료된 드로우 입니다.";
@@ -43,7 +46,7 @@ if ($draw_idx != null) {
 				OPTION_IDX		AS OPTION_IDX,
 				PRODUCT_QTY		AS PRODUCT_QTY
 			FROM
-				dev.QTY_DRAW QD
+				QTY_DRAW QD
 			WHERE
 				QD.DRAW_IDX = ".$draw_idx."
 		";
@@ -61,7 +64,7 @@ if ($draw_idx != null) {
 					SELECT
 						ED.MEMBER_IDX	AS MEMBER_IDX
 					FROM
-						dev.ENTRY_DRAW ED
+						ENTRY_DRAW ED
 					WHERE
 						ED.DRAW_IDX = ".$draw_idx." AND
 						ED.OPTION_IDX = ".$option_idx."
@@ -98,11 +101,11 @@ if ($draw_idx != null) {
 						for ($i=0; $i<count($member_info); $i++) {
 							$update_prize_sql = "
 								UPDATE
-									dev.ENTRY_DRAW
+									ENTRY_DRAW
 								SET
 									PRIZE_FLG = TRUE,
 									UPDATE_DATE = NOW(),
-									UPDATER = 'Admin'
+									UPDATER = '".$session_id."'
 								WHERE
 									DRAW_IDX = ".$draw_idx." AND
 									MEMBER_IDX = ".$member_info[$i]." AND

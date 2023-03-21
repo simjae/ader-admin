@@ -1,42 +1,62 @@
-<div class="filter-wrap" style="margin-bottom:20px">
-	<button class="post_tab_btn tap__button" tab_num="01" style="background-color:#000;color:#fff;font-weight:500;width:180px;" onClick="postTabBtnClick(this);">컬렉션</button>
-	<button class="post_tab_btn tap__button" tab_num="02" style="width:180px;" onClick="postTabBtnClick(this);">에디토리얼</button>
-	<button class="post_tab_btn tap__button" tab_num="03" style="width:180px;" onClick="postTabBtnClick(this);">콜라보레이션</button>
-	<button class="post_tab_btn tap__button" tab_num="04" style="width:180px;" onClick="postTabBtnClick(this);">기획전</button>
-	<button class="post_tab_btn tap__button" tab_num="05" style="width:180px;" onClick="postTabBtnClick(this);">룩북</button>
+<style>
+.edit_page_btn {font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;}
+
+.select_copy {width:150px;height:30px;border:1px solid #bfbfbf;border-radius:5px;float:right;margin-right:10px;}
+.save_font {font-size:12px;font-family:'NanumSquareRound',sans-serif;line-height:2.8;float:right;margin-right:10px;}
+</style>
+
+<?php include_once("check.php"); ?>
+
+<?php
+function getUrlParamter($url, $sch_tag)
+{
+    $parts = parse_url($url);
+    parse_str($parts['query'], $query);
+    return $query[$sch_tag];
+}
+$page_url = $_SERVER['REQUEST_URI'];
+$posting_type = getUrlParamter($page_url, 'posting_type');
+?>
+<input type="hidden" id="posting_type" value=<?=$posting_type?>>
+<div class="filter-wrap" style="margin-bottom:20px;">
+	<button class="post_tab_btn tap__button" tab_status="EDTL" style="background-color:#000;color:#fff;font-weight:500;width:180px;" onClick="postTabBtnClick(this);">에디토리얼</button>
+	<button class="post_tab_btn tap__button" tab_status="RNWY" style="width:180px;" onClick="postTabBtnClick(this);">런웨이</button>
+	<button class="post_tab_btn tap__button" tab_status="COLC" style="width:180px;" onClick="location.href='/display/posting/collection/page';">컬렉션</button>
+	<button class="post_tab_btn tap__button" tab_status="COLA" style="width:180px;" onClick="postTabBtnClick(this);">콜라보레이션</button>
 </div>
 
-	<input id="tab_num" type="hidden" value="01">
-	
-	<div id="post_tab_01" class="post_tab">
-		<?php include_once("display-posting-collection.php"); ?>
-	</div>
-	<div id="post_tab_02" class="post_tab" style="display:none;">
-		<?php include_once("display-posting-editorial.php"); ?>
-	</div>
-	<div id="post_tab_03" class="post_tab" style="display:none;">
-		<?php include_once("display-posting-collaboration.php"); ?>
-	</div>
-	<div id="post_tab_04" class="post_tab" style="display:none;">
-		<?php include_once("display-posting-exhibition.php"); ?>
-	</div>
-	<div id="post_tab_05" class="post_tab" style="display:none;">
-		<?php include_once("display-posting-lookbook.php"); ?>
-	</div>
+<input id="tab_status" type="hidden" value="EDTL">
+
+<div id="posting_tab_EDTL" class="posting_tab">
+	<?php include_once("display-posting-editorial.php"); ?>
+</div>
+
+<div id="posting_tab_RNWY" class="posting_tab" style="display:none;">
+	<?php include_once("display-posting-runway.php"); ?>
+</div>
+
+<div id="posting_tab_COLC" class="posting_tab" style="display:none;">
+	<?php //include_once("display-posting-collection.php"); ?>
+</div>
+
+<div id="posting_tab_COLA" class="posting_tab" style="display:none;">
+	<?php include_once("display-posting-collaboration.php"); ?>
+</div>
 
 <script>
 $(document).ready(function() {
-	
+	let posting_type = $('#posting_type').val();
+	if(posting_type != null && posting_type != ''){
+		$('.post_tab_btn.tap__button[tab_status=' + posting_type + ']').click();
+	}
 });
 
 function postTabBtnClick(obj) {
-	var tabTitle = $(obj).text();
-	$('#tabTitle').text(tabTitle);
+	var tab_status = $(obj).attr('tab_status');
+	$('#tab_status').val(tab_status);
 	
-	var tab_num = $(obj).attr('tab_num');
-	$('#tab_num').val(tab_num);
-	$('.post_tab').hide();
-	$('#post_tab_' + tab_num).show();
+	$('.posting_tab').hide();
+	$('#posting_tab_' + tab_status).show();
 	
 	$(obj).css('background-color','#000000');
 	$(obj).css('color','#ffffff');
@@ -45,177 +65,203 @@ function postTabBtnClick(obj) {
 	$('.post_tab_btn').not($(obj)).css('color','#000000');
 }
 
+function getCheckedPageIdx() {
+	let page_idx = [];
+	
+	let tab_status = $('#tab_status').val();
+	let country = $('#country_' + tab_status).val();
+	
+	let result_table = $('#result_table_' + tab_status + '_' + country);
+	
+	let checkbox = result_table.find('.select');
+	let cnt = checkbox.length;
+	
+	for (let i=0; i<cnt; i++) {
+		if (checkbox.eq(i).prop('checked') == true) {
+			page_idx.push(checkbox.eq(i).val());
+		}
+	}
+	
+	console.log(page_idx);
+	
+	return page_idx;
+}
+
 function selectAllClick(obj) {
-	var tab_num = $('#tab_num').val();
+	let tab_status = $('#tab_status').val();
+	let country = $('#country_' + tab_status).val();
+	
+	let result_table = $('#result_table_' + tab_status + '_' + country);
+	
+	console.log('#result_table_' + tab_status + '_' + country);
 	
 	if ($(obj).prop('checked') == true) {
-		$("#result_" + tab_num + "_table").find('.select').prop('checked',true);
-	} 
-	else {
-		$("#result_" + tab_num + "_table").find('.select').prop('checked',false);
+		result_table.find('.select').prop('checked',true);
+	} else if (result_table.find('.select').prop('checked',false)) {
+		result_table.find('.select').prop('checked',false);
 	}
 }
 
 function orderChange(obj) {
-	var tab_num = $('#tab_num').val();
-
+	let tab_status = $('#tab_status').val();
+	let country = $('#country_' + tab_status).val();
+	
+	let frm = $('#frm-list_' + tab_status + '_' + country);
+	
 	var select_value = $(obj).val();
 	var order_value = [];
 	order_value = select_value.split('|');
 	
-	$('#frm-' + tab_num + '-filter').find('.sort_value').val(order_value[0]);
-	$('#frm-' + tab_num + '-filter').find('.sort_type').val(order_value[1]);
+	frm.find('.sort_value').val(order_value[0]);
+	frm.find('.sort_type').val(order_value[1]);
 	
-	switch (tab_num) {
-		case "01" :
-			getPostingCollectionInfo();
-			break;
-		case "02" :
-			getPostingEditorialInfo();
-			break;
-		case "03" :
-			getPostingCollaborationInfo();
-			break;
-		case "04" :
-			getPostingExhibitionInfo();
-			break;
-		case "05" :
-			getPostingLookbookInfo();
-			break;
-	}
+	getPagePostingList(tab_status,country);
 }
-function rowsChange(obj) {
-	var tab_num = $('#tab_num').val();
 
-	$('#frm-' + tab_num + '-filter').find('input[name="rows"]').eq(0).val($(obj).val());
+function rowsChange(obj) {
+	let tab_status = $('#tab_status').val();
+	let country = $('#country_' + tab_status).val();
 	
-	switch (tab_num) {
-		case "01" :
-			getPostingCollectionInfo();
-			break;
-		case "02" :
-			getPostingEditorialInfo();
-			break;
-		case "03" :
-			getPostingCollaborationInfo();
-			break;
-		case "04" :
-			getPostingExhibitionInfo();
-			break;
-		case "05" :
-			getPostingLookbookInfo();
-			break;
-	}
+	let frm = $('#frm-list_' + tab_status + '_' + country);
+	
+	frm.find('.rows').val($(obj).val());
+	
+	getPagePostingList(tab_status,country);
 }
 
 function setPaging(obj) {
-	var tab_num = $(obj).attr('tab_num');
+	var tab_status = $(obj).attr('tab_status');
+	let country = $(obj).attr('country');
+	
 	var total_cnt = $(obj).val();
-
-	$('#cnt_' + tab_num + '_total').text(total_cnt);
+	
+	$('#cnt_' + tab_status + '_' + country + '_total').text(total_cnt);
 }
 
-function postingActionClick(obj) {
-	var tab_num = $('#tab_num').val();
+function deletePagePosting() {
+	let tab_status = $('#tab_status').val();
+	let country = $('#country_' + tab_status).val();
 	
-	var action_type = $(obj).attr('action_type');
-	var action_name = "";
-	var form_list = $('#frm-' + tab_num + '-list');
-	var checked_cnt = form_list.find('.select:checked').length;
-
-	var sel_idx_arr = [];
-	var flg_str = '';
-	var err_msg = '';
-
-	switch(action_type){
-		case 'page_copy':
-			action_name = "페이지 복사";
-			break;
-		case 'page_delete':
-			action_name = "페이지 삭제";
-			break;
-		case 'display_true':
-			action_name = "전시";
-			flg_str = 'true';
-			err_msg = '현재 미진열중인 페이지만 진열상태로 변경할 수 있습니다. 선택한 페이지의 진열상태를 확인해주세요.';
-			break;
-		case 'display_false':
-			action_name = "전시취소";
-			flg_str = 'false';
-			err_msg = '현재 진열중인 페이지만 미진열상태로 변경할 수 있습니다. 선택한 페이지의 진열상태를 확인해주세요.';
-			break;
-	}
-
-	confirm(action_name + "작업을 진행하시겠습니까?",function() {
-		var return_val = '';
-		form_list.find('.select').each(function (){
-			var select_idx = $(this).val();
-			var dispaly_flg = form_list.find('#display_flg_' + select_idx).val();
-
-			if($(this).is(":checked") == true){
-				if(dispaly_flg == flg_str){
-					alert(err_msg);
-					return_val = 'false';
-					return false;
-				}
-				else{
-					sel_idx_arr.push(select_idx);
-				}
-			}
-		})
-		if(return_val != 'false'){
-			if(checked_cnt > 0){
+	let page_idx = getCheckedPageIdx();
+	
+	console.log(page_idx);
+	
+	if (page_idx.length > 0) {
+		confirm(
+			'선택한 게시물 페이지를 삭제하시겠습니까?',
+			function() {
 				$.ajax({
 					type: "post",
+					url: config.api + "display/posting/delete",
 					data: {
-						'tab_num' : tab_num,
-						'action_type' : action_type,
-						'select_idx' : sel_idx_arr.join(',')
+						'posting_type' : tab_status,
+						'page_idx' : page_idx
 					},
 					dataType: "json",
-					url: config.api + "display/posting/put",
+					
 					error: function() {
-						alert(action_name + " 처리에 실패했습니다.");
+						alert('페이지 삭제 처리에 실패했습니다.');
 					},
 					success: function(d) {
 						if(d.code == 200) {
-							alert(action_name + ' 처리에 성공했습니다.');
-							form_list.find('input[name="selectAll"]').prop('checked', false);
-							form_list.find('.select').prop('checked',false);
-							switch (tab_num) {
-								case "01" :
-									getPostingCollectionInfo();
-									break;
-								case "02" :
-									getPostingEditorialInfo();
-									break;
-								case "03" :
-									getPostingCollaborationInfo();
-									break;
-								case "04" :
-									getPostingExhibitionInfo();
-									break;
-								case "05" :
-									getPostingLookbookInfo();
-									break;
-							}
+							getPagePostingList(tab_status,country);
+							alert('선택한 게시물 페이지가 삭제되었습니다.');
+						} else {
+							alert(d.msg);
 						}
 					}
 				});
 			}
-			else{
-				alert(action_name + ' 처리 할 상품을 선택해주세요.');
-				return false;
-			}
-		}
-	})
+		)
+	} else {
+		alert('삭제하려는 게시물 페이지를 선택해주세요.');
+		return false;
+	}
+}
+
+function copyPagePosting() {
+	let tab_status = $('#tab_status').val();
+	let country = $('#country_' + tab_status).val();
 	
+	let page_idx = getCheckedPageIdx();
+	
+	if (page_idx.length > 0) {
+		confirm(
+			'선택한 게시물 페이지를 복사하시겠습니까?',
+			function() {
+				$.ajax({
+					type: "post",
+					url: config.api + "display/posting/put",
+					data: {
+						'copy_flg' : true,
+						'page_idx' : page_idx
+					},
+					dataType: "json",
+					
+					error: function() {
+						alert('페이지 복사 처리에 실패했습니다.');
+					},
+					success: function(d) {
+						if(d.code == 200) {
+							getPagePostingList(tab_status,country);
+							alert('선택한 게시물 페이지가 복사되었습니다.');
+						} else {
+							alert(d.msg);
+						}
+					}
+				});
+			}
+		)
+	}
+}
+
+function displayPagePosting(display_flg) {
+	let tab_status = $('#tab_status').val();
+	let country = $('#country_' + tab_status).val();
+	
+	let page_idx = getCheckedPageIdx();
+	
+	if (page_idx.length > 0) {
+		confirm(
+			'선택한 게시물 페이지의 전시상태를 변경하시겠습니까?',
+			function() {
+				$.ajax({
+					type: "post",
+					url: config.api + "display/posting/put",
+					data: {
+						'display_toggle_flg' : display_flg,
+						'page_idx' : page_idx
+					},
+					dataType: "json",
+					
+					error: function() {
+						alert('페이지 전시/취소 처리에 실패했습니다.');
+					},
+					success: function(d) {
+						if(d.code == 200) {
+							getPagePostingList(tab_status,country);
+							
+							let action_name = "";
+							if (display_flg == "TRUE") {
+								action_name = "전시";
+							} else if (display_flg == "FALSE") {
+								action_name = "전시취소";
+							}
+							alert('선택한 게시물 페이지가 ' + action_name + '되었습니다.');
+						} else {
+							alert(d.msg);
+						}
+					}
+				});
+			}
+		)
+	}
 }
 
 function openPostingUpdateModal(idx) {
-	var tab_num = $('#tab_num').val();
+	var tab_status = $('#tab_status').val();
 	
-	switch (tab_num) {
+	switch (tab_status) {
 		case "01" :
 			modal('/collection/put', 'idx='+idx);
 			break;
@@ -233,4 +279,102 @@ function openPostingUpdateModal(idx) {
 			break;
 	}
 }
+
+function getPagePostingList(tab_status,country) {
+	let frm = $('#frm-list_' + tab_status + '_' + country);
+	
+	let result_table = $('#result_table_' + tab_status + '_' + country);
+	
+	let url = "";
+	switch (tab_status) {
+		case "EDTL" :
+			url = "editorial";
+			break;
+		
+		case "RNWY" :
+			url = "runway";
+			break;
+		
+		case "COLC" :
+			url = "collection";
+			break;
+	}
+	
+	var rows = frm.find('.rows').val();
+	var page = frm.find('.page').val();
+	
+	get_contents(frm,{
+		pageObj : frm.find(".paging_" + tab_status + '_' + country),
+		html : function(d) {
+			result_table.html('');
+			
+			let strDiv = "";
+			if (d != null) {
+				d.forEach(function(row) {
+					location_url = "";
+					if (row.posting_type == "COLA") {
+						location_url = "location.href=\'/display/posting/collaboration/page?country=" + row.country + "\';";
+					} else {
+						location_url = "location.href=\'/display/posting/" + url + "/page?page_idx=" + row.page_idx + "\';";
+					}
+					
+					let country = "";
+					switch (row.country) {
+						case "KR" :
+							country = "한국몰";
+							break;
+						
+						case "EN" :
+							country = "영문몰";
+							break;
+						
+						case "CN" :
+							country = "중문몰";
+							break;
+					}
+					
+					let display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
+					
+					strDiv += '<TR>';
+					strDiv += '    <TD>';
+					strDiv += '        <div class="cb__color">';
+					strDiv += '            <label style="display: block;">';
+					strDiv += '                <input class="select" type="checkbox" name="page_idx[]" value="' + row.page_idx + '" >';
+					strDiv += '                <span></span>';
+					strDiv += '            </label>';
+					strDiv += '        </div>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD>' + row.num + '</TD>';
+					strDiv += '    <TD style="text-align:center;">';
+					strDiv += '        <button class="edit_page_btn" type="button" onClick="openPostingUpdateModal(' + row.page_idx + ')">페이지편집</button>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD style="text-align:center;">';
+					strDiv += '        <button class="edit_page_btn" type="button" onClick="' + location_url + '">게시물진열</button>';
+					strDiv += '    </TD>';
+					strDiv += '    <TD>' + row.display_status + '</TD>';
+					strDiv += '    <TD>' + display_date + '</TD>';
+					strDiv += '    <TD><font style="cursor:pointer;">' + row.page_title + '</font></TD>';
+					strDiv += '    <TD>' + country + '</TD>';
+					strDiv += '    <TD>' + row.page_url + '</TD>';
+					strDiv += '    <TD>' + row.page_memo + '</TD>';
+					strDiv += '    <TD>' + row.page_view + '</TD>';
+					strDiv += '    <TD>' + row.create_date + '</TD>';
+					strDiv += '    <TD>' + row.update_date + '</TD>';
+					strDiv += '</TR>';
+				});
+			} else {
+				strDiv += '<TD class="default_td" colspan="12" style="text-align:left;">';
+				strDiv += '    조회 결과가 없습니다';
+				strDiv += '</TD>';
+			}
+			
+			result_table.append(strDiv);
+		}
+	},rows,page);
+}
+
+function openPostingUpdateModal(page_idx) {
+	modal('/put','page_idx=' + page_idx);
+}
+
 </script>

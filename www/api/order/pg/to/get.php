@@ -47,7 +47,7 @@ if ($member_idx > 0) {
 			OT.TO_ROAD_ADDR		AS TO_ROAD_ADDR,
 			OT.TO_DETAIL_ADDR	AS TO_DETAIL_ADDR
 		FROM
-			dev.ORDER_TO OT
+			ORDER_TO OT
 		WHERE
 			".$where."
 	";

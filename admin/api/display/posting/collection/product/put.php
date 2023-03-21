@@ -17,18 +17,19 @@
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $display_num_flg	= $_POST['display_num_flg'];
+$update_flg			= $_POST['update_flg'];
 
 $action_type		= $_POST['action_type'];
-$collection_idx		= $_POST['collection_idx'];
-
+$project_idx		= $_POST['project_idx'];
 $c_product_idx		= $_POST['c_product_idx'];
+$relevant_flg		= $_POST['relevant_flg'];
+
 $recent_num			= $_POST['recent_num'];
 
-
-$db->begin_transaction();
+if ($display_num_flg != null && $action_type != null && $c_product_idx != null && $recent_num != null) {
+	$db->begin_transaction();
 	
-try {
-	if ($display_num_flg != null && $action_type != null && $c_product_idx != null && $recent_num != null) {
+	try {
 		$head_num = $recent_num[0];
 		$tail_num = $recent_num[count($recent_num) - 1];
 
@@ -40,28 +41,28 @@ try {
 
 				$prev_sql = "
 					UPDATE
-						dev.COLLECTION_PRODUCT
+						COLLECTION_PRODUCT
 					SET
 						DISPLAY_NUM = DISPLAY_NUM + " . count($recent_num) . "
 					WHERE
-						DISPLAY_NUM = " . $calc_num . "
+						DISPLAY_NUM = ".$calc_num."
 					AND
-						COLLECTION_IDX = ".$collection_idx."
+						PROJECT_IDX = ".$project_idx."
 				";
 
 				$db->query($prev_sql);
 
 				for ($i = 0; $i < count($c_product_idx); $i++) {
-					$update_product_sql = "
+					$update_collection_product_sql = "
 						UPDATE
-							dev.COLLECTION_PRODUCT
+							COLLECTION_PRODUCT
 						SET
-							DISPLAY_NUM = " . $display_num . "
+							DISPLAY_NUM = ".$display_num."
 						WHERE
-							IDX = " . $c_product_idx[$i] . "
+							IDX = ".$c_product_idx[$i]."
 					";
 
-					$db->query($update_product_sql);
+					$db->query($update_collection_product_sql);
 
 					$display_num++;
 				}
@@ -75,58 +76,61 @@ try {
 
 				$prev_sql = "
 					UPDATE
-						dev.COLLECTION_PRODUCT
+						COLLECTION_PRODUCT
 					SET
-						DISPLAY_NUM = DISPLAY_NUM - " . count($recent_num) . "
+						DISPLAY_NUM = DISPLAY_NUM - ".count($recent_num)."
 					WHERE
-						DISPLAY_NUM = " . $calc_num . "
+						DISPLAY_NUM = ".$calc_num."
 					AND
-						COLLECTION_IDX = ".$collection_idx."
+						PROJECT_IDX = ".$project_idx."
 				";
+				
 				$db->query($prev_sql);
 
 				for ($i = 0; $i < count($c_product_idx); $i++) {
-					$update_product_sql = "
+					$update_collection_product_sql = "
 						UPDATE
-							dev.COLLECTION_PRODUCT
+							COLLECTION_PRODUCT
 						SET
-							DISPLAY_NUM = " . $display_num . "
+							DISPLAY_NUM = ".$display_num."
 						WHERE
-							IDX = " . $c_product_idx[$i] . "
+							IDX = ".$c_product_idx[$i]."
 					";
-					$db->query($update_product_sql);
+					
+					$db->query($update_collection_product_sql);
 
 					$display_num++;
 				}
 
 				break;
 		}
-	}
-	else{
-		//RELEVANT_FLG = ".${"relevant_flg_".$collabo_product_idx[$i]}." 수정 가능성
-		for ($i=0; $i<count($c_product_idx); $i++) {
-			$update_product_sql = "
-				UPDATE
-					dev.COLLECTION_PRODUCT
-				SET 
-					RELEVANT_FLG = ".${"relevant_flg_".$c_product_idx[$i]}."
-				WHERE
-					IDX = ".$c_product_idx[$i]."
-			";
-			$db->query($update_product_sql);
-		}
-	}
-	$db->commit();
+		
+		$db->commit();
 	
-	$json_result['code'] = 200;
-
-} catch(mysqli_sql_exception $exception){
-	print_r($exception);
-	$db->rollback();
-	
-	$json_result['code'] = 301;
-	$json_result['msg'] = "컬렉션 상품 진열순서 변경에 실패했습니다.";
+		$json_result['code'] = 200;
+		$json_result['msg'] = "컬렉션 이미지 진열정보가 변경되었습니다.";
+	} catch(mysqli_sql_exception $exception) {
+		$db->rollback();
+		print_r($exception);
+		
+		$json_result['code'] = 301;
+		$json_result['msg'] = "컬렉션 이미지 진열정보 변경처리중 오류가 발생했습니다.";
+	}	
 }
 
+if ($update_flg != null && $c_product_idx != null && $relevant_flg != null) {
+	for ($i=0; $i<count($c_product_idx); $i++) {
+		$update_collection_product_sql = "
+			UPDATE
+				COLLECTION_PRODUCT
+			SET 
+				RELEVANT_FLG = ".$relevant_flg[$i]."
+			WHERE
+				IDX = ".$c_product_idx[$i]."
+		";
+		
+		$db->query($update_collection_product_sql);
+	}
+}
 
 ?>

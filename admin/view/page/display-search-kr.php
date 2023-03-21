@@ -1,8 +1,14 @@
 <div class="content__card">
 	<div class="card__header">
-		<div class="flex justify-between">
-			<h3>추천 검색어 관리</h3>
+		<div style="display:flex;">
+			<div style="width:50%;">
+				<h3>추천 검색어 관리</h3>
+			</div>
+			<div style="width:50%;">
+				<div class="save_story_btn" onclick="saveSearchInfo('KR','KEY')">추천 검색어 저장</div>
+			</div>
 		</div>
+		
 		<div class="drive--x"></div>
 	</div>
 	
@@ -10,6 +16,7 @@
 		<form id="frm-KEY_KR">
 			<input class="menu_sort" type="hidden" value="0">
 			<input class="menu_idx" type="hidden" value="0">
+			
 			<div class="table table__wrap">
 				<div class="overflow-x-auto">
 					<TABLE>
@@ -17,8 +24,9 @@
 							<TR>
 								<TH style="width:200px;">검색 키워드</TH>
 								<TH style="width:50px;">메뉴검색</TH>
-								<TH style="width:250px;">메뉴타이틀</TH>
-								<TH>메뉴링크</TH>
+								<TH style="width:250px;">메뉴 타이틀</TH>
+								<TH style="width:auto;">메뉴 경로</TH>
+								<TH style="width:auto;">메뉴 링크</TH>
 								<TH style="width:30px;">키워드추가</TH>
 							</TR>
 						</THEAD>
@@ -28,10 +36,13 @@
 									<input class="keyword_txt" type="text" name="keyword_txt">
 								</TD>
 								<TD style="text-align:center;">
-									<div class="search_posting_btn" onClick="getKeywordModal('KR');">검색</div>
+									<div class="search_posting_btn" onClick="getKeywordModal('KR','ADD',0);">검색</div>
 								</TD>
 								<TD>
 									<input class="menu_title" readonly type="text" name="menu_title">
+								</TD>
+								<TD>
+									<input class="menu_location" readonly type="text" name="menu_location">
 								</TD>
 								<TD>
 									<input class="menu_link" readonly type="text" name="menu_link">
@@ -51,7 +62,7 @@
 		<div class="table table__wrap">
 			<div class="table__filter">
 				<div class="filrer__wrap">
-					<div style="width: 140px;" class="filter__btn" onClick="confirm('선택한 추천 검색어를 삭제하시겠습니까?','deleteKeyword()');">삭제</div>
+					<div style="width: 140px;" class="filter__btn" onClick="deleteRecommendKeyword('KR');">삭제</div>
 				</div>                                
 			</div>
 				
@@ -69,9 +80,10 @@
 							</TH>
 							<TH style="width:50px;">순서 변경</TH>
 							<TH style="width:200px;">검색 키워드</TH>
-							<TH style="width:50px;">메뉴 타입</TH>
 							<TH style="width:250px;">메뉴 타이틀</TH>
-							<TH>메뉴 링크</TH>
+							<TH style="width:auto;">메뉴 경로</TH>
+							<TH style="width:auto;">메뉴 링크</TH>
+							<TH style="width:30px;">메뉴검색</TH>
 							<TH style="width:30px;">키워드 편집</TH>
 						</TR>
 					</THEAD>
@@ -88,8 +100,13 @@
 
 <div class="content__card">
 	<div class="card__header">
-		<div class="flex justify-between">
-			<h3>실시간 인기 상품 관리</h3>
+		<div style="display:flex;">
+			<div style="width:50%;">
+				<h3>실시간 인기 상품 관리</h3>
+			</div>
+			<div style="width:50%;">
+				<div class="save_story_btn" onclick="saveSearchInfo('KR','PRD')">실시간 인기 상품 저장</div>
+			</div>
 		</div>
 		<div class="drive--x"></div>
 	</div>
@@ -99,7 +116,7 @@
 			<div class="table table__wrap">
 				<div class="table__filter">
 					<div class="filrer__wrap">
-						<div style="width: 140px;" class="filter__btn" onClick="deleteProductConfirm('KR');">삭제</div>
+						<div style="width: 140px;" class="filter__btn" onClick="deletePopularProduct('KR');">삭제</div>
 						<div style="width: 140px;" class="filter__btn" onClick="getProductModal('KR');">추가</div>
 					</div>                                
 				</div>
@@ -146,7 +163,7 @@
 
 <script>
 $(document).ready(function() {
-	getRecommendKeyword('KR');
-	getPopularProduct('KR');
+	getRecommendKeywordList('KR');
+	getPopularProductList('KR');
 });
 </script>

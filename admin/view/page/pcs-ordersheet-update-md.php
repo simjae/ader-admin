@@ -1,83 +1,134 @@
 <style>
-	.checked{background-color:#707070!important;color:#ffffff!important;}
-	.unchecked{background-color:#ffffff!important;color:#000000!important;}
-	.btn__gray{
-		height: 20px;
-		color: #fff;
-		padding: 3.5px 20px;
-		border-radius: 2px;
-		background-color: #bfbfbf;
-		cursor:pointer;
-	}
-    .size_info_text {height:150px;}
-    .smart_editer_text {height:180px;}
+.toggle_table_btn {background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;}
+.checked{background-color:#707070!important;color:#ffffff!important;}
+.unchecked{background-color:#ffffff!important;color:#000000!important;}
+.btn__gray{height: 20px;color: #fff;padding: 3.5px 20px;border-radius: 2px;background-color: #bfbfbf;cursor:pointer;}
+.size_info_text {height:150px;}
+.smart_editer_text {height:180px;}
 </style>
 
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
+	<?php
+		function getUrlParamter($url, $sch_tag) {
+			$parts = parse_url($url);
+			parse_str($parts['query'], $query);
+			return $query[$sch_tag];
+		}
+		
+		$page_url = $_SERVER['REQUEST_URI'];
+		$ordersheet_idx = getUrlParamter($page_url, 'ordersheet_idx');
+	?>
     <div class="card__header">
         <div class="flex justify-between">
             <h3>개별상품수정 [MD]</h3>
         </div>
         <div class="drive--x"></div>
     </div>
+	
     <div class="card__body">
         <div id="regist_md_tab" class="row regist_tab" style="margin-top:0px;">
             <form id="frm-regist" action="" enctype="multipart/form-data">
-                <input type="hidden" name="ordersheet_idx" value="">
-                <input type="hidden" name="update_date" value="">
-                <input type="hidden" name="product_code" value="">
-                <input type="hidden" name="product_name" value="">
-                <input type="hidden" name="overwrite_flg" value="false">
-                <div class="table table__wrap">
-                    <button type="button" toggle_table="dsn"
-                        style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
-                        onClick="toggleTableClick(this);">오더시트 - 디자인</button>
-                    <div class="overflow-x-auto" id="insert_table_dsn">
+				<input id="ordersheet_idx" type="hidden" name="ordersheet_idx" value="<?=$ordersheet_idx?>">
+                
+				<input type="hidden" name="update_date" value="">
+				<input type="hidden" name="overwrite_flg" value="false">
+                
+				<div class="table table__wrap">
+                    <button class="toggle_table_btn" type="button" onClick="toggleTableClick('DSN');">오더시트 - 디자인</button>
+                    <div class="overflow-x-auto" id="insert_table_DSN">
                         <TABLE class="size_info_table">
                             <colgroup>
-                                <col width="3%">
-                                <col width="11%">
-                                <col width="3%">
-                                <col width="11%">
-                                <col width="3%">
-                                <col width="11%">
-
-                                <col width="3%">
-                                <col width="11%">
-                                <col width="3%">
-                                <col width="11%">
-                                <col width="3%">
-                                <col width="11%">
+                                <col width="10%">
+                                <col width="auto">
+                                <col width="10%">
+                                <col width="auto">
+                                <col width="10%">
+                                <col width="auto">
+								<col width="10%">
+                                <col width="auto">
                             </colgroup>
                             <TBODY>
 								<tr>
-                                    <TD>W/K/L/A</TD>
-									<TD colspan="11"  id="wkla_info_table">
+									<TH>소재</td>
+									<td id="material"></td>
+									
+									<TH>상품 핏</TH>
+									<td id="fit"></td>
+									
+									<TH>rgb코드</TH>
+									<td id="color_rgb"></td>
+									
+									<TH>팬톤 코드</TH>
+									<td id="pantone_code"></td>
+								</tr>
+								
+								<tr>
+                                    <TH>W/K/L/A</TH>
+									<TD colspan="3">
+										<div id="div_wkla" style="margin-top:5px">
+										</div>
+									</TD>
+									
+									<TH>모델정보</TH>
+                                    <TD id="model">모델정보 미입력</TD>
+                                    
+									<TH>모델착용 사이즈</TH>
+                                    <TD id="model_wear">착용 사이즈 미입력</TD>
                                 </tr>
+								
+								<TR>
+									<TH>최초 TP 작성일</TH>
+									<TD id="tp_completion_date" colspan="7"></TD>
+								</TR>
+								
                                 <TR>
-                                    <TD colspan="2">모델</TD>
-                                    <TD colspan="4" id="model"></TD>
-                                    <TD colspan="2">모델착용 사이즈</TD>
-                                    <TD colspan="4" id="model_wear"></TD>
-                                </TR>
-                                
-                                <TR>
-                                    <TD colspan="2">
-                                        사이즈 카테고리
-                                    </TD>
-                                    <TD colspan="10" id="size_category">dress</TD>
-                                </TR>
+									<TD colspan="8">
+										<div class="content__row">
+											<select id="size_guide_idx" name="size_guide_idx" class="fSelect eSearch" style="width:163px;" onChange="getSizeGuideList();">
+												<?php
+													$select_size_guide_sql = "
+														SELECT
+															SG.IDX				AS SIZE_IDX,
+															SG.CATEGORY_TYPE	AS CATEGORY_TYPE
+														FROM
+															dev.ORDERSHEET_MST OM
+															LEFT JOIN dev.SIZE_GUIDE SG ON
+															OM.SIZE_GUIDE_IDX = SG.IDX
+														WHERE
+															OM.IDX = ".$ordersheet_idx."
+													";
+													
+													$db->query($select_size_guide_sql);
+
+													foreach ($db->fetch() as $size_data) {
+														$size_idx = $size_data['SIZE_IDX'];
+														if (!empty($size_idx)) {
+												?>
+													<option value="<?=$size_data['SIZE_IDX']?>" readonly><?=$size_data['CATEGORY_TYPE']?></option>
+												<?php
+														} else {
+												?>
+													<option value="" readonly>사이즈 가이드 미선택</option>
+												<?php
+														}
+													}
+												?>
+											</select>
+										</div>
+										
+										<div id="div_size_guide">
+										</div>
+									</TD>
+								</TR>
+								
+								<TR id="ordersheet_option_info">
+									
+								</TR>
                             </TBODY>
                         </TABLE>
-                        <div id="option_insert_div" style="margin-top:5px"></div>
-
-                        <table style="margin-top:5px">
-                            <thead id="product_size_table_head">
-                            </thead>
-                            <tbody id="product_size_regist_table">
-                            </tbody>
-                        </table>
-
+						
                         <TABLE style="margin-top:5px">
                             <colgroup>
                                 <col width="10%">
@@ -85,17 +136,17 @@
                             </colgroup>
                             <TBODY>
                                 <TR>
-                                    <TD style="width:10%;">제품 상세정보 (한글)</TD>
+                                    <TH style="width:10%;">제품 상세정보 (한글)</TH>
                                     <TD class="smart_editer_text" id="detail_kr"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">제품 상세정보 (영문)</TD>
+                                    <TH style="width:10%;">제품 상세정보 (영문)</TH>
                                     <TD class="smart_editer_text" id="detail_en"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">제품 상세정보 (중문)</TD>
+                                    <TH style="width:10%;">제품 상세정보 (중문)</TH>
                                     <TD class="smart_editer_text" id="detail_cn"></TD>
                                 </TR>
                             </TBODY>
@@ -107,28 +158,27 @@
                             </colgroup>
                             <TBODY>
                                 <TR>
-                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TD>
+                                    <TH style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TH>
                                     <TD class="smart_editer_text" id="care_dsn_kr"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TD>
+                                    <TH style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TH>
                                     <TD class="smart_editer_text" id="care_dsn_en"></TD>
                                 </TR>
 
                                 <TR>
-                                    <TD style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TD>
+                                    <TH style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TH>
                                     <TD class="smart_editer_text" id="care_dsn_cn"></TD>
                                 </TR>
                             </TBODY>
                         </TABLE>
                     </div>
                 </div>
+				
                 <div class="table table__wrap">
-                    <button type="button" toggle_table="td"
-                        style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
-                        onClick="toggleTableClick(this);">오더시트 - 생산</button>
-					<div class="overflow-x-auto" id="insert_table_td">
+                    <button class="toggle_table_btn" type="button" onClick="toggleTableClick('TD');">오더시트 - 생산</button>
+					<div class="overflow-x-auto" id="insert_table_TD">
 						<TABLE>
 							<colgroup>
 								<col width="10%">
@@ -136,73 +186,84 @@
 							</colgroup>
 							<TBODY>
                                 <TR>
-									<TD>제품 취급 유의사항<br>생산 (한글)</TD>
+									<TH>제품 취급 유의사항<br>생산 (한글)</TH>
 									<TD class="smart_editer_text" id="care_td_kr"></TD>
 								</TR>
                                 <TR>
-									<TD>제품 취급 유의사항<br>생산 (영문)</TD>
+									<TH>제품 취급 유의사항<br>생산 (영문)</TH>
 									<TD class="smart_editer_text" id="care_td_en"></TD>
 								</TR>
                                 <TR>
-									<TD>제품 취급 유의사항<br>생산 (중문)</TD>
+									<TH>제품 취급 유의사항<br>생산 (중문)</TH>
 									<TD class="smart_editer_text" id="care_td_cn"></TD>
 								</TR>
 								<TR>
-									<TD>소재 (한글)</TD>
+									<TH>소재 (한글)</TH>
 									<TD class="smart_editer_text" id="material_kr"></TD>
 								</TR>
 
 								<TR>
-									<TD>소재 (영문)</TD>
+									<TH>소재 (영문)</TH>
 									<TD class="smart_editer_text" id="material_en"></TD>
 								</TR>
 
 								<TR>
-									<TD>소재 (중문)</TD>
+									<TH>소재 (중문)</TH>
 									<TD class="smart_editer_text" id="material_cn"></TD>
 								</TR>
 							</TBODY>
 						</TABLE>
+						
 						<TABLE>
 							<colgroup>
 								<col width="10%">
-								<col width="40%">
+								<col width="15%">
 								<col width="10%">
-								<col width="40%">
+								<col width="15%">
+								<col width="10%">
+								<col width="15%">
+								<col width="10%">
+								<col width="15%">
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TD style="width:10%;">제조사</TD>
+									<TH>제조사</TH>
 									<TD id="manufacturer"></TD>
-									<TD style="width:10%;">공급사</TD>
+									
+									<TH>공급사</TH>
 									<TD id="supplier"></TD>
-								</TR>
-								<TR>
-									<TD style="width:10%;">원산지</TD>
+									
+									<TH>원산지</TH>
 									<TD id="origin_country"></TD>
-									<TD style="width:10%;">브랜드</TD>
+									
+									<TH>브랜드</TH>
 									<TD id="brand"></TD>
 								</TR>
-                                <tr>
-                                    <TD>상품 적재박스 유형</TD>
-									<TD colspan="3"  id="load_box_info_table">
+                                
+								<tr>
+                                    <TH>상품 적재박스 유형</TH>
+									<TD colspan="7"  id="load_box_info_table">
                                 </tr>
+								
                                 <tr>
-                                    <TD>상품 적재중량 (kg)</TD>
-									<TD id="load_weight"></TD>
-                                    <TD>상품 적재수량</TD>
-									<TD id="load_qty"></TD>
+                                    <TH>상품 적재중량 (kg)</TH>
+									<TD colspan="3" id="load_weight"></TD>
+                                    
+									<TH>상품 적재수량</TH>
+									<TD colspan="3" id="load_qty"></TD>
                                 </tr>
+								
                                 <tr>
-                                    <TD>포장부자재</TD>
-									<TD>
-										<table style="width:50%">
-											<tbody id="td_sub_material"></tbody>
+                                    <TH>포장부자재</TH>
+									<TD colspan="3">
+										<table style="width:100%">
+											<tbody id="package_sub_material"></tbody>
 										</table>
 									</TD>
-									<TD>배송부자재</TD>
-									<TD>
-										<table style="width:50%">
+									
+									<TH>배송부자재</TH>
+									<TD colspan="3">
+										<table style="width:100%">
 											<tbody id="delivery_sub_material"></tbody>
 										</table>
 									</TD>
@@ -213,30 +274,37 @@
                 </div>
             
                 <div class="table table__wrap">
-                    <button type="button" toggle_table="ordersheet"
-						style="background-color: #fafafa; width:100%;border:1px solid #000000;height:30px;cursor:pointer;"
-						onClick="toggleTableClick(this);">오더시트 - 기획MD</button>
-					<div class="overflow-x-auto" id="insert_table_ordersheet">
+                    <button class="toggle_table_btn" type="button" onClick="toggleTableClick('MD');">오더시트 - 기획MD</button>
+					<div class="overflow-x-auto" id="insert_table_MD">
                         <TABLE>
                             <colgroup>
 								<col width="10%">
-								<col width="22%">
+								<col width="auto">
 								<col width="10%">
-								<col width="22%">
+								<col width="auto">
 								<col width="10%">
-								<col width="22%">
+								<col width="auto">
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TD>스타일코드</TD>
-									<TD id="style_code"></TD>
-									<TD>컬러코드</TD>
-									<TD id="color_code"></TD>
-									<TD>상품코드</TD>
-									<TD id="product_code"></TD>
+									<TH>스타일코드</TH>
+									<TD>
+										<input id="style_code" type="text" name="style_code" value="">
+									</TD>
+									
+									<TH>컬러코드</TH>
+									<TD>
+										<input id="color_code" type="text" name="color_code" value="">
+									</TD>
+									
+									<TH>상품코드</TH>
+									<TD>
+										<input id="product_code" type="text" name="product_code" value="">
+									</TD>
 								</TR>
 							</TBODY>
 						</TABLE>
+						
 						<TABLE>
 							<colgroup>
 								<col width="10%">
@@ -250,7 +318,7 @@
 							</colgroup>
                             <TBODY>
 								<TR>
-									<TD>프리오더 사용여부</TD>
+									<TH>프리오더 사용여부</TH>
 									<TD colspan="3">
 										<div class="flex" style="gap: 10px;">
 											<label class="rd__square">
@@ -265,7 +333,8 @@
 											</label>
 										</div>
 									</TD>
-									<TD>교환 환불 가능유무</TD>
+									
+									<TH>교환 환불 가능유무</TH>
 									<TD colspan="3">
 										<div class="flex" style="gap: 10px;">
 											<label class="rd__square">
@@ -281,21 +350,39 @@
 										</div>
 									</TD>
 								</TR>
+								
 								<tr>
-                                	<TD>라인 유형</TD>
-									<TD colspan="7">
+                                	<TH>라인 유형</TH>
+									<TD colspan="3">
                                         <div class="content__row" >
-                                            <select id="line_idx" name="line_idx" class="fSelect eSearch" style="width:163px;">
+                                            <select id="line_idx" name="line_idx" class="fSelect eSearch" style="width:250px;" onChange="getLineInfo();">
                                                 <option value="0">라인을 선택해주세요</option>
+												<?php
+													$select_line_sql = "
+														SELECT
+															IDX				AS LINE_IDX,
+															LINE_NAME		AS LINE_NAME
+														FROM
+															dev.LINE_INFO
+													";
+													
+													$db->query($select_line_sql);
+													
+													foreach ($db->fetch() as $line_data) {
+												?>
+												<option value="<?=$line_data['LINE_IDX']?>"><?=$line_data['LINE_NAME']?></option>
+												<?php
+													}
+												?>
                                             </select>
                                         </div>
-                                        <div id="line_table" class="line_table" style="margin-top:5px">
+										
+                                        <div id="div_line" style="margin-top:5px">
                                         </div>
 									</TD>
-                                </tr>
-								<tr>
-                                    <TD>MD 카테고리</TD>
-									<TD colspan="7">
+									
+                                    <TH>MD 카테고리</TH>
+									<TD colspan="3">
 										<div class="content__row">
 											<input type="hidden" id="md_category_2" value="0">
 											<input type="hidden" id="md_category_3" value="0">
@@ -304,86 +391,144 @@
 											<select class="fSelect category eCategory eCategory1" depth="1" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
 												<option value="0">대분류</option>	
 											</select>
+											
 											<select class="fSelect category eCategory eCategory2" depth="2" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
 												<option value="0">중분류</option>
 											</select>
+											
 											<select class="fSelect category eCategory eCategory3" depth="3" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
 												<option value="0">소분류</option>
 											</select>
+											
 											<select class="fSelect category eCategory eCategory4" depth="4" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
 												<option value="0">세분류</option>
 											</select>
 										</div>
 									</TD>
 								</TR>
+								
                                 <TR>
-									<TD>소재</TD>
+									<TH>상품 이름</TH>
 									<TD colspan="3">
-                                    <input type="text" id="material" name="material" value="">
+										<input type="text" id="product_name" name="product_name" value="">
 									</TD>
-									<TD>상품 그래픽</TD>
+									
+									<TH>상품 그래픽</TH>
 									<TD colspan="3">
                                         <input id="graphic" type="text" name="graphic" value="">
 									</TD>
 								</TR>
-                                <TR>
-									<TD>상품 핏</TD>
-									<TD colspan="3">
-                                        <input id="fit" type="text" name="fit" value="">
-									</TD>
-									<TD>상품 이름</TD>
-									<TD colspan="3">
-										<input type="text" id="product_name" name="product_name" value="">
-									</TD>
-								</TR>
+								
 								<TR>
-									<TD>상품 사이즈</TD>
-									<TD>
+									<TH>상품 사이즈</TH>
+									<TD colspan="3">
 										<input type="text" id="product_size" name="product_size" value="">
 									</TD>
-									<TD>상품 색상</TD>
-									<TD>
+									
+									<TH>상품 색상</TH>
+									<TD colspan="3">
 										<input id="color" type="text" name="color" value="">
 									</TD>
-									<TD>RGB 코드</TD>
-									<TD>
-										<input id="color_rgb" type="text" name="color_rgb" value="">
-									</TD>
-									<TD>팬톤 코드</TD>
-									<TD>
-										<input id="pantone_code" type="text" name="pantone_code" value="">
-									</TD>
 								</TR>
+								
 								<TR>
-									<TD>MD 카테고리 가이드</TD>
+									<TH>MD 카테고리 가이드</TH>
 									<TD colspan="3">
 										<input type="text" id="md_category_guide" name="md_category_guide" value="">
 									</TD>
-									<TD>구매 수량 제한</TD>
+									
+									<TH>구매수량 제한 유무</TH>
 									<TD>
-										<input type="text" id="limit_qty" name="limit_qty" value="">
+										<div class="flex" style="gap: 10px;">
+											<label class="rd__square">
+												<input type="radio" name="limit_product_qty_flg" value="false" checked>
+												<div><div></div></div>
+												<span>제한안함</span>
+											</label>
+											
+											<label class="rd__square">
+												<input type="radio" name="limit_product_qty_flg" value="true">
+												<div><div></div></div>
+												<span>제한함</span>
+											</label>
+										</div>
 									</TD>
-									<TD>구매 멤버 제한</TD>
+									
+									<TH>구매제한 수량</TH>
 									<TD>
+										<input type="text" id="limit_product_qty" name="limit_product_qty" value="">
+									</TD>
+								</TR>
+								
+								<TR>
+									<TH>ID당 구매 제한우뮤</TH>
+									<TD colspan="3">
+										<div class="flex" style="gap: 10px;">
+											<label class="rd__square">
+												<input type="radio" name="limit_id_flg" value="false" checked>
+												<div><div></div></div>
+												<span>제한안함</span>
+											</label>
+											<label class="rd__square">
+												<input type="radio" name="limit_id_flg" value="true">
+												<div><div></div></div>
+												<span>제한함</span>
+											</label>
+										</div>
+									</TD>
+									
+									<TH>구매 멤버 제한</TH>
+									<TD colspan="3">
 										<input type="text" id="limit_member" name="limit_member" value="">
 									</TD>
 								</TR>
 							</TBODY>
 						</TABLE>
+						
 						<div style="margin-top:5px;">
 							<div class="row form-group">
-								<button type="button"
-									style="width:120px;height:30px;border:1px solid #000000;cursor:pointer;float:right;"
-									onClick="$('#currency_table').toggle();">환율정보 조회</button>
-								<button type="button"
-									style="width:80px;height:30px;border:1px solid #000000;cursor:pointer;margin-right:10px;float:right;"
-									onClick="productPriceCalc();">계산</button>
-								<input id="calc_val" type="text"
-									style="width:163px;height:30px;margin-right:10px;float:right;" placeholder="배율"
-									value="1.4">
+								<button type="button" style="width:120px;height:30px;border:1px solid #000000;cursor:pointer;float:right;" onClick="$('#currency_table').toggle();">환율정보 조회</button>
+									
+								<button type="button" style="width:80px;height:30px;border:1px solid #000000;cursor:pointer;margin-right:10px;float:right;" onClick="productPriceCalc();">계산</button>
+									
+								<input id="calc_val" type="text" style="width:163px;height:30px;margin-right:10px;float:right;" placeholder="배율" value="1.4">
 							</div>
 
-							<div id="currency_table" class="row form-group" style="margin-top:5px;display:none;"></div>
+							<div id="currency_table" class="row form-group" style="margin-top:5px;float:right;display:none;">
+								<TABLE style="font-size:0.5rem;width:200px;margin-bottom:5px;float:right;">
+									<THEAD>
+										<TR>
+											<TH>국가</TH>
+											<TH>환율 비율</TH>
+										</TR>
+									</THEAD>
+									<TBODY>
+								<?php
+									$select_currency_sql = "
+										SELECT
+											COUNTRY			AS COUNTRY,
+											CURRENCY		AS CURRENCY
+										FROM
+											dev.PRODUCT_CURRENCY
+										ORDER BY
+											IDX ASC
+									";
+
+									$db->query($select_currency_sql);
+								
+									foreach($db->fetch() as $currency_data) {
+								?>
+									<TR>
+										<TD><?=$currency_data['COUNTRY']?></TD>
+										<TD id="currency_<?=$currency_data['COUNTRY']?>"><?=$currency_data['CURRENCY']?></TD>
+									</TR>
+								<?php
+									}
+								?>
+									</TBODY>
+								</TABLE>
+							</div>
+						
 							<div class="overflow-x-auto">
 								<TABLE>
 									<colgroup>
@@ -395,26 +540,30 @@
 									</colgroup>
 									<TBODY>
 										<TR>
-											<TD>기획원가</TD>
-											<TD>한국몰 판매가격 (KRW)</TD>
-											<TD>한국몰 변환가격 (KRW)</TD>
-											<TD>영문몰 판매가격 (USD)</TD>
-											<TD>중문몰 판매가격 (USD)</TD>
+											<TH>기획원가</TH>
+											<TH>한국몰 판매가격 (KRW)</TH>
+											<TH>한국몰 변환가격 (KRW)</TH>
+											<TH>영문몰 판매가격 (USD)</TH>
+											<TH>중문몰 판매가격 (USD)</TH>
 										</TR>
 										<TR>
 											<TD>
 												<input id="price_cost" type="number" step="0.01" name="price_cost" value="0">
 											</TD>
+											
 											<TD>
 												<input id="price_kr" type="number" step="0.01" name="price_kr" value="0">
 											</TD>
+											
 											<TD>
 												<input id="price_kr_gb" type="number" step="0.01" name="price_kr_gb"
 													value="0">
 											</TD>
+											
 											<TD>
 												<input id="price_en" type="number" step="0.01" name="price_en" value="0">
 											</TD>
+											
 											<TD>
 												<input id="price_cn" type="number" step="0.01" name="price_cn" value="0">
 											</TD>
@@ -423,6 +572,7 @@
 								</TABLE>
 							</div>
 						</div>
+						
 						<TABLE>
 							<colgroup>
 								<col width="10%">
@@ -436,34 +586,25 @@
 							</colgroup>
 							<TBODY>
 								<tr>
-									<TD>기획재고 수량</TD>
-									<TD colspan="3">
-										<input id="product_qty" type="number" name="product_qty"
-												value="">
+									<TH>기획재고 수량</TH>
+									<TD>
+										<input id="product_qty" type="number" name="product_qty" value="">
 									</TD>
-									<TD>안전재고 수량</TD>
-									<TD colspan="3">
+									
+									<TH>안전재고 수량</TH>
+									<TD>
 										<input id="safe_qty" type="number" name="safe_qty"
 												value="">
 									</TD>
-								</tr>
-								<tr>
-									<TD>최초 TP작성 완료일</TD>
+									
+									<TH>입고 요청일</TH>
 									<TD>
-										<input id="tp_completion_date" type="date" name="tp_completion_date"
-												value="" date_type="tp_completion" onchange="dateParamChange(this)">
+										<input id="receive_request_date" type="date" name="receive_request_date" value="" date_type="receive_request">
 									</TD>
-									<TD>입고 요청일</TD>
+									
+									<TH>런칭일</TH>
 									<TD>
-										<input id="receive_request_date" type="date" name="receive_request_date"
-												value="" date_type="receive_request" onchange="dateParamChange(this)">
-									</TD>
-									<TD>입고 요청 - 최초 TP작성 완료 날짜차이 </TD>
-									<TD id="date_interval"></TD>
-									<TD>런칭일</TD>
-									<TD>
-										<input id="launching_date" type="date" name="launching_date"
-												value="" date_type="launching" onchange="dateParamChange(this)">
+										<input id="launching_date" type="date" name="launching_date" value="" date_type="launching">
 									</TD>
 								</tr>
 							</TBODY>
@@ -489,454 +630,180 @@ $(document).ready(function() {
 		$('#duplicate_btn').text('상품코드 중복체크');
 	});
 	
-    $('#insert_table_dsn').toggle();
-	$('#insert_table_td').toggle();
-
-	getCurrencyInfo();
-
-	$('#line_idx').change(function() {	
-        var sel_tr = $(this).parents('tr');
-        var sel_line_idx = sel_tr.find('.eSearch option:checked').val();
-		
-        sel_tr.find('.line_table').html('');
-		if(sel_line_idx > 0){
-			$.ajax({
-				type: "post",
-				data: {
-                    'sel_line_idx' : sel_line_idx
-                },
-				dataType: "json",
-				url: config.api + "pcs/ordersheet/md/line/get",
-				error: function() {
-					alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						if(d.data != null){
-							var line_info = d.data[0];
-							switch(line_info.line_type){
-								case 'C':
-									type_str = '컬렉션 라인';
-									break;
-								case 'O':
-									type_str = '오리진 라인';
-									break;
-								case 'T':
-									type_str = '티피컬 라인';
-									break;
-							}
-                            strTable = `
-                                <table style="width:40%">
-                                    <thead>
-                                        <tr>
-                                            <th>라인명</th>
-                                            <th>타입</th>
-                                            <th>비고</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>${line_info.line_name}</td>
-                                            <td>${type_str}</td>
-                                            <td>${line_info.line_memo}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            `;
-                            sel_tr.find('.line_table').append(strTable);
-						}
-					}
-				}
-			});
-		}
-	});
-	urlParsing();
+    $('#insert_table_DSN').toggle();
+	$('#insert_table_TD').toggle();
+	
+	getOrdersheetInfo_MD();
 });
 
-function dateParamChange(obj) {
-	var date_type = $(obj).attr('date_type');
-	var startDate = new Date($('#tp_completion_date').val());
-	var endDate = new Date($('#receive_request_date').val()); 
-
-	var dateInterval = 0;
-	if(startDate.length != 0 && endDate != 0 ){
-		dateInterval = getDateInterval(startDate, endDate);
-	}
-
-	if(dateInterval != NaN && dateInterval < 0){
-		console.log('nan');
-		alert('입고 요청일을 TP작성 완료일 이후 일자로 지정해주세요');
-		$('#date_interval').text(dateInterval + '일');
-		return false;
-	}
-	else if(dateInterval != NaN && dateInterval >= 0){
-		$('#date_interval').text(dateInterval + '일');
-	}
-}
-
-function toggleTableClick(obj) {
-	var toggle_val = $(obj).attr('toggle_table');
-	
+function toggleTableClick(toggle_val) {
 	$('#insert_table_' + toggle_val).toggle();
 }
 
-function urlParsing(){
-	var url = location.href;
-	var idx = url.indexOf("?");
-	if(idx >= 0){
-		var data = url.substring( idx + 1, url.length);
-		var data_arr = data.split("=");
-
-		if(data_arr[0] == 'ordersheet_idx'){
-			ordersheetMdGet(data_arr[1]);
-		}
-	}
-}
-
-function lineInfoGet(){
-	
-}
-
-function ordersheetMdGet(idx) {
-	$('input[name=ordersheet_idx]').val(idx);
+function getOrdersheetInfo_MD() {
+	let ordersheet_idx = $('#ordersheet_idx').val();
 	
 	$.ajax({
-        type: "post",
+		type: "post",
+		url: config.api + "pcs/ordersheet/get",
+		data:{
+			'sel_idx':ordersheet_idx
+		},
 		dataType: "json",
-        url: config.api + "pcs/ordersheet/md/line/get",
-        error: function() {
-            alert("라인정보 불러오기가 실패했습니다.");
-        },
-        success: function(d) {
-            if(d.code == 200) {
+		error: function() {
+			alert("오더시트 조회처리중 오류가 발생했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
 				var data = d.data;
-					
-                if (data != null) {
-                    var strDiv = "";
-                    
-                    data.forEach(function(row) {
-                        strDiv += ` <option value="${row.line_idx}">${row.line_name}</option>`;
-                    });
-                    $('#line_idx').append(strDiv);
-                } else {
-                    alert('검색 결과가 없습니다. 라인 정보를 다시 입력해주세요.');
-                    return false;
-                }
-            }
-        }
-    }).then(
-		$.ajax({
-			type: "post",
-			data:{
-				'sel_idx':idx
-			},
-			dataType: "json",
-			url: config.api + "pcs/ordersheet/get",
-			error: function() {
-				alert("오더시트 불러오기가 실패했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					var data = d.data;
-					$('input[name=update_date]').val(data.update_date);
-					$('input[name=product_name]').val(data.product_name);
-					$('input[name=product_code]').val(data.product_code);
-
-					//디자인
-					if(data.wkla_idx != null && data.wkla_idx > 0){
-						strTable = `
-							<table style="width:30%">
-								<thead>
-									<tr>
-										<th>WKLA 명</th>
-										<th>비고</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>${data.wkla_name}</td>
-										<td>${data.wkla_memo}</td>
-									</tr>
-								</tbody>
-							</table>
-						`;
-						$('#wkla_info_table').append(strTable);
-					}
-					$('#model').text(data.model);
-					$('#model_wear').text(data.model_wear);
-					$('#size_a1_kr').html(data.size_a1_kr);
-					$('#size_a2_kr').html(data.size_a2_kr);
-					$('#size_a3_kr').html(data.size_a3_kr);
-					$('#size_a4_kr').html(data.size_a4_kr);
-					$('#size_a5_kr').html(data.size_a5_kr);
-					$('#size_onesize_kr').html(data.size_onesize_kr);
-					$('#size_a1_en').html(data.size_a1_en);
-					$('#size_a2_en').html(data.size_a2_en);
-					$('#size_a3_en').html(data.size_a3_en);
-					$('#size_a4_en').html(data.size_a4_en);
-					$('#size_a5_en').html(data.size_a5_en);
-					$('#size_onesize_en').html(data.size_onesize_en);
-					$('#size_a1_cn').html(data.size_a1_cn);
-					$('#size_a2_cn').html(data.size_a2_cn);
-					$('#size_a3_cn').html(data.size_a3_cn);
-					$('#size_a4_cn').html(data.size_a4_cn);
-					$('#size_a5_cn').html(data.size_a5_cn);
-					$('#size_onesize_cn').html(data.size_onesize_cn);
-					$('#size_category').text(data.size_category);
-					$('#detail_kr').html(data.detail_kr);
-					$('#detail_en').html(data.detail_en);
-					$('#detail_cn').html(data.detail_cn);
-					$('#care_dsn_kr').html(data.care_dsn_kr);
-					$('#care_dsn_en').html(data.care_dsn_en);
-					$('#care_dsn_cn').html(data.care_dsn_cn);
-
-					if(data.option_info.length != 0){
-						colunm_name_size_1 = data.option_info[0].size_title_1;
-						colunm_name_size_2 = data.option_info[0].size_title_2;
-						colunm_name_size_3 = data.option_info[0].size_title_3;
-						colunm_name_size_4 = data.option_info[0].size_title_4;
-						colunm_name_size_5 = data.option_info[0].size_title_5;
-						colunm_name_size_6 = data.option_info[0].size_title_6;
-						strTh = `
-							<tr>
-								<th style="width:5%">옵션 이름</th>
-						`;
-						strTh += colunm_name_size_1 != null ? `<th>${colunm_name_size_1}</th>` : '';
-						strTh += colunm_name_size_2 != null ? `<th>${colunm_name_size_2}</th>` : '';
-						strTh += colunm_name_size_3 != null ? `<th>${colunm_name_size_3}</th>` : '';
-						strTh += colunm_name_size_4 != null ? `<th>${colunm_name_size_4}</th>` : '';
-						strTh += colunm_name_size_5 != null ? `<th>${colunm_name_size_5}</th>` : '';
-						strTh += colunm_name_size_6 != null ? `<th>${colunm_name_size_6}</th>` : '';
-
-						strTh += `
-							</tr>
-						`;
-						$('#product_size_table_head').append(strTh);
-
-						for(var i = 0; i < data.option_info.length; i++){
-							var row_data = data.option_info[i];
-
-							strTr = '';
-							var option_size_1 = row_data.option_size_1;
-							var option_size_2 = row_data.option_size_2;
-							var option_size_3 = row_data.option_size_3;
-							var option_size_4 = row_data.option_size_4;
-							var option_size_5 = row_data.option_size_5;
-							var option_size_6 = row_data.option_size_6;
-
-							strTrCol = ``;
-							strTrCol += option_size_1 != '-' ? `<td name="size_info_1[]">${option_size_1} cm</td>` : '';
-							strTrCol += option_size_2 != '-' ? `<td name="size_info_2[]">${option_size_2} cm</td>` : '';
-							strTrCol += option_size_3 != '-' ? `<td name="size_info_3[]">${option_size_3} cm</td>` : '';
-							strTrCol += option_size_4 != '-' ? `<td name="size_info_4[]">${option_size_4} cm</td>` : '';
-							strTrCol += option_size_5 != '-' ? `<td name="size_info_5[]">${option_size_5} cm</td>` : '';
-							strTrCol += option_size_6 != '-' ? `<td name="size_info_6[]">${option_size_6} cm</td>` : '';
-							
-							strTr += `
-								<tr>
-									<td id="option_name">${row_data.option_name}</td>
-									${strTrCol}
-								</tr>
-							`;
-							$('#product_size_regist_table').append(strTr);
-						}
-					}
+				$('input[name=update_date]').val(data.update_date);
+				$('input[name=product_name]').val(data.product_name);
+				$('input[name=product_code]').val(data.product_code);
 				
-					//생산
-					$('#care_td_kr').html(data.care_td_kr);
-					$('#care_td_en').html(data.care_td_en);
-					$('#care_td_cn').html(data.care_td_cn);
-					$('#material_kr').html(data.material_kr);
-					$('#material_en').html(data.material_en);
-					$('#material_cn').html(data.material_cn);
-					$('#manufacturer').text(data.manufacturer);
-					$('#supplier').text(data.supplier);
-					$('#origin_country').text(data.origin_country);
-					$('#brand').text(data.brand);
+				let wkla_idx = data.wkla_idx
+				getWklaInfo(wkla_idx);
+				
+				$('#material').text(data.material);
+				$('#fit').text(data.fit);
+				$('#color_rgb').text(data.color_rgb);
+				$('#pantone_code').text(data.pantone_code);
+				$('#tp_completion_date').text(data.tp_completion_date);
+				
+				if (data.model.length > 0 && data.model != null) {
+					$('#model').text(data.model);
+				}
+				
+				if (data.model_wear.length > 0 && data.model_wear != null) {
+					$('#model_wear').text(data.model_wear);
+				}
+				
+				$('#size_category').text(data.size_category);
+				$('#detail_kr').html(data.detail_kr);
+				$('#detail_en').html(data.detail_en);
+				$('#detail_cn').html(data.detail_cn);
+				$('#care_dsn_kr').html(data.care_dsn_kr);
+				$('#care_dsn_en').html(data.care_dsn_en);
+				$('#care_dsn_cn').html(data.care_dsn_cn);
+				
+				let option_info = data.option_info;
+				getSizeGuideList(option_info);
+			
+				//생산
+				$('#care_td_kr').html(data.care_td_kr);
+				$('#care_td_en').html(data.care_td_en);
+				$('#care_td_cn').html(data.care_td_cn);
+				$('#material_kr').html(data.material_kr);
+				$('#material_en').html(data.material_en);
+				$('#material_cn').html(data.material_cn);
+				$('#manufacturer').text(data.manufacturer);
+				$('#supplier').text(data.supplier);
+				$('#origin_country').text(data.origin_country);
+				$('#brand').text(data.brand);
 
-					if(data.load_box_idx != null && data.load_box_idx > 0){
-						strTable = `
-							<table>
-								<thead>
-									<tr>
-										<th>상자명</th>
-										<th>너비</th>
-										<th>길이</th>
-										<th>높이</th>
-										<th>부피</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>${data.load_box_name}</td>
-										<td>${data.load_box_width} cm</td>
-										<td>${data.load_box_length} cm</td>
-										<td>${data.load_box_height} cm</td>
-										<td>${data.load_box_volume} cm³</td>
-									</tr>
-								</tbody>
-							</table>
-						`;
-						$('#load_box_info_table').append(strTable);
-					}
-					$('#load_weight').text(data.load_weight);
-					$('#load_qty').text(data.load_qty);
-					var sub_info = data.sub_material_info;
-					sub_info.forEach(function(sub_data){
-						if(sub_data.sub_material_type == 'T'){
-							$('#td_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
-
-						}
-						else if(sub_data.sub_material_type == 'D'){
-							$('#delivery_sub_material').append(`<tr><td>${sub_data.sub_material_name}</td></tr>`);
-						}
-					})
-
-					//기획 MD
-					$('#style_code').text(data.style_code);
-					$('#color_code').text(data.color_code);
-					$('#product_code').text(data.product_code);
-					switch(data.preorder_flg){
-						case 0:
-							$('input:radio[name=preorder_flg]:input[value="false"]').attr("checked",true);
-							break;
-						case 1:
-							$('input:radio[name=preorder_flg]:input[value="true"]').attr("checked",true);
-							break;
-					}
-					switch(data.refund_flg){
-						case 0:
-							$('input:radio[name=refund_flg]:input[value="false"]').attr("checked",true);
-							break;
-						case 1:
-							$('input:radio[name=refund_flg]:input[value="true"]').attr("checked",true);
-							break;
-					}
-					$('#line_idx').val(data.line_idx).attr("selected","selected").change();
-
-					$('.eCategory1').val(data.category_lrg).attr("selected","selected").change();
-					//$('#md_category_1').val(data.category_lrg);
-					$('#md_category_2').val(data.category_mdl);
-					$('#md_category_3').val(data.category_sml);
-					$('#md_category_4').val(data.category_dtl);
-
-					$('#graphic').val(data.graphic);
-					$('#fit').val(data.fit);
-					$('#material').val(data.material);
-					$('#product_name').val(data.product_name);
-					$('#product_size').val(data.product_size);
-					$('#color').val(data.color);
-					$('#color_rgb').val(data.color_rgb);
-					$('#pantone_code').val(data.pantone_code);
-					$('#md_category_guide').val(data.md_category_guide);
-					$('#limit_qty').val(data.limit_qty);
-					$('#limit_member').val(data.limit_member);
-					$('#price_cost').val(data.price_cost);
-					$('#price_kr').val(data.price_kr);
-					$('#price_kr_gb').val(data.price_kr_gb);
-					$('#price_en').val(data.price_en);
-					$('#price_cn').val(data.price_cn);
-					$('#product_qty').val(data.product_qty);
-					$('#safe_qty').val(data.safe_qty);
-					$('#tp_completion_date').val(data.tp_completion_date);
-					$('#receive_request_date').val(data.receive_request_date);
-					$('#launching_date').val(data.launching_date);
+				if(data.load_box_idx != null && data.load_box_idx > 0){
+					let strDiv = "";
+					strDiv += '<table>';
+					strDiv += '    <thead>';
+					strDiv += '        <tr>';
+					strDiv += '            <th>상자명</th>';
+					strDiv += '            <th>너비</th>';
+					strDiv += '            <th>길이</th>';
+					strDiv += '            <th>높이</th>';
+					strDiv += '            <th>부피</th>';
+					strDiv += '        </tr>';
+					strDiv += '    </thead>';
+					strDiv += '    <tbody>';
+					strDiv += '        <tr>';
+					strDiv += '            <td>' + data.load_box_name + '</td>';
+					strDiv += '            <td>' + data.load_box_width + ' cm</td>';
+					strDiv += '            <td>' + data.load_box_length + ' cm</td>';
+					strDiv += '            <td>' + data.load_box_height + ' cm</td>';
+					strDiv += '            <td>' + data.load_box_volume + ' cm³</td>';
+					strDiv += '        </tr>';
+					strDiv += '    </tbody>';
+					strDiv += '</table>';
 					
-					if(data.tp_completion_date.length != 0 && data.receive_request_date != 0){
-						var startDate = new Date(data.tp_completion_date);
-						var endDate = new Date(data.receive_request_date);
-						var intervalDate = getDateInterval(startDate, endDate);
-						if(intervalDate != NaN && intervalDate > 0)
-						$('#date_interval').text(intervalDate + '일');
+					$('#load_box_info_table').append(strDiv);
+				}
+				
+				$('#load_weight').text(data.load_weight);
+				$('#load_qty').text(data.load_qty);
+				
+				var sub_info = data.sub_material_info;
+				sub_info.forEach(function(sub_data){
+					if(sub_data.sub_material_type == 'T'){
+						$('#package_sub_material').append('<tr><td>' + sub_data.sub_material_name + '</td></tr>');
+
+					} else if(sub_data.sub_material_type == 'D'){
+						$('#delivery_sub_material').append('<tr><td>' + sub_data.sub_material_name + '</td></tr>');
 					}
+				});
+
+				//기획 MD
+				$('#style_code').val(data.style_code);
+				$('#color_code').val(data.color_code);
+				$('#product_code').val(data.product_code);
+				switch(data.preorder_flg){
+					case 0:
+						$('input:radio[name=preorder_flg]:input[value="false"]').attr("checked",true);
+						break;
+					case 1:
+						$('input:radio[name=preorder_flg]:input[value="true"]').attr("checked",true);
+						break;
 				}
-			}
-		}).then(
-			function(){
-				var size_category = $('#size_category').text();
-				if(size_category.length > 0){
-					$.ajax({
-						type: "post",
-						data: {'size_category' : size_category},
-						dataType: "json",
-						//SIZE_DESCRIPTION table : get api url 경로확인
-						url: config.api + "product/size/get",
-						error: function() {
-							alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
-						},
-						success: function(d) {
-							if(d.code == 200) {
-								if(d.data != null){
-									size_category_info = d.data[0];
-									setOptionForm();
-								}
-							}
-						}
-					});
+				switch(data.refund_flg){
+					case 0:
+						$('input:radio[name=refund_flg]:input[value="false"]').attr("checked",true);
+						break;
+					case 1:
+						$('input:radio[name=refund_flg]:input[value="true"]').attr("checked",true);
+						break;
 				}
+				
+				$('#line_idx').val(data.line_idx);
+				getLineInfo();
+
+				$('.eCategory1').val(data.category_lrg).attr("selected","selected").change();
+				//$('#md_category_1').val(data.category_lrg);
+				$('#md_category_2').val(data.category_mdl);
+				$('#md_category_3').val(data.category_sml);
+				$('#md_category_4').val(data.category_dtl);
+
+				$('#graphic').val(data.graphic);
+				$('#product_name').val(data.product_name);
+				$('#product_size').val(data.product_size);
+				$('#color').val(data.color);
+				$('#md_category_guide').val(data.md_category_guide);
+				switch(data.limit_id_flg){
+					case 0:
+						$('input:radio[name=limit_id_flg]:input[value="false"]').attr("checked",true);
+						break;
+					case 1:
+						$('input:radio[name=limit_id_flg]:input[value="true"]').attr("checked",true);
+						break;
+				}
+				switch(data.limit_product_qty_flg){
+					case 0:
+						$('input:radio[name=limit_product_qty_flg]:input[value="false"]').attr("checked",true);
+						break;
+					case 1:
+						$('input:radio[name=limit_product_qty_flg]:input[value="true"]').attr("checked",true);
+						break;
+				}
+				$('#limit_product_qty').val(data.limit_product_qty);
+				$('#limit_member').val(data.limit_member);
+				$('#price_cost').val(data.price_cost);
+				$('#price_kr').val(data.price_kr);
+				$('#price_kr_gb').val(data.price_kr_gb);
+				$('#price_en').val(data.price_en);
+				$('#price_cn').val(data.price_cn);
+				$('#product_qty').val(data.product_qty);
+				$('#safe_qty').val(data.safe_qty);
+				$('#receive_request_date').val(data.receive_request_date);
+				$('#launching_date').val(data.launching_date);
 			}
-		)
-	);
-}
-
-function setOptionForm(){
-    var strDiv = "";
-	var strThDiv = "";
-    var category_name = size_category_info['category_name'];
-	var img_path = '/images/sizeguide/sizecategory/'+category_name;
-
-	img_path += `/${category_name}.svg`;
-
-	$('#option_insert_div').html('');
-	strDiv = `
-				<div class="row">
-					<div style="float:left;width: 33%;">
-						<img id="size_img" src="${img_path}" >
-					</div>
-					<div style="float:left;width: 50%;padding-top:50px;">
-						<table id="size_desc_table">
-	`;
-
-	for(var i = 1; i <= 6; i++){
-        var size_title_str = size_category_info['size_title_' + String(i)];
-        var size_desc_str  = size_category_info['size_desc_' + String(i)];
-
-		if(size_title_str != null && size_title_str.length > 0){
-			strDiv +=	`			
-							<tr data-idx="${i}" style="cursor:pointer">
-								<td>${size_title_str}</td>
-								<td>${size_desc_str}</td>
-							</tr> 
-			`;
 		}
-	}
-	strDiv +=	`		</table>
-					</div>
-				</div>
-	`;
-	$('#option_insert_div').append(strDiv);
-
-	$('#size_desc_table tr').mouseover(function(){
-        var category_name = size_category_info['category_name'];
-	    var img_path = '/images/sizeguide/sizecategory/'+category_name;
-		var tr_idx = $(this).attr('data-idx');
-		img_path += `/${category_name}_${String.fromCharCode(parseInt(tr_idx) + 96)}.svg`;
-
-        $('#size_desc_table td').css('text-decoration', 'none');
-        $(this).find('td').css('text-decoration', 'underline');
-		
-		$('#size_img').attr('src', img_path);
-    })
-	$('#size_desc_table tr').mouseout(function(){
-		var category_name = size_category_info['category_name'];
-	    var img_path = '/images/sizeguide/sizecategory/'+category_name;
-		var tr_idx = $(this).attr('data-idx');
-		img_path += `/${category_name}.svg`;
-
-        $('#size_desc_table td').css('text-decoration', 'none');
-		
-		$('#size_img').attr('src', img_path);
-    })
+	});
 }
 
 function productDuplicateCheck() {
@@ -1006,6 +873,7 @@ function getMdCategory(depth,no) {
 		}
 	});
 }
+
 function setMdCategory(depth,d){
 	var md_cate_name = '';
 	var category_dir = '';
@@ -1045,47 +913,6 @@ function setMdCategory(depth,d){
 		getMdCategory(depth,$(category_dir).val());
 		$(category_dir).val(0);
 	}
-}
-
-function getCurrencyInfo() {
-	$.ajax({
-		type: "post",
-		dataType: "json",
-		//환율정보 get api경로 확인
-		url: config.api + "product/currency/get",
-		error: function() {
-			alert("환율정보 불러오기 처리에 실패했습니다.");
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				var data = d.data;
-				if (data != null) {
-					
-					var strDiv = "";
-					strDiv += '<TABLE  style="font-size:0.5rem;width:200px;float:right;">';
-					strDiv += '    <THEAD>';
-					strDiv += '        <TR>';
-					strDiv += '            <TH>국가</TH>';
-					strDiv += '            <TH>환율 비율</TH>';
-					strDiv += '        </TR>';
-					strDiv += '    </THEAD>';
-					strDiv += '    <TBODY>';
-					
-					data.forEach(function(row) {
-						strDiv += '    <TR>';
-						strDiv += '        <TD>' + row.country + '</TD>';
-						strDiv += '        <TD id="currency_' + row.country + '">' + row.currency + '</TD>';
-						strDiv += '    </TR>';
-					});
-					
-					strDiv += '    </TBODY>';
-					strDiv += '</TABLE>';
-					
-					$('#currency_table').append(strDiv);
-				}
-			}
-		}
-	});
 }
 
 function productPriceCalc() {
@@ -1133,10 +960,10 @@ function ordersheetMdUpdate(flg) {
 	var category_sml_idx = parseInt($('.eCategory3').val());
 	var category_dtl_idx = parseInt($('.eCategory4').val());
 
-	if( !(category_lrg_idx && category_mdl_idx && category_sml_idx && category_dtl_idx) ){
+	/*if( !(category_lrg_idx && category_mdl_idx && category_sml_idx && category_dtl_idx) ){
 		alert('세분류까지 모두 선택해주세요');
 		return false;
-	}
+	}*/
 
     var form = $("#frm-regist")[0];
 	var formData = new FormData(form);
@@ -1178,11 +1005,288 @@ function getDateInterval(startDate, endDate){
 	return (endDate.getTime() - startDate.getTime()) / ( 1000*60*60*24 );
 }
 
-function updateFormReload(){
-    location.reload();
-}
-
 function openLineInfoModal() {
 	modal('line',null);
+}
+
+function getWklaInfo(wkla_idx) {
+	let div_wkla = $('#div_wkla');
+	div_wkla.html('');
+	
+	if (wkla_idx > 0) {
+		$.ajax({
+			type: "post",
+			url: config.api + "pcs/ordersheet/dsn/wkla/get",
+			data: {
+				'sel_wkla_idx': wkla_idx
+			},
+			dataType: "json",
+			error: function () {
+				alert("W/K/L/A 정보 조회처리중 오류가 발생했습니다.");
+			},
+			success: function (d) {
+				if (d.code == 200) {
+					let data = d.data[0];
+					if (data != null) {
+						let strDiv = "";
+						strDiv += '    <table>';
+						strDiv += '        <thead>';
+						strDiv += '            <tr>';
+						strDiv += '                <th style="width:50%;">W/K/L/A</th>';
+						strDiv += '                <th style="width:50%;">비고</th>';
+						strDiv += '            </tr>';
+						strDiv += '        </thead>';
+						strDiv += '        <tbody>';
+						strDiv += '            <tr>';
+						strDiv += '                <td>' + data.wkla_name + '</td>';
+						strDiv += '                <td>' + data.wkla_memo + '</td>';
+						strDiv += '            </tr>';
+						strDiv += '        </tbody>';
+						strDiv += '    </table>';
+						
+						div_wkla.append(strDiv);
+					}
+				}
+			}
+		});
+	} else {
+		let strDiv = "";
+		strDiv += '    <table style="width:40%">';
+		strDiv += '        <thead>';
+		strDiv += '            <tr>';
+		strDiv += '                <th style="width:50%;">W/K/L/A</th>';
+		strDiv += '                <th style="width:50%;">비고</th>';
+		strDiv += '            </tr>';
+		strDiv += '        </thead>';
+		strDiv += '        <tbody>';
+		strDiv += '            <tr>';
+		strDiv += '                <td colspan="2">등록된 W/K/L/A 정보가 없습니다.</td>';
+		strDiv += '            </tr>';
+		strDiv += '        </tbody>';
+		strDiv += '    </table>';
+		
+		div_wkla.append(strDiv);
+	}
+}
+
+function getLineInfo() {
+	let line_idx = $('#line_idx').val();
+	
+	if (line_idx > 0) {
+		$.ajax({
+			type: "post",
+			url: config.api + "pcs/ordersheet/md/line/get",
+			data: {
+				'sel_line_idx' : line_idx
+			},
+			dataType: "json",
+			error: function() {
+				alert("라인정보 조회처리중 오류가 발생했습니다.");
+			},
+			success: function(d) {
+				if(d.code == 200) {
+					if(d.data != null){
+						var line_info = d.data[0];
+						
+						$('#div_line').html('');
+						
+						let strDiv = "";
+						strDiv += '<table style="width:100%">';
+						strDiv += '    <thead>';
+						strDiv += '        <tr>';
+						strDiv += '            <th>라인명</th>';
+						strDiv += '            <th>타입</th>';
+						strDiv += '            <th>비고</th>';
+						strDiv += '        </tr>';
+						strDiv += '    </thead>';
+						strDiv += '    <tbody>';
+						strDiv += '        <tr>';
+						strDiv += '            <td>' + line_info.line_name + '</td>';
+						strDiv += '            <td>' + line_info.line_type + ' 라인</td>';
+						strDiv += '            <td>' + line_info.line_memo + '</td>';
+						strDiv += '        </tr>';
+						strDiv += '    </tbody>';
+						strDiv += '</table>';
+						
+						$('#div_line').append(strDiv);
+					}
+				}
+			}
+		});
+	}
+}
+
+function getSizeGuideList(option_info) {
+	let size_guide_idx = $('#size_guide_idx').val();
+	
+	$.ajax({
+		type: "post",
+		url: config.api + "product/size_guide/get",
+		data: {
+			'size_guide_idx' : size_guide_idx
+		},
+		dataType: "json",
+		error: function () {
+			alert("사이즈정보 조회처리중 오류가 발생했습니다.");
+		},
+		success: function (d) {
+			if (d.code == 200) {
+				let data = d.data;
+				if (data != null) {
+					let size_data = d.data[0];
+					
+					let str_div_option_th = "";
+					let colspan_cnt = 0;
+					
+					let str_div_size_desc = "";
+					str_div_size_desc += '    <div style="float:left;width: 33%;">';
+					str_div_size_desc += '        <img id="size_img" src="/images/size/' + size_data.img_file_name + '.svg">';
+					str_div_size_desc += '    </div>';
+					str_div_size_desc += '    <div style="float:left;width: 50%;padding-top:50px;">';
+					str_div_size_desc += '        <table>';
+					
+					if (size_data.size_title_1 != null && size_data.size_desc_1 != null) {
+						str_div_size_desc += '        <tr class="tr_size">';
+						str_div_size_desc += '            <td class="size_title">' + size_data.size_title_1 + '</td>';
+						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_1 + '</td>';
+						str_div_size_desc += '        </tr>';
+						
+						str_div_option_th += '            <TH>' + size_data.size_title_1 + '</TH>';
+						colspan_cnt++;
+					}
+					
+					if (size_data.size_title_2 != null && size_data.size_desc_2 != null) {
+						str_div_size_desc += '        <tr class="tr_size">';
+						str_div_size_desc += '            <td class="size_title">' + size_data.size_title_2 + '</td>';
+						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_2 + '</td>';
+						str_div_size_desc += '        </tr>';
+						
+						str_div_option_th += '            <TH>' + size_data.size_title_2 + '</TH>';
+						colspan_cnt++;
+					}
+					
+					if (size_data.size_title_3 != null && size_data.size_desc_3 != null) {
+						str_div_size_desc += '        <tr class="tr_size">';
+						str_div_size_desc += '            <td class="size_title">' + size_data.size_title_3 + '</td>';
+						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_3 + '</td>';
+						str_div_size_desc += '        </tr>';
+						
+						str_div_option_th += '            <TH>' + size_data.size_title_3 + '</TH>';
+						colspan_cnt++;
+					}
+					
+					if (size_data.size_title_4 != null && size_data.size_desc_4 != null) {
+						str_div_size_desc += '        <tr class="tr_size">';
+						str_div_size_desc += '            <td class="size_title">' + size_data.size_title_4 + '</td>';
+						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_4 + '</td>';
+						str_div_size_desc += '        </tr>';
+						
+						str_div_option_th += '            <TH>' + size_data.size_title_4 + '</TH>';
+						colspan_cnt++;
+					}
+					
+					if (size_data.size_title_5 != null && size_data.size_desc_5 != null) {
+						str_div_size_desc += '        <tr class="tr_size">';
+						str_div_size_desc += '            <td class="size_title">' + size_data.size_title_5 + '</td>';
+						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_5 + '</td>';
+						str_div_size_desc += '        </tr>';
+						
+						str_div_option_th += '            <TH>' + size_data.size_title_5 + '</TH>';
+						colspan_cnt++;
+					}
+					
+					if (size_data.size_title_6 != null && size_data.size_desc_6 != null) {
+						str_div_size_desc += '        <tr class="tr_size">';
+						str_div_size_desc += '            <td class="size_title">' + size_data.size_title_6 + '</td>';
+						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_6 + '</td>';
+						str_div_size_desc += '        </tr>';
+						
+						str_div_option_th += '            <TH>' + size_data.size_title_6 + '</TH>';
+						colspan_cnt++;
+					}
+					
+					str_div_size_desc += '        </table>';
+					str_div_size_desc += '    </div>';
+					
+					$('#div_size_guide').html('');
+					$('#div_size_guide').append(str_div_size_desc);
+					
+					let str_div_option_table = "";
+					
+					str_div_option_table += '<TD colspan="8">';
+					str_div_option_table += '    <TABLE>';
+					str_div_option_table += '        <THEAD>';
+					str_div_option_table += '            <TR>';
+					str_div_option_table += '                <TH>옵션이름</TH>';
+					str_div_option_table += '                <TH>바코드</TH>';
+					
+					str_div_option_table += str_div_option_th;
+					
+					str_div_option_table += '                <TH>중량</TH>';
+					str_div_option_table += '                <TH>구매수량제한</TH>';
+					str_div_option_table += '            </TR>';
+					str_div_option_table += '        </THEAD>';
+					str_div_option_table += '        <TBODY id="option_info">';
+					str_div_option_table += '            <TR>';
+					str_div_option_table += '                <TD colspan="' + (colspan_cnt + 4) + '">등록된 옵션정보가 없습니다.</TD>';
+					str_div_option_table += '            </TR>';
+					str_div_option_table += '        </TBODY>';
+					str_div_option_table += '    </TABLE>';
+					str_div_option_table += '</TD>';
+					
+					$('#ordersheet_option_info').html('');
+					$('#ordersheet_option_info').append(str_div_option_table);
+					$('#ordersheet_option_info').show();
+					
+					if (option_info.length > 0) {
+						setOptionInfo(option_info);
+					}
+				}
+			} else {
+				alert(d.msg);
+			}
+		}
+	});
+}
+
+function setOptionInfo(option_info) {
+	$('#option_info').html('');
+	
+	let strDiv = "";
+	option_info.forEach(function(row) {
+		strDiv += '<TR>';
+		strDiv += '    <TD>' + row.option_name + '</TD>';
+		strDiv += '    <TD>' + row.barcode + '</TD>';
+			
+		if (row.option_size_1 != "") {
+			strDiv += '<TD>' + row.option_size_1 + '</TD>';
+		}
+
+		if (row.option_size_2 != "") {
+			strDiv += '<TD>' + row.option_size_2 + '</TD>';
+		}
+
+		if (row.option_size_3 != "") {
+			strDiv += '<TD>' + row.option_size_3 + '</TD>';
+		}
+
+		if (row.option_size_4 != "") {
+			strDiv += '<TD>' + row.option_size_4 + '</TD>';
+		}
+
+		if (row.option_size_5 != "") {
+			strDiv += '<TD>' + row.option_size_5 + '</TD>';
+		}
+
+		if (row.option_size_6 != "") {
+			strDiv += '<TD>' + row.option_size_6 + '</TD>';
+		}
+			
+		strDiv += '    <TD>' + row.option_weight + '</TD>';
+		strDiv += '    <TD>' + row.limit_option_qty + '</TD>';
+		strDiv += '</TR>';
+	});
+	
+	$('#option_info').append(strDiv);
 }
 </script>

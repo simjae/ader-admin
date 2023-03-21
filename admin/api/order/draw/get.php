@@ -31,7 +31,7 @@ if ($country != null && $draw_idx != null) {
 						SELECT
 							COUNT(S_PI.IDX)
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.IMG_TYPE = 'P' AND
@@ -42,7 +42,7 @@ if ($country != null && $draw_idx != null) {
 							SELECT
 								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = PR.IDX AND
 								S_PI.DEL_FLG = FALSE AND
@@ -66,8 +66,8 @@ if ($country != null && $draw_idx != null) {
 			PD.PURCHASE_START_DATE	AS PURCHASE_START_DATE,
 			PD.PURCHASE_END_DATE	AS PURCHASE_END_DATE
 		FROM
-			dev.PAGE_DRAW PD
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_DRAW PD
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PD.PRODUCT_IDX = PR.IDX
 		WHERE
 			PD.IDX = ".$draw_idx."
@@ -89,7 +89,7 @@ foreach($db->fetch() as $draw_data) {
 				QD.BARCODE				AS BARCODE,
 				QD.PRODUCT_QTY			AS PRODUCT_QTY
 			FROM
-				dev.QTY_DRAW QD
+				QTY_DRAW QD
 			WHERE
 				QD.DRAW_IDX = ".$draw_idx."
 		";

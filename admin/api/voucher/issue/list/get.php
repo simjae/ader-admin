@@ -30,8 +30,8 @@ $page = $_POST['page'];
 $sort_value = $_POST['sort_value'];				//정렬 기준값
 $sort_type = $_POST['sort_type'];				//정렬타입
 
-$tables = ' dev.VOUCHER_ISSUE   AS VI   LEFT JOIN
-            dev.MEMBER_'.$country.' AS MEMBER
+$tables = ' VOUCHER_ISSUE   AS VI   LEFT JOIN
+            MEMBER_'.$country.' AS MEMBER
         ON  VI.MEMBER_IDX = MEMBER.IDX ';
 /** 검색 조건 **/
 $where = '  VI.DEL_FLG = FALSE   AND
@@ -82,35 +82,37 @@ $limit_start = (intval($page)-1)*$rows;
 
 
 // 바우처 발급정보
-$sql = "SELECT
-                VI.IDX,
-                VI.COUNTRY,
-                VI.VOUCHER_IDX,
-                VI.VOUCHER_ISSUE_CODE,
-                IFNULL(VI.VOUCHER_ADD_DATE,'-') AS VOUCHER_ADD_DATE,
-                VI.USED_FLG,
-                IFNULL(VI.USABLE_START_DATE,'') AS USABLE_START_DATE,
-                IFNULL(VI.USABLE_END_DATE,'') AS USABLE_END_DATE,
-                VI.MEMBER_IDX,
-                MEMBER.TEL_MOBILE,
-                IFNULL(VI.MEMBER_ID,'-') AS MEMBER_ID,
-                IFNULL(MEMBER.MEMBER_NAME,'-') AS MEMBER_NAME,
-                IFNULL((SELECT TITLE FROM dev.MEMBER_LEVEL WHERE IDX = MEMBER.LEVEL_IDX),'-') AS MEMBER_LEVEL,
-                VI.DEL_FLG,
-                VI.CREATE_DATE,
-                VI.CREATER,
-                VI.UPDATE_DATE,
-                VI.UPDATER
-            FROM
-                ".$tables."
-            WHERE
-                ".$where."
-            ORDER BY
-                ".$order."
-            LIMIT
-                ".$limit_start.",".$rows;
+$select_voucher_issue_sql = "
+	SELECT
+		VI.IDX,
+		VI.COUNTRY,
+		VI.VOUCHER_IDX,
+		VI.VOUCHER_ISSUE_CODE,
+		IFNULL(VI.VOUCHER_ADD_DATE,'-') AS VOUCHER_ADD_DATE,
+		VI.USED_FLG,
+		IFNULL(VI.USABLE_START_DATE,'') AS USABLE_START_DATE,
+		IFNULL(VI.USABLE_END_DATE,'') AS USABLE_END_DATE,
+		VI.MEMBER_IDX,
+		MEMBER.TEL_MOBILE,
+		IFNULL(VI.MEMBER_ID,'-') AS MEMBER_ID,
+		IFNULL(MEMBER.MEMBER_NAME,'-') AS MEMBER_NAME,
+		IFNULL((SELECT TITLE FROM MEMBER_LEVEL WHERE IDX = MEMBER.LEVEL_IDX),'-') AS MEMBER_LEVEL,
+		VI.DEL_FLG,
+		VI.CREATE_DATE,
+		VI.CREATER,
+		VI.UPDATE_DATE,
+		VI.UPDATER
+	FROM
+		".$tables."
+	WHERE
+		".$where."
+	ORDER BY
+		".$order."
+	LIMIT
+		".$limit_start.",".$rows."
+";
 
-$db->query($sql);
+$db->query($select_voucher_issue_sql);
 
 foreach($db->fetch() as $data){
     $json_result['data'][] = array(

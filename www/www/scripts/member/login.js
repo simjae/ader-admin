@@ -312,7 +312,7 @@ function updateMemberPw(){
 			success:function(data){
 				if(data.code == "200") {
 					//location.reload();
-					exceptionHandling("비밀번호 변경","비밀번호 변경에 성공했습니다.");
+					notiModal("비밀번호 변경","비밀번호 변경에 성공했습니다.");
 					location.href='/login';
 				}
 				else{
@@ -320,7 +320,7 @@ function updateMemberPw(){
 					if(data.msg != null){
 						err_msg = data.msg;
 					}
-					exceptionHandling("비밀번호 변경",err_msg);
+					notiModal("비밀번호 변경",err_msg);
 				}
 			},
 			complete:function(data){
@@ -512,7 +512,7 @@ function joinAction(){
 			success:function(data){
 				if(data.code == "200") {
 					//location.reload();
-					exceptionHandling("회원가입","회원가입에 성공하셨습니다.<br>로그인창으로 돌아갑니다.");
+					notiModal("회원가입","회원가입에 성공하셨습니다.<br>로그인창으로 돌아갑니다.");
 					$('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
 				}
 				else {

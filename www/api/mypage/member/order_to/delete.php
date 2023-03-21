@@ -38,7 +38,7 @@ if ($country == null || $member_idx == 0) {
 if ($member_idx > 0 && $order_to_idx > 0) {
 	$delete_order_to_sql = "
 		DELETE FROM
-			dev.ORDER_TO
+			ORDER_TO
 		WHERE
 			IDX = ".$order_to_idx." AND
 			COUNTRY = '".$country."' AND

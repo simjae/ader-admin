@@ -13,26 +13,27 @@
 	cursor:pointer;
 }
 </style>
-<div class="content__card" style="max-width:1000px;margin: 0;">
-	<form id="frm-list_BNR" action="display/product/grid/lib/banner/list/get">
-		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
-		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
-		
-		<input type="hidden" class="rows" name="rows" value="5">
-		<input type="hidden" class="page" name="page" value="1">
-		
-		<input class="banner_type" type="hidden" name="banner_type" value="">
-		<input type="hidden" name="banner_idx" value="<?=$banner_idx?>">
-		
-		<div class="card__header">
-			<div class="flex justify-between">
-				<h3>배너 라이브러리 검색</h3>
-				<a href="javascript:;" onclick="modal_close();" class="btn-close"><i class="xi-close"></i></a>
-			</div>
-			<div class="drive--x"></div>
+<div class="content__card modal__view" style="max-width:1000px;margin: 0;">
+	
+	
+	<div class="card__header">
+		<div class="flex justify-between">
+			<h3>배너 라이브러리 검색</h3>
+			<a href="javascript:;" onclick="modal_close();" class="btn-close"><i class="xi-close"></i></a>
 		</div>
-		
-		<div class="card__body" style="width:1000px;">
+		<div class="drive--x"></div>
+	</div>
+	
+	<div class="card__body" style="width:1000px;">
+		<form id="frm-list_BNR" action="display/product/grid/lib/banner/list/get">
+			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+			<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
+			
+			<input type="hidden" class="rows" name="rows" value="5">
+			<input type="hidden" class="page" name="page" value="1">
+			
+			<input class="banner_type" type="hidden" name="banner_type" value="">
+			<input type="hidden" name="banner_idx" value="<?=$banner_idx?>">
 			<div class="content__wrap grid__half">
 				<div class="half__box__wrap">
 					<div class="content__title">배너 타이틀</div>
@@ -48,91 +49,99 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 		
 		<div class="card__footer">
 			<div class="footer__btn__wrap" style="grid: none;">
 				<div class="btn__wrap--lg">
 					<div onclick="getLibraryBanner();"  class="blue__color__btn"><span>검색</span></div>
-					<div onclick="modal_cancel();" class="defult__color__btn"><span>검색 취소</span></div>
 					<div onclick="addLibraryBanner();"  class="blue__color__btn"><span>배너 추가</span></div>
 				</div>
 			</div>
 		</div> 
-	</form>
+		<div class="content__card" style="max-width:1000px;">
+			<input type="hidden" class="action_type" name="action_type">
+			<input type="hidden" class="action_name" name="action_name">
+			
+			<div class="card__header">
+				<h3>배너 라이브러리 검색 결과</h3>
+				<div class="drive--x"></div>
+			</div>
+			<div class="card__body">
+				<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+					<div class="body__info--count">
+						<div class="drive--left"></div>
+						총 배너 수 <font class="cnt_total info__count" >0</font>개 / 검색결과 <font class="cnt_result info__count" >0</font>개
+					</div>
+						
+					<div class="content__row">
+						<select style="width:163px;float:right;margin-right:10px;" lib_type="BNR" onChange="orderChange(this);">
+							<option value="CREATE_DATE|DESC" selected>등록일 역순</option>
+							<option value="CREATE_DATE|ASC">등록일 순</option>
+							<option value="PRODUCT_NAME|DESC">상품 이름 역순</option>
+							<option value="PRODUCT_NAME|ASC">상품 이름 순</option>
+							<option value="PRODUCT_CODE|DESC">상품 코드 역순</option>
+							<option value="PRODUCT_CODE|ASC">상품 코드 순</option>
+							<option value="PRODUCT_CODE|DESC">상품 재고 역순</option>
+							<option value="PRODUCT_CODE|ASC">상품 재고 순</option>
+						</select>
+						<select name="rows" style="width:163px;margin-right:10px;float:right;" lib_type="BNR" onChange="rowsChange(this);">
+							<option value="5" selected>5개씩보기</option>
+							<option value="10">10개씩보기</option>
+							<option value="20">20개씩보기</option>
+							<option value="30">30개씩보기</option>
+							<option value="50">50개씩보기</option>
+							<option value="100">100개씩보기</option>
+							<option value="200">200개씩보기</option>
+							<option value="300">300개씩보기</option>
+							<option value="500">500개씩보기</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="tmp_container_BNR"></div>
+				
+				<div class="table table__wrap">
+					<div class="overflow-x-auto">
+						<TABLE id="excel_table">
+							<THEAD>
+								<TR>
+									<TH>라이브러리 추가</TH>
+									<TH style="width:5%;">No.</TH>
+									<TH>배너 타이틀</TH>
+									<TH>배너 썸네일</TH>
+									<TH>배너 경로</TH>
+									<TH style="width:8%;">배너 등록일</TH>
+									<TH style="width:8%;">작성자</TH>
+									<TH style="width:8%;">배너 갱신일</TH>
+									<TH style="width:8%;">갱신자</TH>
+								</TR>
+							</THEAD>
+							<TBODY class="result_table_BNR">
+							</TBODY>
+						</TABLE>
+					</div>
+				</div>
+				
+				<div class="padding__wrap">
+					<input type="hidden" class="total_cnt" value="0" onChange="setPaging(this);">
+					<input type="hidden" class="result_cnt" value="0" onChange="setPaging(this);">
+					<div class="paging_BNR"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card__footer">
+		<div class="footer__btn__wrap">
+			<div class="tmp" toggle="tmp"></div>
+			<div class="btn__wrap--lg" style="display:block">
+				<div class="defult__color__btn" style="margin:0 auto" onClick="modal_close();"><span>돌아가기</span></div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="content__card" style="max-width:1000px;">
-	<input type="hidden" class="action_type" name="action_type">
-	<input type="hidden" class="action_name" name="action_name">
-	
-	<div class="card__header">
-		<h3>배너 라이브러리 검색 결과</h3>
-		<div class="drive--x"></div>
-	</div>
-	<div class="card__body">
-		<div class="info__wrap " style="justify-content:space-between; align-items: center;">
-			<div class="body__info--count">
-				<div class="drive--left"></div>
-				총 배너 수 <font class="cnt_total info__count" >0</font>개 / 검색결과 <font class="cnt_result info__count" >0</font>개
-			</div>
-				
-			<div class="content__row">
-				<select style="width:163px;float:right;margin-right:10px;" lib_type="BNR" onChange="orderChange(this);">
-					<option value="CREATE_DATE|DESC" selected>등록일 역순</option>
-					<option value="CREATE_DATE|ASC">등록일 순</option>
-					<option value="PRODUCT_NAME|DESC">상품 이름 역순</option>
-					<option value="PRODUCT_NAME|ASC">상품 이름 순</option>
-					<option value="PRODUCT_CODE|DESC">상품 코드 역순</option>
-					<option value="PRODUCT_CODE|ASC">상품 코드 순</option>
-					<option value="PRODUCT_CODE|DESC">상품 재고 역순</option>
-					<option value="PRODUCT_CODE|ASC">상품 재고 순</option>
-				</select>
-				<select name="rows" style="width:163px;margin-right:10px;float:right;" lib_type="BNR" onChange="rowsChange(this);">
-					<option value="5" selected>5개씩보기</option>
-					<option value="10">10개씩보기</option>
-					<option value="20">20개씩보기</option>
-					<option value="30">30개씩보기</option>
-					<option value="50">50개씩보기</option>
-					<option value="100">100개씩보기</option>
-					<option value="200">200개씩보기</option>
-					<option value="300">300개씩보기</option>
-					<option value="500">500개씩보기</option>
-				</select>
-			</div>
-		</div>
-		
-		<div class="tmp_container_BNR"></div>
-		
-		<div class="table table__wrap">
-			<div class="overflow-x-auto">
-				<TABLE id="excel_table">
-					<THEAD>
-						<TR>
-							<TH>라이브러리 추가</TH>
-							<TH style="width:5%;">No.</TH>
-							<TH>배너 타이틀</TH>
-							<TH>배너 썸네일</TH>
-							<TH>배너 경로</TH>
-							<TH style="width:8%;">배너 등록일</TH>
-							<TH style="width:8%;">작성자</TH>
-							<TH style="width:8%;">배너 갱신일</TH>
-							<TH style="width:8%;">갱신자</TH>
-						</TR>
-					</THEAD>
-					<TBODY class="result_table_BNR">
-					</TBODY>
-				</TABLE>
-			</div>
-		</div>
-		
-		<div class="padding__wrap">
-			<input type="hidden" class="total_cnt" value="0" onChange="setPaging(this);">
-			<input type="hidden" class="result_cnt" value="0" onChange="setPaging(this);">
-			<div class="paging_BNR"></div>
-		</div>
-	</div>
-</div>
+
 
 <script>
 $(document).ready(function() {	

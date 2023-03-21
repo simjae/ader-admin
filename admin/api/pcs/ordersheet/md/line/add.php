@@ -14,23 +14,23 @@
  +=============================================================================
 */
 $line_name          = $_POST['line_name'];
-$line_type          = $_POST['line_type'];
+$line_type_idx          = $_POST['line_type_idx'];
 $line_memo          = $_POST['line_memo'];
 
-$line_cnt = $db->count('dev.LINE_INFO', ' LINE_NAME = "'.$line_name.'" ');
+$line_cnt = $db->count('LINE_INFO', ' LINE_NAME = "'.$line_name.'" ');
 
 if($line_cnt == 0){
     $sql = 	'
-        INSERT INTO dev.LINE_INFO
+        INSERT INTO LINE_INFO
         (
             LINE_NAME,
-            LINE_TYPE,
+            LINE_TYPE_IDX,
             MEMO
         )
         VALUE
         (
             "'.$line_name.'",
-            "'.$line_type.'",
+            "'.$line_type_idx.'",
             "'.$line_memo.'"
         )
     ';

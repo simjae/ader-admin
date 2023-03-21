@@ -41,7 +41,7 @@ if($member_idx > 0 && $country != null){
 				SELECT 
 					S_MI.MILEAGE_BALANCE		AS MILEAGE_BALANCE
 				FROM 
-					dev.MILEAGE_INFO S_MI
+					MILEAGE_INFO S_MI
 				WHERE 
 					S_MI.MEMBER_IDX = MB.IDX
 				ORDER BY 
@@ -53,7 +53,7 @@ if($member_idx > 0 && $country != null){
 				SELECT
 					COUNT(S_VI.IDX)
 				FROM 
-					dev.VOUCHER_ISSUE S_VI
+					VOUCHER_ISSUE S_VI
 				WHERE
 					S_VI.MEMBER_IDX = MB.IDX AND
 					S_VI.DEL_FLG = FALSE AND

@@ -41,7 +41,7 @@ if ($member_idx > 0 && $country != null) {
 				SELECT
 					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = WL.PRODUCT_IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -61,10 +61,10 @@ if ($member_idx > 0 && $country != null) {
 			WL.OPTION_NAME				AS OPTION_NAME,
 			WL.PRODUCT_QTY				AS PRODUCT_QTY
 		FROM
-			dev.WHISH_LIST WL
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			WHISH_LIST WL
+			LEFT JOIN SHOP_PRODUCT PR ON
 			WL.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		WHERE
 			WL.COUNTRY = '".$country."' AND

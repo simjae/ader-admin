@@ -14,11 +14,14 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
 $country		= $_POST['country'];
 $draw_idx		= $_POST['draw_idx'];
 
-if ($country != null && $standby_idx != null) {
-	$entry_cnt = $db->count("dev.ENTRY_DRAW","DRAW_IDX = ".$draw_idx);
+if ($country != null && $draw_idx != null) {
+	$entry_cnt = $db->count("ENTRY_DRAW","DRAW_IDX IN (".implode(',',$draw_idx).")");
 	
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 401;
@@ -26,13 +29,13 @@ if ($country != null && $standby_idx != null) {
 	} else {
 		$delete_draw_sql = "
 			UPDATE
-				dev.PAGE_DRAW
+				PAGE_DRAW
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),
-				UPDATER = 'Admin'
+				UPDATER = '".$session_id."'
 			WHERE
-				IDX = ".$draw_idx."
+				IDX IN (".implode(',',$draw_idx).")
 		";
 		
 		$db->query($delete_draw_sql);

@@ -15,7 +15,7 @@
 */
 
 $line_name 			= $_POST['line_name'];				//라인 명
-$line_type 		    = $_POST['line_type'];				//라인 타입
+$line_type_idx 		    = $_POST['line_type_idx'];			//라인 타입
 $use_product_flg 	= $_POST['use_product_flg'];		//사용중인 상품여부 플래그
 
 $sort_type 			= $_POST['sort_type'];				//정렬 타입
@@ -24,7 +24,7 @@ $sort_value 		= $_POST['sort_value'];				//정렬 값
 $rows = $_POST['rows'];
 $page = $_POST['page'];
     
-$table = "dev.LINE_INFO";
+$table = "LINE_INFO";
 $where = '1=1';
 $having = '';
 
@@ -32,8 +32,8 @@ if($line_name != null){
 	$where .= ' AND (LI.LINE_NAME LIKE "%'.$line_name.'%") ';
 }
 
-if($line_type != null){
-	$where .= ' AND (LI.LINE_TYPE = "'.$line_type.'") ';
+if($line_type_idx != null){
+	$where .= ' AND (LI.LINE_TYPE_IDX = '.$line_type_idx.') ';
 }
 
 if($use_product_flg != null && $use_product_flg != 'ALL'){
@@ -63,14 +63,18 @@ $sql = 	'
         SELECT
             LI.IDX                                          AS LINE_IDX,
             LI.LINE_NAME                                    AS LINE_NAME,
-            LI.LINE_TYPE                                    AS LINE_TYPE,
+            LI.LINE_TYPE_IDX                                AS LINE_TYPE_IDX,
+            LT.TYPE_NAME                                    AS TYPE_NAME,
             LI.MEMO                                         AS LINE_MEMO,
             COUNT(OM.IDX)									AS USE_PRODUCT_CNT
         FROM 
-            dev.LINE_INFO    	AS LI LEFT JOIN
-            dev.ORDERSHEET_MST	AS OM 
+            LINE_INFO    	AS LI LEFT JOIN
+            ORDERSHEET_MST	AS OM 
         ON
-            LI.IDX = OM.LINE_IDX
+            LI.IDX = OM.LINE_IDX LEFT JOIN
+            LINE_TYPE LT
+        ON
+            LI.LINE_TYPE_IDX = LT.IDX
         WHERE
             '.$where.'
         GROUP BY 
@@ -89,7 +93,8 @@ foreach($db->fetch() as $data) {
         'num'							=>$total_cnt--,
         'line_idx'		                =>intval($data['LINE_IDX']),
         'line_name'				        =>$data['LINE_NAME'],
-        'line_type'			            =>$data['LINE_TYPE'],
+        'line_type_idx'			        =>$data['LINE_TYPE_IDX'],
+        'type_name'			            =>$data['TYPE_NAME'],
         'line_memo'			            =>$data['LINE_MEMO'],
         'use_product_cnt'			    =>$data['USE_PRODUCT_CNT']
     );

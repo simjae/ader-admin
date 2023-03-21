@@ -17,32 +17,24 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$page_idx		= $_POST['page_idx'];
+$update_flg			= $_POST['update_flg'];
+$active_toggle_flg	= $_POST['active_toggle_flg'];
 
-$page_title		= $_POST['page_title'];
-$page_memo		= $_POST['page_memo'];
-$active_flg		= $_POST['active_flg'];
-$recommend_idx	= $_POST['recommend_idx'];
-$product_idx	= $_POST['product_idx'];
-$active_toggle	= $_POST['active_toggle'];
+$page_idx			= $_POST['page_idx'];
 
-if ($page_idx != null && $active_toggle != null) {
-	$active_sql = "UPDATE
-				dev.PAGE_RECOMMEND
-			SET
-				ACTIVE_FLG = !ACTIVE_FLG
-			WHERE
-				IDX = ".$page_idx;
-	
-	$db->query($active_sql);
-}
+$page_title			= $_POST['page_title'];
+$page_memo			= $_POST['page_memo'];
+$active_flg			= $_POST['active_flg'];
+$recommend_idx		= $_POST['recommend_idx'];
+$product_idx		= $_POST['product_idx'];
 
-if($page_idx != null){
+if ($update_flg != null && $page_idx != null) {
 	$db->begin_transaction();
+	
 	try {
-		$page_sql = "
+		$update_page_recommend_sql = "
 			UPDATE
-				dev.PAGE_RECOMMEND
+				PAGE_RECOMMEND
 			SET
 				PAGE_TITLE = '".$page_title."',
 				PAGE_MEMO = '".$page_memo."',
@@ -52,36 +44,39 @@ if($page_idx != null){
 				IDX = ".$page_idx."
 		";
 		
-		$db->query($page_sql);
+		$db->query($update_page_recommend_sql);
 		
 		if ($product_idx != null) {
-			$db->query("DELETE FROM dev.RECOMMEND_PRODUCT WHERE PAGE_IDX = ".$page_idx);
+			$db->query("DELETE FROM RECOMMEND_PRODUCT WHERE PAGE_IDX = ".$page_idx);
 			
 			for ($i=0; $i<count($product_idx); $i++) {
-				$product_sql = "
+				$insert_recommend_product_sql = "
 					INSERT INTO
-						dev.RECOMMEND_PRODUCT
+						RECOMMEND_PRODUCT
 					(
 						PAGE_IDX,
+						DISPLAY_NUM,
 						PRODUCT_IDX
 					) VALUES (
 						".$page_idx.",
+						".intval($i + 1).",
 						".$product_idx[$i]."
 					)
 				";
 				
-				$db->query($product_sql);
+				$db->query($insert_recommend_product_sql);
 			}
 		}
 		
 		$db->commit();
+		
 		$json_result['code'] = 200;
-		return $json_result;
 	} catch (mysqli_sql_exception $exception){
 		$db->rollback();
+		print_r($exception);
+		
 		$json_result['code'] = 301;
-		$json_result['msg'] = '추천상품 페이지 수정에 실패했습니다.';
-		return $json_result;
+		$json_result['msg'] = '추천상품 페이지 수정처리중 오류가 발생했습니다.';
 	}
 }
 ?>

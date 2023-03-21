@@ -204,8 +204,8 @@ if ($sort_value != null && $sort_type != null) {
 }
 
 $table = "
-	dev.MEMBER_".$country." MB
-	LEFT JOIN dev.MEMBER_LEVEL LV ON
+	MEMBER_".$country." MB
+	LEFT JOIN MEMBER_LEVEL LV ON
 	MB.LEVEL_IDX = LV.IDX
 ";
 

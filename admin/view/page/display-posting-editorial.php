@@ -1,225 +1,397 @@
-<div class="content__card">	
+<div class="content__card">
 	<div class="card__header">
 		<div class="flex justify-between">
 			<h3>에디토리얼 리스트</h3>
-			<div class="black-btn" onClick="location.href='/display/posting/editorial/regist'">추가하기</div>
+			<div class="black-btn" onClick="location.href='/display/posting/regist?posting_type=EDTL'">추가하기</div>
 		</div>
 		<div class="drive--x"></div>
 	</div>
 	
 	<div class="flex" style="gap:50px;margin:20px 0;">
-		<div class="category__tab editorial_country_btn" country="ALL" style="color:#140f82;border-bottom: 3px solid #140f82;text-align: center;cursor: pointer;" onClick="editorialCountryTabClick(this);">전체</div>
-		<div class="category__tab editorial_country_btn" country="KR" style="height:30px;color:#707070;text-align:center;cursor:pointer;" onClick="editorialCountryTabClick(this);">한국몰</div>
-		<div class="category__tab editorial_country_btn" country="EN" style="height:30px;color:#707070;text-align:center;cursor:pointer;" onClick="editorialCountryTabClick(this);">영문몰</div>
-		<div class="category__tab editorial_country_btn" country="CN" style="height:30px;color:#707070;text-align:center;cursor:pointer;" onClick="editorialCountryTabClick(this);">중문몰</div>
+		<div class="category__tab country_EDTL country_EDTL_ALL" country="ALL" style="color:#140f82;border-bottom: 3px solid #140f82;text-align: center;cursor: pointer;" onClick="clickCountryTab_EDTL(this);">전체</div>
+		<div class="category__tab country_EDTL country_EDTL_KR" country="KR" style="height:30px;color:#707070;text-align:center;cursor:pointer;" onClick="clickCountryTab_EDTL(this);">한국몰</div>
+		<div class="category__tab country_EDTL country_EDTL_EN" country="EN" style="height:30px;color:#707070;text-align:center;cursor:pointer;" onClick="clickCountryTab_EDTL(this);">영문몰</div>
+		<div class="category__tab country_EDTL country_EDTL_CN" country="CN" style="height:30px;color:#707070;text-align:center;cursor:pointer;" onClick="clickCountryTab_EDTL(this);">중문몰</div>
+		
+		<input id="country_EDTL" type="hidden" value="ALL">
 	</div>
 	
 	<div class="card__body">
-		<form id="frm-02-filter" action="display/posting/get">
-			<input type="hidden" class="tab_num" name="tab_num" value="02">
-			<input type="hidden" class="country" name="country" value="ALL">
-			<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
-			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
-			<input type="hidden" class="rows" name="rows" value="10">
-			<input type="hidden" class="page" name="page" value="1">
-			<input type="hidden" class="action_type" name="action_type">
-		</form>
-		<form id="frm-02-list">
-			<div class="info__wrap " style="justify-content:space-between; align-items: center;">
-				<div class="body__info--count">
-					<div class="drive--left"></div>
-					총 <font id="cnt_02_total" class="info__count">0</font>개 
-				</div>
-					
-				<div class="content__row">
-					<select name="searchSorting" onChange="orderChange(this)" style="width:130px;float:right;margin-right:10px;">
-						<option value="CREATE_DATE|DESC">등록일 역순</option>
-						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
-						<option value="PAGE_TITLE|DESC">페이지명 역순</option>
-						<option value="PAGE_TITLE|ASC">페이지명 순</option>
-					</select>
+		<div id="editorial_content_ALL" class="editorial_content">
+			<form id="frm-list_EDTL_ALL" action="display/posting/list/get">
+				<input type="hidden" name="posting_type" value="EDTL">
+				<input type="hidden" name="country" value="ALL">
+				
+				<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
+				<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+				
+				<input type="hidden" class="rows" name="rows" value="10">
+				<input type="hidden" class="page" name="page" value="1">
+			
+				<input type="hidden" class="action_type" name="action_type">
+				
+				<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+					<div class="body__info--count">
+						<div class="drive--left"></div>
+						총 <font id="cnt_EDTL_ALL_total" class="info__count">0</font>개 
+					</div>
+						
+					<div class="content__row">
+						<select onChange="orderChange(this)" style="width:130px;float:right;margin-right:10px;">
+							<option value="CREATE_DATE|DESC" selected>등록일 역순</option>
+							<option value="CREATE_DATE|ASC">등록일 순</option>
+							<option value="PAGE_TITLE|DESC">페이지명 역순</option>
+							<option value="PAGE_TITLE|ASC">페이지명 순</option>
+						</select>
 
-					<select onChange="rowsChange(this);" style="width: 130px;">
-						<option value="10" selected>10개씩보기</option>
-						<option value="20">20개씩보기</option>
-						<option value="30">30개씩보기</option>
-						<option value="50">50개씩보기</option>
-						<option value="100">100개씩보기</option>
-						<option value="200">200개씩보기</option>
-						<option value="300">300개씩보기</option>
-						<option value="500">500개씩보기</option>
-					</select>
+						<select onChange="rowsChange(this);" style="width: 130px;">
+							<option value="10" selected>10개씩보기</option>
+							<option value="20">20개씩보기</option>
+							<option value="30">30개씩보기</option>
+							<option value="50">50개씩보기</option>
+							<option value="100">100개씩보기</option>
+							<option value="200">200개씩보기</option>
+							<option value="300">300개씩보기</option>
+							<option value="500">500개씩보기</option>
+						</select>
+					</div>
 				</div>
-			</div>
 				
-			<div class="table table__wrap">
-				<div class="table__filter">
-					<div class="filrer__wrap">
-						<div class="filter__btn" style="width: 130px;" action_type="page_delete" onclick="postingActionClick(this)">페이지 삭제</div>
-						<div class="filter__btn" style="width: 130px;" action_type="page_copy" onclick="postingActionClick(this)">페이지 복사</div>
-						<div class="filter__btn" style="width: 130px;" action_type="display_true" onclick="postingActionClick(this)">전시</div>
-						<div class="filter__btn" style="width: 130px;" action_type="display_false" onclick="postingActionClick(this)">전시취소</div>
-					</div>  
-					<div>
-						<div class="table__setting__btn">설정</div>
-					</div>                               
+				<div class="table table__wrap">
+					<div class="table__filter">
+						<div class="filrer__wrap">
+							<div class="filter__btn" style="width: 130px;" onclick="deletePagePosting()">페이지 삭제</div>
+							<div class="filter__btn" style="width: 130px;" onclick="copyPagePosting()">페이지 복사</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('TRUE')">전시</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('FALSE')">전시취소</div>
+						</div>
+					</div>
+					<div class="overflow-x-auto">
+						<TABLE style="width:100%;">
+							<THEAD>
+								<TR>
+									<TH style="width:1%;">
+										<div class="cb__color">
+											<label>
+												<input type="checkbox" name="selectAll" onclick="selectAllClick(this)">
+												<span></span>
+											</label>
+										</div>
+									</TH>
+									<TH style="width:5%;">No.</TH>
+									<TH>페이지편집</TH>
+									<TH>게시물진열</TH>
+									<TH>전시상태</TH>
+									<TH style="width:250px;">전시기간</TH>
+									<TH style="width:250px;">컬렉션명</TH>
+									<TH style="width:5%;">적용몰</TH>
+									<TH style="width:250px;">URL</TH>
+									<TH style="width:250px;">비고(내부용)</TH>
+									<TH style="width:5%;">조회수</TH>
+									<TH style="width:7%;">등록일</TH>
+									<TH style="width:7%;">최근수정일</TH>
+								</TR>
+							</THEAD>
+							<TBODY id="result_table_EDTL_ALL">
+							</TBODY>
+						</TABLE>
+					</div>
+
 				</div>
-				<TABLE>
-					<THEAD>
-						<TR>
-							<TH style="width:1%;">
-								<div class="cb__color">
-									<label>
-										<input type="checkbox" name="selectAll" value="" onclick="selectAllClick(this)">
-										<span></span>
-									</label>
-								</div>
-							</TH>
-							<TH style="width:5%;">No.</TH>
-							<TH>페이지 편집</TH>
-							<TH>전시상태</TH>
-							<TH style="width:250px;">전시기간</TH>
-							<TH style="width:250px;">에디토리얼 명</TH>
-							<TH style="width:5%;">적용몰</TH>
-							<TH style="width:250px;">URL</TH>
-							<TH style="width:250px;">비고(내부용)</TH>
-							<TH style="width:5%;">조회수</TH>
-							<TH style="width:7%;">등록일</TH>
-							<TH style="width:7%;">최근수정일</TH>
-						</TR>
-					</THEAD>
-					<TBODY id="result_02_table">
-					</TBODY>
-				</TABLE>
-			</div>
+				<div class="padding__wrap">
+					<input type="hidden" class="total_cnt" tab_status="EDTL" country="ALL" value="0" onChange="setPaging(this);">
+					<input type="hidden" class="result_cnt" tab_status="EDTL" country="ALL" value="0">
+					<div class="paging_EDTL_ALL"></div>
+				</div>
+			</form>
+		</div>
+		
+		<div id="editorial_content_KR" class="editorial_content" style="display:none;">
+			<form id="frm-list_EDTL_KR" action="display/posting/list/get">
+				<input type="hidden" name="posting_type" value="EDTL">
+				<input type="hidden" name="country" value="KR">
 				
-			<div class="padding__wrap">
-				<input type="hidden" class="total_cnt" tab_num="02" value="0" onChange="setPaging(this);">
-				<input type="hidden" class="result_cnt" value="0" onChange="">
-				<div class="paging"></div>
-			</div>
-		</form>
+				<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
+				<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+				<input type="hidden" class="rows" name="rows" value="10">
+				<input type="hidden" class="page" name="page" value="1">
+			
+				<input type="hidden" class="action_type" name="action_type">
+				
+				<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+					<div class="body__info--count">
+						<div class="drive--left"></div>
+						총 <font id="cnt_EDTL_KR_total" class="info__count">0</font>개 
+					</div>
+						
+					<div class="content__row">
+						<select onChange="orderChange(this)" style="width:130px;float:right;margin-right:10px;">
+							<option value="CREATE_DATE|DESC">등록일 역순</option>
+							<option value="CREATE_DATE|ASC">등록일 순</option>
+							<option value="PAGE_TITLE|DESC">페이지명 역순</option>
+							<option value="PAGE_TITLE|ASC">페이지명 순</option>
+						</select>
+
+						<select onChange="rowsChange(this);" style="width: 130px;">
+							<option value="10" selected>10개씩보기</option>
+							<option value="20">20개씩보기</option>
+							<option value="30">30개씩보기</option>
+							<option value="50">50개씩보기</option>
+							<option value="100">100개씩보기</option>
+							<option value="200">200개씩보기</option>
+							<option value="300">300개씩보기</option>
+							<option value="500">500개씩보기</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="table table__wrap">
+					<div class="table__filter">
+						<div class="filrer__wrap">
+							<div class="filter__btn" style="width: 130px;" onclick="deletePagePosting()">페이지 삭제</div>
+							<div class="filter__btn" style="width: 130px;" onclick="copyPagePosting()">페이지 복사</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('TRUE')">전시</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('FALSE')">전시취소</div>
+						</div>
+					</div>
+					<div class="overflow-x-auto">
+						<TABLE style="width:100%;">
+							<THEAD>
+								<TR>
+									<TH style="width:1%;">
+										<div class="cb__color">
+											<label>
+												<input type="checkbox" name="selectAll" onclick="selectAllClick(this)">
+												<span></span>
+											</label>
+										</div>
+									</TH>
+									<TH style="width:5%;">No.</TH>
+									<TH>페이지편집</TH>
+									<TH>게시물진열</TH>
+									<TH>전시상태</TH>
+									<TH style="width:250px;">전시기간</TH>
+									<TH style="width:250px;">컬렉션명</TH>
+									<TH style="width:5%;">적용몰</TH>
+									<TH style="width:250px;">URL</TH>
+									<TH style="width:250px;">비고(내부용)</TH>
+									<TH style="width:5%;">조회수</TH>
+									<TH style="width:7%;">등록일</TH>
+									<TH style="width:7%;">최근수정일</TH>
+								</TR>
+							</THEAD>
+							<TBODY id="result_table_EDTL_KR">
+							</TBODY>
+						</TABLE>
+					</div>
+				</div>
+				<div class="padding__wrap">
+					<input type="hidden" class="total_cnt" tab_status="EDTL" country="KR" value="0" onChange="setPaging(this);">
+					<input type="hidden" class="result_cnt" tab_status="EDTL" country="KR" value="0">
+					<div class="paging_EDTL_KR"></div>
+				</div>
+			</form>
+		</div>
+		
+		<div id="editorial_content_EN" class="editorial_content" style="display:none;">
+			<form id="frm-list_EDTL_EN" action="display/posting/list/get">
+				<input type="hidden" name="posting_type" value="EDTL">
+				<input type="hidden" name="country" value="EN">
+				
+				<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
+				<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+				
+				<input type="hidden" class="rows" name="rows" value="10">
+				<input type="hidden" class="page" name="page" value="1">
+			
+				<input type="hidden" class="action_type" name="action_type">
+				
+				<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+					<div class="body__info--count">
+						<div class="drive--left"></div>
+						총 <font id="cnt_EDTL_EN_total" class="info__count">0</font>개 
+					</div>
+						
+					<div class="content__row">
+						<select onChange="orderChange(this)" style="width:130px;float:right;margin-right:10px;">
+							<option value="CREATE_DATE|DESC">등록일 역순</option>
+							<option value="CREATE_DATE|ASC">등록일 순</option>
+							<option value="PAGE_TITLE|DESC">페이지명 역순</option>
+							<option value="PAGE_TITLE|ASC">페이지명 순</option>
+						</select>
+
+						<select onChange="rowsChange(this);" style="width: 130px;">
+							<option value="10" selected>10개씩보기</option>
+							<option value="20">20개씩보기</option>
+							<option value="30">30개씩보기</option>
+							<option value="50">50개씩보기</option>
+							<option value="100">100개씩보기</option>
+							<option value="200">200개씩보기</option>
+							<option value="300">300개씩보기</option>
+							<option value="500">500개씩보기</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="table table__wrap">
+					<div class="table__filter">
+						<div class="filrer__wrap">
+							<div class="filter__btn" style="width: 130px;" onclick="deletePagePosting()">페이지 삭제</div>
+							<div class="filter__btn" style="width: 130px;" onclick="copyPagePosting()">페이지 복사</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('TRUE')">전시</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('FALSE')">전시취소</div>
+						</div>
+					</div>
+					<div class="overflow-x-auto">
+						<TABLE style="width:100%;">
+							<THEAD>
+								<TR>
+									<TH style="width:1%;">
+										<div class="cb__color">
+											<label>
+												<input type="checkbox" name="selectAll" onclick="selectAllClick(this)">
+												<span></span>
+											</label>
+										</div>
+									</TH>
+									<TH style="width:5%;">No.</TH>
+									<TH>페이지편집</TH>
+									<TH>게시물진열</TH>
+									<TH>전시상태</TH>
+									<TH style="width:250px;">전시기간</TH>
+									<TH style="width:250px;">컬렉션명</TH>
+									<TH style="width:5%;">적용몰</TH>
+									<TH style="width:250px;">URL</TH>
+									<TH style="width:250px;">비고(내부용)</TH>
+									<TH style="width:5%;">조회수</TH>
+									<TH style="width:7%;">등록일</TH>
+									<TH style="width:7%;">최근수정일</TH>
+								</TR>
+							</THEAD>
+							<TBODY id="result_table_EDTL_EN">
+							</TBODY>
+						</TABLE>
+					</div>
+				</div>
+				<div class="padding__wrap">
+					<input type="hidden" class="total_cnt" tab_status="EDTL" country="EN" value="0" onChange="setPaging(this);">
+					<input type="hidden" class="result_cnt" tab_status="EDTL" country="EN" value="0">
+					<div class="paging_EDTL_EN"></div>
+				</div>
+			</form>
+		</div>
+		
+		<div id="editorial_content_CN" class="editorial_content" style="display:none;">
+			<form id="frm-list_EDTL_CN" action="display/posting/list/get">
+				<input type="hidden" name="posting_type" value="EDTL">
+				<input type="hidden" name="country" value="CN">
+				
+				<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">
+				<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+				
+				<input type="hidden" class="rows" name="rows" value="10">
+				<input type="hidden" class="page" name="page" value="1">
+			
+				<input type="hidden" class="action_type" name="action_type">
+				
+				<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+					<div class="body__info--count">
+						<div class="drive--left"></div>
+						총 <font id="cnt_EDTL_CN_total" class="info__count">0</font>개 
+					</div>
+						
+					<div class="content__row">
+						<select onChange="orderChange(this)" style="width:130px;float:right;margin-right:10px;">
+							<option value="CREATE_DATE|DESC">등록일 역순</option>
+							<option value="CREATE_DATE|ASC">등록일 순</option>
+							<option value="PAGE_TITLE|DESC">페이지명 역순</option>
+							<option value="PAGE_TITLE|ASC">페이지명 순</option>
+						</select>
+
+						<select onChange="rowsChange(this);" style="width: 130px;">
+							<option value="10" selected>10개씩보기</option>
+							<option value="20">20개씩보기</option>
+							<option value="30">30개씩보기</option>
+							<option value="50">50개씩보기</option>
+							<option value="100">100개씩보기</option>
+							<option value="200">200개씩보기</option>
+							<option value="300">300개씩보기</option>
+							<option value="500">500개씩보기</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="table table__wrap">
+					<div class="table__filter">
+						<div class="filrer__wrap">
+							<div class="filter__btn" style="width: 130px;" onclick="deletePagePosting()">페이지 삭제</div>
+							<div class="filter__btn" style="width: 130px;" onclick="copyPagePosting()">페이지 복사</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('TRUE')">전시</div>
+							<div class="filter__btn" style="width: 130px;" onclick="displayPagePosting('FALSE')">전시취소</div>
+						</div>
+					</div>
+					<div class="overflow-x-auto">
+						<TABLE style="width:100%;">
+							<THEAD>
+								<TR>
+									<TH style="width:1%;">
+										<div class="cb__color">
+											<label>
+												<input type="checkbox" name="selectAll" onclick="selectAllClick(this)">
+												<span></span>
+											</label>
+										</div>
+									</TH>
+									<TH style="width:5%;">No.</TH>
+									<TH>페이지편집</TH>
+									<TH>게시물진열</TH>
+									<TH>전시상태</TH>
+									<TH style="width:250px;">전시기간</TH>
+									<TH style="width:250px;">컬렉션명</TH>
+									<TH style="width:5%;">적용몰</TH>
+									<TH style="width:250px;">URL</TH>
+									<TH style="width:250px;">비고(내부용)</TH>
+									<TH style="width:5%;">조회수</TH>
+									<TH style="width:7%;">등록일</TH>
+									<TH style="width:7%;">최근수정일</TH>
+								</TR>
+							</THEAD>
+							<TBODY id="result_table_EDTL_CN">
+							</TBODY>
+						</TABLE>
+					</div>
+				</div>
+				<div class="padding__wrap">
+					<input type="hidden" class="total_cnt" tab_status="EDTL" country="CN" value="0" onChange="setPaging(this);">
+					<input type="hidden" class="result_cnt" tab_status="EDTL" country="CN" value="0">
+					<div class="paging_EDTL_CN"></div>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>
 
 <script>
 $(document).ready(function() {
-	getPostingEditorialInfo();
+	getPagePostingList('EDTL','ALL');
+	getPagePostingList('EDTL','KR');
+	getPagePostingList('EDTL','EN');
+	getPagePostingList('EDTL','CN');
 });
 
-function editorialCountryTabClick(obj) {
+function clickCountryTab_EDTL(obj) {
 	var country = $(obj).attr('country');
+	$('#country_EDTL').val(country);
+	
 	if (country != null) {
-		$('#frm-02-filter').find('input[name="country"]').eq(0).val(country);
-		$('.editorial_country_btn').not($(obj)).css('color','#707070');
-		$('.editorial_country_btn').not($(obj)).css('border-bottom','none');
-		$(obj).css('color','#140f82');
-		$(obj).css('border-bottom','3px solid #140f82');
-
-		getPostingEditorialInfo();
+		$('.editorial_content').hide();
+		$('#editorial_content_' + country).show();
 	}
-}
-
-function getPostingEditorialInfo() {
-	$("#result_02_table").html('');
-	var strDiv = '';
-	strDiv += '<TD class="default_td" colspan="12">';
-	strDiv += '    조회 결과가 없습니다';
-	strDiv += '</TD>';
 	
-	$("#result_02_table").append(strDiv);
+	$('.country_EDTL').not($(obj)).css('color','#707070');
+	$('.country_EDTL').not($(obj)).css('border-bottom','none');
 	
-	var rows = $('#frm-02-filter').find('.rows').val();
-	var page = $('#frm-02-filter').find('.page').val();
-	
-	get_contents($('#frm-02-filter'),{
-		pageObj : $('#frm-02-list').find(".paging"),
-		html : function(d) {
-			if (d.length > 0) {
-				$("#result_02_table").html('');
-			}
-			
-			d.forEach(function(row) {
-				if(row.page_memo == null) {
-					row.page_memo = '';
-				}
-				
-				var strDiv = "";
-				strDiv += '<TR>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="cb__color">';
-				strDiv += '            <label style="display: block;">';
-				strDiv += '                <input type="checkbox" name="select_idx[]" class="select" value="' + row.idx + '" >';
-				strDiv += '                <span></span>';
-				strDiv += '            </label>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + row.num + '</TD>';
-				
-				var display_flg = "";
-				var display_str = "";
-				var display_date = "";
-				
-				var today = new Date();
-				var start_date = new Date(row.display_start_date);
-				var end_date = new Date(row.display_end_date);					
-				
-				if (row.display_end_date == '9999-12-31 23:59') {
-					display_date = "상시진열";
-				}
-				
-				if (row.display_flg == true) {
-					display_flg = true;
-					
-					if ((today <= start_date)) {
-						display_str = "진열예약";
-						if (display_date.length == 0) {
-							display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
-						}
-						
-					} else if ((today >= start_date) && (today <= end_date)) {
-						display_str = "진열중";
-						if (display_date.length == 0) {
-							display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
-						}
-						
-					} else if ((today >= start_date) && (today > end_date)) {
-						display_str = "진열종료";
-						if (display_date.length == 0) {
-							display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
-						}
-					}
-				} else {
-					display_flg = false;
-					
-					display_str = "진열안함";
-					if (display_date.length == 0) {
-						display_date = "진열시작 : " + row.display_start_date + "<br>진열종료 : " + row.display_end_date;
-					}
-				}
-				strDiv += '    <TD>';
-				strDiv += '        <button type="button" page_idx="' + row.idx + '" page_url="' + row.page_url + '" style="font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;" onClick="location.href=\'/display/posting/editorial/page?page_idx=' + row.idx + '\';">페이지 편집</button>';
-				strDiv += '    </TD>';
-				strDiv += '    <TD>';
-				strDiv += '        <input id="display_flg_' + row.idx + '" type="hidden" value="' + display_flg + '">';
-				strDiv += '        ' + display_str;
-				strDiv += '    </TD>';
-				strDiv += '    <TD>' + display_date + '</TD>';
-				strDiv += '    <TD><font style="cursor:pointer;" onClick="openPostingUpdateModal(' + row.idx + ');">' + row.page_title + '</font></TD>';
-				strDiv += '    <TD>' + row.country + '</TD>';
-				strDiv += '    <TD>' + row.page_url + '</TD>';
-				strDiv += '    <TD>' + row.page_memo + '</TD>';
-				strDiv += '    <TD>' + row.page_view + '</TD>';
-				strDiv += '    <TD>' + row.create_date + '</TD>';
-				strDiv += '    <TD>' + row.update_date + '</TD>';
-				strDiv += '</TR>';
-				
-				$('#frm-02-list').find('input[name="selectAll"]').prop('checked', false);
-				$("#result_02_table").append(strDiv);
-			});
-		},
-	},rows,page);
+	$(obj).css('color','#140f82');
+	$(obj).css('border-bottom','3px solid #140f82');
 }
 </script>

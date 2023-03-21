@@ -109,14 +109,27 @@
                     <div class="content_row">
                         <div class=" detail__member__level">
                             <div class="content__row form-group" style="padding-left:0px!important;">
+<?php
+						$get_member_level_sql = "
+							SELECT
+								IDX,
+								TITLE
+							FROM
+								dev.MEMBER_LEVEL
+							WHERE
+								DEL_FLG = FALSE
+						";
+						$db->query($get_member_level_sql);
+
+						foreach($db->fetch() as $level_info){
+?>
                                 <label>
-                                    <input type="checkbox" name="member_level[]" value="1">
-                                    <span>일반회원</span>
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="member_level[]" value="2">
-                                    <span>Ader Family</span>
-                                </label>
+                                    <input type="checkbox" name="member_level[]" value="<?=$level_info['IDX']?>">
+                                    <span><?=$level_info['TITLE']?></span>
+                                </label>		    
+<?php
+						}
+?>
                             </div>
                         </div>
                     </div>

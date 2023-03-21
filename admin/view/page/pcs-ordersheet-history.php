@@ -6,6 +6,9 @@
 		font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#a0a0a0;cursor: not-allowed;
 	}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-filter" action="pcs/ordersheet/history/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">

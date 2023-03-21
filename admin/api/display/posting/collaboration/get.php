@@ -41,8 +41,8 @@ if ($collaboration_idx != null) {
 			PC.PRODUCT_LIST_FLG		AS PRODUCT_LIST_FLG,
 			PC.PRODUCT_LINK_FLG		AS PRODUCT_LINK_FLG
 		FROM
-			dev.POSTING_COLLABORATION PC
-			LEFT JOIN dev.PAGE_POSTING PP ON
+			POSTING_COLLABORATION PC
+			LEFT JOIN PAGE_POSTING PP ON
 			PC.PAGE_IDX = PP.IDX
 		WHERE
 			PC.IDX = ".$collaboration_idx." AND
@@ -64,7 +64,7 @@ if ($collaboration_idx != null) {
 				CC.LGC_COLUMN_NAME	AS LGC_COLUMN_NAME,
 				CC.COLUMN_VALUE		AS COLUMN_VALUE
 			FROM
-				dev.COLLABORATION_COLUMN CC
+				COLLABORATION_COLUMN CC
 			WHERE
 				CC.COLLABORATION_IDX = ".$collaboration_idx."
 		";
@@ -101,7 +101,7 @@ if ($collaboration_idx != null) {
 							''
 						)
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						IMG_TYPE = 'P' AND
@@ -113,10 +113,10 @@ if ($collaboration_idx != null) {
 				)							AS IMG_LOCATION,
 				CP.DISPLAY_FLG				AS DISPLAY_FLG
 			FROM
-				dev.COLLABORATION_PRODUCT CP
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				COLLABORATION_PRODUCT CP
+				LEFT JOIN SHOP_PRODUCT PR ON
 				CP.PRODUCT_IDX = PR.IDX
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				LEFT JOIN ORDERSHEET_MST OM ON
 				PR.ORDERSHEET_IDX = OM.IDX
 			WHERE
 				CP.COLLABORATION_IDX = ".$collaboration_idx."
@@ -142,12 +142,10 @@ if ($collaboration_idx != null) {
 		}
 		
 		$bookmark_flg = false;
-		if ($admin_idx > 0) {
-			$bookmark_cnt = $db->count("dev.COLLABORATION_BOOKMARK","COLLABORATION_IDX = ".$collaboration_idx." AND ADMIN_IDX = ".$admin_idx);
-			
-			if ($bookmark_cnt > 0) {
-				$bookmark_flg = true;
-			}
+		
+		$bookmark_cnt = $db->count("COLLABORATION_BOOKMARK","COLLABORATION_IDX = ".$collaboration_idx);
+		if ($bookmark_cnt > 0) {
+			$bookmark_flg = true;
 		}
 		
 		$json_result['data'][] = array(

@@ -15,66 +15,62 @@
 	}
 </style>
 <input id="json_str" type="hidden"  value='<?=$json_str?>'>
-<input id="json_str" type="hidden"  value='<?=$json_str?>'>
-<div class="content__card" style="width:1000px!important">
+<div class="content__card modal__view" style="width:1000px!important">
 	<h3>
 		부자재 검색창
 		<a onclick="modal_close();" class="btn-close">
 			<i class="xi-close"></i>
 		</a>
+		<div class="drive--x"></div>
 	</h3>
 	
 	<div class="card__body">
-        <form id="frm-filter" action="pcs/ordersheet/td/sub_material/list/get">
+        <form id="frm-filter" action="product/set/sub_material/get">
             <input type="hidden" class="sort_type" name="sort_type" value="DESC">
             <input type="hidden" class="sort_value" name="sort_value" value="SUB_MATERIAL_CODE">
             <input type="hidden" class="rows" name="rows" value="10">
             <input type="hidden" class="page" name="page" value="1">
 
-            <div class="card__header">
-            </div>
-            <div class="drive--x"></div>
-            <div class="card__body">
-                <div claszs="body__info--count" style="display: block;margin:20px 0;">
-                    <div class="drive--left"></div>
-                    <div class="flex justify-between" style="gap:20px;">
-                    </div>
-                </div>
-                <div class="content__wrap">
-					<div class="content__title">부자재 타입</div>
+            
+            <div claszs="body__info--count" style="display: block;margin:20px 0;">
+				<div class="drive--left"></div>
+				<div class="flex justify-between" style="gap:20px;">
+				</div>
+			</div>
+			<div class="content__wrap">
+				<div class="content__title">부자재 타입</div>
+				<div class="content__row">
+					<label class="rd__square">
+						<input type="radio" name="sub_material_type" value="ALL" checked>
+						<div><div></div></div>
+						<span>전체</span>
+					</label>
+					<label class="rd__square">
+						<input type="radio" name="sub_material_type" value="T" >
+						<div><div></div></div>
+						<span>포장부자재</span>
+					</label>
+					<label class="rd__square">
+						<input type="radio" name="sub_material_type" value="D">
+						<div><div></div></div>
+						<span>배송부자재</span>
+					</label>
+				</div>
+			</div>
+			<div class="content__wrap grid__half">
+				<div class="half__box__wrap">
+					<div class="content__title">부자재명</div>
 					<div class="content__row">
-						<label class="rd__square">
-							<input type="radio" name="sub_material_type" value="ALL" checked>
-							<div><div></div></div>
-							<span>전체</span>
-						</label>
-						<label class="rd__square">
-							<input type="radio" name="sub_material_type" value="T" >
-							<div><div></div></div>
-							<span>포장부자재</span>
-						</label>
-						<label class="rd__square">
-							<input type="radio" name="sub_material_type" value="D">
-							<div><div></div></div>
-							<span>배송부자재</span>
-						</label>
+						<input type="text" name="sub_material_name" value="">
 					</div>
-                </div>
-				<div class="content__wrap grid__half">
-					<div class="half__box__wrap">
-                        <div class="content__title">부자재명</div>
-                        <div class="content__row">
-                            <input type="text" name="sub_material_name" value="">
-                        </div>
-                    </div>
-                    <div class="half__box__wrap">
-                        <div class="content__title">부자재코드</div>
-                        <div class="content__row">
-                            <input type="text" name="sub_material_code" value="">
-                        </div>
-                    </div>
-                </div>
-            </div>
+				</div>
+				<div class="half__box__wrap">
+					<div class="content__title">부자재코드</div>
+					<div class="content__row">
+						<input type="text" name="sub_material_code" value="">
+					</div>
+				</div>
+			</div>
             <div class="card__footer">
                 <div class="footer__btn__wrap" style="grid: none;">
                     <div class="btn__wrap--lg">
@@ -184,12 +180,14 @@
 			</form>
         </div>
 	</div>
-	
 	<div class="card__footer">
-		<a onclick="confirm('부자재 입력항목을 이대로 수정하시겠습니까?','updateSubMaterialForm()');" class="btn blue" style="margin-right:10px;"><i class="xi-check"></i>적용</a>
-		<a onclick="confirm('창을 나가시겠습니까?','modal_close()');" class="btn red"><i class="xi-close"></i>취소</a>
-		
-	</div>
+		<div class="footer__btn__wrap" style="grid: none;">
+			<div class="btn__wrap--lg">
+			<div  class="blue__color__btn" onClick="confirm('부자재 입력항목을 이대로 수정하시겠습니까?','updateSubMaterialForm()');"><span>적용</span></div>
+				<div class="defult__color__btn" onClick="confirm('창을 나가시겠습니까?','modal_close()');"><span>취소</span></div>
+			</div>
+		</div>
+	</div> 
 </div>
 
 <script>

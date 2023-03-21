@@ -758,7 +758,7 @@ if ($seo_alt_text != null) {
 
 //검색 유형 - 디폴트
 $sql = 	"INSERT INTO
-			dev.SHOP_PRODUCT
+			SHOP_PRODUCT
 		(
 			".$product_style_code_arr[0]."
 			".$product_code_arr[0]."
@@ -989,7 +989,7 @@ if (!empty($product_idx)) {
 		
 		for ($i=0; $i<count($upload_file); $i++) {
 			$img_sql = "INSERT INTO
-						dev.PRODUCT_IMG
+						PRODUCT_IMG
 					(
 						PRODUCT_IDX,
 						IMG_TYPE,
@@ -1022,7 +1022,7 @@ if (!empty($product_idx)) {
 		
 		for ($i=0; $i<count($upload_file); $i++) {
 			$img_sql = "INSERT INTO
-						dev.PRODUCT_IMG
+						PRODUCT_IMG
 					(
 						PRODUCT_IDX,
 						IMG_TYPE,
@@ -1055,7 +1055,7 @@ if (!empty($product_idx)) {
 		
 		for ($i=0; $i<count($upload_file); $i++) {
 			$img_sql = "INSERT INTO
-						dev.PRODUCT_IMG
+						PRODUCT_IMG
 					(
 						PRODUCT_IDX,
 						IMG_TYPE,

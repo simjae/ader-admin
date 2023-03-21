@@ -26,9 +26,20 @@ $price_max				= $_POST['price_max'];
 $display_flg			= $_POST['display_flg'];
 
 $entry_start_date		= $_POST['entry_start_date'];
+$entry_start_time		= $_POST['entry_start_time'];
 $entry_end_date			= $_POST['entry_end_date'];
+$entry_end_time			= $_POST['entry_end_time'];
+
 $purchase_start_date	= $_POST['purchase_start_date'];
+$purchase_start_time	= $_POST['purchase_start_time'];
 $purchase_end_date		= $_POST['purchase_end_date'];
+$purchase_end_time		= $_POST['purchase_end_time'];
+
+$sort_type 				= $_POST['sort_type'];				//정렬 타입
+$sort_value 			= $_POST['sort_value'];				//정렬 값
+
+$rows					= $_POST['rows'];
+$page					= $_POST['page'];
 
 if ($entry_start_date != null) {
 	if (isset($_POST['entry_start_time'])) {
@@ -61,12 +72,6 @@ if ($purchase_end_date != null) {
 		$purchase_end_date = "'" . $purchase_end_date . " 00:00'";
 	}
 }
-
-$sort_type 				= $_POST['sort_type'];				//정렬 타입
-$sort_value 			= $_POST['sort_value'];				//정렬 값
-
-$rows					= $_POST['rows'];
-$page					= $_POST['page'];
 
 //검색 유형 - 디폴트
 $where = '1=1';
@@ -130,7 +135,7 @@ if ($qty_min != null || $qty_max != null) {
 					SELECT
 						SUM(S_QS.PRODUCT_QTY)
 					FROM
-						dev.QTY_STANDBY S_QS
+						QTY_STANDBY S_QS
 					WHERE
 						S_QS.STANDBY_IDX = PS.IDX
 				)
@@ -179,29 +184,45 @@ if ($purchase_start_date != null || $purchase_end_date != null) {
 	if ($purchase_start_date != null && $purchase_end_date == null) {
 		$where .= " AND (PS.PURCHASE_START_DATE >= ".$purchase_start_date.") ";
 	} else if ($purchase_start_date == null && $purchase_end_date != null) {
-		$where .= " AND (PS.PURCHASE_END <= ".$purchase_end_date.") ";
+		$where .= " AND (PS.PURCHASE_END_DATE <= ".$purchase_end_date.") ";
 	} else if ($purchase_start_date != null && $purchase_end_date != null) {
-		$where .= " AND (PS.ENTRY_START_DATE >= ".$purchase_start_date." AND PS.ENTRY_END_DATE <= ".$purchase_end_date.") ";
+		$where .= " AND (PS.PURCHASE_START_DATE >= ".$purchase_start_date." AND PS.PURCHASE_END_DATE <= ".$purchase_end_date.") ";
 	}
 }
 
-$total_cnt = $db->count(" 	dev.PAGE_STANDBY PS
+$total_cnt = $db->count(" 	PAGE_STANDBY PS
 						LEFT JOIN 
-							dev.SHOP_PRODUCT PR 
+							SHOP_PRODUCT PR 
 						ON
 							PS.PRODUCT_IDX = PR.IDX",$where_cnt);
 
 $json_result = array(
-	'total' => $db->count("	dev.PAGE_STANDBY PS
+	'total' => $db->count("	PAGE_STANDBY PS
 						LEFT JOIN 
-							dev.SHOP_PRODUCT PR 
+							SHOP_PRODUCT PR 
 						ON
 							PS.PRODUCT_IDX = PR.IDX ",$where),
 	'total_cnt' => $total_cnt,
 	'page' => $page
 );
 
+$order = '';
+if ($sort_value != null && $sort_type != null) {
+	$alias = "";
+	if(strpos($sort_value, 'PRODUCT_NAME') !== false || strpos($sort_value, 'SALES_PRICE') !== false){
+		$alias = 'PR';
+	} else {
+		$alias = 'PS';
+	}
+	$order = ' '.$alias.'.'.$sort_value." ".$sort_type." ";
+} else {
+	$order = ' PS.IDX DESC';
+}
+
 $limit_start = (intval($page)-1)*$rows;
+if ($rows != null) {
+	$limit .= " LIMIT ".$limit_start.",".$rows;
+}
 
 $select_standby_sql = "
 	SELECT
@@ -214,7 +235,7 @@ $select_standby_sql = "
 					SELECT
 						COUNT(S_PI.IDX)
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -225,7 +246,7 @@ $select_standby_sql = "
 						SELECT
 							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.DEL_FLG = FALSE AND
@@ -247,25 +268,23 @@ $select_standby_sql = "
 		PS.ENTRY_END_DATE		AS ENTRY_END_DATE,
 		PS.PURCHASE_START_DATE	AS PURCHASE_START_DATE,
 		PS.PURCHASE_END_DATE	AS PURCHASE_END_DATE,
-		(SELECT COLOR FROM dev.ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR,
+		(SELECT COLOR FROM ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR,
 		PS.DISPLAY_NUM			AS DISPLAY_NUM,
 		PS.CREATE_DATE			AS CREATE_DATE,
 		PS.CREATER				AS CREATER,
 		PS.UPDATE_DATE			AS UPDATE_DATE,
 		PS.UPDATER				AS UPDATER
 	FROM
-		dev.PAGE_STANDBY PS
-		LEFT JOIN dev.SHOP_PRODUCT PR ON
+		PAGE_STANDBY PS
+		LEFT JOIN SHOP_PRODUCT PR ON
 		PS.PRODUCT_IDX = PR.IDX
 	WHERE
 		".$where."
 	ORDER BY
 		PS.DISPLAY_NUM ASC
+	".$limit."
 ";
 
-if ($rows != null) {
-	$select_standby_sql .= " LIMIT ".$limit_start.",".$rows;
-}
 $db->query($select_standby_sql);
 
 foreach($db->fetch() as $standby_data) {
@@ -281,7 +300,7 @@ foreach($db->fetch() as $standby_data) {
 				QS.BARCODE				AS BARCODE,
 				QS.PRODUCT_QTY			AS PRODUCT_QTY
 			FROM
-				dev.QTY_STANDBY QS
+				QTY_STANDBY QS
 			WHERE
 				QS.STANDBY_IDX = ".$standby_idx."
 		";

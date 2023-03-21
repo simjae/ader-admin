@@ -46,14 +46,14 @@ if ($country == null || $member_idx == 0 || $member_name == null) {
 }
 
 if ($country != null && $member_idx > 0 && $standby_idx > 0 && $option_idx > 0) {
-	$standby_cnt = $db->count("dev.PAGE_STANDBY","IDX = ".$standby_idx." AND COUNTRY = '".$country."' AND DISPLAY_STATUS = TRUE AND ENTRY_START_DATE >= NOW() AND ENTRY_END_DATE < NOW()");
+	$standby_cnt = $db->count("PAGE_STANDBY","IDX = ".$standby_idx." AND COUNTRY = '".$country."' AND DISPLAY_STATUS = TRUE AND ENTRY_START_DATE >= NOW() AND ENTRY_END_DATE < NOW()");
 	if ($standby_cnt == 0) {
 		$json_result['code'] = 302;
 		$json_result['msg'] = '해당 스탠바이는 현재 진행중이지 않습니다.';
 		return $json_result;
 	}
 	
-	$entry_cnt = $db->count("dev.ENTRY_STANDBY","COUNTRY = '".$country."' AND STANDBY_IDX = ".$standby_idx." AND MEMBER_IDX = ".$member_idx);
+	$entry_cnt = $db->count("ENTRY_STANDBY","COUNTRY = '".$country."' AND STANDBY_IDX = ".$standby_idx." AND MEMBER_IDX = ".$member_idx);
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 302;
 		$json_result['msg'] = '동일한 스탠바이를 중복신청할 수 없습니다.';
@@ -62,7 +62,7 @@ if ($country != null && $member_idx > 0 && $standby_idx > 0 && $option_idx > 0) 
 	
 	$insert_entry_sql = "
 		INSERT INTO
-			dev.ENTRY_STANDBY
+			ENTRY_STANDBY
 		(
 			COUNTRY,
 			STANDBY_IDX,
@@ -85,10 +85,10 @@ if ($country != null && $member_idx > 0 && $standby_idx > 0 && $option_idx > 0) 
 			'".$member_id."'	AS CREATER,
 			'".$member_id."'	AS UPDATER
 		FROM
-			dev.PAGE_STANDBY PS
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_STANDBY PS
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PS.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+			LEFT JOIN ORDERSHEET_OPTION OO ON
 			PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 		WHERE
 			PS.IDX = ".$standby_idx." AND

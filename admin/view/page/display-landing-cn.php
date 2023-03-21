@@ -1,6 +1,12 @@
 <div class="content__card">
-	<div class="card__header">
-		<h3>메인랜딩</h3>
+	<div style="display:flex;">
+		<div style="width:50%;">
+			<h3>메인랜딩</h3>
+		</div>
+		<div style="width:50%;">
+			<div class="save_main_btn" onclick="saveMainInfo('CN')">메인 저장</div>
+		</div>
+		
 		<div class="drive--x"></div>
 	</div>
 	
@@ -37,6 +43,7 @@
 							<div class="btn" obj_type="BNR" action_type="down" onClick="displayNumCheck(this);">></div>
 						</div>
 						<div class="btn_right_wrap" style="width:50%;">
+							<div class="btn banner_copy_btn" onClick="copyMainBanner('CN');">복사</div>
 							<div class="btn banner_delete_btn" onClick="deleteMainBanner('CN');">삭제</div>
 							<div class="btn banner_regist_btn" onClick="addMainBannerInfo('CN')">추가</div>
 						</div>
@@ -44,6 +51,7 @@
 				</div>
 				
 				<form id="frm-put_BNR_CN" action="main/banner/put">
+					<input type="hidden" name="update_flg" value="true">
 					<input class="banner_idx" type="hidden" name="banner_idx" value="0">
 					
 					<div class="banner__data__wrap">
@@ -51,17 +59,26 @@
 							<table>
 								<thead>
 									<tr>
-										<th>컨텐츠</th>
+										<th colspan="3">컨텐츠</th>
 									</tr>
 								</thead>
 								<tbody style="height: 32vh;">
 									<tr>
-										<td>
+										<td colspan="3">
 											
 										</td>
 									</tr>
 									<tr>
-										<td style="height:3vh;">
+										<td style="width:80px;height:3vh;">배너경로</td>
+										<td>
+											<input class="img_location" type="text" name="img_location" placeholder="/images/main/banner/" value="">
+										</td>
+										<td style="width:80px;text-align:center;">
+											<div class="btn check_img_location_btn" check_result="false" onClick="checkImgLocation('CN','BNR')">체크</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3" style="height:3vh;">
 											<div class="contents__btn__wrap" style="display:flex;">
 												<div class="rd__block">
 													<input id="banner_bg_color_BL_CN" class="background_color bg_color_BL" type="radio" name="background_color" value="BL" checked="checked">
@@ -167,17 +184,26 @@
 							<table>
 								<thead>
 									<tr>
-										<th>컨텐츠</th>
+										<th colspan="3">컨텐츠</th>
 									</tr>
 								</thead>
 								<tbody style="height: 32vh;">
 									<tr>
-										<td style="height:27vh;">
+										<td colspan="3">
 											
 										</td>
 									</tr>
 									<tr>
+										<td style="width:80px;height:3vh;">컨텐츠경로</td>
 										<td>
+											<input class="img_location" type="text" name="img_location" placeholder="/images/main/contents/" value="">
+										</td>
+										<td style="width:80px;text-align:center;">
+											<div class="btn check_img_location_btn" check_result="false" onClick="checkImgLocation('CN','CNT')">체크</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3" style="height:3vh;">
 											<div class="contents__btn__wrap" style="display:flex;">
 												<div class="rd__block">
 													<input id="contents_bg_color_BL_CN" type="radio" name="background_color" value="BL" checked>
@@ -270,6 +296,9 @@
 				</form>
 				
 				<div class="contents__product__wrap">
+					<div class="contents__product table__wrap">
+					</div>
+					
 					<div class="table table__wrap" style="width:100%;margin-top:0px;">
 						<table>
 							<thead>
@@ -338,6 +367,7 @@
 							<div class="btn" obj_type="IMG" action_type="down" onClick="displayNumCheck(this);">></div>
 						</div>
 						<div class="btn_right_wrap" style="width:50%;">
+							<div class="btn images_copy_btn" onClick="copyMainImages('CN')" >복사</div>
 							<div class="btn images_delete_btn" onClick="deleteMainImages('CN')" >삭제</div>
 							<div class="btn images_regist_btn" onClick="addMainImages('CN')">추가</div>
 						</div>
@@ -345,6 +375,7 @@
 				</div>
 
 				<form id="frm-put_IMG_CN" action="main/images/put">
+					<input type="hidden" name="update_flg" value="true">
 					<input class="img_idx" type="hidden" name="img_idx" value="0">
 					
 					<div class="images__data__wrap">
@@ -352,26 +383,22 @@
 							<table>
 								<thead>
 									<tr>
-										<th>컨텐츠</th>
+										<th colspan="3">컨텐츠</th>
 									</tr>
 								</thead>
 								<tbody style="height: 20vh;">
 									<tr>
-										<td style="height:15vh;">
+										<td colspan="3">
 											
 										</td>
 									</tr>
 									<tr>
+										<td style="width:80px;height:3vh;">이미지경로</td>
 										<td>
-											<div class="contents__btn__wrap" style="display:flex;">
-												<div class="rd__block">
-													<input id="images_bg_color_BL_CN" type="radio" name="background_color" value="BL" checked>
-													<label for="images_bg_color_BL_CN">BLACK</label>
-
-													<input id="images_bg_color_WH_CN" type="radio" name="background_color" value="WH">
-													<label for="images_bg_color_WH_CN">WHITE</label>
-												</div>
-											</div>
+											<input class="img_location" type="text" name="img_location" placeholder="/images/main/images/" value="">
+										</td>
+										<td style="width:80px;text-align:center;">
+											<div class="btn check_img_location_btn" check_result="false" onClick="checkImgLocation('CN','IMG')">체크</div>
 										</td>
 									</tr>
 								</tbody>

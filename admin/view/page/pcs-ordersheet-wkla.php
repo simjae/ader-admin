@@ -9,6 +9,8 @@
     .wkla_memo{ width:200px!important }
 </style>
 
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-filter" action="pcs/ordersheet/dsn/wkla/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="ASC">
@@ -81,6 +83,7 @@
                 총 WKLA 수 <font class="cnt_total info__count" >0</font>개
             </div>
             <div class="content__row">
+                <div class="btn" onclick="wklaTotalUpdate()" style="color:#ffffff;background-color:#ffa500">일괄 수정</div>
                 <select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
                     <option value="WKLA_NAME|ASC" selected>WKLA명 순</option>    
                     <option value="WKLA_NAME|DESC">WKLA명 역순</option>
@@ -97,7 +100,7 @@
                 </select>
             </div>
         </div>
-        
+        <font class="info__count">* 사용중인 상품 수를 클릭하시면 상품목록을 보실 수 있습니다.</font>
         <div class="table table__wrap">
             <TABLE>
                 <THEAD>
@@ -140,7 +143,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><button type="button" class="white_btn" onclick="wklaInsert(this)">생성</button></td>
+                        <td><div type="button" class="btn" onclick="wklaInsert(this)">생성</div></td>
                         <td><input type="text" name="wkla_name" value=""></td>
                         <td><input type="text" name="wkla_memo" value=""></td>
                     </tr>
@@ -154,6 +157,11 @@
 var category = null;
 $(document).ready(function() {
 	getWklaTabInfo();
+    $((document)).on('keypress', function(e){
+        if(e.keyCode == '13'){
+            $('.modal .red.btn').click();
+        }
+    });
 });
 
 function init_fileter(frm_id, func_name){
@@ -196,12 +204,12 @@ function getWklaTabInfo(){
 			d.forEach(function(row) {
                 strDiv = `
                         <tr> 
-				            <td>${row.num}</td>
-				            <td><button type="button" class="white_btn" action_type="WKLA_PUT" sel_idx="${row.wkla_idx}" onclick="wklaAction(this)">수정</button></td>
-                            <td><button type="button" class="white_btn" action_type="WKLA_DELETE" sel_idx="${row.wkla_idx}" onclick="wklaAction(this)">삭제</button></td>
-							<td><input class="wkla_name" type="text" value="${row.wkla_name}"></td>
-                            <td><input class="wkla_memo" type="text" value="${row.wkla_memo}"></td>
-                            <td class="product_cnt">${row.use_product_cnt}</td>
+				            <td>${row.num}<input type="hidden" name="wkla_idx_list[]" value="${row.wkla_idx}"></td>
+				            <td><div type="button" class="btn" action_type="WKLA_PUT" sel_idx="${row.wkla_idx}" onclick="wklaAction(this)">수정</div></td>
+                            <td><div type="button" class="btn" action_type="WKLA_DELETE" sel_idx="${row.wkla_idx}" onclick="wklaAction(this)">삭제</div></td>
+							<td><input class="wkla_name" type="text" name="wkla_name_list[]" value="${row.wkla_name}"></td>
+                            <td><input class="wkla_memo" type="text" name="wkla_memo_list[]" value="${row.wkla_memo}"></td>
+                            <td class="product_cnt" style="cursor:pointer" onclick="openWklaUseProductModal(${row.wkla_idx})">${row.use_product_cnt}</td>
 				        </tr>
 				`;
 				$("#result_wkla_table").append(strDiv);
@@ -237,79 +245,147 @@ function orderChange(obj) {
 }
 
 function wklaAction(obj){
-    var sel_tr = $(obj).parent().parent();
     var action_type = $(obj).attr('action_type');
-    var sel_idx = $(obj).attr('sel_idx');
-	var action_name = '';
-    var api_str = '';
-    
-	switch(action_type){
-		case 'WKLA_PUT':
-			action_name = 'WKLA 수정';
-            api_str = "put";
-            var param_obj = {
-                'sel_idx' : sel_idx,
-                'wkla_name' : sel_tr.find('.wkla_name').eq(0).val(),
-                'wkla_memo' : sel_tr.find('.wkla_memo').eq(0).val()
-            }
-			break;
-        case 'WKLA_DELETE':
-            var product_cnt = sel_tr.find('.product_cnt').text();
-            var param_obj = {
-                'sel_idx' : sel_idx
-            }
-            if(product_cnt > 0){
-                alert('이미 해당 WKLA을 사용중인 제품이 있습니다.');
-                return false;
-            }
-            else{
-                action_name = "WKLA 삭제";
-                api_str = "delete";
-            }
-            break;
-	}
+    var action_str = '';
+    if(action_type == "WKLA_PUT"){
+        action_str = '수정';
+    }
+    else if(action_type == "WKLA_DELETE"){
+        action_str = '삭제';
+    }
+    confirm('선택하신 라인 정보를 ' + action_str + '하시겠습니까?', function(){
+        var sel_tr = $(obj).parent().parent();
+        var sel_idx = $(obj).attr('sel_idx');
+        var action_name = '';
+        var api_str = '';
+        
+        switch(action_type){
+            case 'WKLA_PUT':
+                action_name = 'WKLA 수정';
+                api_str = "put";
+                var param_obj = {
+                    'sel_idx' : sel_idx,
+                    'wkla_name' : sel_tr.find('.wkla_name').eq(0).val(),
+                    'wkla_memo' : sel_tr.find('.wkla_memo').eq(0).val()
+                }
+                break;
+            case 'WKLA_DELETE':
+                var product_cnt = sel_tr.find('.product_cnt').text();
+                var param_obj = {
+                    'sel_idx' : sel_idx
+                }
+                if(product_cnt > 0){
+                    alert('이미 해당 WKLA을 사용중인 제품이 있습니다.');
+                    return false;
+                }
+                else{
+                    action_name = "WKLA 삭제";
+                    api_str = "delete";
+                }
+                break;
+        }
 
-	$.ajax({
-		type: "post",
-		data: param_obj,
-		dataType: "json",
-		url: config.api + "pcs/ordersheet/dsn/wkla/"+api_str,
-		error: function() {
-			alert(action_name + ' 처리에 실패했습니다.');
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				alert(action_name + ' 처리에 성공했습니다.');
-				getWklaTabInfo();
-			}
-            else{
-                alert(d.msg);
+        $.ajax({
+            type: "post",
+            data: param_obj,
+            dataType: "json",
+            url: config.api + "pcs/ordersheet/dsn/wkla/"+api_str,
+            error: function() {
+                alert(action_name + ' 처리에 실패했습니다.');
+            },
+            success: function(d) {
+                if(d.code == 200) {
+                    alert(action_name + ' 처리에 성공했습니다.');
+                    getWklaTabInfo();
+                }
+                else{
+                    alert(d.msg);
+                }
             }
-		}
-	});
+        });
+    });
 }
 
-function wklaInsert(obj){
-    var formData = new FormData();
-	formData = $("#frm-wkla").serializeObject();
-
-    $.ajax({
-		type: "post",
-		data: formData,
-		dataType: "json",
-		url: config.api + "pcs/ordersheet/dsn/wkla/add",
-		error: function() {
-			alert('WKLA 등록에 실패했습니다.');
-		},
-		success: function(d) {
-			if(d.code == 200) {
-				alert('WKLA 등록에 성공했습니다.');
-				getWklaTabInfo();
-			}
-            else{
-                alert(d.msg);
+function wklaTotalUpdate(){
+    confirm('현재 기입된 W/K/L/A 정보를 일괄 수정하시겠습니까?', function(){
+        let formData = new FormData();
+        formData = $('#frm-list-wkla').serializeObject();
+        if(formData['wkla_name_list[]'] != null && formData['wkla_name_list[]'].length > 0){
+            if(exceptionCheck(formData['wkla_name_list[]']) == false){
+                alert('W/K/L/A명을 입력해주세요');
+                return false;
             }
+            $.ajax({
+                type: "post",
+                data: formData,
+                dataType: "json",
+                url: config.api + "pcs/ordersheet/dsn/wkla/put",
+                error: function() {
+                    alert('W/K/L/A 일괄편집 처리에 실패했습니다.');
+                },
+                success: function(d) {
+                    if(d.code == 200) {
+                        alert('W/K/L/A 일괄편집 처리에 성공했습니다.');
+                        getWklaTabInfo();
+                    }
+                    else{
+                        alert(d.msg);
+                    }
+                }
+            });
+        }
+        else{
+            alert('수정할 수 있는 W/K/L/A명이 존재하지 않습니다.');
+            return false;
+        } 
+    });
+}
+function exceptionCheck(data){
+    existFlg = true;
+	
+	if(Array.isArray(data)){
+		data.forEach(function(row){
+			let trim_row = row.trim();
+			if(trim_row == null || trim_row.length == 0){
+				existFlg = false;
+			}
+		})
+	}
+	else{
+		let trim_row = data.trim();
+		if(trim_row == null || trim_row.length == 0){
+			existFlg = false;
 		}
-	});
+	}
+    return existFlg;
+}
+function wklaInsert(obj){
+    confirm('W/K/L/A를 추가하시겠습니까?', function(){
+        var formData = new FormData();
+        formData = $("#frm-wkla").serializeObject();
+
+        $.ajax({
+            type: "post",
+            data: formData,
+            dataType: "json",
+            url: config.api + "pcs/ordersheet/dsn/wkla/add",
+            error: function() {
+                alert('WKLA 등록에 실패했습니다.');
+            },
+            success: function(d) {
+                if(d.code == 200) {
+                    alert('WKLA 등록에 성공했습니다.');
+                    getWklaTabInfo();
+                }
+                else{
+                    alert(d.msg);
+                }
+            }
+        });
+    });
+}
+
+function openWklaUseProductModal(idx) {
+    modal('/use_product', `wkla_idx=${idx}`);
 }
 </script>

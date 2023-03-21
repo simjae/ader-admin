@@ -41,13 +41,13 @@ if ($popup_idx != null) {
 			PRODUCT_CODE	AS PRODUCT_CODE,
 			URL				AS URL
 		FROM
-			dev.POPUP_URL
+			POPUP_URL
 		WHERE
 			POPUP_IDX = ".$popup_idx."
 	";
 } else {
     if($list_type == 'web'){
-        $table = 'dev.FRONT_PAGE_URL';
+        $table = 'FRONT_PAGE_URL';
         $select = "
 			IDX			AS IDX,
 			PAGE_TITLE	AS PAGE_TITLE,
@@ -55,7 +55,7 @@ if ($popup_idx != null) {
 		";
     }
     else if($list_type == 'product'){
-        $table = 'dev.SHOP_PRODUCT';
+        $table = 'SHOP_PRODUCT';
         $select = "
 			IDX				AS IDX,
 			PRODUCT_NAME	AS PRODUCT_NAME,

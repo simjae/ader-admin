@@ -4,7 +4,11 @@
 		<input class="filter_type" type="hidden" name="filter_type" value="">
 		
 		<div class="card__header">
-			<h3>상품 필터 수정</h3>
+			<h3>상품 필터 수정
+				<a onclick="modal_close();" class="btn-close" style="float:right">
+					<i class="xi-close"></i>
+				</a>
+			</h3>
 			<div class="drive--x"></div>
 		</div>
 		
@@ -191,7 +195,7 @@ function putFilterInfo() {
 		},
 		success: function(d) {
 			if(d.code == 200) {
-				confirm(
+				alert(
 					"입력한 필터정보가 수정되었습니다.",
 					function() {
 						getFilterInfoList();

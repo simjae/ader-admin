@@ -10,22 +10,23 @@
 	cursor:pointer;
 }
 </style>
-<div class="content__card" style="margin: 0;">
-	<form id="frm-add_PRD" action="search/modal/product/list/get">
-		<input class="page" type="hidden" name="page" value="1">
-		<input class="rows" type="hidden" name="rows" value="5">
+<div class="content__card modal__view" style="margin: 0;">
+	
 		
-		<input class="sort_type" type="hidden" name="sort_type" value="DESC">
-		<input class="sort_value" type="hidden" name="sort_value" value="IDX">
-		
-		<input class="country" type="hidden" name="country">
-		
-		<div class="card__header">
-			<h3>상품 목록</h3>
-			<div class="drive--x"></div>
-		</div>
-		
-		<div class="card__body">
+	<div class="card__header">
+		<h3>상품 목록</h3>
+		<div class="drive--x"></div>
+	</div>
+	
+	<div class="card__body">
+		<form id="frm-add_PRD" action="display/search/modal/product/list/get">
+			<input class="page" type="hidden" name="page" value="1">
+			<input class="rows" type="hidden" name="rows" value="5">
+			
+			<input class="sort_type" type="hidden" name="sort_type" value="DESC">
+			<input class="sort_value" type="hidden" name="sort_value" value="IDX">
+			
+			<input class="country" type="hidden" name="country">
 			<div class="content__wrap">
 				<div class="content__title">검색 분류</div>
 				<div class="content__row search_type_div" style="display: block;">
@@ -125,110 +126,111 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</form>
-</div>
-
-<div class="content__card">
-	<form id="frm-list">
-		<div class="card__header">
-			<h3>상품 목록 검색 결과</h3>
-			<div class="drive--x"></div>
-		</div>
-		
-		<div class="card__body">
-			<div class="info__wrap " style="justify-content:space-between; align-items: center;">
-				<div class="body__info--count">
-					<div class="drive--left"></div>
-					총 상품 수 <font class="cnt_total info__count" >0</font>개 / 검색결과 <font class="cnt_result info__count" >0</font>개
-				</div>
-					
-				<div class="content__row">
-					<select style="width:163px;float:right;margin-right:10px;" onChange="changeOrderProduct(this);">
-						<option value="CREATE_DATE|DESC">등록일 역순</option>
-						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
-						<option value="PRODUCT_NAME|ASC">상품명 순</option>
-						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
-						<option value="SALES_PRICE_KR|ASC">판매가(힌국몰) 순</option>
-						<option value="SALES_PRICE_EN|DESC">판매가(영문몰) 역순</option>
-						<option value="SALES_PRICE_EN|ASC">판매가(영문몰) 순</option>
-						<option value="SALES_PRICE_CN|DESC">판매가(중문몰) 역순</option>
-						<option value="SALES_PRICE_CN|ASC">판매가(중문몰) 순</option>
-					</select>
-					<select name="rows" style="width:163px;margin-right:10px;float:right;" onChange="changeRowsProduct(this);">
-						<option value="5" selected>5개씩보기</option>
-						<option value="10">10개씩보기</option>
-						<option value="20">20개씩보기</option>
-						<option value="30">30개씩보기</option>
-						<option value="50">50개씩보기</option>
-						<option value="100">100개씩보기</option>
-						<option value="200">200개씩보기</option>
-						<option value="300">300개씩보기</option>
-						<option value="500">500개씩보기</option>
-					</select>
-				</div>
-			</div>
-			
-			<div class="table table__wrap">
-				<div class="table__filter">
-					<input id="popular_product_list" type="hidden" value="">
-					<div class="tmp_popular_product_wrap">
-						
-					</div>
+		</form>
+		<div class="content__card">
+			<form id="frm-list">
+				<div class="card__header">
+					<h3>상품 목록 검색 결과</h3>
+					<div class="drive--x"></div>
 				</div>
 				
-				<div class="overflow-x-auto">
-					<TABLE>
-						<THEAD>
-							<TR>
-								<TH style="width:3%;">
-									<div class="cb__color">
-										<label>
-											<input type="checkbox" onClick="clickSelectAll(this);" checkbox_type="M_PRD">
-											<span></span>
-										</label>
-									</div>
-								</TH>
-								<TH style="width:3%;">상품<br>구분</TH>
-								<TH>스타일 코드</TH>
-								<TH>컬러 코드</TH>
-								<TH>상품 코드</TH>
-								<TH>상품명</TH>
-								<TH style="width:8%;">판매가<br>(한국몰)</TH>
-								<TH style="width:8%;">판매가<br>(영문몰)</TH>
-								<TH style="width:8%;">판매가<br>(중국몰)</TH>
-								<TH style="width:50px;">총 재고량</TH>
-								<TH style="width:50px;">재고수량</TH>
-								<TH style="width:50px;">판매수량</TH>
-								<TH style="width:50px;">안전재고</TH>
-								<TH style="width:15%;">상품 상세 페이지 링크</TH>
-							</TR>
-						</THEAD>
-						<TBODY class="result_table_M_PRD">
-						</TBODY>
-					</TABLE>
+				<div class="card__body">
+					<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+						<div class="body__info--count">
+							<div class="drive--left"></div>
+							총 상품 수 <font class="cnt_total info__count" >0</font>개 / 검색결과 <font class="cnt_result info__count" >0</font>개
+						</div>
+							
+						<div class="content__row">
+							<select style="width:163px;float:right;margin-right:10px;" onChange="changeOrderProduct(this);">
+								<option value="CREATE_DATE|DESC">등록일 역순</option>
+								<option value="CREATE_DATE|ASC">등록일 순</option>
+								<option value="PRODUCT_NAME|DESC">상품명 역순</option>
+								<option value="PRODUCT_NAME|ASC">상품명 순</option>
+								<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
+								<option value="SALES_PRICE_KR|ASC">판매가(힌국몰) 순</option>
+								<option value="SALES_PRICE_EN|DESC">판매가(영문몰) 역순</option>
+								<option value="SALES_PRICE_EN|ASC">판매가(영문몰) 순</option>
+								<option value="SALES_PRICE_CN|DESC">판매가(중문몰) 역순</option>
+								<option value="SALES_PRICE_CN|ASC">판매가(중문몰) 순</option>
+							</select>
+							<select name="rows" style="width:163px;margin-right:10px;float:right;" onChange="changeRowsProduct(this);">
+								<option value="5" selected>5개씩보기</option>
+								<option value="10">10개씩보기</option>
+								<option value="20">20개씩보기</option>
+								<option value="30">30개씩보기</option>
+								<option value="50">50개씩보기</option>
+								<option value="100">100개씩보기</option>
+								<option value="200">200개씩보기</option>
+								<option value="300">300개씩보기</option>
+								<option value="500">500개씩보기</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="table table__wrap">
+						<div class="table__filter">
+							<input id="popular_product_list" type="hidden" value="">
+							<div class="tmp_popular_product_wrap">
+								
+							</div>
+						</div>
+						
+						<div class="overflow-x-auto">
+							<TABLE>
+								<THEAD>
+									<TR>
+										<TH style="width:3%;">
+											<div class="cb__color">
+												<label>
+													<input type="checkbox" onClick="clickSelectAll(this);" checkbox_type="M_PRD">
+													<span></span>
+												</label>
+											</div>
+										</TH>
+										<TH style="width:3%;">상품<br>구분</TH>
+										<TH>스타일 코드</TH>
+										<TH>컬러 코드</TH>
+										<TH>상품 코드</TH>
+										<TH>상품명</TH>
+										<TH style="width:8%;">판매가<br>(한국몰)</TH>
+										<TH style="width:8%;">판매가<br>(영문몰)</TH>
+										<TH style="width:8%;">판매가<br>(중국몰)</TH>
+										<TH style="width:50px;">총 재고량</TH>
+										<TH style="width:50px;">재고수량</TH>
+										<TH style="width:50px;">판매수량</TH>
+										<TH style="width:50px;">안전재고</TH>
+										<TH style="width:15%;">상품 상세 페이지 링크</TH>
+									</TR>
+								</THEAD>
+								<TBODY class="result_table_M_PRD">
+								</TBODY>
+							</TABLE>
+						</div>
+					</div>
+					
+					<div class="padding__wrap">
+						<input type="hidden" class="total_cnt" value="0" onChange="setPaging(this);">
+						<input type="hidden" class="result_cnt" value="0" onChange="setPaging(this);">
+						<div class="modal_product_paging"></div>
+					</div>
 				</div>
-			</div>
-			
-			<div class="padding__wrap">
-				<input type="hidden" class="total_cnt" value="0" onChange="setPaging(this);">
-				<input type="hidden" class="result_cnt" value="0" onChange="setPaging(this);">
-            	<div class="modal_product_paging"></div>
-        	</div>
+			</form>
 		</div>
-		
-		<div class="card__footer">
-			<div class="footer__btn__wrap">
-				<div class="tmp" toggle="hide"></div>
-				<div class="btn__wrap--lg">
-					<div  class="blue__color__btn" onClick="addPopularProduct();"><span>실시간 인기제품 추가</span></div>
-					<div class="defult__color__btn" onClick="init_fileter('frm-add_PRD','getProdTabInfo');"><span>초기화</span></div>
-				</div>
+	</div>
+	
+	<div class="card__footer">
+		<div class="footer__btn__wrap">
+			<div class="tmp" toggle="hide"></div>
+			<div class="btn__wrap--lg">
+				<div  class="blue__color__btn" onClick="addPopularProduct();"><span>실시간 인기제품 추가</span></div>
+				<div class="defult__color__btn" onClick="modal_close()"><span>돌아가기</span></div>
 			</div>
 		</div>
-	</form>
+	</div>
 </div>
+
+
 <script>
 $(document).ready(function() {
 	getModalProductList();
@@ -602,7 +604,7 @@ function removePopularProduct(product_idx) {
 
 function addTmpPopularProduct(product_idx) {
 	$.ajax({
-		url: config.api + "search/modal/product/get",
+		url: config.api + "display/search/modal/product/get",
 		type: "post",
 		data: {
 			'product_idx': product_idx
@@ -631,7 +633,7 @@ function addPopularProduct() {
 	let popular_product_list = $('#popular_product_list').val();
 	
 	$.ajax({
-		url: config.api + "search/modal/product/add",
+		url: config.api + "display/search/modal/product/add",
 		type: "post",
 		data: {
 			'country': country,
@@ -646,7 +648,7 @@ function addPopularProduct() {
 			if (code == 200) {
 				modal_close();
 				$('.result_table_PRD_' + country).html('');
-				getPopularProduct(country);
+				getPopularProductList(country);
 			} else {
 				alert('실시간 인기 제품 추가 처리에 실패했습니다. 추가하려는 인기 제품을 확인해주세요.');
 				return false;

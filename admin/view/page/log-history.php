@@ -21,20 +21,6 @@
 <div class="portlet">
 	<div class="body">
 		<form id="frm-list" action="log/history">
-		<!--
-		<div class="row">
-			<div class="form-group form-line-input">
-				<select name="row" class="width-80">
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="30">30</option>
-					<option value="50">50</option>
-					<option value="100">100</option>
-				</select>
-				개씩 보기
-			</div>
-		</div>
-		-->
 		<div class="row">
 			<table class="list width-1200-min">
 			<thead>

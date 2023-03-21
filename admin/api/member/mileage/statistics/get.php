@@ -20,21 +20,21 @@ $reserve_to     = $_POST['reserve_to'];
 $member_level   = $_POST['member_level'];
 $id             = $_POST['id'];
 
-$tables =   ' 	dev.MILEAGE_INFO 	AS MILEAGE 	LEFT JOIN
-				dev.MILEAGE_CODE	AS CODE
+$tables =   ' 	MILEAGE_INFO 	AS MILEAGE 	LEFT JOIN
+				MILEAGE_CODE	AS CODE
 			ON	MILEAGE.MILEAGE_CODE = CODE.MILEAGE_CODE ';
 $where =    ' 1=1 ';
 
 $member_table = '';
 switch($country){
 	case 'KR':
-		$member_table = 'dev.MEMBER_KR'; 
+		$member_table = 'MEMBER_KR'; 
 		break;
 	case 'EN':
-		$member_table = 'dev.MEMBER_EN';
+		$member_table = 'MEMBER_EN';
 		break;
 	case 'CN':
-		$member_table = 'dev.MEMBER_CN';
+		$member_table = 'MEMBER_CN';
 		break;
 }
 

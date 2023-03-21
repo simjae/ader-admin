@@ -3,6 +3,8 @@
 .updateFilterBtn {width:80px;height:25px;padding:5px;text-align:center;cursor:pointer;}
 </style>
 
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<form id="frm-filter" action="product/filter/list/get">
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
@@ -120,8 +122,6 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC" selected>등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
 						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PRODUCT_NAME|ASC">상품명 순</option>
 					</select>
@@ -165,11 +165,11 @@
 								<TH>RGB코드</TH>
 								<TH>사이즈타입</TH>
 								<TH style="width:250px;">메모</TH>
+								<TH>적용 상품 수</TH>
 								<TH>필터 작성일</TH>
 								<TH>필터 작성자</TH>
 								<TH>필터 수정일</TH>
 								<TH>필터 수정자</TH>
-								<TH>적용 상품 수</TH>
 							</TR>
 						</THEAD>
 						<TBODY id="result_table">

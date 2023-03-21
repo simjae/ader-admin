@@ -39,7 +39,7 @@ if ($c_product_idx > 0) {
 						''
 					)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -51,8 +51,8 @@ if ($c_product_idx > 0) {
 			)					AS IMG_LOCATION,
 			RP.SOLD_OUT_FLG
 		FROM
-			dev.COLLECTION_RELEVANT_PRODUCT RP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			COLLECTION_RELEVANT_PRODUCT RP
+			LEFT JOIN SHOP_PRODUCT PR ON
 			RP.PRODUCT_IDX = PR.IDX
 		WHERE
 			RP.C_PRODUCT_IDX = ".$c_product_idx." AND

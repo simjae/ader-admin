@@ -16,12 +16,9 @@
 $country                = $_POST['country'];
 $event_title            = $_POST['event_title'];
 
-$event_from             = $_POST['event_from'];
-$event_from_h           = $_POST['event_from_h'];
-$event_from_m           = $_POST['event_from_m'];
-$event_to               = $_POST['event_to'];
-$event_to_h             = $_POST['event_to_h'];
-$event_to_m             = $_POST['event_to_m'];
+$event_always			= $_POST['event_always'];
+$sdate             		= $_POST['sdate'];
+$edate           		= $_POST['edate'];
 
 $display_flg            = $_POST['display_flg'];
 $status                 = $_POST['status'];
@@ -29,27 +26,25 @@ $winner_cnt             = $_POST['winner_cnt'];
 $random_flg             = $_POST['random_flg'];
 $apply_product_cnt      = $_POST['apply_product_cnt'];
 $alarm_flg              = $_POST['alarm_flg'];
-$excel_print_flg       = $_POST['excel_print_flg'];
+$excel_print_flg        = $_POST['excel_print_flg'];
 
 $table = " dev.EVENT_INFO ";
 
 $event_start_date = "";
 $event_end_date = "";
 
-if($event_flg != null){
-	if ($event_flg == "true") {
-		$event_start_date = "NOW()";
-		$event_end_date = "9999-12-31 23:59";
-	} else {
-		$event_start_date = "'".$event_from." ".$event_from_h.":".$event_from_m."'";
-		$event_end_date = "'".$event_to." ".$event_to_h.":".$event_to_m."'";
-	}
-}
-else{
-    $event_start_date = "'".$event_from." ".$event_from_h.":".$event_from_m."'";
-	$event_end_date = "'".$event_to." ".$event_to_h.":".$event_to_m."'";
+if ($event_always == "true") {
+	$sdate = "NOW()";
+	$edate = "'9999-12-31 23:59'";
+} else {
+	$sdate = 'STR_TO_DATE("'.$sdate.'","%Y-%m-%d %H:%i")';
+	$edate = 'STR_TO_DATE("'.$edate.'","%Y-%m-%d %H:%i")';
 }
 
+$winner_cnt_str = 'NULL';
+if($winner_cnt != null){
+	$winner_cnt_str = $winner_cnt;
+}
 $sql = "
 	INSERT INTO ".$table." (
 		COUNTRY,
@@ -69,12 +64,12 @@ $sql = "
 	VALUES (
 		'".$country."',
 		'".$event_title."',
-		".$event_start_date.",
-		".$event_end_date.",
+		".$sdate.",
+		".$edate.",
 
         ".$display_flg.",
-        ".$status.",
-        ".$winner_cnt.",
+        '".$status."',
+        ".$winner_cnt_str.",
         ".$random_flg.",
         ".$apply_product_cnt.",
         ".$alarm_flg.",

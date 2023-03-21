@@ -24,13 +24,13 @@ $member_table = '';
 if($country != null){
 	switch($country){
 		case 'KR':
-			$member_table = 'dev.MEMBER_KR';
+			$member_table = 'MEMBER_KR';
 			break;
 		case 'EN':
-			$member_table = 'dev.MEMBER_EN';
+			$member_table = 'MEMBER_EN';
 			break;
 		case 'CN':
-			$member_table = 'dev.MEMBER_CN';
+			$member_table = 'MEMBER_CN';
 			break;
 	}
 }
@@ -40,38 +40,40 @@ if(strlen($member_table) > 0){
 	try {
 		$tables = $member_table;
 	
-		$where = "";
 		$ip_ban_flg = "";
 		$ip_ban_sql = "";
 
-		if ($action_type == "ip_ban") {
+		if ($action_type == "BAN") {
 			$ip_ban_flg = "TRUE";
-			$ip_ban_sql = "INSERT INTO dev.IP_BAN (IP) SELECT IP FROM ".$tables." WHERE IDX IN (".$member_idx.");";
-		} else {
+			$update_ip_ban_sql = "INSERT INTO IP_BAN (IP) SELECT IP FROM ".$tables." WHERE IDX IN (".$member_idx.");";
+		} else if ($action_type = "UBN") {
 			$ip_ban_flg = "FALSE";
-			$ip_ban_sql = "DELETE FROM dev.IP_BAN WHERE IP = (SELECT IP FROM ".$tables." WHERE IDX = ".$member_idx.")";
+			$update_ip_ban_sql = "DELETE FROM IP_BAN WHERE IP = (SELECT IP FROM ".$tables." WHERE IDX = ".$member_idx.")";
 		}
-		$where .= " AND IP = (SELECT * FROM (SELECT IP FROM ".$tables." WHERE IDX = ".$member_idx.") AS TEMP) ";
+		
 		//수정항목
-		$sql = "UPDATE
-					".$tables."
-				SET
-					IP_BAN_FLG = ".$ip_ban_flg."
-				WHERE
-					".$where;
-		$db->query($sql);
-		$db->query($ip_ban_sql);
+		$update_ip_ban_flg_sql = "
+			UPDATE
+				".$tables."
+			SET
+				IP_BAN_FLG = ".$ip_ban_flg."
+			WHERE
+				IDX = ".$member_idx."
+		";
+		
+		$db->query($update_ip_ban_flg_sql);
+		$db->query($update_ip_ban_sql);
+		
 		$db->commit();
-	}
-	catch(mysqli_sql_exception $exception){
-		echo $exception->getMessage();
-		$json_result['code'] = 301;
+	} catch(mysqli_sql_exception $exception){
 		$db->rollback();
-		$msg = "IP차단 처리에 실패했습니다.";
+		print_r($exception);
+		
+		$json_result['code'] = 301;
+		$json_result['msg'] = "IP차단 처리에 실패했습니다.";
 	}
-}
-else{
+} else {
 	$json_result['code'] = 300;
-	$json_result['msg'] = 'IP차단에 실패했습니다.';
+	$json_result['msg'] = 'IP차단에 처리에 실패했습니다.';
 }
 ?>

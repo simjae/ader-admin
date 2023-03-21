@@ -15,34 +15,50 @@
 */
 
 $page_idx			= $_POST['page_idx'];
-$size_type			= $_POST['editorial_type'];
-
-$editorial_table = array();
-$editorial_table[0] = " dev.EDITORIAL_THUMB ";
-$editorial_table[1] = " dev.EDITORIAL_CONTENTS ";
+$size_type			= $_POST['size_type'];
 
 if ($page_idx != null) {
-	$editorial_info_sql = "
+	$select_page_posting_sql = "
 		SELECT
-			COUNTRY,
-			PAGE_TITLE,
-			PAGE_URL,
-			PAGE_MEMO
+			PP.IDX					AS PAGE_IDX,
+			PP.COUNTRY				AS COUNTRY,
+			PP.PAGE_TITLE			AS PAGE_TITLE,
+			PP.PAGE_URL				AS PAGE_URL,
+			PP.PAGE_MEMO			AS PAGE_MEMO
 		FROM
-			dev.PAGE_POSTING
+			PAGE_POSTING PP
 		WHERE
-			IDX = ".$page_idx;
+			PP.IDX = ".$page_idx."
+	";
+	
+	$db->query($select_page_posting_sql);
+	
+	$page_info = array();
+	foreach($db->fetch() as $page_data) {
+		$country = "";
+		switch ($page_data['COUNTRY']) {
+			case "KR" :
+				$country = "한국몰";
+				break;
 			
-	$db->query($editorial_info_sql);
-	foreach($db->fetch() as $info_data){
-		$json_result['data']['info'][] = array(
-			'country' 		=> $info_data['COUNTRY'],
-			'page_title' 	=> $info_data['PAGE_TITLE'],
-			'page_url' 		=> $info_data['PAGE_URL'],
-			'page_memo' 	=> $info_data['PAGE_MEMO']
+			case "EN" :
+				$country = "영문몰";
+				break;
+			
+			case "CN" :
+				$country = "중문몰";
+				break;
+		}
+		$page_info = array(
+			'country'		=>$country,
+			'page_title'	=>$page_data['PAGE_TITLE'],
+			'page_url'		=>$page_data['PAGE_URL'].$page_data['PAGE_IDX'],
+			'page_memo'		=>$page_data['PAGE_MEMO']
 		);
 	}
-
+	
+	$json_result['page_info'] = $page_info;
+	
 	$select_editorial_sql = "
 		SELECT
 			ET.IDX					AS THUMB_IDX,
@@ -66,10 +82,9 @@ if ($page_idx != null) {
 			)						AS CONTENTS_LOCATION,
 			EC.CONTENTS_URL			AS CONTENTS_URL
 		FROM
-			".$editorial_table[0]." ET LEFT JOIN
-			".$editorial_table[1]." EC ON
-			ET.IDX = EC.THUMB_IDX AND
-			ET.SIZE_TYPE = EC.SIZE_TYPE
+			EDITORIAL_THUMB ET
+			LEFT JOIN EDITORIAL_CONTENTS EC ON
+			ET.IDX = EC.THUMB_IDX
 		WHERE
 			ET.PAGE_IDX = ".$page_idx." AND
 			ET.DEL_FLG = FALSE AND
@@ -78,24 +93,28 @@ if ($page_idx != null) {
 		ORDER BY
 			ET.DISPLAY_NUM ASC
 	";
-
+	
 	$db->query($select_editorial_sql);
 	
 	foreach($db->fetch() as $editorial_data) {
-		$json_result['data']['list'][] = array(
-			'thumb_idx' 		=> $editorial_data['THUMB_IDX'],
-			'display_num' 		=> $editorial_data['DISPLAY_NUM'],
-			'thumb_type' 		=> $editorial_data['THUMB_TYPE'],
-			'size_type' 		=> $editorial_data['SIZE_TYPE'],
-			'thumb_location' 	=> $editorial_data['THUMB_LOCATION'],
-			'thumb_url' 		=> $editorial_data['THUMB_URL'],
-
-			'contents_idx' 		=> $editorial_data['CONTENTS_IDX'],
-			'contents_type' 	=> $editorial_data['CONTENTS_TYPE'],
-			'contents_location' => $editorial_data['CONTENTS_LOCATION'],
-			'contents_url' 		=> $editorial_data['CONTENTS_URL']
+		$json_result['data'][] = array(
+			'thumb_idx'				=>$editorial_data['THUMB_IDX'],
+			'display_num'			=>$editorial_data['DISPLAY_NUM'],
+			'thumb_type'			=>$editorial_data['THUMB_TYPE'],
+			'size_type'				=>$editorial_data['SIZE_TYPE'],
+			'thumb_location'		=>$editorial_data['THUMB_LOCATION'],
+			'thumb_url'				=>$editorial_data['THUMB_URL'],
+			
+			'contents_idx'			=>$editorial_data['CONTENTS_IDX'],
+			'contents_type'			=>$editorial_data['CONTENTS_TYPE'],
+			'size_type'				=>$editorial_data['SIZE_TYPE'],
+			'contents_location'		=>$editorial_data['CONTENTS_LOCATION'],
+			'contents_url'			=>$editorial_data['CONTENTS_URL']
 		);
 	}
+} else {
+	$json_result['code'] = 301;
+	$json_rsult['mst'] = "존재하지 않는 에디토리얼 진열 페이지 입니다.";
 }
 
 ?>

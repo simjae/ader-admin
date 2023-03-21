@@ -86,7 +86,7 @@
         padding-bottom: 10px;
     }
 
-    .as_order_status_box {
+    .as_container .as_order_status_box {
         display: flex;
         justify-content: center;
         align-items: center;

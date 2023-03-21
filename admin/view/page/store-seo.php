@@ -1,3 +1,5 @@
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<div class="card__header">
 		<h3>검색엔진 최적화 설정</h3>

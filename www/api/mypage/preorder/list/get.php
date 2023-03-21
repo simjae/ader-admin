@@ -48,7 +48,7 @@ if($country != null && $member_idx > 0){
 						''
 					)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -75,10 +75,10 @@ if($country != null && $member_idx > 0){
 				'종료'
 			ELSE '진행 중' END AS ENTRY_STATUS
 		FROM
-			dev.PAGE_PREORDER PP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_PREORDER PP
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PP.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		WHERE
 			PP.COUNTRY = '".$country."' AND

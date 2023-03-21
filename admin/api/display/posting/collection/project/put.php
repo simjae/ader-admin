@@ -17,16 +17,16 @@
 include_once("/var/www/admin/api/common/common.php");
 
 $display_num_flg	= $_POST['display_num_flg'];
-$update_flg			= $_POST['update_flg'];
+$update_type		= $_POST['update_type'];
 
 $session_id			= sessionCheck();
-$country			= $_POST['country'];
 
+$country			= $_POST['country'];
 $action_type		= $_POST['action_type'];
 $recent_idx			= $_POST['recent_idx'];
 $recent_num			= $_POST['recent_num'];
 
-$collection_idx		= $_POST['collection_idx'];
+$project_idx		= $_POST['project_idx'];
 $project_name		= $_POST['project_name']; 
 $project_desc		= $_POST['project_desc'];
 $project_title		= $_POST['project_title'];
@@ -40,7 +40,7 @@ if ($display_num_flg != null && $action_type != null) {
 		case "up" :
 			$prev_sql = "
 				UPDATE
-					dev.POSTING_COLLECTION
+					COLLECTION_PROJECT
 				SET
 					DISPLAY_NUM = ".$recent_num.",
 					UPDATE_DATE = NOW(),
@@ -53,7 +53,7 @@ if ($display_num_flg != null && $action_type != null) {
 			
 			$sql = "
 				UPDATE
-					dev.POSTING_COLLECTION
+					COLLECTION_PROJECT
 				SET
 					DISPLAY_NUM = ".intval($recent_num - 1).",
 					UPDATE_DATE = NOW(),
@@ -69,7 +69,7 @@ if ($display_num_flg != null && $action_type != null) {
 		case "down" :
 			$prev_sql = "
 				UPDATE
-					dev.POSTING_COLLECTION
+					COLLECTION_PROJECT
 				SET
 					DISPLAY_NUM = ".$recent_num.",
 					UPDATE_DATE = NOW(),
@@ -82,7 +82,7 @@ if ($display_num_flg != null && $action_type != null) {
 			
 			$sql = "
 				UPDATE
-					dev.POSTING_COLLECTION
+					COLLECTION_PROJECT
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1).",
 					UPDATE_DATE = NOW(),
@@ -105,22 +105,22 @@ if ($display_num_flg != null && $action_type != null) {
 	}
 }
 
-if ($update_flg != null && $collection_idx != null) {
-	if($update_flg == 'thumbnail'){
-		$update_collection_sql = "
+if ($update_type != null && $project_idx != null) {
+	$update_collection_project_sql = "";
+	if($update_type == 'THUMB'){
+		$update_collection_project_sql = "
 			UPDATE
-				dev.POSTING_COLLECTION
+				COLLECTION_PROJECT
 			SET
-				THUMB_LOCATION = '" . $server_img_path . "',
+				THUMB_LOCATION = '/var/www/admin/www".$server_img_path."',
 				UPDATE_DATE = NOW(),
-				UPDATER = '" . $session_id . "'
+				UPDATER = '".$session_id."'
 			WHERE
-				IDX = " . $collection_idx . " ";
-	}
-	else{
-		$update_collection_sql = "
+				IDX = ".$project_idx." ";
+	} else if ($update_type == "INFO") {
+		$update_collection_project_sql = "
 			UPDATE
-				dev.POSTING_COLLECTION
+				COLLECTION_PROJECT
 			SET
 				PROJECT_NAME = '".$project_name."',
 				PROJECT_DESC = '".$project_desc."',
@@ -128,12 +128,11 @@ if ($update_flg != null && $collection_idx != null) {
 				UPDATE_DATE = NOW(),
 				UPDATER = '".$session_id."'
 			WHERE
-				IDX = ".$collection_idx."
+				IDX = ".$project_idx."
 		";
 	}
-	
 
-	$db->query($update_collection_sql);
+	$db->query($update_collection_project_sql);
 }
 
 ?>

@@ -13,14 +13,15 @@
  | 
  +=============================================================================
 */
+
 $server_img_path	    = $_POST['server_img_path'];
 
-if(file_exists($server_img_path)){
+if (is_file("/var/www/admin/www".$server_img_path)) {
     $json_result['code'] = 200;
-}
-else{
+	$json_result['msg'] = "컬렉션 프로젝트 썸네일 체크에 성공했습니다.";
+} else {
     $json_result['code'] = 301;
-	$json_result['msg'] = "입력하신 파일이 존재하지 않습니다.";
+	$json_result['msg'] = "컬렉션 프로젝트 썸네일 체크에 실패했습니다. 체크하려는 경로를 다시 입력해주세요.";
 }
 
 ?>

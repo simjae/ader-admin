@@ -21,6 +21,11 @@ if ($banner_idx != null) {
 		SELECT
 			MB.IDX					AS BANNER_IDX,
 			MB.DISPLAY_NUM			AS DISPLAY_NUM,
+			REPLACE(
+				MB.IMG_LOCATION,
+				'/var/www/admin/www',
+				''
+			)						AS IMG_LOCATION,
 			MB.TITLE				AS TITLE,
 			MB.SUB_TITLE			AS SUB_TITLE,
 			MB.BACKGROUND_COLOR		AS BACKGROUND_COLOR,
@@ -31,7 +36,7 @@ if ($banner_idx != null) {
 			MB.BTN2_URL				AS BTN2_URL,
 			MB.BTN2_DISPLAY_FLG		AS BTN2_DISPLAY_FLG
 		FROM
-			dev.MAIN_BANNER MB
+			TMP_MAIN_BANNER MB
 		WHERE
 			MB.IDX = ".$banner_idx." AND
 			MB.DEL_FLG = FALSE
@@ -43,6 +48,7 @@ if ($banner_idx != null) {
 		$json_result['data'][] = array(
 			'banner_idx'		=>$banner_data['BANNER_IDX'],
 			'display_num'		=>$banner_data['DISPLAY_NUM'],
+			'img_location'		=>$banner_data['IMG_LOCATION'],
 			'title'				=>$banner_data['TITLE'],
 			'sub_title'			=>$banner_data['SUB_TITLE'],
 			'background_color'	=>$banner_data['BACKGROUND_COLOR'],

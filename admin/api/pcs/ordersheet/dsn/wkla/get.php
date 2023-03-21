@@ -20,11 +20,11 @@ if($sel_wkla_idx != null){
     $where = ' WHERE IDX = '.$sel_wkla_idx;
 }
 $sql = 	'SELECT
-            IDX                                         AS WKLA_IDX,
-            WKLA_NAME                                   AS WKLA_NAME,
-            MEMO                                        AS WKLA_MEMO
+            WI.IDX			AS WKLA_IDX,
+            WI.WKLA_NAME	AS WKLA_NAME,
+            WI.MEMO			AS WKLA_MEMO
         FROM 
-            dev.WKLA_INFO
+            WKLA_INFO WI
             '.$where;
 
 $db->query($sql);

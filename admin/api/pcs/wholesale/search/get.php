@@ -42,8 +42,8 @@ if ($sort_value != null && $sort_type != null) {
 }
 
 $limit_start = (intval($page)-1)*$rows;
-$total = $db->count("dev.ORDERSHEET_MST",$where);
-$total_cnt = $db->count("dev.ORDERSHEET_MST",$where_cnt);
+$total = $db->count("ORDERSHEET_MST",$where);
+$total_cnt = $db->count("ORDERSHEET_MST",$where_cnt);
 
 $json_result = array(
     'total' => $total,
@@ -60,7 +60,7 @@ $sql = "
         PRODUCT_NAME,
         COLOR
     FROM
-        dev.ORDERSHEET_MST
+        ORDERSHEET_MST
     WHERE
         ".$where."
     ORDER BY

@@ -31,7 +31,7 @@ if ($country != null && $preorder_idx != null) {
 						SELECT
 							COUNT(S_PI.IDX)
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.IMG_TYPE = 'P' AND
@@ -42,7 +42,7 @@ if ($country != null && $preorder_idx != null) {
 							SELECT
 								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = PR.IDX AND
 								S_PI.DEL_FLG = FALSE AND
@@ -63,8 +63,8 @@ if ($country != null && $preorder_idx != null) {
 			PP.ENTRY_START_DATE		AS ENTRY_START_DATE,
 			PP.ENTRY_END_DATE		AS ENTRY_END_DATE
 		FROM
-			dev.PAGE_PREORDER PP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_PREORDER PP
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PP.PRODUCT_IDX = PR.IDX
 		WHERE
 			PP.IDX = ".$preorder_idx."
@@ -87,7 +87,7 @@ foreach($db->fetch() as $preorder_data) {
 				QP.PRODUCT_QTY			AS PRODUCT_QTY,
 				QP.PRODUCT_QTY_LIMIT	AS PRODUCT_QTY_LIMIT
 			FROM
-				dev.QTY_PREORDER QP
+				QTY_PREORDER QP
 			WHERE
 				QP.PREORDER_IDX = ".$preorder_idx."
 		";

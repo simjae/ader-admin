@@ -32,13 +32,13 @@ $display_status		= $_POST['display_status'];			//진열 상태
 
 $sale_status		= $_POST['sale_status'];			//판매 상태
 
-$qty_type			= $_POST['qty_type'];				//재고타입
+$stock_type			= $_POST['stock_type'];				//재고타입
 $stock_min			= $_POST['stock_min'];				//재고수량 최소값
 $stock_max			= $_POST['stock_max'];				//재고수량 최대값
 
 $stock_grade		= $_POST['stock_grade'];			//재고관리 등급
 
-$sold_out_status	= $_POST['sold_out_status'];		//품절상태
+$sold_out_flg		= $_POST['sold_out_flg'];			//품절상태
 
 $price_type 		= $_POST['price_type'];				//상품 가격타입
 $price_min 			= $_POST['price_min'];				//검색가격 최대값
@@ -47,7 +47,7 @@ $price_max 			= $_POST['price_max'];				//검색가격 최소값
 $sort_type 			= $_POST['sort_type'];				//정렬 타입
 $sort_value 		= $_POST['sort_value'];				//정렬 값
 
-$translate_flg 			= $_POST['translate_flg'];		//번역 상태
+$unclassified 		= $_POST['unclassified'];		//통관 미등록 플래그
 
 $rows = $_POST['rows'];
 $page = $_POST['page'];
@@ -96,36 +96,11 @@ if ($search_type != null && $search_keyword != null) {
 											SELECT
 												S_MC.IDX
 											FROM
-												dev.MD_CATEGORY S_MC
+												MD_CATEGORY S_MC
 											WHERE
 												S_MC.TITLE LIKE "%'.$search_keyword[$i].'%"
 										)
 									) ';
-						break;
-
-					case "size" :
-						$keyword_where .= " (
-												CONCAT(
-													IFNULL(OM.SIZE__A1_KR,''),'|',
-													IFNULL(OM.SIZE__A2_KR,''),'|',
-													IFNULL(OM.SIZE__A3_KR,''),'|',
-													IFNULL(OM.SIZE__A4_KR,''),'|',
-													IFNULL(OM.SIZE__A5_KR,''),'|',
-													IFNULL(OM.SIZE__ONESIZE_KR,''),'|',
-													IFNULL(OM.SIZE__A1_EN,''),'|',
-													IFNULL(OM.SIZE__A2_EN,''),'|',
-													IFNULL(OM.SIZE__A3_EN,''),'|',
-													IFNULL(OM.SIZE__A4_EN,''),'|',
-													IFNULL(OM.SIZE__A5_EN,''),'|',
-													IFNULL(OM.SIZE__ONESIZE_EN,''),'|',
-													IFNULL(OM.SIZE__A1_CN,''),'|',
-													IFNULL(OM.SIZE__A2_CN,''),'|',
-													IFNULL(OM.SIZE__A3_CN,''),'|',
-													IFNULL(OM.SIZE__A4_CN,''),'|',
-													IFNULL(OM.SIZE__A5_CN,''),'|',
-													IFNULL(OM.SIZE__ONESIZE_CN,'')
-												) REGEXP '".$search_keyword[$i]."'
-											) ";
 						break;
 
 					case "material" :
@@ -142,9 +117,13 @@ if ($search_type != null && $search_keyword != null) {
 					case "care" :
 						$keyword_where .= " (
 												CONCAT(
-													IFNULL(OM.CARE_KR,''),'|',
-													IFNULL(OM.CARE_EN,''),'|',
-													IFNULL(OM.CARE_CN,''),'|'
+													IFNULL(OM.CARE_DSN_KR,''),'|',
+													IFNULL(OM.CARE_DSN_EN,''),'|',
+													IFNULL(OM.CARE_DSN_CN,''),'|',
+													
+													IFNULL(OM.CARE_TD_KR,''),'|',
+													IFNULL(OM.CARE_TD_EN,''),'|',
+													IFNULL(OM.CARE_TD_CN,''),'|'
 												) REGEXP '".$search_keyword[$i]."'
 											) ";
 
@@ -213,25 +192,40 @@ if ($inner_category_idx != null) {
 }
 
 //검색 유형 - 상품 등록일
-if ($search_date != null) {
+if ($search_date != null && $search_date != 'all') {
+	$tmp_date = "DATE_FORMAT(PS.".$date_type.",'%Y-%m-%d')";
+	
 	switch ($search_date) {
 		case "today" :
-			$where .= ' AND (PS.'.$date_type.' = CURDATE()) ';
+			$where .= ' AND ('.$tmp_date.' = CURDATE()) ';
 			break;
-		case "3d" :
-			$where .= ' AND (PS.'.$date_type.' = (CURDATE() - INTERVAL 3 DAY)) ';
+		
+		case "01d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 1 DAY)) ';
 			break;
-		case "1w" :
-			$where .= ' AND (PS.'.$date_type.' >= (CURDATE() - INTERVAL 7 DAY)) ';
+		
+		case "03d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 3 DAY)) ';
 			break;
-		case "1m" :
-			$where .= ' AND (PS.'.$date_type.' >= (CURDATE() - INTERVAL 1 MONTH)) ';
+		
+		case "07d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 7 DAY)) ';
 			break;
-		case "3m" :
-			$where .= ' AND (PS.'.$date_type.' >= (CURDATE() - INTERVAL 3 MONTH)) ';
+		
+		case "15d" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 15 DAY)) ';
 			break;
-		case "1y" :
-			$where .= ' AND (PS.'.$date_type.' >= (CURDATE() - INTERVAL 1 YEAR)) ';
+		
+		case "01m" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 1 MONTH)) ';
+			break;
+		
+		case "03m" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 3 MONTH)) ';
+			break;
+		
+		case "01y" :
+			$where .= ' AND ('.$tmp_date.' >= (CURDATE() - INTERVAL 1 YEAR)) ';
 			break;
 	}
 }
@@ -247,16 +241,18 @@ if ($display_status != null && $display_status != "all") {
 		$display_sql = " = 0 ";
 	}
 	
-	$where .= " AND (
-					(
-						SELECT
-							COUNT(S_PG.IDX)
-						FROM
-							dev.PRODUCT_GRID S_PG
-						WHERE
-							S_PG.PRODUCT_IDX = S_PS.PRODUCT_IDX
-					) ".$display_sql."
-				) ";
+	$where .= "
+		AND (
+			(
+				SELECT
+					COUNT(S_PG.IDX)
+				FROM
+					PRODUCT_GRID S_PG
+				WHERE
+					S_PG.PRODUCT_IDX = PS.PRODUCT_IDX
+			) ".$display_sql."
+		)
+	";
 }
 
 //검색 유형 - 판매여부
@@ -265,34 +261,24 @@ if ($sale_flg != null && $sale_flg != "all") {
 }
 
 //검색 유형 - 재고수량
-if($qty_type != null && ($stock_min != null || $stock_max != null)){
-	$where .= " AND ( ";
-		
-	$tmp_where = "";
-	
-	if ($qty_type == "stock") {
+if($stock_type != null && ($stock_min != null || $stock_max != null)){
+	if ($stock_type == "stock") {
 		$stock_sql = "  PS.STOCK_QTY ";
-	} else if ($qty_type == "safe") {
+	} else if ($stock_type == "safe") {
 		$stock_sql = " PS.STOCK_SAFE_QTY ";
 	}
-	
-	$tmp_where = "";
 		
 	if ($stock_min != null && $stock_max == null) {
-		$tmp_where .= " (".$stock_sql." >= ".$stock_min.") ";
+		$where .= " AND (".$stock_sql." >= ".$stock_min.") ";
 	}
 	
 	if ($stock_min == null && $stock_max != null) {
-		$tmp_where .= " (".$stock_sql." BETWEEN 0 AND ".$stock_max.") ";
+		$where .= " AND (".$stock_sql." <= ".$stock_max.") ";
 	}
 	
 	if($stock_min != null && $stock_max != null) {
-		$tmp_where .= " (".$stock_sql." BETWEEN ".$stock_min." AND ".$stock_max.") ";
+		$where .= " AND (".$stock_sql." BETWEEN ".$stock_min." AND ".$stock_max.") ";
 	}
-	
-	$where .= $tmp_where;
-	
-	$where .= " )";
 }
 
 //검색 유형 - 재고관리 등급
@@ -301,22 +287,34 @@ if ($stock_grade != null && $stock_grade != "all") {
 }
 
 //검색 유형 - 품절상태
-if ($sold_out_status != null && $sold_out_status != "all") {
-	$where .= " AND (
-						PS.STOCK_QTY > (
-							SELECT
-								IFNULL(
-									SUM(S_OP.PRODUCT_QTY),0
-								)
-							FROM
-								dev.ORDER_INFO S_OI
-								LEFT JOIN dev.ORDER_PRODUCT S_OP ON
-								S_OI.IDX = S_OP.ORDER_IDX
-							WHERE
-								S_OI.ORDER_STATUS IN ('DPG','DCP') AND
-								S_OP.PRODUCT_IDX = PR.IDX
-						) = ".$sold_out_status."
-				) ";
+if ($sold_out_status != "all" && $sold_out_status != null) {
+	$where .= "
+		AND (
+			(
+				SELECT
+					IFNULL(
+						SUM(S_PS.STOCK_QTY),
+						0
+					)
+				FROM
+					PRODUCT_STOCK S_PS
+				WHERE
+					 S_PS.STOCK_DATE <= NOW() AND
+					 S_PS.PRODUCT_IDX = PR.IDX
+			) > (
+				SELECT
+					IFNULL(
+						SUM(PRODUCT_QTY),0
+					)
+				FROM
+					ORDER_PRODUCT S_OP
+				WHERE
+					S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
+					S_OP.PRODUCT_IDX = PR.IDX AND
+					S_OP.OPTION_IDX = PS.OPTION_IDX
+			) = ".$sold_out_status."
+		)
+	";
 }
 
 //검색 유형 - 상품가격
@@ -362,25 +360,24 @@ if($price_type != null && $price_min != null && $price_max != null){
 	}
 }
 
-//검색 유형 - 번역 유무
-if($translate == 'F'){
-	$where .= " AND (
-					OM.DETAIL_EN IS NULL AND
-					OM.DETAIL_CN IS NULL
-				) ";
-}
-
-else if($translate == 'T'){
-	$where .= " AND (
-					OM.DETAIL_EN IS NOT NULL 
-					OR OM.DETAIL_CN IS NOT NULL
-				) ";
+//검색 유형 - 해외통관 분류 미등록 상품 검색
+if($unclassified == 'TRUE'){
+	$where .= "
+		AND (
+			PR.CLEARANCE_IDX = 0
+		)
+	";
 }
 
 /** 정렬 조건 **/
 $order = '';
 if ($sort_value != null && $sort_type != null) {
-	$order = ' PS.'.$sort_value." ".$sort_type." ";
+	if(strpos($sort_value, 'SALES_PRICE') !== false){
+		$order = ' PR.'.$sort_value." ".$sort_type." ";
+	}
+	else{
+		$order = ' PS.'.$sort_value." ".$sort_type." ";
+	}
 } else {
 	$order = ' PR.IDX DESC';
 }
@@ -392,54 +389,67 @@ if ($rows != null) {
 }
 
 $json_result = array(
-	'total_cnt' => $db->count("dev.PRODUCT_STOCK PS"),
-	'total' => $db->count("dev.PRODUCT_STOCK PS
-								LEFT JOIN dev.SHOP_PRODUCT PR ON
-								PS.PRODUCT_IDX = PR.IDX
-								LEFT JOIN dev.ORDERSHEET_MST OM ON
-								PR.ORDERSHEET_IDX = OM.IDX
-								LEFT JOIN dev.ORDERSHEET_OPTION OO ON
-								OM.IDX = OO.ORDERSHEET_IDX AND
-								PS.OPTION_IDX = OO.IDX",
-								$where),
+	'total_cnt' => $db->count("PRODUCT_STOCK PS"),
+	'total' => $db->count("
+		PRODUCT_STOCK PS
+		LEFT JOIN SHOP_PRODUCT PR ON
+		PS.PRODUCT_IDX = PR.IDX
+		LEFT JOIN ORDERSHEET_MST OM ON
+		PR.ORDERSHEET_IDX = OM.IDX
+		LEFT JOIN ORDERSHEET_OPTION OO ON
+		OM.IDX = OO.ORDERSHEET_IDX AND
+		PS.OPTION_IDX = OO.IDX",
+		$where
+	),
 	'page' => $page
 );
 
-$sql = "SELECT
-			PS.IDX					AS STOCK_IDX,
-			PS.PRODUCT_IDX			AS PRODUCT_IDX,
-			PS.PRODUCT_CODE			AS PRODUCT_CODE,
-			PS.PRODUCT_NAME			AS PRODUCT_NAME,
-			PS.OPTION_IDX			AS OPTION_IDX,
-			PS.BARCODE				AS BARCODE,
-			PS.OPTION_NAME			AS OPTION_NAME,
-			PS.STOCK_QTY			AS STOCK_QTY,
-			PS.STOCK_SAFE_QTY		AS STOCK_SAFE_QTY,
-			PS.STOCK_DATE			AS STOCK_DATE,
-			PS.CREATE_DATE			AS CREATE_DATE,
-			PS.CREATER				AS CREATER
-		FROM
-			dev.PRODUCT_STOCK PS
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
-			PS.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
-			PR.ORDERSHEET_IDX = OM.IDX
-			LEFT JOIN dev.ORDERSHEET_OPTION OO ON
-			OM.IDX = OO.ORDERSHEET_IDX AND
-			PS.OPTION_IDX = OO.IDX
-		WHERE
-			".$where."
-		ORDER BY
-			PS.PRODUCT_CODE,
-			PS.OPTION_NAME,
-			PS.STOCK_DATE
-			DESC
-		LIMIT
-			".$limit;
+$select_product_stock_sql = "
+	SELECT
+		PS.IDX					AS STOCK_IDX,
+		PS.PRODUCT_IDX			AS PRODUCT_IDX,
+		PS.PRODUCT_CODE			AS PRODUCT_CODE,
+		PS.PRODUCT_NAME			AS PRODUCT_NAME,
+		PS.OPTION_IDX			AS OPTION_IDX,
+		PS.BARCODE				AS BARCODE,
+		PS.OPTION_NAME			AS OPTION_NAME,
+		PS.STOCK_QTY			AS STOCK_QTY,
+		PS.STOCK_SAFE_QTY		AS STOCK_SAFE_QTY,
+		PS.STOCK_DATE			AS STOCK_DATE,
+		CASE
+			WHEN
+				PS.STOCK_DATE > NOW()
+				THEN
+					'적용대기'
+			ELSE
+					'적용완료'
+		END						AS STOCK_STATUS,
+		PS.CREATE_DATE			AS CREATE_DATE,
+		PS.CREATER				AS CREATER
+	FROM
+		PRODUCT_STOCK PS
+		LEFT JOIN SHOP_PRODUCT PR ON
+		PS.PRODUCT_IDX = PR.IDX
+		LEFT JOIN ORDERSHEET_MST OM ON
+		PR.ORDERSHEET_IDX = OM.IDX
+		LEFT JOIN ORDERSHEET_OPTION OO ON
+		OM.IDX = OO.ORDERSHEET_IDX AND
+		PS.OPTION_IDX = OO.IDX
+	WHERE
+		".$where."
+	ORDER BY
+		".$order.",
+		PS.PRODUCT_CODE,
+		PS.OPTION_NAME,
+		PS.STOCK_DATE
+		DESC
+	LIMIT
+		".$limit."
+";
 
-$db->query($sql);
+$db->query($select_product_stock_sql);
 
-foreach($db->fetch() as $data) {
+foreach($db->fetch() as $data) {	
 	$json_result['data'][] = array(
 		'num'						=>$total_cnt--,
 		'stock_idx'					=>$data['STOCK_IDX'],
@@ -452,6 +462,7 @@ foreach($db->fetch() as $data) {
 		'stock_qty'					=>$data['STOCK_QTY'],
 		'stock_safe_qty'			=>$data['STOCK_SAFE_QTY'],
 		'stock_date'				=>$data['STOCK_DATE'],
+		'stock_status'				=>$data['STOCK_STATUS'],
 		'create_date'				=>$data['CREATE_DATE'],
 		'creater'					=>$data['CREATER']
 	);

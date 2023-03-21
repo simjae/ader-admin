@@ -44,7 +44,7 @@ if ($display_num_flg != null && $action_type != null) {
 		case "up" :
 			$prev_sql = "
 				UPDATE
-					dev.MAIN_IMG
+					TMP_MAIN_IMG
 				SET
 					DISPLAY_NUM = ".$recent_num.",
 					UPDATE_DATE = NOW(),
@@ -57,7 +57,7 @@ if ($display_num_flg != null && $action_type != null) {
 			
 			$sql = "
 				UPDATE
-					dev.MAIN_IMG
+					TMP_MAIN_IMG
 				SET
 					DISPLAY_NUM = ".intval($recent_num - 1).",
 					UPDATE_DATE = NOW(),
@@ -73,7 +73,7 @@ if ($display_num_flg != null && $action_type != null) {
 		case "down" :
 			$prev_sql = "
 				UPDATE
-					dev.MAIN_IMG
+					TMP_MAIN_IMG
 				SET
 					DISPLAY_NUM = ".$recent_num.",
 					UPDATE_DATE = NOW(),
@@ -86,7 +86,7 @@ if ($display_num_flg != null && $action_type != null) {
 			
 			$sql = "
 				UPDATE
-					dev.MAIN_IMG
+					TMP_MAIN_IMG
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1).",
 					UPDATE_DATE = NOW(),
@@ -99,7 +99,7 @@ if ($display_num_flg != null && $action_type != null) {
 			
 			break;
 	}
-	
+		
 	if (strlen($prev_sql) > 0) {
 		$db->query($prev_sql);
 	}
@@ -109,25 +109,12 @@ if ($display_num_flg != null && $action_type != null) {
 	}
 }
 
-if ($img_idx != null) {
-	$path = "/var/www/admin/www/images/main/img";
-	$img_location_sql = "";
-	
-	if ($main_img['size'] > 0) {
-		$upload_result = uploadMainImg($path,$main_img);
-		
-		if ($upload_result['code'] == 200) {
-			$img_filename = $upload_result['name'];
-			
-			$img_location_sql = " IMG_LOCATION = '".$path.$img_filename."', ";
-		}
-	}
-	
+if ($update_flg != null && $img_idx != null) {
 	$update_img_sql = "
 		UPDATE
-			dev.MAIN_IMG
+			TMP_MAIN_IMG
 		SET
-			".$img_location_sql."
+			IMG_LOCATION = '/var/www/admin/www".$img_location."',
 			TITLE = '".$title."',
 			BTN_NAME = '".$btn_name."',
 			BTN_URL = '".$btn_url."',
@@ -141,36 +128,4 @@ if ($img_idx != null) {
 	$db->query($update_img_sql);
 }
 
-function uploadMainImg($path,$file) {
-	$filename = $file['name'];			// 파일 이름 알아내기
-	$file_tmp = $file['tmp_name'];		// 파일 임시 저장 장소 알아내기
-	$file_info = pathinfo($filename);	// 파일 확장자 알아내기
-
-	// 실행 파일 업로드 불가
-	if(array_key_exists('extension',$file_info) && strpos(strtolower($file_info['extension']),'.php,.asp,.jsp,.aspx')) {
-		throw new Exception('Can not upload file : Permition Denied');
-		return false;
-	}
-	
-	$filename = str_replace(' ','_',strip_tags($filename));
-	$filename_arr = explode('.',$filename);
-	
-	// 파일 이름을 타임 스탬프로 바꾸기
-	$filename = "img_main_banner_".time().".".$filename_arr[1];
-	
-	// 파일을 정해진 저장 디렉토리에 저장
-	$filename_real = $filename;
-	$res = move_uploaded_file($file_tmp,$path.$filename_real);
-	
-	$upload_result = array();
-	if ($res == true) {
-		$upload_result['code'] = 200;
-		$upload_result['name'] = $filename;
-	} else {
-		$upload_result['code'] = 301;
-		$upload_result['msg'] = "배너 이미지/동영상 업로드 처리중 오류가 발생했습니다.";
-	}
-	
-	return $upload_result;
-}
 ?>

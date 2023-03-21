@@ -45,7 +45,7 @@ if ($order_product_code != null && $param_status != null) {
 			break;
 	}
 
-	$order_product_cnt = $db->count("dev.ORDER_PRODUCT OP","OP.ORDER_PRODUCT_CODE IN (".implode(",",$order_product_code).")");
+	$order_product_cnt = $db->count("ORDER_PRODUCT OP","OP.ORDER_PRODUCT_CODE IN (".implode(",",$order_product_code).")");
 	if (count($order_product_code) == $order_product_cnt) {
 		$sql = "SELECT
 					OP.IDX					AS OP_IDX,
@@ -56,7 +56,7 @@ if ($order_product_code != null && $param_status != null) {
 					OP.PRODUCT_TYPE			AS PRODUCT_TYPE,
 					OP.PREORDER_FLG			AS PREORDER_FLG
 				FROM
-					dev.ORDER_PRODUCT OP
+					ORDER_PRODUCT OP
 				WHERE
 					OP.ORDER_PRODUCT_CODE IN (".implode(",",$order_product_code).")";
 
@@ -89,7 +89,7 @@ if ($order_product_code != null && $param_status != null) {
 			
 			if ($prev_status == $order_status) {
 				$update_sql="UPDATE
-								dev.ORDER_PRODUCT
+								ORDER_PRODUCT
 							SET
 								ORDER_STATUS = '".$param_status."',
 								UPDATE_DATE = NOW(),
@@ -131,12 +131,12 @@ if (count($result_success) > 0) {
 echo $callback.'('.$json_result['data'].');';
 
 function checkSetProduct($db,$order_idx,$param_status) {
-	$set_order_cnt = $db->count("dev.ORDER_PRODUCT OP","OP.ORDER_IDX = '".$order_idx."' AND PRODUCT_CODE NOT REGEXP 'SET|COU'");
-	$order_product_cnt = $db->count("dev.ORDER_PRODUCT OP","OP.ORDER_IDX = '".$order_idx."' AND OP.ORDER_STATUS = '".$param_status."'");
+	$set_order_cnt = $db->count("ORDER_PRODUCT OP","OP.ORDER_IDX = '".$order_idx."' AND PRODUCT_CODE NOT REGEXP 'SET|COU'");
+	$order_product_cnt = $db->count("ORDER_PRODUCT OP","OP.ORDER_IDX = '".$order_idx."' AND OP.ORDER_STATUS = '".$param_status."'");
 	
 	if ($set_order_cnt == $order_product_cnt) {
 		$sql = "UPDATE
-					dev.ORDER_PRODUCT
+					ORDER_PRODUCT
 				SET
 					ORDER_STATUS = '".$param_status."',
 					UPDATE_DATE = NOW(),
@@ -150,12 +150,12 @@ function checkSetProduct($db,$order_idx,$param_status) {
 }
 
 function checkOrderInfo($db,$order_idx,$param_status) {
-	$order_cnt = $db->count("dev.ORDER_PRODUCT OP","OP.ORDER_IDX = ".$order_idx." AND PRODUCT_CODE NOT REGEXP 'SET|COU'");
-	$order_product_cnt = $db->count("dev.ORDER_PRODUCT OP","OP.ORDER_IDX = ".$order_idx." AND OP.ORDER_STATUS = '".$param_status."' AND PRODUCT_CODE NOT REGEXP 'SET|COU'");
+	$order_cnt = $db->count("ORDER_PRODUCT OP","OP.ORDER_IDX = ".$order_idx." AND PRODUCT_CODE NOT REGEXP 'SET|COU'");
+	$order_product_cnt = $db->count("ORDER_PRODUCT OP","OP.ORDER_IDX = ".$order_idx." AND OP.ORDER_STATUS = '".$param_status."' AND PRODUCT_CODE NOT REGEXP 'SET|COU'");
 	
 	if ($order_cnt == $order_product_cnt) {
 		$sql = "UPDATE
-					dev.ORDER_INFO
+					ORDER_INFO
 				SET
 					ORDER_STATUS = '".$param_status."',
 					UPDATE_DATE = NOW(),

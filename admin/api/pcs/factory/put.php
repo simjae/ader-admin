@@ -14,6 +14,9 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
 $factory_idx	= $_POST['factory_idx'];
 $manufacturer	= $_POST['manufacturer'];
 $due_date		= $_POST['due_date'];
@@ -41,11 +44,11 @@ if ($factory_idx != null) {
 	$set .= " MEMO = '".$memo."', ";
 
 	$sql = "UPDATE
-				dev.FACTORY_INFO
+				FACTORY_INFO
 			SET
 				".$set."
-				UPDATER = 'Admin',
-				UPDATE_DATE = NOW()
+				UPDATE_DATE = NOW(),
+				UPDATER = '".$session_id."'
 			WHERE
 				IDX = ".$factory_idx;
 	

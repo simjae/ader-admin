@@ -27,22 +27,22 @@ $page_idx		= $_POST['page_idx'];
 $obj_table = "";
 switch ($obj_type) {
 	case "SL" :
-		$obj_table = " dev.TMP_MENU_SLIDE ";
+		$obj_table = " TMP_MENU_SLIDE ";
 		break;
 	
 	case "UP" :
-		$obj_table = " dev.TMP_MENU_UPPER_FILTER ";
+		$obj_table = " TMP_MENU_UPPER_FILTER ";
 		break;
 	
 	case "LW" :
-		$obj_table = " dev.TMP_MENU_LOWER_FILTER ";
+		$obj_table = " TMP_MENU_LOWER_FILTER ";
 		break;
 }
 
 if ($country != null && $menu_sort != null && $menu_idx != null) {
 	$img_location_arr = array();
 	$img_location_sql = "";
-	if ($obj_type = "SL" || $obj_type = "UP") {
+	if ($obj_type == "SL" || $obj_type == "UP") {
 		$img_location_arr[0] = " IMG_LOCATION, ";
 		$img_location_arr[1] = " '".$img_location."', ";
 		
@@ -55,20 +55,17 @@ if ($country != null && $menu_sort != null && $menu_idx != null) {
 			COUNTRY,
 			MENU_SORT,
 			MENU_IDX,
-			LINK_TYPE,
+			
 			OBJ_TITLE,
 			".$img_location_arr[0]."
-			DISPLAY_NUM,
-			PAGE_IDX
+			DISPLAY_NUM
 		) VALUES (
 			'".$country."',
 			'".$menu_sort."',
 			".$menu_idx.",
-			'".$link_type."',
 			'".$obj_title."',
 			".$img_location_arr[1]."
-			1,
-			".$page_idx."
+			1
 		)
 	";
 	
@@ -104,6 +101,7 @@ if ($country != null && $menu_sort != null && $menu_idx != null) {
 					".$obj_table." MO
 				WHERE
 					MO.COUNTRY = '".$country."' AND
+					MO.MENU_SORT = '".$menu_sort."' AND
 					MO.MENU_IDX = ".$menu_idx."
 				ORDER BY
 					MO.DISPLAY_NUM ASC

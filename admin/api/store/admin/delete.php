@@ -22,7 +22,7 @@ if (isset($_POST['admin_idx'])) {
 if ($admin_idx > 0) {
 	$update_admin_sql = "
 		UPDATE
-			dev.ADMIN
+			ADMIN
 		SET
 			DEL_FLG = TRUE
 		WHERE

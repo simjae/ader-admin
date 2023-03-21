@@ -25,9 +25,9 @@ $where_cnt = $where;
 
 $limit_start = (intval($page)-1)*$rows;
 
-$total_cnt = $db->count("dev.ADMIN AD ",$where_cnt);
+$total_cnt = $db->count("ADMIN AD ",$where_cnt);
 $json_result = array(
-	'total'		=> $db->count("dev.ADMIN AD ",$where),
+	'total'		=> $db->count("ADMIN AD ",$where),
 	'total_cnt'	=> $total_cnt,
 	'page'		=> $page
 );
@@ -40,13 +40,10 @@ $select_admin_sql = "
 		AD.ADMIN_ID			AS ADMIN_ID,
 		AD.ADMIN_NAME		AS ADMIN_NAME,
 		AD.ADMIN_NICK		AS ADMIN_NICK,
-		PI.TITLE			AS ADMIN_PERMITION,
 		AD.ADMIN_STATUS		AS ADMIN_STATUS,
 		AD.JOIN_DATE		AS JOIN_DATE
 	FROM 
-		dev.ADMIN AD
-		LEFT JOIN dev.PERMITION_INFO PI ON
-		AD.PERMITION_IDX = PI.IDX
+		ADMIN AD
 	WHERE 
 		".$where."
 	ORDER BY
@@ -74,7 +71,7 @@ foreach($db->fetch() as $admin_data) {
 		'admin_id'				=>$admin_data['ADMIN_ID'],
 		'admin_name'			=>$admin_data['ADMIN_NAME'],
 		'admin_nick'			=>$admin_data['ADMIN_NICK'],
-		'admin_permition'		=>$admin_data['ADMIN_PERMITION'],
+		'permition_title'		=>$admin_data['PERMITION_TITLE'],
 		'admin_status'			=>$admin_status,
 		'join_date'				=>$admin_data['JOIN_DATE']
 	);

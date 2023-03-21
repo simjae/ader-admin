@@ -13,120 +13,212 @@
  | 
  +=============================================================================
 */
+
 header("Access-Control-Allow-Origin: *");
 
-/** 변수 정리 **/
 $search_type		= $_POST['search_type'];
 $search_keyword		= $_POST['search_keyword'];
 
 $product_idx		= $_POST['product_idx'];
+$product_name		= $_POST['product_name'];
+$product_code		= $_POST['product_code'];
+$barcode			= $_POST['barcode'];
+$option_name		= $_POST['option_name'];
 
-$rows = $_POST['rows'];
-$page = $_POST['page'];
+$min_price_kr		= $_POST['min_price_kr'];
+$max_price_kr		= $_POST['min_price_kr'];
+$min_price_en		= $_POST['min_price_en'];
+$max_price_en		= $_POST['min_price_en'];
+$min_price_cn		= $_POST['min_price_cn'];
+$max_price_cn		= $_POST['min_price_cn'];
+
+$rows				= $_POST['rows'];
+$page				= $_POST['page'];
+
+$sort_type			= $_POST['sort_type'];				//정렬타입
+$sort_value			= $_POST['sort_value'];				//정렬 기준값
 
 /** 검색 조건 **/
 $where = "1=1";
-$where .= " AND (PR.DEL_FLG = FALSE AND PR.SALE_FLG = TRUE) ";
-$where .= " AND (SELECT COUNT(IDX) FROM dev.PRODUCT_IMG S_PI WHERE S_PI.PRODUCT_IDX = PR.IDX > 0) ";
+$where .= " AND (PR.DEL_FLG = FALSE AND PR.SOLD_OUT_FLG = FALSE) ";
+$where .= "
+	AND (
+		(
+			SELECT
+				COUNT(S_PI.IDX)
+			FROM
+				PRODUCT_IMG S_PI
+			WHERE
+				S_PI.PRODUCT_IDX = PR.IDX
+		) > 0
+	)
+";
+
+if ($product_idx != null) {
+	$where .= " AND (PR.IDX NOT IN (".$product_idx."))";
+}
+
 $cnt_where .= $where;
 
-/* 검색조건 : 검색타입 - 검색키워드 */
-if ($search_type != null && $search_keyword != null) {
-	switch ($search_type) {
-		case "product_code" :
-			$where .=  " AND PR.PRODUCT_CODE LIKE '%".$search_keyword."%' ";
-			break;
-		
-		case "product_name" :
-			$where .=  " AND PR.PRODUCT_NAME LIKE '%".$search_keyword."%' ";
-			break;
+if ($product_name != null) {
+	$product_name = str_replace(",","|",$product_name);
+	
+	$where .= " AND (PR.PRODUCT_NAME REGEXP '".$product_name."') ";
+}
 
-		case "barcode" :
-			$where .=  " AND OO.BARCODE LIKE '%".$search_keyword."%' ";
-			break;
-		
-		case "option_name" :
-			$where .=  " AND OO.OPTION_NAME LIKE '%".$search_keyword."%' ";
-			break;
+if ($product_code != null) {
+	$product_code = str_replace(",","|",$product_code);
+	$where .= " AND (PR.PRODUCT_CODE REGEXP '".$product_code."') ";
+}
+
+if ($barcode != null) {
+	$barcode = str_replace(",","|",$barcode);
+	
+	$where .= " AND (OO.BARCODE REGEXP '".$barcode."') ";
+}
+
+if ($option_name != null) {
+	$option_name = str_replace(",","|",$option_name);
+	
+	$where .= " AND (OO.OPTION_NAME REGEXP '".$option_name."') ";
+}
+
+if ($min_price_kr != null || $max_price_kr != null) {
+	if ($min_price_kr != null && $max_price_kr == null) {
+		$where .= " AND (PR.SALES_PRICE_KR >= ".$min_price_kr.") ";
+	} else if ($min_price_kr == null && $max_price_kr != null) {
+		$where .= " AND (PR.SALES_PRICE_KR <= ".$max_price_kr.") ";
+	} else if ($min_price_kr != null && $max_price_kr != null) {
+		$where .= " AND (PR.SALES_PRICE_KR BETWEEN ".$min_price_kr." AND ".$max_price_kr.") ";
 	}
 }
 
-if ($product_idx != null) {
-	$where .= " AND (PR.IDX NOT IN (".$product_idx.")) ";
+if ($min_price_en != null || $max_price_en != null) {
+	if ($min_price_en != null && $max_price_en == null) {
+		$where .= " AND (PR.SALES_PRICE_en >= ".$min_price_en.") ";
+	} else if ($min_price_en == null && $max_price_en != null) {
+		$where .= " AND (PR.SALES_PRICE_en <= ".$max_price_en.") ";
+	} else if ($min_price_en != null && $max_price_en != null) {
+		$where .= " AND (PR.SALES_PRICE_en BETWEEN ".$min_price_en." AND ".$max_price_en.") ";
+	}
+}
+
+if ($min_price_cn != null || $max_price_cn != null) {
+	if ($min_price_cn != null && $max_price_cn == null) {
+		$where .= " AND (PR.SALES_PRICE_cn >= ".$min_price_cn.") ";
+	} else if ($min_price_cn == null && $max_price_cn != null) {
+		$where .= " AND (PR.SALES_PRICE_cn <= ".$max_price_cn.") ";
+	} else if ($min_price_cn != null && $max_price_cn != null) {
+		$where .= " AND (PR.SALES_PRICE_cn BETWEEN ".$min_price_cn." AND ".$max_price_cn.") ";
+	}
+}
+
+$order = '';
+if ($sort_value != null && $sort_type != null) {
+	$order = ' PR.'.$sort_value." ".$sort_type." ";
+} else {
+	$order = ' PR.IDX DESC';
 }
 
 /** DB 처리 **/
 $json_result = array(
-	'total' => $db->count("dev.SHOP_PRODUCT PR",$where),
-	'total_cnt' => $db->count("dev.SHOP_PRODUCT PR",$cnt_where),
+	'total' => $db->count("SHOP_PRODUCT PR LEFT JOIN ORDERSHEET_OPTION OO ON PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX",$where),
+	'total_cnt' => $db->count("SHOP_PRODUCT PR LEFT JOIN ORDERSHEET_OPTION OO ON PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX",$cnt_where),
 	'page' => intval($page)
 );
 
 $limit_start = (intval($page)-1)*$rows;
 
-$sql = "SELECT
-			PR.IDX				AS PRODUCT_IDX,
-			PR.PRODUCT_TYPE		AS PRODUCT_TYPE,
-			PR.STYLE_CODE		AS STYLE_CODE,
-			PR.COLOR_CODE		AS COLOR_CODE,
-			PR.PRODUCT_CODE		AS PRODUCT_CODE,
-			PR.PRODUCT_NAME		AS PRODUCT_NAME,
-			(
-				SELECT
-					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-				FROM
-					dev.PRODUCT_IMG S_PI
-				WHERE
-					S_PI.PRODUCT_IDX = PR.IDX AND
-					S_PI.IMG_TYPE = 'P' AND
-					S_PI.IMG_SIZE = 'S'
-				ORDER BY
-					S_PI.IDX ASC
-				LIMIT
-					0,1
-			)					AS IMG_LOCATION,
-			PR.PRICE_KR			AS PRICE_KR,
-			PR.PRICE_EN			AS PRICE_EN,
-			PR.PRICE_CN			AS PRICE_CN,
-			PR.DISCOUNT_KR		AS DISCOUNT_KR,
-			PR.DISCOUNT_EN		AS DISCOUNT_EN,
-			PR.DISCOUNT_CN		AS DISCOUNT_CN,
-			PR.SALES_PRICE_KR	AS SALES_PRICE_KR,
-			PR.SALES_PRICE_EN	AS SALES_PRICE_EN,
-			PR.SALES_PRICE_CN	AS SALES_PRICE_CN,
-			PR.UPDATE_DATE		AS UPDATE_DATE
-		FROM
-			dev.SHOP_PRODUCT PR
-		WHERE
-			".$where."
-		ORDER BY
-			PR.IDX DESC";
+$select_product_lib_sql = "
+	SELECT
+		PR.IDX		AS PRODUCT_IDX,
+		PR.PRODUCT_TYPE		AS PRODUCT_TYPE,
+		PR.PRODUCT_CODE		AS PRODUCT_CODE,
+		PR.PRODUCT_NAME		AS PRODUCT_NAME,
+		(
+			SELECT
+				REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+			FROM
+				PRODUCT_IMG S_PI
+			WHERE
+				S_PI.PRODUCT_IDX = PR.IDX AND
+				S_PI.IMG_TYPE = 'P' AND
+				S_PI.IMG_SIZE = 'S'
+			ORDER BY
+				S_PI.IDX ASC
+			LIMIT
+				0,1
+		)					AS IMG_LOCATION,
+		PR.PRICE_KR			AS PRICE_KR,
+		PR.PRICE_EN			AS PRICE_EN,
+		PR.PRICE_CN			AS PRICE_CN,
+		PR.DISCOUNT_KR		AS DISCOUNT_KR,
+		PR.DISCOUNT_EN		AS DISCOUNT_EN,
+		PR.DISCOUNT_CN		AS DISCOUNT_CN,
+		PR.SALES_PRICE_KR	AS SALES_PRICE_KR,
+		PR.SALES_PRICE_EN	AS SALES_PRICE_EN,
+		PR.SALES_PRICE_CN	AS SALES_PRICE_CN,
+		
+		(
+			SELECT
+				IFNULL(SUM(S_PS.STOCK_QTY),0)
+			FROM
+				PRODUCT_STOCK S_PS
+			WHERE
+				S_PS.PRODUCT_IDX = PR.IDX AND
+				S_PS.OPTION_IDX = OO.IDX AND
+				S_PS.STOCK_DATE <= NOW()
+		)							AS STOCK_QTY,
+		(
+			SELECT
+				IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+			FROM
+				ORDER_PRODUCT S_OP
+			WHERE
+				S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
+				S_OP.PRODUCT_IDX = PR.IDX AND
+				S_OP.OPTION_IDX = OO.IDX
+		)							AS ORDER_QTY
+	FROM
+		SHOP_PRODUCT PR
+		LEFT JOIN ORDERSHEET_OPTION OO ON
+		PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
+	WHERE
+		".$where."
+	GROUP BY
+		PR.IDX
+	ORDER BY
+		".$order."
+";
 
 if ($rows != null) {
-	$sql .= " LIMIT ".$limit_start.",".$rows;
+	$select_product_lib_sql .= " LIMIT ".$limit_start.",".$rows;
 }
 
-$db->query($sql);
+$db->query($select_product_lib_sql);
 
 foreach($db->fetch() as $data) {
 	$json_result['data'][] = array(
-		'product_idx'		=>$data['PRODUCT_IDX'],
-		'product_type'		=>$data['PRODUCT_TYPE'],
-		'style_code'		=>$data['STYLE_CODE'],
-		'color_code'		=>$data['COLOR_CODE'],
-		'product_code'		=>$data['PRODUCT_CODE'],
-		'product_name'		=>$data['PRODUCT_NAME'],
-		'img_location'		=>$data['IMG_LOCATION'],
-		'price_kr'			=>$data['PRICE_KR'],
-		'price_en'			=>$data['PRICE_EN'],
-		'price_cn'			=>$data['PRICE_CN'],
-		'discount_kr'		=>$data['DISCOUNT_KR'],
-		'discount_en'		=>$data['DISCOUNT_EN'],
-		'discount_cn'		=>$data['DISCOUNT_CN'],
-		'sales_price_kr'	=>$data['SALES_PRICE_KR'],
-		'sales_price_en'	=>$data['SALES_PRICE_EN'],
-		'sales_price_cn'	=>$data['SALES_PRICE_CN'],
-		'update_date'		=>$data['UPDATE_DATE']
+		'product_idx'			=>$data['PRODUCT_IDX'],
+		'product_type'			=>$data['PRODUCT_TYPE'],
+		'product_code'			=>$data['PRODUCT_CODE'],
+		'product_name'			=>$data['PRODUCT_NAME'],
+		'img_location'			=>$data['IMG_LOCATION'],
+		
+		'price_kr'				=>number_format($data['PRICE_KR']),
+		'price_en'				=>number_format($data['PRICE_EN']),
+		'price_cn'				=>number_format($data['PRICE_CN']),
+		'discount_kr'			=>number_format($data['DISCOUNT_KR']),
+		'discount_en'			=>number_format($data['DISCOUNT_EN']),
+		'discount_cn'			=>number_format($data['DISCOUNT_CN']),
+		'sales_price_kr'		=>number_format($data['SALES_PRICE_KR']),
+		'sales_price_en'		=>number_format($data['SALES_PRICE_EN']),
+		'sales_price_cn'		=>number_format($data['SALES_PRICE_CN']),
+		
+		'stock_qty'				=>$data['STOCK_QTY'],
+		'order_qty'				=>$data['ORDER_QTY'],
+		'product_qty'			=>intval($data['STOCK_QTY'] - $data['ORDER_QTY'])
 	);
 }
+
 ?>

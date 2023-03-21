@@ -23,7 +23,7 @@ if ($bluemark_idx != null) {
 							SELECT
 								COUNT(S_PI.IDX)
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
 								S_PI.IMG_SIZE = 'M' AND
@@ -34,7 +34,7 @@ if ($bluemark_idx != null) {
 								SELECT
 									REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 								FROM
-									dev.PRODUCT_IMG S_PI
+									PRODUCT_IMG S_PI
 								WHERE
 									S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
 									S_PI.DEL_FLG = FALSE AND
@@ -54,14 +54,14 @@ if ($bluemark_idx != null) {
 				BI.SERIAL_CODE			AS SERIAL_CODE,
 				IFNULL(BI.SEASON,'-')	AS SEASON
 			FROM
-				dev.BLUEMARK_INFO BI
+				BLUEMARK_INFO BI
 			WHERE
 				BI.IDX = ".$bluemark_idx;
 
 	$db->query($sql);
 
 	foreach($db->fetch() as $data) {
-		$log_cnt = $db->count("dev.BLUEMARK_LOG","BLUEMARK_IDX = ".$bluemark_idx);
+		$log_cnt = $db->count("BLUEMARK_LOG","BLUEMARK_IDX = ".$bluemark_idx);
 		
 		$log_info = array();
 		if ($log_cnt > 0) {
@@ -73,8 +73,8 @@ if ($bluemark_idx != null) {
 							BL.IP			AS IP,
 							BL.REG_DATE		AS REG_DATE
 						FROM
-							dev.BLUEMARK_LOG BL
-							LEFT JOIN dev.MEMBER MB ON
+							BLUEMARK_LOG BL
+							LEFT JOIN MEMBER MB ON
 							BL.MEMBER_IDX = MB.IDX
 						WHERE
 							BL.BLUEMARK_IDX = ".$bluemark_idx;

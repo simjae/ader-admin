@@ -64,12 +64,12 @@ if ($country != null && $serial_code != null) {
 		$db->begin_transaction();
 		
 		try {
-			$bluemark_cnt = $db->count("dev.BLUEMARK_INFO BI", "BI.DEL_FLG = FALSE AND BI.SERIAL_CODE ='".$serial_code."' AND BI.MEMBER_IDX = 0 AND BI.STATUS = FALSE");
+			$bluemark_cnt = $db->count("BLUEMARK_INFO BI", "BI.DEL_FLG = FALSE AND BI.SERIAL_CODE ='".$serial_code."' AND BI.MEMBER_IDX = 0 AND BI.STATUS = FALSE");
 			
 			if($bluemark_cnt == 1) {
 				$update_bluemark_sql = "
 					UPDATE
-						dev.BLUEMARK_INFO,
+						BLUEMARK_INFO,
 						(
 							 SELECT
 									MB.IDX				AS TMP_MEMBER_IDX,
@@ -81,7 +81,7 @@ if ($country != null && $serial_code != null) {
 									NOW()				AS TMP_UPDATE_DATE,
 									MB.MEMBER_ID		AS TMP_UPDATER
 							 FROM
-									dev.MEMBER_".$country." MB
+									MEMBER_".$country." MB
 							 WHERE
 									MB.IDX = '".$member_idx."'
 						) AS TMP
@@ -106,7 +106,7 @@ if ($country != null && $serial_code != null) {
 				if ($db_result > 0) {
 					$insert_log_sql = "
 						INSERT
-							dev.BLUEMARK_LOG
+							BLUEMARK_LOG
 						(
 							BLUEMARK_IDX,
 							MEMBER_IDX,
@@ -125,7 +125,7 @@ if ($country != null && $serial_code != null) {
 							'신규인증'			AS STATUS,
 							NOW()			AS REG_DATE
 						FROM
-							dev.BLUEMARK_INFO BI
+							BLUEMARK_INFO BI
 						WHERE 
 							BI.SERIAL_CODE = '".$serial_code."'
 					";
@@ -163,13 +163,13 @@ if ($country != null && $member_idx != null && $handover_id != null && $bluemark
 	$db->begin_transaction();
 	
 	try {
-		$my_bluemark_cnt = $db->count("dev.BLUEMARK_INFO BI", "BI.IDX = ".$bluemark_idx." AND BI.MEMBER_IDX = '".$member_idx."' AND BI.STATUS = TRUE AND BI.DEL_FLG = FALSE");
-		$handover_cnt = $db->count("dev.MEMBER_".$country." MB", "MB.IDX = '".$member_idx."'");
+		$my_bluemark_cnt = $db->count("BLUEMARK_INFO BI", "BI.IDX = ".$bluemark_idx." AND BI.MEMBER_IDX = '".$member_idx."' AND BI.STATUS = TRUE AND BI.DEL_FLG = FALSE");
+		$handover_cnt = $db->count("MEMBER_".$country." MB", "MB.IDX = '".$member_idx."'");
 	
 		if ($my_bluemark_cnt > 0 && $handover_cnt > 0) {
 			$update_handover_sql = "
 				UPDATE
-					dev.BLUEMARK_INFO,
+					BLUEMARK_INFO,
 					(
 						SELECT
 							MB.IDX				AS TMP_MEMBER_IDX,
@@ -183,12 +183,12 @@ if ($country != null && $member_idx != null && $handover_id != null && $bluemark
 								SELECT
 									S_MB.MEMBER_ID
 								FROM
-									dev.MEMBER_".$country." S_MB
+									MEMBER_".$country." S_MB
 								WHERE
 									S_MB.IDX = ".$member_idx."
 							)					AS TMP_UPDATER
 						FROM
-							dev.MEMBER_".$country." MB
+							MEMBER_".$country." MB
 						WHERE
 							MB.MEMBER_ID = '".$handover_id."'
 					) AS TMP
@@ -212,7 +212,7 @@ if ($country != null && $member_idx != null && $handover_id != null && $bluemark
 			if ($db_result > 0) {
 				$insert_handover_sql = "
 					INSERT INTO
-						dev.BLUEMARK_LOG
+						BLUEMARK_LOG
 					(
 						BLUEMARK_IDX,
 						MEMBER_IDX,
@@ -231,7 +231,7 @@ if ($country != null && $member_idx != null && $handover_id != null && $bluemark
 						'양도'			AS STATUS,
 						NOW()			AS REG_DATE
 					FROM
-						dev.BLUEMARK_INFO BI
+						BLUEMARK_INFO BI
 					WHERE 
 						BI.IDX = ".$bluemark_idx."
 				";

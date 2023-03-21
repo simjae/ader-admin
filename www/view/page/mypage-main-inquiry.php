@@ -333,6 +333,11 @@
     .child__category__btn.click__btn{
         color:#343434;
     }
+    .delete_inquiry_btn{
+        margin-top:20px;
+        text-align: right;
+        text-decoration: underline;
+    }
     @media (max-width: 1024px) {
         .inquiry__tab__wrap {
             grid-column: 1/17;
@@ -814,7 +819,7 @@
                                             </div>
                                             <div style="margin-top:20px;">${request_flg}</div>
                                             <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="margin-top:20px;">
-                                            <div style="margin-top:20px;" onclick="deleteInquiry(${row.board_idx})">삭제</div>
+                                            <div class="delete_inquiry_btn" onclick="deleteInquiry(${row.board_idx})">삭제</div>
                                         </div>
                                     </div>
                                 `;
@@ -845,8 +850,8 @@
             },
             success: function (d) {
                 if (d.code == 200) {
+                    $('.toggle__list__tab.02').html('');
                     if (d.data != null && d.data.length > 0) {
-                        $('.toggle__list__tab.02').html('');
                         d.data.forEach(function (row) {
                             strDiv = `
                             <div class="toggle__item">
@@ -931,7 +936,6 @@
         $(obj).next().toggle();
     }
     function inquiryQuestionClick(obj) { 
-        console.log($(obj).parent().parent());
         if ($(obj).parent().find('.inquiry_request').eq(0).css('display') == 'none') {
             $(obj).parent().parent().find('.down__up__icon').eq(0).attr('src', '/images/mypage/mypage_up_tab_btn.svg');
         }
@@ -944,8 +948,11 @@
     
     function registInquiry(){
         $('#frm-inquiry').submit();
-        $(`.inquiry__wrap`).find('.tab__btn__item').eq(2).click();
-        getInquiry();
+        
+        setTimeout(() => {
+            getInquiry();
+            $(`.inquiry__wrap`).find('.tab__btn__item').eq(2).click();
+        }, 500);
     }
 
     function deleteInquiry(idx){
@@ -960,7 +967,7 @@
             error: function (d) {
             },
             success: function (d) {
-                getInquiry();
+                setTimeout(() => {getInquiry();}, 300);
             }
         });
     }

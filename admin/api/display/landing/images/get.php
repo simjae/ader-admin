@@ -21,12 +21,17 @@ if ($img_idx != null) {
 		SELECT
 			MI.IDX				AS IMG_IDX,
 			MI.DISPLAY_NUM		AS DISPLAY_NUM,
+			REPLACE(
+				MI.IMG_LOCATION,
+				'/var/www/admin/www',
+				''
+			)					AS IMG_LOCATION,
 			MI.TITLE			AS TITLE,
 			MI.BTN_NAME			AS BTN_NAME,
 			MI.BTN_URL			AS BTN_URL,
 			MI.BTN_DISPLAY_FLG	AS BTN_DISPLAY_FLG
 		FROM
-			dev.MAIN_IMG MI
+			TMP_MAIN_IMG MI
 		WHERE
 			MI.IDX = ".$img_idx." AND
 			MI.DEL_FLG = FALSE
@@ -38,6 +43,7 @@ if ($img_idx != null) {
 		$json_result['data'][] = array(
 			'img_idx'			=>$img_data['IMG_IDX'],
 			'display_num'		=>$img_data['DISPLAY_NUM'],
+			'img_location'		=>$img_data['IMG_LOCATION'],
 			'title'				=>$img_data['TITLE'],
 			'btn_name'			=>$img_data['BTN_NAME'],
 			'btn_url'			=>$img_data['BTN_URL'],

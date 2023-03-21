@@ -23,15 +23,15 @@ if ($menu_sort != null && $menu_idx != null && $obj_idx != null) {
 	$obj_table = "";
 	switch ($obj_type) {
 		case "SL" :
-			$obj_table = " dev.TMP_MENU_SLIDE ";
+			$obj_table = " TMP_MENU_SLIDE ";
 			break;
 		
 		case "UP" :
-			$obj_table = " dev.TMP_MENU_UPPER_FILTER ";
+			$obj_table = " TMP_MENU_UPPER_FILTER ";
 			break;
 		
 		case "LW" :
-			$obj_table = " dev.TMP_MENU_LOWER_FILTER ";
+			$obj_table = " TMP_MENU_LOWER_FILTER ";
 			break;
 	}
 

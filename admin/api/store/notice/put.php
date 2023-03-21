@@ -26,7 +26,7 @@ if($alarm_condition != null && $alarm_message != null){
             if($alarm_message[$i] != null ){
                 $sql = "
                     UPDATE 
-                        dev.ALARM_INFO
+                        ALARM_INFO
                     SET
                         ALARM_MESSAGE = '".addslashes($alarm_message[$i])."'
                     WHERE
@@ -42,7 +42,7 @@ if($alarm_condition != null && $alarm_message != null){
     else{
         $sql = "
             UPDATE 
-                dev.ALARM_INFO
+                ALARM_INFO
             SET
                 ALARM_MESSAGE = '".addslashes($alarm_message)."'
             WHERE

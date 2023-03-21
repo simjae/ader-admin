@@ -2,7 +2,7 @@
 #seo{margin-top : 50px;}
 .sub{margin-top : 10px;}
 </style>
-<div class="content__card" styee="margin: 0;">
+<div class="content__card modal__view" styee="margin: 0;">
 	<form id="frm-add" action="display/contents/add">
 		<input type="hidden" name="contents_type" value="IMG">
 	

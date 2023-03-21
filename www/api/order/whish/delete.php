@@ -44,10 +44,10 @@ if ($member_idx > 0 && ($product_idx > 0 || $whish_idx > 0)) {
 	$whish_cnt = 0;
 	$where_sql = "";
 	if ($product_idx > 0) {
-		$whish_cnt = $db->count("dev.WHISH_LIST","PRODUCT_IDX = ".$product_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+		$whish_cnt = $db->count("WHISH_LIST","PRODUCT_IDX = ".$product_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
 		$where_sql = " PRODUCT_IDX = ".$product_idx." ";
 	} else if ($whish_idx > 0) {
-		$whish_cnt = $db->count("dev.WHISH_LIST","IDX = ".$whish_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+		$whish_cnt = $db->count("WHISH_LIST","IDX = ".$whish_idx." AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
 		$where_sql = " IDX = ".$whish_idx." ";
 	}
 	
@@ -59,7 +59,7 @@ if ($member_idx > 0 && ($product_idx > 0 || $whish_idx > 0)) {
 
 	$delete_whish_sql = "
 		UPDATE
-			dev.WHISH_LIST
+			WHISH_LIST
 		SET
 			DEL_FLG = TRUE,
 			UPDATE_DATE = NOW(),
@@ -71,7 +71,7 @@ if ($member_idx > 0 && ($product_idx > 0 || $whish_idx > 0)) {
 
 	$db->query($delete_whish_sql);
 	
-	$whish_cnt = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	$whish_cnt = $db->count("WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
 	
 	$json_result['data'] = $whish_cnt;
 }

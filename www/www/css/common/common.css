@@ -529,11 +529,12 @@ div::-webkit-scrollbar-track {
 
 .size__box li[data-soldout="STSO"]::after {
     /* 재고없음(재고 증가 없음) */
-    content: url(/images/svg/sold-line.svg);
+    content: url('/images/svg/sold-line.svg');
     position: absolute;
+    top: 50%;
     opacity: 0.5;
-    right: 1px;
-    top: 1px;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .size__box li[data-soldout="STSO"][data-sizetype="O"]::after {

@@ -22,7 +22,7 @@ if ($banner_type != null && $banner_idx != null) {
 	$banner_location_sql = "";
 	switch ($banner_type) {
 		case "IMG" :
-			$banner_table = "dev.BANNER_IMG BI";
+			$banner_table = "BANNER_IMG BI";
 			$banner_location_sql = "
 				REPLACE(
 					BI.BANNER_LOCATION,
@@ -33,7 +33,7 @@ if ($banner_type != null && $banner_idx != null) {
 			break;
 		
 		case "VID" :
-			$banner_table = "dev.BANNER_VID BI";
+			$banner_table = "BANNER_VID BI";
 			$banner_location_sql = "
 				REPLACE(
 					BI.BANNER_PREVIEW,

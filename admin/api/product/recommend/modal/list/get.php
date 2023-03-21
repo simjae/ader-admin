@@ -36,8 +36,8 @@ $where_cnt="PR.SALE_FLG = TRUE AND
 				SELECT
 					DISTINCT PRODUCT_IDX
 				FROM
-					dev.PRODUCT_GRID S_PG
-					LEFT JOIN dev.PAGE_PRODUCT S_PP ON
+					PRODUCT_GRID S_PG
+					LEFT JOIN PAGE_PRODUCT S_PP ON
 					S_PG.PAGE_IDX = S_PP.IDX
 				WHERE
 					S_PP.DISPLAY_FLG = TRUE AND
@@ -47,7 +47,7 @@ $where_cnt="PR.SALE_FLG = TRUE AND
 				SELECT
 					S_RP.PRODUCT_IDX
 				FROM
-					dev.RECOMMEND_PRODUCT S_RP
+					RECOMMEND_PRODUCT S_RP
 			)";
 
 $where = "";
@@ -115,7 +115,7 @@ if($stock_type != null && ($stock_min != null || $stock_max != null)){
 									SUM(S_PS.STOCK_QTY),0
 								)
 							FROM
-								dev.PRODUCT_STOCK PS
+								PRODUCT_STOCK PS
 							WHERE
 								 PS.STOCK_DATE <= NOW() AND
 								 PS.PRODUCT_IDX = PR.IDX
@@ -125,7 +125,7 @@ if($stock_type != null && ($stock_min != null || $stock_max != null)){
 									SUM(S_OP.PRODUCT_QTY),0
 								)
 							FROM
-								dev.ORDER_PRODUCT S_OP
+								ORDER_PRODUCT S_OP
 							WHERE
 								S_OP.PRODUCT_IDX = PR.IDX AND
 								S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
@@ -137,7 +137,7 @@ if($stock_type != null && ($stock_min != null || $stock_max != null)){
 									SUM(STOCK_SAFE_QTY),0
 								)
 							FROM
-								dev.PRODUCT_STOCK S_PS
+								PRODUCT_STOCK S_PS
 							WHERE
 								S_PS.PRODUCT_IDX = PR.IDX
 						) ";
@@ -173,7 +173,7 @@ if ($sold_out_status != null && $sold_out_status != "all") {
 								0
 							)
 						FROM
-							dev.PRODUCT_STOCK S_PS
+							PRODUCT_STOCK S_PS
 						WHERE
 							 S_PS.STOCK_DATE <= NOW() AND
 							 S_PS.PRODUCT_IDX = PR.IDX
@@ -183,7 +183,7 @@ if ($sold_out_status != null && $sold_out_status != "all") {
 								SUM(S_OP.PRODUCT_QTY),0
 							)
 						FROM
-							dev.ORDER_PRODUCT S_OP
+							ORDER_PRODUCT S_OP
 						WHERE
 							S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
 							S_OP.PRODUCT_IDX = PR.IDX
@@ -246,8 +246,8 @@ if ($sort_value != null && $sort_type != null) {
 
 $limit_start = (intval($page)-1)*$rows;
 $json_result = array(
-	'total' => $db->count("dev.SHOP_PRODUCT PR",$where),
-	'total_cnt' => $db->count("dev.SHOP_PRODUCT PR",$where_cnt),
+	'total' => $db->count("SHOP_PRODUCT PR",$where),
+	'total_cnt' => $db->count("SHOP_PRODUCT PR",$where_cnt),
 	'page' => $page
 );
 
@@ -262,7 +262,7 @@ $sql = "SELECT
 				SELECT
 					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -285,7 +285,7 @@ $sql = "SELECT
 				SELECT
 					IFNULL(SUM(S_PS.STOCK_QTY),0)
 				FROM
-					dev.PRODUCT_STOCK S_PS
+					PRODUCT_STOCK S_PS
 				WHERE
 					S_PS.PRODUCT_IDX = PR.IDX AND
 					S_PS.STOCK_DATE <= NOW()
@@ -294,7 +294,7 @@ $sql = "SELECT
 				SELECT
 					IFNULL(SUM(S_PS.STOCK_SAFE_QTY),0)
 				FROM
-					dev.PRODUCT_STOCK S_PS
+					PRODUCT_STOCK S_PS
 				WHERE
 					S_PS.PRODUCT_IDX = PR.IDX AND
 					S_PS.STOCK_DATE <= NOW()
@@ -303,14 +303,14 @@ $sql = "SELECT
 				SELECT
 					IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 				FROM
-					dev.ORDER_PRODUCT S_OP
+					ORDER_PRODUCT S_OP
 				WHERE
 					S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
 					S_OP.PRODUCT_IDX = PR.IDX
 			)	AS ORDER_QTY,
 			PR.UPDATE_DATE		AS UPDATE_DATE
 		FROM
-			dev.SHOP_PRODUCT PR
+			SHOP_PRODUCT PR
 		WHERE
 			".$where."
 		ORDER BY

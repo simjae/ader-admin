@@ -19,8 +19,8 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 include_once("/var/www/admin/api/common/common.php");
 
 $session_id			= sessionCheck();
-$country			= $_POST['country'];
 
+$country			= $_POST['country'];
 $project_name		= $_POST['project_name']; 
 $project_desc		= $_POST['project_desc'];
 $project_title		= $_POST['project_title'];
@@ -30,9 +30,9 @@ if ($country != null) {
 	$db->begin_transaction();
 	
 	try {
-		$insert_collection_sql = "
+		$insert_collection_project_sql = "
 			INSERT INTO
-				dev.POSTING_COLLECTION
+				COLLECTION_PROJECT
 			(
 				COUNTRY,
 				PROJECT_NAME,
@@ -46,48 +46,46 @@ if ($country != null) {
 				'".$project_name."',
 				'".$project_desc."',
 				'".$project_title."',
-				'".$thumb_location."',
+				'/var/www/admin/www".$thumb_location."',
 				'".$session_id."',
 				'".$session_id."'
 			)
 		";
 		
-		$db->query($insert_collection_sql);
+		$db->query($insert_collection_project_sql);
 		
-		$collection_idx = $db->last_id();
+		$project_idx = $db->last_id();
 		
-		if (!empty($collection_idx)) {
-			$select_collection_sql = "
+		if (!empty($project_idx)) {
+			$select_collection_project_sql = "
 				SELECT
-					PC.IDX		AS COLLECTION_IDX
+					PJ.IDX		AS PROJECT_IDX
 				FROM
-					dev.POSTING_COLLECTION PC
+					COLLECTION_PROJECT PJ
 				WHERE
-					IDX != ".$collection_idx." AND
-					COUNTRY = '".$country."' AND
-					DEL_FLG = FALSE
+					PJ.IDX != ".$project_idx." AND
+					PJ.DEL_FLG = FALSE
 				ORDER BY
-					PC.DISPLAY_NUM ASC
+					PJ.DISPLAY_NUM ASC
 			";
-			$db->query($select_collection_sql);
+			$db->query($select_collection_project_sql);
 			
 			$display_num = 2;
-			foreach($db->fetch() as $collection_data) {
-				$tmp_idx = $collection_data['COLLECTION_IDX'];
+			foreach($db->fetch() as $project_data) {
+				$tmp_idx = $project_data['PROJECT_IDX'];
 				
-				if (!empty($collection_idx)) {
-					$update_collection_sql = "
+				if (!empty($tmp_idx)) {
+					$update_collection_project_sql = "
 						UPDATE
-							dev.POSTING_COLLECTION
+							COLLECTION_PROJECT
 						SET
 							DISPLAY_NUM = ".$display_num."
 						WHERE
 							IDX = ".$tmp_idx." AND
-							COUNTRY = '".$country."' AND
 							DEL_FLG = FALSE
 					";
 					
-					$db->query($update_collection_sql);
+					$db->query($update_collection_project_sql);
 					
 					$display_num++;
 				}
@@ -95,10 +93,12 @@ if ($country != null) {
 		}
 		
 		$db->commit();
+		
 		$json_result['code'] = 200;
 		$json_result['msg'] = "신규 프로젝트가 등록되었습니다.";
 	} catch(mysqli_sql_exception $exception){
 		$db->rollback();
+		print_r($exception);
 		
 		$json_result['code'] = 301;
 		$json_result['msg'] = "메인 배너 등록에 실패했습니다.";

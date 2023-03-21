@@ -15,30 +15,17 @@
 */
 
 /** 변수 정리 **/
-$default_level = $_POST['default_level'];
+$country				= $_POST['country'];
+$default_level_idx		= $_POST['default_level_idx'];
 
-
-/** DB 처리 **/
-
-//수정항목
-$sql = "ALTER TABLE
-			dev.MEMBER_KR
+if ($country != null && $default_level_idx != null) {
+	$update_default_level_sql = "
+		ALTER TABLE
+			MEMBER_".$country."
 		ALTER
-			LEVEL_IDX SET DEFAULT '".$default_level."'";
+			LEVEL_IDX SET DEFAULT '".$default_level_idx."'";
 
-$db->query($sql);
+	$db->query($update_default_level_sql);
+}
 
-$sql = "ALTER TABLE
-			dev.MEMBER_EN
-		ALTER
-			LEVEL_IDX SET DEFAULT '".$default_level."'";
-
-$db->query($sql);
-
-$sql = "ALTER TABLE
-			dev.MEMBER_CN
-		ALTER
-			LEVEL_IDX SET DEFAULT '".$default_level."'";
-
-$db->query($sql);
 ?>

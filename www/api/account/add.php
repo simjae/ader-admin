@@ -83,7 +83,7 @@ if (isset($_POST['gender'])) {
 }
 
 //동일 ID 중복체크
-$member_cnt = $db->count('dev.MEMBER_'.$country, 'MEMBER_ID = "'.$member_id.'" ');
+$member_cnt = $db->count('MEMBER_'.$country, 'MEMBER_ID = "'.$member_id.'" ');
 
 if($member_cnt > 0){
 	$json_result['code'] = 303;
@@ -156,7 +156,7 @@ $db->begin_transaction();
 try {
 	$insert_member_sql = "
 		INSERT INTO
-			dev.MEMBER_".$country."
+			MEMBER_".$country."
 		(   
 			MEMBER_STATUS,
 			".$member_id_arr[0]."
@@ -194,7 +194,7 @@ try {
 	if (!empty($member_idx)) {
 		$insert_order_to_sql = "
 			INSERT INTO
-				dev.ORDER_TO
+				ORDER_TO
 			(
 				COUNTRY,
 				MEMBER_IDX,
@@ -224,7 +224,7 @@ try {
 
 		$insert_join_mileage_sql = "
 			INSERT INTO
-				dev.MILEAGE_INFO
+				MILEAGE_INFO
 			(
 				COUNTRY,
 				MEMBER_IDX,

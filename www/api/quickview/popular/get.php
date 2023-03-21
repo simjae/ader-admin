@@ -33,7 +33,7 @@ if ($country != null) {
 						''
 					)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -45,8 +45,8 @@ if ($country != null) {
 			)					AS IMG_LOCATION,
 			PR.PRODUCT_NAME		AS PRODUCT_NAME
 		FROM
-			dev.POPULAR_PRODUCT PP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			POPULAR_PRODUCT PP
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PP.PRODUCT_IDX = PR.IDX
 		WHERE
 			PP.COUNTRY = '".$country."'

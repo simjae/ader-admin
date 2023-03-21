@@ -14,11 +14,14 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
 $country		= $_POST['country'];
 $preorder_idx	= $_POST['preorder_idx'];
 
 if ($country != null && $preorder_idx != null) {
-	$entry_cnt = $db->count("dev.ENTRY_PREORDER","PREORDER_IDX = ".$preorder_idx);
+	$entry_cnt = $db->count("ENTRY_PREORDER","PREORDER_IDX IN (".implode(',',$preorder_idx).")");
 	
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 401;
@@ -26,13 +29,13 @@ if ($country != null && $preorder_idx != null) {
 	} else {
 		$delete_preorder_sql = "
 			UPDATE
-				dev.PAGE_PREORDER
+				PAGE_PREORDER
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),
-				UPDATER = 'Admin'
+				UPDATER = '".$session_id."'
 			WHERE
-				IDX = ".$preorder_idx."
+				IDX IN (".implode(',',$preorder_idx).")
 		";
 		
 		$db->query($delete_preorder_sql);

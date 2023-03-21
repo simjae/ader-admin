@@ -14,73 +14,96 @@
  +=============================================================================
 */
 
-$display_flg		= $_POST['display_flg'];
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
+$display_num_flg	= $_POST['display_num_flg'];
 $update_flg			= $_POST['update_flg'];
 $toggle_flg			= $_POST['toggle_flg'];
 
 $country			= $_POST['country'];
-$story_column		= $_POST['story_column'];
+$story_type			= $_POST['story_type'];
 $action_type		= $_POST['action_type'];
 $recent_idx			= $_POST['recent_idx'];
 $recent_num			= $_POST['recent_num'];
 
-$story_idx		= $_POST['story_idx'];
-$story_title 	= xssEncode($_POST['story_title']);
-$story_memo 	= xssEncode($_POST['story_memo']);
-$img_location	= $_POST['img_location'];
-$active_flg		= $_POST['active_flg'];
-$page_idx		= $_POST['page_idx'];
+$story_idx			= $_POST['story_idx'];
+$story_title 		= xssEncode($_POST['story_title']);
+
+$story_sub_title = "NULL";
+if (isset($_POST['story_sub_title']) && $_POST['story_sub_title'] != null) {
+	$story_sub_title = xssEncode($_POST['story_sub_title']);
+}
+
+$story_memo = "NULL";
+if (isset($_POST['story_memo']) && $_POST['story_memo'] != null) {
+	$story_memo = xssEncode($_POST['story_memo']);
+}
+
+$img_location		= $_POST['img_location'];
+$project_idx		= $_POST['project_idx'];
+$page_idx			= $_POST['page_idx'];
 
 if ($img_location == "" || $img_location == null) {
 	$img_location = " NULL ";
 } else {
-	$img_location = " '".$img_location."' ";
+	$img_location = " '/var/www/admin/www".$img_location."' ";
 }
 
-if ($display_flg == true && $action_type != null) {
+if ($display_num_flg != null && $action_type != null) {
 	$prev_sql = "";
 	$sql = "";
 	
 	switch ($action_type) {
 		case "up" :
-			if ($story_column != null) {
-				$prev_sql ="UPDATE
-								dev.TMP_POSTING_STORY
-							SET
-								DISPLAY_NUM = ".$recent_num."
-							WHERE
-								STORY_COLUMN = ".$story_column." AND
-								COUNTRY = '".$country."' AND
-								DISPLAY_NUM = ".intval($recent_num - 1);
-				
-				$sql = "UPDATE
-							dev.TMP_POSTING_STORY
-						SET
-							DISPLAY_NUM = ".intval($recent_num - 1)."
-						WHERE
-							IDX = ".$recent_idx;
-			}
+			$prev_sql ="
+				UPDATE
+					TMP_POSTING_STORY
+				SET
+					DISPLAY_NUM = ".$recent_num."
+				WHERE
+					COUNTRY = '".$country."' AND
+					STORY_TYPE = '".$story_type."' AND
+					DISPLAY_NUM = ".intval($recent_num - 1)." AND
+					DEL_FLG = FALSE
+			";
+			
+			$sql = "
+				UPDATE
+					TMP_POSTING_STORY
+				SET
+					DISPLAY_NUM = ".intval($recent_num - 1)."
+				WHERE
+					IDX = ".$recent_idx."
+			";
 			
 			break;
 		
 		case "down" :
-			$prev_sql ="UPDATE
-							dev.TMP_POSTING_STORY
-						SET
-							DISPLAY_NUM = ".$recent_num."
-						WHERE
-							STORY_COLUMN = ".$story_column." AND
-							COUNTRY = '".$country."' AND
-							DISPLAY_NUM = ".intval($recent_num + 1);
+			$prev_sql ="
+				UPDATE
+					TMP_POSTING_STORY
+				SET
+					DISPLAY_NUM = ".$recent_num."
+				WHERE
+					STORY_TYPE = '".$story_type."' AND
+					COUNTRY = '".$country."' AND
+					DISPLAY_NUM = ".intval($recent_num + 1)." AND
+					DEL_FLG = FALSE
+			";
 			
-			$sql = "UPDATE
-						dev.TMP_POSTING_STORY
-					SET
-						DISPLAY_NUM = ".intval($recent_num + 1)."
-					WHERE
-						IDX = ".$recent_idx;
+			$sql = "
+				UPDATE
+					TMP_POSTING_STORY
+				SET
+					DISPLAY_NUM = ".intval($recent_num + 1)."
+				WHERE
+					IDX = ".$recent_idx."
+			";
+			
 			break;
 	}
+	
 	if (strlen($prev_sql) > 0) {
 		$db->query($prev_sql);
 	}
@@ -91,19 +114,23 @@ if ($display_flg == true && $action_type != null) {
 }
 
 if ($update_flg == true && $story_idx != null) {
-	$update_sql = "
+	$update_posting_story_sql = "
 		UPDATE
-			dev.TMP_POSTING_STORY
+			TMP_POSTING_STORY
 		SET
-			STORY_TITLE = '".$story_title."',
-			STORY_MEMO = '".$story_memo."',
+			STORY_TYPE = '".$story_type."',
+			STORY_TITLE = ".$story_title.",
+			STORY_SUB_TITLE = ".$story_sub_title.",
+			STORY_MEMO = ".$story_memo.",
 			IMG_LOCATION = ".$img_location.",
-			PAGE_IDX = ".$page_idx."
+			PAGE_IDX = ".$page_idx.",
+			UPDATE_DATE = NOW(),
+			UPDATER = '".$session_id."'
 		WHERE
 			IDX = ".$story_idx."
 	";
 	
-	$db->query($update_sql);
+	$db->query($update_posting_story_sql);
 }
 
 function xssEncode($param){
@@ -114,7 +141,7 @@ function xssEncode($param){
     $param = str_replace(">","&gt;",$param);
     $param = str_replace("\r","<br>",$param);
     $param = str_replace("\n","<p>",$param);
-
-    return $param;
+	
+    return "'".$param."'";
 }
 ?>

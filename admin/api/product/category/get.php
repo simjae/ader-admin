@@ -18,10 +18,10 @@ function get_category_node($father_no, $num_str) {
 
 	$table = '';
 	if($num_str == '01'){
-		$table = 'dev.ORDERSHEET_CATEGORY';
+		$table = 'ORDERSHEET_CATEGORY';
 	}
 	else{
-		$table = 'dev.MD_CATEGORY';
+		$table = 'MD_CATEGORY';
 	}
 	$db = new db();
 	$db->query(' 

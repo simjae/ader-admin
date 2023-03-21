@@ -13,6 +13,8 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/admin/api/common/common.php");
+$session_id		= sessionCheck();
 
 $voucher_idx	        = $_POST['voucher_idx'];
 $issue_start_date	    = $_POST['issue_start_date'];
@@ -30,66 +32,116 @@ $member_level	        = $_POST['member_level'];
 
 
 if ($voucher_idx != null) {
-	$set = "";
-	
-	if ($issue_start_date != null) {
-		$set .= " ISSUE_START_DATE = '".$issue_start_date."', ";
-	}
-	
-	if ($issue_end_date != null) {
-		$set .= " ISSUE_END_DATE = '".$issue_end_date."', ";
-	}
-	
-	if ($voucher_date_type != null) {
-		$set .= " VOUCHER_DATE_TYPE = '".$voucher_date_type."', ";
-	}
-	
-	if ($voucher_date_param != null) {
-		$set .= " VOUCHER_DATE_PARAM = ".$voucher_date_param.", ";
-	}
 
-    if ($voucher_start_date != null) {
-		$set .= " VOUCHER_START_DATE = '".$voucher_start_date."', ";
-	}
-	
-	if ($voucher_end_date != null) {
-		$set .= " VOUCHER_END_DATE = '".$voucher_end_date."', ";
-	}
-	
-	if ($sale_type != null) {
-		$set .= " SALE_TYPE = '".$sale_type."', ";
-	}
-	
-	if ($sale_price != null) {
-		$set .= " SALE_PRICE = ".$sale_price.", ";
-	}
+	$db->begin_transaction();
+	try {
+		$set = "";
+		
+		if ($issue_start_date != null) {
+			$set .= " ISSUE_START_DATE = STR_TO_DATE('".$issue_start_date."','%Y-%m-%d %H:%i'), ";
+		}
+		
+		if ($issue_end_date != null) {
+			$set .= " ISSUE_END_DATE = STR_TO_DATE('".$issue_end_date."','%Y-%m-%d %H:%i'), ";
+		}
+		
+		if ($voucher_date_type != null) {
+			$set .= " VOUCHER_DATE_TYPE = '".$voucher_date_type."', ";
+		}
+		
+		if ($voucher_date_param != null) {
+			$set .= " VOUCHER_DATE_PARAM = ".$voucher_date_param.", ";
+		}
 
-    if ($min_price != null) {
-		$set .= " MIN_PRICE = ".$min_price.", ";
-	}
-	
-	if ($description != null) {
-		$set .= " DESCRIPTION = '".$description."', ";
-	}
-	
-	if ($member_level_flg != null) {
-        if($member_level_flg == 'ALL'){
-            $set .= " MEMBER_LEVEL = '".$member_level_flg."', ";
+		if ($voucher_start_date != null) {
+			$set .= " VOUCHER_START_DATE = STR_TO_DATE('".$voucher_start_date."','%Y-%m-%d %H:%i'), ";
+		}
+		
+		if ($voucher_end_date != null) {
+			$set .= " VOUCHER_END_DATE = STR_TO_DATE('".$voucher_end_date."','%Y-%m-%d %H:%i'), ";
+		}
+		
+		if ($sale_type != null) {
+			$set .= " SALE_TYPE = '".$sale_type."', ";
+		}
+		
+		if ($sale_price != null) {
+			$set .= " SALE_PRICE = ".$sale_price.", ";
+		}
 
-        }
-        else if($member_level_flg == 'DML'){
-            $set .= " MEMBER_LEVEL = '".implode(",",$member_level)."', ";
-        }
+		if ($min_price != null) {
+			$set .= " MIN_PRICE = ".$min_price.", ";
+		}
+		
+		if ($description != null) {
+			$set .= " DESCRIPTION = '".$description."', ";
+		}
+		
+		if ($member_level_flg != null) {
+			if($member_level_flg == 'ALL'){
+				$set .= " MEMBER_LEVEL = '".$member_level_flg."', ";
+
+			}
+			else if($member_level_flg == 'DML'){
+				$set .= " MEMBER_LEVEL = '".implode(",",$member_level)."', ";
+			}
+		}
+
+		$except_product_flg = NULL;
+		$except_product_flg = $_POST['except_product_flg'];
+		if($except_product_flg != NULL){
+			$set .= " EXCEPT_PRODUCT_FLG = ".$except_product_flg.", ";
+		}
+
+		$sql = "UPDATE
+					VOUCHER_MST
+				SET
+					".$set."
+					UPDATER = 'Admin',
+					UPDATE_DATE = NOW()
+				WHERE
+					IDX = ".$voucher_idx;
+		
+		$db->query($sql);
+
+		$product_idx_list = NULL;
+		$product_idx_list = $_POST['product_idx_list'];
+		if($product_idx_list != NULL){
+			$init_voucher_product_sql = "
+				DELETE FROM VOUCHER_PRODUCT
+				WHERE	
+					VOUCHER_IDX = ".$voucher_idx."	
+			";
+			$db->query($init_voucher_product_sql);
+
+			$insert_voucher_product_sql = "
+				INSERT INTO VOUCHER_PRODUCT
+				(
+					VOUCHER_IDX,
+					PRODUCT_IDX,
+					CREATER,
+					UPDATER
+				)
+				SELECT
+					".$voucher_idx.",
+					IDX,
+					'".$session_id."',
+					'".$session_id."'
+				FROM
+					SHOP_PRODUCT
+				WHERE
+					IDX IN (".implode(',',$product_idx_list).")
+			";
+			$db->query($insert_voucher_product_sql);
+		}
+		$db->commit();
 	}
-	$sql = "UPDATE
-				dev.VOUCHER_MST
-			SET
-				".$set."
-				UPDATER = 'Admin',
-				UPDATE_DATE = NOW()
-			WHERE
-				IDX = ".$voucher_idx;
+	catch(mysqli_sql_exception $exception){
+		echo $exception->getMessage();
+		$json_result['code'] = 301;
+		$db->rollback();
+		$msg = "바우처 편집 처리에 실패했습니다.";
+	}	
 	
-	$db->query($sql);
 }
 ?>

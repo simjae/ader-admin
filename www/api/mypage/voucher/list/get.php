@@ -93,8 +93,8 @@ if($member_idx > 0 && $list_type != null && $country != null){
 				'%Y.%m.%d'
 			)						AS UPDATE_DATE
 		FROM
-			dev.VOUCHER_ISSUE VI
-			LEFT JOIN dev.VOUCHER_MST VM ON
+			VOUCHER_ISSUE VI
+			LEFT JOIN VOUCHER_MST VM ON
 			VI.VOUCHER_IDX = VM.IDX
 		WHERE
 			".$where."

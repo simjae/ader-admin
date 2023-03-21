@@ -1,3 +1,5 @@
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<div class="card__header">
 		<div class="flex justify-between">
@@ -111,6 +113,7 @@
 					<div class="content__date__wrap">
 						<div class="content__date__btn">
 							<input type="hidden" name="search_date" value="" style="width:150px;">
+							<div class="search_date_btn date__picker" date="all" type="button"  onclick="searchDateClick(this)">전체</div>
 							<div class="search_date_btn date__picker" date="today" type="button"  onclick="searchDateClick(this)">오늘</div>
 							<div class="search_date_btn date__picker" date="01d" type="button"  onclick="searchDateClick(this)">어제</div>
 							<div class="search_date_btn date__picker" date="03d" type="button"  onclick="searchDateClick(this)">3일</div>
@@ -177,9 +180,6 @@
 						<div class="filter__btn" action_type="display_set" onClick="popupActionClick(this)">진행</div>
 						<div class="filter__btn" action_type="non_display_set" onClick="popupActionClick(this)">진행 안함</div>
 					</div>
-					<div>
-						<div class="table__setting__btn">설정</div>
-					</div>  
 				</div> 
 				<div class="overflow-x-auto">
 					<TABLE>
@@ -272,11 +272,6 @@ function dateParamChange(obj) {
 	var end_date = new Date(search_end_date);
 	var now_date = new Date();
 	
-	if(start_date > now_date) {
-		alert('진행 시작일/종료일에 올바른 날짜를 입력해주세요.');
-		$(obj).val('');
-		return false;
-	}
 	if(start_date > end_date) {
 		alert('진행 시작일/종료일에 올바른 날짜를 입력해주세요.');
 		$(obj).val('');
@@ -388,7 +383,7 @@ function getPopupInfo(){
 	
 	var strDiv = `
 				<TR>
-					<TD class="default_td" colspan="9">
+					<TD class="default_td" colspan="11">
 						조회 결과가 없습니다
 					</TD>
 				</TR>
@@ -401,99 +396,101 @@ function getPopupInfo(){
 	get_contents($("#frm-filter"),{
 		pageObj : $(".paging"),
 		html : function(d) {
-			if (d.length > 0) {
-				$("#result_table").html('');
+			if(d != null){
+				if (d.length > 0) {
+					$("#result_table").html('');
+				}
+				d.forEach(function(row) {
+					var display_flg = '';
+					var display_date = '';
+					var display_str = '';
+
+					var today = new Date();
+					var start_date = new Date(row.display_start_date);
+					var end_date = new Date(row.display_end_date);	
+
+					var country_str = '-';
+					var device_str = '-';
+					switch(row.country){
+						case 'KR':
+							country_str = '한국몰';
+							break;
+						case 'EN':
+							country_str = '영문몰';
+							break;
+						case 'CN':
+							country_str = '중국몰';
+							break;
+					}
+					switch(row.device){
+						case 'ALL':
+							device_str = '반응형';
+							break;
+						case 'WEB':
+							device_str = '웹';
+							break;
+						case 'MOBILE':
+							device_str = '모바일';
+							break;
+					}
+					if (row.display_end_date == '9999-12-31 23:59') {
+						display_date = "상시 진행";
+					}
+					if (row.display_flg == true) {
+						display_flg = true;
+						
+						if ((today <= start_date)) {
+							display_str = "진행 예약";
+							if (display_date.length == 0) {
+								display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
+							}
+							
+						} else if ((today >= start_date) && (today <= end_date)) {
+							display_str = "진행 중";
+							if (display_date.length == 0) {
+								display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
+							}
+							
+						} else if ((today >= start_date) && (today > end_date)) {
+							display_str = "진행 종료";
+							if (display_date.length == 0) {
+								display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
+							}
+						}
+					} else {
+						display_flg = false;
+						
+						display_str = "진행 안함";
+						if (display_date.length == 0) {
+							if (display_date.length == 0) {
+								display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
+							}
+						}
+					}
+					strDiv = `
+						<TR>
+							<TD>
+								<div class="cb__color">
+									<label>
+										<input class="select" type="checkbox" name="popup_idx[]" value="${row.idx}" >
+									</label>
+								</div>
+							</TD>
+							<TD>${row.num}</TD>
+							<TD>${country_str}</TD>
+							<TD>${device_str}</TD>
+							<TD><button type="button" onClick="openPopupPreviewModal(${row.idx});" style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">미리보기</button></TD>
+							<TD><button type="button" onClick="openPopupUpdateModal(${row.idx});" style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">수정하기</button></TD>
+							<TD>${row.title}</TD>
+							<TD>${display_str}</TD>
+							<TD style="line-height: 1.4;">${display_date}</TD>
+							<TD>${row.create_date}</TD>
+							<TD>${row.update_date}</TD>
+						</TR>
+					`;
+					$("#result_table").append(strDiv);
+				});
 			}
-			d.forEach(function(row) {
-				var display_flg = '';
-				var display_date = '';
-				var display_str = '';
-
-				var today = new Date();
-				var start_date = new Date(row.display_start_date);
-				var end_date = new Date(row.display_end_date);	
-
-				var country_str = '-';
-				var device_str = '-';
-				switch(row.country){
-					case 'KR':
-						country_str = '한국몰';
-						break;
-					case 'EN':
-						country_str = '영문몰';
-						break;
-					case 'CN':
-						country_str = '중국몰';
-						break;
-				}
-				switch(row.device){
-					case 'ALL':
-						device_str = '반응형';
-						break;
-					case 'WEB':
-						device_str = '웹';
-						break;
-					case 'MOBILE':
-						device_str = '모바일';
-						break;
-				}
-				if (row.display_end_date == '9999-12-31 23:59') {
-					display_date = "상시 진행";
-				}
-				if (row.display_flg == true) {
-					display_flg = true;
-					
-					if ((today <= start_date)) {
-						display_str = "진행 예약";
-						if (display_date.length == 0) {
-							display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
-						}
-						
-					} else if ((today >= start_date) && (today <= end_date)) {
-						display_str = "진행 중";
-						if (display_date.length == 0) {
-							display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
-						}
-						
-					} else if ((today >= start_date) && (today > end_date)) {
-						display_str = "진행 종료";
-						if (display_date.length == 0) {
-							display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
-						}
-					}
-				} else {
-					display_flg = false;
-					
-					display_str = "진행 안함";
-					if (display_date.length == 0) {
-						if (display_date.length == 0) {
-							display_date = "진행시작 : " + row.display_start_date + "<br>진행종료 : " + row.display_end_date;
-						}
-					}
-				}
-				strDiv = `
-					<TR>
-						<TD>
-							<div class="cb__color">
-								<label>
-									<input class="select" type="checkbox" name="popup_idx[]" value="${row.idx}" >
-								</label>
-							</div>
-						</TD>
-						<TD>${row.num}</TD>
-						<TD>${country_str}</TD>
-						<TD>${device_str}</TD>
-						<TD><button type="button" onClick="openPopupPreviewModal(${row.idx});" style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">미리보기</button></TD>
-						<TD><button type="button" onClick="openPopupUpdateModal(${row.idx});" style="font-size:0.5rem;width:40px;height:30px;border:1px solid;background-color:#ffffff;">수정하기</button></TD>
-						<TD>${row.title}</TD>
-						<TD>${display_str}</TD>
-						<TD style="line-height: 1.4;">${display_date}</TD>
-						<TD>${row.create_date}</TD>
-						<TD>${row.update_date}</TD>
-					</TR>
-				`;
-				$("#result_table").append(strDiv);
-			});
 		},
 	},rows,1);
 }

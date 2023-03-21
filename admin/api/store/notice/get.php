@@ -15,7 +15,7 @@
 */
 
 $tables = '
-	dev.ALARM_INFO
+	ALARM_INFO
 ';
 
 //검색 유형 - 디폴트

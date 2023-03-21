@@ -19,7 +19,7 @@ $title = addslashes(trim($title));
 
 // 분류 추가시 중복 검사
 
-$db->query('SELECT COUNT(0) AS CNT FROM dev.FAQ_CATEGORY WHERE TITLE = "'.$title.'" ');
+$db->query('SELECT COUNT(0) AS CNT FROM FAQ_CATEGORY WHERE TITLE = "'.$title.'" ');
 foreach($db->fetch() as $data){
 	$cnt = $data['CNT'];
 }
@@ -28,7 +28,7 @@ if($cnt > 0) {
 }
 else {
 	$sql = "
-		INSERT INTO dev.FAQ_CATEGORY (
+		INSERT INTO FAQ_CATEGORY (
 				 SEQ,
 				 FATHER_NO,
 				 LANG,
@@ -44,7 +44,7 @@ else {
 			'Y',
 			NOW()
 		FROM
-			dev.FAQ_CATEGORY
+			FAQ_CATEGORY
 		WHERE
 			LANG = '".$language."'
 		AND

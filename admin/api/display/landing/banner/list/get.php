@@ -27,7 +27,7 @@ if ($country != null) {
 				''
 			)					AS IMG_LOCATION
 		FROM
-			dev.MAIN_BANNER MB
+			TMP_MAIN_BANNER MB
 		WHERE
 			COUNTRY = '".$country."' AND
 			MB.DEL_FLG = FALSE

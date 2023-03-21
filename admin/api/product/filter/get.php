@@ -32,7 +32,7 @@ if ($filter_idx != null) {
 				PF.SIZE_TYPE,'-'
 			)					AS SIZE_TYPE
 		FROM
-			dev.PRODUCT_FILTER PF
+			PRODUCT_FILTER PF
 		WHERE
 			PF.IDX = ".$filter_idx."
 	";

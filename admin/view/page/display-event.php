@@ -1,323 +1,62 @@
-<div class="content__card">
-	<div class="card__header">
-		<h3>이벤트 목록 검색</h3>
-		<div class="drive--x"></div>
-	</div>
-	<div class="card__body">
-		<form id="frm-filter-event-info" action="event/get">
-			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
-			<input type="hidden" class="sort_value" name="sort_value" value="IDX">
-			<input type="hidden" class="rows" name="rows" value="50">
-			<input type="hidden" class="page" name="page" value="1">
-			<div class="content__wrap">
-				<div class="content__title">이벤트 찾기</div>
-				<div class="content__row">
-					<select id="search_select" class="fSelect" name="search_type" id="search_type" style="width:163px;" >
-						<option value="event_title">이벤트명</option>
-					</select>
-					<input id="search_keyword" type="text" name="search_keyword" value="" style="width:250px;">
-				</div>
-			</div>
-			<div class="content__wrap">
-				<div class="content__title">상태</div>
-				<div class="content__row">
-					<div class="rd__block">
-						<input type="radio" id="eventStatus1" class="radio__input" value="true" name="eventStatus" />
-						<label for="eventStatus1">진행중</label>
-						<input type="radio" id="eventStatus2" class="radio__input" value="false" name="eventStatus" />
-						<label for="eventStatus2">종료</label>
-					</div>
-				</div>
-			</div>
-			<div class="content__wrap">
-				<div class="content__title">이벤트 기간</div>
-				<div class="content__row">
-					<div class="content__date__wrap">
-						<div class="content__date__btn">
-							<input id="search_date_event_create" type="hidden" name="search_date" value="" style="width:150px;">
+<?php include_once("check.php"); ?>
 
-							<div class="search_date_event_create date__picker" date_type="event_create" date="today" type="button" onclick="searchDateClick(this);">오늘</div>
-							<div class="search_date_event_create date__picker" date_type="event_create" date="01d" type="button" onclick="searchDateClick(this);">어제</div>
-							<div class="search_date_event_create date__picker" date_type="event_create" date="03d" type="button" onclick="searchDateClick(this);">3일</div>
-							<div class="search_date_event_create date__picker" date_type="event_create" date="07d" type="button" onclick="searchDateClick(this);">7일</div>
-							<div class="search_date_event_create date__picker" date_type="event_create" date="15d" type="button" onclick="searchDateClick(this);">15일</div>
-							<div class="search_date_event_create date__picker" date_type="event_create" date="01m" type="button" onclick="searchDateClick(this);">1개월</div>
-							<div class="search_date_event_create date__picker" date_type="event_create" date="03m" type="button" onclick="searchDateClick(this);">3개월</div>
-						</div>
-						<div class="content__date__picker">
-							<input id="event_create_from" class="date_param" type="date" name="event_create_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="event_create" onChange="dateParamChange(this);">
-							<font>~</font>
-							<input id="event_create_to" class="date_param" type="date" name="event_create_to" placeholder="To" readonly style="width:150px;" date_type="event_create" onChange="dateParamChange(this);">
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="card__footer">
-		<div class="footer__btn__wrap" style="grid: none;">
-			<div class="btn__wrap--lg">
-				<div  class="blue__color__btn" onClick="getEventInfoList();"><span>검색</span></div>
-				<div class="defult__color__btn" onClick="init_filter('frm-filter-event-info','getEventInfoList');"><span>초기화</span></div>
-			</div>
-		</div>
-	</div> 
-</div>
-<div class="content__card">
-	<div class="card__header">
-		<div class="flex justify-between">
-			<h3>이벤트 목록 결과</h3>
-			<div class="register__btn" style="cursor:pointer;" onClick="openEventRegistModal();"><span>이벤트 등록</span></div>
-		</div>
-		<div class="drive--x"></div>
-	</div>
-	<div class="card__body">
-		<form id="frm-list-event-info">
-			<input type="hidden" name="action_type">
-			<div class="content__row" style="justify-content: flex-end;">
-				<select style="width:163px;float:right;margin-right:10px;" list-type="event-info" onChange="orderChange(this);">
-					<option value="FINPUT_DATE|DESC">등록일 역순</option>
-					<option value="FINPUT_DATE|ASC">등록일 순</option>
-					<option value="EVENT_TITLE|DESC">이벤트명 역순</option>
-					<option value="EVENT_TITLE|ASC">이벤트명 순</option>
-					<option value="CNT|DESC">참여자 수 역순</option>
-					<option value="CNT|ASC">참여자 수 순</option>
-				</select>
-				<select name="rows" style="width:163px;float:right;" list-type="event-info" onChange="rowsChange(this);">
-					<option value="10" selected>10개씩보기</option>
-					<option value="20">20개씩보기</option>
-					<option value="30">30개씩보기</option>
-					<option value="50">50개씩보기</option>
-					<option value="100">100개씩보기</option>
-					<option value="200">200개씩보기</option>
-					<option value="300">300개씩보기</option>
-					<option value="500">500개씩보기</option>
-				</select>
-				
-			</div>
-			<div class="table table__wrap">
-				<div class="table__filter">
-					<div class="filrer__wrap">
-						<div class="filter__btn" list-type="event_info" onClick="excelDownload(this);">엑셀 다운로드</div>
-						<div class="filter__btn" action_type="event_info_delete" onClick="eventInfoActionClick(this)">삭제</div>
-					</div>       
-					<div>
-						<div class="table__setting__btn">설정</div>
-					</div>                           
-				</div>
-				
-				<div class="overflow-x-auto">
-					<table id="excel_table_event_info">
-						<thead>
-							<tr>
-								<TH style="width:3%;">
-									<div class="cb__color">
-										<label>
-											<input type="checkbox" name="selectAll" data-type="event_info" onclick="selectAllClick(this)">
-											<span></span>
-										</label>
-									</div>
-								</TH>
-								<th width="60px">번호</th>
-								<th>이벤트명</th>
-								<th width="100px">참여자수</th>
-								<th width="300px">이벤트 기간</th>
-								<th width="160px">생성일</th>
-								<th width="80px">상태</th>
-								<th width="80px">수정하기</th>
-								<th width="95px"></th>
-							</tr>
-						</thead>
-						<tbody id="result_event_info_table">
-							<tr>
-								<td colspan="6" class="nodata"><i class="xi-slash-circle"></i>검색된 이벤트가 없습니다.</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<div class="padding__wrap">
-					<input type="hidden" class="total_cnt" value="0" >
-					<input type="hidden" class="result_cnt" value="0">
-					<div class="paging event_info"></div>
-				</div>
-			</div>
-		</form>
+<div class="filter-wrap" style="width:100%;margin-bottom:20px;display:flex;">
+	<div style="width:50%;">
+		<button class="event_tab_btn tap__button" country="KR" style="width:150px; background-color: #000;color: #fff;font-weight: 500;" onClick="eventTabBtnClick(this);">한국몰</button>
+		<button class="event_tab_btn tap__button" country="EN" style="width:150px;" onClick="eventTabBtnClick(this);">영문몰</button>
+		<button class="event_tab_btn tap__button" country="CN" style="width:150px;" onClick="eventTabBtnClick(this);">중국몰</button>
 	</div>
 </div>
 
-<div class="content__card">
-	<div class="card__header">
-		<h3>이벤트 참여자(당첨자) 목록 검색</h3>
-		<div class="drive--x"></div>
-	</div>
-	<div class="card__body">
-		<form id="frm-filter-event" action="event/submit/get">
-			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
-			<input type="hidden" class="sort_value" name="sort_value" value="IDX">
-			<input type="hidden" class="rows" name="rows" value="50">
-			<input type="hidden" class="page" name="page" value="1">
-			<input type="hidden" name="event_no">
-			<input type="hidden" name="excel_print_flg">
-			<div class="content__wrap">
-				<div class="content__title">참가자 찾기</div>
-				<div class="content__row">
-					<select id="search_select" class="fSelect" name="search_type" id="search_type" style="width:163px;" >
-						<option value="id">참여자 ID</option>	
-						<option value="name">참여자 명</option>
-						<option value="tel">연락처</option>
-						<option value="email">이메일</option>
-						<option value="instagram_id">인스타그램ID</option>
-					</select>
-					<input id="search_keyword" type="text" name="search_keyword" value="" style="width:250px;">
-				</div>
-			</div>
-			<div class="content__wrap">
-				<div class="content__title">상태</div>
-				<div class="content__row">
-					<div class="rd__block">
-						<input type="radio" id="eventStatus2_1" class="radio__input" value="all" name="eventStatus" />
-						<label for="eventStatus2_1">전체</label>
-						<input type="radio" id="eventStatus2_1" class="radio__input" value="false" name="eventStatus" />
-						<label for="eventStatus2_1">참여</label>
-						<input type="radio" id="eventStatus2_2" class="radio__input" value="true" name="eventStatus" />
-						<label for="eventStatus2_2">당첨</label>
-					</div>
-				</div>
-			</div>
-			<div class="content__wrap">
-				<div class="content__title">참여 일자</div>
-				<div class="content__row">
-					<div class="content__date__wrap">
-						<div class="content__date__btn">
-							<input id="search_date_event_apply" type="hidden" name="search_date" value="" style="width:150px;">
+<input id="country" type="hidden" value="KR">
 
-							<div class="search_date_event_apply date__picker" date_type="event_apply" date="today" type="button" onclick="searchDateClick(this);">오늘</div>
-							<div class="search_date_event_apply date__picker" date_type="event_apply" date="01d" type="button" onclick="searchDateClick(this);">어제</div>
-							<div class="search_date_event_apply date__picker" date_type="event_apply" date="03d" type="button" onclick="searchDateClick(this);">3일</div>
-							<div class="search_date_event_apply date__picker" date_type="event_apply" date="07d" type="button" onclick="searchDateClick(this);">7일</div>
-							<div class="search_date_event_apply date__picker" date_type="event_apply" date="15d" type="button" onclick="searchDateClick(this);">15일</div>
-							<div class="search_date_event_apply date__picker" date_type="event_apply" date="01m" type="button" onclick="searchDateClick(this);">1개월</div>
-							<div class="search_date_event_apply date__picker" date_type="event_apply" date="03m" type="button" onclick="searchDateClick(this);">3개월</div>
-						</div>
-						<div class="content__date__picker">
-							<input id="event_apply_from" class="date_param" type="date" name="event_apply_from" class="margin-bottom-6" placeholder="From" readonly style="width:150px;" date_type="event_apply" onChange="dateParamChange(this);">
-							<font>~</font>
-							<input id="event_apply_to" class="date_param" type="date" name="event_apply_to" placeholder="To" readonly style="width:150px;" date_type="event_apply" onChange="dateParamChange(this);">
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
-	<div class="card__footer">
-		<div class="footer__btn__wrap" style="grid: none;">
-			<div class="btn__wrap--lg">
-				<div  class="blue__color__btn" onClick="getEventList()"><span>검색</span></div>
-				<div class="defult__color__btn" onClick="init_filter('frm-filter-event','getEventList')"><span>초기화</span></div>
-			</div>
-		</div>
-	</div> 
+<div id="event_tab_KR" class="row event_tab" style="margin-top:0px;">
+	<?php include_once("display-event-kr.php"); ?>
 </div>
-<div class="content__card">
-	<div class="card__header">
-		<h3>이벤트 참여자(당첨자) 결과</h3>
-		<div class="drive--x"></div>
-	</div>
-	<div class="card__body">
-		<div class="info__wrap " style="justify-content:end; align-items: center;">
-			<div class="content__row">
-				<select style="width:163px;float:right;margin-right:10px;" list-type="event" onChange="orderChange(this);">
-					<option value="FINPUT_DATE|DESC">등록일 역순</option>
-					<option value="FINPUT_DATE|ASC">등록일 순</option>
-					<option value="FINPUT_DATE|DESC">삭제일 역순</option>
-					<option value="FINPUT_DATE|ASC">삭제일 순</option>
-					<option value="NAME|DESC">신청자명 역순</option>
-					<option value="NAME|ASC">신청자명 순</option>
-					<option value="ID|DESC">신청자 ID 역순</option>
-					<option value="ID|ASC">신청자 ID 순</option>
-					<option value="EMAIL|DESC">EMAIL 역순</option>
-					<option value="EMAIL|ASC">EMAIL 순</option>
-				</select>
-				<select name="rows" style="width:163px;float:right;" list-type="event" onChange="rowsChange(this);">
-					<option value="10">10개씩보기</option>
-					<option value="20">20개씩보기</option>
-					<option value="30">30개씩보기</option>
-					<option value="50"selected>50개씩보기</option>
-					<option value="100">100개씩보기</option>
-					<option value="200">200개씩보기</option>
-					<option value="300">300개씩보기</option>
-					<option value="500">500개씩보기</option>
-				</select>
-			</div>
-		</div>
-		<div class="table table__wrap" >
-			<div class="table__filter">
-				<div class="filrer__wrap">
-					<div class="filter__btn" list-type="event" onClick="excelDownload(this);">엑셀 다운로드</div>
-				</div>         
-				<div>
-					<div class="table__setting__btn">설정</div>
-				</div>                       
-			</div>
-			<div class="overflow-x-auto">
-				<table id="excel_table_event">
-					<thead>
-						<tr>
-							<th style="width:70px;" >번호</th>
-							<th style="width:15%;" >이벤트</th>
-							<th style="width:120px;" >참여자 명</th>
-							<th style="width:120px;" >참여자 ID</th>
-							<th ></th>
-							<th style="width:150px;" >생일</th>
-							<th style="width:150px;" >연락처</th>
-							<th style="width:150px;" >이메일</th>
-							<th style="width:150px;" >인스타그램ID</th>
-							<th style="width:150px;" >참여일자</th>
-							<th style="width:80px;" >상태</th>
-							<th style="width:80px;" ></th>
-						</tr>
-					</thead>
-					<tbody id="result_event_table">
-						<tr>
-							<td colspan="14" class="nodata"><i class="xi-slash-circle"></i>검색된 참여자가 없습니다.</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
 
-		</div>
-		<div class="padding__wrap">
-			<input type="hidden" class="total_cnt" value="0" >
-			<input type="hidden" class="result_cnt" value="0">
-			<div class="paging event"></div>
-		</div>
-	</div>
+<div id="event_tab_EN" class="row event_tab" style="display:none;margin-top:0px;">
+	<?php include_once("display-event-en.php"); ?>
+</div>
+
+<div id="event_tab_CN" class="row event_tab" style="display:none;margin-top:0px;">
+	<?php include_once("display-event-cn.php"); ?>
 </div>
 
 <script>
 $(document).ready(function() {
-	getEventInfoList();
+	
 });
-function getEventInfoList(){
-	$("#result_event_info_table").html('');
+function eventTabBtnClick(obj) {
+	var country = $(obj).attr('country');
+	$('#country').val(country);
+	$('.event_tab').hide();
+	$('#event_tab_' + country).show();
+
+	$(obj).css('background-color','#000');
+	$(obj).css('color','#ffffff');
+	
+	$('.event_tab_btn').not($(obj)).css('background-color','#ffffff');
+	$('.event_tab_btn').not($(obj)).css('color','#000000');
+}
+function getEventInfoList(country){
+	$("#result_event_info_table_"+country).html('');
 	var strDiv = `
 				<tr>
 					<td colspan="9" class="nodata"><i class="xi-slash-circle"></i>검색된 이벤트가 없습니다.
 					</td>
 				</tr>
 	`;
-	$("#result_event_info_table").append(strDiv);
+	$("#result_event_info_table_"+country).append(strDiv);
 	
-	var rows = $('#frm-filter-event-info').find('.rows').val();
-	$('#frm-filter-event-info').find('.page').val(1);
+	var rows = $('#frm-filter-event-info-' + country).find('.rows').val();
+	$('#frm-filter-event-info-' + country).find('.page').val(1);
 
-	get_contents($("#frm-filter-event-info"),{
-		pageObj : $(".paging.event_info"), // 페이징 표시할 element
+	get_contents($("#frm-filter-event-info-" + country),{
+		pageObj : $('#event_tab_' + country).find(".paging.event_info"), // 페이징 표시할 element
 		html : function(d) { // json 결과의 data row를 넘겨서 목록 처리함.
 			
 			if (d.length > 0) {
-				$("#result_event_info_table").html('');
+				$("#result_event_info_table_"+country).html('');
 			}
 			d.forEach(function(row) { // json_result.data 만 d 변수로 넘김
 				strDiv = 	`
@@ -331,177 +70,147 @@ function getEventInfoList(){
 								</div>
 							</TD>
 							<td>${row.num}</td>
-							<td><span style="cursor:pointer">${row.event_title}<span></td>
+							<td><span style="cursor:pointer" onclick="viewEventList(this,'${row.event_title}')">${row.event_title}<span></td>
 							<td class="text-right">${number_format(row.count)} 명</td>
 							<td>${(row.date)?row.date.start + " ~ " + row.date.end:''}</td>
 							<td>${row.reg_date}</td>
 							<td>${(row.status)?'<a class="btn blue">진행중</a>':'<a class="btn">종료</a>'}</td>
 							<td><a class="btn blue" onclick="modal('put','idx=${row.idx}');">수정하기</a></td>
 							<td class="no-click">
-								<a class="btn blue"><i class="xi-eye-o"></i><span class="tooltip top">상세</span></a>
-								<a class="btn red"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>
+								<a class="btn blue" onclick="modal('preview','idx=${row.idx}');"><i class="xi-eye-o"></i><span class="tooltip top">상세</span></a>
+								<a class="btn red" onclick="removeEventInfo(${row.idx})"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>
 							</td>
 						</tr>
 				`;
-				$("#result_event_info_table").append(strDiv);
-			});
-			
-			$("#result_event_info_table tr > td:not(.no-click)").click(function() {
-				$("#frm-filter-event input[name='event_no']").val($(this).parent().data("no"));
-				$("#frm-filter-event input[name='excel_print_flg']").val($(this).parent().find('#excel_flg').val());
-				getEventList();
-			});
-			$("#result_event_info_table a.btn.red").click(function() { // 삭제 버튼 클릭시 확인 창 표시, 확인 시 ajax 통신 하여 처리
-				let no = $(this).parent().parent().data("no");
-				confirm("해당 이벤트 정보를 삭제할까요?",function() {
-					$.ajax({
-						url: config.api + "event/put",
-						data : { sel_event_info_idx : no,
-								 action_type : "event_info_delete" },
-						error: function() {
-							toast("삭제에 실패하였습니다");
-						},
-						success: function(d) {
-							toast('이벤트 삭제 처리에 성공했습니다.');
-							getEventInfoList();
-						}
-					});
-				});
+				$("#result_event_info_table_"+country).append(strDiv);
 			});
 		},
 		nodata : function() { // 데이터가 없을 경우 처리
-			$("#result_event_info_table").html('<tr><td colspan="9" class="nodata"><i class="xi-slash-circle"></i>검색된 이벤트가 없습니다.</td></tr>');
+			$("#result_event_info_table_"+country).html('<tr><td colspan="9" class="nodata"><i class="xi-slash-circle"></i>검색된 이벤트가 없습니다.</td></tr>');
 		},
 	},rows, 1);
 }
-function getEventList(){
-	var event_no = $('input[name="event_no"]').val();
+function viewEventList(obj, event_title){
+	let country = $('#country').val();
+	$('#event_filter_title_' + country).text('[' + event_title + '] 이벤트 참여자(당첨자) 목록 검색');
+	$('#event_result_title_' + country).text('[' + event_title + '] 이벤트 참여자(당첨자) 결과');
+
+	$("#frm-filter-event-" + country + " input[name='event_no']").val($(obj).parents('tr').data("no"));
+	$("#frm-filter-event-" + country + " input[name='excel_print_flg']").val($(obj).parents('tr').find('#excel_flg').val());
+	getEventList(country);
+	alert('페이지 하단에 참여자리스트가 생성되었습니다.');
+}
+function removeEventInfo(idx){
+	let country = $('#country').val();
+	let no = idx;
+	confirm("해당 이벤트 정보를 삭제할까요?",function() {
+		$.ajax({
+			url: config.api + "event/put",
+			data : { sel_event_info_idx : no,
+						action_type : "event_info_delete" },
+			error: function() {
+				toast("삭제에 실패하였습니다");
+			},
+			success: function(d) {
+				toast('이벤트 삭제 처리에 성공했습니다.');
+				getEventInfoList(country);
+			}
+		});
+	});
+	
+}
+function getEventList(country){
+	var event_no = $("#frm-filter-event-" + country + " input[name='event_no']");
 	if(event_no.length > 0){
-		$("#result_event_table").html('');
+		$("#result_event_table_" + country).html('');
 		var strDiv = `
 				<tr>
 					<td colspan="14" class="nodata"><i class="xi-slash-circle"></i>검색된 참여자가 없습니다.
 					</td>
 				</tr>
 		`;
-		$("#result_event_table").append(strDiv);
+		$("#result_event_table_" + country).append(strDiv);
 		
-		var rows = $('#frm-filter-event').find('.rows').val();
-		$('#frm-filter-event').find('.page').val(1);
+		var rows = $('#frm-filter-event-' + country).find('.rows').val();
+		$('#frm-filter-event-' + country).find('.page').val(1);
 
-		get_contents($("#frm-filter-event"),{
-			pageObj : $(".paging.event"), // 페이징 표시할 element
+		get_contents($('#frm-filter-event-' + country),{
+			pageObj : $('#event_tab_' + country).find(".paging.event"), // 페이징 표시할 element
 			html : function(d) { // json 결과의 data row를 넘겨서 목록 처리함.
 				if (d.length > 0) {
-					$("#result_event_table").html('');
+					$("#result_event_table_" + country).html('');
 				}
 				d.forEach(function(row) { // json_result.data 만 d 변수로 넘김
-					//var jsonText = row.etc_data;
-					var jsonText = "";
-					jsonText += '{';
-					jsonText += '	"product_data": [';
-					jsonText += '		{';
-					jsonText += '			"name" : "test_product" ,';
-					jsonText += '			"size" : "One size",';
-					jsonText += '			"quantity" : "12",';
-					jsonText += '			"etc_info" : [';
-					jsonText += '				{';
-					jsonText += '					"offline" : "압구정역점",';
-					jsonText += '					"online" : "한국몰",';
-					jsonText += '					"offline" : "압구정역점"';
-					jsonText += '				},';
-					jsonText += '				{';
-					jsonText += '					"offline" : "압구정역점",';
-					jsonText += '					"online" : "한국몰",';
-					jsonText += '					"offline" : "압구정역점"';
-					jsonText += '				}';
-					jsonText += '			]';
-					jsonText += '		}';
-					jsonText += '	]';
-					jsonText += '}';
+					var ectThDiv = '';
+					if(row.raw_data != null){
+						var jsonText 	= row.raw_data;
+						var dataArray 	= JSON.parse(jsonText);
+						var jsonData 	= dataArray;
+						console.log(dataArray);
+						var jsonKey 	= Object.keys(jsonData);
 
+						ectThDiv += `
+							<table>
+								<tbody>`;
+						jsonKey.forEach(function(key){
+							ectThDiv += '<tr>';
+							ectThDiv += '    <td>' + key + '</td> ';
 
-					var dataArray 	= JSON.parse(jsonText);
-					var jsonData 	= dataArray.product_data[0];
-					var jsonKey 	= Object.keys(jsonData);
-
-					var ectThDiv = `
-						<table>
-						    <tbody>`;
-					jsonKey.forEach(function(key){
-						ectThDiv += '<tr>';
-						ectThDiv += '    <td>' + key + '</td> ';
-
-						if (Array.isArray(jsonData[key])) {
-							var subJsonData = jsonData[key][0];
-							var subJsonKey = Object.keys(subJsonData);
-							var subEctThDiv = `<table>
-						    						<tbody>`;
-							subJsonKey.forEach(function(subKey){
-								subEctThDiv += '<tr>';
-								subEctThDiv += '    <td>' + subKey + '</td> ';
-								subEctThDiv += '	<td>' + subJsonData[subKey] + '</td>';
-								subEctThDiv += '</tr>';
-							})
-							subEctThDiv += `
-									</tbody>
-								</table>
-							`;
-							ectThDiv += '<td>' + subEctThDiv + '</td>';
-						} else {
-							ectThDiv += '<td>' + jsonData[key] + '</td>';
-						}
-						ectThDiv += '</tr>';
-					})
-					ectThDiv += `
-							</tbody>
-						</table>
-					`;
+							if (Array.isArray(jsonData[key])) {
+								var subJsonData = jsonData[key][0];
+								var subJsonKey = Object.keys(subJsonData);
+								var subEctThDiv = `<table>
+														<tbody>`;
+								subJsonKey.forEach(function(subKey){
+									subEctThDiv += '<tr>';
+									subEctThDiv += '    <td>' + subKey + '</td> ';
+									subEctThDiv += '	<td>' + subJsonData[subKey] + '</td>';
+									subEctThDiv += '</tr>';
+								})
+								subEctThDiv += `
+										</tbody>
+									</table>
+								`;
+								ectThDiv += '<td>' + subEctThDiv + '</td>';
+							} else {
+								ectThDiv += '<td>' + jsonData[key] + '</td>';
+							}
+							ectThDiv += '</tr>';
+						})
+						ectThDiv += `
+								</tbody>
+							</table>
+						`;
+					}
+					else{
+						ectThDiv = '';
+					}
+					
 					strDiv = 	`
 						<tr data-no="${row.idx}">
 							<td>${row.num}</td>
-							<td>${row.event}</td>
+							<td>${row.event_title}</td>
 							<td>${row.id}</td>
 							<td>${row.name}</td>
 							<td>
 								${ectThDiv}
 							</td>
-							<td>${row.birthday}</td>
+							<td><a class="btn blue" onclick="modal('raw_data','idx=${row.idx}');"><i class="xi-eye-o"></i><span class="tooltip top">상세</span></a></td>
 							<td>${row.tel}</td>
 							<td>${row.email}</td>
 							<td><a href="https://www.instagram.com/${row.instagram_id}" target="_blank">${row.instagram_id}</a></td>
 							<td>${row.join_date}</td>
 							<td>${(row.status)?'<a class="btn blue">당첨</a>':'<a class="btn">참여</a>'}</td>
 							<td class="no-click">
-								<a class="btn blue"><i class="xi-eye-o"></i><span class="tooltip top">상세</span></a>
-								<a class="btn red"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>
+								<a class="btn red" onclick="removeEvent(${row.idx})"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>
 							</td>
 						</tr>
 					`;
-					$("#result_event_table").append(strDiv);
-				});
-				$("#result_event_table tr > td:not(.no-click)").click(function() { // 셀 클릭시 상세 내용 표시
-					
-				});
-				$("#result_event_table a.btn.red").click(function() { // 삭제 버튼 클릭시 확인 창 표시, 확인 시 ajax 통신 하여 처리
-					let no = $(this).parent().parent().data("no");
-					confirm("해당 참여자 정보를 삭제할까요?",function() {
-						$.ajax({
-							url: config.api + "event/submit/put",
-							data : { sel_event_idx : no },
-							error: function() {
-								toast("삭제에 실패하였습니다");
-							},
-							success: function(d) {
-								toast('이벤트 삭제 처리에 성공했습니다.');
-								getEventList();
-							}
-						});
-					});
+					$("#result_event_table_" + country).append(strDiv);
 				});
 			},
 			nodata : function() { // 데이터가 없을 경우 처리
-				$("#result_event_table").html('<tr><td colspan="14" class="nodata"><i class="xi-slash-circle"></i>검색된 참여자가 없습니다.</td></tr>');
+				$("#result_event_table_" + country).html('<tr><td colspan="14" class="nodata"><i class="xi-slash-circle"></i>검색된 참여자가 없습니다.</td></tr>');
 			},
 		},rows, 1);
 	}
@@ -509,34 +218,52 @@ function getEventList(){
 		alert("이벤트를 선택해주세요");
 	}
 }
+function removeEvent(no){
+	confirm("해당 참여자 정보를 삭제할까요?",function() {
+		let country = $('#country').val()
+		$.ajax({
+			url: config.api + "event/submit/delete",
+			data : { sel_event_idx : no },
+			error: function() {
+				toast("삭제에 실패하였습니다");
+			},
+			success: function(d) {
+				toast('이벤트 참여자정보 삭제 처리에 성공했습니다.');
+				getEventList(country);
+			}
+		});
+	});
+}
 function searchDateClick(obj) {
+	var country = $('#country').val();
 	var date = $(obj).attr('date');
 	
 	$(obj).css('background-color','#707070');
 	$(obj).css('color','#fff');
-	$('.date__picker').not($(obj)).css('color','#000');
-	$('.date_param').css('color','#000');
+	$(obj).parent().find('.date__picker').not($(obj)).css('color','#000');
+	$(obj).parents('.content__date__wrap').find('.date_param').css('color','#000');
 
 	var date_type = $(obj).attr('date_type');
 
-	$('.search_date_'+date_type).not($(obj)).css('background-color','#ffffff');
-	$('#search_date_'+date_type).val(date);
+	$(obj).parent().find('.search_date_' + date_type).not($(obj)).css('background-color','#ffffff');
+	$('#search_date_' + date_type + '_' + country).val(date);
 	
-	$('#'+date_type+'_from').val('');
-	$('#'+date_type+'_to').val('');
+	$('#event_tab_' + country).find('input[name=' + date_type + '_from]').val('');
+	$('#event_tab_' + country).find('input[name=' + date_type + '_to]').val('');
 }
 function dateParamChange(obj) {
+	var country = $('#country').val();
 	var date_type = $(obj).attr('date_type');
 	var search_start_date	= '';
 	var search_end_date		= '';
 
-	$('.search_date_'+date_type).css('background-color','#ffffff');
-	$('.search_date_'+date_type).css('color','#000000');
+	$(obj).parents('.content__date__wrap').find('.search_date_' + date_type).css('background-color','#ffffff');
+	$(obj).parents('.content__date__wrap').find('.search_date_' + date_type).css('color','#000000');
 	
-	search_start_date = $('#'+date_type+'_from').val();
-	search_end_date = $('#'+date_type+'_to').val();
+	search_start_date = $('#event_tab_' + country).find('input[name=' + date_type + '_from]').val();
+	search_end_date = $('#event_tab_' + country).find('input[name=' + date_type + '_to]').val();
 
-	$('#search_date_'+date_type).val('');
+	$('#search_date_' + date_type + '_' + country).val('');
 	
 	var start_date = new Date(search_start_date);
 	var end_date = new Date(search_end_date);
@@ -548,15 +275,54 @@ function dateParamChange(obj) {
 	}
 }
 function selectAllClick(obj) {
+	var country = $('#country').val();
 	var type = $(obj).attr('data-type');
+
 	if ($(obj).prop('checked') == true) {
-		$("#result_"+type+"_table").find('.select').prop('checked',true);
+		$("#result_" + type + "_table_" + country).find('.select').prop('checked',true);
 	} else {
-		$("#result_"+type+"_table").find('.select').prop('checked',false);
+		$("#result_" + type + "_table_" + country).find('.select').prop('checked',false);
+	}
+}
+function rowsChange(obj) {
+	var country = $('#country').val();
+	var list_type = $(obj).attr('list-type');
+	var rows = $(obj).val();
+
+	if(list_type == 'event_info'){
+		list_type = 'event-info';
+	}
+
+	$('#frm-filter-' + list_type + '-' +country).find('.rows').val(rows);
+	$('#frm-filter-' + list_type + '-' +country).find('.page').val(1);
+
+	if(list_type == 'event-info'){
+		getEventInfoList(country);
+	}
+	else if(list_type == 'event'){
+		getEventList(country);
+	}
+}
+function orderChange(obj) { 
+	var country = $('#country').val();
+	var list_type = $(obj).attr('list-type');
+	var select_value = $(obj).val();
+	var order_value = [];
+	order_value = select_value.split('|');
+	
+	$('#frm-filter-' + list_type + '-' +country).find('.sort_value').val(order_value[0]);
+	$('#frm-filter-' + list_type + '-' +country).find('.sort_type').val(order_value[1]);
+
+	if(list_type == 'event-info'){
+		getEventInfoList(country);
+	}
+	else if(list_type == 'event'){
+		getEventList(country);
 	}
 }
 function eventInfoActionClick(obj) {
 	confirm("작업을 계속 진행하시겠습니까?",function() {
+		var country = $('#country').val();
 		var action_type = $(obj).attr('action_type');
 		var action_name = "";
 
@@ -565,7 +331,7 @@ function eventInfoActionClick(obj) {
 				action_name = "이벤트 일괄 삭제";
 				break;
 		}
-		var form 		= $('#frm-list-event-info');
+		var form 		= $('#frm-list-event-info-' + country);
 		var sel_length 	= form.find('.select:checked').length;
 		form.find('input[name="action_type"]').val(action_type);
 		
@@ -586,7 +352,7 @@ function eventInfoActionClick(obj) {
 						insertLog("전시관리 > 이벤트 관리 ", action_name, sel_length);
 						alert(action_name + ' 처리에 성공했습니다.');
 						form.find('input[name="selectAll"]').prop('checked', false);
-						getEventInfoList();
+						getEventInfoList(country);
 					}
 				}
 			});
@@ -596,37 +362,9 @@ function eventInfoActionClick(obj) {
 		}
 	});
 }
-function rowsChange(obj) {
-	var list_type = $(obj).attr('list-type');
-	var rows = $(obj).val();
-	$('#frm-filter-'+list_type).find('.rows').val(rows);
-	$('#frm-filter-'+list_type).find('.page').val(1);
-
-	if(list_type == 'event-info'){
-		getEventInfoList();
-	}
-	else if(list_type == 'event'){
-		getEventList();
-	}
-}
-function orderChange(obj) { 
-	var list_type = $(obj).attr('list-type');
-	var select_value = $(obj).val();
-	var order_value = [];
-	order_value = select_value.split('|');
-	
-	$('#frm-filter-'+list_type).find('.sort_value').val(order_value[0]);
-	$('#frm-filter-'+list_type).find('.sort_type').val(order_value[1]);
-
-	if(list_type == 'event-info'){
-		getEventInfoList();
-	}
-	else if(list_type == 'event'){
-		getEventList();
-	}
-}
 function excelDownload(obj) {
-	var excel_flg = $('input[name="excel_print_flg"]').val();
+	var country = $('#country').val();
+	var excel_flg = $('#frm-filter-event-' + country).find('input[name="excel_print_flg"]').val();
 	var list_type = $(obj).attr('list-type');
 	var sheet_name = "";
 	var file_name = "";
@@ -649,11 +387,11 @@ function excelDownload(obj) {
 					break;
 			}
 
-			if ($('#result_'+list_type+'_table').find('.nodata').length > 0) {
+			if ($('#result_'+list_type+'_table_' + country).find('.nodata').length > 0) {
 				alert('다운로드 할 '+sheet_name+'를 검색해주세요.');
 			} else {
 				insertLog("전시관리 > 이벤트 관리 > " + sheet_name, "엑셀다운로드 : " + file_name, 1);
-				var wb = XLSX.utils.table_to_book(document.getElementById('excel_table_' + list_type), {sheet:sheet_name,raw:true});
+				var wb = XLSX.utils.table_to_book(document.getElementById('excel_table_' + list_type + '_' + country), {sheet:sheet_name,raw:true});
 				XLSX.writeFile(wb, (file_name + '.xlsx'));
 			}
 		}
@@ -662,7 +400,7 @@ function excelDownload(obj) {
 		}
 	}
 }
-function init_filter(frm_id, func_name){
+function init_filter(frm_id, func_name, country){
 	var formObj = $('#'+frm_id);
 	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked', true);
 	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked', true);
@@ -678,9 +416,10 @@ function init_filter(frm_id, func_name){
 	formObj.find('.date__picker').css('color','#000000');
 	formObj.find('input[name="search_date"]').val('');
 	
-	window[func_name]();
+	window[func_name](country);
 }
 function openEventRegistModal(){
-	modal('add');
+	let country = $('#country').val();
+	modal('add','country=' + country);
 }
 </script>

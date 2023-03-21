@@ -45,7 +45,7 @@ $sql = "";
 if ($action_type != null && $stock_idx != null) {
 	if ($action_type == "update") {
 		$sql = "UPDATE
-					dev.PRODUCT_STOCK
+					PRODUCT_STOCK
 				SET
 					".$stock_qty_arr[0].$stock_qty_arr[1]."
 					".$safe_qty_arr[0].$safe_qty_arr[1]."
@@ -56,7 +56,7 @@ if ($action_type != null && $stock_idx != null) {
 					IDX=".$stock_idx;
 	} else if ($action_type == "delete") {
 		if ($stock_idx != null) {
-			$sql = "DELETE FROM dev.PRODUCT_STOCK WHERE IDX = ".$stock_idx;
+			$sql = "DELETE FROM PRODUCT_STOCK WHERE IDX = ".$stock_idx;
 		}
 	}
 	$db->query($sql);
@@ -71,9 +71,9 @@ if($sheet_data != null){
 					AND OPTION_CODE  = ? 
 					AND OPTION_NAME  = ? ";
 			$where_value = array($val[0],$val[1],$val[2],$val[3]);
-			if($db->count('dev.PRODUCT_STOCK',$where,$where_value) > 0){
+			if($db->count('PRODUCT_STOCK',$where,$where_value) > 0){
 				$sql = "
-						INSERT INTO dev.PRODUCT_STOCK(	
+						INSERT INTO PRODUCT_STOCK(	
 							PRODUCT_CODE,
 							PRODUCT_NAME,
 							OPTION_CODE,

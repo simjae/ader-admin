@@ -7,20 +7,19 @@
 }
 </style>
 
-<div class="content__card" style="width:950px;margin: 0;">
-	<form id="frm-update">
-		<input id="page_idx" type="hidden" name="page_idx" value="<?=$idx?>">
-        <input type="hidden" value="COLA" style="width:80%;" name="posting_type">
-		
-		<div class="card__header">
-			<div class="flex justify-between">
-				<h3>콜라보레이션 페이지 수정</h3>
-				<a href="javascript:;" onclick="modal_close();" class="btn-close"><i class="xi-close"></i></a>
-			</div>
-			<div class="drive--x"></div>
+<div class="content__card modal__view" style="width:950px;margin: 0;">
+	<div class="card__header">
+		<div class="flex justify-between">
+			<h3>콜라보레이션 페이지 수정</h3>
+			<a href="javascript:;" onclick="modal_close();" class="btn-close"><i class="xi-close"></i></a>
 		</div>
-		
-		<div class="card__body">
+		<div class="drive--x"></div>
+	</div>
+	
+	<div class="card__body">
+		<form id="frm-update">
+			<input id="page_idx" type="hidden" name="page_idx" value="<?=$idx?>">
+			<input type="hidden" value="COLA" style="width:80%;" name="posting_type">
 			<div class="content__wrap">
 				<div class="content__title">국가</div>
 				<div class="content__row">
@@ -90,73 +89,71 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		
-		<div class="card__header" id="seo">
-			<div class="flex justify-between">
-				<h3>검색엔진 최적화(SEO)</h3>
+			<div class="card__header" id="seo">
+				<div class="flex justify-between">
+					<h3>검색엔진 최적화(SEO)</h3>
+				</div>
+				<div class="drive--x"></div>
 			</div>
-			<div class="drive--x"></div>
-		</div>
-		
-		<div class="card__body">
-			<div class="content__wrap">
-				<div class="content__title">검색 엔진 노출 설정</div>
-				<div class="content__row">
-					<div class="rd__block">
-						<input type="radio" id="searchExposure1" class="radio__input" value="true" name="seo_exposure_flg">
-						<label for="searchExposure1">노출함</label>
-						<input type="radio" id="searchExposure2" class="radio__input" value="false" name="seo_exposure_flg"/>
-						<label for="searchExposure2">노출안함</label>
+			
+			<div class="card__body">
+				<div class="content__wrap">
+					<div class="content__title">검색 엔진 노출 설정</div>
+					<div class="content__row">
+						<div class="rd__block">
+							<input type="radio" id="searchExposure1" class="radio__input" value="true" name="seo_exposure_flg">
+							<label for="searchExposure1">노출함</label>
+							<input type="radio" id="searchExposure2" class="radio__input" value="false" name="seo_exposure_flg"/>
+							<label for="searchExposure2">노출안함</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="content__wrap">
+					<div class="content__title">검색엔진<br>브라우저 타이틀</div>
+					<div class="content__row">
+						<input type="text" name="seo_title">
+					</div>
+				</div>
+				
+				<div class="content__wrap">
+					<div class="content__title">검색엔진<br>메타태그 Author</div>
+					<div class="content__row">
+						<input type="text" name="seo_author">
+					</div>
+				</div>
+				
+				<div class="content__wrap">
+					<div class="content__title">검색엔진<br>메타태그Description</div>
+					<div class="content__row">
+						<textarea name="seo_description" id="seo_description" cols="70" rows="10" style="width:90%;"></textarea>
+					</div>
+				</div>
+				
+				<div class="content__wrap">
+					<div class="content__title">검색엔진<br>메타태그Keywords</div>
+					<div class="content__row">
+						<input type="text" name="seo_keywords">
+					</div>
+				</div>
+
+				<div class="content__wrap">
+					<div class="content__title">검색엔진<br>메타태그 Alt 텍스트</div>
+					<div class="content__row">
+						<textarea name="seo_alt_text" id="seo_alt_text" cols="70" rows="10" style="width:90%;"></textarea>
 					</div>
 				</div>
 			</div>
-			
-			<div class="content__wrap">
-				<div class="content__title">검색엔진<br>브라우저 타이틀</div>
-				<div class="content__row">
-					<input type="text" name="seo_title">
-				</div>
-			</div>
-			
-			<div class="content__wrap">
-				<div class="content__title">검색엔진<br>메타태그 Author</div>
-				<div class="content__row">
-					<input type="text" name="seo_author">
-				</div>
-			</div>
-			
-			<div class="content__wrap">
-				<div class="content__title">검색엔진<br>메타태그Description</div>
-				<div class="content__row">
-					<textarea name="seo_description" id="seo_description" cols="70" rows="10" style="width:90%;"></textarea>
-				</div>
-			</div>
-			
-			<div class="content__wrap">
-				<div class="content__title">검색엔진<br>메타태그Keywords</div>
-				<div class="content__row">
-					<input type="text" name="seo_keywords">
-				</div>
-			</div>
-
-			<div class="content__wrap">
-				<div class="content__title">검색엔진<br>메타태그 Alt 텍스트</div>
-				<div class="content__row">
-					<textarea name="seo_alt_text" id="seo_alt_text" cols="70" rows="10" style="width:90%;"></textarea>
-				</div>
+		</form>
+	</div>
+	<div class="card__footer">
+		<div class="footer__btn__wrap" style="grid: none;">
+			<div class="btn__wrap--lg">
+				<div  onclick="postUpdateAction();"  class="blue__color__btn"><span>저장</span></div>
+				<div onclick="modal_cancel();" class="defult__color__btn"><span>작성 취소</span></div>
 			</div>
 		</div>
-		
-		<div class="card__footer">
-			<div class="footer__btn__wrap" style="grid: none;">
-				<div class="btn__wrap--lg">
-					<div  onclick="postUpdateAction();"  class="blue__color__btn"><span>저장</span></div>
-					<div onclick="modal_cancel();" class="defult__color__btn"><span>작성 취소</span></div>
-				</div>
-			</div>
-		</div> 
-	</form>
+	</div> 
 </div>
 <script>
 var seo_description = [];

@@ -32,7 +32,7 @@ if ($member_idx == 0 || $country == NULL) {
 if($board_idx != null){
     $delete_sql = "
         DELETE FROM
-            dev.PAGE_BOARD
+            PAGE_BOARD
         WHERE
             IDX = ".$board_idx."
     ";

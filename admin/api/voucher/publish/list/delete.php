@@ -29,7 +29,7 @@ try {
 	//수정항목
 	$db->query("
 		UPDATE 
-			dev.VOUCHER_MST 
+			VOUCHER_MST 
 		SET 
 			DEL_FLG = TRUE,
 			UPDATE_DATE = NOW()

@@ -53,8 +53,8 @@ if ($product_idx > 0 && $country != null) {
 			PR.RELEVANT_IDX				AS RELEVANT_IDX,
 			PR.SOLD_OUT_FLG				AS SOLD_OUT_FLG
 		FROM
-			dev.SHOP_PRODUCT PR
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			SHOP_PRODUCT PR
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		WHERE
 			PR.IDX = ".$product_idx;
@@ -81,7 +81,7 @@ if ($product_idx > 0 && $country != null) {
 							S_PI.IMG_LOCATION,'/var/www/admin/www',''
 						)	AS IMG_LOCATION
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = ".$product_idx." AND
 						S_PI.IMG_TYPE = 'O' AND
@@ -96,7 +96,7 @@ if ($product_idx > 0 && $country != null) {
 							S_PI.IMG_LOCATION,'/var/www/admin/www',''
 						)	AS IMG_LOCATION
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = ".$product_idx." AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -125,7 +125,7 @@ if ($product_idx > 0 && $country != null) {
 					PI.IMG_LOCATION		AS IMG_LOCATION,
 					PI.IMG_URL			AS IMG_URL
 				FROM
-					dev.PRODUCT_IMG PI
+					PRODUCT_IMG PI
 				WHERE
 					PI.PRODUCT_IDX = ".$product_idx." AND
 					PI.IMG_SIZE = 'L'
@@ -168,7 +168,7 @@ if ($product_idx > 0 && $country != null) {
 			
 			$whish_flg = false;
 			if ($member_idx > 0) {
-				$whish_cnt = $db->count("dev.WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
+				$whish_cnt = $db->count("WHISH_LIST"," MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
 				if ($whish_cnt > 0) {
 					$whish_flg = true;
 				}
@@ -197,7 +197,7 @@ if ($product_idx > 0 && $country != null) {
 					OO.IDX				AS OPTION_IDX,
 					OO.OPTION_NAME		AS OPTION_NAME
 				FROM
-					dev.ORDERSHEET_OPTION OO
+					ORDERSHEET_OPTION OO
 				WHERE
 					OO.ORDERSHEET_IDX = ".$ordersheet_idx."
 			";

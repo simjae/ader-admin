@@ -19,8 +19,8 @@ $filter_idx		= $_POST['filter_idx'];
 $filter_type	= $_POST['filter_type'];
 
 if ($filter_idx != null) {
-	$product_cl_cnt = $db->count("dev.SHOP_PRODUCT","FILTER_CL REGEXP '".$filter_idx."'");
-	$product_sz_cnt = $db->count("dev.SHOP_PRODUCT","FILTER_SZ REGEXP '".$filter_idx."'");
+	$product_cl_cnt = $db->count("SHOP_PRODUCT","FILTER_CL REGEXP '".$filter_idx."'");
+	$product_sz_cnt = $db->count("SHOP_PRODUCT","FILTER_SZ REGEXP '".$filter_idx."'");
 	
 	if ($product_cl_cnt > 0 || $product_sz_cnt > 0) {
 		$json_result['code'] = 301;
@@ -28,7 +28,7 @@ if ($filter_idx != null) {
 	} else {
 		$delete_filter_sql = "
 			UPDATE
-				dev.PRODUCT_FILTER
+				PRODUCT_FILTER
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),

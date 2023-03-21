@@ -18,22 +18,24 @@ $country	= $_POST['country'];
 $menu_sort	= $_POST['menu_sort'];
 $menu_idx	= $_POST['menu_idx'];
 
-$menu_table = "";
-switch ($menu_sort) {
-	case "L" :
-		$menu_table = " dev.TMP_MENU_LRG ";
-		break;
-	
-	case "M" :
-		$menu_table = " dev.TMP_MENU_MDL ";
-		break;
-	
-	case "S" :
-		$menu_table = " dev.TMP_MENU_SML ";
-		break;
-}
+if ($country != null && $menu_sort != null && $menu_idx != null) {
+	$menu_table = "";
+	switch ($menu_sort) {
+		case "L" :
+			$menu_table = " TMP_MENU_LRG ";
+			break;
+		
+		case "M" :
+			$menu_table = " TMP_MENU_MDL ";
+			break;
+		
+		case "S" :
+			$menu_table = " TMP_MENU_SML ";
+			break;
+	}
 
-$sql = "UPDATE
+	$delete_menu_sql = "
+		UPDATE
 			".$menu_table."
 		SET
 			DEL_FLG = TRUE
@@ -41,5 +43,7 @@ $sql = "UPDATE
 			COUNTRY = '".$country."' AND
 			IDX = ".$menu_idx;
 
-$db->query($sql);
+	$db->query($delete_menu_sql);
+}
+
 ?>

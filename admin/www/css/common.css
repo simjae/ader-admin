@@ -327,7 +327,7 @@ input[type='date']:focus::before,input[type='date']:valid::before {display: none
 .table__wrap [color-scheme="light"] .accented {accent-color: rgb(210, 39, 136);}
 
 .table__wrap fieldset {display: flex;border: none;}
-.table__wrap .default_td{text-align: center;}
+.table__wrap .default_td{text-align: left;}
 
 .table__wrap .overflow-x-auto{overflow-x: auto;}
 .table__wrap .overflow-y-auto{overflow-y: auto;}
@@ -523,6 +523,11 @@ table.list input,table.list select { width : 100% ; border : 1px solid #c2cad8 ;
 /* popup */
 
 
+/* modal header, footer 고정 css */
+.content__card.modal__view, .content__card.modal__view .card__body{height:95vh}
+.content__card.modal__view{display:flex;flex-direction:column;}
+.content__card.modal__view .card__body{flex: 1;overflow-y:scroll}
+
 /* product_list */
 .table__wrap .product__img__wrap{
     display: flex;
@@ -553,7 +558,6 @@ table.list input,table.list select { width : 100% ; border : 1px solid #c2cad8 ;
     border-radius: 2px;
     cursor: pointer;
 }
-
 
 
 

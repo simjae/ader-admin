@@ -14,8 +14,11 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+$session_id				= sessionCheck();
 $btn_action_flg			= $_POST['btn_action_flg'];
 $display_num_flg		= $_POST['display_num_flg'];
 $update_flg				= $_POST['update_flg'];
@@ -48,7 +51,7 @@ if($btn_action_flg != null && $country != null && $draw_idx != null){
 	}
 	$sql = "
 		UPDATE
-			dev.PAGE_DRAW
+			PAGE_DRAW
 		SET
 			DISPLAY_FLG = 	CASE WHEN
 								DISPLAY_FLG = FALSE 
@@ -73,7 +76,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 		case "up" :
 			$prev_sql ="
 				UPDATE
-					dev.PAGE_DRAW
+					PAGE_DRAW
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -84,7 +87,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 			
 			$sql = "
 					UPDATE
-						dev.PAGE_DRAW
+						PAGE_DRAW
 					SET
 						DISPLAY_NUM = ".intval($recent_num - 1)."
 					WHERE
@@ -97,7 +100,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 		case "down" :
 			$prev_sql ="
 				UPDATE
-					dev.PAGE_DRAW
+					PAGE_DRAW
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -108,7 +111,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 			
 			$sql = "
 				UPDATE
-					dev.PAGE_DRAW
+					PAGE_DRAW
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1)."
 				WHERE
@@ -129,7 +132,7 @@ else if ($display_num_flg != null && $country != null && $recent_idx != null && 
 }
 
 if ($update_flg != null && $country != null && $draw_idx != null && $product_idx != null && $qty_info != null) {
-	$entry_cnt = $db->count("dev.ENTRY_DRAW","DRAW_IDX = ".$draw_idx);
+	$entry_cnt = $db->count("ENTRY_DRAW","DRAW_IDX = ".$draw_idx);
 	
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 401;
@@ -138,14 +141,14 @@ if ($update_flg != null && $country != null && $draw_idx != null && $product_idx
 		try {
 			$update_draw_sql = "
 				UPDATE
-					dev.PAGE_DRAW  PD,
+					PAGE_DRAW  PD,
 					(
 						 SELECT
 							IDX				AS PRODUCT_IDX,
 							PRODUCT_CODE	AS PRODUCT_CODE,
 							PRODUCT_NAME	AS PRODUCT_NAME
 						 FROM
-							dev.SHOP_PRODUCT
+							SHOP_PRODUCT
 						 WHERE
 							IDX = ".$product_idx."
 					) AS TMP
@@ -156,13 +159,13 @@ if ($update_flg != null && $country != null && $draw_idx != null && $product_idx
 					PD.PRODUCT_NAME = TMP.PRODUCT_NAME,
 					PD.SALES_PRICE = ".$sales_price.",
 					PD.DISPLAY_FLG = ".$display_flg.",
-					PD.ENTRY_START_DATE = STR_TO_DATE('".$entry_start_date."','%Y%m%d%H%i%s'),
-					PD.ENTRY_END_DATE = STR_TO_DATE('".$entry_end_date."','%Y%m%d%H%i%s'),
-					PD.ANNOUNCE_DATE = STR_TO_DATE('".$announce_date."','%Y%m%d%H%i%s'),
-					PD.PURCHASE_START_DATE = STR_TO_DATE('".$purchase_start_date."','%Y%m%d%H%i%s'),
-					PD.PURCHASE_END_DATE = STR_TO_DATE('".$purchase_end_date."','%Y%m%d%H%i%s'),
+					PD.ENTRY_START_DATE = STR_TO_DATE('".$entry_start_date."','%Y-%m-%d %H:%i'),
+					PD.ENTRY_END_DATE = STR_TO_DATE('".$entry_end_date."','%Y-%m-%d %H:%i'),
+					PD.ANNOUNCE_DATE = STR_TO_DATE('".$announce_date."','%Y-%m-%d %H:%i'),
+					PD.PURCHASE_START_DATE = STR_TO_DATE('".$purchase_start_date."','%Y-%m-%d %H:%i'),
+					PD.PURCHASE_END_DATE = STR_TO_DATE('".$purchase_end_date."','%Y-%m-%d %H:%i'),
 					PD.UPDATE_DATE = NOW(),
-					PD.UPDATER = 'Admin'
+					PD.UPDATER = '".$session_id."'
 				WHERE
 					IDX = ".$draw_idx."
 			";
@@ -172,7 +175,7 @@ if ($update_flg != null && $country != null && $draw_idx != null && $product_idx
 			$draw_db_result = $db->affectedRows();
 			
 			if ($draw_db_result > 0) {
-				$db->query("DELETE FROM dev.QTY_DRAW WHERE DRAW_IDX = ".$draw_idx);
+				$db->query("DELETE FROM QTY_DRAW WHERE DRAW_IDX = ".$draw_idx);
 				
 				$qty_db_result = 0;
 				for ($i=0; $i<count($qty_info); $i++) {
@@ -181,7 +184,7 @@ if ($update_flg != null && $country != null && $draw_idx != null && $product_idx
 					}
 					$insert_qty_sql = "
 						INSERT INTO
-							dev.QTY_DRAW
+							QTY_DRAW
 						(
 							COUNTRY,
 							DRAW_IDX,

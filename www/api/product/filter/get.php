@@ -85,14 +85,14 @@ if ($page_idx > 0) {
 		$member_level_sql = " AND DISPLAY_MEMBER_LEVEL = 'ALL' ";
 	}
 	
-	$page_cnt = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE ".$member_level_sql);
+	$page_cnt = $db->count("PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE ".$member_level_sql);
 	
 	if ($page_cnt > 0) {
 		$product_table = "
-			dev.PRODUCT_GRID PG
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PRODUCT_GRID PG
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PG.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		";
 		

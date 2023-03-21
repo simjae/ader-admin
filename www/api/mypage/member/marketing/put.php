@@ -70,7 +70,7 @@ if($receive_tel_flg == 'false' && $receive_sms_flg == 'false' && $receive_email_
 if ($country != null && $member_idx > 0) {
 	$update_marketing_sql = "
 		UPDATE
-			dev.MEMBER_".$country."
+			MEMBER_".$country."
 		SET
 			RECEIVE_TEL_FLG = ".$receive_tel_flg.",
 			".$receive_tel_date_sql."

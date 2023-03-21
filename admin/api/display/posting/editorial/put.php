@@ -26,7 +26,7 @@ if ($action_type != null && $recent_idx != null && $recent_num != null) {
 		case "up" :
 			$prev_sql = "
 				UPDATE
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET
 					DISPLAY_NUM = -1
 				WHERE
@@ -39,7 +39,7 @@ if ($action_type != null && $recent_idx != null && $recent_num != null) {
 
 			$sql = "
 				UPDATE
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -52,7 +52,7 @@ if ($action_type != null && $recent_idx != null && $recent_num != null) {
 
 			$next_sql = "
 				UPDATE
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET
 					DISPLAY_NUM = ".intval($recent_num - 1)."
 				WHERE
@@ -68,7 +68,7 @@ if ($action_type != null && $recent_idx != null && $recent_num != null) {
 		case "down" :
 			$prev_sql = "
 				UPDATE
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET
 					DISPLAY_NUM = -1
 				WHERE
@@ -81,7 +81,7 @@ if ($action_type != null && $recent_idx != null && $recent_num != null) {
 
 			$sql = "
 				UPDATE
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -94,7 +94,7 @@ if ($action_type != null && $recent_idx != null && $recent_num != null) {
 			
 			$next_sql = "
 				UPDATE
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1)."
 				WHERE

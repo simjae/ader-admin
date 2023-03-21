@@ -30,7 +30,7 @@ if($sheet_data != null){
 					OPTION_CODE,
 					SUM(QTY) AS WMS_STOCK
 				FROM
-					dev.WMS_DUMMY
+					WMS_DUMMY
 				GROUP BY
 					OPTION_CODE";
 	$db->query($wms_sql);
@@ -54,11 +54,11 @@ if($sheet_data != null){
 			$val[7]:재고적용일,
 		*/
 		$row++;
-		if ($db->count('dev.PRODUCT_OPTION'," PRODUCT_CODE = '".$val[0]."' AND OPTION_CODE = '".$val[2]."' ") > 0) {
+		if ($db->count('PRODUCT_OPTION'," PRODUCT_CODE = '".$val[0]."' AND OPTION_CODE = '".$val[2]."' ") > 0) {
 			$stock_sql= "SELECT
 							SUM(STOCK_QUANTITY) AS STOCK_QUANTITY
 						FROM
-							dev.PRODUCT_STOCK
+							PRODUCT_STOCK
 						WHERE
 							OPTION_CODE = '".$val[2]."'";
 			$db->query($stock_sql);
@@ -69,7 +69,7 @@ if($sheet_data != null){
 			}
 				
 			if((intval($wms_stock[$val[2]]) - ($stock + intval($val[4])) > 0)){
-				$sql = "INSERT INTO dev.PRODUCT_STOCK(	
+				$sql = "INSERT INTO PRODUCT_STOCK(	
 							PRODUCT_CODE,
 							PRODUCT_NAME,
 							OPTION_CODE,

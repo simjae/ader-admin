@@ -45,7 +45,7 @@ if ($refund_category != null || $refund_idx != null) {
 $sql = "SELECT
 			".$select."
 		FROM
-			dev.PRODUCT_REFUND
+			PRODUCT_REFUND
 			".$where;
 
 $db->query($sql);

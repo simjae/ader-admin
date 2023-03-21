@@ -31,7 +31,7 @@ $order_info_sql = "
 		OI.TO_ROAD_ADDR			AS TO_ROAD_ADDR,
 		OI.TO_DETAIL_ADDR		AS TO_DETAIL_ADDR
 	FROM
-		dev.ORDER_INFO OI
+		ORDER_INFO OI
 	WHERE
 		OI.ORDER_STATUS IN ('PCP','OEX')
 	ORDER BY
@@ -60,13 +60,13 @@ foreach($db->fetch() as $order_info_data){
 				OP.PRODUCT_IDX			AS PRODUCT_IDX,
 				CASE
 					WHEN
-						(SELECT COUNT(IDX) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = OP.PRODUCT_IDX) > 0
+						(SELECT COUNT(IDX) FROM PRODUCT_IMG WHERE PRODUCT_IDX = OP.PRODUCT_IDX) > 0
 						THEN
 							(
 								SELECT
 									REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 								FROM
-									dev.PRODUCT_IMG S_PI
+									PRODUCT_IMG S_PI
 								WHERE
 									S_PI.PRODUCT_IDX = OP.PRODUCT_IDX AND
 									S_PI.IMG_TYPE = 'P' AND
@@ -84,7 +84,7 @@ foreach($db->fetch() as $order_info_data){
 				OP.BARCODE				AS BARCODE,
 				OP.PRODUCT_QTY			AS PRODUCT_QTY
 			FROM
-				dev.ORDER_PRODUCT OP
+				ORDER_PRODUCT OP
 			WHERE
 				OP.ORDER_IDX = ".$order_idx." AND
 				OP.ORDER_STATUS IN ('PCP','OEX') AND
@@ -115,13 +115,13 @@ foreach($db->fetch() as $order_info_data){
 						OP.PRODUCT_IDX			AS PRODUCT_IDX,
 						CASE
 							WHEN
-								(SELECT COUNT(IDX) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = OP.PRODUCT_IDX) > 0
+								(SELECT COUNT(IDX) FROM PRODUCT_IMG WHERE PRODUCT_IDX = OP.PRODUCT_IDX) > 0
 								THEN
 									(
 										SELECT
 											REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 										FROM
-											dev.PRODUCT_IMG S_PI
+											PRODUCT_IMG S_PI
 										WHERE
 											S_PI.PRODUCT_IDX = OP.PRODUCT_IDX AND
 											S_PI.IMG_TYPE = 'P' AND
@@ -139,7 +139,7 @@ foreach($db->fetch() as $order_info_data){
 						OP.BARCODE				AS BARCODE,
 						OP.PRODUCT_QTY			AS PRODUCT_QTY
 					FROM
-						dev.ORDER_PRODUCT OP
+						ORDER_PRODUCT OP
 					WHERE
 						OP.ORDER_IDX = ".$order_idx." AND
 						(OP.PRODUCT_TYPE = 'S' AND OP.PRODUCT_CODE NOT LIKE 'SET%')

@@ -62,7 +62,7 @@ if ($country != null) {
 			SI.LAT						AS LAT,
 			SI.LNG						AS LNG
 		FROM
-			dev.STORE_SPACE SI
+			STORE_SPACE SI
 		WHERE
 			".$where."
 		ORDER BY
@@ -85,7 +85,7 @@ if ($country != null) {
 						''
 					)					AS CONTENTS_LOCATION
 				FROM
-					dev.CONTENTS_SPACE CI
+					CONTENTS_SPACE CI
 				WHERE
 					CI.STORE_IDX = ".$space_idx." AND
 					CI.DEL_FLG = FALSE
@@ -130,7 +130,7 @@ if ($country != null) {
 			SI.LAT						AS LAT,
 			SI.LNG						AS LNG
 		FROM
-			dev.STORE_PLUGSHOP SI
+			STORE_PLUGSHOP SI
 		WHERE
 			".$where."
 		ORDER BY
@@ -153,7 +153,7 @@ if ($country != null) {
 						''
 					)					AS CONTENTS_LOCATION
 				FROM
-					dev.CONTENTS_PLUGSHOP CI
+					CONTENTS_PLUGSHOP CI
 				WHERE
 					CI.STORE_IDX = ".$plugshop_idx." AND
 					CI.DEL_FLG = FALSE
@@ -198,7 +198,7 @@ if ($country != null) {
 			SI.LAT						AS LAT,
 			SI.LNG						AS LNG
 		FROM
-			dev.STORE_STOCKIST SI
+			STORE_STOCKIST SI
 		WHERE
 			".$where."
 		ORDER BY

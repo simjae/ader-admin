@@ -13,19 +13,91 @@
  | 
  +=============================================================================
 */
+
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+$session_id			= sessionCheck();
 $ordersheet_idx     = $_POST['ordersheet_idx'];
+
 $product_code       = $_POST['product_code'];
 $product_name       = $_POST['product_name'];
 $update_date 		= $_POST['update_date'];
 $overwrite_flg		= $_POST['overwrite_flg'];
 
+$care_td_kr = "NULL";
+if (isset($_POST['care_td_kr']) && $_POST['care_td_kr'] != "") {
+	$care_td_kr = "'".$_POST['care_td_kr']."'";
+	$care_td_kr = str_replace("<p>&nbsp;</p>","",$care_td_kr);
+}
+
+$care_td_en = "NULL";
+if (isset($_POST['care_td_en']) && $_POST['care_td_en'] != "") {
+	$care_td_en = "'".$_POST['care_td_en']."'";
+	$care_td_en = str_replace("<p>&nbsp;</p>","",$care_td_en);
+}
+
+$care_td_cn = "NULL";
+if (isset($_POST['care_td_cn']) && $_POST['care_td_cn'] != "") {
+	$care_td_cn = "'".$_POST['care_td_cn']."'";
+	$care_td_cn = str_replace("<p>&nbsp;</p>","",$care_td_cn);
+}
+
+$material_kr = "NULL";
+if (isset($_POST['material_kr']) && $_POST['material_kr'] != "") {
+	$material_kr = "'".$_POST['material_kr']."'";
+	$material_kr = str_replace("<p>&nbsp;</p>","",$material_kr);
+}
+
+$material_en = "NULL";
+if (isset($_POST['material_en']) && $_POST['material_en'] != "") {
+	$material_en = "'".$_POST['material_en']."'";
+	$material_en = str_replace("<p>&nbsp;</p>","",$material_en);
+}
+
+$material_cn = "NULL";
+if (isset($_POST['material_cn']) && $_POST['material_cn'] != "") {
+	$material_cn = "'".$_POST['material_cn']."'";
+	$material_cn = str_replace("<p>&nbsp;</p>","",$material_cn);
+}
+
+$manufacturer = "NULL";
+if (isset($_POST['manufacturer']) && $_POST['manufacturer'] != "") {
+	$manufacturer = "'".$_POST['manufacturer']."'";
+}
+
+$supplier = "NULL";
+if (isset($_POST['supplier']) && $_POST['supplier'] != "") {
+	$supplier = "'".$_POST['supplier']."'";
+}
+
+$origin_country = "NULL";
+if (isset($_POST['origin_country']) && $_POST['origin_country'] != "") {
+	$origin_country = "'".$_POST['origin_country']."'";
+}
+
+$load_box_idx = 0;
+if (isset($_POST['load_box_idx']) && $_POST['load_box_idx'] != "") {
+	$load_box_idx = $_POST['load_box_idx'];
+}
+
+$load_weight = 0;
+if (isset($_POST['load_weight']) && $_POST['load_weight'] != "") {
+	$load_weight = $_POST['load_weight'];
+}
+
+
+$load_qty = 0;
+if (isset($_POST['load_qty']) && $_POST['load_qty'] != "") {
+	$load_qty = $_POST['load_qty'];
+}
+
 $verify_ordersheet_query = "
     SELECT
         UPDATE_DATE
     FROM 
-        dev.ORDERSHEET_MST
+        ORDERSHEET_MST
     WHERE 
         IDX = ".$ordersheet_idx."
 ";
@@ -45,202 +117,181 @@ if ($update_date != $last_update_date) {
 }
 
 if($ordersheet_idx != null){
-	$care_td_kr = $_POST['care_td_kr'];
-	$care_td_kr = str_replace("<p>&nbsp;</p>","",$care_td_kr);
-	$care_td_kr_str = '';
-	if ($care_td_kr != null) {
-		$care_td_kr_str = " CARE_TD_KR = '".$care_td_kr."',";
+	$td_sub_material_idx        = $_POST['td_sub_material_idx'];
+	if(!isset($td_sub_material_idx) || !is_array($td_sub_material_idx)){
+		$td_sub_material_idx = NULL;
 	}
-	else{
-        $care_td_kr_str = " CARE_TD_KR = NULL,";
-    }
-
-	$care_td_en = $_POST['care_td_en'];
-	$care_td_en = str_replace("<p>&nbsp;</p>","",$care_td_en);
-	$care_td_en_str = '';
-	if ($care_td_en != null) {
-		$care_td_en_str = " CARE_TD_EN = '".$care_td_en."',";
-	}
-	else{
-        $care_td_en_str = " CARE_TD_EN = NULL,";
-    }
-
-	$care_td_cn = $_POST['care_td_cn'];
-	$care_td_cn = str_replace("<p>&nbsp;</p>","",$care_td_cn);
-	$care_td_cn_str = '';
-	if ($care_td_cn != null) {
-		$care_td_cn_str = " CARE_TD_CN = '".$care_td_cn."',";
-	}
-	else{
-        $care_td_cn_str = " CARE_TD_CN = NULL,";
-    }
-
-	$material_kr = $_POST['material_kr'];
-	$material_kr = str_replace("<p>&nbsp;</p>","",$material_kr);
-	$material_kr_str = '';
-	if ($material_kr != null) {
-		$material_kr_str = " MATERIAL_KR = '".$material_kr."',";
-	}
-	else{
-        $material_kr_str = " MATERIAL_KR = NULL,";
-    }
-
-	$material_en = $_POST['material_en'];
-	$material_en = str_replace("<p>&nbsp;</p>","",$material_en);
-	$material_en_str = '';
-	if ($material_en != null) {
-		$material_en_str = " MATERIAL_EN = '".$material_en."',";
-	}
-	else{
-        $material_en_str = " MATERIAL_EN = NULL,";
-    }
-
-	$material_cn = $_POST['material_cn'];
-	$material_cn = str_replace("<p>&nbsp;</p>","",$material_cn);
-	$material_cn_str = '';
-	if ($material_cn != null) {
-		$material_cn_str = " MATERIAL_CN = '".$material_cn."',";
-	}
-	else{
-        $material_cn_str = " MATERIAL_CN = NULL,";
-    }
-
-	$manufacturer = $_POST['manufacturer'];
-	$manufacturer_str = '';
-	if ($manufacturer != null) {
-		$manufacturer_str = " MANUFACTURER = '".$manufacturer."',";
-	}
-	$supplier = $_POST['supplier'];
-	$supplier_str = '';
-	if ($supplier != null) {
-		$supplier_str = " SUPPLIER = '".$supplier."',";
-	}
-
-	$origin_country = $_POST['origin_country'];
-	$origin_country_str = '';
-	if ($origin_country != null) {
-		$origin_country_str = " ORIGIN_COUNTRY = '".$origin_country."',";
-	}
-
-	$load_box_idx = $_POST['load_box_idx'];
-	$load_box_idx_str = '';
-	if ($load_box_idx != null) {
-		$load_box_idx_str = " LOAD_BOX_IDX = ".$load_box_idx.",";
-	}
-
-	$deliver_box_idx = $_POST['deliver_box_idx'];
-	$deliver_box_idx_str = '';
-	if ($deliver_box_idx != null) {
-		$deliver_box_idx_str = " DELIVER_BOX_IDX = ".$deliver_box_idx.",";
-	}
-
-	$load_weight = $_POST['load_weight'];
-	$load_weight_str = '';
-	if ($load_weight != null) {
-		$load_weight_str = " LOAD_WEIGHT = ".$load_weight.",";
-	}
-
-	$load_qty = $_POST['load_qty'];
-	$load_qty_str = '';
-	if ($load_qty != null) {
-		$load_qty_str = " LOAD_QTY = ".$load_qty.",";
-	}
-
-	$td_sub_material_idx = $_POST['td_sub_material_idx'];
-	$td_sub_material_idx_str = '';
-	if ($td_sub_material_idx != null) {
-		$td_sub_material_idx_str = " TD_SUB_MATERIAL_IDX = '".implode(",", $td_sub_material_idx)."',";
-	}
-	else{
-		$td_sub_material_idx_str = " TD_SUB_MATERIAL_IDX = '', ";
-	}
-
-	$delivery_sub_material_idx = $_POST['delivery_sub_material_idx'];
-	$delivery_sub_material_idx_str = '';
-	if ($delivery_sub_material_idx != null) {
-		$delivery_sub_material_idx_str = " DELIVERY_SUB_MATERIAL_IDX = '".implode(",", $delivery_sub_material_idx)."',";
-	}
-	else{
-		$delivery_sub_material_idx_str = " DELIVERY_SUB_MATERIAL_IDX = '', ";
+	
+	$delivery_sub_material_idx  = $_POST['delivery_sub_material_idx'];
+	if(!isset($delivery_sub_material_idx) || !is_array($delivery_sub_material_idx)){
+		$delivery_sub_material_idx = NULL;
 	}
 
 	$db->begin_transaction();
 
     try{
-		//검색 유형 - 디폴트
-		$sql = 	"UPDATE
-					dev.ORDERSHEET_MST
-				SET
-					".$care_td_kr_str."
-					".$care_td_en_str."
-					".$care_td_cn_str."
-					".$material_kr_str."
-					".$material_en_str."
-					".$material_cn_str."
-					".$manufacturer_str."
-					".$supplier_str."
-					".$supplier_str."
-					".$origin_country_str."
-					".$load_box_idx_str."
-					".$deliver_box_idx_str."
-					".$load_weight_str."
-					".$load_qty_str."
-					".$td_sub_material_idx_str."
-					".$delivery_sub_material_idx_str."
-					
-					UPDATE_DATE = NOW(),
-					UPDATER = 'Admin'
+		if($td_sub_material_idx != NULL && $delivery_sub_material_idx != NULL){
+			$delete_sub_material_sql = "
+				DELETE FROM
+					SUB_MATERIAL_MAPPING
 				WHERE
-					IDX = ".$ordersheet_idx."
-				";
-		$db->query($sql);    $update_row_cnt = $db->mysqli_affected_rows();
+					ORDERSHEET_IDX = ".$ordersheet_idx."
+			";
+			
+			$db->query($delete_sub_material_sql);
 
-		
-        if($update_row_cnt > 0){
-			//ORDERSHEET_HISTORY 등록처리
-			$action_type = '';
-			$action_name = '';
-			if($db->count("dev.ORDERSHEET_HISTORY","ORDERSHEET_IDX = ".$ordersheet_idx." AND ORDERSHEET_AUTH = 'TD'") > 0){
-				$action_type = 'U';
-				$action_name = "수정";
-			}
-			else{
-				$action_type = 'W';
-				$action_name = "등록";
+			$sub_material_cnt = count($td_sub_material_idx) + count($delivery_sub_material_idx);
+			
+			$insert_cnt = 0;
+			
+			foreach ($td_sub_material_idx as $td_sub_idx) {
+				$insert_sub_material_mapping_sql = "
+					INSERT INTO
+						SUB_MATERIAL_MAPPING
+					( 
+						SUB_MATERIAL_TYPE,
+						SUB_MATERIAL_IDX,
+						ORDERSHEET_IDX
+					)
+					SELECT
+						SUB_MATERIAL_TYPE,
+						IDX,
+						" . $ordersheet_idx . "
+					FROM
+						SUB_MATERIAL_INFO
+					WHERE
+						IDX = ".$td_sub_idx. "
+				";
+
+				$db->query($insert_sub_material_mapping_sql);
+
+				$mapping_idx = $db->last_id();
+
+				if (!empty($mapping_idx)) {
+					$insert_cnt++;
+				}
 			}
 			
-			$history_sql = "
-				INSERT INTO dev.ORDERSHEET_HISTORY
-				(	
-					ORDERSHEET_IDX,
-					ORDERSHEET_AUTH,
-					ACTION_TYPE,
-					PRODUCT_CODE,
-					PRODUCT_NAME,
-					HISTORY_MSG,
-					CREATE_DATE,
-					CREATER
-				)
-				VALUES
-				(
-					".$ordersheet_idx.",
-					'TD',
-					'".$action_type."',
-					'".$product_code."',
-					'".$product_name."',
-					'[".$product_code."] ".$product_name."의 오더시트 생산 ".$action_name."이 완료되었습니다.',
-					NOW(),
-					'Admin'
-				)
-			";
-			$db->query($history_sql);
+			foreach ($delivery_sub_material_idx as $delivery_sub_idx) {
+				$insert_delivery_mapping_sql = "
+					INSERT INTO
+						SUB_MATERIAL_MAPPING
+					( 
+						SUB_MATERIAL_TYPE,
+						SUB_MATERIAL_IDX,
+						ORDERSHEET_IDX
+					)
+					SELECT
+						SUB_MATERIAL_TYPE,
+						IDX,
+						" . $ordersheet_idx . "
+					FROM
+						SUB_MATERIAL_INFO
+					WHERE
+						IDX = " . $delivery_sub_idx . "
+				";
+
+				$db->query($insert_delivery_mapping_sql);
+
+				$mapping_idx = $db->last_id();
+
+				if (!empty($mapping_idx)) {
+					$insert_cnt++;
+				}
+			}
 		}
+		
+		if($sub_material_cnt == $insert_cnt){
+			//검색 유형 - 디폴트
+			$update_ordersheet_mst_sql = "
+				UPDATE
+					ORDERSHEET_MST
+				SET
+					CARE_TD_KR		= ".$care_td_kr.",
+					CARE_TD_EN		= ".$care_td_en.",
+					CARE_TD_CN		= ".$care_td_cn.",
+					MATERIAL_KR		= ".$material_kr.",
+					MATERIAL_EN		= ".$material_en.",
+					MATERIAL_CN		= ".$material_cn.",
+					MANUFACTURER	= ".$manufacturer.",
+					SUPPLIER		= ".$supplier.",
+					ORIGIN_COUNTRY	= ".$origin_country.",
+					LOAD_BOX_IDX	= ".$load_box_idx.",
+					LOAD_WEIGHT		= ".$load_weight.",
+					LOAD_QTY		= ".$load_qty.",
+					
+					UPDATE_DATE = NOW(),
+					UPDATER = '".$session_id."'
+				WHERE
+					IDX = ".$ordersheet_idx."
+			";
+			
+			$db->query($update_ordersheet_mst_sql);
+			
+			$db_result = $db->affectedRows();
+			
+			if($db_result > 0){
+				//ORDERSHEET_HISTORY 등록처리
+				$action_type = "";
+				$action_name = "";
+				
+				$history_cnt = $db->count("ORDERSHEET_HISTORY","ORDERSHEET_IDX = ".$ordersheet_idx." AND ORDERSHEET_AUTH = 'TD'");
+				if($history_cnt > 0){
+					$action_type = 'U';
+					$action_name = "수정";
+				} else{
+					$action_type = 'W';
+					$action_name = "등록";
+				}
+				
+				$insert_ordersheet_history_sql = "
+					INSERT INTO
+						ORDERSHEET_HISTORY
+					(	
+						ORDERSHEET_IDX,
+						ORDERSHEET_AUTH,
+						ACTION_TYPE,
+						PRODUCT_CODE,
+						PRODUCT_NAME,
+						HISTORY_MSG,
+						CREATE_DATE,
+						CREATER
+					) VALUES (
+						".$ordersheet_idx.",
+						'TD',
+						'".$action_type."',
+						'".$product_code."',
+						'".$product_name."',
+						'[".$product_code."] ".$product_name."의 오더시트 생산 ".$action_name."이 완료되었습니다.',
+						NOW(),
+						'".$session_id."'
+					)
+				";
+				
+				$db->query($insert_ordersheet_history_sql);
+			} else {
+				$db->rollback();
+				
+				$json_result['code'] = 300;
+				$json_result['msg'] = "상품정보 -> 오더시트 수정 작업이 실패했습니다.";
+				return $json_result;
+			}
+		} else {
+			$db->rollback();
+			
+			$json_result['code'] = 300;
+			$json_result['msg'] = "상품정보 -> 부자재 추가 작업이 실패했습니다.";
+			
+			return $json_result;
+		}
+		
 		$db->commit();
-	}
-	catch(mysqli_sql_exception $exception){
-		$json_result['code'] = 301;
+	} catch(mysqli_sql_exception $exception){
 		$db->rollback();
-		$msg = "수정작업에 실패했습니다.";
+		
+		print_r($exception);
+		$json_result['code'] = 301;
+		$json_result['msg'] = "오더시트 생산정보 작성처리중 오류가 발생했습니다.";
 	}
 }
 ?>

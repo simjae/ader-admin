@@ -22,37 +22,23 @@ $select_product_sql = "
 	SELECT
 		PR.IDX						AS PRODUCT_IDX,
 		PR.PRODUCT_CODE				AS PRODUCT_CODE,
-		CASE
-			WHEN
-				(
-					SELECT
-						COUNT(S_PI.IDX)
-					FROM
-						dev.PRODUCT_IMG S_PI
-					WHERE
-						S_PI.PRODUCT_IDX = PR.IDX AND
-						S_PI.IMG_TYPE = 'P' AND
-						S_PI.IMG_SIZE = 'S'
-				) > 0
-				THEN
-					(
-						SELECT
-							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-						FROM
-							dev.PRODUCT_IMG S_PI
-						WHERE
-							S_PI.PRODUCT_IDX = PR.IDX AND
-							S_PI.DEL_FLG = FALSE AND
-							S_PI.IMG_SIZE = 'S' AND
-							S_PI.IMG_TYPE = 'P'
-						ORDER BY
-							S_PI.IDX ASC
-						LIMIT
-							0,1
-					)
-			ELSE
-				'/images/default_product_img.jpg'
-		END							AS IMG_LOCATION,
+		IFNULL(
+			(
+				SELECT
+					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+				FROM
+					PRODUCT_IMG S_PI
+				WHERE
+					S_PI.PRODUCT_IDX = PR.IDX AND
+					S_PI.DEL_FLG = FALSE AND
+					S_PI.IMG_SIZE = 'S' AND
+					S_PI.IMG_TYPE = 'P'
+				ORDER BY
+					S_PI.IDX ASC
+				LIMIT
+					0,1
+			),'/images/default_product_img.jpg'
+		)							AS IMG_LOCATION,
 		PR.PRODUCT_NAME				AS PRODUCT_NAME,
 		PR.PRICE_KR					AS PRICE_KR,
 		PR.PRICE_EN					AS PRICE_EN,
@@ -68,7 +54,7 @@ $select_product_sql = "
 		PR.UPDATER					AS UPDATER,
 		PR.UPDATE_DATE				AS UPDATE_DATE
 	FROM
-		dev.SHOP_PRODUCT PR
+		SHOP_PRODUCT PR
 	WHERE
 		PR.PRODUCT_TYPE = 'B' AND
 		PR.MD_CATEGORY_".$md_category_depth." = ".$md_category_node." AND
@@ -81,7 +67,7 @@ $db->query($select_product_sql);
 
 foreach($db->fetch() as $product_data) {
 	$product_idx = $product_data['PRODUCT_IDX'];
-	$product_cnt = $db->count("dev.CONTENTS_PRODUCT","PRODUCT_IDX = ".$product_idx);
+	$product_cnt = $db->count("CONTENTS_PRODUCT","PRODUCT_IDX = ".$product_idx);
 	
 	$action_type = "";
 	if ($product_cnt > 0) {

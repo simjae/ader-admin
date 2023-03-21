@@ -22,7 +22,7 @@ if ($product_idx != null) {
 				PR.PRODUCT_CODE		AS PRODUCT_CODE,
 				PR.PRODUCT_NAME		AS PRODUCT_NAME
 			FROM
-				dev.SHOP_PRODUCT PR
+				SHOP_PRODUCT PR
 			WHERE
 				PR.IDX = ".$product_idx;
 }

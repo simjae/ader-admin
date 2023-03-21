@@ -20,7 +20,7 @@ $cnt = 0;
 
 $sql = "";
 if ($history_option_code != null && $product_code != null) {
-	$sql = "INSERT INTO dev.PRODUCT_OPTION (
+	$sql = "INSERT INTO PRODUCT_OPTION (
 				PRODUCT_CODE,
 				OPTION_CODE,
 				OPTION_NAME,
@@ -37,7 +37,7 @@ if ($history_option_code != null && $product_code != null) {
 				QTY_CHECK_TYPE,
 				SOLD_OUT_FLG
 			FROM
-				dev.PRODUCT_OPTION
+				PRODUCT_OPTION
 			WHERE OPTION_CODE = '".$history_option_code."'";
 	
 	$db->query($sql);
@@ -133,12 +133,12 @@ if ($history_option_code != null && $product_code != null) {
 	}
 	
 	//검색 유형 - 디폴트
-	$product_code_validation = $db->count("dev.PRODUCT_OPTION"," PRODUCT_CODE = '".$product_code."' ");
+	$product_code_validation = $db->count("PRODUCT_OPTION"," PRODUCT_CODE = '".$product_code."' ");
 	
 	if ($product_code_validation == 0) {
 		if ($cnt > 0) {
 			for ($i=1; $i<=6; $i++) {
-				$sql = "INSERT INTO dev.PRODUCT_OPTION (PRODUCT_CODE,OPTION_NAME,OPTION_CODE) VALUES ";
+				$sql = "INSERT INTO PRODUCT_OPTION (PRODUCT_CODE,OPTION_NAME,OPTION_CODE) VALUES ";
 				
 				$tmp_sql = "";
 				if (count(${'option_a'.$i.'_arr'}) > 0) {

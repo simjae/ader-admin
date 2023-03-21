@@ -50,9 +50,8 @@ $price_cn                   = $_POST['price_cn'];
 $discount_cn                = $_POST['discount_cn'];
 $sales_price_cn             = $_POST['sales_price_cn'];
 
+$limit_id_flg     			= $_POST['limit_id_flg'];
 $limit_purchase_qty_flg     = $_POST['limit_purchase_qty_flg'];
-$limit_purchase_qty_min     = $_POST['limit_purchase_qty_min'];
-$limit_purchase_qty_max     = $_POST['limit_purchase_qty_max'];
 $product_keyword            = $_POST['product_keyword'];
 $product_tag                = $_POST['product_tag'];
 $relevant_idx               = $_POST['relevant_idx'];
@@ -98,18 +97,12 @@ $load_qty                   = $_POST['load_qty'];
 
 $td_sub_material_idx        = $_POST['td_sub_material_idx'];
 if(!isset($td_sub_material_idx) || !is_array($td_sub_material_idx)){
-    $td_sub_material_idx = 'NULL';
-}
-else{
-    $td_sub_material_idx = "'".implode(",", $td_sub_material_idx)."'";
+    $td_sub_material_idx = NULL;
 }
 
 $delivery_sub_material_idx  = $_POST['delivery_sub_material_idx'];
 if(!isset($delivery_sub_material_idx) || !is_array($delivery_sub_material_idx)){
-    $delivery_sub_material_idx = 'NULL';
-}
-else{
-    $delivery_sub_material_idx = "'".implode(",", $delivery_sub_material_idx)."'";
+    $delivery_sub_material_idx = NULL;
 }
 
 $limit_member               = $_POST['limit_member'];
@@ -119,9 +112,14 @@ if(!isset($limit_member) || !is_array($limit_member)){
     $limit_member = "'".implode(",", $limit_member)."'";
 }
 
-$limit_qty                  = $_POST['limit_qty'];
+$reorder_cnt               	= $_POST['reorder_cnt'];
+if($reorder_cnt == null && $reorder_cnt == ''){
+    $limit_qty = '0';
+}
+
+$limit_product_qty          = $_POST['limit_product_qty'];
 if($limit_qty == null && $limit_qty == ''){
-    $limit_qty = 'NULL';
+    $limit_qty = '0';
 }
 
 $md_category_1              = $_POST['md_category_1'];
@@ -160,12 +158,41 @@ if($clearance_idx == null && $clearance_idx == ''){
 
 $product_idx_list           = $_POST['product_idx_list'];
 
+$filter_cl					= $_POST['filter_cl'];
+$filter_cl_str = " NULL, ";
+if ($filter_cl != null) {
+	$filter_cl_str = " '".implode(",",$filter_cl)."', ";
+}
+
+$filter_ft = ' NULL, ';
+if(isset($_POST['filter_ft'])){
+	$filter_ft					= $_POST['filter_ft'];
+}
+
+$filter_gp = ' NULL, ';
+if(isset($_POST['filter_gp'])){
+	$filter_gp					= $_POST['filter_gp'];
+}
+
+$filter_ln = ' NULL, ';
+if(isset($_POST['filter_ln'])){
+	$filter_ln					= $_POST['filter_ln'];
+}
+
+$filter_sz					= $_POST['filter_sz'];
+$filter_sz_str = " NULL, ";
+if ($filter_sz != null) {
+	$filter_sz_str = " '".implode(",",$filter_sz)."', ";
+}
+
+$option_list_str            = $_POST['option_list_str'];
+
 $db->begin_transaction();
 
 try {
     $insert_ordersheet_sql  = "
 		INSERT INTO
-			dev.ORDERSHEET_MST
+			ORDERSHEET_MST
 		(
 			STYLE_CODE,
 			COLOR_CODE,
@@ -200,8 +227,6 @@ try {
 			DELIVER_BOX_IDX,
 			LOAD_WEIGHT,
 			LOAD_QTY,
-			TD_SUB_MATERIAL_IDX,
-			DELIVERY_SUB_MATERIAL_IDX,
 			UPDATE_FLG,
 			SET_FLG,
 			CREATER,
@@ -240,8 +265,6 @@ try {
 			".$deliver_box_idx.",
 			".$load_weight.",
 			".$load_qty.",
-			".$td_sub_material_idx.",
-			".$delivery_sub_material_idx.",
 			TRUE,
 			TRUE,
 			'Admin',
@@ -256,7 +279,7 @@ try {
     if (!empty($ordersheet_idx)) {
         $insert_product_sql = "
 			INSERT INTO
-				dev.SHOP_PRODUCT
+				SHOP_PRODUCT
 			(
 				ORDERSHEET_IDX,
 				PRODUCT_TYPE,
@@ -283,9 +306,10 @@ try {
 				DISCOUNT_CN,
 				SALES_PRICE_CN,
 				LIMIT_MEMBER,
+				LIMIT_ID_FLG,
+				REORDER_CNT,
 				LIMIT_PURCHASE_QTY_FLG,
-				LIMIT_PURCHASE_QTY_MIN,
-				LIMIT_PURCHASE_QTY_MAX,
+				LIMIT_PRODUCT_QTY,
 				PRODUCT_KEYWORD,
 				PRODUCT_TAG,
 				CLEARANCE_IDX,
@@ -313,6 +337,12 @@ try {
 				SEO_DESCRIPTION,
 				SEO_KEYWORDS,
 				SEO_ALT_TEXT,
+				FILTER_CL,
+				FILTER_FT,
+				FILTER_GP,
+				FILTER_LN,
+				FILTER_SZ,
+
 				SALE_FLG,
 				INDP_FLG,
 				CREATER,
@@ -343,9 +373,10 @@ try {
 				".$discount_cn.",
 				".$sales_price_cn.",
 				".$limit_member.",
+				".$limit_id_flg.",
+				".$reorder_cnt.",
 				".$limit_purchase_qty_flg.",
-				".$limit_purchase_qty_min.",
-				".$limit_purchase_qty_max.",
+				".$limit_product_qty.",
 				'".$product_keyword."',
 				'".$product_tag."',
 				".$clearance_idx.",
@@ -373,6 +404,11 @@ try {
 				'".$seo_description."',
 				'".$seo_keywords."',
 				'".$seo_alt_text."',
+				".$filter_cl_str."
+				".$filter_ft.",
+				".$filter_gp.",
+				".$filter_ln.",
+				".$filter_sz_str."
 				1,
 				0,
 				'Admin',
@@ -386,23 +422,96 @@ try {
 		
 		if (!empty($set_product_idx) && !empty($product_idx_list)) {
 			for ($i=0; $i<count($product_idx_list); $i++) {
+				$option_idx = '';
+                if($option_list_str[$i] != null){
+                    $option_idx = $option_list_str[$i];
+                };
+
 				$insert_set_product_sql = "
 					INSERT INTO
-						dev.SET_PRODUCT
+						SET_PRODUCT
 					(
 						SET_PRODUCT_IDX,
 						PRODUCT_IDX,
+						OPTION_IDX,
 						CREATER,
 						UPDATER
 					) VALUES (
 						".$set_product_idx.",
 						".$product_idx_list[$i].",
+						'".$option_idx."',
 						'Admin',
 						'Admin'
 					)
 				";
 				
 				$db->query($insert_set_product_sql);
+			}
+		}
+		if($td_sub_material_idx != NULL && $td_sub_material_idx != NULL){
+			$sub_material_delete_sql = "
+				DELETE FROM
+					SUB_MATERIAL_MAPPING
+				WHERE
+					ORDERSHEET_IDX = ".$ordersheet_idx."
+			";
+			$db->query($sub_material_delete_sql);
+	
+			$sub_arr_cnt = count($td_sub_material_idx) + count($td_sub_material_idx);
+			$insert_cnt = 0;
+			$sub_mapping_idx = 0;
+			foreach ($td_sub_material_idx as $td_sub_idx) {
+				$td_sub_material_sql = "
+					INSERT INTO SUB_MATERIAL_MAPPING
+					( 
+						SUB_MATERIAL_TYPE,
+						SUB_MATERIAL_IDX,
+						ORDERSHEET_IDX
+					)
+					SELECT
+						SUB_MATERIAL_TYPE,
+						IDX,
+						" . $ordersheet_idx . "
+					FROM
+						SUB_MATERIAL_INFO
+					WHERE
+						IDX = " . $td_sub_idx . "
+				";
+	
+				$db->query($td_sub_material_sql);
+	
+				$sub_mapping_idx = $db->last_id();
+	
+				if (!empty($sub_mapping_idx)) {
+					$insert_cnt++;
+				}
+			}
+			$sub_mapping_idx = 0;
+			foreach ($delivery_sub_material_idx as $delivery_sub_idx) {
+				$delivery_sub_material_sql = "
+					INSERT INTO SUB_MATERIAL_MAPPING
+					( 
+						SUB_MATERIAL_TYPE,
+						SUB_MATERIAL_IDX,
+						ORDERSHEET_IDX
+					)
+					SELECT
+						SUB_MATERIAL_TYPE,
+						IDX,
+						" . $ordersheet_idx . "
+					FROM
+						SUB_MATERIAL_INFO
+					WHERE
+						IDX = " . $delivery_sub_idx . "
+				";
+	
+				$db->query($delivery_sub_material_sql);
+	
+				$sub_mapping_idx = $db->last_id();
+	
+				if (!empty($sub_mapping_idx)) {
+					$insert_cnt++;
+				}
 			}
 		}
 

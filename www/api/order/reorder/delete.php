@@ -41,12 +41,12 @@ if ($member_idx == 0 || $country == null) {
 }
 
 if ($reorder_idx > 0 && $member_idx > 0) {
-	$reorder_cnt = $db->count("dev.PRODUCT_REORDER","IDX = ".$reorder_idx." AND COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx);
+	$reorder_cnt = $db->count("PRODUCT_REORDER","IDX = ".$reorder_idx." AND COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx);
 	
 	if ($reorder_cnt > 0) {
 		$delete_reorder_sql = "
 			UPDATE
-				dev.PRODUCT_REORDER
+				PRODUCT_REORDER
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),

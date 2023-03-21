@@ -2,7 +2,7 @@
 /*
  +=============================================================================
  | 
- | 전시관리-게시물관리 페이지 등록
+ | 게시물 관리 - 게시물 등록
  | -----------
  |
  | 최초 작성	: 박성혁
@@ -14,7 +14,14 @@
  +=============================================================================
 */
 
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
+
 $posting_type       = $_POST['posting_type'];           //포스팅 타입
+
 $country      		= $_POST['country'];				//국가
 $page_title         = $_POST['page_title'];           	//페이지 타이틀
 $page_title			= str_replace("'","\'",$page_title);
@@ -38,9 +45,6 @@ $seo_keywords		= $_POST['seo_keywords'];			//메타태그3
 $seo_alt_text		= $_POST['seo_alt_text'];			//메타태그4
 $seo_alt_text 		= str_replace("<p>&nbsp;</p>","",$seo_alt_text);
 
-
-$table = " dev.PAGE_POSTING ";
-
 $display_start_date = "";
 $display_end_date = "";
 if($display_flg != null){
@@ -53,59 +57,121 @@ if($display_flg != null){
 	}
 }
 
-//포스팅 페이지 등록
-$db->query("SHOW TABLE STATUS WHERE NAME='PAGE_POSTING'");
-$max_idx = 0;
-foreach($db->fetch() as $data) {
-	$max_idx = intval($data['Auto_increment']);
+$url = "";
+switch ($posting_type) {
+	case "EDTL" :
+		$url = "editorial";
+		break;
+	
+	case "RNWY" :
+		$url = "runway";
+		break;
+	
+	case "COLC" :
+		$url = "collection";
+		break;
+	
+	case "COLA" :
+		$url = "collaboration";
+		break;
 }
 
-$sql = "
-	INSERT INTO ".$table." (
-		POSTING_TYPE,
-		PAGE_TITLE,
-		PAGE_MEMO,
-		PAGE_URL,
-		COUNTRY,
+if ($posting_type != null && $page_title != null && $display_start_date != null && $display_end_date != null) {
+	try {
+		$insert_page_posting_sql = "
+			INSERT INTO
+				PAGE_POSTING
+			(
+				COUNTRY,
+				POSTING_TYPE,
+				PAGE_TITLE,
+				PAGE_URL,
+				PAGE_MEMO,
 
-		DISPLAY_FLG,
-		DISPLAY_START_DATE,
-		DISPLAY_END_DATE,
+				DISPLAY_FLG,
+				DISPLAY_START_DATE,
+				DISPLAY_END_DATE,
+				
+				SEO_EXPOSURE_FLG,
+				SEO_TITLE,
+				SEO_AUTHOR,
+				SEO_DESCRIPTION,
+				SEO_KEYWORDS,
+				SEO_ALT_TEXT,
+
+				CREATER,
+				UPDATER
+			)
+			VALUES (
+				'".$country."',
+				'".$posting_type."',
+				'".$page_title."',
+				'/posting/".$url."/detail?page_idx=',
+				'".$page_memo."',
+				
+				FALSE,
+				".$display_start_date.",
+				'".$display_end_date."',
+
+				".$seo_exposure_flg.",
+				'".$seo_title."',
+				'".$seo_author."',
+				'".$seo_description."',
+				'".$seo_keywords."',
+				'".$seo_alt_text."',
+
+				'".$session_id."',
+				'".$session_id."'
+			)
+		";
+
+		$db->query($insert_page_posting_sql);
 		
-		SEO_EXPOSURE_FLG,
-		SEO_TITLE,
-		SEO_AUTHOR,
-		SEO_DESCRIPTION,
-		SEO_KEYWORDS,
-		SEO_ALT_TEXT,
+		$page_idx = $db->last_id();
+		
+		if (!empty($page_idx) && $posting_type == "COLA") {
+			$insert_collaboration_sql = "
+				INSERT INTO
+					POSTING_COLLABORATION
+				(
+					PAGE_IDX,
+					DISPLAY_NUM,
+					CREATER,
+					UPDATER
+				)
+				SELECT
+					PP.IDX		AS PAGE_IDX,
+					(
+						SELECT
+							(MAX(DISPLAY_NUM) + 1)
+						FROM
+							POSTING_COLLABORATION
+						WHERE
+							COUNTRY = '".$country."'
+					)					AS DISPLAY_NUM,
+					'".$session_id."'	AS CREATER,
+					'".$session_id."'	AS UPDATER
+				FROM
+					PAGE_POSTING PP
+				WHERE
+					PP.IDX = ".$page_idx."
+			";
+			
+			$db->query($insert_collaboration_sql);
+		}
+		
+		$db->commit();
+		
+	} catch (mysqli_sql_exception $exception) {
+		$db->rollback();
+		
+		print_r($exception);
+		
+		$json_result['code'] = 301;
+		$json_result['msg'] = '게시물 작성 중 오류가 발생했습니다.';
+		
+		return $json_result;
+	}
+}
 
-		CREATER,
-		UPDATER
-	)
-	VALUES (
-		'".$posting_type."',
-		'".$page_title."',
-		'".$page_memo."',
-		CONCAT(
-			'/test/page/posting?page_idx=',
-			".$max_idx."
-		),
-		'".$country."',
-
-		FALSE,
-		".$display_start_date.",
-		'".$display_end_date."',
-
-		".$seo_exposure_flg.",
-		'".$seo_title."',
-		'".$seo_author."',
-		'".$seo_description."',
-		'".$seo_keywords."',
-		'".$seo_alt_text."',
-
-		'Admin',
-		'Admin'
-	)
-";
-$db->query($sql);
 ?>

@@ -37,7 +37,7 @@ if ($product_idx != null || $option_idx != null) {
 							SUM(S_OP.PRODUCT_QTY),0
 						)
 					FROM
-						dev.ORDER_PRODUCT S_OP
+						ORDER_PRODUCT S_OP
 					WHERE
 						S_OP.PRODUCT_IDX = PS.PRODUCT_IDX AND
 						S_OP.OPTION_IDX = PS.OPTION_IDX AND
@@ -45,7 +45,7 @@ if ($product_idx != null || $option_idx != null) {
 				)					AS ORDER_QTY,
 				PS.STOCK_SAFE_QTY	AS STOCK_SAFE_QTY
 			FROM
-				dev.PRODUCT_STOCK PS
+				PRODUCT_STOCK PS
 			WHERE
 				".$where."
 			GROUP BY

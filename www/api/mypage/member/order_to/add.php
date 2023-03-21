@@ -78,7 +78,7 @@ if ($member_idx > 0 && $to_zipcode != null) {
 	try {
 		$insert_order_to_sql = "
 			INSERT INTO
-				dev.ORDER_TO
+				ORDER_TO
 				(
 					COUNTRY,
 					MEMBER_IDX,
@@ -114,7 +114,7 @@ if ($member_idx > 0 && $to_zipcode != null) {
 			if(!empty($order_to_idx)) {
 				$update_default_flg_sql = "
 					UPDATE
-						dev.ORDER_TO
+						ORDER_TO
 					SET
 						DEFAULT_FLG = FALSE
 					WHERE

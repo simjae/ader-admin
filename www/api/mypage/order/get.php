@@ -81,8 +81,8 @@ if ($member_idx > 0 && $order_idx > 0) {
 						'FALSE'
 			END						AS UPDATE_FLG
 		FROM
-			dev.ORDER_INFO OI
-			LEFT JOIN dev.DELIVERY_COMPANY DC ON
+			ORDER_INFO OI
+			LEFT JOIN DELIVERY_COMPANY DC ON
 			OI.DELIVERY_IDX = DC.IDX
 		WHERE
 			OI.IDX = ".$order_idx." AND
@@ -95,7 +95,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 		$order_idx = $order_data['ORDER_IDX'];
 		
 		$preorder_flg = false;
-		$preorder_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND PREORDER_FLG = TRUE");
+		$preorder_cnt = $db->count("ORDER_PRODUCT","ORDER_IDX = ".$order_idx." AND PREORDER_FLG = TRUE");
 		
 		if ($preorder_cnt > 0) {
 			$preorder_flg = true;
@@ -118,7 +118,7 @@ if ($member_idx > 0 && $order_idx > 0) {
 								''
 							)
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.IMG_TYPE = 'P' AND
@@ -135,10 +135,10 @@ if ($member_idx > 0 && $order_idx > 0) {
 					OP.PRODUCT_QTY		AS PRODUCT_QTY,
 					OP.PRODUCT_PRICE	AS PRODUCT_PRICE
 				FROM
-					dev.ORDER_PRODUCT OP
-					LEFT JOIN dev.SHOP_PRODUCT PR ON
+					ORDER_PRODUCT OP
+					LEFT JOIN SHOP_PRODUCT PR ON
 					OP.PRODUCT_IDX = PR.IDX
-					LEFT JOIN dev.ORDERSHEET_MST OM ON
+					LEFT JOIN ORDERSHEET_MST OM ON
 					PR.ORDERSHEET_IDX = OM.IDX
 				WHERE
 					OP.ORDER_IDX = ".$order_idx." AND

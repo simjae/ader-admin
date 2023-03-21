@@ -14,6 +14,9 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
 $ordersheet_idx		= $_POST['ordersheet_idx'];
 $manufacturer		= $_POST['manufacturer'];
 $due_date			= $_POST['due_date'];
@@ -22,7 +25,7 @@ $memo				= $_POST['memo'];
 
 if ($ordersheet_idx != null) {
 	$sql = "INSERT INTO
-				dev.FACTORY_INFO
+				FACTORY_INFO
 			(
 				ORDERSHEET_IDX,
 				STYLE_CODE,
@@ -48,10 +51,10 @@ if ($ordersheet_idx != null) {
 				'".$due_date."',
 				".$product_qty.",
 				'".$memo."',
-				'Admin',
-				'Admin'
+				'".$session_id."',
+				'".$session_id."'
 			FROM
-				dev.ORDERSHEET_MST
+				ORDERSHEET_MST
 			WHERE
 				IDX = ".$ordersheet_idx;
 	

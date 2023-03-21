@@ -20,7 +20,7 @@ if (isset($_SESSION['COUNTRY'])) {
 
 $member_idx = 0;
 if (isset($_SESSION['MEMBER_IDX'])) {
-  $member_idx = $_SESSION['MEMBER_IDX'];
+	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
 if ($country == null || $member_idx == 0) {
@@ -31,46 +31,46 @@ if ($country == null || $member_idx == 0) {
 
 $card_name = null;
 if (isset($_POST['CARD_NAME'])) {
-  $card_name = $_POST['CARD_NAME'];
+	$card_name = $_POST['CARD_NAME'];
 }
 $card_number = null;
 if (isset($_POST['CARD_NUMBER'])) {
-  $card_number = $_POST['CARD_NUMBER'];
+	$card_number = $_POST['CARD_NUMBER'];
 }
 $card_valid_year = null;
 if (isset($_POST['CARD_VALID_YEAR'])) {
-  $card_valid_year = $_POST['CARD_VALID_YEAR'];
+	$card_valid_year = $_POST['CARD_VALID_YEAR'];
 }
 $card_valid_month = null;
 if (isset($_POST['CARD_VALID_MONTH'])) {
-  $card_valid_month = $_POST['CARD_VALID_MONTH'];
+	$card_valid_month = $_POST['CARD_VALID_MONTH'];
 }
 $card_default_flg = $_POST['CARD_DEFAULT_FLG'];
 $card_default_flg_sql = "";
 if ($card_default_flg == 'true') {
-  $card_default_flg_sql = "
-    CARD_DEFAULT_FLG = TRUE
-  ";
+	$card_default_flg_sql = "
+		CARD_DEFAULT_FLG = TRUE
+	";
 } else {
-  $card_default_flg_sql = "
-    CARD_DEFAULT_FLG = FALSE
-  ";
+	$card_default_flg_sql = "
+		CARD_DEFAULT_FLG = FALSE
+	";
 }
 
 if($country != null && $member_idx > 0) {
-  $update_payment_sql = "
-    UPDATE
-      dev.MEMBER_".$country."
-    SET
-      CARD_NAME = ".$card_name.",
-      CARD_NUMBER = ".$card_number.",
-      CARD_VALID_YEAR = ".$card_valid_year.",
-      CARD_VALID_MONTH = ".$card_valid_month.",
-      ".$card_default_flg_sql."
-    WHERE
-      IDX = ".$member_idx."
-  ";
-  
-  $db->query($update_payment_sql);
+	$update_payment_sql = "
+		UPDATE
+			MEMBER_".$country."
+		SET
+			CARD_NAME = ".$card_name.",
+			CARD_NUMBER = ".$card_number.",
+			CARD_VALID_YEAR = ".$card_valid_year.",
+			CARD_VALID_MONTH = ".$card_valid_month.",
+			".$card_default_flg_sql."
+		WHERE
+			IDX = ".$member_idx."
+	";
+	
+	$db->query($update_payment_sql);
 }
 ?>

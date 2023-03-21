@@ -38,7 +38,7 @@ if ($filter_type != null) {
 	
 	$insert_filter_sql = "
 		INSERT INTO
-			dev.PRODUCT_FILTER
+			PRODUCT_FILTER
 		(
 			FILTER_TYPE,
 			FILTER_NAME_KR,

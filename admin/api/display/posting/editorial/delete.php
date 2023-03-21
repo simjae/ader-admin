@@ -31,7 +31,7 @@ if ($page_idx != null && $thumb_idx != null) {
 	try {
 		$delete_contents_sql = "
 			UPDATE
-				dev.EDITORIAL_CONTENTS
+				EDITORIAL_CONTENTS
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),
@@ -41,7 +41,7 @@ if ($page_idx != null && $thumb_idx != null) {
 								SELECT
 									IDX
 								FROM
-									dev.EDITORIAL_THUMB
+									EDITORIAL_THUMB
 								WHERE
 									PAGE_IDX = ".$page_idx."
 								AND
@@ -56,7 +56,7 @@ if ($page_idx != null && $thumb_idx != null) {
 		if($db_result > 0){
 			$delete_thumb_sql = "
 				UPDATE
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET
 					DEL_FLG = TRUE,
 					UPDATE_DATE = NOW(),
@@ -69,7 +69,7 @@ if ($page_idx != null && $thumb_idx != null) {
 
 			$update_other_thumb_sql = "
 				UPDATE 
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET	
 					DISPLAY_NUM = DISPLAY_NUM - 1
 				WHERE
@@ -85,7 +85,7 @@ if ($page_idx != null && $thumb_idx != null) {
 				SELECT
 					MAX(DISPLAY_NUM) AS MAX
 				FROM
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				WHERE
 					PAGE_IDX = ".$page_idx."
 				AND
@@ -127,7 +127,7 @@ if ($page_idx != null && $thumb_idx != null) {
 	try {
 		$delete_thumb_sql = "
 			UPDATE
-				dev.EDITORIAL_THUMB
+				EDITORIAL_THUMB
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),
@@ -144,7 +144,7 @@ if ($page_idx != null && $thumb_idx != null) {
 		if ($db_result > 0) {
 			$update_other_thumb_sql = "
 				UPDATE 
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				SET	
 					DISPLAY_NUM = DISPLAY_NUM - 1
 				WHERE
@@ -160,7 +160,7 @@ if ($page_idx != null && $thumb_idx != null) {
 				SELECT
 					IDX			AS THUMB_IDX
 				FROM
-					dev.EDITORIAL_THUMB
+					EDITORIAL_THUMB
 				WHERE
 					IDX != ".$thumb_idx." AND
 					PAGE_IDX = ".$page_idx." AND
@@ -178,7 +178,7 @@ if ($page_idx != null && $thumb_idx != null) {
 				if (!empty($tmp_idx)) {
 					$update_thumb_sql = "
 						UPDATE
-							dev.EDITORIAL_THUMB
+							EDITORIAL_THUMB
 						SET
 							DISPLAY_NUM = ".$display_num."
 						WHERE
@@ -193,7 +193,7 @@ if ($page_idx != null && $thumb_idx != null) {
 			
 			$update_contents_sql = "
 				UPDATE
-					dev.EDITORIAL_CONTENTS
+					EDITORIAL_CONTENTS
 				SET
 					DEL_FLG = TRUE,
 					UPDATE_DATE = NOW(),

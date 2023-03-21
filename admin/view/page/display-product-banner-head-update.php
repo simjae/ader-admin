@@ -167,7 +167,7 @@ function putBannerInfo() {
 		},
 		success: function(d) {
 			if (d.code == 200) {
-				confirm(
+				alert(
 					'배너 헤드 이미지가 정상적으로 수정되었습니다.',
 					function() {
 						location.href = '/display/product/banner';

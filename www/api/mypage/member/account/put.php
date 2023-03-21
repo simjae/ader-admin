@@ -59,7 +59,7 @@ if ($member_tel != null) {
 if ($country != null && $member_idx > 0 && ($member_pw != null || $member_tel != null)) {
 	$update_member_sql = "
 		UPDATE
-			dev.MEMBER_".$country."
+			MEMBER_".$country."
 		SET
 			".$member_pw_sql."
 			".$member_tel_sql."

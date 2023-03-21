@@ -56,10 +56,10 @@ if ($sort_value != null && $sort_type != null) {
 
 $limit_start = (intval($page)-1)*$rows;
 
-$total_cnt = $db->count("dev.PRODUCT_FILTER PF",$where_cnt);
+$total_cnt = $db->count("PRODUCT_FILTER PF",$where_cnt);
 
 $json_result = array(
-	'total' => $db->count("dev.PRODUCT_FILTER PF",$where),
+	'total' => $db->count("PRODUCT_FILTER PF",$where),
 	'total_cnt' => $total_cnt,
 	'page' => $page
 );
@@ -85,7 +85,7 @@ $select_filter_sql = "
 		PF.UPDATE_DATE		AS UPDATE_DATE,
 		PF.UPDATER			AS UPDATER
 	FROM
-		dev.PRODUCT_FILTER PF
+		PRODUCT_FILTER PF
 	WHERE
 		".$where."
 	ORDER BY 
@@ -140,7 +140,7 @@ foreach($db->fetch() as $filter_data) {
 			break;
 	}
 	
-	$product_cnt = $db->count("dev.SHOP_PRODUCT","FILTER_".$filter_type." REGEXP '".$filter_idx."'");
+	$product_cnt = $db->count("SHOP_PRODUCT","FILTER_".$filter_type." REGEXP '".$filter_idx."'");
 	
 	$json_result['data'][] = array(
 		'num'				=>$total_cnt--,

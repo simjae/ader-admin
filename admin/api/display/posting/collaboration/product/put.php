@@ -26,7 +26,7 @@ if ($display_num_flg != null && $action_type != null && $recent_idx != null && $
 		case "up" :
 			$prev_sql = "
 				UPDATE
-					dev.COLLABORATION_PRODUCT
+					COLLABORATION_PRODUCT
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -36,7 +36,7 @@ if ($display_num_flg != null && $action_type != null && $recent_idx != null && $
 			
 			$sql = "
 				UPDATE
-					dev.COLLABORATION_PRODUCT
+					COLLABORATION_PRODUCT
 				SET
 					DISPLAY_NUM = ".intval($recent_num - 1)."
 				WHERE
@@ -49,7 +49,7 @@ if ($display_num_flg != null && $action_type != null && $recent_idx != null && $
 		case "down" :
 			$prev_sql = "
 				UPDATE
-					dev.COLLABORATION_PRODUCT
+					COLLABORATION_PRODUCT
 				SET
 					DISPLAY_NUM = ".$recent_num."
 				WHERE
@@ -59,7 +59,7 @@ if ($display_num_flg != null && $action_type != null && $recent_idx != null && $
 			
 			$sql = "
 				UPDATE
-					dev.COLLABORATION_PRODUCT
+					COLLABORATION_PRODUCT
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1)."
 				WHERE
@@ -83,7 +83,7 @@ if ($collaboration_idx != null && $action_type != null && $product_idx != null) 
 	if ($action_type == "ADD") {
 		$insert_product_sql = "
 			INSERT INTO
-				dev.COLLABORATION_PRODUCT
+				COLLABORATION_PRODUCT
 			(
 				DISPLAY_NUM,
 				COLLABORATION_IDX,
@@ -104,7 +104,7 @@ if ($collaboration_idx != null && $action_type != null && $product_idx != null) 
 				SELECT
 					CP.IDX		AS COLLABO_PRODUCT_IDX
 				FROM
-					dev.COLLABORATION_PRODUCT CP
+					COLLABORATION_PRODUCT CP
 				WHERE
 					CP.IDX != ".$collabo_product_idx." AND
 					CP.COLLABORATION_IDX = ".$collaboration_idx."
@@ -120,7 +120,7 @@ if ($collaboration_idx != null && $action_type != null && $product_idx != null) 
 				
 				$update_product_sql = "
 					UPDATE
-						dev.COLLABORATION_PRODUCT
+						COLLABORATION_PRODUCT
 					SET
 						DISPLAY_NUM = ".$display_num."
 					WHERE
@@ -135,7 +135,7 @@ if ($collaboration_idx != null && $action_type != null && $product_idx != null) 
 	} else if ($action_type == "DEL") {
 		$delete_product_sql = "
 			DELETE FROM
-				dev.COLLABORATION_PRODUCT
+				COLLABORATION_PRODUCT
 			WHERE
 				COLLABORATION_IDX = ".$collaboration_idx." AND
 				PRODUCT_IDX = ".$product_idx."
@@ -150,7 +150,7 @@ if ($collaboration_idx != null && $action_type != null && $product_idx != null) 
 				SELECT
 					CP.IDX			AS COLLABO_PRODUCT_IDX
 				FROM
-					dev.COLLABORATION_PRODUCT CP
+					COLLABORATION_PRODUCT CP
 				WHERE
 					CP.COLLABORATION_IDX = ".$collaboration_idx."
 				ORDER BY
@@ -165,7 +165,7 @@ if ($collaboration_idx != null && $action_type != null && $product_idx != null) 
 				
 				$update_product_sql = "
 					UPDATE
-						dev.COLLABORATION_PRODUCT
+						COLLABORATION_PRODUCT
 					SET
 						DISPLAY_NUM = ".$display_num."
 					WHERE

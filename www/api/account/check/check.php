@@ -29,7 +29,7 @@ else{
 			COUNT(0) AS MEMBER_CNT,
 			IDX 
 		FROM 
-			dev.MEMBER_".$country."
+			MEMBER_".$country."
 		WHERE
 			MEMBER_ID = '".$member_id."'
 	";

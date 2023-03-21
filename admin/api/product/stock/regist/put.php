@@ -28,7 +28,7 @@ if ($stock_idx != null) {
 	switch ($action_type) {
 		case "update" :
 			$sql = "UPDATE
-						dev.PRODUCT_STOCK
+						PRODUCT_STOCK
 					SET
 						STOCK_QTY = ".$stock_qty.",
 						STOCK_SAFE_QTY = ".$stock_safe_qty."
@@ -38,7 +38,7 @@ if ($stock_idx != null) {
 			break;
 		
 		case "delete" :
-			$sql = "DELETE FROM dev.PRODUCT_STOCK WHERE IDX = ".$stock_idx;
+			$sql = "DELETE FROM PRODUCT_STOCK WHERE IDX = ".$stock_idx;
 			break;
 	}
 

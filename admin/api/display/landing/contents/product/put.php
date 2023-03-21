@@ -22,7 +22,7 @@ if ($country != null && $action_type != null && $product_idx != null) {
 	if ($action_type == "ADD") {
 		$insert_product_sql = "
 			INSERT INTO
-				dev.CONTENTS_PRODUCT
+				TMP_CONTENTS_PRODUCT
 			(
 				COUNTRY,
 				DISPLAY_NUM,
@@ -43,7 +43,7 @@ if ($country != null && $action_type != null && $product_idx != null) {
 				SELECT
 					IDX		AS CONTENTS_IDX
 				FROM
-					dev.CONTENTS_PRODUCT
+					TMP_CONTENTS_PRODUCT
 				WHERE
 					IDX != ".$contents_idx." AND
 					COUNTRY = '".$country."'
@@ -59,7 +59,7 @@ if ($country != null && $action_type != null && $product_idx != null) {
 				
 				$update_product_sql = "
 					UPDATE
-						dev.CONTENTS_PRODUCT
+						TMP_CONTENTS_PRODUCT
 					SET
 						DISPLAY_NUM = ".$display_num."
 					WHERE
@@ -74,7 +74,7 @@ if ($country != null && $action_type != null && $product_idx != null) {
 	} else if ($action_type == "DEL") {
 		$delete_product_sql = "
 			DELETE FROM
-				dev.CONTENTS_PRODUCT
+				TMP_CONTENTS_PRODUCT
 			WHERE
 				COUNTRY = '".$country."' AND
 				PRODUCT_IDX = ".$product_idx."
@@ -89,7 +89,7 @@ if ($country != null && $action_type != null && $product_idx != null) {
 				SELECT
 					IDX		AS CONTENTS_IDX
 				FROM
-					dev.CONTENTS_PRODUCT
+					TMP_CONTENTS_PRODUCT
 				WHERE
 					COUNTRY = '".$country."'
 				ORDER BY
@@ -104,7 +104,7 @@ if ($country != null && $action_type != null && $product_idx != null) {
 				
 				$update_product_sql = "
 					UPDATE
-						dev.CONTENTS_PRODUCT
+						TMP_CONTENTS_PRODUCT
 					SET
 						DISPLAY_NUM = ".$display_num."
 					WHERE
@@ -116,6 +116,65 @@ if ($country != null && $action_type != null && $product_idx != null) {
 				$display_num++;
 			}
 		}
+	}
+}
+
+if ($display_num_flg != null && $action_type != null && $recent_idx != null && $recent_num != null) {
+	$prev_sql = "";
+	$sql = "";
+	
+	switch ($action_type) {
+		case "up" :
+			$prev_sql ="
+				UPDATE
+					TMP_CONTENTS_PRODUCT
+				SET
+					DISPLAY_NUM = ".$recent_num."
+				WHERE
+					COUNTRY = '".$country."' AND
+					DISPLAY_NUM = ".intval($recent_num - 1)."
+			";
+			
+			$sql = "
+				UPDATE
+					TMP_CONTENTS_PRODUCT
+				SET
+					DISPLAY_NUM = ".intval($recent_num - 1)."
+				WHERE
+					IDX = ".$recent_idx."
+			";
+			
+			break;
+		
+		case "down" :
+			$prev_sql ="
+				UPDATE
+					TMP_CONTENTS_PRODUCT
+				SET
+					DISPLAY_NUM = ".$recent_num."
+				WHERE
+					COUNTRY = '".$country."' AND
+					DISPLAY_NUM = ".intval($recent_num + 1)."
+			";
+			
+			$sql = "
+				UPDATE
+					TMP_CONTENTS_PRODUCT
+				SET
+					DISPLAY_NUM = ".intval($recent_num + 1)."
+				WHERE
+					IDX = ".$recent_idx."
+			";
+			
+			break;
+	}
+	
+	if (strlen($prev_sql) > 0) {
+		$db->query($prev_sql);
+	}
+	
+	if (strlen($sql) > 0) {
+		$db->query($sql);
 	}
 }
 

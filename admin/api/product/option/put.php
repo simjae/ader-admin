@@ -25,7 +25,7 @@ if ($action_type != null) {
 			$stock_management = $_POST['stock_management_'.$option_idx[$i]];
 			$sold_out_flg = $_POST['sold_out_flg_'.$option_idx[$i]];
 			$sql = "UPDATE
-						dev.PRODUCT_OPTION
+						PRODUCT_OPTION
 					SET
 						STOCK_GRADE = '".$stock_grade[$i]."'
 					WHERE
@@ -33,7 +33,7 @@ if ($action_type != null) {
 			$db->query($sql);
 		}
 	} else if ($action_type == 'delete') {
-		$sql = "DELETE FROM dev.PRODUCT_OPTION WHERE IDX IN (".implode(',',$option_idx).")";
+		$sql = "DELETE FROM PRODUCT_OPTION WHERE IDX IN (".implode(',',$option_idx).")";
 		$db->query($sql);
 	}
 }

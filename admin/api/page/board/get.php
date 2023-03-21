@@ -54,41 +54,32 @@ $member_table = '';
 if($country != null){
 	switch($country){
 		case 'KR':
-			$member_table = 'dev.MEMBER_KR';
+			$member_table = 'MEMBER_KR';
 			break;
 		case 'EN':
-			$member_table = 'dev.MEMBER_EN';
+			$member_table = 'MEMBER_EN';
 			break;
 		case 'CN':
-			$member_table = 'dev.MEMBER_CN';
+			$member_table = 'MEMBER_CN';
 			break;
 	}
 }
+
+
 /** 검색 조건 **/
 $cnt_where = "";
 /* 탭에 따라 참조 테이블이 상이함 */
 if($tab_num != null){
 	
 	if($tab_num != '02'){
+		$tables = "	PAGE_BOARD 	AS BOARD";
 		$main_table_alias = 'BOARD';
 		switch($tab_num){
 			case '01':
 				$board_type = 'ONE';
-				$tables = "	dev.PAGE_BOARD 						AS BOARD 			
-							LEFT JOIN
-								".$member_table." 				AS MEMBER
-							ON	BOARD.MEMBER_IDX = MEMBER.IDX  	
-							LEFT JOIN
-								dev.MEMBER_LEVEL				AS LEVEL
-							ON	MEMBER.LEVEL_IDX = LEVEL.IDX";
 				break;
 			case '03':
 				$board_type = 'NTC';
-				$tables = "	dev.PAGE_BOARD 						AS BOARD 			
-							LEFT JOIN
-								dev.ADMINISTRATOR 				AS ADMIN
-							ON	BOARD.MEMBER_NAME = ADMIN.NAME
-							AND	BOARD.MEMBER_ID = ADMIN.ID";
 				break;
 		}
 		$where .= " AND BOARD.BOARD_TYPE='".$board_type."' 
@@ -101,24 +92,24 @@ if($tab_num != null){
 		switch($subtab_num){
 			case '01':
 				$main_table_alias = 'REVIEW';
-				$tables = '	dev.BOARD_REVIEW 					AS REVIEW 			
+				$tables = '	BOARD_REVIEW 					AS REVIEW 			
 						LEFT JOIN
 							'.$member_table.' 					AS MEMBER
 						ON	REVIEW.MEMBER_IDX = MEMBER.IDX 
 						LEFT JOIN
-							dev.MEMBER_LEVEL					AS LEVEL
+							MEMBER_LEVEL					AS LEVEL
 						ON 	MEMBER.LEVEL_IDX = LEVEL.IDX ';
 				$where .= ' AND REVIEW.COUNTRY = "'.$country.'" ';
 				break;
 			case '02':
 				$main_table_alias = 'REPLY';
-				$tables = ' dev.BOARD_REVIEW_REPLY 				AS REPLY 	
+				$tables = ' BOARD_REVIEW_REPLY 				AS REPLY 	
 						LEFT JOIN
-							dev.ADMINISTRATOR 					AS ADMIN
-						ON	REPLY.MEMBER_NAME = ADMIN.NAME
-						AND	REPLY.MEMBER_ID = ADMIN.ID			
+							ADMIN 					AS ADMIN
+						ON	REPLY.MEMBER_NAME = ADMIN.ADMIN_NAME
+						AND	REPLY.MEMBER_ID = ADMIN.ADMIN_ID			
 						LEFT JOIN
-							dev.BOARD_REVIEW 					AS REVIEW
+							BOARD_REVIEW 					AS REVIEW
 						ON	REPLY.REVIEW_IDX = REVIEW.IDX ';
 				$where .= ' AND REVIEW.COUNTRY = "'.$country.'" ';
 				break;
@@ -132,11 +123,11 @@ if($tab_num != null){
 										REPORT.REPORT_IDX,
 										REPORT.PROCESSING_FLG,
 										REPORT.MEMBER_ID,
-										(SELECT TITLE FROM dev.MEMBER_LEVEL WHERE IDX = REPORT.MEMBER_IDX) AS MEMBER_LEVEL,
+										(SELECT TITLE FROM MEMBER_LEVEL WHERE IDX = REPORT.MEMBER_IDX) AS MEMBER_LEVEL,
 										REVIEW.EXPOSURE_FLG	AS ORIGIN_STATUS,
 										REVIEW.TITLE		AS ORIGIN_TITLE,
 										REVIEW.MEMBER_NAME 	AS ORIGIN_NAME,
-										(SELECT TITLE FROM dev.MEMBER_LEVEL WHERE IDX = REVIEW.MEMBER_IDX) AS ORIGIN_LEVEL,
+										(SELECT TITLE FROM MEMBER_LEVEL WHERE IDX = REVIEW.MEMBER_IDX) AS ORIGIN_LEVEL,
 										REVIEW.CREATE_DATE	AS ORIGIN_DATE,
 										REVIEW.MEMBER_ID	AS ORIGIN_ID,
 										REVIEW.MEMBER_IDX	AS ORIGIN_IDX,
@@ -146,8 +137,8 @@ if($tab_num != null){
 										REPORT.UPDATE_DATE,
 										REPORT.UPDATER
 									FROM 
-										dev.BOARD_REPORT 		AS REPORT LEFT JOIN
-										dev.BOARD_REVIEW 		AS REVIEW
+										BOARD_REPORT 		AS REPORT LEFT JOIN
+										BOARD_REVIEW 		AS REVIEW
 									ON 	
 										REPORT.REPORT_IDX = REVIEW.IDX
 									WHERE
@@ -163,11 +154,11 @@ if($tab_num != null){
 										REPORT.REPORT_IDX,
 										REPORT.PROCESSING_FLG,
 										REPORT.MEMBER_ID,
-										(SELECT TITLE FROM dev.MEMBER_LEVEL WHERE IDX = REPORT.MEMBER_IDX) AS MEMBER_LEVEL,
+										(SELECT TITLE FROM MEMBER_LEVEL WHERE IDX = REPORT.MEMBER_IDX) AS MEMBER_LEVEL,
 										REPLY.DISPLAY_FLG	AS ORIGIN_STATUS,
 										REPLY.CONTENTS		AS ORIGIN_TITLE,
 										REPLY.MEMBER_NAME 	AS ORIGIN_NAME,
-										(SELECT TITLE FROM dev.MEMBER_LEVEL WHERE IDX = REPLY.MEMBER_IDX) AS ORIGIN_LEVEL,
+										(SELECT TITLE FROM MEMBER_LEVEL WHERE IDX = REPLY.MEMBER_IDX) AS ORIGIN_LEVEL,
 										REPLY.CREATE_DATE	AS ORIGIN_DATE,
 										REPLY.MEMBER_ID		AS ORIGIN_ID,
 										REPLY.MEMBER_IDX	AS ORIGIN_IDX,
@@ -177,18 +168,18 @@ if($tab_num != null){
 										REPORT.UPDATE_DATE,
 										REPORT.UPDATER
 									FROM 
-										dev.BOARD_REPORT 		AS REPORT LEFT JOIN
-										dev.BOARD_REVIEW_REPLY 	AS REPLY
+										BOARD_REPORT 		AS REPORT LEFT JOIN
+										BOARD_REVIEW_REPLY 	AS REPLY
 									ON	
 										REPORT.REPORT_IDX = REPLY.IDX
 									WHERE
 										REPORT.REPORT_DIVISION = 'REPLY'
 									AND
-										(SELECT COUNT(0) FROM dev.BOARD_REVIEW WHERE COUNTRY = '".$country."' AND  IDX = REPLY.REVIEW_IDX) > 0 	
+										(SELECT COUNT(0) FROM BOARD_REVIEW WHERE COUNTRY = '".$country."' AND  IDX = REPLY.REVIEW_IDX) > 0 	
 									))											AS REPORT LEFT JOIN
 									".$member_table."							AS MEMBER
 								ON	REPORT.ORIGIN_IDX = MEMBER.IDX				LEFT JOIN
-									dev.MEMBER_LEVEL							AS LEVEL
+									MEMBER_LEVEL							AS LEVEL
 								ON 	MEMBER.LEVEL_IDX = LEVEL.IDX
 							";
 				break;
@@ -197,32 +188,6 @@ if($tab_num != null){
 		}
 	}
 
-	/* 검색조건 : 쇼핑몰 */
-	/*
-	if($board_country != null){
-		if($tab_num == '02' && $subtab_num == '02'){
-			$where .= 	" AND REPLY.REVIEW_IDX IN ( SELECT 
-														IDX 
-													FROM 
-														dev.BOARD_REVIEW 
-													WHERE 
-														COUNTRY = '".$board_country."') 
-							";
-		}
-		else if($tab_num == '02' && $subtab_num == '03'){
-			$where .= 	" AND REPORT.REPORT_IDX IN ( SELECT 
-														IDX 
-													FROM 
-														dev.BOARD_REVIEW 
-													WHERE 
-														COUNTRY = '".$board_country."') 
-							";
-		}
-		else{
-			$where .= " AND ".$main_table_alias.".COUNTRY = '".$board_country."' ";
-		}
-	}
-	*/
 	/* 검색조건 : 게시판 카테고리 */
 	if ($board_category != null) {
 		$where .=  " AND BOARD.CATEGORY = '".$board_category."' ";
@@ -233,7 +198,7 @@ if($tab_num != null){
 			$where .= 	" AND REPORT.REPORT_IDX IN ( SELECT 
 														IDX 
 													FROM 
-														dev.BOARD_REVIEW 
+														BOARD_REVIEW 
 													WHERE 
 														STATUS = '".$report_status."') 
 						";
@@ -275,7 +240,7 @@ if($tab_num != null){
 							SELECT 
 								REVIEW_IDX
 							FROM 	
-								dev.BOARD_REVIEW_REPLY
+								BOARD_REVIEW_REPLY
 							GROUP BY 
 								REVIEW_IDX
 							HAVING
@@ -287,7 +252,7 @@ if($tab_num != null){
 							SELECT 
 								BOARD_IDX
 							FROM 	
-								dev.BOARD_REPLY
+								BOARD_REPLY
 							GROUP BY 
 								BOARD_IDX
 							HAVING
@@ -324,21 +289,22 @@ if($tab_num != null){
 	if ($file_flg != null) {
 		switch ($file_flg) {
 			case "false" :
-				$where .=  " AND BOARD.FILE_FLG = FALSE ";
+				$where .=  " AND ((SELECT COUNT(0) FROM BOARD_IMAGE WHERE BOARD_IDX = BOARD.IDX) = 0) ";
 				break;
 			case "true" :
-				$where .=  " AND BOARD.FILE_FLG = TRUE ";
+				$where .=  " AND ((SELECT COUNT(0) FROM BOARD_IMAGE WHERE BOARD_IDX = BOARD.IDX) > 0) ";
 				break;
 		}
 	}
-	if ($admin_flg != null && $admin_flg == "true") {
-		$where .=  " AND (	SELECT 
-								COUNT(*) AS CNT
-							FROM 	
-								dev.ADMINISTRATOR
-							WHERE
-								ID = ".$main_table_alias.".CREATER AND NAME = ".$main_table_alias.".MEMBER_NAME ) > 0 ";
-	}
+	if ($admin_flg != null && $admin_flg != 'all'){
+		if($admin_flg == 'true'){
+			$where .=  " AND ( BOARD.ADMIN_IDX != NULL ) ";
+		}
+		else{
+			$where .=  " AND ( BOARD.ADMIN_IDX == NULL ) ";
+		}
+	} 
+
 	/* 검색조건 : 검색타입 - 검색키워드 */
 	if ($search_type != null && $search_keyword != null) {
 		switch ($search_type) {
@@ -371,15 +337,6 @@ if($tab_num != null){
 				break;
 			case "content" :
 				$where .=  " AND ".$main_table_alias.".CONTENTS LIKE '%".$search_keyword."%' ";
-				break;
-			case "product" :
-				$where .=  " AND (	SELECT 	
-										PRODUCT_NAME 
-									FROM 	
-										dev.SHOP_PRODUCT 
-									WHERE 	
-										PRODUCT_CODE = ".$main_table_alias.".PRODUCT_CODE) 
-							LIKE '%".$search_keyword."%' ";
 				break;
 		}
 	}
@@ -442,186 +399,154 @@ if($tab_num != null){
 	
 	$limit = " LIMIT ".$limit_start.",".$rows;
 
-	$code_table = " dev.CODE_MST ";
 	$code_sql = "
 			SELECT 
 				CODE_TYPE,
 				CODE_VALUE,
 				CODE_NAME
 			FROM
-				".$code_table."
+				CODE_MST
 	";
-	if(!isset($code_db)){
-		$code_db = new db();
-	} 
-	$code_db->query($code_sql);
-	foreach($code_db->fetch() as $code_data){
+
+	$db->query($code_sql);
+	foreach($db->fetch() as $code_data){
 		$code_mst[$code_data['CODE_TYPE']][$code_data['CODE_VALUE']] = $code_data['CODE_NAME'];
 	}
+	
 	/* 검색조건 : IDX (단일 페이지 업데이트 창에서 사용) */
-	if($board_idx != null){
+	if (!empty($board_idx)) {
 		$where .= " AND ".$main_table_alias.".IDX = ".$board_idx." ";
 		$order = "";
 		$limit = "";
+		
 		if($tab_num == '01'){
-			$reply_info = array();
-			$reply_sql = "
+			$select_board_img_sql = "
+				SELECT 
+					REPLACE(
+						IMG_LOCATION,
+						'/var/www/admin/www',
+						''
+					)		AS IMG_LOCATION
+				FROM
+					BOARD_IMAGE
+				WHERE
+					BOARD_IDX = ".$board_idx."
+			";
+			
+			$db->query($select_board_img_sql);
+			
+			$image_info = array();
+			foreach($db->fetch() as $reply_data){
+				$image_info[] = array(
+					'img_location' => $reply_data['IMG_LOCATION']
+				);
+			}
+			
+			$select_board_reply_sql = "
 				SELECT 
 					REPLY.BOARD_IDX,
 					REPLY.MEMBER_NAME,
 					REPLY.CONTENTS,
 					REPLY.CREATE_DATE,
-					IF(ADMIN.ID IS NULL, FALSE, TRUE) AS ADMIN_FLG 
+					IF(ADMIN.ADMIN_ID IS NULL, FALSE, TRUE) AS ADMIN_FLG 
 				FROM 
-					dev.BOARD_REPLY		REPLY LEFT JOIN
-					dev.ADMINISTRATOR			ADMIN
+					BOARD_REPLY		REPLY LEFT JOIN
+					ADMIN			ADMIN
 				ON
-					REPLY.CREATER = ADMIN.ID
+					REPLY.CREATER = ADMIN.ADMIN_ID
 				WHERE
 					BOARD_IDX = ".$board_idx."
 				ORDER BY 
 					REPLY.IDX ASC
 			";
-			if(!isset($reply_db)){
-				$reply_db = new db();
-			} 
-			$reply_db->query($reply_sql);
-			foreach($reply_db->fetch() as $reply_data){
+			
+			$db->query($select_board_reply_sql);
+			
+			$reply_info = array();
+			foreach($db->fetch() as $reply_data){
 				$reply_info[] = array(
 					'board_idx' 		=> $reply_data['BOARD_IDX'],
 					'member_name' 		=> $reply_data['MEMBER_NAME'],
 					'contents' 			=> $reply_data['CONTENTS'],
 					'create_date' 		=> $reply_data['CREATE_DATE'],
-					'admin_flg' 		=> $reply_data['ADMIN_FLG'],
+					'admin_flg' 		=> $reply_data['ADMIN_FLG']
 				);
 			}
 		}
 	}
-	if($tab_num != '02'){
-		$sql = "SELECT
-					BOARD.IDX,
-					BOARD.COUNTRY,
-					BOARD.BOARD_TYPE,
-					BOARD.CATEGORY,
-					BOARD.MEMBER_NAME,
+	
+	if ($tab_num != '02') {
+		$sql = "
+			SELECT
+				BOARD.IDX,
+				BOARD.COUNTRY,
+				BOARD.BOARD_TYPE,
+				BOARD.CATEGORY,
+				BOARD.MEMBER_NAME,
+				BOARD.MEMBER_ID,
+				(
+					SELECT
+						TITLE
+					FROM
+						MEMBER_LEVEL
+					WHERE
+						IDX = (
+							SELECT
+								LEVEL_IDX
+							FROM
+								MEMBER_".$country."
+							WHERE
+								IDX = BOARD.MEMBER_IDX
+						)
+				)					AS CREATER_LEVEL, 
+				IFNULL(
 					BOARD.IP,
-					BOARD.TITLE,
-					BOARD.CONTENTS,
-					IFNULL((SELECT PRODUCT_NAME FROM dev.SHOP_PRODUCT WHERE PRODUCT_CODE = BOARD.PRODUCT_CODE ORDER BY UPDATE_DATE DESC LIMIT 1),'-') AS PRODUCT_NAME,
-					BOARD.ANSWER_STATE,
-					BOARD.REPLY_FLG,
-					BOARD.FILE_FLG,
-					BOARD.FILE_LINK,
-					BOARD.AUTH_LV,
-					IF(BOARD.EXPOSURE_FLG = TRUE,'숨김','-') AS EXPOSURE_FLG,
-					DATE_FORMAT(BOARD.EXPOSURE_START_DATE, '%Y-%m-%d %H:%i') AS EXPOSURE_START_DATE,
-					DATE_FORMAT(BOARD.EXPOSURE_END_DATE, '%Y-%m-%d %H:%i') AS EXPOSURE_END_DATE,
-					IF(BOARD.FIX_FLG = TRUE,'글고정 됨','글고정 안됨') AS FIX_FLG,
-					";
+					'-'
+				)					AS IP,
+				BOARD.TITLE,
+				BOARD.CONTENTS,
+				BOARD.ANSWER_STATE,
+				BOARD.REPLY_FLG,
+				IF(
+					BOARD.EXPOSURE_FLG = TRUE,
+					'숨김','-'
+				)					AS EXPOSURE_FLG,
+				DATE_FORMAT(
+					BOARD.EXPOSURE_START_DATE,
+					'%Y-%m-%d %H:%i'
+				)					AS EXPOSURE_START_DATE,
+				DATE_FORMAT(
+					BOARD.EXPOSURE_END_DATE,
+					'%Y-%m-%d %H:%i'
+				)					AS EXPOSURE_END_DATE,
+				IF(
+					BOARD.FIX_FLG = TRUE,
+					'글고정 됨',
+					'글고정 안됨'
+				)					AS FIX_FLG,
+		";
+		
 		switch($tab_num){
-			
 			case '01':
 				$sql .= "
-					MEMBER.MEMBER_NAME AS CREATER_NAME,
-					LEVEL.TITLE AS CREATER_LEVEL,
+					BOARD.MEMBER_IDX		AS MEMBER_IDX,
+					BOARD.MEMBER_NAME		AS CREATER_NAME,
 				";
 				break;
-			case '03':
+			
 			case '04':
 				$sql .= "
-					ADMIN.NAME AS CREATER_NAME,
-					(SELECT TITLE FROM dev.ADMINISTRATOR_PERMITION WHERE IDX = ADMIN.PERMITION_NO) AS CREATER_LEVEL,
+					0						AS MEMBER_IDX,
+					BOARD.ADMIN_NAME		AS CREATER_NAME,
 				";
 				break;
 		}
+		
 		$sql .= "			
-					BOARD.CREATE_DATE,
-					BOARD.CREATER,
-					BOARD.UPDATE_DATE,
-					BOARD.UPDATER
-				FROM
-					".$tables."
-				WHERE
-					".$where."
-				".$order."
-				".$limit." 
-			";
-	}
-	else{
-		switch($subtab_num){
-			case '01':
-				$sql = "SELECT
-							REVIEW.IDX,
-							REVIEW.COUNTRY,
-							REVIEW.ORDER_CODE,
-							IFNULL((SELECT PRODUCT_NAME FROM dev.SHOP_PRODUCT WHERE PRODUCT_CODE = REVIEW.PRODUCT_CODE ORDER BY UPDATE_DATE DESC LIMIT 1),'-') AS PRODUCT_NAME,
-							REVIEW.MEMBER_NAME,
-							REVIEW.IP,
-							REVIEW.TITLE,
-							REVIEW.CONTENTS,
-							REVIEW.STATUS,
-							REVIEW.AUTH_LV,
-							REVIEW.IMG_IDX,
-							IF(REVIEW.EXPOSURE_FLG = TRUE,'숨김','-') AS EXPOSURE_FLG,
-							IF(REVIEW.FIX_FLG = TRUE,'글고정 됨','글고정 안됨') AS FIX_FLG,
-							REVIEW.MILEAGE_FLG,
-							MEMBER.MEMBER_NAME AS CREATER_NAME,
-							LEVEL.TITLE AS CREATER_LEVEL,
-							IF(REVIEW.DEL_FLG = TRUE,'삭제됨','-') AS DEL_FLG,
-							REVIEW.CREATE_DATE,
-							REVIEW.CREATER,
-							REVIEW.UPDATE_DATE,
-							REVIEW.UPDATER
-						";
-				break;
-			case '02':
-				$sql = "SELECT
-							REPLY.IDX,
-							REPLY.REVIEW_IDX,
-							REPLY.SEQ,
-							REPLY.DEPTH,
-							REPLY.FATHER_NO,
-							REPLY.MEMBER_NAME,
-							REPLY.CONTENTS,
-							REVIEW.TITLE,
-							IF(REPLY.FIX_FLG = TRUE,'글고정 됨','글고정 안됨') AS FIX_FLG,
-							IF(REPLY.DISPLAY_FLG = TRUE,'숨김','-') AS DISPLAY_FLG,
-							if(ADMIN.NAME IS NULL, REPLY.MEMBER_NAME, ADMIN.NAME)	AS CREATER_NAME,
-							IF(REPLY.DEL_FLG = TRUE,'삭제됨','-') AS DEL_FLG,
-							if(ADMIN.ID IS NULL, 
-								(SELECT TITLE FROM dev.MEMBER_LEVEL WHERE IDX = (SELECT LEVEL_IDX FROM ".$member_table." WHERE IDX = REVIEW.MEMBER_IDX)), 
-								(SELECT TITLE FROM dev.ADMINISTRATOR_PERMITION WHERE IDX = ADMIN.PERMITION_NO)
-							)	AS CREATER_LEVEL,
-							REPLY.CREATE_DATE,
-							REPLY.CREATER,
-							REPLY.UPDATE_DATE,
-							REPLY.UPDATER
-						";
-				break;
-			case '03':
-				$sql = "SELECT
-							REPORT.IDX,
-							REPORT.REPORT_DIVISION,
-							REPORT.REPORT_TYPE,
-							REPORT.REASON,
-							REPORT.REPORT_IDX,
-							REPORT.PROCESSING_FLG,
-							REPORT.ORIGIN_STATUS  	AS ORIGIN_STATUS,
-							REPORT.ORIGIN_TITLE,
-							REPORT.ORIGIN_NAME,
-							REPORT.ORIGIN_DATE,
-							REPORT.ORIGIN_ID,
-							LEVEL.TITLE 			AS ORIGIN_LEVEL,
-							REPORT.CREATE_DATE,
-							REPORT.CREATER,
-							REPORT.UPDATE_DATE,
-							REPORT.UPDATER,
-							REPORT.CREATER AS CREATER_NAME,
-							(SELECT LEVEL_IDX FROM ".$member_table." WHERE MEMBER_ID = REPORT.CREATER) AS CREATER_LEVEL
-					";
-		break;
-	}
-	$sql .= "			
+				BOARD.CREATE_DATE,
+				BOARD.CREATER,
+				BOARD.UPDATE_DATE,
+				BOARD.UPDATER
 			FROM
 				".$tables."
 			WHERE
@@ -629,8 +554,97 @@ if($tab_num != null){
 			".$order."
 			".$limit." 
 		";
+	} else {
+		switch($subtab_num){
+			case '01':
+				$sql = "
+					SELECT
+						REVIEW.IDX,
+						REVIEW.COUNTRY,
+						REVIEW.ORDER_CODE,
+						REVIEW.MEMBER_NAME,
+						REVIEW.IP,
+						REVIEW.TITLE,
+						IFNULL((SELECT PRODUCT_NAME FROM SHOP_PRODUCT WHERE PRODUCT_CODE = REVIEW.PRODUCT_CODE ORDER BY IDX DESC LIMIT 1),'-') AS PRODUCT_NAME,
+						REVIEW.CONTENTS,
+						REVIEW.STATUS,
+						REVIEW.IMG_IDX,
+						IF(REVIEW.EXPOSURE_FLG = TRUE,'숨김','-') AS EXPOSURE_FLG,
+						IF(REVIEW.FIX_FLG = TRUE,'글고정 됨','글고정 안됨') AS FIX_FLG,
+						REVIEW.MILEAGE_FLG,
+						MEMBER.MEMBER_NAME AS CREATER_NAME,
+						LEVEL.TITLE AS CREATER_LEVEL,
+						IF(REVIEW.DEL_FLG = TRUE,'삭제됨','-') AS DEL_FLG,
+						REVIEW.CREATE_DATE,
+						REVIEW.CREATER,
+						REVIEW.UPDATE_DATE,
+						REVIEW.UPDATER
+				";
+				break;
+			
+			case '02':
+				$sql = "
+					SELECT
+						REPLY.IDX,
+						REPLY.REVIEW_IDX,
+						REPLY.SEQ,
+						REPLY.DEPTH,
+						REPLY.FATHER_NO,
+						REPLY.MEMBER_NAME,
+						REPLY.CONTENTS,
+						REVIEW.TITLE,
+						IF(REPLY.FIX_FLG = TRUE,'글고정 됨','글고정 안됨') AS FIX_FLG,
+						IF(REPLY.DISPLAY_FLG = TRUE,'숨김','-') AS DISPLAY_FLG,
+						if(ADMIN.ADMIN_NAME IS NULL, REPLY.MEMBER_NAME, ADMIN.ADMIN_NAME)	AS CREATER_NAME,
+						IF(REPLY.DEL_FLG = TRUE,'삭제됨','-') AS DEL_FLG,
+						if(ADMIN.ADMIN_ID IS NULL, 
+							(SELECT TITLE FROM MEMBER_LEVEL WHERE IDX = (SELECT LEVEL_IDX FROM ".$member_table." WHERE IDX = REVIEW.MEMBER_IDX)), 
+							ADMIN.ADMIN_ID
+						)	AS CREATER_LEVEL,
+						REPLY.CREATE_DATE,
+						REPLY.CREATER,
+						REPLY.UPDATE_DATE,
+						REPLY.UPDATER
+				";
+				break;
+			
+			case '03':
+				$sql = "
+					SELECT
+						REPORT.IDX,
+						REPORT.REPORT_DIVISION,
+						REPORT.REPORT_TYPE,
+						REPORT.REASON,
+						REPORT.REPORT_IDX,
+						REPORT.PROCESSING_FLG,
+						REPORT.ORIGIN_STATUS  	AS ORIGIN_STATUS,
+						REPORT.ORIGIN_TITLE,
+						REPORT.ORIGIN_NAME,
+						REPORT.ORIGIN_DATE,
+						REPORT.ORIGIN_ID,
+						LEVEL.TITLE 			AS ORIGIN_LEVEL,
+						REPORT.CREATE_DATE,
+						REPORT.CREATER,
+						REPORT.UPDATE_DATE,
+						REPORT.UPDATER,
+						REPORT.CREATER AS CREATER_NAME,
+						(SELECT LEVEL_IDX FROM ".$member_table." WHERE MEMBER_ID = REPORT.CREATER) AS CREATER_LEVEL
+				";
+		break;
+	}
+	
+	$sql .= "			
+		FROM
+			".$tables."
+		WHERE
+			".$where."
+		".$order."
+		".$limit." 
+	";
 }
+
 $db->query($sql);
+
 foreach($db->fetch() as $data) {
 	$json_result['data'][] = array(
 		'num'					=> $total_cnt--,
@@ -642,17 +656,14 @@ foreach($db->fetch() as $data) {
 		'ip' 					=> $data['IP'],
 		'title' 				=> $data['TITLE'],
 		'contents' 				=> $data['CONTENTS'],
-		'product_name' 			=> $data['PRODUCT_NAME'],
 		'answer_state' 			=> $code_mst['BOARD_ANSWER'][$data['ANSWER_STATE']],
 		'reply_flg'				=> $data['REPLY_FLG'],
-		'file_flg'				=> $data['FILE_FLG'],
-		'file_link'				=> $data['FILE_LINK'],
-		'auth_lv'				=> $data['AUTH_LV'],
 		'exposure_flg'			=> $data['EXPOSURE_FLG'],
 		'exposure_start_date'	=> $data['EXPOSURE_START_DATE'],
 		'exposure_end_date'		=> $data['EXPOSURE_END_DATE'],
 		'spam_flg' 				=> $data['SPAM_FLG'],
 		'fix_flg'				=> $data['FIX_FLG'],
+		'member_idx'			=> $data['MEMBER_IDX'],
 		'creater_name'			=> $data['CREATER_NAME'],
 		'creater_level'			=> $data['CREATER_LEVEL'],
 
@@ -661,6 +672,7 @@ foreach($db->fetch() as $data) {
 		'img_idx' 				=> $data['IMG_IDX'],
 		'mileage_flg'			=> $data['MILEAGE_FLG'],
 		'mileage'				=> $data['MILEAGE'],
+		'product_name'			=> $data['PRODUCT_NAME'],
 
 		'review_idx' 			=> $data['REVIEW_IDX'],
 		'seq' 					=> $data['SEQ'],
@@ -683,6 +695,7 @@ foreach($db->fetch() as $data) {
 		'origin_create_id' 		=> $data['ORIGIN_ID'],
 		
 		'del_flg'				=> $data['DEL_FLG'],
+		'image_info'			=> $image_info,
 		'create_date'			=> $data['CREATE_DATE'],
 		'creater'				=> $data['CREATER'],
 		'update_date'			=> $data['UPDATE_DATE'],

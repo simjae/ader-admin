@@ -9,10 +9,10 @@
     $title = $_REQUEST['title'];
 
     if($tab_num == '01'){
-        $table = 'dev.ORDERSHEET_CATEGORY';
+        $table = 'ORDERSHEET_CATEGORY';
     }
     else if($tab_num == '02'){
-        $table = 'dev.MD_CATEGORY';
+        $table = 'MD_CATEGORY';
     }
     $where = '';
     $where_values = array();

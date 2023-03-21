@@ -16,6 +16,9 @@
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
 $banner_type		= $_POST['banner_type'];
 
 $banner_title		= $_POST['banner_title'];
@@ -52,7 +55,7 @@ if ($banner_type != null) {
 	
 	switch ($banner_type) {
 		case "HED" :
-			$banner_table = "dev.BANNER_HEAD";
+			$banner_table = "BANNER_HEAD";
 			
 			$file_type = $banner_type;
 			$banner_file = $banner_img;
@@ -68,8 +71,8 @@ if ($banner_type != null) {
 			break;
 		
 		case "IMG" :
-			$banner_table = "dev.BANNER_IMG";
-			$clip_table = "dev.BANNER_IMG_CLIP";
+			$banner_table = "BANNER_IMG";
+			$clip_table = "BANNER_IMG_CLIP";
 			
 			$file_type = $banner_type;
 			$banner_file = $banner_img;
@@ -79,8 +82,8 @@ if ($banner_type != null) {
 			break;
 		
 		case "VID" :
-			$banner_table = "dev.BANNER_VID";
-			$clip_table = "dev.BANNER_VID_CLIP";
+			$banner_table = "BANNER_VID";
+			$clip_table = "BANNER_VID_CLIP";
 			
 			$preview_location = $path."images/banner/vid/";
 			
@@ -160,8 +163,8 @@ if ($banner_type != null) {
 					".$banner_preview_sql[1]."
 					".$head_clip_sql[2]."
 					".$head_clip_sql[3]."
-					'Admin',
-					'Admin'
+					'".$session_id."',
+					'".$session_id."'
 				)
 			";
 			

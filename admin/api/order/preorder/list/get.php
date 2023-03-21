@@ -28,7 +28,16 @@ $price_max				= $_POST['price_max'];
 $display_flg			= $_POST['display_flg'];
 
 $entry_start_date		= $_POST['entry_start_date'];
+$entry_start_time		= $_POST['entry_start_time'];
 $entry_end_date			= $_POST['entry_end_date'];
+$entry_end_time			= $_POST['entry_end_time'];
+
+
+$rows				= $_POST['rows'];
+$page				= $_POST['page'];
+
+$sort_value			= $_POST['sort_value'];	
+$sort_type			= $_POST['sort_type'];
 
 if ($entry_start_date != null) {
 	if (isset($_POST['entry_start_time'])) {
@@ -42,15 +51,9 @@ if ($entry_end_date != null){
 	if (isset($_POST['entry_end_time'])) {
 		$entry_end_date = "'".$entry_end_date." ".$_POST['entry_end_time'].":00'";
 	} else {
-		$entry_end_date = "'" . $entry_end_date . " 00:00'";
+		$entry_end_date = "'".$entry_end_date." 00:00'";
 	}
 }
-
-$sort_type 				= $_POST['sort_type'];				//정렬 타입
-$sort_value 			= $_POST['sort_value'];				//정렬 값
-
-$rows					= $_POST['rows'];
-$page					= $_POST['page'];
 
 //검색 유형 - 디폴트
 $where = '1=1';
@@ -114,7 +117,7 @@ if ($qty_min != null || $qty_max != null) {
 					SELECT
 						SUM(S_QP.PRODUCT_QTY_LIMIT)
 					FROM
-						dev.QTY_PREORDER S_QP
+						QTY_PREORDER S_QP
 					WHERE
 						S_QP.PREORDER_IDX = PP.IDX
 				)
@@ -142,7 +145,7 @@ if ($qty_limit_min != null || $qty_limit_max != null) {
 					SELECT
 						SUM(S_QP.PRODUCT_QTY_LIMIT)
 					FROM
-						dev.QTY_PREORDER S_QP
+						QTY_PREORDER S_QP
 					WHERE
 						S_QP.PREORDER_IDX = PP.IDX
 				)
@@ -187,15 +190,37 @@ if ($entry_start_date != null || $entry_end_date != null) {
 	}
 }
 
-$total_cnt = $db->count("dev.PAGE_PREORDER PP",$where_cnt);
+$total_cnt = $db->count("
+							PAGE_PREORDER PP
+							LEFT JOIN SHOP_PRODUCT PR ON
+							PP.PRODUCT_IDX = PR.IDX",$where_cnt);
 
 $json_result = array(
-	'total' => $db->count("dev.PAGE_PREORDER PP",$where),
+	'total' => $db->count("
+							PAGE_PREORDER PP
+							LEFT JOIN SHOP_PRODUCT PR ON
+							PP.PRODUCT_IDX = PR.IDX",$where),
 	'total_cnt' => $total_cnt,
 	'page' => $page
 );
 
+$order = '';
+if ($sort_value != null && $sort_type != null) {
+	$alias = "";
+	if(strpos($sort_value, 'PRODUCT_NAME') !== false || strpos($sort_value, 'SALES_PRICE') !== false){
+		$alias = 'PR';
+	} else {
+		$alias = 'PP';
+	}
+	$order = ' '.$alias.'.'.$sort_value." ".$sort_type." ";
+} else {
+	$order = ' PP.IDX DESC';
+}
+
 $limit_start = (intval($page)-1)*$rows;
+if ($rows != null) {
+	$limit .= " LIMIT ".$limit_start.",".$rows;
+}
 
 $select_preorder_sql = "
 	SELECT
@@ -208,7 +233,7 @@ $select_preorder_sql = "
 					SELECT
 						COUNT(S_PI.IDX)
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -219,7 +244,7 @@ $select_preorder_sql = "
 						SELECT
 							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.DEL_FLG = FALSE AND
@@ -235,7 +260,7 @@ $select_preorder_sql = "
 		END						AS IMG_LOCATION,
 		PR.PRODUCT_CODE			AS PRODUCT_CODE,
 		PR.PRODUCT_NAME			AS PRODUCT_NAME,
-		(SELECT COLOR FROM dev.ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR,
+		(SELECT COLOR FROM ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR,
 		PP.SALES_PRICE			AS SALES_PRICE,
 		PP.DISPLAY_FLG			AS DISPLAY_FLG,
 		PP.ENTRY_START_DATE		AS ENTRY_START_DATE,
@@ -246,18 +271,15 @@ $select_preorder_sql = "
 		PP.UPDATE_DATE			AS UPDATE_DATE,
 		PP.UPDATER				AS UPDATER
 	FROM
-		dev.PAGE_PREORDER PP
-		LEFT JOIN dev.SHOP_PRODUCT PR ON
+		PAGE_PREORDER PP
+		LEFT JOIN SHOP_PRODUCT PR ON
 		PP.PRODUCT_IDX = PR.IDX
 	WHERE
 		".$where."
 	ORDER BY
 		PP.DISPLAY_NUM ASC
+	".$limit."
 ";
-
-if ($rows != null) {
-	$select_preorder_sql .= " LIMIT ".$limit_start.",".$rows;
-}
 
 $db->query($select_preorder_sql);
 
@@ -275,7 +297,7 @@ foreach($db->fetch() as $preorder_data) {
 				QP.PRODUCT_QTY			AS PRODUCT_QTY,
 				QP.PRODUCT_QTY_LIMIT	AS PRODUCT_QTY_LIMIT
 			FROM
-				dev.QTY_PREORDER QP
+				QTY_PREORDER QP
 			WHERE
 				QP.PREORDER_IDX = ".$preorder_idx."
 		";

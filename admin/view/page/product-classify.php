@@ -1,129 +1,26 @@
 <style>
-	.wrap__bg--wh{
-		background-color: #fff;
-		padding: 10px;
-		margin: 10px 0;
-	}
-	.product-tree {
-		display: grid;
-		gap: 20px;
-		grid-template-columns: 400px 2fr;
-	}
-	
-	.tree__chart h3 {
-		line-height: 2;
-	}
-
-	.tree__desciption h3 {
-		line-height: 2;
-	}
-	.tree__desciption textarea{
-		width: 100%;
-    	border: 1px solid #c2cad8;
-		padding: 5px;
-	}
-
-	.tree-btn-wrap {
-		display: flex;
-		gap: 5px;
-	}
-
-	.chart__button__wrap {
-		display: flex;
-		justify-content: space-between;
-		padding: 10px 20px;
-		
-	}
-
-	.chart__button {
-		color: black;
-		font-size: 15px;
-		border: 1px solid black;
-		padding: 5px;
-		border-radius: 5px;
-	}
-
-	.chart__button--move {
-		width: 90px;
-		height: 22px;
-		border-radius: 2px;
-		background-color: #140f82;
-		font-size: 12px;
-		color: #fff;
-		padding: 4px 0;
-		text-align: center;
-		cursor: pointer;
-	}
-
-	#tree--search {
-		padding: 10px;
-		width: 100%;
-	}
-
-	.xi-search {
-		padding: 10px;
-	}
-
-	#js--tree {
-		min-height: 500px;
-		max-height: 100%;
-		margin: 0 12px 0 12px;
-		padding-top: 20px;
-		border-top: 1px solid #bfbfbf;
-	}
-	.desciption__table{
-		border-left: solid 1px #ddd;
-		border-spacing: 0;
-		margin: 0;
-		table-layout: fixed;
-	}
-	.access__ip__wrap{
-		display: flex;
-		margin-bottom: 10px;
-		
-	}
-	.access__ip--add{
-		font-size: 15px;
-		padding: 5px;
-		border: 1px solid black;
-		border-radius: 5px;
-		margin-left: 10px;
-	}
-	.access__apply__btn{
-		cursor: pointer;
-		font-size: 16px;
-		height: 36px;
-		width: 130px;
-		background-color: #140f82;
-		border-radius: 2px;
-		font-weight: normal;
-		display: flex;
-		color: #f5f6fa;
-		align-items: center;
-		justify-content: center;
-		font-weight: normal;
-	}
-	.access__apply__wrap{
-		display: flex;
-		justify-content: center;
-	    margin-top: 10px;
-	}
-	.classify__btn{
-		width: 70px;
-		height: 22px;
-		border-radius: 2px;
-		text-align: center;
-		border: solid 1px #707070;
-		background-color: #fff;
-		padding: 4px 0;
-		font-size: 12px;
-		cursor: pointer;
-	}
-	.search__box{
-		display: flex;
-		box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.16);
-	}
+.wrap__bg--wh{background-color: #fff;padding: 10px;margin: 10px 0;}
+.product-tree {display: grid;gap: 20px;grid-template-columns: 400px 2fr;}
+.tree__chart h3 {line-height: 2;}
+.tree__desciption h3 {line-height: 2;}
+.tree__desciption textarea{width: 100%;border: 1px solid #c2cad8;padding: 5px;}
+.tree-btn-wrap {display: flex;gap: 5px;}
+.chart__button__wrap {display: flex;justify-content: space-between;padding: 10px 20px;}
+.chart__button {color: black;font-size: 15px;border: 1px solid black;padding: 5px;border-radius: 5px;}
+.chart__button--move {width: 90px;height: 22px;border-radius: 2px;background-color: #140f82;font-size: 12px;color: #fff;padding: 4px 0;text-align: center;cursor: pointer;}
+#tree--search {padding: 10px;width: 100%;}
+.xi-search {padding: 10px;}
+#js--tree {min-height: 500px;max-height: 100%;margin: 0 12px 0 12px;padding-top: 20px;border-top: 1px solid #bfbfbf;}
+.desciption__table{border-left: solid 1px #ddd;border-spacing: 0;margin: 0;table-layout: fixed;}
+.access__ip__wrap{display: flex;margin-bottom: 10px;}
+.access__ip--add{font-size: 15px;padding: 5px;border: 1px solid black;border-radius: 5px;margin-left: 10px;}
+.access__apply__btn{cursor: pointer;font-size: 16px;height: 36px;width: 130px;background-color: #140f82;border-radius: 2px;font-weight: normal;display: flex;color: #f5f6fa;align-items: center;justify-content: center;font-weight: normal;}
+.access__apply__wrap{display: flex;justify-content: center;margin-top: 10px;}
+.classify__btn{width: 70px;height: 22px;border-radius: 2px;text-align: center;border: solid 1px #707070;background-color: #fff;padding: 4px 0;font-size: 12px;cursor: pointer;}
+.search__box{display: flex;box-shadow: inset 1px 1px 5px 0 rgba(0, 0, 0, 0.16);}
 </style>
+
+<?php include_once("check.php"); ?>
 
 <h2 class="page_title" style="margin-bottom:10px ;">상품 분류 관리</h2>
 <div class="main-wrap">
@@ -206,8 +103,6 @@
 								<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 									<option value="CREATE_DATE|DESC">등록일 역순</option>
 									<option value="CREATE_DATE|ASC">등록일 순</option>
-									<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-									<option value="UPDATE_DATE|ASC">삭제일 순</option>
 									<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 									<option value="PRODUCT_NAME|ASC">상품명 순</option>
 									<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
@@ -461,13 +356,15 @@ function exRename() {
 };
 
 function exDelete() {
-	var ref = $('#js--tree').jstree(true);
-	var sel = ref.get_selected();
-	if (!sel.length) {
-		return false;
-	}
+	confirm('해당 분류를 삭제하시겠습니까? 삭제시 등록 된 모든 정보는 삭제됩니다', function(){
+		var ref = $('#js--tree').jstree(true);
+		var sel = ref.get_selected();
+		if (!sel.length) {
+			return false;
+		}
 
-	ref.delete_node(sel);
+		ref.delete_node(sel);
+	});
 };
 
 function exMove() {
@@ -540,7 +437,6 @@ function getChildren(array_param){
 function setPaging(obj) {
 	var total_cnt = $(obj).parent().find('.total_cnt');
 	var result_cnt = $(obj).parent().find('.result_cnt');
-	
 	$('.cnt_result').text(result_cnt.val());
 	//$('.cnt_result').text(result_cnt.val());
 }
@@ -563,6 +459,20 @@ function rowsChange(obj) {
 	getProdTabInfo();
 }
 
+function openProductUpdateWindow(obj) {
+	var product_type = $(obj).attr('product_type');
+	var product_idx = $(obj).attr('product_idx');
+
+	switch(product_type){
+		case 'B':
+			window.open('http://116.124.128.246:81/product/detail/basic?product_idx=' + product_idx);
+			break;
+		case 'S':
+			window.open('http://116.124.128.246:81/product/detail/set?product_idx=' + product_idx);
+			break;
+	}
+}
+
 function getProdTabInfo(){
 	var result_table = $("#result_product_table");
 
@@ -580,168 +490,168 @@ function getProdTabInfo(){
 	get_contents($("#frm-list"),{
 		pageObj : $(".paging"),
 		html : function(d) {
-			if (d.length > 0) {
+			if (d != null) {
 				result_table.html('');
-			}
-			d.forEach(function(row) {
-				let product_type = row.product_type;
-				let product_type_str = "";
-				
-				let strDiv = "";
-				if (product_type == "B") {
-					product_type_str = "일반";
+				d.forEach(function(row) {
+					let product_type = row.product_type;
+					let product_type_str = "";
 					
-					strDiv += '<tr>';
-					strDiv += '    <td>';
-					strDiv += '        <div class="cb__color">';
-					strDiv += '            <label>';
-					strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.product_idx + '">';
-					strDiv += '                <span></span>';
-					strDiv += '            </label>';
-					strDiv += '        </div>';
-					strDiv += '    </td>';
-					strDiv += '    <td>' + row.num + '</td>';
-					
-					strDiv += '    <td>' + product_type_str + '</td>';
-					strDiv += '    <td><font product_type="B" product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
-					strDiv += '    <td><font product_type="B" product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
-					//strDiv += '    <td><font product_idx="${row.product_idx}" onClick="location.href='http://116.124.128.246/product/detail?product_idx=${row.product_idx}';" style="cursor:pointer;">${row.product_code}</font></td>`;
-					strDiv += '    <td><font product_idx="' + row.product_idx+ '" style="cursor:pointer;">' + row.product_code + '</td>';
-					strDiv += '    <TD>';
-					strDiv += '        <div class="product__img__wrap">';
-					
-					var background_url = "background-image:url('" + row.img_location + "');";
-					
-					strDiv += '            <div class="product__img" style="' + background_url + '">';
-					strDiv += '            </div>';
-					strDiv += '            <div>';
-					strDiv += '                <p>' + row.product_name + '</p><br>';
-					strDiv += '            	   <p style="color:#EF5012">' + row.update_date + '</p>';
-					strDiv += '            </div>';
-					strDiv += '        </div>';
-					strDiv += '    </TD>';
-					
-					strDiv += '    <td style="text-align: right;">';
-					var discount_kr = row.discount_kr;
-					if (discount_kr > 0) {
-						strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
-						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
-						strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
-					} else {
-						if(row.price_kr != null){
-							strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
-						}
-					}
-					
-					strDiv += '    </td>';
-					
-					strDiv += '    <td style="text-align: right;">';
-					var discount_en = row.discount_en;
-					if (discount_en > 0) {
-						strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
-						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
-						strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
-					} else {
-						if(row.price_en != null){
-							strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
-						}
-					}
-					
-					strDiv += '    </td>';
-					
-					strDiv += '    <td style="text-align: right;">';
-					var discount_cn = row.discount_cn;
-					if (discount_cn > 0) {
-						strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
-						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
-						strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
-					} else {
-						if(row.price_cn != null){
-							strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
-						}
-					}
-					
-					strDiv += '    </td>';
-					
-					strDiv += '</tr>';
-				} else if (product_type == "S") {
-					product_type_str = "세트";
-					
-					let set_product_info = row.set_product_info;
-					let cnt = set_product_info.length;
-
-					for (let i=0; i<cnt; i++) {
-						strDiv += '<tr>';
-						if (i == 0) {
-							strDiv += '<td rowspan="' + cnt + '">';
-							strDiv += '    <div class="cb__color">';
-							strDiv += '        <label>';
-							strDiv += '            <input type="checkbox" class="select" name="no[]" value="' + row.product_idx + '">';
-							strDiv += '            <span></span>';
-							strDiv += '        </label>';
-							strDiv += '    </div>';
-							strDiv += '</td>';
-							strDiv += '<td rowspan="' + cnt + '">' + row.num + '</td>';
-							strDiv += '<td rowspan="' + cnt + '">' + product_type_str + '</td>';
-							strDiv += '<td rowspan="' + cnt + '" product_type="S" product_idx="' + row.product_idx + '" ordersheet_idx="' + row.ordersheet_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</td>';
-							strDiv += '<td rowspan="' + cnt + '" product_type="S" product_idx="' + row.product_idx + '" ordersheet_idx="' + row.ordersheet_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</td>';
-							strDiv += '<td rowspan="' + cnt + '">' + row.product_code + '</td>';
-						}
+					let strDiv = "";
+					if (product_type == "B") {
+						product_type_str = "일반";
 						
+						strDiv += '<tr>';
+						strDiv += '    <td>';
+						strDiv += '        <div class="cb__color">';
+						strDiv += '            <label>';
+						strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.product_idx + '">';
+						strDiv += '                <span></span>';
+						strDiv += '            </label>';
+						strDiv += '        </div>';
+						strDiv += '    </td>';
+						strDiv += '    <td>' + row.num + '</td>';
+						
+						strDiv += '    <td>' + product_type_str + '</td>';
+						strDiv += '    <td><font>' + row.style_code + '</font></td>';
+						strDiv += '    <td><font>' + row.color_code + '</font></td>';
+						strDiv += '    <td><font product_type="' + row.product_type + '" product_idx="' + row.product_idx + '" onClick="openProductUpdateWindow(this);" style="text-decoration:underline;cursor:pointer;">' + row.product_code + '</td>';
 						strDiv += '    <TD>';
-						strDiv += '        <p style="margin-bottom:5px;">' + row.product_name + '</p>';
 						strDiv += '        <div class="product__img__wrap">';
-
-						var background_url = "background-image:url('" + set_product_info[i].img_location + "');";
-
+						
+						var background_url = "background-image:url('" + row.img_location + "');";
+						
 						strDiv += '            <div class="product__img" style="' + background_url + '">';
 						strDiv += '            </div>';
 						strDiv += '            <div>';
-						strDiv += '                <p>' + set_product_info[i].product_name + '</p><br>';
-						strDiv += '            	   <p style="color:#EF5012">' + set_product_info[i].update_date + '</p>';
+						strDiv += '                <p>' + row.product_name + '</p><br>';
+						strDiv += '            	   <p style="color:#EF5012">' + row.update_date + '</p>';
 						strDiv += '            </div>';
 						strDiv += '        </div>';
 						strDiv += '    </TD>';
-
-						if (i == 0) {
-							strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
-							var discount_kr = set_product_info[i].discount_kr;
-							if (discount_kr > 0) {
-								strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
-								strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_kr.toLocaleString('ko-KR') + "</span></br>";
-								strDiv += '        <span>' + set_product_info[i].sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
-							} else {
-								strDiv += '        ' + set_product_info[i].price_kr.toLocaleString('ko-KR');
+						
+						strDiv += '    <td style="text-align: right;">';
+						var discount_kr = row.discount_kr;
+						if (discount_kr > 0) {
+							strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+							strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr.toLocaleString('ko-KR') + "</span></br>";
+							strDiv += '        <span>' + row.sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
+						} else {
+							if(row.price_kr != null){
+								strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
 							}
-							strDiv += '    </td>';
-
-							strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
-							var discount_en = set_product_info[i].discount_en;
-							if (discount_en > 0) {
-								strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
-								strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_en.toLocaleString('ko-KR') + "</span></br>";
-								strDiv += '        <span>' + set_product_info[i].sales_price_en.toLocaleString('ko-KR') + "</span></br>";
-							} else {
-								strDiv += '        ' + set_product_info[i].price_en.toLocaleString('ko-KR');
-							}
-							strDiv += '    </td>';
-							
-							strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
-							var discount_cn = set_product_info[i].discount_cn;
-							if (discount_cn > 0) {
-								strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
-								strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_cn.toLocaleString('ko-KR') + "</span></br>";
-								strDiv += '        <span>' + set_product_info[i].sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
-							} else {
-								strDiv += '        ' + set_product_info[i].price_cn.toLocaleString('ko-KR');
-							}
-							strDiv += '    </td>';
 						}
+						
+						strDiv += '    </td>';
+						
+						strDiv += '    <td style="text-align: right;">';
+						var discount_en = row.discount_en;
+						if (discount_en > 0) {
+							strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+							strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en.toLocaleString('ko-KR') + "</span></br>";
+							strDiv += '        <span>' + row.sales_price_en.toLocaleString('ko-KR') + "</span></br>";
+						} else {
+							if(row.price_en != null){
+								strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
+							}
+						}
+						
+						strDiv += '    </td>';
+						
+						strDiv += '    <td style="text-align: right;">';
+						var discount_cn = row.discount_cn;
+						if (discount_cn > 0) {
+							strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+							strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn.toLocaleString('ko-KR') + "</span></br>";
+							strDiv += '        <span>' + row.sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
+						} else {
+							if(row.price_cn != null){
+								strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
+							}
+						}
+						
+						strDiv += '    </td>';
+						
 						strDiv += '</tr>';
+					} else if (product_type == "S") {
+						product_type_str = "세트";
+						
+						let set_product_info = row.set_product_info;
+						let cnt = set_product_info.length;
+
+						for (let i=0; i<cnt; i++) {
+							strDiv += '<tr>';
+							if (i == 0) {
+								strDiv += '<td rowspan="' + cnt + '">';
+								strDiv += '    <div class="cb__color">';
+								strDiv += '        <label>';
+								strDiv += '            <input type="checkbox" class="select" name="no[]" value="' + row.product_idx + '">';
+								strDiv += '            <span></span>';
+								strDiv += '        </label>';
+								strDiv += '    </div>';
+								strDiv += '</td>';
+								strDiv += '<td rowspan="' + cnt + '">' + row.num + '</td>';
+								strDiv += '<td rowspan="' + cnt + '">' + product_type_str + '</td>';
+								strDiv += '<td rowspan="' + cnt + '" product_type="S" product_idx="' + row.product_idx + '" ordersheet_idx="' + row.ordersheet_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</td>';
+								strDiv += '<td rowspan="' + cnt + '" product_type="S" product_idx="' + row.product_idx + '" ordersheet_idx="' + row.ordersheet_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</td>';
+								strDiv += '<td rowspan="' + cnt + '">' + row.product_code + '</td>';
+							}
+							
+							strDiv += '    <TD>';
+							strDiv += '        <p style="margin-bottom:5px;">' + row.product_name + '</p>';
+							strDiv += '        <div class="product__img__wrap">';
+
+							var background_url = "background-image:url('" + set_product_info[i].img_location + "');";
+
+							strDiv += '            <div class="product__img" style="' + background_url + '">';
+							strDiv += '            </div>';
+							strDiv += '            <div>';
+							strDiv += '                <p>' + set_product_info[i].product_name + '</p><br>';
+							strDiv += '            	   <p style="color:#EF5012">' + set_product_info[i].update_date + '</p>';
+							strDiv += '            </div>';
+							strDiv += '        </div>';
+							strDiv += '    </TD>';
+
+							if (i == 0) {
+								strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
+								var discount_kr = set_product_info[i].discount_kr;
+								if (discount_kr > 0) {
+									strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+									strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_kr.toLocaleString('ko-KR') + "</span></br>";
+									strDiv += '        <span>' + set_product_info[i].sales_price_kr.toLocaleString('ko-KR') + "</span></br>";
+								} else {
+									strDiv += '        ' + set_product_info[i].price_kr.toLocaleString('ko-KR');
+								}
+								strDiv += '    </td>';
+
+								strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
+								var discount_en = set_product_info[i].discount_en;
+								if (discount_en > 0) {
+									strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+									strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_en.toLocaleString('ko-KR') + "</span></br>";
+									strDiv += '        <span>' + set_product_info[i].sales_price_en.toLocaleString('ko-KR') + "</span></br>";
+								} else {
+									strDiv += '        ' + set_product_info[i].price_en.toLocaleString('ko-KR');
+								}
+								strDiv += '    </td>';
+								
+								strDiv += '    <td rowspan="' + cnt + '" style="text-align: right;">';
+								var discount_cn = set_product_info[i].discount_cn;
+								if (discount_cn > 0) {
+									strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+									strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + set_product_info[i].price_cn.toLocaleString('ko-KR') + "</span></br>";
+									strDiv += '        <span>' + set_product_info[i].sales_price_cn.toLocaleString('ko-KR') + "</span></br>";
+								} else {
+									strDiv += '        ' + set_product_info[i].price_cn.toLocaleString('ko-KR');
+								}
+								strDiv += '    </td>';
+							}
+							strDiv += '</tr>';
+						}
 					}
-				}
-				result_table.append(strDiv);
-			});
+					result_table.append(strDiv);
+				});
+			}
+			
 		},
 	},rows, page);
 }

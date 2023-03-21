@@ -16,17 +16,16 @@
 $wkla_name          = $_POST['wkla_name'];
 $wkla_memo          = $_POST['wkla_memo'];
 
-$line_cnt = $db->count('dev.WKLA_INFO', ' WKLA_NAME = "'.$wkla_name.'" ');
+$line_cnt = $db->count('WKLA_INFO', ' WKLA_NAME = "'.$wkla_name.'" ');
 
 if($line_cnt == 0){
     $sql = 	'
-        INSERT INTO dev.WKLA_INFO
+        INSERT INTO
+			WKLA_INFO
         (
             WKLA_NAME,
             MEMO
-        )
-        VALUE
-        (
+        ) VALUE (
             "'.$wkla_name.'",
             "'.$wkla_memo.'"
         )

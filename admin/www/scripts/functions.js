@@ -1555,7 +1555,7 @@ function apply_counter() {
 
 function alert(str,fn) {
 	$("body").append(`
-		<div class="modal anim-ease-02">
+		<div class="modal anim-ease-02 alert__type">
 			<div class="con alert anim-ease-02">
 				${str}
 				<div class="footer"><a href="javascript:;" class="btn red">확인</a></div>
@@ -1563,11 +1563,19 @@ function alert(str,fn) {
 		</div>
 	`);
 	var obj = $("body > div.modal").last();
+	var alertEnterKeyHandler = function(e){
+		if(e.keyCode == '13'){
+			$('.alert__type .red.btn').click();
+		}
+	}
+	$((document)).bind('keypress', alertEnterKeyHandler);
+	
 	setTimeout(function(_obj) {
 		$(_obj).addClass("on");
 	},10,obj);
 	$(obj).find("a.btn.red").click(function() {
 		modal_close();
+		$((document)).unbind('keypress', alertEnterKeyHandler);
 		if(typeof fn == 'function') setTimeout(fn,20);
 	});
 }

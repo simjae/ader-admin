@@ -29,7 +29,7 @@ $select_product_sql = "
 					SELECT
 						COUNT(S_PI.IDX)
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -40,7 +40,7 @@ $select_product_sql = "
 						SELECT
 							REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.DEL_FLG = FALSE AND
@@ -69,7 +69,7 @@ $select_product_sql = "
 		PR.UPDATER					AS UPDATER,
 		PR.UPDATE_DATE				AS UPDATE_DATE
 	FROM
-		dev.SHOP_PRODUCT PR
+		SHOP_PRODUCT PR
 	WHERE
 		PR.PRODUCT_TYPE = 'B' AND
 		PR.MD_CATEGORY_".$md_category_depth." = ".$md_category_node." AND
@@ -82,7 +82,7 @@ $db->query($select_product_sql);
 
 foreach($db->fetch() as $product_data) {
 	$product_idx = $product_data['PRODUCT_IDX'];
-	$product_cnt = $db->count("dev.COLLABORATION_PRODUCT","COLLABORATION_IDX = ".$collaboration_idx." AND PRODUCT_IDX = ".$product_idx);
+	$product_cnt = $db->count("COLLABORATION_PRODUCT","COLLABORATION_IDX = ".$collaboration_idx." AND PRODUCT_IDX = ".$product_idx);
 	
 	$action_type = "";
 	if ($product_cnt > 0) {

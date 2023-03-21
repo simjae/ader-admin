@@ -44,7 +44,7 @@ if ($option_idx != null) {
 //검색 유형 - 상품 IDX
 
 $sql = "UPDATE
-			dev.PRODUCT_OPTION
+			PRODUCT_OPTION
 		SET
 			".$set."
 		WHERE

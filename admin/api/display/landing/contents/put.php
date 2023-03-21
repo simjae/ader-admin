@@ -17,8 +17,9 @@
 include_once("/var/www/admin/api/common/common.php");
 
 $session_id			= sessionCheck();
+
 $contents_idx		= $_POST['contents_idx'];
-$display_num		= $_POST['display_num'];
+$img_location		= $_POST['img_location'];
 $title				= $_POST['title'];
 $sub_title			= $_POST['sub_title'];
 $background_color	= $_POST['background_color'];
@@ -33,8 +34,9 @@ $btn2_display_flg	= $_POST['btn2_display_flg'];
 if ($contents_idx != null) {
 	$update_contents_sql = "
 		UPDATE
-			dev.MAIN_CONTENTS
+			TMP_MAIN_CONTENTS
 		SET
+			IMG_LOCATION = '/var/www/admin/www".$img_location."',
 			TITLE = '".$title."',
 			SUB_TITLE = '".$sub_title."',
 			BACKGROUND_COLOR = '".$background_color."',
@@ -43,7 +45,7 @@ if ($contents_idx != null) {
 			BTN1_DISPLAY_FLG = ".$btn1_display_flg.",
 			BTN2_NAME = '".$btn2_name."',
 			BTN2_URL = '".$btn2_url."',
-			BTN2_DISPLAY_FLG = ".$btn2_display_flg."
+			BTN2_DISPLAY_FLG = ".$btn2_display_flg.",
 			UPDATE_DATE = NOW(),
 			UPDATER = '".$session_id."'
 		WHERE

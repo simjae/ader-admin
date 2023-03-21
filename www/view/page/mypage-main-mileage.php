@@ -238,13 +238,13 @@
                             </colsgroup>
                             <thead>
                                 <th>
-                                    <p>주문번호</p>
+                                    <p data-i18n="m_order_number">주문번호</p>
                                 </th>
                                 <th>
-                                    <p>일자</p>
+                                    <p data-i18n="m_date">일자</p>
                                 </th>
                                 <th>
-                                    <p>내용</p>
+                                    <p data-i18n="m_history">내용</p>
                                 </th>
                                 <th>
                                     <p>포인트</p>
@@ -312,13 +312,13 @@
                             </colsgroup>
                             <thead>
                                 <th>
-                                    <p>주문번호</p>
+                                    <p data-i18n="m_order_number">주문번호</p>
                                 </th>
                                 <th>
-                                    <p>일자</p>
+                                    <p data-i18n="m_date">일자</p>
                                 </th>
                                 <th>
-                                    <p>내용</p>
+                                    <p data-i18n="m_history">내용</p>
                                 </th>
                                 <th>
                                     <p>포인트</p>
@@ -386,13 +386,13 @@
                             </colsgroup>
                             <thead>
                                 <th>
-                                    <p>주문번호</p>
+                                    <p data-i18n="m_order_number">주문번호</p>
                                 </th>
                                 <th>
-                                    <p>일자</p>
+                                    <p data-i18n="m_date">일자</p>
                                 </th>
                                 <th>
-                                    <p>내용</p>
+                                    <p data-i18n="m_history">내용</p>
                                 </th>
                                 <th>
                                     <p>포인트</p>

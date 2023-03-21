@@ -15,7 +15,17 @@
 	<script type="text/javascript" src="/scripts/login.js"></script>
 </head>
 <body>
+<?php 
+$request_uri = explode("?",$_SERVER['REQUEST_URI']);
+$permition_url = $request_uri[0];
 
+$admin_idx = $_SESSION['ADMIN_IDX'];
+
+
+if ($admin_idx > 0) {
+	echo "<script>location.href='/main'</script>";
+}
+?>
 <div id="login-intro">
 	<div class="container">
 		<h1>CONTROL<i class="xi-cog xi-spin"></i>CENTER</h1>

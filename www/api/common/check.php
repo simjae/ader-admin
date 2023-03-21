@@ -24,7 +24,7 @@ function getProductInfo($db,$idx_type,$param_idx) {
 				SELECT
 					WL.PRODUCT_IDX
 				FROM
-					dev.WHISH_LIST WL
+					WHISH_LIST WL
 				WHERE
 					WL.IDX = ".$param_idx."
 			)
@@ -35,7 +35,7 @@ function getProductInfo($db,$idx_type,$param_idx) {
 				SELECT
 					BI.PRODUCT_IDX
 				FROM
-					dev.BASKET_INFO BI
+					BASKET_INFO BI
 				WHERE
 					BI.IDX = ".$param_idx."
 			)
@@ -51,7 +51,7 @@ function getProductInfo($db,$idx_type,$param_idx) {
 			PR.LIMIT_ID_FLG					AS LIMIT_ID_FLG,
 			PR.REORDER_CNT					AS REORDER_CNT
 		FROM
-			dev.SHOP_PRODUCT PR
+			SHOP_PRODUCT PR
 		WHERE
 			".$where."
 	";
@@ -91,7 +91,7 @@ function checkQtyLimit($db,$member_idx,$idx_type,$param_idx,$option_idx,$product
 			SELECT
 				PO.QTY					AS OPTION_QTY
 			FROM
-				dev.PRODUCT_OPTION PO
+				PRODUCT_OPTION PO
 			WHERE
 				PO.PRODUCT_IDX = ".$product_idx." AND
 				PO.OPTION_IDX = ".$option_idx."
@@ -109,7 +109,7 @@ function checkQtyLimit($db,$member_idx,$idx_type,$param_idx,$option_idx,$product
 			SELECT
 				SUM(BI.PRODUCT_QTY)		AS BASKET_QTY
 			FROM
-				dev.BASKET_INFO BI
+				BASKET_INFO BI
 			WHERE
 				BI.MEMBER_IDX = ".$member_idx." AND
 				BI.PRODUCT_IDX = ".$product_idx." AND
@@ -205,7 +205,7 @@ function checkListLevel($db,$member_level,$page_idx) {
 		SELECT
 			PP.DISPLAY_MEMBER_LEVEL		AS LIMIT_LEVEL
 		FROM
-			dev.PAGE_PRODUCT PP
+			PAGE_PRODUCT PP
 		WHERE
 			PP.IDX = ".$page_idx."
 	";
@@ -244,7 +244,7 @@ function checkIdReorder($db,$member_idx,$idx_type,$param_idx) {
 	$reorder_cnt = $product_info['reorder_cnt'];
 	
 	if ($limit_id_flg == true) {
-		$order_cnt = $db->count("dev.ORDER_INFO OI LEFT JOIN dev.ORDER_PRODUCT OP ON OI.IDX = OP.ORDER_IDX","OP.REORDER_CNT = ".$reorder_cnt." AND OI.MEMBER_IDX = ".$member_idx." AND OP.PRODUCT_IDX = ".$product_idx." AND OP.ORDER_STATUS = 'PCP' ");
+		$order_cnt = $db->count("ORDER_INFO OI LEFT JOIN ORDER_PRODUCT OP ON OI.IDX = OP.ORDER_IDX","OP.REORDER_CNT = ".$reorder_cnt." AND OI.MEMBER_IDX = ".$member_idx." AND OP.PRODUCT_IDX = ".$product_idx." AND OP.ORDER_STATUS = 'PCP' ");
 		
 		if ($order_cnt == 0) {
 			$check_result['result'] = true;

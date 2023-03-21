@@ -25,7 +25,7 @@ if ($country != null) {
 	try {
 		$insert_img_sql = "
 			INSERT INTO
-				dev.MAIN_IMG
+				TMP_MAIN_IMG
 			(
 				COUNTRY,
 				DISPLAY_NUM,
@@ -50,41 +50,19 @@ if ($country != null) {
 		$img_idx = $db->last_id();
 
 		if (!empty($img_idx)) {
-			$select_img_sql = "
-				SELECT
-					MI.IDX		AS IMG_IDX
-				FROM
-					dev.MAIN_IMG MI
+			$update_img_sql = "
+				UPDATE
+					TMP_MAIN_IMG MI
+				SET
+					DISPLAY_NUM = DISPLAY_NUM + 1
 				WHERE
 					MI.IDX != ".$img_idx." AND
+					MI.COUNTRY = '".$country."' AND
 					MI.DEL_FLG = FALSE
-				ORDER BY
-					MI.DISPLAY_NUM ASC
 			";
 			
-			$db->query($select_img_sql);
+			$db->query($update_img_sql);
 			
-			$display_num = 2;
-			
-			foreach($db->fetch() as $img_data) {
-				$tmp_idx = $img_data['IMG_IDX'];
-				
-				if (!empty($tmp_idx)) {
-					$update_img_sql = "
-						UPDATE
-							dev.MAIN_IMG
-						SET
-							DISPLAY_NUM = ".$display_num."
-						WHERE
-							IDX = ".$tmp_idx." AND
-							DEL_FLG = FALSE
-					";
-					
-					$db->query($update_img_sql);
-					
-					$display_num++;
-				}
-			}
 		} else {
 			$json_result['code'] = 301;
 			$json_result['msg'] = "메인 배너  등록에 실패했습니다.";

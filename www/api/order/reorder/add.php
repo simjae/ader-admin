@@ -61,7 +61,7 @@ if ($add_type == "basket") {
 		try {
 			$insert_reorder_sql = "
 				INSERT INTO
-					dev.PRODUCT_REORDER
+					PRODUCT_REORDER
 				(
 					COUNTRY,
 					MEMBER_IDX,
@@ -88,8 +88,8 @@ if ($add_type == "basket") {
 					'".$member_id."'	AS CREATER,
 					'".$member_id."'	AS UPDATER
 				FROM
-					dev.SHOP_PRODUCT PR
-					LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+					SHOP_PRODUCT PR
+					LEFT JOIN ORDERSHEET_OPTION OO ON
 					PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 				WHERE
 					PR.IDX = ".$product_idx." AND
@@ -103,7 +103,7 @@ if ($add_type == "basket") {
 			if (!empty($reorder_idx)) {
 				$update_basket_sql = "
 					UPDATE
-						dev.BASKET_INFO
+						BASKET_INFO
 					SET
 						REORDER_FLG = TRUE,
 						UPDATE_DATE = NOW(),

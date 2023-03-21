@@ -22,7 +22,7 @@ $product_idx_arr = explode(",",$product_idx);
 if ($country != null && count($product_idx_arr) > 0) {
 	for ($i=0; $i<count($product_idx_arr); $i++) {
 		$sql = "INSERT INTO
-					dev.POPULAR_PRODUCT
+					TMP_POPULAR_PRODUCT
 				(
 					COUNTRY,
 					PRODUCT_IDX,
@@ -33,7 +33,7 @@ if ($country != null && count($product_idx_arr) > 0) {
 					".$product_idx_arr[$i]."	AS PRODUCT_IDX,
 					MAX(DISPLAY_NUM) + 1		AS DISPLAY_NUM
 				FROM
-					dev.POPULAR_PRODUCT";
+					POPULAR_PRODUCT";
 		
 		$db->query($sql);
 	}

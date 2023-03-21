@@ -14,15 +14,18 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id			= sessionCheck();
 $banner_type		= $_POST['banner_type'];
 $banner_idx			= $_POST['banner_idx'];
 
 if ($banner_type != null && $banner_idx != null) {
 	$banner_cnt = 0;
 	if ($banner_type == "HED") {
-		$valid_table = "dev.PAGE_PRODUCT";
+		$valid_table = "PAGE_PRODUCT";
 	} else {
-		$valid_table = "dev.PRODUCT_GRID";
+		$valid_table = "PRODUCT_GRID";
 	}
 	
 	for ($i=0; $i<count($banner_idx); $i++) {
@@ -37,15 +40,15 @@ if ($banner_type != null && $banner_idx != null) {
 		$banner_table = "";
 		switch ($banner_type) {
 			case "HED" :
-				$banner_table = "dev.BANNER_HEAD";
+				$banner_table = "BANNER_HEAD";
 				break;
 			
 			case "IMG" :
-				$banner_table = "dev.BANNER_IMG";
+				$banner_table = "BANNER_IMG";
 				break;
 			
 			case "VID" :
-				$banner_table = "dev.BANNER_VID";
+				$banner_table = "BANNER_VID";
 				break;
 		}
 		
@@ -55,7 +58,7 @@ if ($banner_type != null && $banner_idx != null) {
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),
-				UPDATER = 'Admin'
+				UPDATER = '".$session_id."'
 			WHERE
 				IDX IN (".implode(",",$banner_idx).")
 		";

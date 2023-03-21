@@ -14,16 +14,19 @@
  +=============================================================================
 */
 
-$page_idx               = $_POST['page_idx'];
-$tmp_flg				= $_POST['tmp_flg'];
+$page_idx			= $_POST['page_idx'];
+$tmp_flg			= $_POST['tmp_flg'];
+
+$sort_value			= $_POST['sort_value'];
+$sort_type			= $_POST['sort_type'];
 
 $tbl_grid = array();
 if ($tmp_flg == "true") {
-	$tbl_grid[0] = "dev.TMP_PRODUCT_GRID PG";
-	$tbl_grid[1] = "dev.TMP_GRID_COLUMN GC";
+	$tbl_grid[0] = "TMP_PRODUCT_GRID PG";
+	$tbl_grid[1] = "TMP_GRID_COLUMN GC";
 } else {
-	$tbl_grid[0] = "dev.PRODUCT_GRID PG";
-	$tbl_grid[1] = "dev.GRID_COLUMN GC";
+	$tbl_grid[0] = "PRODUCT_GRID PG";
+	$tbl_grid[1] = "GRID_COLUMN GC";
 }
 
 if($page_idx != null){
@@ -38,14 +41,68 @@ if($page_idx != null){
 			PG.PRODUCT_IDX				AS PRODUCT_IDX,
 			IFNULL(
 				PG.PRODUCT_CODE,'-'
-			)							AS PRODUCT_CODE
+			)							AS PRODUCT_CODE,
+			PR.PRODUCT_NAME				AS PRODUCT_NAME,
+			IFNULL(
+				PR.SALES_PRICE_KR,0
+			)							AS SALES_PRICE_KR,
+			IFNULL(
+				PR.SALES_PRICE_EN,0
+			)							AS SALES_PRICE_EN,
+			IFNULL(
+				PR.SALES_PRICE_CN,0
+			)							AS SALES_PRICE_CN,
+			PR.CREATE_DATE				AS CREATE_DATE,
+			PR.UPDATE_DATE				AS UPDATE_DATE,
+			(
+				SELECT
+					IFNULL(
+						SUM(S_OP.PRODUCT_QTY),0
+					)
+				FROM
+					ORDER_PRODUCT S_OP
+				WHERE
+					S_OP.ORDER_STATUS NOT IN (
+						'OCC','OEX','OEP','ORF','ORP'
+					) AND
+					S_OP.PRODUCT_IDX = PG.PRODUCT_IDX
+			)							AS ORDER_CNT,
+			(
+				SELECT
+					IFNULL(
+						COUNT(S_WL.IDX),0
+					)
+				FROM
+					WHISH_LIST S_WL
+				WHERE
+					S_WL.PRODUCT_IDX = PG.PRODUCT_IDX AND
+					S_WL.DEL_FLG = FALSE
+			)							AS WHISH_CNT,
+			(
+				SELECT
+					IFNULL(SUM(STOCK_QTY),0)
+				FROM
+					PRODUCT_STOCK S_PS
+				WHERE
+					S_PS.PRODUCT_IDX = PR.IDX AND
+					S_PS.STOCK_DATE <= NOW()
+			)	AS STOCK_QTY,
+			(
+				SELECT
+					IFNULL(SUM(S_OP.PRODUCT_QTY),0)
+				FROM
+					ORDER_PRODUCT S_OP
+				WHERE
+					S_OP.PRODUCT_IDX = PR.IDX AND
+					S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+			)	AS ORDER_QTY
 		FROM
 			".$tbl_grid[0]."
+			LEFT JOIN SHOP_PRODUCT PR ON
+			PG.PRODUCT_IDX = PR.IDX
 		WHERE
 			PG.PAGE_IDX = ".$page_idx." AND
 			PG.DEL_FLG = FALSE
-		ORDER BY
-			PG.DISPLAY_NUM
 	";
 	
 	$db->query($select_grid_sql);
@@ -58,7 +115,9 @@ if($page_idx != null){
 		$banner_idx = $grid_data['BANNER_IDX'];
 		$product_idx = $grid_data['PRODUCT_IDX'];
 		
-		$content_location = null;
+		$product_qty = intval($grid_data['STOCK_QTY']) - intval($grid_data['ORDER_QTY']);
+		
+		$content_location = "none";
 		if ($banner_idx > 0 || $product_idx > 0) {
 			$banner_table = "";
 			
@@ -75,7 +134,7 @@ if($page_idx != null){
 								''
 							)		AS CONTENT_LOCATION
 						FROM
-							dev.PRODUCT_IMG PI
+							PRODUCT_IMG PI
 						WHERE
 							PI.PRODUCT_IDX = ".$product_idx." AND
 							PI.IMG_TYPE = 'P' AND
@@ -88,15 +147,15 @@ if($page_idx != null){
 					
 					break;
 				case "HED" :
-					$banner_table = "dev.BANNER_HEAD BI";
+					$banner_table = "BANNER_HEAD BI";
 					break;
 				
 				case "IMG" :
-					$banner_table = "dev.BANNER_IMG BI";
+					$banner_table = "BANNER_IMG BI";
 					break;
 				
 				case "VID" :
-					$banner_table = "dev.BANNER_VID BI";
+					$banner_table = "BANNER_VID BI";
 					break;
 			}
 			
@@ -232,6 +291,16 @@ if($page_idx != null){
 		$json_result['data'][] = array(
 			'grid_idx'			=>$grid_data['GRID_IDX'],
 			'display_num'		=>$grid_data['DISPLAY_NUM'],
+			'product_code'		=>$grid_data['PRODUCT_CODE'],
+			'product_name'		=>$grid_data['PRODUCT_NAME'],
+			'sales_price_kr'	=>$grid_data['SALES_PRICE_KR'],
+			'sales_price_en'	=>$grid_data['SALES_PRICE_EN'],
+			'sales_price_cn'	=>$grid_data['SALES_PRICE_CN'],
+			'order_cnt'			=>$grid_data['ORDER_CNT'],
+			'whish_cnt'			=>$grid_data['WHISH_CNT'],
+			'create_date'		=>$grid_data['CREATE_DATE'],
+			'update_date'		=>$grid_data['UPDATE_DATE'],
+			'product_qty'		=>$product_qty,
 			'type'				=>$grid_type,
 			'content_location'	=>$content_location,
 			'size'				=>$grid_data['SIZE'],
@@ -239,6 +308,7 @@ if($page_idx != null){
 			'banner_idx'		=>$grid_data['BANNER_IDX'],
 			'product_idx'		=>$product_idx,
 			'product_code'		=>$grid_data['PRODUCT_CODE'],
+			
 			'column_info'		=>$column_info
 		);
 	}

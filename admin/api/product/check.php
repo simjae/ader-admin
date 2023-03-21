@@ -23,7 +23,7 @@ $sql = 	'
 		SELECT
 			COUNT(IDX) AS PRODUCT_CNT
 		FROM 
-			dev.SHOP_PRODUCT
+			SHOP_PRODUCT
 		WHERE 
 			'.$where.'
 		';

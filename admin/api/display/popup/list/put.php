@@ -35,7 +35,7 @@ if ($action_type != null) {
         case 'popup_delete':
             $update_popup_sql = "
                 UPDATE
-					dev.DISPLAY_POPUP
+					DISPLAY_POPUP
                 SET
                     DEL_FLG = TRUE,
                     UPDATE_DATE = NOW(),
@@ -48,7 +48,7 @@ if ($action_type != null) {
 		case 'display_set':
             $update_popup_sql = "
                 UPDATE
-					dev.DISPLAY_POPUP
+					DISPLAY_POPUP
                 SET
                     DISPLAY_FLG = TRUE,
                     UPDATE_DATE = NOW(),
@@ -61,7 +61,7 @@ if ($action_type != null) {
 		case 'non_display_set':
             $update_popup_sql = "
                 UPDATE
-					dev.DISPLAY_POPUP
+					DISPLAY_POPUP
                 SET
                     DISPLAY_FLG = FALSE,
                     UPDATE_DATE = NOW(),

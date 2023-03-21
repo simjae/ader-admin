@@ -125,6 +125,8 @@
 	}
 </style>
 
+<?php include_once("check.php"); ?>
+
 <h2 class="page_title" style="margin-bottom:10px ;">오더시트 분류 관리</h2>
 <div class="main-wrap">
 	<div class="product-tree">
@@ -150,7 +152,7 @@
 			<div id="js--tree"></div>
 		</div>
 		<div class="tree__desciption">
-			<form id="frm-list" action="pcs/ordersheet/list/get">
+			<form id="frm-list" action="pcs/ordersheet/category/list/get">
 				<input type="hidden" name="md_category_node" value="">
 				<input type="hidden" name="md_category_depth" value="">
 				<input type="hidden" name="child_search_flg" value="true">
@@ -208,8 +210,6 @@
 								<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 									<option value="CREATE_DATE|DESC">등록일 역순</option>
 									<option value="CREATE_DATE|ASC">등록일 순</option>
-									<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-									<option value="UPDATE_DATE|ASC">삭제일 순</option>
 									<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 									<option value="PRODUCT_NAME|ASC">상품명 순</option>
 									<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
@@ -460,13 +460,15 @@ function exRename() {
 };
 
 function exDelete() {
-    var ref = $('#js--tree').jstree(true)
-	var sel = ref.get_selected();
-	if (!sel.length) {
-		return false;
-	}
+	confirm('해당 분류를 삭제하시겠습니까? 삭제시 등록 된 모든 정보는 삭제됩니다', function (){
+		var ref = $('#js--tree').jstree(true)
+		var sel = ref.get_selected();
+		if (!sel.length) {
+			return false;
+		}
 
-	ref.delete_node(sel);
+		ref.delete_node(sel);
+	});
 };
 
 function exMove() {
@@ -579,53 +581,53 @@ function getProdTabInfo(){
 	get_contents($("#frm-list"),{
 		pageObj : $(".paging"),
 		html : function(d) {
-			if (d.length > 0) {
+			if (d != null) {
 				$('#result_table').html('');
+				d.forEach(function(row) {
+					var strDiv = "";
+					strDiv += '<tr>';
+					strDiv += '    <td>';
+					strDiv += '        <div class="cb__color">';
+					strDiv += '            <label>';
+					strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.no + '">';
+					strDiv += '                <span></span>';
+					strDiv += '            </label>';
+					strDiv += '        </div>';
+					strDiv += '    </td>';
+					strDiv += '    <td>' + row.num + '</td>';
+					strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
+					strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
+					strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.product_code + '</font></td>';
+					strDiv += '    <TD>';
+					strDiv += '        <div class="product__img__wrap">';
+					
+					var background_url = "background-image:url('" + row.ordersheet_img + "');";
+					
+					strDiv += '            <div class="product__img" style="' + background_url + '">';
+					strDiv += '            </div>';
+					strDiv += '            <div>';
+					strDiv += '                <p>' + row.product_name + '</p><br>';
+					strDiv += '            	   <p style="color:#EF5012">' + row.update_date + '</p>';
+					strDiv += '            </div>';
+					strDiv += '        </div>';
+					strDiv += '    </TD>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
+					strDiv += '    </td>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
+					strDiv += '    </td>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
+					
+					strDiv += '    </td>';
+					strDiv += '</tr>';
+					$('#result_table').append(strDiv);
+				});
 			}
-			d.forEach(function(row) {
-				var strDiv = "";
-                strDiv += '<tr>';
-                strDiv += '    <td>';
-                strDiv += '        <div class="cb__color">';
-                strDiv += '            <label>';
-                strDiv += '                <input type="checkbox" class="select" name="no[]" value="' + row.no + '">';
-                strDiv += '                <span></span>';
-                strDiv += '            </label>';
-                strDiv += '        </div>';
-                strDiv += '    </td>';
-                strDiv += '    <td>' + row.num + '</td>';
-                strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.style_code + '</font></td>';
-                strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.color_code + '</font></td>';
-                strDiv += '    <td><font product_idx="' + row.product_idx + '" onClick="openProductUpdateModal(this);" style="cursor:pointer;">' + row.product_code + '</font></td>';
-                strDiv += '    <TD>';
-                strDiv += '        <div class="product__img__wrap">';
-                
-                var background_url = "background-image:url('" + row.ordersheet_img + "');";
-                
-                strDiv += '            <div class="product__img" style="' + background_url + '">';
-                strDiv += '            </div>';
-                strDiv += '            <div>';
-                strDiv += '                <p>' + row.product_name + '</p><br>';
-                strDiv += '            	   <p style="color:#EF5012">' + row.update_date + '</p>';
-                strDiv += '            </div>';
-                strDiv += '        </div>';
-                strDiv += '    </TD>';
-                
-                strDiv += '    <td style="text-align: right;">';
-                strDiv += '        ' + row.price_kr.toLocaleString('ko-KR');
-                strDiv += '    </td>';
-                
-                strDiv += '    <td style="text-align: right;">';
-                strDiv += '        ' + row.price_en.toLocaleString('ko-KR');
-                strDiv += '    </td>';
-                
-                strDiv += '    <td style="text-align: right;">';
-                strDiv += '        ' + row.price_cn.toLocaleString('ko-KR');
-                
-                strDiv += '    </td>';
-                strDiv += '</tr>';
-				$('#result_table').append(strDiv);
-			});
 		},
 	},rows, page);
 }

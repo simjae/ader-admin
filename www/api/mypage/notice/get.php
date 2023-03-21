@@ -45,8 +45,8 @@ if($member_idx > 0 && $country != null){
 			)				AS CONTENTS,
 			PB.FIX_FLG		AS FIX_FLG
 		FROM 
-			dev.PAGE_BOARD PB
-			LEFT JOIN dev.CODE_MST CM ON 	
+			PAGE_BOARD PB
+			LEFT JOIN CODE_MST CM ON 	
 			PB.CATEGORY = CM.CODE_VALUE
 		WHERE 
 			PB.DEL_FLG = FALSE AND

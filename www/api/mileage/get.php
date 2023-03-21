@@ -36,13 +36,13 @@ else{
         "SELECT 
                 IFNULL(MILEAGE_BALANCE, 0 ) AS MILEAGE_BALANCE 
             FROM
-                dev.MILEAGE_INFO  	MI	RIGHT JOIN
+                MILEAGE_INFO  	MI	RIGHT JOIN
                 (SELECT
                     COUNTRY,
                     MEMBER_IDX,
                     MAX(IDX)	AS MAX_IDX
                 FROM
-                    dev.MILEAGE_INFO
+                    MILEAGE_INFO
                 GROUP BY 
                     MEMBER_IDX,
                     COUNTRY)		RESENT_INFO

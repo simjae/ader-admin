@@ -22,7 +22,7 @@ $sort_value 		= $_POST['sort_value'];				//정렬 값
 $rows = $_POST['rows'];
 $page = $_POST['page'];
     
-$table = "dev.WKLA_INFO";
+$table = "WKLA_INFO";
 $where = '1=1';
 $having = '';
 
@@ -60,11 +60,11 @@ $sql = 	'SELECT
             (SELECT     
                 COUNT(0)        
             FROM
-                dev.ORDERSHEET_MST
+                ORDERSHEET_MST
             WHERE
                 WKLA_IDX = WKLA.IDX)                                AS USE_PRODUCT_CNT
         FROM 
-            dev.WKLA_INFO    AS WKLA
+            WKLA_INFO    AS WKLA
         ORDER BY 
             WKLA.IDX DESC
 ';
@@ -76,8 +76,8 @@ $sql = 	'
             WKLA.MEMO                                       AS WKLA_MEMO,
             COUNT(OM.IDX)									AS USE_PRODUCT_CNT
         FROM 
-            dev.WKLA_INFO    	AS WKLA LEFT JOIN
-            dev.ORDERSHEET_MST	AS OM 
+            WKLA_INFO    	AS WKLA LEFT JOIN
+            ORDERSHEET_MST	AS OM 
         ON
             WKLA.IDX = OM.WKLA_IDX
         WHERE

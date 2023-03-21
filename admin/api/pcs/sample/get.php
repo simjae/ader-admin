@@ -41,7 +41,7 @@ if ($product_code != null || $manufacturer != null) {
 							IFNULL(DATE_FORMAT(MAX(S_SI.DUE_DATE), '%Y-%m-%d'),'')
 						)
 					FROM
-						dev.SAMPLE_INFO S_SI
+						SAMPLE_INFO S_SI
 					WHERE
 						S_SI.PRODUCT_CODE = SI.PRODUCT_CODE AND
 						S_SI.MANUFACTURER = SI.MANUFACTURER AND
@@ -49,7 +49,7 @@ if ($product_code != null || $manufacturer != null) {
 				)					AS DUE_DATE_TEXT,
 				SUM(SI.PRODUCT_QTY)	AS PRODUCT_SUM_QTY
 			FROM
-				dev.SAMPLE_INFO SI
+				SAMPLE_INFO SI
 			WHERE
 				SI.DEL_FLG = FALSE
 			AND

@@ -1,3 +1,5 @@
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<div class="card__header">
 		<h3>통합 엑셀다운로드</h3>

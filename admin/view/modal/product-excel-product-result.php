@@ -202,36 +202,5 @@ $(document).ready(function() {
         `;
         $('.modal .content__card').append(str_div);
     });
-
-    
-    
-    /*
-    var result_arr = result.split('|');
-    
-    var count_arr = result_arr[0].split(',');
-    var fail_code_arr = result_arr[1].split(',');
-    var fail_rn_arr = result_arr[2].split(',');
-
-    $('#total_upload_cnt').text(' : ' + count_arr[0] + ' 개');
-    $('#success_upload_cnt').text(' : ' + count_arr[1] + ' 개');
-    $('#fail_upload_cnt').text(' : ' + count_arr[2] + ' 개');
-
-    if(result_arr[1].length > 0){
-        var fail_cnt = fail_code_arr.length;
-        for(var i = 0; i < fail_cnt; i++){
-            var div_str = `
-                <tr>
-                    <td>${i+1}</td>
-                    <td>${fail_code_arr[i]}</td>
-                    <td>${fail_rn_arr[i]}</td>
-                </tr>
-            `;
-            $('#fail_list').append(div_str);
-        }
-    }
-    else{
-        $('#fail_list').append(`<TD colspan="3">결과가 없습니다.</td>`);
-    }
-    */
 });
 </script>

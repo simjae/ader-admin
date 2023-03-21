@@ -36,7 +36,7 @@ if ($filter_idx != null) {
 	
 	$update_filter_sql = "
 		UPDATE
-			dev.PRODUCT_FILTER
+			PRODUCT_FILTER
 		SET
 			FILTER_NAME_KR = '".$filter_name_kr."',
 			FILTER_NAME_EN = '".$filter_name_en."',

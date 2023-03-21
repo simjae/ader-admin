@@ -35,7 +35,7 @@ if ($page_idx > 0 && $size_type != null) {
 				''
 			)				AS IMG_LOCATION
 		FROM
-			dev.RUNWAY_THUMB ET
+			RUNWAY_THUMB ET
 		WHERE
 			ET.PAGE_IDX = ".$page_idx." AND
 			ET.SIZE_TYPE = '".$size_type."' AND
@@ -62,7 +62,7 @@ if ($page_idx > 0 && $size_type != null) {
 						''
 					)					AS CONTENTS_URL
 				FROM
-					dev.RUNWAY_CONTENTS EC
+					RUNWAY_CONTENTS EC
 				WHERE
 					EC.THUMB_IDX = ".$thumb_idx." AND
 					SIZE_TYPE = '".$size_type."'

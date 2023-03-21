@@ -14,8 +14,11 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+$session_id				= sessionCheck();
 $country				= $_POST['country'];
 
 $member_level			= $_POST['member_level'];
@@ -75,7 +78,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 	try {
 		$insert_draw_sql = "
 			INSERT INTO
-				dev.PAGE_DRAW
+				PAGE_DRAW
 			(
 				COUNTRY,
 				MEMBER_LEVEL,
@@ -89,7 +92,9 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				ENTRY_END_DATE,
 				ANNOUNCE_DATE,
 				PURCHASE_START_DATE,
-				PURCHASE_END_DATE
+				PURCHASE_END_DATE,
+				CREATER,
+				UPDATER
 			)
 			SELECT
 				'".$country."'				AS COUNTRY,
@@ -100,13 +105,15 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				PR.PRODUCT_NAME				AS PRODUCT_NAME,
 				".$sales_price."			AS SALES_PRICE,
 				FALSE						AS DISPLAY_FLG,
-				STR_TO_DATE('".$entry_start_date."','%Y%m%d%H%i%s')			AS ENTRY_START_DATE,
-				STR_TO_DATE('".$entry_end_date."','%Y%m%d%H%i%s')			AS ENTRY_END_DATE,
-				STR_TO_DATE('".$announce_date."','%Y%m%d%H%i%s')			AS ANNOUNCE_DATE,
-				STR_TO_DATE('".$purchase_start_date."','%Y%m%d%H%i%s')		AS PURCHASE_START_DATE,
-				STR_TO_DATE('".$purchase_end_date."','%Y%m%d%H%i%s')		AS PURCHASE_END_DATE
+				STR_TO_DATE('".$entry_start_date."','%Y-%m-%d %H:%i')			AS ENTRY_START_DATE,
+				STR_TO_DATE('".$entry_end_date."','%Y-%m-%d %H:%i')			AS ENTRY_END_DATE,
+				STR_TO_DATE('".$announce_date."','%Y-%m-%d %H:%i')			AS ANNOUNCE_DATE,
+				STR_TO_DATE('".$purchase_start_date."','%Y-%m-%d %H:%i')		AS PURCHASE_START_DATE,
+				STR_TO_DATE('".$purchase_end_date."','%Y-%m-%d %H:%i')		AS PURCHASE_END_DATE,
+				'".$session_id."',
+				'".$session_id."'
 			FROM
-				dev.SHOP_PRODUCT PR
+				SHOP_PRODUCT PR
 			WHERE
 				PR.IDX = ".$product_idx."
 		";
@@ -123,7 +130,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				}
 				$insert_qty_sql = "
 					INSERT INTO
-						dev.QTY_DRAW
+						QTY_DRAW
 					(
 						COUNTRY,
 						DRAW_IDX,
@@ -160,7 +167,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				SELECT
 					PD.IDX				AS DRAW_IDX
 				FROM
-					dev.PAGE_DRAW PD
+					PAGE_DRAW PD
 				WHERE
 					PD.IDX != ".$draw_idx." AND
 					PD.DEL_FLG = FALSE
@@ -177,7 +184,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				if (!empty($tmp_idx)) {
 					$update_draw_sql = "
 						UPDATE
-							dev.PAGE_DRAW
+							PAGE_DRAW
 						SET
 							DISPLAY_NUM = ".$display_num."
 						WHERE

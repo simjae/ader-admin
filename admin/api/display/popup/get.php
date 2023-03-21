@@ -47,7 +47,7 @@ $administrator_permision	= array();
 $origin_report 				= array();
 
 $where = ' DEL_FLG = FALSE';
-$tables = " dev.DISPLAY_POPUP ";
+$tables = " DISPLAY_POPUP ";
 
 $order = "";
 $limit = "";
@@ -74,7 +74,7 @@ if ($popup_idx != null) {
 							SELECT 
 								DISTINCT POPUP_IDX 
 							FROM 
-								dev.POPUP_URL 
+								POPUP_URL 
 							WHERE 
 								URL LIKE '%product%' 
 							AND 
@@ -136,16 +136,15 @@ if ($popup_idx != null) {
                 break;
         }
     }
-
     /* 검색조건 : 등록일 */
-    if ($search_date != null) {
+    if ($search_date != null && $search_date != 'all') {
         switch ($search_date) {
             case "today" :
                 $where .= " AND (".$search_date_type." >= CURDATE()) ";
                 break;
             
             case "01d" :
-                $where .= " AND (".$search_date_type." >= (CURDATE() - INTERVAL 1 DAY)) ";
+                $where .= " AND (".$search_date_type." = (CURDATE() - INTERVAL 1 DAY)) ";
                 break;
             
             case "03d" :

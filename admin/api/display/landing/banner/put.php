@@ -23,6 +23,7 @@ $session_id			= sessionCheck();
 $main_banner		= $_FILES['main_banner'];
 
 $display_num_flg	= $_POST['display_num_flg'];
+$update_flg			= $_POST['update_flg'];
 
 $country			= $_POST['country'];
 $action_type		= $_POST['action_type'];
@@ -30,6 +31,7 @@ $recent_idx			= $_POST['recent_idx'];
 $recent_num			= $_POST['recent_num'];
 
 $banner_idx			= $_POST['banner_idx'];
+$img_location		= $_POST['img_location'];
 $title				= $_POST['title'];
 $sub_title			= $_POST['sub_title'];
 $background_color	= $_POST['background_color'];
@@ -48,11 +50,11 @@ if ($display_num_flg != null && $action_type != null) {
 		case "up" :
 			$prev_sql = "
 				UPDATE
-					dev.MAIN_BANNER
+					TMP_MAIN_BANNER
 				SET
 					DISPLAY_NUM = ".$recent_num.",
 					UPDATE_DATE = NOW(),
-					UPDATER = '".$session_id."
+					UPDATER = '".$session_id."'
 				WHERE
 					COUNTRY = '".$country."' AND
 					DISPLAY_NUM = ".intval($recent_num - 1)." AND
@@ -61,11 +63,11 @@ if ($display_num_flg != null && $action_type != null) {
 			
 			$sql = "
 				UPDATE
-					dev.MAIN_BANNER
+					TMP_MAIN_BANNER
 				SET
 					DISPLAY_NUM = ".intval($recent_num - 1).",
 					UPDATE_DATE = NOW(),
-					UPDATER = '".$session_id."
+					UPDATER = '".$session_id."'
 				WHERE
 					IDX = ".$recent_idx." AND
 					COUNTRY = '".$country."' AND
@@ -77,11 +79,11 @@ if ($display_num_flg != null && $action_type != null) {
 		case "down" :
 			$prev_sql = "
 				UPDATE
-					dev.MAIN_BANNER
+					TMP_MAIN_BANNER
 				SET
 					DISPLAY_NUM = ".$recent_num.",
 					UPDATE_DATE = NOW(),
-					UPDATER = '".$session_id."
+					UPDATER = '".$session_id."'
 				WHERE
 					COUNTRY = '".$country."' AND
 					DISPLAY_NUM = ".intval($recent_num + 1)." AND
@@ -90,11 +92,11 @@ if ($display_num_flg != null && $action_type != null) {
 			
 			$sql = "
 				UPDATE
-					dev.MAIN_BANNER
+					TMP_MAIN_BANNER
 				SET
 					DISPLAY_NUM = ".intval($recent_num + 1).",
 					UPDATE_DATE = NOW(),
-					UPDATER = '".$session_id."
+					UPDATER = '".$session_id."'
 				WHERE
 					IDX = ".$recent_idx." AND
 					COUNTRY = '".$country."' AND
@@ -113,27 +115,15 @@ if ($display_num_flg != null && $action_type != null) {
 	}
 }
 
-if ($banner_idx != null) {
-	$path = "/var/www/admin/www/images/main/banner";	
-	$img_location_sql = "";
-	
-	if ($main_banner['size'] > 0) {
-		$upload_result = uploadMainBanner($path,$main_banner);
-		
-		if ($upload_result['code'] == 200) {
-			$img_filename = $upload_result['name'];
-			
-			$img_location_sql = " IMG_LOCATION = '".$path.$img_filename."', ";
-		}
-	}
-	
+if ($update_flg != null && $banner_idx != null) {
 	$update_banner_sql = "
 		UPDATE
-			dev.MAIN_BANNER
+			TMP_MAIN_BANNER
 		SET
-			".$img_location_sql."
+			IMG_LOCATION = '/var/www/admin/www".$img_location."',
 			TITLE = '".$title."',
 			SUB_TITLE = '".$sub_title."',
+			BACKGROUND_COLOR = '".$background_color."',
 			BTN1_NAME = '".$btn1_name."',
 			BTN1_URL = '".$btn1_url."',
 			BTN1_DISPLAY_FLG = ".$btn1_display_flg.",
@@ -149,36 +139,4 @@ if ($banner_idx != null) {
 	$db->query($update_banner_sql);
 }
 
-function uploadMainBanner($path,$file) {
-	$filename = $file['name'];			// 파일 이름 알아내기
-	$file_tmp = $file['tmp_name'];		// 파일 임시 저장 장소 알아내기
-	$file_info = pathinfo($filename);	// 파일 확장자 알아내기
-
-	// 실행 파일 업로드 불가
-	if(array_key_exists('extension',$file_info) && strpos(strtolower($file_info['extension']),'.php,.asp,.jsp,.aspx')) {
-		throw new Exception('Can not upload file : Permition Denied');
-		return false;
-	}
-	
-	$filename = str_replace(' ','_',strip_tags($filename));
-	$filename_arr = explode('.',$filename);
-	
-	// 파일 이름을 타임 스탬프로 바꾸기
-	$filename = "img_main_banner_".time().".".$filename_arr[1];
-	
-	// 파일을 정해진 저장 디렉토리에 저장
-	$filename_real = $filename;
-	$res = move_uploaded_file($file_tmp,$path.$filename_real);
-	
-	$upload_result = array();
-	if ($res == true) {
-		$upload_result['code'] = 200;
-		$upload_result['name'] = $filename;
-	} else {
-		$upload_result['code'] = 301;
-		$upload_result['msg'] = "배너 이미지/동영상 업로드 처리중 오류가 발생했습니다.";
-	}
-	
-	return $upload_result;
-}
 ?>

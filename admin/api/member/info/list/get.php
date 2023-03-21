@@ -31,8 +31,17 @@ $sleep_to			= $_POST['sleep_to'];			//휴면 처리일 - 종료일
 $drop_from			= $_POST['drop_from'];			//탈퇴 처리일 - 시작일
 $drop_to			= $_POST['drop_to'];			//탈퇴 처리일 - 종료일
 
-$order_date_from	= $_POST['order_date_from'];	//주문일 - 시작일
-$order_date_to		= $_POST['order_date_to'];		//주문일 - 종료일
+
+$min_sales_cnt		= $_POST['min_sales_cnt'];		//구매항목 최소값
+$max_sales_cnt		= $_POST['max_sales_cnt'];		//구매항목 최대값
+
+$min_order_cnt		= $_POST['min_order_cnt'];		//주문수량 최소값
+$max_order_cnt		= $_POST['max_order_cnt'];		//주문수량 최대값
+
+$ord_date_kind		= $_POST['ord_date_kind'];		//주문/결제완료일 타입
+$order_date_from	= $_POST['order_from'];			//주문/결제일 - 시작일
+$order_date_to		= $_POST['order_to'];			//주문/결제일 - 종료일
+
 
 $member_level		= $_POST['member_level'];		//멤버 그룹 - 일반회원, ADER family
 
@@ -83,7 +92,7 @@ if ($tab_status != null) {
 					SELECT
 						COUNT(S_OI.IDX)
 					FROM
-						dev.ORDER_INFO S_OI
+						ORDER_INFO S_OI
 					WHERE
 						S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
 						S_OI.MEMBER_IDX = MB.IDX
@@ -120,79 +129,81 @@ if ($search_keyword != null) {
 }
 
 if ($search_date_type != null && $search_date != null) {
+	$tmp_date = "DATE_FORMAT(MB.".$search_date_type.",'%Y-%m-%d')";
 	switch ($search_date) {
 		case "today" :
-			$where .= " AND (MB.".$search_date_type." = CURDATE()) ";
+			$where .= " AND (".$tmp_date." = CURDATE()) ";
 			break;
 		
 		case "01d" :
-			$where .= " AND (MB.".$search_date_type." = (CURDATE() - INTERVAL 1 DAY)) ";
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 DAY)) ";
 			break;
 		
 		case "03d" :
-			$where .= " AND (MB.".$search_date_type." >= (CURDATE() - INTERVAL 3 DAY)) ";
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 DAY)) ";
 			break;
 		
 		case "07d" :
-			$where .= " AND (MB.".$search_date_type." >= (CURDATE() - INTERVAL 7 DAY)) ";
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 7 DAY)) ";
 			break;
 		
 		case "15d" :
-			$where .= " AND (MB.".$search_date_type." >= (CURDATE() - INTERVAL 15 DAY)) ";
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 15 DAY)) ";
 			break;
 		
 		case "01m" :
-			$where .= " AND (MB.".$search_date_type." >= (CURDATE() - INTERVAL 1 MONTH)) ";
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 MONTH)) ";
 			break;
 		
 		case "03m" :
-			$where .= " AND (MB.".$search_date_type." >= (CURDATE() - INTERVAL 3 MONTH)) ";
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 MONTH)) ";
+			break;
+		
+		case "01y" :
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 YEAR)) ";
 			break;
 	}
 }
-
-if ($sleep_off_from != null || $sleep_off_to != null) {
-	if ($sleep_off_from != null && $sleep_off_to == null) {
+if (strlen($sleep_off_from) > 0 || strlen($sleep_off_to) > 0) {
+	if (strlen($sleep_off_from) > 0 && strlen($sleep_off_to) == 0) {
 		$where .= " AND (MB.SLEEP_DATE >= '".$sleep_off_from."') ";
-	} else if ($sleep_off_from == null && $sleep_off_to != null) {
+	} else if (strlen($sleep_off_from) == 0 && strlen($sleep_off_to) > 0) {
 		$where .= " AND (MB.SLEEP_DATE <= '".$sleep_off_to."') ";
-	} else if ($sleep_off_from != null && $sleep_off_to != null) {
+	} else if (strlen($sleep_off_from) > 0 && strlen($sleep_off_to) > 0) {
 		$where .= " AND (MB.SLEEP_DATE BETWEEN '".$sleep_off_from."' AND '".$sleep_off_to."') ";
 	}
 }
 
-if ($sleep_from != null || $sleep_to != null) {
-	if ($sleep_from != null && $sleep_to == null) {
+if (strlen($sleep_from) > 0 || strlen($sleep_to) > 0) {
+	if (strlen($sleep_from) > 0 && strlen($sleep_to) == 0) {
 		$where .= " AND (MB.SLEEP_DATE >= '".$sleep_from."') ";
-	} else if ($sleep_from == null && $sleep_to != null) {
+	} else if (strlen($sleep_from) == 0 && strlen($sleep_to) > 0) {
 		$where .= " AND (MB.SLEEP_DATE <= '".$sleep_to."') ";
-	} else if ($sleep_from != null && $sleep_to != null) {
+	} else if (strlen($SLEEP_DATE) > 0 && strlen($sleep_to) > 0) {
 		$where .= " AND (MB.SLEEP_DATE BETWEEN '".$sleep_from."' AND '".$sleep_to."') ";
 	}
 }
 
-if ($drop_from != null || $drop_to != null) {
-	if ($drop_from != null && $drop_to == null) {
+if (strlen($drop_from) > 0 || strlen($drop_to) > 0) {
+	if (strlen($drop_from) > 0 && strlen($drop_to) == 0) {
 		$where .= " AND (MB.SLEEP_DATE >= '".$drop_from."') ";
-	} else if ($drop_from == null && $drop_to != null) {
+	} else if (strlen($drop_from) == 0 && strlen($drop_to) > 0) {
 		$where .= " AND (MB.SLEEP_DATE <= '".$drop_to."') ";
-	} else if ($drop_from != null && $drop_to != null) {
+	} else if (strlen($SLEEP_DATE) > 0 && strlen($drop_to) > 0) {
 		$where .= " AND (MB.SLEEP_DATE BETWEEN '".$drop_from."' AND '".$drop_to."') ";
 	}
 }
-
 //멤버 레벨
 if ($member_level != null && $member_level != 'ALL') {
 	$where .= " AND (MB.LEVEL_IDX = ".$member_level.") ";
 }
-
 //가입일/생일
-if ($day_type != null && ($day_from != null || $day_to != null)) {
-	if ($daty_from =! null && $day_to == null) {
+if (strlen($day_type) > 0 && (strlen($day_from) > 0 || strlen($day_to) > 0)) {
+	if (strlen($day_from) > 0 && strlen($day_to) == 0) {
 		$where .= " AND (MB.".$day_type." >= '".$day_from."') ";
-	} else if ($daty_from == null && $day_to != null) {
+	} else if (strlen($day_from) == 0 && strlen($day_to) > 0) {
 		$where .= " AND (MB.".$day_type." <= '".$day_to."') ";
-	} else if ($daty_from != null && $day_to != null) {
+	} else if (strlen($day_from) > 0 && strlen($day_to) > 0) {
 		$where .= " AND (MB.".$day_type." BETWEEN '".$day_from."' AND '".$day_to."') ";
 	}
 }
@@ -259,14 +270,14 @@ if ($min_mileage != null || $max_mileage != null) {
 	$mileage_sql .= "
 		AND (
 			(
-				SELECT 
+				SELECT
 					S_MI.MILEAGE_BALANCE
-				FROM 
-					dev.MILEAGE_INFO S_MI
+				FROM
+					MILEAGE_INFO S_MI
 				WHERE 
 					S_MI.MEMBER_IDX = MB.IDX
-				ORDER BY 
-					S_MI.IDX DESC 
+				ORDER BY
+					S_MI.IDX DESC
 				LIMIT
 					0,1
 			)
@@ -291,14 +302,14 @@ if ($min_mileage != null || $max_mileage != null) {
 /** 정렬 조건 **/
 $order = '';
 if ($sort_value != null && $sort_type != null) {
-	$order = ' MB.'.$sort_value." ".$sort_type." ";
+	$order = ' '.$sort_value." ".$sort_type." ";
 } else {
-	$order = ' MB.IDX DESC';
+	$order = ' MEMBER_IDX DESC';
 }
 
 $table = "
-	dev.MEMBER_".$country." MB
-	LEFT JOIN dev.MEMBER_LEVEL LV ON
+	MEMBER_".$country." MB
+	LEFT JOIN MEMBER_LEVEL LV ON
 	MB.LEVEL_IDX = LV.IDX
 ";
 
@@ -316,98 +327,124 @@ $limit_start = (intval($page)-1)*$rows;
 //검색항목
 $select_member_sql = "
 	SELECT
-		MB.IDX					AS MEMBER_IDX,
-		MB.MEMBER_STATUS		AS MEMBER_STATUS,
-		MB.MEMBER_ID			AS MEMBER_ID,
-		LV.TITLE				AS MEMBER_LEVEL,
-		MB.MEMBER_NAME			AS MEMBER_NAME,
-		MB.MEMBER_BIRTH			AS MEMBER_BIRTH,
-		ROUND(
-			(
-				TO_DAYS(NOW()) - (
-					TO_DAYS(MB.MEMBER_BIRTH)
-				)
-			) / 365
-		)						AS AGE,
-		CASE
-			WHEN
-				MB.MEMBER_GENDER = 'F'
-				THEN
-					'여자'
-			WHEN
-				MB.MEMBER_GENDER = 'M'
-				THEN
-					'남자'
-			ELSE
-				'-'
-		END						AS MEMBER_GENDER,
-		MB.ZIPCODE				AS ZIPCODE,
-		MB.ROAD_ADDR			AS ROAD_ADDR,
-		MB.LOT_ADDR				AS LOT_ADDR,
-		MB.DETAIL_ADDR			AS DETAIL_ADDR,
-		MB.TEL_MOBILE			AS TEL_MOBILE,
-		MB.RECEIVE_SMS_FLG		AS RECEIVE_SMS_FLG,
-		MB.RECEIVE_PUSH_FLG		AS RECEIVE_PUSH_FLG,
-		MB.RECEIVE_EMAIL_FLG	AS RECEIVE_EMAIL_FLG,
-		MB.IP					AS IP,
-		IFNULL(
-			DATE_FORMAT(
-				MB.JOIN_DATE,
-				'%Y-%m-%d %H:%i'
-			),'-'
-		)						AS JOIN_DATE,		
-		IFNULL(
-			DATE_FORMAT(
-				MB.LOGIN_DATE,
-				'%Y-%m-%d'
-			),'-'
-		)						AS LOGIN_DATE,
-		IFNULL(
-			DATE_FORMAT(
-				MB.SLEEP_DATE,
-				'%Y-%m-%d'
-			),'-'
-		)						AS SLEEP_DATE,
-		
-		DATE_FORMAT(
-			MB.SLEEP_OFF_DATE,
-			'%Y-%m-%d'
-		)						AS SLEEP_OFF_DATE,
-		DATE_FORMAT(
-			MB.DROP_DATE,
-			'%Y-%m-%d'
-		)						AS DROP_DATE,
-		MB.DROP_TYPE			AS DROP_TYPE,
-		MB.SUSPICION_FLG		AS SUSPICION_FLG,
+		*
+	FROM
 		(
 			SELECT
+				MB.IDX					AS MEMBER_IDX,
+				MB.COUNTRY				AS COUNTRY,
+				MB.MEMBER_STATUS		AS MEMBER_STATUS,
+				MB.MEMBER_ID			AS MEMBER_ID,
+				LV.TITLE				AS MEMBER_LEVEL,
+				MB.MEMBER_NAME			AS MEMBER_NAME,
 				IFNULL(
-					COUNT(S_OI.IDX),0
-				)
+					DATE_FORMAT(
+						MB.MEMBER_BIRTH,
+						'%Y-%m-%d'
+					),'-'
+				)						AS MEMBER_BIRTH,
+				ROUND(
+					(
+						TO_DAYS(NOW()) - (
+							TO_DAYS(MB.MEMBER_BIRTH)
+						)
+					) / 365
+				)						AS AGE,
+				CASE
+					WHEN
+						MB.MEMBER_GENDER = 'F'
+						THEN
+							'여자'
+					WHEN
+						MB.MEMBER_GENDER = 'M'
+						THEN
+							'남자'
+					ELSE
+						'-'
+				END						AS MEMBER_GENDER,
+				MB.ZIPCODE				AS ZIPCODE,
+				IFNULL(
+					MB.ROAD_ADDR,'-'
+				)						AS ROAD_ADDR,
+				IFNULL(
+					MB.LOT_ADDR,'-'
+				)						AS LOT_ADDR,
+				IFNULL(
+					MB.DETAIL_ADDR,'-'
+				)						AS DETAIL_ADDR,
+				MB.TEL_MOBILE			AS TEL_MOBILE,
+				
+				MB.RECEIVE_SMS_FLG		AS RECEIVE_SMS_FLG,
+				MB.RECEIVE_PUSH_FLG		AS RECEIVE_PUSH_FLG,
+				MB.RECEIVE_EMAIL_FLG	AS RECEIVE_EMAIL_FLG,
+				IFNULL(
+					DATE_FORMAT(
+						MB.JOIN_DATE,
+						'%Y-%m-%d'
+					),'-'
+				)						AS JOIN_DATE,		
+				IFNULL(
+					DATE_FORMAT(
+						MB.LOGIN_DATE,
+						'%Y-%m-%d %H:%i'
+					),'-'
+				)						AS LOGIN_DATE,
+				IFNULL(
+					DATE_FORMAT(
+						MB.SLEEP_DATE,
+						'%Y-%m-%d'
+					),'-'
+				)						AS SLEEP_DATE,		
+				IFNULL(
+					DATE_FORMAT(
+						MB.DROP_DATE,
+						'%Y-%m-%d'
+					),'-'
+				)						AS DROP_DATE,
+				MB.DROP_TYPE			AS DROP_TYPE,
+				MB.SUSPICION_FLG		AS SUSPICION_FLG,
+				(
+					SELECT
+						IFNULL(
+							COUNT(S_OI.IDX),0
+						)
+					FROM
+						ORDER_INFO S_OI
+					WHERE
+						S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
+						S_OI.MEMBER_IDX = MB.IDX AND
+						S_OI.COUNTRY = MB.COUNTRY
+				)						AS ORDER_CNT
 			FROM
-				dev.ORDER_INFO S_OI
+				".$table."
 			WHERE
-				S_OI.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP') AND
-				S_OI.MEMBER_IDX = MB.IDX
-		)						AS ORDER_CNT
-	FROM
-		".$table."
-	WHERE
-		".$where."
+				".$where."
+		) AS TMP
 	ORDER BY
 		".$order."
 ";
-
-//print_r($select_member_sql);
-
 if ($rows != null && $select_idx_flg == null) {
 	$select_member_sql .= " LIMIT ".$limit_start.",".$rows;
 }
-
 $db->query($select_member_sql);
 
 foreach($db->fetch() as $member_data) {
 	$member_idx = $member_data['MEMBER_IDX'];
+	
+	$txt_country = "";
+	switch ($member_data['COUNTRY']) {
+		case "KR" :
+			$txt_country = "한국몰";
+			break;
+		
+		case "EN" :
+			$txt_country = "영문몰";
+			break;
+		
+		case "CN" :
+			$txt_country = "중문몰";
+			break;
+	}
 	
 	$member_status = "";
 	switch ($member_data['MEMBER_STATUS']) {
@@ -482,9 +519,12 @@ foreach($db->fetch() as $member_data) {
 				OI.PRICE_PRODUCT	AS PRICE_PRODUCT,
 				OI.PRICE_TOTAL		AS PRICE_TOTAL
 			FROM
-				dev.ORDER_INFO OI
+				ORDER_INFO OI
 			WHERE
 				OI.MEMBER_IDX = ".$member_idx."
+			ORDER BY
+				OI.IDX DESC
+			LIMIT 0,1
 		";
 		
 		$db->query($select_order_sql);
@@ -502,6 +542,8 @@ foreach($db->fetch() as $member_data) {
 	
 	$json_result['data'][] = array(
 		'num'					=>$total_cnt--,
+		'country'				=>$member_data['COUNTRY'],
+		'txt_country'			=>$txt_country,
 		'member_idx'			=>$member_data['MEMBER_IDX'],
 		'member_status'			=>$member_status,
 		'member_id'				=>$member_data['MEMBER_ID'],
@@ -510,26 +552,32 @@ foreach($db->fetch() as $member_data) {
 		'member_birth'			=>$member_data['MEMBER_BIRTH'],
 		'age'					=>$member_data['AGE'],
 		'member_gender'			=>$member_data['MEMBER_GENDER'],
-		'join_date'				=>$member_data['JOIN_DATE'],
+		
+		'region'				=>$region,
 		'zipcode'				=>$member_data['ZIPCODE'],
 		'road_addr'				=>$member_data['ROAD_ADDR'],
 		'lot_addr'				=>$member_data['LOT_ADDR'],
 		'detail_addr'			=>$member_data['DETAIL_ADDR'],
-		'region'				=>$region,
+		
 		'tel_mobile'			=>$member_data['TEL_MOBILE'],
+		
 		'receive_sms_flg'		=>$member_data['RECEIVE_SMS_FLG'],
 		'receive_push_flg'		=>$member_data['RECEIVE_PUSH_FLG'],
 		'receive_email_flg'		=>$member_data['RECEIVE_EMAIL_FLG'],
+		
 		'join_date'				=>$member_data['JOIN_DATE'],
-		'login_date'			=>$member_data['LOGIN_DATE'],
 		'sleep_date'			=>$member_data['SLEEP_DATE'],
-		'sleep_off_date'		=>$member_data['SLEEP_OFF_DATE'],
 		'drop_date'				=>$member_data['DROP_DATE'],
+		'login_date'			=>$member_data['LOGIN_DATE'],
+		
 		'drop_type'				=>$drop_type,
+		
 		'suspicioun_flg'		=>$member_data['SUSPICION_FLG'],
+		
 		'order_cnt'				=>$member_data['ORDER_CNT'],
 		'order_date'			=>$order_info['order_date'],
 		'order_code'			=>$order_info['order_code'],
+		
 		'pg_payment'			=>$order_info['pg_payment'],
 		'price_product'			=>number_format($order_info['price_product']),
 		'price_total'			=>number_format($order_info['price_total'])

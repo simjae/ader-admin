@@ -35,7 +35,7 @@ if (isset($_SESSION['ADMIN_PERMITION'])) {
 if ($admin_id != null && $admin_permition != null) {
 	$insert_log_sql = "
 		INSERT INTO
-			dev.ADMIN_LOG
+			ADMIN_LOG
 		(
 			LOG_TYPE,
 			LOG_CONTENTS,

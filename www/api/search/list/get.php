@@ -33,7 +33,7 @@ if ($country != null) {
 			MENU_SORT		AS MENU_SORT,
 			MENU_IDX		AS MENU_IDX
 		FROM
-			dev.RECOMMEND_KEYWORD RK
+			RECOMMEND_KEYWORD RK
 		WHERE
 			RK.COUNTRY = '".$country."'
 		ORDER BY
@@ -54,15 +54,15 @@ if ($country != null) {
 			$menu_table = "";
 			switch($menu_sort) {
 				case "L" :
-					$menu_table = " dev.MENU_LRG ";
+					$menu_table = " MENU_LRG ";
 					break;
 				
 				case "M" :
-					$menu_table = " dev.MENU_MDL ";
+					$menu_table = " MENU_MDL ";
 					break;
 				
 				case "S" :
-					$menu_table = " dev.MENU_SML ";
+					$menu_table = " MENU_SML ";
 					break;
 			}
 			
@@ -102,7 +102,7 @@ if ($country != null) {
 						''
 					)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -113,8 +113,8 @@ if ($country != null) {
 					0,1
 			)					AS IMG_LOCATION
 		FROM
-			dev.POPULAR_PRODUCT PP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			POPULAR_PRODUCT PP
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PP.PRODUCT_IDX = PR.IDX
 		WHERE
 			COUNTRY = '".$country."'

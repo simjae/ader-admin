@@ -39,7 +39,7 @@ if ($collaboration_idx != null) {
 						''
 					)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					IMG_TYPE = 'P' AND
@@ -51,10 +51,10 @@ if ($collaboration_idx != null) {
 			)							AS IMG_LOCATION,
 			CP.DISPLAY_FLG				AS DISPLAY_FLG
 		FROM
-			dev.COLLABORATION_PRODUCT CP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			COLLABORATION_PRODUCT CP
+			LEFT JOIN SHOP_PRODUCT PR ON
 			CP.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		WHERE
 			CP.COLLABORATION_IDX = ".$collaboration_idx."

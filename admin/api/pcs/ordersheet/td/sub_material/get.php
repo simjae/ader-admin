@@ -30,7 +30,7 @@ $sql = 	'SELECT
             SUB_MATERIAL_TYPE                           AS SUB_MATERIAL_TYPE,
             MEMO                                        AS SUB_MATERIAL_MEMO
         FROM 
-            dev.SUB_MATERIAL_INFO
+            SUB_MATERIAL_INFO
             '.$where;
 
 $db->query($sql);

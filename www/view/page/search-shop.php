@@ -55,5 +55,5 @@
         <div class="find-store-btn"><div>매장 찾기로 이동</div></div>
     </article>
 </main>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCABjfARNFp4hOXJyzzRUtY6SIswO2oKPA&libraries=places&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu8oQmePk_LBTpfICgZ2xUbUt31RkqX4o&libraries=places&callback=initMap"></script>
 <script src="/scripts/store/list.js"></script>

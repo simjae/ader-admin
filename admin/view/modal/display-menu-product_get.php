@@ -1,18 +1,21 @@
-<div class="content__card" style="margin: 0;">
+<div class="content__card modal__view" style="margin: 0;">
 	<input class="param_product" type="hidden" value="<?=$param?>">
-	<form id="frm-M_PR" action="menu/modal/product/list/get">
-		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
-		<input type="hidden" class="sort_value" name="sort_value" value="IDX">
-		
-		<input type="hidden" class="rows" name="rows" value="10">
-		<input type="hidden" class="page" name="page" value="1">
 
-		<div class="card__header">
+	<div class="card__header">
+		<div class="flex justify-between">
 			<h3>상품 페이지 전체 검색</h3>
-			<div class="drive--x"></div>
+			<a href="javascript:;" onclick="modal_close();" class="btn-close"><i class="xi-close"></i></a>
 		</div>
-		
-		<div class="card__body">
+		<div class="drive--x"></div>
+	</div>
+	
+	<div class="card__body">
+		<form id="frm-M_PR" action="display/menu/modal/product/list/get">
+			<input type="hidden" class="sort_type" name="sort_type" value="DESC">
+			<input type="hidden" class="sort_value" name="sort_value" value="IDX">
+			
+			<input type="hidden" class="rows" name="rows" value="10">
+			<input type="hidden" class="page" name="page" value="1">
 			<div class="content__wrap">
 				<div class="content__title">타이틀</div>
 				<div class="content__row">
@@ -61,90 +64,98 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		
+		</form>
 		<div class="card__footer">
 			<div class="footer__btn__wrap">
 				<div toggle="hide"></div>
 				<div class="btn__wrap--lg">
-					<div  class="blue__color__btn" onClick="getPostingPage();"><span>검색</span></div>
-					<div class="defult__color__btn" onClick="init_fileter('frm-M_PR','getPostingPage');"><span>초기화</span></div>
+					<div  class="blue__color__btn" onClick="getPageProductList();"><span>검색</span></div>
+					<div class="defult__color__btn" onClick="init_fileter('frm-M_PR','getPageProductList');"><span>초기화</span></div>
 					<div class="defult__color__btn" onClick="modal_close();"><span>취소</span></div>
 				</div>
 			</div>
 		</div>
-	</form>
+		<div class="content__card">
+			<form id="frm-list_all">
+				<div class="card__header">
+					<h3>게시물 검색 결과</h3>
+					<div class="drive--x"></div>
+				</div>
+				<div class="card__body">
+					<div class="info__wrap " style="justify-content:space-between; align-items: center;">
+						<div class="body__info--count">
+							<div class="drive--left"></div>
+							총 상품 수 <font class="cnt_total info__count" >0</font>개 / 검색결과 <font class="cnt_result info__count" >0</font>개
+						</div>
+							
+						<div class="content__row">
+							<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
+								<option value="CREATE_DATE|DESC">등록일 역순</option>
+								<option value="CREATE_DATE|ASC" selected>등록일 순</option>
+								<option value="UPDATE_DATE|DESC">삭제일 역순</option>
+								<option value="UPDATE_DATE|ASC">삭제일 순</option>
+								<option value="PRODUCT_NAME|DESC">상품명 역순</option>
+								<option value="PRODUCT_NAME|ASC">상품명 순</option>
+							</select>
+							<select name="rows" style="width:163px;margin-right:10px;float:right;" onChange="rowsChange(this);">
+								<option value="10" selected>10개씩보기</option>
+								<option value="20">20개씩보기</option>
+								<option value="30">30개씩보기</option>
+								<option value="50">50개씩보기</option>
+								<option value="100">100개씩보기</option>
+								<option value="200">200개씩보기</option>
+								<option value="300">300개씩보기</option>
+								<option value="500">500개씩보기</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="table table__wrap">
+						<div class="overflow-x-auto">
+							<TABLE id="excel_table" style="width:100%;">
+								<THEAD>
+									<TR>
+										<TH style="width:100px;">게시물 선택</TH>	
+										<TH style="width:250px;">게시물 타입</TH>
+										<TH style="width:500px;">게시물 타이틀</TH>
+										<TH style="width:500px;">게시물 메모</TH>
+										<TH style="width:500px;">게시물 URL</TH>
+										<TH style="width:150px;">게시물 진열상태</TH>
+										<TH style="width:350px;">게시물 진열기간</TH>
+										<TH style="width:200px;">게시물 조회수</TH>
+									</TR>
+								</THEAD>
+								<TBODY class="result_table_M_PR">
+									<TR>
+										<TD class="default_td" colspan="13" style="text-align:left;">
+											조회 결과가 없습니다?.
+										</TD>
+									</TR>
+								</TBODY>
+							</TABLE>
+						</div>
+					</div>
+					
+					<div class="padding__wrap">
+						<input type="hidden" class="total_cnt" tab_num="ALL" value="0" onChange="setModalPaging(this);">
+						<input type="hidden" class="result_cnt" tab_num="ALL" value="0" onChange="setModalPaging(this);">
+						<div class="paging_PR"></div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="card__footer">
+		<div class="footer__btn__wrap">
+			<div class="tmp" toggle="tmp"></div>
+			<div class="btn__wrap--lg" style="display:block">
+				<div class="defult__color__btn" style="margin:0 auto" onClick="modal_close();"><span>돌아가기</span></div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div class="content__card">
-	<form id="frm-list_all">
-		<div class="card__header">
-			<h3>게시물 검색 결과</h3>
-			<div class="drive--x"></div>
-		</div>
-		<div class="card__body">
-			<div class="info__wrap " style="justify-content:space-between; align-items: center;">
-				<div class="body__info--count">
-					<div class="drive--left"></div>
-					총 상품 수 <font class="cnt_total info__count" >0</font>개 / 검색결과 <font class="cnt_result info__count" >0</font>개
-				</div>
-					
-				<div class="content__row">
-					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
-						<option value="CREATE_DATE|DESC">등록일 역순</option>
-						<option value="CREATE_DATE|ASC" selected>등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
-						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
-						<option value="PRODUCT_NAME|ASC">상품명 순</option>
-					</select>
-					<select name="rows" style="width:163px;margin-right:10px;float:right;" onChange="rowsChange(this);">
-						<option value="10" selected>10개씩보기</option>
-						<option value="20">20개씩보기</option>
-						<option value="30">30개씩보기</option>
-						<option value="50">50개씩보기</option>
-						<option value="100">100개씩보기</option>
-						<option value="200">200개씩보기</option>
-						<option value="300">300개씩보기</option>
-						<option value="500">500개씩보기</option>
-					</select>
-				</div>
-			</div>
-			
-			<div class="table table__wrap">
-				<div class="overflow-x-auto">
-					<TABLE id="excel_table" style="width:100%;">
-						<THEAD>
-							<TR>
-								<TH style="width:250px;">게시물 선택</TH>	
-								<TH style="width:250px;">게시물 타입</TH>
-								<TH style="width:500px;">게시물 타이틀</TH>
-								<TH style="width:500px;">게시물 메모</TH>
-								<TH style="width:500px;">게시물 URL</TH>
-								<TH style="width:150px;">게시물 진열상태</TH>
-								<TH style="width:350px;">게시물 진열기간</TH>
-								<TH style="width:200px;">게시물 조회수</TH>
-							</TR>
-						</THEAD>
-						<TBODY class="result_table_M_PR">
-							<TR>
-								<TD class="default_td" colspan="13" style="text-align:left;">
-									조회 결과가 없습니다?.
-								</TD>
-							</TR>
-						</TBODY>
-					</TABLE>
-				</div>
-			</div>
-			
-			<div class="padding__wrap">
-				<input type="hidden" class="total_cnt" tab_num="ALL" value="0" onChange="setModalPaging(this);">
-				<input type="hidden" class="result_cnt" tab_num="ALL" value="0" onChange="setModalPaging(this);">
-            	<div class="paging_PR"></div>
-        	</div>
-		</div>
-	</form>
-</div>
+
 
 <script>
 $(document).ready(function() {
@@ -211,7 +222,7 @@ function addPageProduct(obj) {
 	obj_div.find('.page_idx').val(page_idx);
 	
 	$.ajax({
-		url: config.api + "menu/modal/get",
+		url: config.api + "display/menu/modal/get",
 		type: "post",
 		data: {
 			'page_type': 'PR',
@@ -224,16 +235,32 @@ function addPageProduct(obj) {
 		success: function(d) {
 			let code = d.code;
 			if (code == 200) {
-				let result_table = obj_div.find('.result_table');
-				result_table.html('');
+				obj_div.find('.link_type').val('PR');
+				obj_div.find('.link_idx').val(page_idx);
+				
+				let menu_table = obj_div.find('.menu_table');
+				let menu_body = menu_table.find('.result_body');
+				menu_table.hide();
+				menu_body.html('');
+				
+				let reset_div = "";
+				reset_div += '<TD class="default_td" colspan="3" style="text-align:left;">';
+				reset_div += '    선택된 게시물이 없습니다. 게시물을 선택해주세요.';
+				reset_div += '</TD>';
+				
+				menu_body.append(reset_div);
+				
+				let page_table = obj_div.find('.page_table').hide();
+				let page_body = page_table.find('.result_body');
+				page_table.show();
+				page_body.html('');
 				
 				let data = d.data;
 				if (data != null) {
 					let strDiv = "";
 					
 					data.forEach(function(row) {
-						console.log(result_table);
-						obj_div.find('.page_idx').val(row.page_idx);
+						obj_div.find('.link_url').val(row.page_url);
 						
 						strDiv += '<TR>';
 						strDiv += '    <TD>' + row.posting_type + '</TD>';
@@ -243,14 +270,10 @@ function addPageProduct(obj) {
 						strDiv += '    <TD>' + row.display_status + '</TD>';
 						strDiv += '    <TD>' + row.display_start_date + ' ~ ' + row.display_end_date + '</TD>';
 						strDiv += '    <TD>' + row.page_view + '</TD>';
-						strDiv += '    <TD>' + row.create_date + '</TD>';
-						strDiv += '    <TD>' + row.creater + '</TD>';
-						strDiv += '    <TD>' + row.update_date + '</TD>';
-						strDiv += '    <TD>' + row.updater + '</TD>';
 						strDiv += '</TR>';
 					});
 					
-					result_table.append(strDiv);
+					page_body.append(strDiv);
 					
 					modal_close();
 				}

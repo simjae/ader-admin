@@ -48,5 +48,8 @@ define('PAGE',array(
 	/* 22-06-15 bvdev.jhsim */
 	,'store'=>array('admin','notice','info')		//[상점관리] - 운영자관리
 	,'product'=>array('classify','register','list')	//[상품관리] - 상품분류,상품등록
+	,'voucher'=>array('mst','issue')
+	
+	,'pcs'=>array('ordersheet')	//[상품관리] - 상품분류,상품등록
 ));
 ?>

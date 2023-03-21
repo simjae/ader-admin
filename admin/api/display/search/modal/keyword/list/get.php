@@ -27,38 +27,33 @@ $page			= $_POST['page'];
 
 $menu_table = "";
 switch ($menu_sort) {
-	case "L" :
-		$menu_table = " dev.MENU_LRG MI";
+	case "L":
+		$menu_table = " MENU_LRG MI ";
 		break;
 	
-	case "M" :
-		$menu_table = " dev.MENU_MDL MI ";
+	case "M":
+		$menu_table = " MENU_MDL MI ";
 		break;
 	
-	case "S" :
-		$menu_table = " dev.MENU_SML MI ";
+	case "S":
+		$menu_table = " MENU_SML MI ";
 		break;
 }
 
-$where  = " MI.DEL_FLG = FALSE AND
-			MI.IDX NOT IN (
-				SELECT
-					S_RK.MENU_IDX
-				FROM
-					dev.RECOMMEND_KEYWORD S_RK
-				WHERE
-					COUNTRY = '".$country."'
-			) ";
+$where  = "
+	MI.COUNTRY = '".$country."' AND
+	MI.DEL_FLG = FALSE AND
+	MI.IDX NOT IN (
+		SELECT
+			S_RK.MENU_IDX
+		FROM
+			RECOMMEND_KEYWORD S_RK
+		WHERE
+			COUNTRY = '".$country."'
+	)
+";
 
 $where_cnt = $where;
-
-if ($country != null) {
-	$where .= " AND (MI.COUNTRY = '".$country."') ";
-}
-
-if ($menu_type != null && $menu_type != "ALL") {
-	$where .= " AND (MI.MENU_TYPE = '".$menu_type."') ";
-}
 
 if ($menu_title != null) {
 	$where .= " AND (MI.MENU_TITLE = '".$menu_title."') ";
@@ -80,65 +75,14 @@ $json_result = array(
 	'page' => $page
 );
 
-$menu_link_sql = "";
-if ($menu_sort == "L" || $menu_sort == "M") {
-	$menu_link_sql = "
-		CASE
-			WHEN
-				MI.MENU_TYPE = 'PR'
-				THEN
-					(
-						SELECT
-							CONCAT(
-								S_PPR.PAGE_URL,
-								'menu_sort=".$menu_sort."&menu_idx=',
-								MI.IDX
-							)
-						FROM
-							dev.PAGE_PRODUCT S_PPR
-						WHERE
-							S_PPR.IDX = MI.PAGE_IDX
-					)
-			WHEN
-				MI.MENU_TYPE = 'PO'
-				THEN
-					(
-						SELECT
-							CONCAT(
-								S_PPO.PAGE_URL,
-								'menu_sort=".$menu_sort."&menu_idx=',
-								MI.IDX
-							)
-						FROM
-							dev.PAGE_POSTING S_PPO
-						WHERE
-							S_PPO.IDX = MI.PAGE_IDX
-					)
-		END					AS MENU_LINK
-	";
-} else if ($menu_sort == "S") {
-	$menu_link_sql = "
-		(
-			SELECT
-				CONCAT(
-					S_PPR.PAGE_URL,
-					'&menu_sort=".$menu_sort."&meu_idx=',
-					MI.IDX
-				)
-			FROM
-				dev.PAGE_PRODUCT S_PPR
-			WHERE
-				S_PPR.IDX = MI.PAGE_IDX
-		)					AS MENU_LINK
-	";
-}
-
 $select_menu_sql = "
 	SELECT
-		MI.IDX			AS MENU_IDX,
-		MI.MENU_TYPE	AS MENU_TYPE,
-		MI.MENU_TITLE	AS MENU_TITLE,
-		".$menu_link_sql."
+		MI.IDX				AS MENU_IDX,
+		MI.MENU_TITLE		AS MENU_TITLE,
+		MI.MENU_LOCATION	AS MENU_LOCATION,
+		
+		MI.LINK_TYPE		AS LINK_TYPE,
+		MI.LINK_URL			AS LINK_URL
 	FROM
 		".$menu_table."
 	WHERE
@@ -151,20 +95,87 @@ if ($rows != null && $select_idx_flg == null) {
 
 $db->query($select_menu_sql);
 
-foreach($db->fetch() as $data) {
-	$menu_type_str = "";
-	if ($data['MENU_TYPE'] == "PR") {
-		$menu_type_str = "상품";
-	} else if ($data['MENU_TYPE'] == "PO") {
-		$menu_type_str = "게시물";
+foreach($db->fetch() as $menu_data) {
+	$menu_idx = $menu_data['MENU_IDX'];
+	
+	$menu_link = "";
+	if ($menu_data['LINK_TYPE'] != "EC") {
+		$menu_link = $menu_data['LINK_URL']."&menu_sort=".$menu_sort."&menu_idx=".$menu_idx;
+	} else {
+		$menu_link = "http://".$menu_data['LINK_URL'];
+	}
+	
+	$select_menu_location_sql = "";
+	switch ($menu_sort) {
+		case "L":
+			$menu_table = " MENU_LRG MI ";
+			$select_menu_location_sql = "
+				SELECT
+					ML.MENU_TITLE		AS MENU_LOCATION
+				FROM
+					MENU_LRG ML
+				WHERE
+					ML.IDX = ".$menu_idx."
+			";
+			
+			break;
+		
+		case "M":
+			$menu_table = " MENU_MDL MI ";
+			$select_menu_location_sql = "
+				SELECT
+					CONCAT(
+						ML.MENU_TITLE,
+						' > ',
+						MM.MENU_TITLE
+					)		AS MENU_LOCATION
+				FROM
+					MENU_MDL MM
+					LEFT JOIN MENU_LRG ML ON
+					MM.MENU_LRG_IDX = ML.IDX
+				WHERE
+					MM.IDX = ".$menu_idx."
+			";
+			
+			break;
+		
+		case "S":
+			$menu_table = " MENU_SML MI ";
+			$select_menu_location_sql = "
+				SELECT
+					CONCAT(
+						ML.MENU_TITLE,
+						' > ',
+						MM.MENU_TITLE,
+						' > ',
+						MS.MENU_TITLE
+					)		AS MENU_LOCATION
+				FROM
+					MENU_SML MS
+					LEFT JOIN MENU_MDL MM ON
+					MM.IDX = MS.MENU_MDL_IDX
+					LEFT JOIN MENU_LRG ML ON
+					MM.MENU_LRG_IDX = ML.IDX
+				WHERE
+					MS.IDX = ".$menu_idx."
+			";
+			break;
+	}
+	
+	$db->query($select_menu_location_sql);
+	
+	$menu_location = "";
+	foreach($db->fetch() as $location_data) {
+		$menu_location = $location_data['MENU_LOCATION'];
 	}
 	
 	$json_result['data'][] = array(
-		'menu_idx'		=>$data['MENU_IDX'],
+		'menu_idx'		=>$menu_data['MENU_IDX'],
 		'menu_sort'		=>$menu_sort,
-		'menu_type'		=>$data['MENU_TYPE'],
-		'menu_title'	=>$data['MENU_TITLE'],
-		'menu_link'		=>$data['MENU_LINK'],
+		'menu_title'	=>$menu_data['MENU_TITLE'],
+		'menu_location'	=>$menu_location,
+		
+		'menu_link'		=>$menu_link
 	);
 }
 ?>

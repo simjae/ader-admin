@@ -21,7 +21,7 @@ $from_tel		= $_POST['from_tel'];
 $from_email		= $_POST['from_email'];
 
 if ($from_name != null && $from_tel != null && $from_email != null) {
-	$from_cnt => $db->count("dev.ORDER_FROM"," MEMBER_IDX = ".$member_idx." AND FROM_NAME = ".$from_name);
+	$from_cnt => $db->count("ORDER_FROM"," MEMBER_IDX = ".$member_idx." AND FROM_NAME = ".$from_name);
 	
 	if ($from_cnt > 0) {
 		$code = 402;
@@ -30,7 +30,7 @@ if ($from_name != null && $from_tel != null && $from_email != null) {
 	}
 	
 	$sql = "INSERT INTO
-					dev.ORDER_FROM
+					ORDER_FROM
 				(
 					MEMBER_IDX,
 					FROM_NAME,

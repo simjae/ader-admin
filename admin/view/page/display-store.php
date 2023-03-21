@@ -1,3 +1,5 @@
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<div class="card__header">
 		<h3>매장보기 관리</h3>

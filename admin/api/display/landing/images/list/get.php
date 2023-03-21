@@ -27,7 +27,7 @@ if ($country != null) {
 				''
 			)				AS IMG_LOCATION
 		FROM
-			dev.MAIN_IMG MI
+			TMP_MAIN_IMG MI
 		WHERE
 			MI.COUNTRY = '".$country."' AND
 			MI.DEL_FLG = FALSE

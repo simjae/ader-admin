@@ -412,7 +412,6 @@
 
     .bluemark_info {
         margin-left: 6px;
-        width: 516px;
         margin-bottom: 0 !important;
     }
 
@@ -701,10 +700,14 @@
                         <div class="close" onclick="close()"><img src='/images/mypage/tmp_img/X-12.svg' /></div>
                     </div>
                     <div class="description_transfer">
-                        <p data-i18n="b_bluemark_msg_06">·&nbsp;하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 <br
-                                class="notice_br">양도신청이 접수됩니다.</p>
-                        <p data-i18n="b_bluemark_msg_07">·&nbsp;정보는 향후 변경이 불가능하니 신청 전에 반드시 <br class="notice_br">확인해 주시길
-                            바랍니다.</p>
+                        <span class="flex_text">·&nbsp;&nbsp;
+                            <p data-i18n="b_bluemark_msg_06">하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 
+                                <br class="notice_br">양도신청이 접수됩니다.</p>
+                        </span>
+                        <span class="flex_text">·&nbsp;&nbsp;
+                            <p data-i18n="b_bluemark_msg_07">정보는 향후 변경이 불가능하니 신청 전에 반드시 
+                                <br class="notice_br">확인해 주시길 바랍니다.</p>
+                        </span>
                     </div>
                     <div>
                         <p data-i18n="b_recipient_id" style="margin-bottom: 10px;">양도 받을 아이디</p>
@@ -718,13 +721,12 @@
                             </select>
                         </div>
                         <input id="handover_id" type="text" name="bluemark_handover_id" class="bluemark_handover_id"
-                            placeholder="한/영/중 몰을 선택 후 이곳에 아이디를 입력해주세요.">
+                            placeholder="한/영/중 몰을 선택 후 이곳에 아이디를 입력해주세요." data-i18n-placeholder="b_recipient">
                     </div>
                     <div class="black_transfer_btn">
-                        <button data-i18n="b_transfer" class="bluemark_idx" onclick="handoverBluemark(this)">제품
-                            양도하기</button>
+                        <button data-i18n="b_send" class="bluemark_idx" onclick="handoverBluemark(this)">양도하기</button>
                     </div>
-                    <p>인증내역</p>
+                    <p data-i18n="b_verify_history">인증내역</p>
                     <div class="certified__wrap">
                         <div class="handover__info">
                             <div id="handover__info__area"></div>

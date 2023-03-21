@@ -16,137 +16,160 @@
 $sel_idx     = $_POST['sel_idx'];
 
 if($sel_idx != null){
-    $sql = "	SELECT
-					OM.IDX											AS ORDERSHEET_IDX,
-					OM.STYLE_CODE									AS STYLE_CODE,
-					OM.COLOR_CODE									AS COLOR_CODE,
-					OM.PRODUCT_CODE									AS PRODUCT_CODE,
-					OM.PREORDER_FLG									AS PREORDER_FLG,
-					OM.REFUND_FLG									AS REFUND_FLG,
+    $select_ordersheet_sql = "
+		SELECT
+			OM.IDX											AS ORDERSHEET_IDX,
+			OM.YEAR											AS YEAR,
+			OM.STYLE_CODE									AS STYLE_CODE,
+			OM.COLOR_CODE									AS COLOR_CODE,
+			OM.PRODUCT_CODE									AS PRODUCT_CODE,
+			OM.PREORDER_FLG									AS PREORDER_FLG,
+			OM.REFUND_FLG									AS REFUND_FLG,
+			
+			LINE_IDX										AS LINE_IDX,
+			IFNULL(LI.LINE_NAME,'')							AS LINE_NAME,
+			(
+				SELECT
+					TYPE_NAME
+				FROM
+					LINE_TYPE LT
+					LEFT JOIN LINE_INFO LI ON
+					LT.IDX = LI.LINE_TYPE_IDX
+				WHERE
+					LI.IDX = OM.LINE_IDX
+			)												AS LINE_TYPE,
+			IFNULL(LI.MEMO,'')								AS LINE_MEMO,
+			
+			IFNULL(
+				(
+					SELECT
+						TITLE
+					FROM
+						ORDERSHEET_CATEGORY
+					WHERE
+						IDX = OM.CATEGORY_LRG
+				),
+				''
+			)												AS CATEGORY_LRG_TITLE,
+			IFNULL(
+				(
+					SELECT
+						TITLE
+					FROM
+						ORDERSHEET_CATEGORY
+					WHERE
+						IDX = OM.CATEGORY_MDL
+				),
+				''
+			)												AS CATEGORY_MDL_TITLE,
+			IFNULL(
+				(
+					SELECT
+						TITLE
+					FROM
+						ORDERSHEET_CATEGORY
+					WHERE
+						IDX = OM.CATEGORY_SML
+				),
+				''
+			)												AS CATEGORY_SML_TITLE,
+			IFNULL(
+				(
+					SELECT
+						TITLE
+					FROM
+						ORDERSHEET_CATEGORY
+					WHERE
+						IDX = OM.CATEGORY_DTL
+				),
+				''
+			)												AS CATEGORY_DTL_TITLE,
+			OM.CATEGORY_LRG									AS CATEGORY_LRG,
+			OM.CATEGORY_MDL									AS CATEGORY_MDL,
+			OM.CATEGORY_SML									AS CATEGORY_SML,
+			OM.CATEGORY_DTL									AS CATEGORY_DTL,
+			OM.CATEGORY_IDX									AS CATEGORY_IDX,
+			
+			IFNULL(OM.MATERIAL, '')							AS MATERIAL,
+			IFNULL(OM.GRAPHIC, '')							AS GRAPHIC,
+			IFNULL(OM.FIT, '')								AS FIT,
+			IFNULL(OM.PRODUCT_NAME, '')						AS PRODUCT_NAME,
+			IFNULL(OM.PRODUCT_SIZE, '')						AS PRODUCT_SIZE,
+			IFNULL(OM.COLOR, '')							AS COLOR,
+			IFNULL(OM.COLOR_RGB, '')						AS COLOR_RGB,
+			IFNULL(OM.PANTONE_CODE, '')						AS PANTONE_CODE,
+			IFNULL(OM.MD_CATEGORY_GUIDE, '')				AS MD_CATEGORY_GUIDE,
+			IFNULL(OM.LIMIT_MEMBER, '')						AS LIMIT_MEMBER,
+			IFNULL(OM.LIMIT_ID_FLG, FALSE)					AS LIMIT_ID_FLG,
+			IFNULL(OM.LIMIT_PRODUCT_QTY_FLG, FALSE)			AS LIMIT_PRODUCT_QTY_FLG,
+			IFNULL(OM.LIMIT_PRODUCT_QTY, 0)					AS LIMIT_PRODUCT_QTY,
+			IFNULL(OM.PRICE_COST, 0)						AS PRICE_COST,
+			IFNULL(OM.PRICE_KR, 0)							AS PRICE_KR,
+			IFNULL(OM.PRICE_KR_GB, 0)					    AS PRICE_KR_GB,
+			IFNULL(OM.PRICE_EN, 0)							AS PRICE_EN,
+			IFNULL(OM.PRICE_CN, 0)							AS PRICE_CN,
+			IFNULL(OM.PRODUCT_QTY, 0)						AS PRODUCT_QTY,
+			IFNULL(OM.SAFE_QTY, 0)							AS SAFE_QTY,
+			IFNULL(DATE_FORMAT(OM.LAUNCHING_DATE, '%Y-%m-%d'),'')		AS LAUNCHING_DATE,
+			IFNULL(DATE_FORMAT(OM.RECEIVE_REQUEST_DATE, '%Y-%m-%d'),'') AS RECEIVE_REQUEST_DATE,
+			IFNULL(DATE_FORMAT(OM.TP_COMPLETION_DATE, '%Y-%m-%d'),'')	AS TP_COMPLETION_DATE,
+			
+			OM.WKLA_IDX										AS WKLA_IDX,
+			IFNULL(WI.WKLA_NAME,'')							AS WKLA_NAME,
+			IFNULL(WI.MEMO,'')								AS WKLA_MEMO,
 
-					LINE_IDX										AS LINE_IDX,
-					IFNULL(LI.LINE_NAME,'')							AS LINE_NAME,
-					LI.LINE_TYPE									AS LINE_TYPE,
-					IFNULL(LI.MEMO,'')								AS LINE_MEMO,
+			IFNULL(OM.MODEL, '')                         	AS MODEL,
+			IFNULL(OM.MODEL_WEAR, '')                    	AS MODEL_WEAR,
+			OM.SIZE_GUIDE_IDX								AS SIZE_GUIDE_IDX,
+			OM.CARE_DSN_KR                                  AS CARE_DSN_KR,
+			OM.CARE_DSN_EN                                  AS CARE_DSN_EN,
+			OM.CARE_DSN_CN                                  AS CARE_DSN_CN,
+			OM.CARE_TD_KR                                   AS CARE_TD_KR,
+			OM.CARE_TD_EN                                   AS CARE_TD_EN,
+			OM.CARE_TD_CN                                   AS CARE_TD_CN,
+			OM.DETAIL_KR                                    AS DETAIL_KR,
+			OM.DETAIL_EN                                    AS DETAIL_EN,
+			OM.DETAIL_CN                                    AS DETAIL_CN,
+			OM.MATERIAL_KR									AS MATERIAL_KR,
+			OM.MATERIAL_EN									AS MATERIAL_EN,
+			OM.MATERIAL_CN									AS MATERIAL_CN,
+			IFNULL(OM.MANUFACTURER, '')                     AS MANUFACTURER,
+			IFNULL(OM.SUPPLIER, '')                         AS SUPPLIER,
+			IFNULL(OM.ORIGIN_COUNTRY, '')                   AS ORIGIN_COUNTRY,
+			IFNULL(OM.BRAND, '')                            AS BRAND,
 
-					IFNULL((SELECT TITLE FROM dev.ORDERSHEET_CATEGORY WHERE IDX = OM.CATEGORY_LRG),'')
-																	AS CATEGORY_LRG_TITLE,
-					IFNULL((SELECT TITLE FROM dev.ORDERSHEET_CATEGORY WHERE IDX = OM.CATEGORY_MDL),'')
-																	AS CATEGORY_MDL_TITLE,
-					IFNULL((SELECT TITLE FROM dev.ORDERSHEET_CATEGORY WHERE IDX = OM.CATEGORY_SML),'')
-																	AS CATEGORY_SML_TITLE,
-					IFNULL((SELECT TITLE FROM dev.ORDERSHEET_CATEGORY WHERE IDX = OM.CATEGORY_DTL),'')
-																	AS CATEGORY_DTL_TITLE,
-					OM.CATEGORY_LRG									AS CATEGORY_LRG,
-					OM.CATEGORY_MDL									AS CATEGORY_MDL,
-					OM.CATEGORY_SML									AS CATEGORY_SML,
-					OM.CATEGORY_DTL									AS CATEGORY_DTL,
-					OM.CATEGORY_IDX									AS CATEGORY_IDX,
+			OM.LOAD_BOX_IDX									AS LOAD_BOX_IDX,
+			BI.BOX_NAME										AS LOAD_BOX_NAME,
+			BI.BOX_WIDTH									AS LOAD_BOX_WIDTH,
+			BI.BOX_LENGTH									AS LOAD_BOX_LENGTH,
+			BI.BOX_HEIGHT									AS LOAD_BOX_HEIGHT,
+			BI.BOX_VOLUME									AS LOAD_BOX_VOLUME,				
+			
+			OM.LOAD_WEIGHT                   				AS LOAD_WEIGHT,
+			OM.LOAD_QTY                   					AS LOAD_QTY,
+			OM.CREATE_DATE									AS CREATE_DATE,
+			OM.CREATER										AS CREATER,
+			OM.UPDATE_DATE									AS UPDATE_DATE,
+			OM.UPDATER										AS UPDATER
+		FROM 
+			ORDERSHEET_MST OM
+			LEFT JOIN BOX_INFO BI ON
+			OM.LOAD_BOX_IDX = BI.IDX
+			LEFT JOIN LINE_INFO LI ON
+			OM.LINE_IDX = LI.IDX
+			LEFT JOIN WKLA_INFO WI ON
+			OM.WKLA_IDX = WI.IDX
+		WHERE 
+			OM.IDX = ".$sel_idx."
+	";
 
-					IFNULL(OM.MATERIAL, '')							AS MATERIAL,
-					IFNULL(OM.GRAPHIC, '')							AS GRAPHIC,
-					IFNULL(OM.FIT, '')								AS FIT,
-					IFNULL(OM.PRODUCT_NAME, '')						AS PRODUCT_NAME,
-					IFNULL(OM.PRODUCT_SIZE, '')						AS PRODUCT_SIZE,
-					IFNULL(OM.COLOR, '')							AS COLOR,
-					IFNULL(OM.COLOR_RGB, '')						AS COLOR_RGB,
-					IFNULL(OM.PANTONE_CODE, '')						AS PANTONE_CODE,
-					IFNULL(OM.MD_CATEGORY_GUIDE, '')						AS MD_CATEGORY_GUIDE,
-					IFNULL(OM.LIMIT_MEMBER, '')						AS LIMIT_MEMBER,
-					IFNULL(OM.LIMIT_QTY, '')						AS LIMIT_QTY,
-					IFNULL(OM.PRICE_COST, 0)						AS PRICE_COST,
-					IFNULL(OM.PRICE_KR, 0)							AS PRICE_KR,
-					IFNULL(OM.PRICE_KR_GB, 0)					    AS PRICE_KR_GB,
-					IFNULL(OM.PRICE_EN, 0)							AS PRICE_EN,
-					IFNULL(OM.PRICE_CN, 0)							AS PRICE_CN,
-					IFNULL(OM.PRODUCT_QTY, 0)						AS PRODUCT_QTY,
-					IFNULL(OM.SAFE_QTY, 0)							AS SAFE_QTY,
-					IFNULL(DATE_FORMAT(OM.LAUNCHING_DATE, '%Y-%m-%d'),'')		AS LAUNCHING_DATE,
-					IFNULL(DATE_FORMAT(OM.RECEIVE_REQUEST_DATE, '%Y-%m-%d'),'') AS RECEIVE_REQUEST_DATE,
-					IFNULL(DATE_FORMAT(OM.TP_COMPLETION_DATE, '%Y-%m-%d'),'')	AS TP_COMPLETION_DATE,
-					
-					WKLA_IDX										AS WKLA_IDX,
-					IFNULL(WI.WKLA_NAME,'')							AS WKLA_NAME,
-					IFNULL(WI.MEMO,'')								AS WKLA_MEMO,
-
-					IFNULL(OM.MODEL, '')                            AS MODEL,
-					IFNULL(OM.MODEL_WEAR, '')                       AS MODEL_WEAR,
-					OM.SIZE_A1_KR                                   AS SIZE_A1_KR,
-					OM.SIZE_A2_KR                                   AS SIZE_A2_KR,
-					OM.SIZE_A3_KR                                   AS SIZE_A3_KR,
-					OM.SIZE_A4_KR                                   AS SIZE_A4_KR,
-					OM.SIZE_A5_KR                                   AS SIZE_A5_KR,
-					OM.SIZE_ONESIZE_KR                              AS SIZE_ONESIZE_KR,
-					OM.SIZE_A1_EN                                   AS SIZE_A1_EN,
-					OM.SIZE_A2_EN                                   AS SIZE_A2_EN,
-					OM.SIZE_A3_EN                                   AS SIZE_A3_EN,
-					OM.SIZE_A4_EN                                   AS SIZE_A4_EN,
-					OM.SIZE_A5_EN                                   AS SIZE_A5_EN,
-					OM.SIZE_ONESIZE_EN                              AS SIZE_ONESIZE_EN,
-					OM.SIZE_A1_CN                                   AS SIZE_A1_CN,
-					OM.SIZE_A2_CN                                   AS SIZE_A2_CN,
-					OM.SIZE_A3_CN                                   AS SIZE_A3_CN,
-					OM.SIZE_A4_CN                                   AS SIZE_A4_CN,
-					OM.SIZE_A5_CN                                   AS SIZE_A5_CN,
-					OM.SIZE_ONESIZE_CN                              AS SIZE_ONESIZE_CN,
-					OM.CARE_DSN_KR                                  AS CARE_DSN_KR,
-					OM.CARE_DSN_EN                                  AS CARE_DSN_EN,
-					OM.CARE_DSN_CN                                  AS CARE_DSN_CN,
-					OM.CARE_TD_KR                                   AS CARE_TD_KR,
-					OM.CARE_TD_EN                                   AS CARE_TD_EN,
-					OM.CARE_TD_CN                                   AS CARE_TD_CN,
-					OM.DETAIL_KR                                    AS DETAIL_KR,
-					OM.DETAIL_EN                                    AS DETAIL_EN,
-					OM.DETAIL_CN                                    AS DETAIL_CN,
-					OM.MATERIAL_KR									AS MATERIAL_KR,
-					OM.MATERIAL_EN									AS MATERIAL_EN,
-					OM.MATERIAL_CN									AS MATERIAL_CN,
-					IFNULL(OM.MANUFACTURER, '')                     AS MANUFACTURER,
-					IFNULL(OM.SUPPLIER, '')                         AS SUPPLIER,
-					IFNULL(OM.ORIGIN_COUNTRY, '')                   AS ORIGIN_COUNTRY,
-					IFNULL(OM.BRAND, '')                            AS BRAND,
-
-					OM.LOAD_BOX_IDX									AS LOAD_BOX_IDX,
-					LBI.BOX_NAME									AS LOAD_BOX_NAME,
-					LBI.BOX_WIDTH									AS LOAD_BOX_WIDTH,
-					LBI.BOX_LENGTH									AS LOAD_BOX_LENGTH,
-					LBI.BOX_HEIGHT									AS LOAD_BOX_HEIGHT,
-					LBI.BOX_VOLUME									AS LOAD_BOX_VOLUME,
-
-					OM.DELIVER_BOX_IDX								AS DELIVER_BOX_IDX,
-					DBI.BOX_NAME									AS DELIVER_BOX_NAME,
-					DBI.BOX_WIDTH									AS DELIVER_BOX_WIDTH,
-					DBI.BOX_LENGTH									AS DELIVER_BOX_LENGTH,
-					DBI.BOX_HEIGHT									AS DELIVER_BOX_HEIGHT,
-					DBI.BOX_VOLUME									AS DELIVER_BOX_VOLUME,
-					
-					OM.LOAD_WEIGHT                   				AS LOAD_WEIGHT,
-					OM.LOAD_QTY                   					AS LOAD_QTY,
-					IFNULL(OM.TD_SUB_MATERIAL_IDX, '')              AS TD_SUB_MATERIAL_IDX,
-					IFNULL(OM.DELIVERY_SUB_MATERIAL_IDX, '')        AS DELIVERY_SUB_MATERIAL_IDX,
-					OM.CREATE_DATE									AS CREATE_DATE,
-					OM.CREATER										AS CREATER,
-					OM.UPDATE_DATE									AS UPDATE_DATE,
-					OM.UPDATER										AS UPDATER
-				FROM 
-					dev.ORDERSHEET_MST OM
-				LEFT JOIN dev.LOAD_BOX_INFO LBI ON
-					OM.LOAD_BOX_IDX = LBI.IDX
-				LEFT JOIN dev.DELIVER_BOX_INFO DBI ON
-					OM.DELIVER_BOX_IDX = DBI.IDX
-				LEFT JOIN dev.LINE_INFO LI ON
-					OM.LINE_IDX = LI.IDX
-				LEFT JOIN dev.WKLA_INFO WI ON
-					OM.WKLA_IDX = WI.IDX
-				WHERE 
-					OM.DEL_FLG = FALSE
-				AND 
-					OM.IDX = ".$sel_idx;
-
-    $db->query($sql,$where_values);
+    $db->query($select_ordersheet_sql);
+	
     foreach($db->fetch() as $data) {
-		$option_query = "
+		$select_ordersheet_option_sql = "
 			SELECT
+				OO.IDX							AS OPTION_IDX,
+				OO.OPTION_TYPE					AS OPTION_TYPE,
 				OO.BARCODE						AS BARCODE,
 				OO.OPTION_NAME					AS OPTION_NAME,
 				IFNULL(OO.SIZE_CATEGORY,'')		AS SIZE_CATEGORY,
@@ -165,15 +188,18 @@ if($sel_idx != null){
 				SD.SIZE_DESC_5					AS SIZE_DESC_5,
 				SD.SIZE_DESC_6					AS SIZE_DESC_6,
 				
-				IFNULL(OO.OPTION_SIZE_1,'-')	AS OPTION_SIZE_1,
-				IFNULL(OO.OPTION_SIZE_2,'-')	AS OPTION_SIZE_2,
-				IFNULL(OO.OPTION_SIZE_3,'-')	AS OPTION_SIZE_3,
-				IFNULL(OO.OPTION_SIZE_4,'-')	AS OPTION_SIZE_4,
-				IFNULL(OO.OPTION_SIZE_5,'-')	AS OPTION_SIZE_5,
-				IFNULL(OO.OPTION_SIZE_6,'-')	AS OPTION_SIZE_6
+				IFNULL(OO.OPTION_SIZE_1,'')		AS OPTION_SIZE_1,
+				IFNULL(OO.OPTION_SIZE_2,'')		AS OPTION_SIZE_2,
+				IFNULL(OO.OPTION_SIZE_3,'')		AS OPTION_SIZE_3,
+				IFNULL(OO.OPTION_SIZE_4,'')		AS OPTION_SIZE_4,
+				IFNULL(OO.OPTION_SIZE_5,'')		AS OPTION_SIZE_5,
+				IFNULL(OO.OPTION_SIZE_6,'')		AS OPTION_SIZE_6,
+
+				OO.OPTION_WEIGHT				AS OPTION_WEIGHT,
+				OO.LIMIT_OPTION_QTY				AS LIMIT_OPTION_QTY
 			FROM
-				dev.ORDERSHEET_OPTION OO	LEFT JOIN 
-				dev.SIZE_DESCRIPTION SD 
+				ORDERSHEET_OPTION OO	LEFT JOIN 
+				SIZE_DESCRIPTION SD 
 			ON
 				OO.SIZE_CATEGORY = SD.CATEGORY_NAME
 			WHERE
@@ -181,11 +207,14 @@ if($sel_idx != null){
 			ORDER BY
 				OO.IDX
 		";
-		$db->query($option_query);
+		
+		$db->query($select_ordersheet_option_sql);
 		
 		$option_info = array();
 		foreach($db->fetch() as $option_data){
 			$option_info[] = array(
+				'option_idx'			=>$option_data['OPTION_IDX'],
+				'option_type'			=>$option_data['OPTION_TYPE'],
 				'barcode'				=>$option_data['BARCODE'],
 				'option_name'			=>$option_data['OPTION_NAME'],
 				'size_category'    		=>$option_data['SIZE_CATEGORY'],
@@ -209,42 +238,28 @@ if($sel_idx != null){
 				'option_size_3'			=>$option_data['OPTION_SIZE_3'],
 				'option_size_4'			=>$option_data['OPTION_SIZE_4'],
 				'option_size_5'			=>$option_data['OPTION_SIZE_5'],
-				'option_size_6'			=>$option_data['OPTION_SIZE_6']
+				'option_size_6'			=>$option_data['OPTION_SIZE_6'],
+
+				'option_weight'			=>$option_data['OPTION_WEIGHT'],
+				'limit_option_qty'		=>$option_data['LIMIT_OPTION_QTY']
 			);
 		}
 
-
-		$td_sub_idx_str 		= $data['TD_SUB_MATERIAL_IDX'];
-		$delivery_sub_idx_str 	= $data['DELIVERY_SUB_MATERIAL_IDX'];
-		$sub_material_str		= '';
-
-		if((strlen($td_sub_idx_str) > 0)){
-			$sub_material_str .= $td_sub_idx_str;
-		}
-		if((strlen($delivery_sub_idx_str) > 0)){
-			if(strlen($sub_material_str) > 0){
-				$sub_material_str .= ',';
-			}
-			$sub_material_str .= $delivery_sub_idx_str;
-		}
-		if(strlen($sub_material_str) < 1){
-			$sub_material_str .= '-1';
-		}
-
-		$sub_material_query = "
+		$select_sub_material_sql = "
 			SELECT
-				IDX						AS SUB_MATERIAL_IDX,
-				SUB_MATERIAL_NAME		AS SUB_MATERIAL_NAME,
-				SUB_MATERIAL_TYPE		AS SUB_MATERIAL_TYPE,
-				MEMO					AS SUB_MATERIAL_MEMO
+				MI.IDX						AS SUB_MATERIAL_IDX,
+				MI.SUB_MATERIAL_NAME		AS SUB_MATERIAL_NAME,
+				MI.SUB_MATERIAL_TYPE		AS SUB_MATERIAL_TYPE,
+				MI.MEMO						AS SUB_MATERIAL_MEMO
 			FROM
-				dev.SUB_MATERIAL_INFO
+				SUB_MATERIAL_MAPPING MM
+				LEFT JOIN SUB_MATERIAL_INFO MI ON
+				MM.SUB_MATERIAL_IDX = MI.IDX
 			WHERE
-				IDX IN (".$sub_material_str.")
-			ORDER BY
-				IDX ASC
+				MM.ORDERSHEET_IDX = ".$sel_idx."
 		";
-		$db->query($sub_material_query);
+
+		$db->query($select_sub_material_sql);
 		
 		$sub_material_info = array();
 		foreach($db->fetch() as $sub_material_data){
@@ -257,6 +272,7 @@ if($sel_idx != null){
 		}
 		
 		$json_result['data'] = array(
+			'year'						=>$data['YEAR'],
 			'style_code'				=>$data['STYLE_CODE'],
 			'color_code'				=>$data['COLOR_CODE'],
 			'product_code'				=>$data['PRODUCT_CODE'],
@@ -277,7 +293,6 @@ if($sel_idx != null){
 			'category_mdl'				=>$data['CATEGORY_MDL'],
 			'category_sml'				=>$data['CATEGORY_SML'],
 			'category_dtl'				=>$data['CATEGORY_DTL'],
-			'category_idx'				=>$data['CATEGORY_IDX'],
 			'material'					=>$data['MATERIAL'],
 			'graphic'					=>$data['GRAPHIC'],
 			'fit'						=>$data['FIT'],
@@ -288,12 +303,19 @@ if($sel_idx != null){
 			'pantone_code'				=>$data['PANTONE_CODE'],
 			'md_category_guide'			=>$data['MD_CATEGORY_GUIDE'],
 			'limit_member'				=>$data['LIMIT_MEMBER'],
-			'limit_qty'					=>$data['LIMIT_QTY'],
+			'limit_id_flg'				=>$data['LIMIT_ID_FLG'],
+			'limit_product_qty_flg'		=>$data['LIMIT_PRODUCT_QTY_FLG'],
+			'limit_product_qty'			=>$data['LIMIT_PRODUCT_QTY'],
 			'price_cost'				=>$data['PRICE_COST'],
 			'price_kr'					=>$data['PRICE_KR'],
 			'price_kr_gb'				=>$data['PRICE_KR_GB'],
 			'price_en'					=>$data['PRICE_EN'],
 			'price_cn'					=>$data['PRICE_CN'],
+			'price_cost_format'			=>number_format($data['PRICE_COST']),
+			'price_kr_format'			=>number_format($data['PRICE_KR']),
+			'price_kr_gb_format'		=>number_format($data['PRICE_KR_GB']),
+			'price_en_format'			=>number_format($data['PRICE_EN']),
+			'price_cn_format'			=>number_format($data['PRICE_CN']),
 			'product_qty'				=>$data['PRODUCT_QTY'],
 			'safe_qty'					=>$data['SAFE_QTY'],
 			'launching_date'			=>$data['LAUNCHING_DATE'],
@@ -304,24 +326,7 @@ if($sel_idx != null){
 			'wkla_memo'					=>$data['WKLA_MEMO'],
 			'model'						=>$data['MODEL'],
 			'model_wear'				=>$data['MODEL_WEAR'],
-			'size_a1_kr'				=>$data['SIZE_A1_KR'],
-			'size_a2_kr'				=>$data['SIZE_A2_KR'],
-			'size_a3_kr'				=>$data['SIZE_A3_KR'],
-			'size_a4_kr'				=>$data['SIZE_A4_KR'],
-			'size_a5_kr'				=>$data['SIZE_A5_KR'],
-			'size_onesize_kr'			=>$data['SIZE_ONESIZE_KR'],
-			'size_a1_en'				=>$data['SIZE_A1_EN'],
-			'size_a2_en'				=>$data['SIZE_A2_EN'],
-			'size_a3_en'				=>$data['SIZE_A3_EN'],
-			'size_a4_en'				=>$data['SIZE_A4_EN'],
-			'size_a5_en'				=>$data['SIZE_A5_EN'],
-			'size_onesize_en'			=>$data['SIZE_ONESIZE_EN'],
-			'size_a1_cn'				=>$data['SIZE_A1_CN'],
-			'size_a2_cn'				=>$data['SIZE_A2_CN'],
-			'size_a3_cn'				=>$data['SIZE_A3_CN'],
-			'size_a4_cn'				=>$data['SIZE_A4_CN'],
-			'size_a5_cn'				=>$data['SIZE_A5_CN'],
-			'size_onesize_cn'			=>$data['SIZE_ONESIZE_CN'],
+			'size_guide_idx'			=>$data['SIZE_GUIDE_IDX'],
 			'care_dsn_kr'				=>$data['CARE_DSN_KR'],
 			'care_dsn_en'				=>$data['CARE_DSN_EN'],
 			'care_dsn_cn'				=>$data['CARE_DSN_CN'],
@@ -355,13 +360,13 @@ if($sel_idx != null){
 			
 			'load_weight'				=>$data['LOAD_WEIGHT'],
 			'load_qty'					=>$data['LOAD_QTY'],
-			'sub_material_info'			=>$sub_material_info,
-			'option_info'				=>$option_info,
-			'size_category'				=>count($option_info) > 0?$option_info[0]['size_category']:'',
 			'create_date'				=>$data['CREATE_DATE'],
 			'creater'					=>$data['CREATER'],
 			'update_date'				=>$data['UPDATE_DATE'],
-			'updater'					=>$data['UPDATER'], 
+			'updater'					=>$data['UPDATER'],
+			
+			'option_info'				=>$option_info,
+			'sub_material_info'			=>$sub_material_info,
 		);
 	}
 }

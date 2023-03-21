@@ -1,3 +1,5 @@
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<div class="card__header">
 		<h3>부가서비스 이용내역 조회</h3>

@@ -20,7 +20,7 @@ $from_idx		= $_POST['from_idx'];
 
 if ($member_idx != null && $from_idx != null) {
 	$sql = "DELETE FROM
-				dev.ORDER_FROM
+				ORDER_FROM
 			WHERE
 				IDX = ".$from_idx;
 		

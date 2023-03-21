@@ -14,167 +14,97 @@
  +=============================================================================
 */
 
-/** 변수 정리 **/
 $page_idx			= $_POST['page_idx'];
-$tab_num			= $_POST['tab_num'];
 
-$country			= $_POST['country'];
+if ($page_idx != null) {
+	$select_page_product_sql = "
+		SELECT
+			IDX					PAGE_IDX,
+			COUNTRY				COUNTRY,
+			POSTING_TYPE		POSTING_TYPE,
+			PAGE_TITLE			PAGE_TITLE,
+			PAGE_URL			PAGE_URL,
+			IFNULL(
+				PAGE_MEMO,
+				''
+			)					AS PAGE_MEMO,
+			DATE_FORMAT(
+				DISPLAY_START_DATE,
+				'%Y-%m-%d'
+			)					AS DISPLAY_START_DATE, 
+			DATE_FORMAT(
+				DISPLAY_START_DATE,
+				'%H'
+			)					AS DISPLAY_START_H, 
+			DATE_FORMAT(
+				DISPLAY_START_DATE,
+				'%i'
+			)					AS DISPLAY_START_M, 
+			DATE_FORMAT(
+				DISPLAY_END_DATE,
+				'%Y-%m-%d'
+			)					AS DISPLAY_END_DATE, 
+			DATE_FORMAT(
+				DISPLAY_END_DATE,
+				'%H'
+			)					AS DISPLAY_END_H, 
+			DATE_FORMAT(
+				DISPLAY_END_DATE,
+				'%i'
+			)					AS DISPLAY_END_M, 
+			
+			SEO_EXPOSURE_FLG	,
+			IFNULL(
+				SEO_TITLE,''
+			)					AS SEO_TITLE,
+			IFNULL(
+				SEO_AUTHOR,''
+			)					AS SEO_AUTHOR,
+			IFNULL(
+				SEO_DESCRIPTION,''
+			)					AS SEO_DESCRIPTION,
+			IFNULL(
+				SEO_KEYWORDS,''
+			)					AS SEO_KEYWORDS,
+			IFNULL(
+				SEO_ALT_TEXT,''
+			)					AS SEO_ALT_TEXT,
+			
+			CREATE_DATE			AS CREATE_DATE,
+			CREATER				AS CREATER,
+			UPDATE_DATE			AS UPDATE_DATE,
+			UPDATER				AS UPDATER
+		FROM
+			PAGE_POSTING
+		WHERE
+			IDX = ".$page_idx."
+	";
 
-$rows 				= $_POST['rows'];
-$page 				= $_POST['page'];
+	$db->query($select_page_product_sql);
 
-$tables = ' dev.PAGE_POSTING ';
-
-$sort_value = $_POST['sort_value'];
-$sort_type 	= $_POST['sort_type'];
-
-/** 검색 조건 **/
-$where = ' DEL_FLG = FALSE ';
-
-/* 탭 조건 : POSTING_TYPE*/
-if(isset($tab_num)){
-	switch($tab_num){
-		case '01':
-			$where .= " AND POSTING_TYPE = 'COLC' ";
-			break;
-		case '02':
-			$where .= " AND POSTING_TYPE = 'EDTL' ";
-			break;
-		case '03':
-			$where .= " AND POSTING_TYPE = 'COLA' ";
-			break;
-		case '04':
-			$where .= " AND POSTING_TYPE = 'EXHB' ";
-			break;
-		case '05':
-			$where .= " AND POSTING_TYPE = 'LKBK' ";
-			break;
+	foreach($db->fetch() as $data) {
+		$json_result['data'][] = array(
+			'page_idx'                      =>$data['PAGE_IDX'],
+			'country'                		=>$data['COUNTRY'],
+			'posting_type'                	=>$data['POSTING_TYPE'],
+			
+			'page_title'                 	=>$data['PAGE_TITLE'],
+			'page_memo'               		=>$data['PAGE_MEMO'],
+			'start_date'					=>$data['DISPLAY_START_DATE'],
+			'start_h'						=>$data['DISPLAY_START_H'],
+			'start_m'						=>$data['DISPLAY_START_M'],
+			'end_date'  					=>$data['DISPLAY_END_DATE'],
+			'end_h'  						=>$data['DISPLAY_END_H'],
+			'end_m'  						=>$data['DISPLAY_END_M'],
+			
+			'seo_exposure_flg'				=>$data['SEO_EXPOSURE_FLG'],
+			'seo_title'						=>$data['SEO_TITLE'],
+			'seo_author'					=>$data['SEO_AUTHOR'],
+			'seo_description'				=>$data['SEO_DESCRIPTION'],
+			'seo_keywords'					=>$data['SEO_KEYWORDS'],
+			'seo_alt_text'					=>$data['SEO_ALT_TEXT']
+		);
 	}
 }
 
-if($country != null && $country != "ALL"){
-	$where .= " AND COUNTRY = '".$country."' ";
-}
-$cnt_where = $where;
-
-/* 중복체크 */
-if(isset($title)){
-	$title = str_replace("'","\'",$title);
-	$where .= " AND PAGE_TITLE = '".$title."' ";
-}
-if(isset($url)){
-	$where .= " AND PAGE_URL = '".$url."' ";
-}
-
-/* 검색조건 : IDX (단일 페이지 업데이트 창에서 사용) */
-$country_sql = "";
-if(isset($page_idx)){
-	$where .= ' AND IDX = '.$page_idx.' ';
-	$country_sql .= " COUNTRY, ";
-} else {
-	$country_sql .= "CASE
-						WHEN COUNTRY='KR'
-							THEN '한국몰' 
-						WHEN COUNTRY='EN'
-							THEN '영문몰'
-						WHEN COUNTRY='CN'
-							THEN '중문몰'
-					END AS COUNTRY,";
-}
-
-/** 정렬 조건 **/
-$order = "";
-if ($sort_value != null && $sort_type != null) {
-	$order = " ORDER BY ".$sort_value." ".$sort_type.", ";
-	$order .= " IDX DESC ";
-}
-
-/** DB 처리 **/
-$json_result = array(
-	'total' => $db->count($tables,$where),
-	'total_cnt' => $db->count($tables,$cnt_where),
-	'page' => intval($page)
-);
-
-$limit_start = (intval($page)-1)*$rows;
-
-/* 검색조건 : IDX (단일 페이지 업데이트 창에서 사용) */
-$display_sql = "";
-if ($page_idx != null) {
-	$display_sql .= " DATE_FORMAT(DISPLAY_START_DATE, '%Y-%m-%d') AS DISPLAY_START_DATE, ";
-	$display_sql .= " DATE_FORMAT(DISPLAY_START_DATE, '%H') AS DISPLAY_START_H, ";
-	$display_sql .= " DATE_FORMAT(DISPLAY_START_DATE, '%i') AS DISPLAY_START_M, ";
-	$display_sql .= " DATE_FORMAT(DISPLAY_END_DATE, '%Y-%m-%d') AS DISPLAY_END_DATE, ";
-	$display_sql .= " DATE_FORMAT(DISPLAY_END_DATE, '%H') AS DISPLAY_END_H, ";
-	$display_sql .= " DATE_FORMAT(DISPLAY_END_DATE, '%i') AS DISPLAY_END_M, ";
-	
-	$where .= " AND (IDX = ".$page_idx.") ";
-	$order = "";
-	$limit = "";
-} else {
-	$display_sql .= " DATE_FORMAT(DISPLAY_START_DATE, '%Y-%m-%d %H:%i') AS DISPLAY_START_DATE, ";
-	$display_sql .= " DATE_FORMAT(DISPLAY_END_DATE, '%Y-%m-%d %H:%i') AS DISPLAY_END_DATE, ";
-}
-
-$sql = "SELECT
-			IDX,
-			".$country_sql."
-			POSTING_TYPE,
-			PAGE_TITLE,
-			PAGE_URL,
-			IFNULL(PAGE_MEMO,'') AS PAGE_MEMO,
-			PAGE_VIEW,
-			DISPLAY_FLG,
-			".$display_sql."
-			SEO_EXPOSURE_FLG,
-			IFNULL(SEO_TITLE, '') AS SEO_TITLE,
-			IFNULL(SEO_AUTHOR, '') AS SEO_AUTHOR,
-			IFNULL(SEO_DESCRIPTION, '') AS SEO_DESCRIPTION,
-			IFNULL(SEO_KEYWORDS, '') AS SEO_KEYWORDS,
-			IFNULL(SEO_ALT_TEXT, '') AS SEO_ALT_TEXT,
-			
-			CREATE_DATE,
-			CREATER,
-			UPDATE_DATE,
-			UPDATER
-		FROM
-			".$tables."
-		WHERE
-			".$where."
-		".$order;
-if ($rows != null) {
-	$sql .= " LIMIT ".$limit_start.",".$rows;
-}
-$db->query($sql);
-foreach($db->fetch() as $data) {
-	$json_result['data'][] = array(
-		'num'									=>intval($total_cnt--),
-		'idx'                       			=>intval($data['IDX']),
-		'postring_type'                			=>$data['POSTING_TYPE'],
-		'country'                				=>$data['COUNTRY'],
-		'page_title'                 			=>$data['PAGE_TITLE'],
-		'page_url'               				=>$data['PAGE_URL'],
-		'page_memo'               				=>$data['PAGE_MEMO'],
-		'page_view'               				=>$data['PAGE_VIEW'],
-		'display_flg'        					=>$data['DISPLAY_FLG'],
-		'display_start_date'					=>$data['DISPLAY_START_DATE'],
-		'display_start_h'						=>$data['DISPLAY_START_H'],
-		'display_start_m'						=>$data['DISPLAY_START_M'],
-		'display_end_date'  					=>$data['DISPLAY_END_DATE'],
-		'display_end_h'  						=>$data['DISPLAY_END_H'],
-		'display_end_m'  						=>$data['DISPLAY_END_M'],
-		
-		'seo_exposure_flg'						=>$data['SEO_EXPOSURE_FLG'],
-		'seo_title'								=>$data['SEO_TITLE'],
-		'seo_author'							=>$data['SEO_AUTHOR'],
-		'seo_description'						=>$data['SEO_DESCRIPTION'],
-		'seo_keywords'							=>$data['SEO_KEYWORDS'],
-		'seo_alt_text'							=>$data['SEO_ALT_TEXT'],
-
-		'create_date'               			=>$data['CREATE_DATE'],
-		'creater'                   			=>$data['CREATER'],
-		'update_date'               			=>$data['UPDATE_DATE'],
-		'updater'                   			=>$data['UPDATER']
-	);
-}
 ?>

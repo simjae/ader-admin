@@ -13,12 +13,15 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/admin/api/common/common.php");
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 /** 변수 정리 **/
-$sel_idx = $_POST['sel_idx'];
+$session_id		= sessionCheck();
+$sel_idx		= $_POST['sel_idx'];
 
 $db->begin_transaction();
+
 try {
 	$where = "1=1";
 	$sel_list_str = implode(',',$sel_idx);
@@ -31,17 +34,17 @@ try {
 	//수정항목
 	$db->query("
 		UPDATE 
-			dev.VOUCHER_ISSUE 
+			VOUCHER_ISSUE 
 		SET 
 			DEL_FLG = TRUE,
-			UPDATE_DATE = NOW()
+			UPDATE_DATE = NOW(),
+			UPDATER = '".$session_id."'
 		WHERE 
 			".$where."
 	");
 
 	$db->commit();
-}
-catch(mysqli_sql_exception $exception){
+} catch(mysqli_sql_exception $exception){
 	echo $exception->getMessage();
 	$json_result['code'] = 301;
 	$db->rollback();

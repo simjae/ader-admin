@@ -46,8 +46,8 @@ if($country != null && ($category_no != null || $keyword != null)) {
 			FAQ.ANSWER			AS ANSWER,
 			FC.TITLE			AS TITLE
 		FROM 
-			dev.FAQ  FAQ
-			LEFT JOIN dev.FAQ_CATEGORY FC ON
+			FAQ  FAQ
+			LEFT JOIN FAQ_CATEGORY FC ON
 			FAQ.CATEGORY_NO = FC.IDX
 			".$where."
 		WHERE

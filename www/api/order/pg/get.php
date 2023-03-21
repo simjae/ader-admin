@@ -36,7 +36,7 @@ if (isset($_POST['basket_idx'])) {
 }
 
 if ($member_idx > 0 && $basket_idx != null) {
-	$basket_cnt = $db->count("dev.BASKET_INFO","IDX IN (".implode(",",$basket_idx).") AND MEMBER_IDX = ".$member_idx);
+	$basket_cnt = $db->count("BASKET_INFO","IDX IN (".implode(",",$basket_idx).") AND MEMBER_IDX = ".$member_idx);
 
 	if (count($basket_idx) != $basket_cnt) {
 		$json_result['code'] = 402;
@@ -52,7 +52,7 @@ if ($member_idx > 0 && $basket_idx != null) {
 					SELECT
 						REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www/','')
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -71,12 +71,12 @@ if ($member_idx > 0 && $basket_idx != null) {
 				BI.PRODUCT_QTY					AS PRODUCT_QTY,
 				PR.SALES_PRICE_".$country."		AS SALES_PRICE
 			FROM
-				dev.BASKET_INFO BI
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				BASKET_INFO BI
+				LEFT JOIN SHOP_PRODUCT PR ON
 				BI.PRODUCT_IDX = PR.IDX
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				LEFT JOIN ORDERSHEET_MST OM ON
 				PR.ORDERSHEET_IDX = OM.IDX
-				LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+				LEFT JOIN ORDERSHEET_OPTION OO ON
 				BI.OPTION_IDX = OO.IDX
 			WHERE
 				BI.IDX IN (".implode(",",$basket_idx).")
@@ -109,7 +109,7 @@ if ($member_idx > 0 && $basket_idx != null) {
 				MB.TEL_MOBILE		AS MEMBER_MOBILE,
 				MB.MEMBER_ID		AS MEMBER_EMAIL
 			FROM
-				dev.MEMBER_".$country." MB
+				MEMBER_".$country." MB
 			WHERE
 				MB.IDX = ".$member_idx."
 		";
@@ -135,7 +135,7 @@ if ($member_idx > 0 && $basket_idx != null) {
 				OT.TO_LOT_ADDR		AS TO_LOT_ADDR,
 				TO_DETAIL_ADDR		AS TO_DETAIL_ADDR
 			FROM
-				dev.ORDER_TO OT
+				ORDER_TO OT
 			WHERE
 				OT.MEMBER_IDX = ".$member_idx." AND
 				OT.DEFAULT_FLG = TRUE
@@ -157,8 +157,8 @@ if ($member_idx > 0 && $basket_idx != null) {
 		}
 		
 		$voucher_table = "
-			dev.VOUCHER_MST VM
-			LEFT JOIN dev.VOUCHER_ISSUE VI ON
+			VOUCHER_MST VM
+			LEFT JOIN VOUCHER_ISSUE VI ON
 			VM.IDX = VI.VOUCHER_IDX
 		";
 		
@@ -182,8 +182,8 @@ if ($member_idx > 0 && $basket_idx != null) {
 				VM.SALE_PRICE		AS SALE_PRICE,
 				VM.MILEAGE_FLG		AS MILEAGE_FLG
 			FROM
-				dev.VOUCHER_MST VM
-				LEFT JOIN dev.VOUCHER_ISSUE VI ON
+				VOUCHER_MST VM
+				LEFT JOIN VOUCHER_ISSUE VI ON
 				VM.IDX = VI.VOUCHER_IDX
 			WHERE
 				VM.MIN_PRICE <= ".$total_price." AND

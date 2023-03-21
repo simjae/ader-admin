@@ -29,7 +29,7 @@ if ($country != null) {
       POLICY_TYPE,
       POLICY_TXT
     FROM 
-      dev.POLICY_INFO 
+      POLICY_INFO 
     WHERE 
       COUNTRY = '".$country."' AND 
       (

@@ -13,17 +13,23 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/admin/api/common/common.php");
 
-$sample_idx	= $_POST['sample_idx'];
+$session_id		= sessionCheck();
+$sample_idx		= $_POST['sample_idx'];
 
 if ($sample_idx != null) {
-	$sql = "UPDATE
-				dev.SAMPLE_INFO
-			SET
-				DEL_FLG = TRUE
-			WHERE
-				IDX = ".$sample_idx;
+	$delete_sample_sql = "
+		UPDATE
+			SAMPLE_INFO
+		SET
+			DEL_FLG = TRUE,
+			UPDATE_DATE = NOW(),
+			UPDATER = '".$session_id."'
+		WHERE
+			IDX = ".$sample_idx."
+	";
 	
-	$db->query($sql);
+	$db->query($delete_sample_sql);
 }
 ?>

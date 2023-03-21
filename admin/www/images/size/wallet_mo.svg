@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="339" viewBox="0 0 320 339">
+  <g id="그룹_8018" data-name="그룹 8018" transform="translate(-20 -917)">
+    <rect id="사각형_2301" data-name="사각형 2301" width="320" height="339" transform="translate(20 917)" fill="none"/>
+    <g id="그룹_8016" data-name="그룹 8016" transform="translate(9428 -3051.723)">
+      <g id="그룹_7937" data-name="그룹 7937" transform="translate(-17098.992 -1573.918)">
+        <path id="패스_7310" data-name="패스 7310" d="M7800,5613.7l9.433-2.7,20.214,1.685,82.875,7.074,9.433,6.738-2.358,135.092-1.242.832-.727.032-5.442.147-8.087-120.269Z" transform="translate(-8.105 -1.565)" fill="#eee"/>
+        <path id="패스_7311" data-name="패스 7311" d="M7906.437,5760.866h5.245a5.163,5.163,0,0,0,5.162-5.028l3.36-128.914a8.769,8.769,0,0,0-7.98-8.96l-103.151-9.265a14.545,14.545,0,0,0-2.352-.021l-13.3.968a4.421,4.421,0,0,0-4.1,4.354l-1.54,127.306a9.116,9.116,0,0,0,7.563,9.093l100.6,17.384a9.117,9.117,0,0,0,10.669-8.983V5631.517a9.588,9.588,0,0,0-8.739-9.55l-100.627-9.2a.274.274,0,0,1-.051-.537l4.364-.909a7.211,7.211,0,0,1,2.629-.25l97.031,8.537a9.586,9.586,0,0,1,8.74,9.573l.021,131.518" transform="translate(-0.001)" fill="#eee" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+        <path id="패스_7312" data-name="패스 7312" d="M7801.5,5759.866l99.8,17.223a8.365,8.365,0,0,0,9.685-8.433v-120.12a8.888,8.888,0,0,0-7.935-8.965l-98.521-9.071" transform="translate(-9.099 -14.495)" fill="none" stroke="#221f1f" stroke-miterlimit="10" stroke-width="0.5"/>
+      </g>
+      <g id="그룹_7939" data-name="그룹 7939" transform="matrix(-0.985, -0.174, 0.174, -0.985, -9204.65, 4215.084)">
+        <line id="선_2774" data-name="선 2774" x2="120.968" transform="translate(0 2.5)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2775" data-name="선 2775" y1="5" transform="translate(0.174 0)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2776" data-name="선 2776" y1="5" transform="translate(121.191 0)" fill="none" stroke="#343434" stroke-width="1"/>
+      </g>
+      <g id="그룹_7938" data-name="그룹 7938" transform="matrix(-0.743, 0.669, -0.669, -0.743, -9167.78, 4188.577)">
+        <line id="선_2774-2" data-name="선 2774" x2="35.038" transform="translate(0 2.5)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2775-2" data-name="선 2775" y1="5" transform="translate(0.174 0)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2776-2" data-name="선 2776" y1="5" transform="translate(35.259 0)" fill="none" stroke="#343434" stroke-width="1"/>
+      </g>
+      <g id="그룹_7808" data-name="그룹 7808" transform="translate(8164 925)">
+        <line id="선_2771" data-name="선 2771" y2="143.453" transform="translate(-17499.5 3110.5)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2772" data-name="선 2772" y2="5" transform="translate(-17497 3110) rotate(90)" fill="none" stroke="#343434" stroke-width="1"/>
+        <line id="선_2773" data-name="선 2773" y2="5" transform="translate(-17497 3253.453) rotate(90)" fill="none" stroke="#343434" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+</svg>

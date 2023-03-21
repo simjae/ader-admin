@@ -7,7 +7,11 @@
         background-repeat: no-repeat;
         background-size: cover;
     }
+	.time__select{width:80px!important;}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <form id='frm-list'>
 	<div class="content__card">
 		<div class="card__header">
@@ -44,11 +48,39 @@
 						
 						<input type="radio" id="display_flg_date" class="radio__input display_flg" radio_type="display" value="false" name="display_date">
 						<label for="display_flg_date" style="gap:5px;">진행 기간</label>
-						
-						<div class="content__date__picker">
-							<input id="display_from" class="display_date" type="date" name="display_from" placeholder="From" readonly="" style="width:150px" onChange="displayDateChange(this)" disabled>
-							<font class="" >~</font>
-							<input id="display_to" class="display_date" type="date" name="display_to" placeholder="To" readonly="" style="width:150px; " onChange="displayDateChange(this)" disabled>
+					</div>
+				</div>
+			</div>
+			<div class="content__wrap grid__half">
+				<div class="half__box__wrap">
+					<div class="content__title">팝업 진행시작일</div>
+					<div class="content__row">
+						<div class="content__date__wrap">
+							<div class="content__date__picker">
+								<input class="date_param" type="date" id="display_start_date"
+									class="margin-bottom-6" placeholder="From" readonly style="width:150px;"
+									date_type="day" onChange="dateParamChange(this);" disabled>
+								<select id="display_start_hour" class="time__select hour" date_type="hour" onChange="dateParamChange(this);" disabled></select>
+								<span>&nbsp;시</span>
+								<select id="display_start_minite" class="time__select minite" date_type="minite" onChange="dateParamChange(this);" disabled></select>
+								<span>&nbsp;분</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="half__box__wrap">
+					<div class="content__title">팝업 진행종료일</div>
+					<div class="content__row">
+						<div class="content__date__wrap">
+							<div class="content__date__picker">
+								<input class="date_param" type="date" id="display_end_date"
+									class="margin-bottom-6" placeholder="From" readonly style="width:150px;"
+									date_type="day" onChange="dateParamChange(this);" disabled>
+								<select id="display_end_hour" class="time__select hour" date_type="hour" onChange="dateParamChange(this);" disabled></select>
+								<span>&nbsp;시</span>
+								<select id="display_end_minite" class="time__select minite" date_type="minite" onChange="dateParamChange(this);" disabled></select>
+								<span>&nbsp;분</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -335,7 +367,7 @@ var popup_contents = [];
 //var oEditors2 = [];
 
 $(document).ready(function() {
-
+	timeSelectSet();
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: popup_contents,
 		elPlaceHolder: "popup_contents",
@@ -349,28 +381,91 @@ $(document).ready(function() {
 		$('.popup__display__result').html();
 	});
 });
+function timeSelectSet(){
+	var hourOption = '<option value="">선택</option>';
+    var miniteOption = '<option value="">선택</option>';
+	
+	for(var i = 0; i <= 24; i++){
+		var hour_val = i.toString().padStart(2,'0');
+		hourOption += `
+			<option value='${hour_val}'>${hour_val}</option>
+		`;
+	}
+	$('.hour').append(hourOption);
+
+    for(var j = 0; j < 60; j++){
+		var minite_val = j.toString().padStart(2,'0');
+		miniteOption += `
+			<option value='${minite_val}'>${minite_val}</option>
+		`;
+	}
+	$('.minite').append(miniteOption);
+}
 $('.display_flg').change(function(){
 	var val = $(this).val();
 	if (val != "false") {
-		$('.display_date').val('');
-		$('.display_date').attr("disabled", true);
+		$('.date_param').val('');
+		$('.date_param').attr("disabled", true);
+
+		$('.time__select.minite').val('');
+		$('.time__select.minite').attr("disabled", true);
+		$('.time__select.hour option:eq(0)').prop('selected',true);
+		$('.time__select.hour').attr("disabled", true);
+
+		//$('.display_date').val('');
+		//$('.display_date').attr("disabled", true);
 	} else {
-		$('.display_date').removeAttr("disabled");
+		$('.date_param').removeAttr("disabled");
+		$('.time__select').removeAttr("disabled");
+		//$('.display_date').removeAttr("disabled");
 	}
 });
+function dateParamChange(obj) {
+	//content__date__picker
+    let date_type = $(obj).attr('date_type');
+    let parent_obj = $(obj).parent();
 
-function displayDateChange(obj){
-	var display_start_date 	= $("input[name='display_from']").val();
-	var display_end_date 	= $("input[name='display_to']").val();
-
-	var start_date 	= new Date(display_start_date);
-	var end_date 	= new Date(display_end_date);
-	
-	if (start_date > end_date) {
-		alert('진행 시작일/종료일에 올바른 날짜를 입력해주세요.');
-		$(obj).val('');
-		return false;
-	}
+    let now_date = new Date();
+    let now_gettime = now_date.getTime();
+    let now_year = now_date.getFullYear();
+    let now_month = (now_date.getMonth() + 1).toString().padStart(2,'0');
+    let now_day = (now_date.getDate()).toString().padStart(2,'0');
+    let now_hour = (now_date.getHours()).toString().padStart(2,'0');
+    let now_minite = (now_date.getMinutes()).toString().padStart(2,'0');
+    let now_date_str = `${now_year}-${now_month}-${now_day}`;
+  
+    switch(date_type){
+        case 'day':
+            if($(obj).val() < now_date_str){
+                alert('과거시점으로 입력하실 수 없습니다.');
+                $(obj).val(now_date_str);
+				parent_obj.find('.time__select').val('');
+                parent_obj.find('.time__select.hour').attr('disabled',false);
+                parent_obj.find('.time__select.minite').attr('disabled',true);
+                return false;
+            }
+			parent_obj.find('.time__select.hour').attr('disabled',false);
+            parent_obj.find('.time__select').val('');
+            parent_obj.find('.time__select.minite').attr('disabled',true);
+            break;
+        case 'hour':
+            if(parent_obj.find('.date_param').val() + ' ' + $(obj).val() < now_date_str + ' ' + now_hour){
+                alert('과거시점으로 입력하실 수 없습니다.');
+                $(obj).val('');
+                parent_obj.find('.time__select.minite').attr('disabled',true);
+                return false;
+            }
+            parent_obj.find('.time__select.minite').val('');
+            parent_obj.find('.time__select.minite').attr('disabled',false);
+            break;
+        case 'minite':
+            if(parent_obj.find('.date_param').val() + ' ' + parent_obj.find('.time__select.hour').val() + ':' + $(obj).val() < now_date_str + ' ' + now_hour + ':' + now_minite){
+                alert('과거시점으로 입력하실 수 없습니다.');
+                $(obj).val('');
+                return false;
+            }
+            break;
+    }
 }
 function setPaging(obj) {
 	var total_cnt 	= $(obj).parent().find('.total_cnt').val();
@@ -510,9 +605,9 @@ function delSelectList(obj){
 	}
 }
 function previewPopup(){
-	var formData = new FormData();
-	
 	popup_contents.getById["popup_contents"].exec("UPDATE_CONTENTS_FIELD", []);
+	
+	var formData = new FormData();
 	formData = $("#frm-list").serializeObject();
 
 	if(formData.location_height.length == 0){
@@ -574,9 +669,39 @@ function previewPopup(){
 	$('.preview_web').prepend(popupDiv);
 }
 function popupNewRegistCheck(){
+	popup_contents.getById["popup_contents"].exec("UPDATE_CONTENTS_FIELD", []);
+
 	var formData = new FormData();
 	formData = $("#frm-list").serializeObject();
-	popup_contents.getById["popup_contents"].exec("UPDATE_CONTENTS_FIELD", []);
+	
+
+	var display_flg = $('#frm-update').find("input[name='display_date']:checked").val();
+	if (display_flg == "false") {
+		var display_start_date = '';
+		if($('#display_start_minite').val().length == 0){
+			alert('팝업 시작일을 입력해주세요');
+			return false;
+		}
+		display_start_date += $('#display_start_date').val() + ' ';
+		display_start_date += $('#display_start_hour').val() + ':';
+		display_start_date += $('#display_start_minite').val()==''?'00':$('#display_start_minite').val();
+
+		var display_end_date = '';
+		if($('#display_end_minite').val().length == 0){
+			alert('팝업 종료일을 입력해주세요');
+			return false;
+		}
+		display_end_date += $('#display_end_date').val() + ' ';
+		display_end_date += $('#display_end_hour').val() + ':';
+		display_end_date += $('#display_end_minite').val()==''?'00':$('#display_end_minite').val();
+
+		if(display_start_date > display_end_date){
+			alert('시작일/종료일 입력이 잘못되었습니다.');
+			return false;
+		}
+		formData.display_start_date = display_start_date;
+		formData.display_end_date = display_end_date;
+	}
 
 	if(formData.location_height.length == 0){
 		alert("[팝업 표시 위치] -> [화면위 픽셀]을 입력해주세요", $('input[name=location_height]').focus());
@@ -607,26 +732,8 @@ function popupNewRegistCheck(){
 		alert("[팝업 내용]을 기입해주세요",$('input[name=title]').focus());
 		return false;
 	}
+
 	
-	var display_flg = $("input[name='display_date']:checked").val();
-
-	if (display_flg == "false") {
-		var display_start_date 	= $("input[name='display_from']").val();
-		var display_end_date 	= $("input[name='display_to']").val();
-
-		if (display_start_date.length > 0 && display_end_date.length > 0) {
-			var start_date 	= new Date(display_start_date);
-			var end_date 	= new Date(display_end_date);
-			
-			if (start_date > end_date) {
-				alert('진열 시작일/종료일에 올바른 날짜를 입력해주세요.',$("input[name='display_from']").focus());
-				return false;
-			}
-		} else {
-			alert('진열 시작일/종료일에 정확한 날짜를 입력해주세요.',$("input[name='display_from']").focus());
-			return false;
-		}
-	}
 	confirm("팝업을 생성하시겠습니까?",function() {
 		$.ajax({
 			type: "post",
@@ -639,8 +746,12 @@ function popupNewRegistCheck(){
 			success: function(d) {
 				if(d.code == 200) {
 					insertLog("전시관리 > 팝업 관리", "팝업 생성", null);
-					alert("팝업 생성 처리에 성공했습니다.");
-					location.href='/display/popup/list';
+					alert(
+						"팝업 생성 처리에 성공했습니다.",
+						function() {
+							location.href='/display/popup/list'
+						}
+					);
 				}
 			}
 		});

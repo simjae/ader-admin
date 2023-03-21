@@ -25,7 +25,7 @@ if ($banner_type != null && $banner_idx != null) {
 	
 	switch ($banner_type) {
 		case "HED" :
-			$banner_table = "dev.BANNER_HEAD";
+			$banner_table = "BANNER_HEAD";
 			$head_clip_sql = "
 				,BI.LOCATION_START	AS LOCATION_START,
 				BI.LOCATION_END		AS LOCATION_END
@@ -33,13 +33,13 @@ if ($banner_type != null && $banner_idx != null) {
 			break;
 		
 		case "IMG" :
-			$banner_table = "dev.BANNER_IMG";
-			$clip_table = "dev.BANNER_IMG_CLIP";
+			$banner_table = "BANNER_IMG";
+			$clip_table = "BANNER_IMG_CLIP";
 			break;
 		
 		case "VID" :
-			$banner_table = "dev.BANNER_VID";
-			$clip_table = "dev.BANNER_VID_CLIP";
+			$banner_table = "BANNER_VID";
+			$clip_table = "BANNER_VID_CLIP";
 			break;
 	}
 	

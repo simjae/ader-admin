@@ -20,7 +20,7 @@ if($product_code != null){
     $sql = "SELECT
                 COUNT(OM.IDX) AS PRODUCT_CNT
             FROM 
-                dev.ORDERSHEET_MST OM
+                ORDERSHEET_MST OM
             WHERE
                 OM.PRODUCT_CODE = '".$product_code."'AND
 				OM.DEL_FLG = FALSE

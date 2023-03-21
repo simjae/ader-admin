@@ -576,24 +576,20 @@
     let quickViewWarp = document.querySelector(".quickview__box");
     let swiperContainer = document.querySelector(".swiper-quick-container");
     
-    function quickViewTimer() {
-        setTimeout(function() {
-            contentWrap.classList.remove('open');
-            swiperContainer.classList.add('close-swiper');
-        }, 5000);
-    }
+    let quickViewTimer;
     let observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
+            if(target.value == 'open') {
+                clearTimeout(quickViewTimer);
+                contentWrap.classList.add('open');
+                swiperContainer.classList.remove('close-swiper');
+            } 
             if(target.value == 'close') {
-                setTimeout(function() {
+                quickViewTimer = setTimeout(function() {
                     contentWrap.classList.remove('open');
                     swiperContainer.classList.add('close-swiper');
                     $('.common-contents-container').html('');
                 }, 5000);
-            } 
-            if(target.value == 'open') {
-                contentWrap.classList.add('open');
-                swiperContainer.classList.remove('close-swiper');
             }
         })
     })

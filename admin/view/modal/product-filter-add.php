@@ -3,7 +3,11 @@
 		<input class="filter_idx" type="hidden" name="filter_idx" value="<?=$filter_idx?>">
 		
 		<div class="card__header">
-			<h3>상품 필터 등록</h3>
+			<h3>상품 필터 등록
+				<a onclick="modal_close();" class="btn-close" style="float:right">
+					<i class="xi-close"></i>
+				</a>
+			</h3>
 			<div class="drive--x"></div>
 		</div>
 		

@@ -135,6 +135,9 @@
 		.order_status_box {
 			padding: 7px 8px;
 		}
+		.product_info_mob p {
+			width: 80px;
+		}
 	}
 
 	@media (min-width: 600px) {
@@ -1048,7 +1051,7 @@
 				break;
 
 			case "OCC":
-				order_status = "주문취소";
+				order_status = "취소완료";
 				break;
 
 			case "OEX":

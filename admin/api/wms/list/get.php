@@ -29,33 +29,26 @@ $sql = "
         OM.CATEGORY_SML		AS CATEGORY_SML,
         OM.CATEGORY_DTL		AS CATEGORY_DTL,
         
-		LB.BOX_WIDTH		AS LOAD_BOX_WIDTH,
-        LB.BOX_LENGTH		AS LOAD_BOX_DEPTH,
-        LB.BOX_HEIGHT		AS LOAD_BOX_HEIGHT,
-        LB.BOX_VOLUME		AS LOAD_BOX_VOLUME,
-		
-		DB.BOX_WIDTH		AS DELIVER_BOX_WIDTH,
-        DB.BOX_LENGTH		AS DELIVER_BOX_DEPTH,
-        DB.BOX_HEIGHT		AS DELIVER_BOX_HEIGHT,
-        DB.BOX_VOLUME		AS DELIVER_BOX_VOLUME,
+		BI.BOX_WIDTH		AS LOAD_BOX_WIDTH,
+        BI.BOX_LENGTH		AS LOAD_BOX_DEPTH,
+        BI.BOX_HEIGHT		AS LOAD_BOX_HEIGHT,
+        BI.BOX_VOLUME		AS LOAD_BOX_VOLUME,
 		
         PR.MEMO				AS MEMO
     FROM 
-        dev.SHOP_PRODUCT PR
-		LEFT JOIN dev.ORDERSHEET_MST OM ON
+        SHOP_PRODUCT PR
+		LEFT JOIN ORDERSHEET_MST OM ON
 		PR.ORDERSHEET_IDX = OM.IDX
-		LEFT JOIN dev.LOAD_BOX_INFO LB ON
-		OM.LOAD_BOX_IDX = LB.IDX
-		LEFT JOIN dev.DELIVER_BOX_INFO DB ON
-		OM.DELIVER_BOX_IDX = DB.IDX
-		LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+		LEFT JOIN BOX_INFO BI ON
+		OM.LOAD_BOX_IDX = BI.IDX
+		LEFT JOIN ORDERSHEET_OPTION OO ON
 		PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 		LEFT JOIN (
 			SELECT
 				S_PI.PRODUCT_IDX,
 				S_PI.IMG_LOCATION
 			FROM
-				dev.PRODUCT_IMG S_PI
+				PRODUCT_IMG S_PI
 			WHERE
 				S_PI.IMG_TYPE = 'P' AND
 				S_PI.IMG_SIZE = 'S'
@@ -88,11 +81,6 @@ foreach($db->fetch() as $data){
         'load_box_height'		=> $data['LOAD_BOX_HEIGHT'],
         'load_box_volume'		=> $data['LOAD_BOX_VOLUME'],
 		
-		'deliver_box_width'		=> $data['DELIVER_BOX_WIDTH'],
-        'deliver_box_depth'		=> $data['DELIVER_BOX_DEPTH'],
-        'deliver_box_height'	=> $data['DELIVER_BOX_HEIGHT'],
-        'deliver_box_volume'	=> $data['DELIVER_BOX_VOLUME'],
-        
 		'memo'				=> $data['MEMO']
     );
 }

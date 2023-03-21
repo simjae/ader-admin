@@ -27,7 +27,7 @@ $select_filter_sql = "
 			PF.SIZE_TYPE,'-'
 		)					AS SIZE_TYPE
 	FROM
-		dev.PRODUCT_FILTER PF
+		PRODUCT_FILTER PF
 	WHERE
 		DEL_FLG = FALSE
 	ORDER BY

@@ -17,7 +17,11 @@
 $select_contents_sql = "
 	SELECT
 		MC.IDX					AS CONTENTS_IDX,
-		MC.IMG_LOCATION			AS IMG_LOCATION,
+		REPLACE(
+			MC.IMG_LOCATION,
+			'/var/www/admin/www',
+			''
+		)						AS IMG_LOCATION,
 		MC.TITLE				AS TITLE,
 		MC.SUB_TITLE			AS SUB_TITLE,
 		MC.BACKGROUND_COLOR		AS BACKGROUND_COLOR,
@@ -28,7 +32,7 @@ $select_contents_sql = "
 		MC.BTN2_URL				AS BTN2_URL,
 		MC.BTN2_DISPLAY_FLG		AS BTN2_DISPLAY_FLG
 	FROM
-		dev.MAIN_CONTENTS MC
+		TMP_MAIN_CONTENTS MC
 	WHERE
 		MC.COUNTRY = '".$country."' AND
 		MC.DEL_FLG = FALSE
@@ -48,7 +52,7 @@ foreach($db->fetch() as $contents_data){
 					SELECT
 						S_PI.IMG_LOCATION
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -60,8 +64,8 @@ foreach($db->fetch() as $contents_data){
 				)					AS IMG_LOCATION,
 				PR.PRODUCT_NAME		AS PRODUCT_NAME
 			FROM
-				dev.CONTENTS_PRODUCT CP
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				TMP_CONTENTS_PRODUCT CP
+				LEFT JOIN SHOP_PRODUCT PR ON
 				CP.PRODUCT_IDX = PR.IDX
 			WHERE
 				CP.COUNTRY = '".$country."'

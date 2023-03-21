@@ -65,7 +65,7 @@ $sql = "SELECT
                         SELECT
                             COUNT(S_PI.IDX)
                         FROM
-                            dev.PRODUCT_IMG S_PI
+                            PRODUCT_IMG S_PI
                         WHERE
                             S_PI.PRODUCT_IDX = PR.IDX AND
                             S_PI.IMG_TYPE = 'P' AND
@@ -76,7 +76,7 @@ $sql = "SELECT
                             SELECT
                                 REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
                             FROM
-                                dev.PRODUCT_IMG S_PI
+                                PRODUCT_IMG S_PI
                             WHERE
                                 S_PI.PRODUCT_IDX = PR.IDX AND
                                 S_PI.DEL_FLG = FALSE AND
@@ -105,7 +105,7 @@ $sql = "SELECT
             PR.UPDATER					AS UPDATER,
             PR.UPDATE_DATE				AS UPDATE_DATE
         FROM
-            dev.SHOP_PRODUCT PR
+            SHOP_PRODUCT PR
         WHERE
             ".$where."
         ORDER BY
@@ -113,7 +113,7 @@ $sql = "SELECT
 
 $json_result = array(
 	'total' => $db->count("(".$sql.") AS TMP"),
-	'total_cnt' => $db->count("dev.SHOP_PRODUCT PR",$where_cnt),
+	'total_cnt' => $db->count("SHOP_PRODUCT PR",$where_cnt),
 	'page' => $page
 );
 
@@ -138,7 +138,7 @@ foreach($db->fetch() as $data) {
 									SELECT
 										COUNT(S_PI.IDX)
 									FROM
-										dev.PRODUCT_IMG S_PI
+										PRODUCT_IMG S_PI
 									WHERE
 										S_PI.PRODUCT_IDX = PR.IDX AND
 										S_PI.IMG_TYPE = 'P' AND
@@ -149,7 +149,7 @@ foreach($db->fetch() as $data) {
 										SELECT
 											REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 										FROM
-											dev.PRODUCT_IMG S_PI
+											PRODUCT_IMG S_PI
 										WHERE
 											S_PI.PRODUCT_IDX = PR.IDX AND
 											S_PI.DEL_FLG = FALSE AND
@@ -178,15 +178,15 @@ foreach($db->fetch() as $data) {
 						PR.UPDATER					AS UPDATER,
 						PR.UPDATE_DATE				AS UPDATE_DATE
 					FROM
-						dev.SHOP_PRODUCT PR
-						LEFT JOIN dev.ORDERSHEET_MST OM ON
+						SHOP_PRODUCT PR
+						LEFT JOIN ORDERSHEET_MST OM ON
 						PR.ORDERSHEET_IDX = OM.IDX
 					WHERE
 						PR.IDX IN (
 							SELECT
 								S_SP.PRODUCT_IDX
 							FROM
-								dev.SET_PRODUCT S_SP
+								SET_PRODUCT S_SP
 							WHERE
 								S_SP.SET_PRODUCT_IDX = ".$product_idx."
 					)";

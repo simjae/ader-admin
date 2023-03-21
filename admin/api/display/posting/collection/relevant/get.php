@@ -14,15 +14,14 @@
  +=============================================================================
 */
 
-$contry				= $_POST['country'];
-$collection_idx		= $_POST['collection_idx'];
+$project_idx		= $_POST['project_idx'];
 $c_product_idx		= $_POST['c_product_idx'];
 
-if ($country != null && $collection_idx != null && $c_product_idx != null) {
-	$select_relevant_sql = "
+if ($project_idx != null && $c_product_idx != null) {
+	$select_relevant_product_sql = "
 		SELECT
-			CR.IDX				AS RELEVANT_IDX,
-			CR.DISPLAY_NUM		AS DISPLAY_NUM,
+			RP.IDX				AS RELEVANT_IDX,
+			RP.DISPLAY_NUM		AS DISPLAY_NUM,
 			PR.PRODUCT_CODE		AS PRODUCT_CODE,
 			PR.PRODUCT_NAME		AS PRODUCT_NAME,
 			(
@@ -33,7 +32,7 @@ if ($country != null && $collection_idx != null && $c_product_idx != null) {
 						''
 					)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -43,21 +42,20 @@ if ($country != null && $collection_idx != null && $c_product_idx != null) {
 				LIMIT
 					0,1
 			)					AS IMG_LOCATION,
-			CR.SOLD_OUT_FLG		AS SOLD_OUT_FLG,
-			CR.DISPLAY_FLG		AS DISPLAY_FLG
+			RP.SOLD_OUT_FLG		AS SOLD_OUT_FLG,
+			RP.DISPLAY_FLG		AS DISPLAY_FLG
 		FROM
-			dev.COLLECTION_RELEVANT_PRODUCT CR
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
-			CR.PRODUCT_IDX = PR.IDX
+			COLLECTION_RELEVANT_PRODUCT RP
+			LEFT JOIN SHOP_PRODUCT PR ON
+			RP.PRODUCT_IDX = PR.IDX
 		WHERE
-			CR.COUNTRY = '".$country."' AND
-			CR.COLLECTION_IDX = ".$collection_idx." AND
-			CR.C_PRODUCT_IDX = ".$c_product_idx."
+			RP.PROJECT_IDX = ".$project_idx." AND
+			RP.C_PRODUCT_IDX = ".$c_product_idx."
 		ORDER BY
-			CR.DISPLAY_NUM ASC
+			RP.DISPLAY_NUM ASC
 	";
 	
-	$db->query($select_relevant_sql);
+	$db->query($select_relevant_product_sql);
 	
 	foreach($db->fetch() as $product_data) {
 		$json_result['data'][] = array(

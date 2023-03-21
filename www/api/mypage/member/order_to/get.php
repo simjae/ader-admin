@@ -48,7 +48,7 @@ if ($country != null && $member_idx > 0 && $order_to_idx > 0) {
 			OT.TO_DETAIL_ADDR	AS TO_DETAIL_ADDR,
 			OT.DEFAULT_FLG		AS DEFAULT_FLG
 		FROM
-			dev.ORDER_TO OT
+			ORDER_TO OT
 		WHERE
 			OT.IDX = ".$order_to_idx." AND
 			OT.COUNTRY = '".$country."' AND

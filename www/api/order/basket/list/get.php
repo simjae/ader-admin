@@ -41,7 +41,7 @@ if ($member_idx > 0 && $country != null) {
 				SELECT
 					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = BI.PRODUCT_IDX AND
 					S_PI.IMG_TYPE = 'P' AND
@@ -67,7 +67,7 @@ if ($member_idx > 0 && $country != null) {
 				SELECT
 					IFNULL(SUM(STOCK_QTY),0)
 				FROM
-					dev.PRODUCT_STOCK S_PS
+					PRODUCT_STOCK S_PS
 				WHERE
 					S_PS.PRODUCT_IDX = BI.PRODUCT_IDX AND
 					S_PS.OPTION_IDX = BI.OPTION_IDX AND
@@ -78,7 +78,7 @@ if ($member_idx > 0 && $country != null) {
 				SELECT
 					IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 				FROM
-					dev.ORDER_PRODUCT S_OP
+					ORDER_PRODUCT S_OP
 				WHERE
 					S_OP.PRODUCT_IDX = BI.PRODUCT_IDX AND
 					S_OP.OPTION_IDX = BI.OPTION_IDX AND
@@ -87,10 +87,10 @@ if ($member_idx > 0 && $country != null) {
 			BI.PRODUCT_QTY				AS BASKET_QTY,
 			BI.REORDER_FLG				AS REORDER_FLG
 		FROM
-			dev.BASKET_INFO BI
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			BASKET_INFO BI
+			LEFT JOIN SHOP_PRODUCT PR ON
 			BI.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
 		WHERE
 			BI.COUNTRY = '".$country."' AND
@@ -183,7 +183,7 @@ if ($member_idx > 0 && $country != null) {
 		}
 	}
 	
-	$basket_cnt = $db->count("dev.BASKET_INFO","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	$basket_cnt = $db->count("BASKET_INFO","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
 	
 	$json_result['data'] = array(
 		'basket_cnt'		=>$basket_cnt,

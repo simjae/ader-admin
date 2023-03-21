@@ -15,12 +15,6 @@
  +=============================================================================
 */
 
-// 값 검사
-/*
-$id = strtolower(trim($id));
-$pw = strtolower(trim($pw));
-*/
-
 $admin_id = null;
 if (isset($_POST['id'])) {
 	$admin_id	= $_POST['id'];
@@ -42,7 +36,7 @@ if ($admin_pw == '' || $admin_pw == null) {
 }
 
 if($admin_id != null && $admin_pw != null) {
-	$admin_cnt = $db->count("dev.ADMIN","ADMIN_ID = '".$admin_id."' AND ADMIN_PW = '".md5($admin_pw)."'");
+	$admin_cnt = $db->count("ADMIN","ADMIN_ID = '".$admin_id."' AND ADMIN_PW = '".md5($admin_pw)."'");
 	
 	if ($admin_cnt > 0) {
 		$select_admin_sql = "
@@ -50,9 +44,19 @@ if($admin_id != null && $admin_pw != null) {
 				AD.IDX				AS ADMIN_IDX,
 				AD.ADMIN_ID			AS ADMIN_ID,
 				AD.ADMIN_NAME		AS ADMIN_NAME,
-				AD.PERMITION_IDX	AS ADMIN_PERMITION
+				AD.IP				AS ADMIN_IP,
+				CASE
+					WHEN
+						PT.TITLE LIKE 'PCS%'
+						THEN
+							'PCS'
+					ELSE
+							'WCC'
+				END					AS PERMITION_TYPE
 			FROM
-				dev.ADMIN AD
+				ADMIN AD
+				LEFT JOIN PERMITION_TYPE PT ON
+				AD.TYPE_IDX = PT.IDX
 			WHERE
 				AD.ADMIN_ID = '".$admin_id."' AND
 				AD.ADMIN_PW = '".md5($admin_pw)."'
@@ -63,13 +67,15 @@ if($admin_id != null && $admin_pw != null) {
 		$avatar = 'files/ico-avatar.png';
 		foreach($db->fetch() as $admin_data) {
 			$admin_idx = $admin_data['ADMIN_IDX'];
+			$permition_type = $admin_data['PERMITION_TYPE'];
+			
 			if (!empty($admin_idx)) {
-				$db->query("UPDATE dev.ADMIN SET LOGIN_DATE = NOW() WHERE IDX = ".$admin_idx);
+				$db->query("UPDATE ADMIN SET LOGIN_DATE = NOW() WHERE IDX = ".$admin_idx);
 				
 				$_SESSION['ADMIN_IDX']			= $admin_data['ADMIN_IDX'];
 				$_SESSION['ADMIN_ID']			= $admin_data['ADMIN_ID'];
 				$_SESSION['ADMIN_NAME']			= $admin_data['ADMIN_NAME'];
-				$_SESSION['ADMIN_PERMITION']	= $admin_data['ADMIN_PERMITION'];
+				$_SESSION['ADMIN_IP']			= $admin_data['ADMIN_IP'];
 				$_SESSION['ADMIN_AVATAR']		= $avatar;
 				
 				// 비밀번호 기억 설정시 쿠키 기억
@@ -80,6 +86,8 @@ if($admin_id != null && $admin_pw != null) {
 					setcookie('USER_ID','', 0, '/');
 					setcookie('USER_PASSWORD','', 0, '/');
 				}
+				
+				$json_result['data'] = $permition_type;
 			}
 		}
 	} else {

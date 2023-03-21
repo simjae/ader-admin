@@ -14,6 +14,9 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
 $wholesale_idx	= $_POST['wholesale_idx'];
 $country		= $_POST['country'];
 $buyer			= $_POST['buyer'];
@@ -45,11 +48,11 @@ if ($wholesale_idx != null) {
 	$set .= " MEMO = '".$memo."', ";
 
 	$sql = "UPDATE
-				dev.WHOLESALE_INFO
+				WHOLESALE_INFO
 			SET
 				".$set."
-				UPDATER = 'Admin',
-				UPDATE_DATE = NOW()
+				UPDATE_DATE = NOW(),
+				UPDATER = '".$session_id."'
 			WHERE
 				IDX = ".$wholesale_idx;
 	

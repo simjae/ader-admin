@@ -14,6 +14,9 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id				= sessionCheck();
 $voucher_idx	        = $_POST['voucher_idx'];
 $country	            = $_POST['country'];
 $date_ago_param	        = $_POST['date_ago_param'];
@@ -23,23 +26,25 @@ if ($voucher_idx != null && $country != null) {
 	if($date_ago_param == null){
         $date_ago_param = 'NULL';
     }
-    if($date_later_param == null){
+    
+	if($date_later_param == null){
         $date_later_param = 'NULL';
     }
+	
     $set = "
         DATE_AGO_PARAM = ".$date_ago_param.",
         DATE_LATER_PARAM = ".$date_later_param.",
         UPDATE_DATE = NOW(),
-        UPDATER = 'Admin'
+        UPDATER = '".$session_id."'
     ";
 
     $sql = "
         UPDATE 
-            dev.VOUCHER_MST
+            VOUCHER_MST
         SET
-            " . $set . "
+            ".$set."
         WHERE
-            IDX = " . $voucher_idx . "
+            IDX = ".$voucher_idx."
     ";
 	
 	$db->query($sql);

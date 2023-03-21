@@ -11,10 +11,10 @@ $depth 			= $_REQUEST['depth'];
 $seq 			= $_REQUEST['seq'];
 
 if($tab_num == '01'){
-	$table = 'dev.ORDERSHEET_CATEGORY';
+	$table = 'ORDERSHEET_CATEGORY';
 }
 else if($tab_num == '02'){
-	$table = 'dev.MD_CATEGORY';
+	$table = 'MD_CATEGORY';
 }
 
 $node_list = '';

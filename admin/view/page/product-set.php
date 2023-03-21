@@ -79,6 +79,21 @@
 									<div class="content__row" >
 										<select id="line_idx" name="line_idx" class="fSelect eSearch" style="width:163px;">
 											<option value="0">라인을 선택해주세요</option>
+<?php 
+				$get_line_info_sql = "
+					SELECT 
+						IDX,
+						LINE_NAME
+					FROM
+						dev.LINE_INFO
+				";
+				$db->query($get_line_info_sql);
+				foreach($db->fetch() as $line_info){
+?>
+											<option value="<?=$line_info['IDX']?>"><?=$line_info['LINE_NAME']?></option>
+<?php 
+				}
+?>
 										</select>
 									</div>
 									<div id="line_table" class="line_table" style="margin-top:5px">
@@ -139,6 +154,21 @@
 									<div class="content__row" >
 										<select id="wkla_idx" name="wkla_idx" class="fSelect eSearch" style="width:163px;">
 											<option value="0">WKLA을 선택해주세요</option>
+<?php 
+					$get_wkla_info_sql = "
+						SELECT 
+							IDX,
+							WKLA_NAME
+						FROM
+							dev.WKLA_INFO
+					";
+					$db->query($get_wkla_info_sql);
+					foreach($db->fetch() as $wkla_info){
+?>
+											<option value="<?=$wkla_info['IDX']?>"><?=$wkla_info['WKLA_NAME']?></option>
+<?php 
+					}
+?>
 										</select>
 									</div>
 									<div id="wkla_table" class="wkla_table" style="margin-top:5px">
@@ -159,8 +189,23 @@
 								<TD>상품 적재박스 유형</TD>
 								<TD colspan="3">
 									<div class="content__row" >
-										<select id="load_box_idx" name="load_box_idx" box-type="load" class="fSelect eSearch" style="width:163px;">
+										<select id="load_box_idx" name="load_box_idx"class="fSelect eSearch" style="width:163px;">
 											<option value="0">박스를 선택해주세요</option>
+<?php 
+				$get_box_info_sql = "
+					SELECT 
+						IDX,
+						BOX_NAME
+					FROM
+						dev.BOX_INFO
+				";
+				$db->query($get_box_info_sql);
+				foreach($db->fetch() as $box_info){
+?>
+											<option value="<?=$box_info['IDX']?>"><?=$box_info['BOX_NAME']?></option>
+<?php 
+				}
+?>								
 										</select>
 									</div>
 									<div id="load_box_table" class="box_table" style="margin-top:5px">
@@ -280,31 +325,46 @@
 								</TD>
 							</TR>
 							<tr>
-								<TD>마일리지 사용유무</TD>
-								<TD colspan="5">
+								<TD>판매 유무</TD>
+								<TD colspan="3">
 									<div class="content__row">
 										<label class="rd__square">
-											<input id="mileage_flg" type="radio" name="mileage_flg" value="true" checked>
+											<input type="radio" name="sale_update_flg" value="true" checked>
+											<div><div></div></div>
+											<span>판매</span>
+										</label>
+										<label class="rd__square">
+											<input type="radio" name="sale_update_flg" value="false">
+											<div><div></div></div>
+											<span>판매안함</span>
+										</label>
+									</div>
+								</TD>
+								<TD>마일리지 사용유무</TD>
+								<TD colspan="3">
+									<div class="content__row">
+										<label class="rd__square">
+											<input type="radio" name="mileage_flg" value="true" checked>
 											<div><div></div></div>
 											<span>제한</span>
 										</label>
 										<label class="rd__square">
-											<input id="mileage_flg" type="radio" name="mileage_flg" value="false">
+											<input type="radio" name="mileage_flg" value="false">
 											<div><div></div></div>
 											<span>제한안함</span>
 										</label>
 									</div>
 								</TD>
 								<TD>단독구매 제한유무</TD>
-								<TD colspan="5">
+								<TD colspan="3">
 									<div class="content__row">
 										<label class="rd__square">
-											<input id="exclusive_flg" type="radio" name="exclusive_flg" value="true" checked>
+											<input type="radio" name="exclusive_flg" value="true" checked>
 											<div><div></div></div>
 											<span>제한</span>
 										</label>
 										<label class="rd__square">
-											<input id="exclusive_flg" type="radio" name="exclusive_flg" value="false">
+											<input type="radio" name="exclusive_flg" value="false">
 											<div><div></div></div>
 											<span>제한안함</span>
 										</label>
@@ -342,41 +402,71 @@
 								<TD >구매 멤버 제한</TD>
 								<TD colspan="11">
 									<div class="content__row form-group">
+<?php
+						$get_member_level_sql = "
+							SELECT
+								IDX,
+								TITLE
+							FROM
+								dev.MEMBER_LEVEL
+							WHERE
+								DEL_FLG = FALSE
+						";
+						$db->query($get_member_level_sql);
+
+						foreach($db->fetch() as $level_info){
+?>
 										<label>
-											<input type="checkbox" name="limit_member[]" value="1">
-											<span>비회원</span>
+											<input type="checkbox" name="limit_member[]" value="<?=$level_info['IDX']?>">
+											<span><?=$level_info['TITLE']?></span>
 										</label>
-										<label>
-											<input type="checkbox" name="limit_member[]" value="2">
-											<span>일반회원</span>
-										</label>
-										<label>
-											<input type="checkbox" name="limit_member[]" value="3">
-											<span>Ader Family</span>
-										</label>
+<?php
+						}
+?>
 									</div>
 								</TD>
 							</tr>
 							<TR>
-								<TD>구매 수량 제한</TD>
+								<TD>ID당 구매제한</TD>
 								<TD colspan="3">
 									<div class="content__row">
 										<label class="rd__square">
-											<input id="limit_purchase_qty_flg" type="radio" name="limit_purchase_qty_flg" value="true" checked>
-											<div><div></div></div>
-											<span>제한</span>
-										</label>
-										<label class="rd__square">
-											<input id="limit_purchase_qty_flg" type="radio" name="limit_purchase_qty_flg" value="false">
+											<input type="radio" name="limit_id_flg" value="false" checked>
 											<div><div></div></div>
 											<span>제한안함</span>
 										</label>
+										<label class="rd__square">
+											<input  type="radio" name="limit_id_flg" value="true">
+											<div><div></div></div>
+											<span>제한</span>
+										</label>
 									</div>
 								</TD>
-								<TD>구매 수량 제한 최소값</TD>
-								<TD colspan="3"><input id="limit_purchase_qty_min" type="number" step="1" name="limit_purchase_qty_min" value="1"></TD>
-								<TD >구매 수량 제한 최대값</TD>
-								<TD colspan="3"><input id="limit_purchase_qty_max" type="number" step="1" name="limit_purchase_qty_max" value="0"></TD>
+								<TD>리오더 차수</TD>
+								<TD colspan="3"><input id="reorder_cnt" type="number" step="1" name="reorder_cnt" value="0"></TD>
+								<TD></TD>
+								<TD colspan="3"></TD>
+							</TR>
+							<TR>
+								<TD>구매수량 제한</TD>
+								<TD colspan="3">
+									<div class="content__row">
+										<label class="rd__square">
+											<input type="radio" name="limit_purchase_qty_flg" value="false" checked>
+											<div><div></div></div>
+											<span>제한안함</span>
+										</label>
+										<label class="rd__square">
+											<input  type="radio" name="limit_purchase_qty_flg" value="true">
+											<div><div></div></div>
+											<span>제한</span>
+										</label>
+									</div>
+								</TD>
+								<TD>상품별 구매제한 수량</TD>
+								<TD colspan="3"><input id="limit_product_qty" type="number" step="1" name="limit_product_qty" value="0"></TD>
+								<TD></TD>
+								<TD colspan="3"></TD>
 							</TR>
 							<TR>
 								<TD>상품 검색어</TD>
@@ -716,6 +806,113 @@
 									</div>
 								</td>
 							</tr>
+							<tr>
+								<td>색상 필터 적용</td>
+								<td colspan="11">
+									<div class="content__row form-group filter_cl">
+										
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>핏 필터 적용</td>
+								<td colspan="11">
+									<div class="rd__block">
+										<input class="filter_ft_FALSE" id="filter_ft_FALSE" type="radio" name="filter_ft" value="true" checked>
+										<label for="filter_ft_FALSE">미적용</label>
+										
+										<input class="filter_ft_TRUE" id="filter_ft_TRUE" type="radio" name="filter_ft" value="false">
+										<label for="filter_ft_TRUE">적용</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>그래픽 필터 적용</td>
+								<td colspan="11">
+									<div class="rd__block">
+										<input class="filter_gp_FALSE" id="filter_gp_FALSE" type="radio" name="filter_gp" value="true" checked>
+										<label for="filter_gp_FALSE">미적용</label>
+										
+										<input class="filter_gp_TRUE" id="filter_gp_TRUE" type="radio" name="filter_gp" value="false">
+										<label for="filter_gp_TRUE">적용</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>라인 필터 적용</td>
+								<td colspan="11">
+									<div class="rd__block">
+										<input class="filter_ln_FALSE" id="filter_ln_FALSE" type="radio" name="filter_ln" value="true" checked>
+										<label for="filter_ln_FALSE">미적용</label>
+										
+										<input class="filter_ln_TRUE" id="filter_ln_TRUE" type="radio" name="filter_ln" value="false">
+										<label for="filter_ln_TRUE">적용</label>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>사이즈 필터 적용</td>
+								<td class="filter_sz" colspan="11">
+									<table>
+										<tr>
+											<td style="width:8%;">상의</td>
+											<td style="text-align:left;">
+												<div class="content__row form-group filter_sz_UP">
+													
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>하의</td>
+											<td style="text-align:left;">
+												<div class="content__row form-group filter_sz_LW">
+													
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>모자</td>
+											<td style="text-align:left;">
+												<div class="content__row form-group filter_sz_HT">
+													
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>신발</td>
+											<td style="text-align:left;">
+												<div class="content__row form-group filter_sz_SH">
+													
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>주얼리</td>
+											<td style="text-align:left;">
+												<div class="content__row form-group filter_sz_JW">
+													
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>악세서리</td>
+											<td style="text-align:left;">
+												<div class="content__row form-group filter_sz_AC">
+													
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>테크 악세서리</td>
+											<td style="text-align:left;">
+												<div class="content__row form-group filter_sz_TA">
+													
+												</div>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
 						</TBODY>
 					</TABLE>
 				</div>
@@ -756,7 +953,7 @@
 			<div class="card__footer">
 				<div class="footer__btn__wrap">
 					<div class="tmp" toggle="tmp"></div>
-					<div class="btn__wrap--lg">
+					<div class="btn__wrap--lg" style="display: block;margin: 0 auto;">
 						<div  class="blue__color__btn" onclick="setRegistAction();"><span>세트 상품 등록</span></div>
 					</div>
 				</div>
@@ -875,6 +1072,7 @@ function setSmartEditor() {
 $(document).ready(function() {	
 	setSmartEditor();
 	getProductCategory(0,0);
+	getFilterInfo()
 	$('.product_code_unit').keyup(function(){
 		setProductCode();
 	});
@@ -905,7 +1103,7 @@ $(document).ready(function() {
 		var msg = "통관번호 : " + $(this).val();
 		$('#select_clearance_msg').text(msg);
 	})
-	lineInfoGet();
+	//lineInfoGet();
 	$('#line_idx').change(function() {	
         var sel_tr = $(this).parents('tr');
         var sel_line_idx = sel_tr.find('.eSearch option:checked').val();
@@ -963,7 +1161,7 @@ $(document).ready(function() {
 			});
 		}
 	});
-	wklaInfoGet();
+	//wklaInfoGet();
 	$('#wkla_idx').change(function() {	
         var sel_tr = $(this).parents('tr');
         var sel_wkla_idx = sel_tr.find('.eSearch option:checked').val();
@@ -1008,7 +1206,7 @@ $(document).ready(function() {
 		}
 	});
 
-	boxInfoGet();
+	//boxInfoGet();
 	$('#load_box_idx, #deliver_box_idx').change(function(obj) {	
         var box_type = $(this).attr('box-type');
         var sel_tr = $(this).parents('tr');
@@ -1111,7 +1309,7 @@ function productDuplicateCheck() {
 		});
 	}
 }
-
+/*
 function lineInfoGet(){
 	$.ajax({
         type: "post",
@@ -1139,7 +1337,8 @@ function lineInfoGet(){
         }
     });
 }
-
+*/
+/*
 function wklaInfoGet(){
 	$.ajax({
         type: "post",
@@ -1167,7 +1366,8 @@ function wklaInfoGet(){
         }
     })
 }
-
+*/
+/*
 function boxInfoGet(){
 	$.ajax({
         type: "post",
@@ -1175,7 +1375,7 @@ function boxInfoGet(){
                     'box_type' : 'all'
                 },
                 dataType: "json",
-        url: config.api + "pcs/ordersheet/td/box/get",
+        url: config.api + "pcs/ordersheet/td/box/list/get",
         error: function() {
             alert("박스정보 불러오기가 실패했습니다.");
         },
@@ -1195,6 +1395,11 @@ function boxInfoGet(){
                     alert('검색 결과가 없습니다. 박스 정보를 다시 입력해주세요.');
                     return false;
                 }
+				
+
+
+
+
 
                 if (deliver_box_info != null) {
                     var strDiv = "";
@@ -1207,11 +1412,52 @@ function boxInfoGet(){
                     alert('검색 결과가 없습니다. 박스 정보를 다시 입력해주세요.');
                     return false;
                 }
+				
             }
         }
     })
 }
+*/
+function getFilterInfo() {
+	$.ajax({
+		type: "post",
+		dataType: "json",
+		url: config.api + "product/filter/put/get",
+		error: function() {
+			alert("필터 조회처리에 실패했습니다.");
+		},
+		success: function(d) {
+			if(d.code == 200) {
+				let data = d.data;
+				if (data != null) {
+					let filter_cl = data[0].filter_cl;
+					filter_cl.forEach(function(cl) {
+						let strDiv = "";
+						strDiv += '<label>';
+						strDiv += '    <input id="filter_cl_' + cl.filter_idx + '" type="checkbox" name="filter_cl[]" value="' + cl.filter_idx + '">';
+						strDiv += '    <span>' + cl.filter_name + '</span>';
+						strDiv += '</label>';
+						$('.filter_cl').append(strDiv);
+					});
+					
+					let filter_sz = data[0].filter_sz;
+					filter_sz.forEach(function(sz) {
+						let size_type = sz.size_type;
+						let div_td = $('.filter_sz_' + size_type);
 
+						let strDiv = "";
+						strDiv += '<label>';
+						strDiv += '    <input id="filter_sz_' + sz.filter_idx + '" type="checkbox" name="filter_sz[]" value="' + sz.filter_idx + '">';
+						strDiv += '    <span>' + sz.filter_name + '</span>';
+						strDiv += '</label>';
+						
+						div_td.append(strDiv);
+					});
+				}
+			}
+		}
+	});
+}
 function openSubMaterialModal() {
     var sub_json = {};
     var temp_arr = [];
@@ -1647,8 +1893,18 @@ function setRegistAction(){
 		seo_description.getById["seo_description"].exec("UPDATE_CONTENTS_FIELD", []); 
 		seo_alt_text.getById["seo_alt_text"].exec("UPDATE_CONTENTS_FIELD", []); 
 
-		if($('#duplicate_check').val() == false){
+		if($('#product_code').val() != null && $('#product_code').val().length <= 0){
+			alert('상품코드를 입력해주세요');
+			return false;
+		}
+
+		if($('#duplicate_check').val() == "false"){
 			alert('상품코드 중복체크를 하지 않았습니다.');
+			return false;
+		}
+
+		if($('#shop_product_name').val().length == 0){
+			alert('세트상품명을 입력해주세요');
 			return false;
 		}
 

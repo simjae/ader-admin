@@ -27,7 +27,7 @@ if ($currency != null) {
 }
 
 $sql = "UPDATE
-			dev.PRODUCT_CURRENCY
+			PRODUCT_CURRENCY
 		SET
 			".$set_sql."
 			UPDATE_DATE = NOW()"

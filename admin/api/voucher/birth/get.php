@@ -24,7 +24,7 @@ if($country != null){
             DATE_AGO_PARAM,
             DATE_LATER_PARAM
         FROM
-            dev.VOUCHER_MST
+            VOUCHER_MST
         WHERE
             COUNTRY = '".$country."'
         AND

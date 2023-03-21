@@ -14,8 +14,11 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+$session_id				= sessionCheck();
 $country				= $_POST['country'];
 
 $member_level			= $_POST['member_level'];
@@ -32,7 +35,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 	try {
 		$insert_standby_sql = "
 			INSERT INTO
-				dev.PAGE_STANDBY
+				PAGE_STANDBY
 			(
 				COUNTRY,
 				MEMBER_LEVEL,
@@ -58,14 +61,14 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				PR.PRODUCT_NAME				AS PRODUCT_NAME,
 				".$sales_price."			AS SALES_PRICE,
 				FALSE						AS DISPLAY_FLG,
-				STR_TO_DATE('".$entry_start_date."','%Y%m%d%H%i%s')			AS ENTRY_START_DATE,
-				STR_TO_DATE('".$entry_end_date."','%Y%m%d%H%i%s')			AS ENTRY_END_DATE,
-				STR_TO_DATE('".$purchase_start_date."','%Y%m%d%H%i%s')		AS PURCHASE_START_DATE,
-				STR_TO_DATE('".$purchase_end_date."','%Y%m%d%H%i%s')		AS PURCHASE_END_DATE,
-				'Admin',
-				'Admin'
+				STR_TO_DATE('".$entry_start_date."','%Y-%m-%d %H:%i')			AS ENTRY_START_DATE,
+				STR_TO_DATE('".$entry_end_date."','%Y-%m-%d %H:%i')			AS ENTRY_END_DATE,
+				STR_TO_DATE('".$purchase_start_date."','%Y-%m-%d %H:%i')		AS PURCHASE_START_DATE,
+				STR_TO_DATE('".$purchase_end_date."','%Y-%m-%d %H:%i')		AS PURCHASE_END_DATE,
+				'".$session_id."',
+				'".$session_id."'
 			FROM
-				dev.SHOP_PRODUCT PR
+				SHOP_PRODUCT PR
 			WHERE
 				PR.IDX = ".$product_idx."
 		";
@@ -81,10 +84,10 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				if($qty_info[$i][3] == null){
 					$qty_info[$i][3] = 0;
 				}
-				if($qty_info[$i][3] > 0){
+				if($qty_info[$i][3] >= 0){
 					$insert_qty_sql = "
 						INSERT INTO
-							dev.QTY_STANDBY
+							QTY_STANDBY
 						(
 							COUNTRY,
 							STANDBY_IDX,
@@ -126,7 +129,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				SELECT
 					PS.IDX				AS STANDBY_IDX
 				FROM
-					dev.PAGE_STANDBY PS
+					PAGE_STANDBY PS
 				WHERE
 					PS.IDX != ".$standby_idx." AND
 					PS.DEL_FLG = FALSE
@@ -143,7 +146,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				if (!empty($tmp_idx)) {
 					$update_standby_sql = "
 						UPDATE
-							dev.PAGE_STANDBY
+							PAGE_STANDBY
 						SET
 							DISPLAY_NUM = ".$display_num."
 						WHERE

@@ -51,7 +51,7 @@ if ($page_idx != null && $ftp_dir != null) {
 		
 		$del_thmb_sql = "
 			UPDATE
-				dev.EDITORIAL_THUMB
+				EDITORIAL_THUMB
 			SET
 				DEL_FLG = TRUE
 			WHERE
@@ -60,7 +60,7 @@ if ($page_idx != null && $ftp_dir != null) {
 
 		$del_cnts_sql = "
 			UPDATE
-				dev.EDITORIAL_CONTENTS
+				EDITORIAL_CONTENTS
 			SET
 				DEL_FLG = TRUE
 			WHERE
@@ -140,7 +140,7 @@ if ($page_idx != null && $ftp_dir != null) {
 					if($res == true){
 						$insert_thumb_sql = "
 							INSERT INTO
-								dev.EDITORIAL_THUMB
+								EDITORIAL_THUMB
 							(
 								PAGE_IDX,
 								DISPLAY_NUM,
@@ -187,14 +187,14 @@ if ($page_idx != null && $ftp_dir != null) {
 									@mkdir($server_dir,0777);
 								}
 								
-								$cnts_url = "http://".$ftp_host.$ftp_dir."/contents/".$size_type_val."/".$ftp_cnts_file_name;
+								$cnts_url = "http://".$ftp_host.$ftp_dir."/contents/".$size_type_val.$ftp_cnts_file_name;
 								
 								$cnts_ftp_file = file_get_contents($cnts_url);
 								$res = file_put_contents($tmp_file_name,$cnts_ftp_file);
 								if($res == true){
 									$insert_contents_sql = "
 										INSERT INTO
-											dev.EDITORIAL_CONTENTS
+											EDITORIAL_CONTENTS
 										(
 											PAGE_IDX,
 											THUMB_IDX,

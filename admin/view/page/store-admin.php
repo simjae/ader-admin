@@ -1,40 +1,18 @@
 <style>
-.content__card .btn__wrap--sm{
-	margin-right: 0;
-}
-.store__info__btn{
-	padding: 5px 10px;background-color: #fff;border: solid 1px #bfbfbf;border-radius: 2px;width: 100%;
-	cursor: pointer;
-}
-.store__delete__btn{
-	padding: 5px 10px;background-color: #bfbfbf;color: #fff;border-radius: 2px;width: 100%;
-	cursor: pointer;
-}
-.eye-btn {
-	background-color: blue;padding: 5px 10px;margin: 5px;color: #fff;border: solid 1px #191919;
-	cursor:pointer;
-}
-
-.trash-btn {
-	background-color: red;padding: 5px 10px;margin: 5px;color: #fff;border: solid 1px #191919;
-	cursor:pointer;
-}
-
-.search-btn {
-	background-color: #191919;padding: 5px 20px;color: #fff;margin-top: 20px;border-radius: 5px;
-	cursor:pointer;
-}
-
-.date-btn {
-	width:50px;height: 30px;border: 1px solid;background-color: #ffffff;border-radius: 5px;
-	cursor:pointer;
-}
-
-.exel-btn {
-	border: #191919 solid 1px;padding: 5px;
-	cursor:pointer;
-}
+.add_admin_btn {width:150px;text-align:center;float:right;}
+.auth_admin_btn {width:150px;text-align:center;float:right;}
+.content__card .btn__wrap--sm{margin-right: 0;}
+.store__info__btn{padding: 5px 10px;background-color: #fff;border: solid 1px #bfbfbf;border-radius: 2px;width: 100%;cursor: pointer;}
+.store__delete__btn{padding: 5px 10px;background-color: #e7505a;color: #fff;border-radius: 2px;width: 100%;cursor: pointer;}
+.eye-btn {background-color: blue;padding: 5px 10px;margin: 5px;color: #fff;border: solid 1px #191919;cursor:pointer;}
+.trash-btn {background-color: red;padding: 5px 10px;margin: 5px;color: #fff;border: solid 1px #191919;cursor:pointer;}
+.search-btn {background-color: #191919;padding: 5px 20px;color: #fff;margin-top: 20px;border-radius: 5px;cursor:pointer;}
+.date-btn {width:50px;height: 30px;border: 1px solid;background-color: #ffffff;border-radius: 5px;cursor:pointer;}
+.exel-btn {border: #191919 solid 1px;padding: 5px;cursor:pointer;}
 </style>
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<div class="card__header">
 		<h3>운영자 관리</h3>
@@ -60,19 +38,27 @@
 					</select>
 					
 					<select style="width:163px;float:right;margin-right:10px;" order_type="admin" onChange="orderChange(this);">
-						<option value="JOIN_DATE|DESC">등록일 역순</option>
+						<option value="JOIN_DATE|DESC" selected>등록일 역순</option>
 						<option value="JOIN_DATE|ASC">등록일 순</option>
+						<option value="ADMIN_ID|ASC">운영자 ID 순</option>
+						<option value="ADMIN_ID|DESC">운영자 ID 역순</option>
 					</select>
 				</div>
 			</div>
 			<div class="table__filter">
-				<div class="filrer__wrap">
-					<div class="filter__btn" onClick="putAdminStatus('ACT')">활성 상태로 변경</div>
-					<div class="filter__btn" onClick="putAdminStatus('DAC')">비활성 상태로 변경</div>
-				</div> 	
+				<div style="width:100%;margin-top:15px;margin-bottom:5px;display:flex;">
+					<div style="width:50%;">
+						<div class="btn" onClick="putAdminStatus('ACT')">활성</div>
+						<div class="btn" onClick="putAdminStatus('DAC')">비활성</div>
+					</div>
+					<div style="width:50%;">
+						<div class="btn add_admin_btn" style="margin-left:10px;" onClick="openAdminModal('ADD',0)">운영자 등록</div>
+						<div class="btn auth_admin_btn" onClick="openAdminModal('AUTH',0)">운영자 권한 일괄 설정</div>
+					</div>
+				</div>
 			</div>
 			<form id="frm-admin" action="store/admin/list/get">
-				<input type="hidden" class="sort_type" name="sort_type" value="ASC">
+				<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 				<input type="hidden" class="sort_value" name="sort_value" value="JOIN_DATE">
 				
 				<input type="hidden" class="rows" name="rows" value="10">
@@ -84,7 +70,7 @@
 							<th>
 								<div class="cb__color">
 									<label for="">
-										<input class="productListCheckbox" type="checkbox" name="adminMemberListIdx" onclick="selectAllClick(this);"><span></span> 
+										<input class="select" type="checkbox" name="adminMemberListIdx" onclick="selectAllClick(this);"><span></span> 
 									</label>
 								</div>
 							</th>
@@ -92,7 +78,6 @@
 							<th>아이디</th>
 							<th>이름</th>
 							<th>닉네임</th>
-							<th>관리권한</th>
 							<th>상태</th>
 							<th>생성일</th>
 							<th></th>
@@ -120,22 +105,13 @@
 		<input type="hidden" class="page" name="page" value="1">
 		
 		<div class="card__header">
-			<h3>업무처리 관리</h3>
+			<h3>업무 처리 목록 검색</h3>
 			<div class="drive--x"></div>
 		</div>
 		<div class="card__body">
 			<div class="content__wrap">
 				<div class="content__title">처리자</div>
 				<div class="content__row">
-					<select class="fSelect" style="width:163px;" name="permition_idx">
-						<option value="ALL" checked>전체</option>
-						<option value="1">메인 관리자</option>
-						<option value="2">기획</option>
-						<option value="3">디자인</option>
-						<option value="4">생산</option>
-						<option value="5">온라인</option>
-						<option value="6">브랜드</option>
-					</select>
 					<input class="creater" type="text" name="creater" value="">
 				</div>
 			</div>
@@ -153,6 +129,7 @@
 							<div class="search_date_admin date__picker " date_type="admin" date="15d" type="button"  onclick="searchDateClick(this);">15일</div>
 							<div class="search_date_admin date__picker " date_type="admin" date="01m" type="button"  onclick="searchDateClick(this);">1개월</div>
 							<div class="search_date_admin date__picker " date_type="admin" date="03m" type="button"  onclick="searchDateClick(this);">3개월</div>
+							<div class="search_date_admin date__picker " date_type="admin" date="01y" type="button"  onclick="searchDateClick(this);">1년</div>
 						</div>
 						<div class="content__date__picker">
 							<input id="admin_from" class="date_param  " type="date" name="admin_from"  placeholder="From" readonly="" style="width:150px;" date_type="admin" onChange="dateParamChange(this);">
@@ -203,20 +180,18 @@
 				</select>
 			</div>
 		</div>
+		
 		<div class="table__wrap table" style="margin-top: 20px;">
 			<div class="table__filter">
 				<div class="filrer__wrap">
 					<div class="filter__btn" onClick="excelDownload();">엑셀 다운로드</div>
-				</div>               
-				<div>
-					<div class="table__setting__btn">설정</div>
-				</div>                 
+				</div>                
 			</div>
 			
 			<TABLE id="excel_table">
 				<THEAD>
 					<tr>
-						<th>NO</th>
+						<th>No.</th>
 						<th>구분</th>
 						<th>업무내용</th>
 						<th>처리일시</th>
@@ -279,12 +254,11 @@ function getAdminInfoList(){
 				strDiv += '    <TD>' + row.admin_id + '</TD>';
 				strDiv += '    <TD>' + row.admin_name + '</TD>';
 				strDiv += '    <TD>' + row.admin_nick + '</TD>';
-				strDiv += '    <TD>' + row.admin_permition + '</TD>';
 				strDiv += '    <TD>' + row.admin_status + '</TD>';
 				strDiv += '    <TD>' + row.join_date + '</TD>';
 				strDiv += '    <TD>';
 				strDiv += '        <div class="btn__wrap--sm" style="justify-content: center;">';
-				strDiv += '            <button class="store__info__btn" type="button" onClick="openAdminModal(' + row.admin_idx + ');">정보</button>';
+				strDiv += '            <button class="store__info__btn" type="button" onClick="openAdminModal(\'PUT\',' + row.admin_idx + ');">정보</button>';
 				strDiv += '            <button class="store__delete__btn" type="button" onClick="deleteAdminInfo(' + row.admin_idx + ');">삭제</button>';
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
@@ -296,56 +270,72 @@ function getAdminInfoList(){
 	},rows,page);
 }
 
-function openAdminModal(admin_idx) {
-	modal('put','admin_idx=' + admin_idx);
+function openAdminModal(action_type,admin_idx) {
+	if (action_type == "AUTH" && admin_idx == 0) {
+		let frm = $('#frm-admin');
+		let result_table = frm.find('.result_table');
+		
+		let checkbox = result_table.find('.select');
+		let cnt = checkbox.length;
+		
+		admin_idx_arr = [];
+		for (let i=0; i<cnt; i++) {
+			if (checkbox.eq(i).prop('checked') == true) {
+				admin_idx_arr.push(checkbox.eq(i).val());
+			}
+		}
+		
+		if (admin_idx_arr.length > 0) {
+			modal('auth','admin_idx=' + admin_idx_arr);
+		} else {
+			alert('권한을 설정하려는 운영자를 선택해주세요.');
+			return false;
+		}
+	} else if (action_type == "ADD" && admin_idx == 0) {
+		modal('/add');
+	} else if (action_type == "PUT" && admin_idx > 0) {
+		modal('put','admin_idx=' + admin_idx);
+	}
 }
 
 function putAdminStatus(action_type) {
 	let action_name = getActionName(action_type);
 	
-	let admin_idx = [];
-	let cnt = $('#frm-admin').find('.select').length;
-	
-	for (var i=0; i<cnt; i++) {
-		let admin_checkbox = $('#frm-admin').find('.select').eq(i);
-		if (admin_checkbox.prop('checked') == true) {
-			select_idx.push(admin_checkbox.val());
-		}
-	}
-	
-	if (admin_idx.length > 0) {
-		confirm(
-			'선택한 운영자의 상태를 ' + action_name + '로 변경 하시겠습니까?',
-			function () {
-				$.ajax({
-					type: "post",
-					data: {
-						'admin_status_flg' : true,
-						'action_type' : action_type,
-						'admin_idx' : admin_idx
-					},
-					dataType: "json",
-					url: config.api + "store/admin/put",
-					error: function() {
-						alert(action_name + ' 처리에 실패했습니다.');
-					},
-					success: function(d) {
-						if (d.code == 200) {
-							insertLog("상점관리 > 운영자 관리 > 운영자 리스트",action_name + "상태로 일괄번경",1);
-							getAdminInfoList();
-							alert(action_name + ' 처리에 성공했습니다.');
-						} else {
-							alert(d.msg);
-							return false;
-						}
-					}
-				});
-			}
-		);
-	} else {
-		alert(action_name + '상태로 변경할 운영자를 선택해주세요.');
+	let formData = new FormData();
+	formData = $('#frm-admin').serialize();
+
+	formData.admin_status_flg = true;
+	formData.action_type = action_type;
+
+	console.log(formData);
+	if(formData['adminMemberListIdx[]'] == null || formData['adminMemberListIdx[]'].length == 0){
+		alert('운영자를 선택해주세요');
 		return false;
 	}
+	confirm(
+		'선택한 운영자의 상태를 ' + action_name + '로 변경 하시겠습니까?',
+		function () {
+			$.ajax({
+				type: "post",
+				data: formData,
+				dataType: "json",
+				url: config.api + "store/admin/put",
+				error: function() {
+					alert(action_name + ' 처리에 실패했습니다.');
+				},
+				success: function(d) {
+					if (d.code == 200) {
+						insertLog("상점관리 > 운영자 관리 > 운영자 리스트",action_name + "상태로 일괄번경",1);
+						getAdminInfoList();
+						alert(action_name + ' 처리에 성공했습니다.');
+					} else {
+						alert(d.msg);
+						return false;
+					}
+				}
+			});
+		}
+	);
 }
 
 function getActionName(action_type) {
@@ -475,7 +465,7 @@ function rowsChange(obj) {
 	let row_type = $(obj).attr('row_type');
 	var rows = $(obj).val();
 	
-	switch(form_type){
+	switch(row_type){
 		case 'admin':
 			$('#frm-admin').find('.rows').val(rows);
 			getAdminInfoList();

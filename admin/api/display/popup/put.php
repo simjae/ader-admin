@@ -26,9 +26,9 @@ $title              = $_POST['title'];			    //
 $contents		    = $_POST['contents'];		    //
 $contents		    = str_replace("<p>&nbsp;</p>","",$contents);
 
-$display_date     	= $_POST['display_date'];
-$display_from       = $_POST['display_from'];
-$display_to         = $_POST['display_to'];
+$display_date     	    = $_POST['display_date'];
+$display_start_date     = $_POST['display_start_date'];
+$display_end_date       = $_POST['display_end_date'];
 
 $close_flg	        = $_POST['close_flg'];
 $align		        = $_POST['align'];
@@ -37,7 +37,7 @@ $location_width		= $_POST['location_width'];
 $size_width			= $_POST['size_width'];
 $size_height	    = $_POST['size_height'];
 
-$table = " dev.DISPLAY_POPUP ";
+$table = " DISPLAY_POPUP ";
 
 if ($web_idx != null) {
 	$web_idx_list = implode(',',$web_idx);
@@ -46,15 +46,13 @@ if ($product_idx != null) {
 	$product_idx_list = implode(',',$product_idx);
 }
 
-$display_start_date = "";
-$display_end_date = "";
 if($display_date != null){
 	if ($display_date == "true") {
 		$display_start_date = "NOW()";
 		$display_end_date = "'9999-12-31 23:59'";
 	} else {
-		$display_start_date = "'".$display_from."'";
-		$display_end_date = "'".$display_to."'";
+		$display_start_date = 'STR_TO_DATE("'.$display_start_date.'","%Y-%m-%d %H:%i")';
+		$display_end_date = 'STR_TO_DATE("'.$display_end_date.'","%Y-%m-%d %H:%i")';
 	}
 }
 
@@ -80,11 +78,11 @@ $sql = "
 	";
 $db->query($sql);
 
-$db->query("DELETE FROM dev.POPUP_URL WHERE POPUP_IDX =".$popup_idx);
+$db->query("DELETE FROM POPUP_URL WHERE POPUP_IDX =".$popup_idx);
 
 if ($web_idx != null && count($web_idx) > 0) {
     $web_sql = "
-        INSERT INTO dev.POPUP_URL (
+        INSERT INTO POPUP_URL (
             POPUP_IDX,
             FRONT_IDX,
             POPUP_URL_TYPE,
@@ -102,7 +100,7 @@ if ($web_idx != null && count($web_idx) > 0) {
             '".$session_id."'	AS CREATER,
             '".$session_id."'	AS UPDATER
         FROM
-            dev.FRONT_PAGE_URL
+            FRONT_PAGE_URL
         WHERE
             IDX IN (".$web_idx_list.")";
     $db->query($web_sql);
@@ -110,7 +108,7 @@ if ($web_idx != null && count($web_idx) > 0) {
 
 if ($product_idx != null && count($product_idx) > 0) {
     $product_sql = "
-        INSERT INTO dev.POPUP_URL (
+        INSERT INTO POPUP_URL (
             POPUP_IDX,
             PRODUCT_IDX,
             POPUP_URL_TYPE,
@@ -133,7 +131,7 @@ if ($product_idx != null && count($product_idx) > 0) {
             '".$session_id."'	AS CREATER,
             '".$session_id."'	AS UPDATER
         FROM
-            dev.SHOP_PRODUCT
+            SHOP_PRODUCT
         WHERE
             IDX IN (".$product_idx_list.")";
     $db->query($product_sql);

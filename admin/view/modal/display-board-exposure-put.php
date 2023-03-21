@@ -1,57 +1,59 @@
-<div class="body">
-	<h1>
-		게시판 노출시간 설정
-		<a onclick="modal_close();" class="btn-close">
-			<i class="xi-close"></i>
-		</a>
-	</h1>
-	
-	<div class="content__card" style="width:100%;margin: 0;">
-		<form id="frm-update" action="page/board/put">
-			<input type="hidden" name="board_idx[]" value="<?=$board_idx_arr?>">
+<div class="content__card" style="width:900px;margin: 0;">
+    <div class="card__header">
+        <div class="flex justify-between">
+            <h3>게시판 노출시간 설정</h3>
+            <a href="javascript:;" onclick="modal_close();" class="btn-close"><i class="xi-close"></i></a>
+        </div>
+        <div class="drive--x"></div>
+    </div>
+    <div class="card__body">
+        <form id="frm-update-date-NTC" action="page/board/put">
+            <input type="hidden" name="board_idx[]" value="<?=$board_idx_arr?>">
             <input type="hidden" name="put_type" value="exposure_date">
-            <div class="card__body">
-                <div class="content__wrap">
-                    <div class="content__title">노출 시간 설정</div>
-                    <div class="content__row">
-                        <div class="rd__block">
-                            <input id="exposure_flg" type="hidden" value="true">
+            <div class="content__wrap">
+                <div class="content__title">노출 시간 설정</div>
+                <div class="content__row">
+                    <div class="rd__block">
+                        <input id="exposure_flg" type="hidden" value="true">
+                        
+                        <input type="radio" id="exposure_flg_always" class="radio__input exposure_flg" value="true" name="exposure_flg" checked>
+                        <label for="exposure_flg_always">상시 노출</label>
+                        
+                        <input type="radio" id="exposure_flg_date" class="radio__input exposure_flg" value="false" name="exposure_flg">
+                        <label for="exposure_flg_date" style="gap:5px;">지정 시간에만 </label>
+                        
+                        <div class="content__date__picker">
+                            <input id="exposure_from" class="exposure_date" type="date" name="exposure_from" placeholder="From" readonly="" style="width:150px" onChange="dateSelectDiableSet(this)" disabled>
+                            <select class="exposure_date" type="select" name="exposure_from_h" style="width:80px" disabled>시 
+                                <option value="" selected>시간</option>
+                            </select>
+                            <select class="exposure_date" type="select" name="exposure_from_m" style="width:80px" disabled>분
+                                <option value="" selected>분</option>
+                            </select>
                             
-                            <input type="radio" id="exposure_flg_always" class="radio__input exposure_flg" value="true" name="exposure_flg" checked>
-                            <label for="exposure_flg_always">상시 노출</label>
+                            <br><font class="" >~</font><br>
                             
-                            <input type="radio" id="exposure_flg_date" class="radio__input exposure_flg" value="false" name="exposure_flg">
-                            <label for="exposure_flg_date" style="gap:5px;">지정 시간에만 </label>
-                            
-                            <div class="content__date__picker">
-                                <input id="exposure_from" class="exposure_date" type="date" name="exposure_from" placeholder="From" readonly="" style="width:150px" onChange="dateSelectDiableSet(this)" disabled>
-                                <select class="exposure_date" type="select" name="exposure_from_h" style="width:80px" disabled>시 
-                                    <option value="" selected>시간</option>
-                                </select>
-                                <select class="exposure_date" type="select" name="exposure_from_m" style="width:80px" disabled>분
-                                    <option value="" selected>분</option>
-                                </select>
-                                
-                                <br><font class="" >~</font><br>
-                                
-                                <input id="exposure_to" class="exposure_date" type="date" name="exposure_to" placeholder="To" readonly="" style="width:150px; " onChange="dateSelectDiableSet(this)" disabled>
-                                <select class="exposure_date" type="select" name="exposure_to_h" style="width:80px" disabled>시 
-                                    <option value="" selected>시간</option>
-                                </select>
-                                <select class="exposure_date" type="select" name="exposure_to_m" style="width:80px" disabled>분
-                                    <option value="" selected>분</option>
-                                </select>
-                            </div>
+                            <input id="exposure_to" class="exposure_date" type="date" name="exposure_to" placeholder="To" readonly="" style="width:150px; " onChange="dateSelectDiableSet(this)" disabled>
+                            <select class="exposure_date" type="select" name="exposure_to_h" style="width:80px" disabled>시 
+                                <option value="" selected>시간</option>
+                            </select>
+                            <select class="exposure_date" type="select" name="exposure_to_m" style="width:80px" disabled>분
+                                <option value="" selected>분</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
-		</form>
-	</div>
-	
-	<div class="footer">
-		<a onclick="modal_cancel();" class="btn"><i class="xi-close"></i>작성 취소</a>
-		<a onclick="boardUpdateCheck();" class="btn red"><i class="xi-check"></i>완료</a>
+        </form>
+    </div>
+    <div class="card__footer">
+		<div class="footer__btn__wrap">
+			<div class="tmp" toggle="tmp"></div>
+			<div class="btn__wrap--lg">
+				<div  class="blue__color__btn" onclick="boardUpdateCheck();"><span>수정</span></div>
+				<div class="defult__color__btn" onclick="modal_cancel();"><span>창 닫기</span></div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -107,7 +109,7 @@ function boardUpdateCheck() {
 			return false;
 		}
 	}
-    modal_submit($('#frm-update'),'getBoardTabInfo_03');  
+    modal_submit($('#frm-update-date-NTC'),'getBoardTabInfoNTC');  
 }
 function timeSelectInit(){
 	for(var i = 0; i < 24; i++){

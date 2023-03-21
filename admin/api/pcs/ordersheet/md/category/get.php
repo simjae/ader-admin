@@ -16,7 +16,7 @@ $db->query('
 		NODE,
 		TITLE
 	FROM 
-        dev.ORDERSHEET_CATEGORY
+        ORDERSHEET_CATEGORY
 	WHERE 
 		'.$where);
 

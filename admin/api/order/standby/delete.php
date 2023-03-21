@@ -14,11 +14,14 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
+$session_id		= sessionCheck();
 $country		= $_POST['country'];
 $standby_idx	= $_POST['standby_idx'];
 
 if ($country != null && $standby_idx != null) {
-	$entry_cnt = $db->count("dev.ENTRY_STANDBY","STANDBY_IDX = ".$standby_idx);
+	$entry_cnt = $db->count("ENTRY_STANDBY","STANDBY_IDX IN (".implode(',',$standby_idx).")");
 	
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 401;
@@ -26,13 +29,13 @@ if ($country != null && $standby_idx != null) {
 	} else {
 		$delete_standby_sql = "
 			UPDATE
-				dev.PAGE_STANDBY
+				PAGE_STANDBY
 			SET
 				DEL_FLG = TRUE,
 				UPDATE_DATE = NOW(),
-				UPDATER = 'Admin'
+				UPDATER = '".$session_id."'
 			WHERE
-				IDX = ".$standby_idx."
+				IDX IN (".implode(',',$standby_idx).")
 		";
 		
 		$db->query($delete_standby_sql);

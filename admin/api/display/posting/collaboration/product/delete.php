@@ -26,7 +26,7 @@ if ($collaboration_idx != null && $collabo_product_idx != null) {
 	try {
 		$delete_product_sql = "
 			DELETE FROM
-				dev.COLLABORATION_PRODUCT
+				COLLABORATION_PRODUCT
 			WHERE
 				IDX = ".$collabo_product_idx."
 		";
@@ -40,7 +40,7 @@ if ($collaboration_idx != null && $collabo_product_idx != null) {
 				SELECT
 					CP.IDX		AS COLLABO_PRODUCT_IDX
 				FROM
-					dev.COLLABORATION_PRODUCT CP
+					COLLABORATION_PRODUCT CP
 				WHERE
 					CP.COLLABORATION_IDX = ".$collaboration_idx."
 				ORDER BY
@@ -56,7 +56,7 @@ if ($collaboration_idx != null && $collabo_product_idx != null) {
 				if (!empty($tmp_idx)) {
 					$update_product_sql = "
 						UPDATE
-							dev.COLLABORATION_PRODUCT
+							COLLABORATION_PRODUCT
 						SET
 							DISPLAY_NUM = ".$display_num."
 						WHERE

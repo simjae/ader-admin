@@ -14,22 +14,26 @@
  +=============================================================================
 */
 
-$admin_status_flg	= $_POST['admin_status_flg'];
+$admin_status_flg		= $_POST['admin_status_flg'];
+$admin_update_flg		= $_POST['admin_update_flg'];
+$admin_auth_flg			= $_POST['admin_auth_flg'];
 
-$admin_idx			= $_POST['admin_idx'];
-$action_type    	= $_POST['action_type'];
+$admin_idx				= $_POST['admin_idx'];
+$action_type    		= $_POST['action_type'];
 
-$admin_id			= $_POST['admin_id'];
-$admin_name			= $_POST['admin_name'];
-$admin_nick			= $_POST['admin_nick'];
-$admin_pw			= $_POST['admin_pw'];
-$pw_confirm			= $_POST['pw_confirm'];
-$admin_email		= $_POST['admin_email'];
-$tel_mobile			= $_POST['tel_mobile'];
-$admin_fax			= $_POST['admin_fax'];
+$admin_id				= $_POST['admin_id'];
+$admin_name				= $_POST['admin_name'];
+$admin_nick				= $_POST['admin_nick'];
+$admin_pw				= $_POST['admin_pw'];
+$pw_confirm				= $_POST['pw_confirm'];
+$admin_email			= $_POST['admin_email'];
+$tel_mobile				= $_POST['tel_mobile'];
+$admin_fax				= $_POST['admin_fax'];
+
+$permition_idx			= explode(",",$_POST['permition_idx']);
 
 $session_id = null;
-if (isset($_SESSION['ADMIN_ID'])){
+if (isset($_SESSION['ADMIN_ID'])) {
 	$session_id = $_SESSION['ADMIN_ID'];
 }
 
@@ -50,7 +54,7 @@ if ($admin_status_flg != null) {
 		if ($admin_status != null) {
 			$update_admin_sql = "
 				UPDATE
-					dev.ADMIN
+					ADMIN
 				SET
 					ADMIN_STATUS = '".$admin_status."'
 				WHERE
@@ -68,15 +72,15 @@ if ($admin_status_flg != null) {
 	}
 }
 
-if ($admin_idx != null) {
-	$pw_check_cnt = $db->count('dev.ADMIN',"IDX = ".$admin_idx." AND ADMIN_PW = '".md5($admin_pw)."'");
+if ($admin_update_flg != null && $admin_idx != null) {
+	$pw_check_cnt = $db->count('ADMIN',"IDX = ".$admin_idx." AND ADMIN_PW = '".md5($admin_pw)."'");
 	
 	if ($pw_check_cnt > 0) {
 		// 프로필 이미지 업로드
 		if($_FILES['profile_img']['size'] > 0) {
 			$update_profile_sql = "
 				UPDATE
-					dev.ADMIN_PROFILE_IMG
+					ADMIN_PROFILE_IMG
 				SET
 					DEL_FLG = TRUE
 				WHERE
@@ -97,7 +101,7 @@ if ($admin_idx != null) {
 			for ($i=0; $i<count($upload_file); $i++) {
 				$insert_profile_sql = "
 					INSERT INTO
-						dev.ADMIN_PROFILE_IMG AI
+						ADMIN_PROFILE_IMG AI
 					(
 						ADMIN_IDX,
 						ADMIN_ID,
@@ -123,7 +127,7 @@ if ($admin_idx != null) {
 
 		$update_admin_sql = "
 			UPDATE
-				dev.ADMIN
+				ADMIN
 			SET
 				ADMIN_NAME = '".$admin_name."',
 				ADMIN_NICK = '".$admin_nick."',
@@ -136,10 +140,52 @@ if ($admin_idx != null) {
 		";
 	
 		$db->query($update_admin_sql);
+		
+		$db_result = $db->affectedRows();
+		
+		if ($db_result > 0 && $permition_idx != null) {
+			$db->query("DELETE FROM PERMITION_MAPPING WHERE ADMIN_IDX = ".$admin_idx);
+			
+			for ($i=0; $i<count($permition_idx); $i++) {
+				$insert_permition_mapping_sql = "
+					INSERT INTO
+						PERMITION_MAPPING
+					(
+						ADMIN_IDX,
+						PERMITION_IDX
+					) VALUES (
+						".$admin_idx.",
+						".$permition_idx[$i]."
+					)
+				";
+				
+				$db->query($insert_permition_mapping_sql);
+			}
+		}
 	} else {
 		$json_result['result'] = false;
 		$json_result['code'] = 778;	
 		$json_result['msg'] = "현재 비밀번호와 일치하지 않습니다.";
 	}
+}
+
+if ($admin_auth_flg != null && $admin_idx != null && $admin_permition != null) {
+	$db->query("DELETE FROM PERMITION_MAPPING WHERE ADMIN_IDX IN (".$admin_idx.")");
+	
+	for ($i=0; $i<count($permition_idx); $i++) {
+		$insert_admin_permition_sql = "
+			INSERT INTO
+				PERMITION_MAPPING
+			(
+				ADMIN_IDX,
+				PERMITION_IDX
+			) VALUES (
+				".$admin_idx.",
+				".$permition_idx[$i]."
+			)
+		";
+		
+		$db->query($insert_admin_permition_sql);
+	}	
 }
 ?>

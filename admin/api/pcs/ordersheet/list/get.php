@@ -13,6 +13,7 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/admin/api/common/common.php");
 
 $search_type 			= $_POST['search_type'];			//검색분류
 $search_keyword 		= $_POST['search_keyword'];			//검색 키워드
@@ -42,6 +43,8 @@ $price_type 			= $_POST['price_type'];				//상품 가격타입
 $price_min 				= $_POST['price_min'];				//검색가격 최대값
 $price_max 				= $_POST['price_max'];				//검색가격 최소값
 
+$sub_material_name		= $_POST['sub_material_name'];		//부자재명
+
 $min_launching_date		= $_POST['min_launching_date'];		//런칭 검색일자 시작점
 $max_launching_date		= $_POST['max_launching_date'];		//런칭 검색일자 종점
 
@@ -54,17 +57,18 @@ $rows = $_POST['rows'];
 $page = $_POST['page'];
 
 $tables = "
-	dev.ORDERSHEET_MST OM
+	ORDERSHEET_MST OM
 ";
 
 //검색 유형 - 디폴트
 $where = '1=1';
-$where .= ' AND OM.DEL_FLG = FALSE ';
+$where .= ' AND OM.DEL_FLG = FALSE
+			AND OM.SET_FLG = FALSE';
 
 if($regist_flg != null && $regist_flg == 'true'){
-	$where .= ' AND OM.UPDATE_FLG = TRUE 
-				AND (SELECT COUNT(0) FROM dev.WHOLESALE_INFO WHERE ORDERSHEET_IDX = OM.IDX) > 0
-				AND (SELECT COUNT(0) FROM dev.SHOP_PRODUCT WHERE ORDERSHEET_IDX = OM.IDX) = 0';
+	$where .= ' AND OM.UPDATE_FLG = TRUE ';
+	//AND (SELECT COUNT(0) FROM WHOLESALE_INFO WHERE ORDERSHEET_IDX = OM.IDX) > 0
+	$where .= ' AND (SELECT COUNT(0) FROM SHOP_PRODUCT WHERE ORDERSHEET_IDX = OM.IDX) = 0';
 }
 $where_cnt = $where;
 
@@ -181,11 +185,24 @@ if($color_rgb != null){
 	$where .= ' AND (OM.COLOR_RGB LIKE "%'.$color_rgb.'%") ';
 }
 
+//검색 유형 - 부자재
+if($sub_material_name != null){
+	$where .= " AND OM.IDX IN (SELECT
+									DISTINCT SMM.ORDERSHEET_IDX
+								FROM
+									SUB_MATERIAL_MAPPING 	AS SMM LEFT JOIN
+									SUB_MATERIAL_INFO		AS SMI
+								ON
+									SMM.SUB_MATERIAL_IDX = SMI.IDX
+								WHERE
+									SMI.SUB_MATERIAL_NAME LIKE '%".$sub_material_name."%') ";
+}
+
 //검색 유형 - 상품가격
-if($price_type != null && $price_min != null && $price_max != null){
+if($price_type != null){
 	$cnt = 0;
 	for ($i=0; $i<count($price_type); $i++) {
-		if (strlen($price_type[$i]) > 0) {
+		if (strlen($price_type[$i]) > 0 && (is_numeric($price_min[$i]) || is_numeric($price_max[$i])) ){
 			$cnt++;
 		}
 	}
@@ -198,20 +215,20 @@ if($price_type != null && $price_min != null && $price_max != null){
 			$tmp_price = "";
 			if (strlen($price_type[$i]) > 0) {
 				if ($i > 0) {
-					if (strlen($price_type[$i-1]) > 0) {
+					if (strlen($price_type[$i]) > 0 && (is_numeric($price_min[$i]) || is_numeric($price_max[$i])) ) {
 						$tmp_price .= " AND ";
 					}
 				}
 				
-				if ($price_min[$i] != null && $price_max[$i] == null) {
+				if (is_numeric($price_min[$i]) && !is_numeric($price_max[$i])) {
 					$tmp_price .= " OM.".$price_type[$i]." >= ".$price_min[$i]." ";
 				}
 				
-				if ($price_min[$i] == null && $price_max[$i] != null) {
+				if (!is_numeric($price_min[$i]) && is_numeric($price_max[$i])) {
 					$tmp_price .= " OM.".$price_type[$i]." <= ".$price_max[$i]." ";
 				}
 				
-				if($price_min[$i] != null && $price_max[$i] != null) {
+				if(is_numeric($price_min[$i]) && is_numeric($price_max[$i])) {
 					$tmp_price .= " OM.".$price_type[$i]." BETWEEN ".$price_min[$i]." AND ".$price_max[$i]." ";
 				}
 			}
@@ -265,7 +282,7 @@ $select = "     OM.IDX											AS ORDERSHEET_IDX,
 							SELECT
 								COUNT(S_OI.IDX)
 							FROM
-								dev.ORDERSHEET_IMG S_OI
+								ORDERSHEET_IMG S_OI
 							WHERE
 								S_OI.ORDERSHEET_IDX = OM.IDX AND
 								IMG_TYPE = 'P' AND
@@ -276,7 +293,7 @@ $select = "     OM.IDX											AS ORDERSHEET_IDX,
 								SELECT
 									S_OI.IMG_LOCATION
 								FROM
-									dev.ORDERSHEET_IMG S_OI
+									ORDERSHEET_IMG S_OI
 								WHERE
 									S_OI.ORDERSHEET_IDX = OM.IDX AND
 									S_OI.IMG_TYPE = 'P' AND
@@ -323,6 +340,18 @@ if ($rows != null && $select_idx_flg == null) {
 
 $db->query($sql,$where_values);
 foreach($db->fetch() as $data) {
+	$product_image_info = array();
+
+	if($regist_flg != null && $regist_flg == 'true'){
+		$result_arr = getProductFileCnt($db,$data['PRODUCT_CODE']);
+
+		if($result_arr['folder_exist'] == true){
+			$product_image_info['output_cnt'] = $result_arr['output_cnt']==null?0:$result_arr['output_cnt'];
+			$product_image_info['product_cnt'] = $result_arr['product_cnt']==null?0:$result_arr['product_cnt'];
+			$product_image_info['detail_cnt'] = $result_arr['detail_cnt']==null?0:$result_arr['detail_cnt'];
+		}
+	}
+
     $json_result['data'][] = array(
         'num'							=>$total_cnt--,
         'ordersheet_idx'				=>intval($data['ORDERSHEET_IDX']),
@@ -351,9 +380,10 @@ foreach($db->fetch() as $data) {
 		'launching_date'				=>$data['LAUNCHING_DATE'],
 		'update_flg'					=>$data['UPDATE_FLG'],
 
-		'sample_flg'					=>($db->count("dev.SAMPLE_INFO","ORDERSHEET_IDX = ".intval($data['ORDERSHEET_IDX'])." ")) == 0 ? false : true,
-		'wholesale_flg'				 	=>($db->count("dev.WHOLESALE_INFO","ORDERSHEET_IDX = ".intval($data['ORDERSHEET_IDX'])." ")) == 0 ? false : true,
-		'factory_flg'					=>($db->count("dev.FACTORY_INFO","ORDERSHEET_IDX = ".intval($data['ORDERSHEET_IDX'])." ")) == 0 ? false : true,
+		'sample_flg'					=>($db->count("SAMPLE_INFO","ORDERSHEET_IDX = ".intval($data['ORDERSHEET_IDX'])." ")) == 0 ? false : true,
+		'wholesale_flg'				 	=>($db->count("WHOLESALE_INFO","ORDERSHEET_IDX = ".intval($data['ORDERSHEET_IDX'])." ")) == 0 ? false : true,
+		'factory_flg'					=>($db->count("FACTORY_INFO","ORDERSHEET_IDX = ".intval($data['ORDERSHEET_IDX'])." ")) == 0 ? false : true,
+		'product_image_info'			=>$product_image_info,
 		'creater'						=>$data['CREATER'],
 		'create_date'					=>$data['CREATE_DATE'],
 		'updater'						=>$data['UPDATER'],

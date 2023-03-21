@@ -56,7 +56,7 @@ if($wholesale_idx != null){
 				UPDATE_DATE		AS UPDATE_DATE,
 				UPDATER			AS UPDATER
 			FROM
-				dev.WHOLESALE_INFO
+				WHOLESALE_INFO
 			WHERE
 				IDX = ".$wholesale_idx."
 		";
@@ -130,8 +130,8 @@ else{
 	}
 	
 	$limit_start = (intval($page)-1)*$rows;
-	$total = $db->count("dev.WHOLESALE_INFO WI",$where);
-	$total_cnt = $db->count("dev.WHOLESALE_INFO WI",$where_cnt);
+	$total = $db->count("WHOLESALE_INFO WI",$where);
+	$total_cnt = $db->count("WHOLESALE_INFO WI",$where_cnt);
 	
 	$json_result = array(
 		'total' => $total,
@@ -158,7 +158,7 @@ else{
 							SELECT
 								COUNT(S_OI.IDX)
 							FROM
-								dev.ORDERSHEET_IMG S_OI
+								ORDERSHEET_IMG S_OI
 							WHERE
 								S_OI.ORDERSHEET_IDX = WI.ORDERSHEET_IDX AND
 								IMG_TYPE = 'P' AND
@@ -169,7 +169,7 @@ else{
 								SELECT
 									S_OI.IMG_LOCATION
 								FROM
-									dev.ORDERSHEET_IMG S_OI
+									ORDERSHEET_IMG S_OI
 								WHERE
 									S_OI.ORDERSHEET_IDX = WI.ORDERSHEET_IDX AND
 									S_OI.IMG_TYPE = 'P' AND
@@ -187,7 +187,7 @@ else{
 				WI.UPDATE_DATE		AS UPDATE_DATE,
 				WI.UPDATER			AS UPDATER
 			FROM
-				dev.WHOLESALE_INFO WI
+				WHOLESALE_INFO WI
 			WHERE
 				".$where."
 			ORDER BY

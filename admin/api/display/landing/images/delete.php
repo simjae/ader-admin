@@ -23,7 +23,7 @@ $country		= $_POST['country'];
 if ($img_idx != null && $country != null) {
 	$delete_img_sql = "
 		UPDATE
-			dev.MAIN_IMG
+			TMP_MAIN_IMG
 		SET
 			DEL_FLG = TRUE,
 			UPDATE_DATE = NOW(),
@@ -41,16 +41,8 @@ if ($img_idx != null && $country != null) {
 			SELECT
 				MI.IDX		AS IMG_IDX
 			FROM
-				dev.MAIN_IMG MI
+				TMP_MAIN_IMG MI
 			WHERE
-				MI.DISPLAY_NUM > (
-					SELECT
-						S_MI.DISPLAY_NUM
-					FROM
-						dev.MAIN_BANNER S_MI
-					WHERE
-						S_MI.IDX = ".$img_idx."
-				) AND
 				MI.COUNTRY = '".$country."' AND
 				MI.DEL_FLG = FALSE
 			ORDER BY
@@ -59,20 +51,23 @@ if ($img_idx != null && $country != null) {
 		
 		$db->query($select_img_sql);
 		
-		$db->foreach($db->fetch() as $img_data) {
+		$display_num = 1;
+		foreach($db->fetch() as $img_data) {
 			$tmp_idx = $img_data['IMG_IDX'];
 			
 			if (!empty($tmp_idx)) {
-				$update_banner_sql = "
+				$update_img_sql = "
 					UPDATE
-						dev.MAIN_IMG
+						TMP_MAIN_IMG
 					SET
-						DISPLAY_NUM = DISPLAY_NUM - 1
+						DISPLAY_NUM = ".$display_num."
 					WHERE
 						IDX = ".$tmp_idx."
 				";
 				
 				$db->query($update_img_sql);
+				
+				$display_num++;
 			}
 		}
 	}

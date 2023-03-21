@@ -137,7 +137,7 @@ if ($order_param != null) {
 					SELECT
 						IFNULL(SUM(S_OP.PRODUCT_QTY),0)
 					FROM
-						dev.ORDER_PRODUCT S_OP
+						ORDER_PRODUCT S_OP
 					WHERE
 						S_OP.PRODUCT_IDX = PR.IDX AND
 						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
@@ -163,7 +163,7 @@ if ($order_param != null) {
 }
 
 if ($page_idx != null && $country != null) {
-	$page_count = $db->count("dev.PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
+	$page_count = $db->count("PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
 	if ($page_count > 0) {
 		$check_result = checkListLevel($db,$member_idx,$page_idx);
 		if ($check_result['result'] == false) {
@@ -173,10 +173,10 @@ if ($page_idx != null && $country != null) {
 			return $json_result;
 		} else {
 			$grid_table = "
-				dev.PRODUCT_GRID PG
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				PRODUCT_GRID PG
+				LEFT JOIN SHOP_PRODUCT PR ON
 				PG.PRODUCT_IDX = PR.IDX
-				LEFT JOIN dev.ORDERSHEET_MST OM ON
+				LEFT JOIN ORDERSHEET_MST OM ON
 				PR.ORDERSHEET_IDX = OM.IDX
 			";
 			
@@ -234,8 +234,8 @@ if ($page_idx != null && $country != null) {
 							PR.SALES_PRICE_".$country."	AS SALES_PRICE,
 							OM.COLOR					AS COLOR
 						FROM
-							dev.SHOP_PRODUCT PR
-							LEFT JOIN dev.ORDERSHEET_MST OM ON
+							SHOP_PRODUCT PR
+							LEFT JOIN ORDERSHEET_MST OM ON
 							PR.ORDERSHEET_IDX = OM.IDX
 						WHERE
 							PR.IDX = ".$product_idx." AND
@@ -255,7 +255,7 @@ if ($page_idx != null && $country != null) {
 									PI.IMG_LOCATION,'/var/www/admin/www',''
 								)				AS IMG_LOCATION
 							FROM
-								dev.PRODUCT_IMG PI
+								PRODUCT_IMG PI
 							WHERE
 								PI.PRODUCT_IDX = ".$product_idx." AND
 								PI.IMG_TYPE = 'P' AND
@@ -281,7 +281,7 @@ if ($page_idx != null && $country != null) {
 									PI.IMG_LOCATION,'/var/www/admin/www',''
 								)				AS IMG_LOCATION
 							FROM
-								dev.PRODUCT_IMG PI
+								PRODUCT_IMG PI
 							WHERE
 								PI.PRODUCT_IDX = ".$product_idx." AND
 								PI.IMG_TYPE = 'O' AND
@@ -307,7 +307,7 @@ if ($page_idx != null && $country != null) {
 						
 						$whish_flg = false;
 						if ($member_idx > 0) {
-							$whish_count = $db->count("dev.WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
+							$whish_count = $db->count("WHISH_LIST","MEMBER_IDX = ".$member_idx." AND PRODUCT_IDX = ".$product_idx." AND DEL_FLG = FALSE");
 							if ($whish_count > 0) {
 								$whish_flg = true;
 							}
@@ -354,13 +354,13 @@ if ($page_idx != null && $country != null) {
 					
 					switch($grid_type) {
 						case "IMG" :
-							$banner_table = "dev.BANNER_IMG BI";
-							$clip_table = "dev.BANNER_IMG_CLIP BC";
+							$banner_table = "BANNER_IMG BI";
+							$clip_table = "BANNER_IMG_CLIP BC";
 							break;
 						
 						case "VID" :
-							$banner_table = "dev.BANNER_VID BI";
-							$clip_table = "dev.BANNER_VID_CLIP BC";
+							$banner_table = "BANNER_VID BI";
+							$clip_table = "BANNER_VID_CLIP BC";
 							break;
 					}
 					
@@ -462,12 +462,12 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 	
 	switch ($filter_type) {
 		case "UP" :
-			$filter_table = " dev.MENU_UPPER_FILTER MF ";
+			$filter_table = " MENU_UPPER_FILTER MF ";
 			$select_img_location = " MF.IMG_LOCATION		AS IMG_LOCATION, ";
 			break;
 		
 		case "LW" :
-			$filter_table = " dev.MENU_LOWER_FILTER MF ";
+			$filter_table = " MENU_LOWER_FILTER MF ";
 			break;
 	}
 	
@@ -528,13 +528,13 @@ function getProductFilter($db,$country,$page_idx) {
 				PR.FILTER_SZ
 			)		AS FILTER_SZ_IDX
 		FROM
-			dev.SHOP_PRODUCT PR
+			SHOP_PRODUCT PR
 		WHERE
 			PR.IDX IN (
 				SELECT
 					S_PG.PRODUCT_IDX
 				FROM
-					dev.PRODUCT_GRID S_PG
+					PRODUCT_GRID S_PG
 				WHERE
 					S_PG.PAGE_IDX = ".$page_idx."
 			)
@@ -579,7 +579,7 @@ function getProductFilter($db,$country,$page_idx) {
 						PF.FILTER_NAME_".$country."	AS FILTER_NAME,
 						PF.RGB_COLOR				AS RGB_COLOR
 					FROM
-						dev.PRODUCT_FILTER PF
+						PRODUCT_FILTER PF
 					WHERE
 						PF.IDX IN (".implode(",",$color_idx).") AND
 						PF.FILTER_TYPE = 'CL' AND
@@ -615,7 +615,7 @@ function getProductFilter($db,$country,$page_idx) {
 						PF.FILTER_NAME_".$country."	AS FILTER_NAME,
 						PF.SIZE_TYPE				AS SIZE_TYPE
 					FROM
-						dev.PRODUCT_FILTER PF
+						PRODUCT_FILTER PF
 					WHERE
 						PF.IDX IN (".implode(",",$size_idx).") AND
 						PF.FILTER_TYPE = 'SZ' AND
@@ -712,10 +712,10 @@ function getProductFilter($db,$country,$page_idx) {
 			SELECT
 				DISTINCT OM.FIT			AS FIT
 			FROM
-				dev.ORDERSHEET_MST OM
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				ORDERSHEET_MST OM
+				LEFT JOIN SHOP_PRODUCT PR ON
 				OM.IDX = PR.ORDERSHEET_IDX
-				LEFT JOIN dev.PRODUCT_GRID PG ON
+				LEFT JOIN PRODUCT_GRID PG ON
 				PR.IDX = PG.PRODUCT_IDX
 			WHERE
 				PG.PAGE_IDX = ".$page_idx." AND
@@ -735,12 +735,12 @@ function getProductFilter($db,$country,$page_idx) {
 				LI.IDX					AS LINE_IDX,
 				LI.LINE_NAME			AS LINE_NAME
 			FROM
-				dev.ORDERSHEET_MST OM
-				LEFT JOIN dev.LINE_INFO LI ON
+				ORDERSHEET_MST OM
+				LEFT JOIN LINE_INFO LI ON
 				OM.LINE_IDX = LI.IDX
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				LEFT JOIN SHOP_PRODUCT PR ON
 				OM.IDX = PR.ORDERSHEET_IDX
-				LEFT JOIN dev.PRODUCT_GRID PG ON
+				LEFT JOIN PRODUCT_GRID PG ON
 				PR.IDX = PG.PRODUCT_IDX
 			WHERE
 				PG.PAGE_IDX = ".$page_idx." AND
@@ -762,10 +762,10 @@ function getProductFilter($db,$country,$page_idx) {
 			SELECT
 				DISTINCT OM.GRAPHIC		AS GRAPHIC
 			FROM
-				dev.ORDERSHEET_MST OM
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				ORDERSHEET_MST OM
+				LEFT JOIN SHOP_PRODUCT PR ON
 				OM.IDX = PR.ORDERSHEET_IDX
-				LEFT JOIN dev.PRODUCT_GRID PG ON
+				LEFT JOIN PRODUCT_GRID PG ON
 				PR.IDX = PG.PRODUCT_IDX
 			WHERE
 				PG.PAGE_IDX = ".$page_idx." AND

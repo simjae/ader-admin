@@ -10,37 +10,33 @@
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
 			
-			<div class="row table__wrap" style="margin-top:10px;">
+			<div class="table__wrap" style="margin-top:10px;">
 				<TABLE id="insert_table_delivery">
+					<colgroup>
+						<col width="30%">
+						<col width="70%">
+					</colgroup>
 					<TBODY>
 						<TR>
-							<TD style="width:10%;">HS코드</TD>
-							<TD>
-								<input type="text" name="hs_code" value="">
+							<td>
+								해외 통관 정보
 							</TD>
-							<TD style="width:10%;">상품 전체 중량</TD>
 							<TD>
-								<input  type="number" step="0.01" name="product_total_weight" value="0">
+								<div class="content__row">
+									<select id="custom_clearance" name="custom_clearance" class="fSelect eSearch" style="width:163px;height:30px;border: solid 1px #bfbfbf;">
+										<option value="" selected>--해외 통관 분류--</option>	
+										<option value="ADAP0000">남성 신발</option>
+										<option value="AFAA0000">남성 지갑</option>
+										<option value="AFAC0000">남성 스카프/머플러</option>
+										<option value="AEAJ0000">양말</option>
+										<option value="AEAP0000">기타악세</option>
+										<option value="ADAG0000">남성 자켓</option>
+										<option value="ADAJ0000">남성 티셔츠</option>
+									</select>
+									<span id="select_clearance_msg">통관번호 : <span>
+								</div>
 							</TD>
-							<TD style="width:10%;">상품 구분(해외통관)</TD>
-							<TD>
-								<input type="text" name="product_division" value="">
-							</TD>
-						</TR>
-						<TR>
-							<TD style="width:10%;">상품소재</TD>
-							<TD>
-								<input type="text" name="product_material_kr" value="">
-							</TD>
-							<TD style="width:10%;">영문 상품소재</TD>
-							<TD>
-								<input type="text" name="product_material_en" value="">
-							</TD>
-							<TD style="width:10%;">옷감</TD>
-							<TD>
-								<input type="text" name="fabric" value="">
-							</TD>
-						</TR>
+						</tr>
 					</TBODY>
 				</TABLE>
 			</div>
@@ -55,7 +51,10 @@
 
 <script>
 $(document).ready(function() {
-	
+	$('#custom_clearance').on('change', function(){
+		var msg = "통관번호 : " + $(this).val();
+		$('#select_clearance_msg').text(msg);
+	})	
 });
 
 function productUpdateCheck() {

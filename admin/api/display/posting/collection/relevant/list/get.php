@@ -17,12 +17,11 @@
 $md_category_node	= $_POST['md_category_node'];
 $md_category_depth  = $_POST['md_category_depth'];
 
-$country			= $_POST['country'];
-$collection_idx		= $_POST['collection_idx'];
+$project_idx		= $_POST['project_idx'];
 $c_product_idx		= $_POST['c_product_idx'];
 
 //검색 유형 - 상품구분
-if ($country != null && $collection_idx != null && $c_product_idx != null) {
+if ($project_idx != null && $c_product_idx != null) {
 	$select_product_sql = "
 		SELECT
 			PR.IDX						AS PRODUCT_IDX,
@@ -33,7 +32,7 @@ if ($country != null && $collection_idx != null && $c_product_idx != null) {
 						SELECT
 							COUNT(S_PI.IDX)
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.IMG_TYPE = 'P' AND
@@ -44,7 +43,7 @@ if ($country != null && $collection_idx != null && $c_product_idx != null) {
 							SELECT
 								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = PR.IDX AND
 								S_PI.DEL_FLG = FALSE AND
@@ -73,7 +72,7 @@ if ($country != null && $collection_idx != null && $c_product_idx != null) {
 			PR.UPDATER					AS UPDATER,
 			PR.UPDATE_DATE				AS UPDATE_DATE
 		FROM
-			dev.SHOP_PRODUCT PR
+			SHOP_PRODUCT PR
 		WHERE
 			PR.PRODUCT_TYPE = 'B' AND
 			PR.MD_CATEGORY_".$md_category_depth." = ".$md_category_node." AND
@@ -81,12 +80,12 @@ if ($country != null && $collection_idx != null && $c_product_idx != null) {
 			PR.INDP_FLG = FALSE AND
 			PR.DEL_FLG = FALSE
 	";
-
+	
 	$db->query($select_product_sql);
 
 	foreach($db->fetch() as $product_data) {
 		$product_idx = $product_data['PRODUCT_IDX'];
-		$product_cnt = $db->count("dev.COLLECTION_RELEVANT_PRODUCT","COUNTRY = '".$country."' AND COLLECTION_IDX = ".$collection_idx." AND C_PRODUCT_IDX = ".$c_product_idx." AND PRODUCT_IDX = ".$product_idx);
+		$product_cnt = $db->count("COLLECTION_RELEVANT_PRODUCT","PROJECT_IDX = ".$project_idx." AND C_PRODUCT_IDX = ".$c_product_idx." AND PRODUCT_IDX = ".$product_idx);
 		
 		$action_type = "";
 		if ($product_cnt > 0) {

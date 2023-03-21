@@ -30,13 +30,13 @@ $regist_table = '';
 if($regist_type != null){
     switch($regist_type){
         case 'STANDBY':
-            $regist_table = 'dev.PAGE_STANDBY';
+            $regist_table = 'PAGE_STANDBY';
             break;
         case 'DRAW':
-            $regist_table = 'dev.PAGE_DRAW';
+            $regist_table = 'PAGE_DRAW';
             break;
         case 'PREORDER':
-            $regist_table = 'dev.PAGE_PREORDER';
+            $regist_table = 'PAGE_PREORDER';
             break;
     }
     
@@ -54,9 +54,19 @@ if($regist_type != null){
     
     $where = "";
     
+
+    $product_code_arr = array();
+    $product_code_arr = array_map('makeVarchar',explode(',',$product_code));
+        
     //검색 유형 - 상품구분
     if($product_code != null){
-        $where .= ' AND (PR.PRODUCT_CODE LIKE "%'.$product_code.'%") ';
+        if(count($product_code_arr) > 1){
+            $where .= ' AND (PR.PRODUCT_CODE IN ('.implode(',',$product_code_arr).')) ';
+        }
+        else{
+            $where .= ' AND (PR.PRODUCT_CODE LIKE "%'.$product_code.'%") ';
+        }
+        
     }
     
     if($product_name != null){
@@ -75,8 +85,8 @@ if($regist_type != null){
     
     $limit_start = (intval($page)-1)*$rows;
     $json_result = array(
-        'total' => $db->count("dev.SHOP_PRODUCT PR",$where),
-        'total_cnt' => $db->count("dev.SHOP_PRODUCT PR",$where_cnt),
+        'total' => $db->count("SHOP_PRODUCT PR",$where),
+        'total_cnt' => $db->count("SHOP_PRODUCT PR",$where_cnt),
         'page' => $page
     );
     
@@ -89,13 +99,13 @@ if($regist_type != null){
                 PR.PRODUCT_NAME		AS PRODUCT_NAME,
                 CASE
                     WHEN
-                        (SELECT COUNT(*) FROM dev.PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
+                        (SELECT COUNT(*) FROM PRODUCT_IMG WHERE PRODUCT_IDX = PR.IDX) > 0
                         THEN
                             (
                                 SELECT
                                     REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
                                 FROM
-                                    dev.PRODUCT_IMG S_PI
+                                    PRODUCT_IMG S_PI
                                 WHERE
                                     S_PI.PRODUCT_IDX = PR.IDX AND
                                     S_PI.IMG_TYPE = 'P' AND
@@ -117,7 +127,7 @@ if($regist_type != null){
                 PR.SALES_PRICE_CN	AS SALES_PRICE_CN,
                 PR.UPDATE_DATE		AS UPDATE_DATE
             FROM
-                dev.SHOP_PRODUCT PR
+                SHOP_PRODUCT PR
             WHERE
                 ".$where."
             ORDER BY
@@ -127,6 +137,7 @@ if($regist_type != null){
         $sql .= " LIMIT ".$limit_start.",".$rows;
     }
     
+    //print_r($sql);
     $db->query($sql);
     foreach($db->fetch() as $data) {
         $json_result['data'][] = array(
@@ -155,4 +166,9 @@ else{
     $json_result['msg'] = '상품목록을 불러오는데 실패했습니다.';
 }
 
+
+function makeVarchar($item){
+    $item = "'".trim($item)."'";
+    return $item;
+}
 ?>

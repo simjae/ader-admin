@@ -36,7 +36,7 @@ if ($country == null || $member_idx == 0) {
 }
 
 if ($country != null && $member_idx > 0 && $member_pw != null) {
-	$member_cnt = $db->count("dev.MEMBER_".$country, "IDX = ".$member_idx." AND MEMBER_PW = '".$member_pw."'");
+	$member_cnt = $db->count("MEMBER_".$country, "IDX = ".$member_idx." AND MEMBER_PW = '".$member_pw."'");
 	
 	$json_result = array();
 	

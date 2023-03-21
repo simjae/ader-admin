@@ -37,7 +37,7 @@ $sql = 	"SELECT
             SIZE_DESC_5,
             SIZE_DESC_6
 		FROM
-			dev.SIZE_DESCRIPTION
+			SIZE_DESCRIPTION
 		WHERE
 			".$where;
 

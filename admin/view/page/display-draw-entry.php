@@ -4,6 +4,7 @@
             <div class="flex items-center" style="gap: 20px;">
                 <h3>드로우 응모 현황</h3>
             </div>
+            <div type="button" class="btn" onclick="location.href='/display/draw'">뒤로 가기</div>
         </div>
         <div class="drive--x"></div>
     </div>
@@ -115,7 +116,7 @@
         <div class="drive--x"></div>
     </div>
     <div class="card__body">
-        <form id="frm-draw-entry-filter" action="order/draw/entry/get">
+        <form id="frm-draw-entry-filter" action="order/draw/entry/list/get">
             <input type="hidden" name="draw_idx" value="<?=$draw_idx?>">
             <input type="hidden" name="option_idx" value="<?=$option_idx?>">
             <input type="hidden" name="country" value="<?=$country?>">
@@ -130,7 +131,7 @@
                 <div class="half__box__wrap">
                     <div class="content__title">참여자명</div>
                     <div class="content__row">
-                        <input type="number" name="member_name" value=""
+                        <input type="text" name="member_name" value=""
                             style="height:28px;border:solid 1px #bfbfbf;width:150px;margin-right:5px;">
                     </div>
                 </div>
@@ -155,13 +156,13 @@
                     <div class="content__title">당첨 여부</div>
                     <div class="content__row">
                         <div class="rd__block">
-                            <input id="prize_flg_all" type="radio" name="prize_flg" value="1" checked>
+                            <input id="prize_flg_all" type="radio" name="prize_flg" value="" checked>
                             <label for="prize_flg_all">전체</label>
 
-                            <input id="prize_flg_true" type="radio" name="prize_flg" value="1">
+                            <input id="prize_flg_true" type="radio" name="prize_flg" value="TRUE">
                             <label for="prize_flg_true">당첨</label>
 
-                            <input id="prize_flg_false" type="radio" name="prize_flg" value="2">
+                            <input id="prize_flg_false" type="radio" name="prize_flg" value="FALSE">
                             <label for="prize_flg_false">미당첨</label>
                         </div>
                     </div>
@@ -171,7 +172,7 @@
                     <div class="content__row">
                         <div class="content__date__wrap">
                             <div class="content__date__picker">
-                                <input id="apply_end_date" class="date_param" type="date" name="apply_start_date"
+                                <input id="apply_start_date" class="date_param" type="date" name="apply_start_date"
                                     class="margin-bottom-6" placeholder="From" readonly style="width:150px;"
                                     date_type="apply" onChange="">&nbsp;-&nbsp;
                             </div>
@@ -192,7 +193,7 @@
             <div class="detail_toggle" toggle="hide"></div>
             <div class="btn__wrap--lg">
                 <div class="blue__color__btn" onClick="getDrawEntryList();"><span>검색</span></div>
-                <div class="defult__color__btn" ><span>초기화</span></div>
+                <div class="defult__color__btn" onClick='init_fileter("frm-draw-entry-filter","getDrawEntryList")'><span>초기화</span></div>
             </div>
         </div>
     </div>
@@ -205,35 +206,14 @@
     </div>
     <div class="card__body">
         <form id="frm-draw-entry-list">
-            <div class="info__wrap " style="justify-content:space-between; align-items: center;">
-                <div class="body__info--count">
-                    <div class="drive--left"></div>
-                    총 응모자 수 <font class="cnt_total info__count">0</font>명 / 검색결과 <font class="cnt_result info__count">0
-                    </font>명
-                </div>
-
-                <div class="content__row">
-                    <select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
-                        <option value="CREATE_DATE|DESC">등록일 역순</option>
-                        <option value="CREATE_DATE|ASC" selected>등록일 순</option>
-                        <option value="PRODUCT_NAME|DESC">상품명 역순</option>
-                        <option value="PRODUCT_NAME|ASC">상품명 순</option>
-                    </select>
-                    <select name="rows" style="width:163px;margin-right:10px;float:right;" onChange="rowsChange(this);">
-                        <option value="10" selected>10개씩보기</option>
-                        <option value="20">20개씩보기</option>
-                        <option value="30">30개씩보기</option>
-                        <option value="50">50개씩보기</option>
-                        <option value="100">100개씩보기</option>
-                        <option value="200">200개씩보기</option>
-                        <option value="300">300개씩보기</option>
-                        <option value="500">500개씩보기</option>
-                    </select>
-                </div>
-            </div>
             <div class="table table__wrap">
+                <div class="table__filter">
+                    <div class="filrer__wrap">
+                        <div style="width: 140px;" class="filter__btn" onclick="excelDownload();">엑셀 다운로드</div>
+                    </div>                                
+                </div>
                 <div class="overflow-x-auto">
-                    <table style="table-layout: fixed;">
+                    <table style="table-layout: fixed;" id="excel_table">
                         <thead>
                             <tr>
                                 <th style="width:100px;">참여자</th>
@@ -254,7 +234,6 @@
                                 <th style="width:200px;">배송비</th>
                                 <th style="width:200px;">총 결제금액</th>
 
-                                <th style="width:100px;">배송지</th>
                                 <th style="width:100px;">수령자</th>
                                 <th style="width:200px;">수령자 연락처</th>
                                 <th style="width:100px;">우편번호</th>
@@ -266,7 +245,7 @@
                         </thead>
                         <tbody id="draw_entry_detail_table">
                             <TR>
-                                <TD colspan="23">
+                                <TD class="default_td" colspan="23">
                                     조회 결과가 없습니다
                                 </TD>
                             </TR>
@@ -296,7 +275,7 @@ $(document).ready(function(){
 		},
 		dataType: "json",
 		error: function() {
-			alert('프리오더 등록 처리중 오류가 발생했습니다.');
+			alert('드로우 등록 처리중 오류가 발생했습니다.');
 		},
 		success: function(d) {
 			let code = d.code;
@@ -423,57 +402,100 @@ function getDrawEntryList(){
 				</TR>
 	`;
 	$("#draw_entry_detail_table").append(strDiv);
-	
 	var rows = $('#frm-draw-entry-filter').find('.rows').val();
 	$('#frm-draw-entry-filter').find('.page').val(1);
 	
 	get_contents($("#frm-draw-entry-filter"),{
 		pageObj : $("#frm-draw-entry-list").find(".paging"),
 		html : function(d) {
-			if (d.length > 0) {
-				$("#draw_entry_detail_table").html('');
-			}
-			d.forEach(function(entry) {
-				var order_info = null;
-                entryDiv = `
-                    <tr>
-                        <td>${entry.member_name}</td>
-                        <td>${entry.option_name}</td>
-                        <td>${entry.create_date != null ? entry.create_date.split(' ')[0] : ''}</td>
-                `;
-
-                if((entry.order_idx > 0) && (entry.order_info != null && entry.order_info.length > 0)){
-                    order_info = entry.order_info[0];
-                    entryDiv += `
-                            <td>${order_info.order_code}</td>
-                            <td>${order_info.order_product_code}</td>
-                            <td>${order_info.status}</td>
-                            <td>${order_info.product_qty}</td>
-                            <td>${entry.member_mobile}</td>
-
-                            <td>${entry.member_email}</td>
-                            <td>${parseInt(order_info.price_product).toLocaleString('ko-KR')}원</td>
-                            <td>${parseInt(order_info.price_mileage_point).toLocaleString('ko-KR')}원</td>
-                            <td>${parseInt(order_info.price_discount).toLocaleString('ko-KR')}원</td>
-                            <td>${parseInt(order_info.price_delivery).toLocaleString('ko-KR')}원</td>
-
-                            <td>${parseInt(order_info.price_total).toLocaleString('ko-KR')}원</td>
-                            <td>${order_info.to_place}</td>
-                            <td>${order_info.to_name}</td>
-                            <td>${order_info.to_mobile}</td>
-                            <td>${order_info.to_zipcode}</td>
-                            
-                            <td>${order_info.to_lot_addr}</td>
-                            <td>${order_info.to_road_addr}</td>
-                            <td>${order_info.to_detail_addr}</td>
-                            <td>${order_info.to_order_memo}</td>
-                        </tr>
-                    `;
+            if(d != null){
+                if (d.length > 0) {
+                    $("#draw_entry_detail_table").html('');
                 }
-				$("#draw_entry_detail_table").append(strDiv);
-			});
+                d.forEach(function(row) {
+                    strDiv = `
+                        <tr>
+                            <td>${row.member_name}</td>
+                            <td>${row.create_date != null ? row.create_date.split(' ')[0] : ''}</td>
+                            <td>${(row.purchase_flg == false)?'미구매':'구매'}</td>
+                            <td>${(row.prize_flg == false)?'미당첨':'당첨'}</td>
+                    `;
+                    if( row.order_code != null ){
+                        strDiv += `
+                                <td>${row.order_code}</td>
+                                <td>${row.product_code}</td>
+                                <td>${row.order_status}</td>
+                                <td>${row.product_qty}</td>
+                                <td>${row.member_mobile}</td>
+
+                                <td>${row.member_email}</td>
+                                <td>${parseInt(row.price_product).toLocaleString('ko-KR')}원</td>
+                                <td>${parseInt(row.price_mileage_point).toLocaleString('ko-KR')}원</td>
+                                <td>${parseInt(row.price_discount).toLocaleString('ko-KR')}원</td>
+                                <td>${parseInt(row.price_delivery).toLocaleString('ko-KR')}원</td>
+
+                                <td>${parseInt(row.price_total).toLocaleString('ko-KR')}원</td>
+                                <td>${row.to_name}</td>
+                                <td>${row.to_mobile}</td>
+                                <td>${row.to_zipcode}</td>
+                                
+                                <td>${row.to_lot_addr==null?'':row.to_lot_addr}</td>
+                                <td>${row.to_road_addr==null?'':row.to_road_addr}</td>
+                                <td>${row.to_detail_addr==null?'':row.to_detail_addr}</td>
+                                <td>${row.to_order_memo==null?'':row.to_order_memo}</td>
+                            </tr>
+                        `;
+                    }
+                    else{
+                        strDiv += `
+                            <td colspan="19" style="text-align:left;">
+                                주문 정보가 없습니다.
+                            </td>
+                        `;
+                    }
+                    $("#draw_entry_detail_table").append(strDiv);
+
+                });
+            }
+			
 		},
 	},rows,1);
 
+}
+function excelDownload() {
+	if ($('#draw_entry_detail_table').find('.default_td').length > 0) {
+		alert('응모자가 없습니다.');
+	} else {
+		
+		var sheet_name = "";
+		var file_name = "";
+		var today = new Date();
+		var file_date = today.getFullYear() + (('0' + (today.getMonth() + 1)).slice(-2)) + (('0' + today.getDate()).slice(-2));
+		
+		sheet_name = "드로우 응모자 목록";
+		file_name = "드로우 응모자_" + file_date;
+		insertLog("전시관리 > 드로우", "엑셀다운로드 : "+file_name+"xlsx", 1);
+		var wb = XLSX.utils.table_to_book(document.getElementById('excel_table'), {sheet:sheet_name,raw:true});
+		XLSX.writeFile(wb, (file_name + '.xlsx'));
+	}
+}
+function init_fileter(frm_id, func_name){
+	var formObj = $('#' + frm_id);
+	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked', true);
+	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked', true);
+    formObj.find('.rd__block').find('input:radio[value=""]').prop('checked', true);
+
+	formObj.find('.fSelect').prop("selectedIndex", 0);
+
+	formObj.find('input[type=checkbox]').attr("checked", false);
+	formObj.find('input[type=text]').val('');
+	formObj.find('input[type=number]').val('');
+	formObj.find('input[type=date]').val('');
+
+	formObj.find('.date__picker').css('background-color','#ffffff');
+	formObj.find('.date__picker').css('color','#000000');
+	formObj.find('input[name="search_date"]').val('');
+	
+	window[func_name]();
 }
 </script>

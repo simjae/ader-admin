@@ -32,8 +32,8 @@ $where = '1=1 ';
 $where_cnt = $where;
 
 $tables = "
-	dev.ADMIN_LOG AL
-	LEFT JOIN dev.ADMIN AD ON
+	ADMIN_LOG AL
+	LEFT JOIN ADMIN AD ON
 	AL.CREATER = AD.ADMIN_ID
 ";
 
@@ -47,38 +47,45 @@ if ($creater != null) {
 
 //검색 유형 - 상품 등록일
 if ($search_date != null) {
+	$tmp_date = "DATE_FORMAT(AL.CREATE_DATE,'%Y-%m-%d')";
+	
 	switch ($search_date) {
 		case "today" :
-			$where .= ' AND (A.CREATE_DATE = CURDATE()) ';
+			$where .= " AND (".$tmp_date." = CURDATE()) ";
 			break;
 		
 		case "01d" :
-			$where .= ' AND (A.CREATE_DATE = (CURDATE() - INTERVAL 1 DAY)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 DAY)) ";
 			break;
 		
 		case "03d" :
-			$where .= ' AND (A.CREATE_DATE >= (CURDATE() - INTERVAL 3 DAY)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 DAY)) ";
 			break;
 		
 		case "07d" :
-			$where .= ' AND (A.CREATE_DATE >= (CURDATE() - INTERVAL 7 DAY)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 7 DAY)) ";
 			break;
 		
 		case "15d" :
-			$where .= ' AND (A.CREATE_DATE >= (CURDATE() - INTERVAL 15 DAY)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 15 DAY)) ";
 			break;
 		
 		case "01m" :
-			$where .= ' AND (A.CREATE_DATE >= (CURDATE() - INTERVAL 1 MONTH)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 MONTH)) ";
 			break;
 		
 		case "03m" :
-			$where .= ' AND (A.CREATE_DATE >= (CURDATE() - INTERVAL 3 MONTH)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 MONTH)) ";
+			break;
+		
+		case "01y" :
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 YEAR)) ";
 			break;
 	}
 }
+
 if ($admin_from != null && $admin_to != null) {
-	$where .= " AND (A.CREATE_DATE BETWEEN '".$admin_from."' AND '".$admin_to."') ";
+	$where .= " AND (AL.CREATE_DATE BETWEEN '".$admin_from."' AND '".$admin_to."') ";
 }
 
 /** 정렬 조건 **/

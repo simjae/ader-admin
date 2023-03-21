@@ -22,10 +22,13 @@ $menu_sort			= $_POST['menu_sort'];
 $menu_idx			= $_POST['menu_idx'];
 $obj_type			= $_POST['obj_type'];
 $obj_idx			= $_POST['obj_idx'];
-$link_type			= $_POST['link_type'];
+
 $obj_title			= xssEncode($_POST['obj_title']);
 $img_location 		= $_POST['img_location'];
-$page_idx			= $_POST['page_idx'];
+
+$link_type			= $_POST['link_type'];
+$link_idx			= $_POST['link_idx'];
+$link_url			= $_POST['link_url'];
 
 $action_type		= $_POST['action_type'];
 $recent_idx			= $_POST['recent_idx'];
@@ -34,15 +37,15 @@ $recent_num			= $_POST['recent_num'];
 $obj_table = "";
 switch ($obj_type) {
 	case "SL" :
-		$obj_table = " dev.TMP_MENU_SLIDE ";
+		$obj_table = " TMP_MENU_SLIDE ";
 		break;
 	
 	case "UP" :
-		$obj_table = " dev.TMP_MENU_UPPER_FILTER ";
+		$obj_table = " TMP_MENU_UPPER_FILTER ";
 		break;
 	
 	case "LW" :
-		$obj_table = " dev.TMP_MENU_LOWER_FILTER ";
+		$obj_table = " TMP_MENU_LOWER_FILTER ";
 		break;
 }
 
@@ -118,19 +121,22 @@ if ($obj_update_flg != null && $obj_update_flg == true && $obj_idx != null) {
 		$img_location_sql = " IMG_LOCATION = '".$img_location."', ";
 	}
 
-	$menu_obj_sql = "
+	$update_menu_obj_sql = "
 		UPDATE
 			".$obj_table."
 		SET
 			LINK_TYPE = '".$link_type."',
 			OBJ_TITLE = '".$obj_title."',
 			".$img_location_sql."
-			PAGE_IDX = ".$page_idx."
+			
+			LINK_TYPE = '".$link_type."',
+			LINK_IDX = ".$link_idx.",
+			LINK_URL = '".$link_url."'
 		WHERE
 			IDX = ".$obj_idx."
 	";
 
-	$db->query($menu_obj_sql);
+	$db->query($update_menu_obj_sql);
 	
 	$result = $result = $db->affectedRows();
 	

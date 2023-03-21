@@ -14,8 +14,11 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+$session_id			= sessionCheck();
 $country			= $_POST['country'];
 
 $member_level		= $_POST['member_level'];
@@ -48,7 +51,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 	try {
 		$insert_preorder_sql = "
 			INSERT INTO
-				dev.PAGE_PREORDER
+				PAGE_PREORDER
 			(
 				COUNTRY,
 				MEMBER_LEVEL,
@@ -72,12 +75,12 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				PR.PRODUCT_NAME			AS PRODUCT_NAME,
 				".$sales_price."		AS SALES_PRICE,
 				FALSE					AS DISPLAY_FLG,
-				STR_TO_DATE('".$entry_start_date."','%Y%m%d%H%i%s')			AS ENTRY_START_DATE,
-				STR_TO_DATE('".$entry_end_date."','%Y%m%d%H%i%s')			AS ENTRY_END_DATE,
-				'Admin',
-				'Admin'
+				STR_TO_DATE('".$entry_start_date."','%Y-%m-%d %H:%i')		AS ENTRY_START_DATE,
+				STR_TO_DATE('".$entry_end_date."','%Y-%m-%d %H:%i')			AS ENTRY_END_DATE,
+				'".$session_id."',
+				'".$session_id."'
 			FROM
-				dev.SHOP_PRODUCT PR
+				SHOP_PRODUCT PR
 			WHERE
 				PR.IDX = ".$product_idx."
 		";
@@ -96,7 +99,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				}
 				$insert_qty_sql = "
 					INSERT INTO
-						dev.QTY_PREORDER
+						QTY_PREORDER
 					(
 						COUNTRY,
 						PREORDER_IDX,
@@ -135,7 +138,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				SELECT
 					PP.IDX				AS PREORDER_IDX
 				FROM
-					dev.PAGE_PREORDER PP
+					PAGE_PREORDER PP
 				WHERE
 					PP.IDX != ".$preorder_idx." AND
 					PP.DEL_FLG = FALSE
@@ -152,7 +155,7 @@ if ($country != null && $product_idx != null && $qty_info != null) {
 				if (!empty($tmp_idx)) {
 					$update_preorder_sql = "
 						UPDATE
-							dev.PAGE_PREORDER
+							PAGE_PREORDER
 						SET
 							DISPLAY_NUM = ".$display_num."
 						WHERE

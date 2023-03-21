@@ -1118,6 +1118,11 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
 </main>
 <script>
     var swiperMypage = '';
+    var searchEnterKeyHandler = function(e){
+		if(e.keyCode == '13'){
+			$('.search__icon__img').click();
+		}
+	}
     $(document).ready(function () {
         swiperMypage = new Swiper(".swiper.icon", {
             //옵션은 유동적으로 필요한부분만 추가해서 사용가능,
@@ -1303,7 +1308,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
             }
         }
     });
-
+   
     function mypageTabBtnClick(type, tab_idx) {
         $('#btn_type').val(type);
 

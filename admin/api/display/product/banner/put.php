@@ -14,15 +14,15 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
+$session_id		= sessionCheck();
 $banner_type	= $_POST['banner_type'];
-
 $banner_idx		= $_POST['banner_idx'];
-
 $banner_title	= $_POST['banner_title'];
 $banner_memo	= $_POST['banner_memo'];
-
 $location_start	= $_POST['location_start'];
 $location_end	= $_POST['location_end'];
 
@@ -36,7 +36,7 @@ if ($banner_type != null && $banner_idx != null) {
 
 	switch ($banner_type) {
 		case "HED" :
-			$banner_table = "dev.BANNER_HEAD";
+			$banner_table = "BANNER_HEAD";
 			if ($location_start != null && $location_end != null) {
 				$head_clip_sql = "
 					LOCATION_START = ".$location_start.",
@@ -46,13 +46,13 @@ if ($banner_type != null && $banner_idx != null) {
 			break;
 		
 		case "IMG" :
-			$banner_table = "dev.BANNER_IMG";
-			$clip_table = "dev.BANNER_IMG_CLIP";
+			$banner_table = "BANNER_IMG";
+			$clip_table = "BANNER_IMG_CLIP";
 			break;
 		
 		case "VID" :
-			$banner_table = "dev.BANNER_VID";
-			$clip_table = "dev.BANNER_VID_CLIP";
+			$banner_table = "BANNER_VID";
+			$clip_table = "BANNER_VID_CLIP";
 			break;
 	}
 	
@@ -65,7 +65,7 @@ if ($banner_type != null && $banner_idx != null) {
 				BANNER_MEMO = '".$banner_memo."',
 				".$head_clip_sql."
 				UPDATE_DATE = NOW(),
-				UPDATER = 'Admin'
+				UPDATER = '".$session_id."'
 			WHERE
 				IDX = ".$banner_idx."
 		";

@@ -1,23 +1,29 @@
+<style>
+.time__select{width:80px!important;}	
+</style>
+
+<?php include_once("check.php"); ?>
+
 <div class="filter-wrap" style="margin-bottom:20px">
-	<button class="voucher_tab_btn tap__button" tab_num="01"
-		style="background-color:#000;color:#fff;font-weight:500;width:180px;"
-		onClick="voucherTabBtnClick(this);">발행</button>
-	<button class="voucher_tab_btn tap__button" tab_num="02" style="width:180px;"
-		onClick="voucherTabBtnClick(this);">발급</button>
-	<button class="voucher_tab_btn tap__button" tab_num="03" style="width:180px;" onClick="voucherTabBtnClick(this);">생일
-		바우처 발급</button>
+	<button class="voucher_tab_btn tap__button" tab_num="01" style="background-color:#000;color:#fff;font-weight:500;width:180px;" onClick="voucherTabBtnClick(this);">발행</button>
+	<button class="voucher_tab_btn tap__button" tab_num="02" style="width:180px;" onClick="voucherTabBtnClick(this);">발급</button>
+	<button class="voucher_tab_btn tap__button" tab_num="03" style="width:180px;" onClick="voucherTabBtnClick(this);">생일 바우처 관리</button>
 </div>
+
 <input id="tab_num" type="hidden" value="01">
 
 <div id="voucher_tab_01" class="voucher_tab">
 	<?php include_once("member-voucher-publish.php"); ?>
 </div>
+
 <div id="voucher_tab_02" class="voucher_tab" style="display:none;">
 	<?php include_once("member-voucher-issue.php"); ?>
 </div>
+
 <div id="voucher_tab_03" class="voucher_tab" style="display:none;">
 	<?php include_once("member-voucher-birth.php"); ?>
 </div>
+
 <script>
 	$(document).ready(function () {
 	});
@@ -63,4 +69,29 @@
 		parent_obj.find('.cnt_total').text(total_cnt.val());
 		parent_obj.find('.cnt_result').text(result_cnt.val());
 	}
+		
+	function orderChange(obj) {
+		let tab_status = $(obj).attr('tab_status');
+		let frm = $('#frm-filter-' + tab_status);
+		console.log('#frm-filter-' + tab_status);
+		var select_value = $(obj).val();
+		var order_value = [];
+		order_value = select_value.split('|');
+		
+		frm.find('.sort_value').val(order_value[0]);
+		frm.find('.sort_type').val(order_value[1]);
+		
+		getPublishVoucherInfo();
+	}
+
+	function rowsChange(obj) {
+		var tab_status = $(obj).attr('tab_status');
+		let frm = $('#frm-filter-' + tab_status);
+		
+		var rows = $(obj).val();
+		frm.find('.rows').val(rows);
+		
+		getPublishVoucherInfo();
+	}
+	
 </script>

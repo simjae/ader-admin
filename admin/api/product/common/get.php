@@ -16,7 +16,7 @@ $db->query('
 		NODE,
 		TITLE
 	FROM 
-        dev.MD_CATEGORY
+        MD_CATEGORY
 	WHERE 
 		'.$where);
 

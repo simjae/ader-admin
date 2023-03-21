@@ -313,6 +313,9 @@
 <script>
 
 </script> -->
+
+<?php include_once("check.php"); ?>
+
 <div class="content__card">
 	<div class="card__header">
 		<h3>자동입금 내역확인</h3>

@@ -3,8 +3,8 @@
 	margin-top : 50px;
 }
 </style>
-<div class="content__card" style="width:950px;margin: 0;">
-    <input id="json_str" type="hidden"  value='<?=$json_str?>'>
+<div class="content__card modal__view" style="width:950px;margin: 0;">
+    <input id="param" type="hidden"  value='<?=$param?>'>
     <input id="page_idx" type="hidden" name="page_idx" value="">
     <input id="page_idx" type="hidden" name="country" value="">
 
@@ -53,15 +53,23 @@
             </div>
         </div>
     </div>
+    <div class="card__footer">
+		<div class="footer__btn__wrap">
+			<div class="tmp" toggle="tmp"></div>
+			<div class="btn__wrap--lg">
+				<div class="defult__color__btn" onclick="modal_close();"><span>창 닫기</span></div>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
 
 $(document).ready(function() {
-    var json_str = $('#json_str').val();
-    var json_data = eval("(" + json_str + ")");
+    var param = $('#param').val();
+    var param_arr = param.split(',');
 
-	var page_idx = json_data.page_idx;
-    var country = json_data.country;
+    let page_idx    = param_arr[0];
+    let country     = param_arr[1];
 
 	$.ajax({
 		type: "post",

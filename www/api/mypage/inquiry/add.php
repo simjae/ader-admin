@@ -33,7 +33,7 @@ if ($member_idx == 0 || $country == NULL) {
 
 if($inquiry_type != null && $inquiry_title != null && $inquiryTextBox != null){
     $insert_sql = "
-        INSERT INTO dev.PAGE_BOARD
+        INSERT INTO PAGE_BOARD
         (
             COUNTRY,
             BOARD_TYPE,
@@ -60,7 +60,7 @@ if($inquiry_type != null && $inquiry_title != null && $inquiryTextBox != null){
             MEMBER_ID,
             MEMBER_ID
         FROM
-            dev.MEMBER_".$country."
+            MEMBER_".$country."
         WHERE
             IDX = '".$member_idx."'
     ";
@@ -76,7 +76,7 @@ if($inquiry_type != null && $inquiry_title != null && $inquiryTextBox != null){
                 move_uploaded_file($file_obj['tmp_name'], $path.'img_'.time().'_'.$file_obj['name']);
                 
                 $img_sql = "INSERT INTO
-                            dev.BOARD_IMAGE
+                            BOARD_IMAGE
                             (
                                 BOARD_IDX,
                                 IMG_LOCATION,

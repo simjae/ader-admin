@@ -13,22 +13,24 @@
  | 
  +=============================================================================
 */
+include_once("/var/www/admin/api/common/common.php");
 
 /** 변수 정리 **/
-$country            = $_POST['country'];
-$category           = $_POST['category'];
-$title              = $_POST['title'];
-$contents           = $_POST['contents'];
-$contents	        = str_replace("<p>&nbsp;</p>","",$contents);
+$session_id			= sessionCheck();
+$country			= $_POST['country'];
+$category		   = $_POST['category'];
+$title			  = $_POST['title'];
+$contents		   = $_POST['contents'];
+$contents			= str_replace("<p>&nbsp;</p>","",$contents);
 
-$display_flg        = $_POST['display_flg'];
-$display_from       = $_POST['display_from'];
-$display_from_h     = $_POST['display_from_h'];
-$display_from_m     = $_POST['display_from_m'];
-$display_to         = $_POST['display_to'];
-$display_to_h       = $_POST['display_to_h'];
-$display_to_m       = $_POST['display_to_m'];
-$fix_flg            = $_POST['fix_flg'];
+$display_flg		= $_POST['display_flg'];
+$display_from	   = $_POST['display_from'];
+$display_from_h	 = $_POST['display_from_h'];
+$display_from_m	 = $_POST['display_from_m'];
+$display_to		 = $_POST['display_to'];
+$display_to_h	   = $_POST['display_to_h'];
+$display_to_m	   = $_POST['display_to_m'];
+$fix_flg			= $_POST['fix_flg'];
 
 $display_start_date = "";
 $display_end_date = "";
@@ -43,46 +45,67 @@ if($display_flg != null){
 }
 
 if($title != null){
-    $sql = "
-            INSERT dev.PAGE_BOARD(
-                COUNTRY,
-                BOARD_TYPE,
-                CATEGORY,
-                MEMBER_IDX,
-                MEMBER_ID,
-                MEMBER_NAME,
-                IP,
-                TITLE,
-                CONTENTS,
-                EXPOSURE_FLG,
-                EXPOSURE_START_DATE,
-                EXPOSURE_END_DATE,
-                FIX_FLG,
-                CREATER,
-                UPDATER
-            )
-            VALUES(
-                '".$country."',
-                'NTC',
-                '".$category."',
-                0,
-                'Admin',
-                '홍길동',
-                '127.0.0.8',
-                '".$title."',
-                '".$contents."',
-                true,
-                ".$display_start_date.",
-                ".$display_end_date.",
-                ".$fix_flg.",
-                'Admin',
-                'Admin'
-            ) 
-    ";
-    $db->query($sql);
+	$insert_page_board_sql = "
+		INSERT PAGE_BOARD(
+			COUNTRY,
+			BOARD_TYPE,
+			CATEGORY,
+			ADMIN_IDX,
+			ADMIN_ID,
+			ADMIN_NAME,
+			IP,
+			TITLE,
+			CONTENTS,
+			EXPOSURE_FLG,
+			EXPOSURE_START_DATE,
+			EXPOSURE_END_DATE,
+			FIX_FLG,
+			CREATER,
+			UPDATER
+		)
+		SELECT
+			'".$country."',
+			'NTC',
+			'".$category."',
+			IDX,
+			ADMIN_ID,
+			ADMIN_NAME,
+			'127.0.0.8',
+			'".$title."',
+			'".$contents."',
+			TRUE,
+			".$display_start_date.",
+			".$display_end_date.",
+			".$fix_flg.",
+			'".$session_id."',
+			'".$session_id."'
+		FROM
+			ADMIN
+		WHERE
+			ADMIN_ID = '".$session_id."'
+	";
+	
+	$db->query($insert_page_board_sql);
+	
+	$board_idx = $db->last_id();
+	
+	if (!empty($board_idx)) {
+		$update_page_board_sql = "
+			UPDATE
+				dev.PAGE_BOARD
+			SET
+				DISPLAY_NUM = DISPLAY_NUM + 1
+			WHERE
+				IDX != ".$board_idx." AND
+				COUNTRY = '".$country."' AND
+				BOARD_TYPE = 'NTC'
+		";
+		
+		$db->query($update_page_board_sql);
+	}
 }
 else{
-    $code = 500;
+	$code = 500;
 }
 
 

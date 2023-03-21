@@ -15,10 +15,11 @@
 */
 
 /** 변수 정리 **/
-$select_idx = $_POST['select_idx'];
-$action_type = $_POST['action_type'];
+$select_idx			= $_POST['select_idx'];
+$action_type		= $_POST['action_type'];
 
 $set = "";
+
 $delete_sql = "";
 if ($action_type != null) {
 	if ($action_type == "product_restore") {
@@ -26,41 +27,47 @@ if ($action_type != null) {
 		$set .= " DEL_FLG = FALSE ";
 	} 
 	else if ($action_type == "product_delete") {
-		$delete_sql .= "DELETE FROM dev.SHOP_PRODUCT WHERE ";
+		$delete_sql .= "DELETE FROM SHOP_PRODUCT WHERE ";
 	}
 	else if ($action_type == "order_status_set") {
 		$set .= " UPDATE_DATE = NOW(), ";
-		$set .= " INDEPENDENCE_FLG = TRUE ";
+		$set .= " INDP_FLG = TRUE ";
 	}
 }
 
 $where = " 1=1 ";
 $idx_list="";
+
 if ($select_idx != null) {
 	$idx_list = implode(',',$select_idx);
 	$where .= " AND IDX IN (".$idx_list.")";
+
+	$tables = $_TABLE['SHOP_PRODUCT'];
+
+	/** DB 처리 **/
+
+	//수정항목
+	$sql = "UPDATE
+				".$tables."
+			SET
+				".$set."
+			WHERE
+				".$where;
+	
+	if ($action_type == "product_restore") {
+		$db->query($sql);
+	}
+
+	if ($action_type == "product_delete") {
+		$db->query($delete_sql.$where);
+	}
+
+	if ($action_type == "order_status_set") {
+		$db->query($sql);
+	}
+} else {
+	$code = 301;
+	$msg = '삭제상품 수정작업이 실패했습니다.';
 }
 
-$tables = $_TABLE['SHOP_PRODUCT'];
-
-/** DB 처리 **/
-
-//수정항목
-$sql = "UPDATE
-			".$tables."
-		SET
-			".$set."
-		WHERE
-			".$where;
-if ($action_type == "product_restore") {
-	$db->query($sql);
-}
-
-if ($action_type == "product_delete") {
-	$db->query($delete_sql.$where);
-}
-
-if ($action_type == "order_status_set") {
-	$db->query($sql);
-}
 ?>

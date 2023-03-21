@@ -14,10 +14,13 @@
  +=============================================================================
 */
 
+include_once("/var/www/admin/api/common/common.php");
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-$verify_ordersheet_cnt = $db->count('dev.ORDERSHEET_MST', 'PRODUCT_CODE = "'.$product_code.'" ');
+$session_id		= sessionCheck();
 
+$verify_ordersheet_cnt = $db->count('ORDERSHEET_MST', 'PRODUCT_CODE = "'.$product_code.'" ');
 
 if($verify_ordersheet_cnt > 0){
 	$json_result['code'] = 300;
@@ -121,26 +124,11 @@ if ($category_idx != null && $category_idx > 0) {
 	$category_idx_arr[1] = $category_idx.",";
 }
 
-
-$material = $_POST['material'];
-$material_arr = array();
-if ($material != null) {
-	$material_arr[0] = ' MATERIAL, ';
-	$material_arr[1] = "'".$material."',";
-}
-
 $graphic = $_POST['graphic'];
 $graphic_arr = array();
 if ($graphic != null) {
 	$graphic_arr[0] = ' GRAPHIC, ';
 	$graphic_arr[1] = "'".$graphic."',";
-}
-
-$fit = $_POST['fit'];
-$fit_arr = array();
-if ($fit != null) {
-	$fit_arr[0] = ' FIT, ';
-	$fit_arr[1] = "'".$fit."',";
 }
 
 $product_name = $_POST['product_name'];
@@ -164,20 +152,6 @@ if ($color != null) {
 	$color_arr[1] = "'".$color."',";
 }
 
-$color_rgb = $_POST['color_rgb'];
-$color_rgb_arr = array();
-if ($color_rgb != null) {
-	$color_rgb_arr[0] = ' COLOR_RGB, ';
-	$color_rgb_arr[1] = "'".$color_rgb."',";
-}
-
-$pantone_code = $_POST['pantone_code'];
-$pantone_code_arr = array();
-if ($pantone_code != null) {
-	$pantone_code_arr[0] = ' PANTONE_CODE, ';
-	$pantone_code_arr[1] = "'".$pantone_code."',";
-}
-
 $limit_member = $_POST['limit_member'];
 $limit_memberpl_qty_arr = array();
 if ($limit_member != null) {
@@ -185,13 +159,26 @@ if ($limit_member != null) {
 	$limit_member_arr[1] = "'".$limit_member."',";
 }
 
-$limit_qty = $_POST['limit_qty'];
-$limit_qty_arr = array();
-if ($limit_qty != null) {
-	$limit_qty_arr[0] = ' LIMIT_QTY, ';
-	$limit_qty_arr[1] = "'".$limit_qty."',";
+$limit_id_flg = $_POST['limit_id_flg'];
+$limit_id_flg_arr = array();
+if ($limit_id_flg != null) {
+	$limit_id_flg_arr[0] = ' LIMIT_ID_FLG, ';
+	$limit_id_flg_arr[1] = $limit_id_flg.",";
 }
 
+$limit_product_qty_flg = $_POST['limit_product_qty_flg'];
+$limit_product_qty_flg_arr = array();
+if ($limit_product_qty_flg != null) {
+	$limit_product_qty_flg_arr[0] = ' LIMIT_PRODUCT_QTY_FLG, ';
+	$limit_product_qty_flg_arr[1] = $limit_product_qty_flg.",";
+}
+
+$limit_product_qty = $_POST['limit_product_qty'];
+$limit_product_qty_arr = array();
+if ($limit_product_qty != null) {
+	$limit_product_qty_arr[0] = ' LIMIT_PRODUCT_QTY, ';
+	$limit_product_qty_arr[1] = $limit_product_qty.",";
+}
 //오더시트 - price
 $price_cost = $_POST['price_cost'];
 $price_cost_arr = array();
@@ -256,13 +243,6 @@ if ($receive_request_date != null) {
 	$receive_request_date_arr[1] = "'".$receive_request_date."',";
 }
 
-$tp_completion_date = $_POST['tp_completion_date'];
-$tp_completion_date_arr = array();
-if ($tp_completion_date != null) {
-	$tp_completion_date_arr[0] = ' TP_COMPLETION_DATE, ';
-	$tp_completion_date_arr[1] = "'".$tp_completion_date."',";
-}
-
 if($product_code != null){
 
 	$db->begin_transaction();
@@ -270,7 +250,7 @@ if($product_code != null){
 	try {
 		//검색 유형 - 디폴트
 		$sql = 	"INSERT INTO
-					dev.ORDERSHEET_MST
+					ORDERSHEET_MST
 				(
 					".$style_code_arr[0]."
 					".$color_code_arr[0]."
@@ -283,17 +263,15 @@ if($product_code != null){
 					".$category_sml_arr[0]."
 					".$category_dtl_arr[0]."
 					".$category_idx_arr[0]."
-					".$material_arr[0]."
 					".$graphic_arr[0]."
-					".$fit_arr[0]."
 					".$product_name_arr[0]."
 					".$product_size_arr[0]."
 					".$color_arr[0]."
-					".$color_rgb_arr[0]."
-					".$pantone_code_arr[0]."
 					".$md_category_guide_arr[0]."
 					".$limit_member_arr[0]."
-					".$limit_qty_arr[0]."
+					".$limit_id_flg_arr[0]."
+					".$limit_product_qty_flg_arr[0]."
+					".$limit_product_qty_arr[0]."
 					".$price_cost_arr[0]."
 					".$price_kr_arr[0]."
 					".$price_kr_gb_arr[0]."
@@ -303,7 +281,6 @@ if($product_code != null){
 					".$safe_qty_arr[0]."
 					".$launching_date_arr[0]."
 					".$receive_request_date_arr[0]."
-					".$tp_completion_date_arr[0]."
 
 					CREATE_DATE,
 					CREATER,
@@ -323,17 +300,15 @@ if($product_code != null){
 					".$category_sml_arr[1]."
 					".$category_dtl_arr[1]."
 					".$category_idx_arr[1]."
-					".$material_arr[1]."
 					".$graphic_arr[1]."
-					".$fit_arr[1]."
 					".$product_name_arr[1]."
 					".$product_size_arr[1]."
 					".$color_arr[1]."
-					".$color_rgb_arr[1]."
-					".$pantone_code_arr[1]."
 					".$md_category_guide_arr[1]."
 					".$limit_member_arr[1]."
-					".$limit_qty_arr[1]."
+					".$limit_id_flg_arr[1]."
+					".$limit_product_qty_flg_arr[1]."
+					".$limit_product_qty_arr[1]."
 					".$price_cost_arr[1]."
 					".$price_kr_arr[1]."
 					".$price_kr_gb_arr[1]."
@@ -343,12 +318,11 @@ if($product_code != null){
 					".$safe_qty_arr[1]."
 					".$launching_date_arr[1]."
 					".$receive_request_date_arr[1]."
-					".$tp_completion_date_arr[1]."
 
 					NOW(),
-					'Admin',
+					'".$session_id."',
 					NOW(),
-					'Admin'
+					'".$session_id."'
 				)
 		";
 
@@ -357,7 +331,7 @@ if($product_code != null){
 
 		if (!empty($ordersheet_idx)) {
 			$history_sql = "
-				INSERT INTO dev.ORDERSHEET_HISTORY
+				INSERT INTO ORDERSHEET_HISTORY
 				(	
 					ORDERSHEET_IDX,
 					ORDERSHEET_AUTH,
@@ -377,7 +351,7 @@ if($product_code != null){
 					'".$product_name."',
 					'[".$product_code."] ".$product_name." 의 오더시트 기획 작성 이 완료되었습니다.',
 					NOW(),
-					'Admin'
+					'".$session_id."'
 				)
 			";
 			$db->query($history_sql);

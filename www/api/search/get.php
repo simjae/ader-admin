@@ -21,10 +21,10 @@ if ($search_keyword != null) {
 		SELECT
 			PR.IDX				AS PRODUCT_IDX
 		FROM
-			dev.SHOP_PRODUCT PR
-			LEFT JOIN dev.ORDERSHEET_MST OM ON
+			SHOP_PRODUCT PR
+			LEFT JOIN ORDERSHEET_MST OM ON
 			PR.ORDERSHEET_IDX = OM.IDX
-			LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+			LEFT JOIN ORDERSHEET_OPTION OO ON
 			PR.ORDERSHEET_IDX = OO.IDX
 		WHERE
 			(
@@ -38,7 +38,7 @@ if ($search_keyword != null) {
 				SELECT
 					COUNT(IDX)
 				FROM
-					dev.PRODUCT_IMG S_PI
+					PRODUCT_IMG S_PI
 				WHERE
 					S_PI.PRODUCT_IDX = PR.IDX
 			) > 0 AND
@@ -69,7 +69,7 @@ if ($search_keyword != null) {
 							''
 						)
 					FROM
-						dev.PRODUCT_IMG S_PI
+						PRODUCT_IMG S_PI
 					WHERE
 						S_PI.PRODUCT_IDX = PR.IDX AND
 						S_PI.IMG_TYPE = 'P' AND
@@ -80,7 +80,7 @@ if ($search_keyword != null) {
 						0,1
 				)					AS IMG_LOCATION
 			FROM
-				dev.SHOP_PRODUCT PR
+				SHOP_PRODUCT PR
 			WHERE
 				PR.IDX IN (".implode(",",$product_idx).")
 		";

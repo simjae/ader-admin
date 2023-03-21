@@ -36,7 +36,7 @@ if ($search_type != null && $search_keyword != null) {
 			break;
 		
 		case "product_name" :
-			$where .= ' AND (BI.PRODUCT_CODE LIKE "%'.$search_keyword.'%") ';
+			$where .= ' AND (BI.PRODUCT_NAME LIKE "%'.$search_keyword.'%") ';
 			break;
 		
 		case "barcode" :
@@ -72,26 +72,31 @@ if ($search_type != null && $search_keyword != null) {
 if ($status != null && $status != "all") {
 	$where .= "AND (BI.STATUS = ".$status.") ";
 }
-
 //검색 유형 - 상품 등록일
-if ($search_date != null) {
+if ($search_date != null && $search_date != 'all') {
 	switch ($search_date) {
 		case "today" :
 			$where .= ' AND (BI.CREATE_DATE = CURDATE()) ';
 			break;
-		case "3d" :
-			$where .= ' AND (BI.CREATE_DATE = (CURDATE() - INTERVAL 3 DAY)) ';
+		case "01d" :
+			$where .= ' AND (BI.CREATE_DATE = (CURDATE() - INTERVAL 1 DAY)) ';
 			break;
-		case "1w" :
+		case "03d" :
+			$where .= ' AND (BI.CREATE_DATE >= (CURDATE() - INTERVAL 3 DAY)) ';
+			break;
+		case "07d" :
 			$where .= ' AND (BI.CREATE_DATE >= (CURDATE() - INTERVAL 7 DAY)) ';
 			break;
-		case "1m" :
+		case "15d" :
+			$where .= ' AND (BI.CREATE_DATE >= (CURDATE() - INTERVAL 15 DAY)) ';
+			break;
+		case "01m" :
 			$where .= ' AND (BI.CREATE_DATE >= (CURDATE() - INTERVAL 1 MONTH)) ';
 			break;
-		case "3m" :
+		case "03m" :
 			$where .= ' AND (BI.CREATE_DATE >= (CURDATE() - INTERVAL 3 MONTH)) ';
 			break;
-		case "1y" :
+		case "01y" :
 			$where .= ' AND (BI.CREATE_DATE >= (CURDATE() - INTERVAL 1 YEAR)) ';
 			break;
 	}
@@ -110,8 +115,8 @@ if ($sort_value != null && $sort_type != null) {
 }
 
 $json_result = array(
-	'total' => $db->count("dev.BLUEMARK_INFO BI",$where),
-	'total_cnt' => $db->count("dev.BLUEMARK_INFO BI",$where_cnt),
+	'total' => $db->count("BLUEMARK_INFO BI",$where),
+	'total_cnt' => $db->count("BLUEMARK_INFO BI",$where_cnt),
 	'page' => $page
 );
 
@@ -149,14 +154,14 @@ $sql = "SELECT
 					SELECT
 						MAX(DATE_FORMAT(REG_DATE,'%Y-%m-%d %H:%i'))
 					FROM
-						dev.BLUEMARK_LOG S_BL
+						BLUEMARK_LOG S_BL
 					WHERE
 						S_BL.BLUEMARK_IDX = BI.IDX
 				),
 				'-'
 			)					AS REG_DATE
 		FROM
-			dev.BLUEMARK_INFO BI
+			BLUEMARK_INFO BI
 		WHERE
 			".$where."
 		ORDER BY

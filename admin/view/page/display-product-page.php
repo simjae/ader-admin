@@ -15,7 +15,6 @@
 }
 
 .control-icon {position: absolute;left: 10px;top: 0;width: 40px;height: 40px;line-height: 40px;text-align: center;z-index: 2;pointer-events: none;}
-
 .control-field {position: relative;padding-left: 40px;z-index: 1;}
 
 /* Grid */
@@ -168,7 +167,7 @@ button {width: 70px;height: 70px;border: none;border-radius: 8px;margin: 12px;cu
 .library__btn__wrap{display: flex;flex-direction: column;align-items: center;gap: 5px;margin: 20px 0 10px 0;} 
 .library__btn{cursor: pointer;width: 100px;border: 1px solid #707070;background-color: #fff;border-radius: 2px;display: flex;align-items: center;justify-content: center;}
 .library__btn span{font-size: 12px;color: #000;height: 20px;line-height: 1.8;}
-.library__product{display: flex;flex-direction: column;gap: 10px;width: 100px;min-height: 73vh;overflow-y: auto;overflow-x: hidden;border: 1px solid #bfbfbf;margin: 10px;background-color: #fff;border-radius: 2px;}
+.library__product{display: flex;flex-direction: column;gap: 10px;width: 100px;height: 73vh;overflow-y: auto;overflow-x: hidden;border: 1px solid #bfbfbf;margin: 10px;background-color: #fff;border-radius: 2px;}
 
 /*상품 진열그리드 시작*/
 .prd__display__btn__wrap{display: flex;justify-content: center;gap: 5px;margin-top: 20px;}
@@ -204,6 +203,8 @@ button {width: 70px;height: 70px;border: none;border-radius: 8px;margin: 12px;cu
 .bg__gray{background-color:#bfbfbf;color: #fff;border: none;}
 </style>
 
+<?php include_once("check.php"); ?>
+
 <div class="content__card" style="max-height:100%;">
 	<?php
 		function getUrlParamter($url, $sch_tag) {
@@ -236,10 +237,12 @@ button {width: 70px;height: 70px;border: none;border-radius: 8px;margin: 12px;cu
 			<div class="prd__title">상품 진열 그리드</div>
 			<div class="prd__display__btn__wrap">
 				<input id="page_idx" type="hidden" value="<?=$page_idx?>">
-				<div class="display__btn bg__blue" tmp_flg="false" onclick="saveDisplayProductPage(this);">페이지 저장</div>
+				<input id="tmp_flg" type="hidden" value="false">
+				
+				<div class="display__btn bg__blue" onclick="saveDisplayProductPage(false);">페이지 저장</div>
 				<div class="display__btn" id="reset" onClick="location.reload();">페이지 초기화</div>
-				<div class="display__btn" onClick="getDisplayProductInfo(true);">임시저장 불러오기</div>
-				<div class="display__btn bg__black" tmp_flg="true" onclick="saveDisplayProductPage(this);">임시저장</div>
+				<div class="display__btn" onClick="getTmpProductGridList();">임시저장 불러오기</div>
+				<div class="display__btn bg__black" onclick="saveDisplayProductPage(true);">임시저장</div>
 			</div>
 			
 			<div class="prd__display__btn__wrap">
@@ -250,7 +253,33 @@ button {width: 70px;height: 70px;border: none;border-radius: 8px;margin: 12px;cu
 				<div class="display__btn bg__gray" change="all" onClick="gridBgChangeBtnClick(this);">전체 배경색 변경</div>
 			</div>
 			
-			<section class="grid-demo" style="margin-top:50px;margin-top:30px;max-height:83%;overflow-y:auto;overflow-x:hidden;">
+			<div class="grid__order__wrap" style="display:flex;padding-left:15px;padding-top:10px;">
+				<select id="grid_order" class="fSelect" style="width:50%;height:30px;border:1px solid #bfbfbf;border-radius:2px;" onChange="changeGridOrder();">
+					<option value="" selected>진열순서 선택</option>
+					<option value="create_date">등록일 순</option>
+					<option value="create_date:desc">등록일 역순</option>
+					<option value="update_date">갱신일 순</option>
+					<option value="update_date:desc">갱신일 역순</option>
+					<option value="product_code">상품 코드 순</option>
+					<option value="product_code:asc">상품 코드 역순</option>
+					<option value="product_name">상품 이름 순</option>
+					<option value="product_name:desc">상품 이름 역순</option>
+					<option value="sales_price_kr">판매가(한국몰) 순</option>
+					<option value="sales_price_kr:desc">판매가(한국몰) 역순</option>
+					<option value="sales_price_en">판매가(영문몰) 순</option>
+					<option value="sales_price_en:desc">판매가(영문몰) 역순</option>
+					<option value="sales_price_cn">판매가(중문몰) 순</option>
+					<option value="sales_price_cn:desc">판매가(중문몰) 역순</option>
+					<option value="order_cnt">주문 수량 순</option>
+					<option value="order_cnt:desc">주문 수량 역순</option>
+					<option value="whish_cnt">즐겨찾기 순</option>
+					<option value="whish_cnt:desc">즐겨찾기 역순</option>
+					<option value="product_qty">상품재고 순</option>
+					<option value="product_qty:desc">상품재고 역순</option>
+				</select>
+			</div>
+			
+			<section class="grid-demo" style="max-height:83%;overflow-y:auto;overflow-x:hidden;">
 				<div class="controls cf" style="display: none;">
 					<div class="control search">
 						<div class="control-icon">
@@ -365,6 +394,7 @@ button {width: 70px;height: 70px;border: none;border-radius: 8px;margin: 12px;cu
 						<div class="display__btn bg__blue" onclick="saveProductGridColumn();">상세정보 저장</div>
 						<div class="display__btn" id="product_reset">상세정보 초기화</div>
 					</div>
+					<div class="black-btn" onclick="location.href=`/display/product`" style="margin:0 auto;width:95px;">뒤로 가기</div>
 				</form>
 			</div>
 		</div>
@@ -392,6 +422,9 @@ button {width: 70px;height: 70px;border: none;border-radius: 8px;margin: 12px;cu
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="prd__grid">
+			
 		</div>
 	</div>
 </div>
@@ -469,8 +502,7 @@ function getLibraryListProduct() {
 				let children_lib_type = children.dataset.lib_type;
 				
 				if (children.dataset.lib_type == "PRD") {
-					let idx = children.dataset.product_idx;
-					product_idx.push(idx);
+					product_idx.push(children.dataset.product_idx);
 				}
 			}
 		});
@@ -500,8 +532,6 @@ function getLibraryListBanner(banner_type) {
 		});
 	}
 	
-	console.log(banner_idx);
-	
 	modal('banner_get','banner_idx=' + banner_idx);
 }
 
@@ -513,15 +543,25 @@ function libraryDragStart() {
 		item.addEventListener('dragstart', (ev) => {
 			if (ev.dataTransfer.effectAllowed === 'uninitialized') {
 				ev.dataTransfer.setData('lib_type', ev.target.dataset.lib_type);
+				ev.dataTransfer.setData('content_location', ev.target.dataset.content_location);
+				ev.dataTransfer.setData('banner_idx', ev.target.dataset.banner_idx);
 				if (ev.target.dataset.lib_type == "PRD") {
 					ev.dataTransfer.setData('banner_type', "-");
 				} else {
 					ev.dataTransfer.setData('banner_type', ev.target.dataset.banner_type);
 				}
-				ev.dataTransfer.setData('banner_idx', ev.target.dataset.banner_idx);
 				ev.dataTransfer.setData('product_idx', ev.target.dataset.product_idx);
 				ev.dataTransfer.setData('product_code', ev.target.dataset.product_code);
-				ev.dataTransfer.setData('content_location', ev.target.dataset.content_location);
+				
+				ev.dataTransfer.setData('product_name', ev.target.dataset.product_name);
+				ev.dataTransfer.setData('sales_price_kr', ev.target.dataset.sales_price_kr);
+				ev.dataTransfer.setData('sales_price_en', ev.target.dataset.sales_price_en);
+				ev.dataTransfer.setData('sales_price_cn', ev.target.dataset.sales_price_cn);
+				ev.dataTransfer.setData('order_cnt', ev.target.dataset.order_cnt);
+				ev.dataTransfer.setData('whish_cnt', ev.target.dataset.whish_cnt);
+				ev.dataTransfer.setData('create_date', ev.target.dataset.create_date);
+				ev.dataTransfer.setData('update_date', ev.target.dataset.update_date);
+				ev.dataTransfer.setData('product_qty', ev.target.dataset.product_qty);
 				
 				let imgLibrarySrc = ev.target.src;
 				let imgLibraryId = ev.target.id;
@@ -555,11 +595,12 @@ function libraryDrop(ev) {
 		let data_transfer = ev.dataTransfer;
 		
 		let lib_type = data_transfer.getData('lib_type');
-		let banner_type = data_transfer.getData('banner_type');
+		let content_location = data_transfer.getData('content_location');
 		let banner_idx = data_transfer.getData('banner_idx');
+		let banner_type = data_transfer.getData('banner_type');
 		let product_idx = data_transfer.getData('product_idx');
 		let product_code = data_transfer.getData('product_code');
-		let content_location = data_transfer.getData('content_location');
+		let product_qty = data_transfer.getData('product_qty');
 		
 		let width = 0;
 		let grid_type = "";
@@ -570,6 +611,17 @@ function libraryDrop(ev) {
 			width = 2;
 			grid_type = "IMG";
 		}
+		
+		ev.target.parentNode.parentNode.setAttribute('data-product_code',data_transfer.getData('product_code'));
+		ev.target.parentNode.parentNode.setAttribute('data-product_name',data_transfer.getData('product_name'));
+		ev.target.parentNode.parentNode.setAttribute('data-sales_price_kr',data_transfer.getData('sales_price_kr'));
+		ev.target.parentNode.parentNode.setAttribute('data-sales_price_en',data_transfer.getData('sales_price_en'));
+		ev.target.parentNode.parentNode.setAttribute('data-sales_price_cn',data_transfer.getData('sales_price_cn'));
+		ev.target.parentNode.parentNode.setAttribute('data-order_cnt',data_transfer.getData('order_cnt'));
+		ev.target.parentNode.parentNode.setAttribute('data-whish_cnt',data_transfer.getData('whish_cnt'));
+		ev.target.parentNode.parentNode.setAttribute('data-create_date',data_transfer.getData('create_date'));
+		ev.target.parentNode.parentNode.setAttribute('data-update_date',data_transfer.getData('update_date'));
+		ev.target.parentNode.parentNode.setAttribute('data-product_qty',data_transfer.getData('product_qty'));
 		
 		let grid_info_temp = $(ev.target).parent().parent().find('.grid_info_temp');
 		
@@ -603,10 +655,15 @@ function libraryDrop(ev) {
 		grid_info_temp.val(default_value);
 		
 		let item = document.getElementById(item_id);
+			
 		if (lib_type == "BNR") {
 			$(item).attr('src',content_location);
 		}
 		ev.target.appendChild(item);
+		
+		if (lib_type == "PRD" && product_qty == 0) {
+			$(item).parent().find('.card-id').before('<div style="width:100%;height:20px;font-size:1.1rem;margin-top:-30px;font-weight:800;color:red;position:absolute;z-index:999;">품절</div>');
+		}
 		
 		resetProductWrap();
 	}
@@ -872,27 +929,24 @@ function productInfoCall(info){
 	return product[info] || '...?';
 }
 
-function saveDisplayProductPage(obj){
-	let tmp_flg = $(obj).attr('tmp_flg');
+function saveDisplayProductPage(tmp_flg){
 	let page_idx = $('#page_idx').val();
 	
 	let json_data = [];
 	let json_param = null;
 	
 	let length = $('.grid_info_temp').length;
-	if (length > 0) {
-		for(let i = 0;  i < length; i++){
-			let grid_info_temp = $('.grid_info_temp').eq(i);
-			
-			let data_id = grid_info_temp.parent().attr('data-id');
-			let array_num = (parseInt(data_id) - 1);
-			
-			let temp_val = grid_info_temp.val();
-			json_data[array_num] = temp_val;
-		}
+	for(let i = 0;  i < length; i++){
+		let grid_info_temp = $('.grid_info_temp').eq(i);
 		
-		json_param = JSON.stringify(json_data);
+		let data_id = grid_info_temp.parent().attr('data-id');
+		let array_num = (parseInt(data_id) - 1);
+		
+		let temp_val = grid_info_temp.val();
+		json_data[array_num] = temp_val;
 	}
+	
+	json_param = JSON.stringify(json_data);
 	
 	if (json_param != null) {
 		$.ajax({
@@ -1021,6 +1075,38 @@ $(document).ready(function () {
 			},
 			dragReleaseDuration: 400,
 			dragReleseEasing: "ease",
+			sortData: {
+				product_code: function (item, element) {
+					return element.getAttribute('data-product_code');
+				},
+				product_name : function (item, element) {
+					return element.getAttribute('data-product_name');
+				},
+				sales_price_kr : function (item, element) {
+					return element.getAttribute('data-sales_price_kr');
+				},
+				sales_price_en : function (item, element) {
+					return element.getAttribute('data-sales_price_en');
+				},
+				sales_price_cn : function (item, element) {
+					return element.getAttribute('data-sales_price_cn');
+				},
+				order_cnt: function (item, element) {
+					return element.getAttribute('data-order_cnt');
+				},
+				whish_cnt: function (item, element) {
+					return element.getAttribute('data-whish_cnt');
+				},
+				create_date: function (item, element) {
+					return element.getAttribute('data-create_date');
+				},
+				update_date: function (item, element) {
+					return element.getAttribute('data-update_date');
+				},
+				product_qty: function (item, element) {
+					return element.getAttribute('data-product_qty');
+				},
+			}
 		})
 		.on("move", updateIndices)
 		.on("sort", updateIndices);
@@ -1158,7 +1244,6 @@ $(document).ready(function () {
 			
 			let strDiv = "";
 			strDiv += '<div class="card_grid item h' + height + ' w' + width + ' ' + color + '" style="background-color:' + bg_color + '" draggable="true" data-id="' + id + '" data-color="' + color + '">';
-			
 			let default_value = "";
 			default_value += '{';
 			default_value += '    "grid_type":"PRD",';
@@ -1352,21 +1437,30 @@ $(document).ready(function () {
 	productDetailAddEvent();
 	/*----------------------------------  함수 호출 ---------------------------------*/
 	
-	getDisplayProductInfo(null);
+	getProductGridList(null);
 });
 
-function getDisplayProductInfo(param) {
+function getTmpProductGridList() {
+	$('#tmp_flg').val(true);
+	getProductGridList();
+}
+
+function getProductGridList() {
 	let page_idx = $('#page_idx').val();
-	let tmp_flg = false;
-	if (param != null) {
-		tmp_flg = true;
-	}
+	
+	let tmp_flg = $('#tmp_flg').val();
+	
+	let tmp_order = $('#grid_order').val().split('|');
+	let sort_value = tmp_order[0];
+	let sort_type = tmp_order[1];
 	
 	$.ajax({
 		type: "post",
 		data: {
-			"tmp_flg":tmp_flg,
-			"page_idx":page_idx
+			'tmp_flg' : tmp_flg,
+			'page_idx' :page_idx,
+			'sort_value' : sort_value,
+			'sort_type' : sort_type
 		},
 		dataType: "json",
 		url: config.api + "display/product/grid/get",
@@ -1374,6 +1468,8 @@ function getDisplayProductInfo(param) {
 			alert("상품 진열정보 불러오기 처리에 실패했습니다.");
 		},
 		success: function(d) {
+			$('#tmp_flg').val(false);
+			
 			if(d.code == 200) {
 				var data = d.data;
 				if(data != null){
@@ -1416,9 +1512,22 @@ function getDisplayProductInfo(param) {
 						let column_info = JSON.stringify(row.column_info);
 						
 						let height = 1;
-
+						
 						let strDiv = "";
-						strDiv += '<div class="card_grid item h1 w' + width + ' ' + color + '" style="background-color:' + bg + '" draggable="true" data-id="' + display_num + '" data-color="' + color + '">';
+						strDiv += '<div class="card_grid item h1 w' + width + ' ' + color + '" style="background-color:' + bg + '" draggable="true" ';
+						strDiv += '    data-id="' + display_num + '" ';
+						strDiv += '    data-color="' + color + '" ';
+						strDiv += '    data-product_code="' + row.product_code + '" ';
+						strDiv += '    data-product_name="' + row.product_name + '" ';
+						strDiv += '    data-sales_price_kr="' + row.sales_price_kr + '" ';
+						strDiv += '    data-sales_price_en="' + row.sales_price_en + '" ';
+						strDiv += '    data-sales_price_cn="' + row.sales_price_cn + '" ';
+						strDiv += '    data-order_cnt="' + row.order_cnt + '" ';
+						strDiv += '    data-whish_cnt="' + row.whish_cnt + '" ';
+						strDiv += '    data-create_date="' + row.create_date + '" ';
+						strDiv += '    data-update_date="' + row.update_date + '" ';
+						strDiv += '    data-product_qty="' + row.product_qty + '" ';
+						strDiv += '>';
 						
 						let default_value = "";
 						default_value += '{';
@@ -1435,8 +1544,12 @@ function getDisplayProductInfo(param) {
 						
 						strDiv += "    <input " + grid_id + " data-gridinput='" + display_num + "' product_idx='" + row.product_idx + "' type='hidden' class='grid_info_temp' name='grid_info_temp' value='" + default_value + "'>";
 						strDiv += '    <div class="item-content">';
+						if (row.product_qty == 0) {
+							strDiv += '    <div style="width:100%;height:20px;font-size:1.1rem;margin-top:-25px;padding-left:37%;padding-right:37%;font-weight:800;color:red;position:absolute;z-index:999;">품절</div>';
+						}
 						strDiv += '        <div class="card">';
 						strDiv += '            <div class="card-id">' + display_num + '</div>';
+						
 						strDiv += '            <div class="card-remove">';
 						strDiv += '                <i class="material-icons">&#xE5CD;</i>';
 						strDiv += '            </div>';
@@ -1446,7 +1559,7 @@ function getDisplayProductInfo(param) {
 						strDiv += '            </div>';
 						
 						if (row.content_location != "none") {
-							strDiv += '        <img id="' + img_id + '" class="library" draggable="true" data-lib_type="' + grid_type + '" data-banner_type="' + banner_type + '" data-banner_idx="' + row.banner_idx + '" data-product_idx="' + row.product_idx + '" data-product_code="' + row.product_code + '" data-content_location="' + row.content_location + '" src="' + row.content_location  + '" alt="">';
+							strDiv += '        <img id="' + img_id + '" class="library" draggable="true" data-lib_type="' + grid_type + '" data-banner_type="' + banner_type + '" data-banner_idx="' + row.banner_idx + '" data-product_idx="' + row.product_idx + '" data-product_code="' + row.product_code + '" data-content_location="' + row.content_location + '" style="position:relative;" src="' + row.content_location  + '" alt="">';
 						}
 						
 						strDiv += '        </div>';
@@ -1456,13 +1569,22 @@ function getDisplayProductInfo(param) {
 						itemElem.innerHTML = strDiv;
 						ret.push(itemElem.firstChild);
 					});
+					
+					grid.remove(grid.getItems(), {
+						removeElements: true
+					});
+					
 					grid.add(ret);
+					
 					libraryAddEvent();
 				} else {
-					if (tmp_flg == true) {
+					if (tmp_flg == "true") {
 						alert("임시저장 데이터가 존재하지않습니다.");
 					}
 				}
+			} else {
+				alert(d.msg);
+				return false;
 			}
 		}
 	});
@@ -1477,12 +1599,11 @@ function rowsChange(obj) {
 	$('#frm-filter_' + lib_type).find('.page').val(1);
 	
 	if (lib_type == "PRD") {
-		getLibraryProduct();
+		getProductInfoList();
 	} else {
 		let banner_type = $('#banner_type').val();
 		getLibraryBanner();
 	}
-	
 }
 
 function orderChange(obj) {
@@ -1497,7 +1618,7 @@ function orderChange(obj) {
 	$('#frm-filter_' + lib_type).find('.sort_type').val(order_value[1]);
 	
 	if (lib_type == "PRD") {
-		getLibraryProduct();
+		getProductInfoList();
 	} else {
 		let banner_type = $('#banner_type').val();
 		getLibraryBanner();
@@ -1509,5 +1630,11 @@ function setPaging(obj) {
 	var result_cnt = $(obj).parent().find('.result_cnt');
 	$('.cnt_total').text(total_cnt.val());
 	$('.cnt_result').text(result_cnt.val());
+}
+
+function changeGridOrder() {
+	let grid_order = $('#grid_order').val();
+	
+	grid.sort(grid_order);
 }
 </script>

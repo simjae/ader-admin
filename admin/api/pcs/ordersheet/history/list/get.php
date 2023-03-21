@@ -29,7 +29,7 @@ $rows = $_POST['rows'];
 $page = $_POST['page'];
 
 $tables = "
-	dev.ORDERSHEET_HISTORY OH
+	ORDERSHEET_HISTORY OH
 ";
 
 //검색 유형 - 디폴트

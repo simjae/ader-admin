@@ -583,9 +583,9 @@
                 <span class="flex_text">&nbsp;&nbsp;&nbsp;<p data-i18n="p_member_msg_03_2" style="margin-bottom: 5px;">
                         통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p></span>
                 <span class="flex_text" style="margin-bottom: 36px;">·&nbsp;&nbsp;
-                    <p data-i18n="p_privacy_policy_01" class="underline">개인정보처리방침</p>
-                    <p data-i18n="p_privacy_policy_02">&nbsp;및</p>
-                    <p data-i18n="p_privacy_policy_03" class="underline">이용약관</p>
+                    <p data-i18n="p_privacy_policy_01" class="underline" onclick="mypageTabBtnClick('service', 3)">개인정보처리방침&nbsp;</p>
+                    <p data-i18n="p_privacy_policy_02">및</p>
+                    <p data-i18n="p_privacy_policy_03" class="underline" onclick="mypageTabBtnClick('service', 2)">&nbsp;이용약관</p>
                 </span>
             </div>
             <div class="input__form__rows">
@@ -1212,36 +1212,39 @@
                 if (code == 200) {
                     let data = d.data;
                     if (data != null) {
-                        if (data.length <= 1) {
+                        if (data.length < 1) {
                             $('.other_list_wrap').hide();
                             $('.profile__wrap .default__list').css('margin-bottom', '0px');
                         } else {
                             $('.other_list_wrap').show();
                             $('.profile__wrap .default__list').css('margin-bottom', '100px');
                         }
-                        let headData = data[0];
-                        let tailData = data.slice(1);
+                        let headData = data.filter(el => el.default_flg == 1)[0];
+                        let tailData = [...data.filter(el => el.default_flg == 0)];
+                        
                         let defaultList = $('.default__list');
                         let otherList = $('.other__list');
                         let strDiv = '';
 
-                        defaultList.html('');
-                        strDiv += '<tr class="default_destination">';
-                        strDiv += '<td>' + headData.to_place + '</td>';
-                        strDiv += '<td>' + headData.to_name + '</td>';
-                        strDiv += '<td>' + headData.to_mobile + '</td>';
-                        let addr = headData.to_road_addr ? headData.to_road_addr : headData.to_lot_addr;
-                        let detailAddr = headData.to_detail_addr ? (' ' + headData.to_detail_addr) : '';
-                        strDiv += '<td>' + addr + detailAddr + '</td>';
-                        strDiv += '<td>' + headData.to_zipcode + '</td>';
-                        strDiv += '<td style="padding-right: 0; margin-top: 20px;">';
-                        strDiv += '     <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
-                        strDiv += '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)" data-i18n="p_edit">수정</button>';
-                        strDiv += '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)" data-i18n="p_delete">삭제</button>';
-                        strDiv += '</div>';
-                        strDiv += '</td>';
-                        strDiv += '</tr>';
-                        defaultList.append(strDiv);
+                        if(headData != null) {
+                            defaultList.html('');
+                            strDiv += '<tr class="default_destination">';
+                            strDiv += '<td>' + headData.to_place + '</td>';
+                            strDiv += '<td>' + headData.to_name + '</td>';
+                            strDiv += '<td>' + headData.to_mobile + '</td>';
+                            let addr = headData.to_road_addr ? headData.to_road_addr : headData.to_lot_addr;
+                            let detailAddr = headData.to_detail_addr ? (' ' + headData.to_detail_addr) : '';
+                            strDiv += '<td>' + addr + detailAddr + '</td>';
+                            strDiv += '<td>' + headData.to_zipcode + '</td>';
+                            strDiv += '<td style="padding-right: 0; margin-top: 20px;">';
+                            strDiv += '     <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px;">';
+                            strDiv += '     <button class="gray__mypage__btn" idx="' + headData.order_to_idx + '" action-type="update_order_to" onclick="buttonAction(this)" data-i18n="p_edit">수정</button>';
+                            strDiv += '     <button class="white__full__width__btn" idx="' + headData.order_to_idx + '" action-type="delete_order_to" onclick="deleteOrderTO(this)" data-i18n="p_delete">삭제</button>';
+                            strDiv += '</div>';
+                            strDiv += '</td>';
+                            strDiv += '</tr>';
+                            defaultList.append(strDiv);
+                        }
 
                         strDiv = '';
                         otherList.html('');

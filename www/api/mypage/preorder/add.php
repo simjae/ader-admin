@@ -47,7 +47,7 @@ if ($country == null || $member_idx == 0 || $member_name == null) {
 }
 
 if ($country != null && $member_idx > 0 && $preorder_idx > 0 && $option_idx > 0) {
-	$preorder_cnt = $db->count("dev.PAGE_PREORDER","IDX = ".$preorder_idx." AND COUNTRY = '".$country."' AND DISPLAY_STATUS = TRUE AND ENTRY_START_DATE >= NOW() AND ENTRY_END_DATE < NOW()");
+	$preorder_cnt = $db->count("PAGE_PREORDER","IDX = ".$preorder_idx." AND COUNTRY = '".$country."' AND DISPLAY_STATUS = TRUE AND ENTRY_START_DATE >= NOW() AND ENTRY_END_DATE < NOW()");
 	if ($preorder_cnt == 0) {
 		$json_result['code'] = 302;
 		$json_result['msg'] = '해당 프리오더는 현재 진행중이지 않습니다.';
@@ -55,7 +55,7 @@ if ($country != null && $member_idx > 0 && $preorder_idx > 0 && $option_idx > 0)
 		return $json_result;
 	}
 	
-	$entry_cnt = $db->count("dev.ENTRY_PREORDER","COUNTRY = '".$country."' AND PREORDER_IDX = ".$preorder_idx." AND MEMBER_IDX = ".$member_idx);
+	$entry_cnt = $db->count("ENTRY_PREORDER","COUNTRY = '".$country."' AND PREORDER_IDX = ".$preorder_idx." AND MEMBER_IDX = ".$member_idx);
 	if ($entry_cnt > 0) {
 		$json_result['code'] = 302;
 		$json_result['msg'] = '동일한 프리오더를 중복신청할 수 없습니다.';
@@ -65,7 +65,7 @@ if ($country != null && $member_idx > 0 && $preorder_idx > 0 && $option_idx > 0)
 	
 	$insert_entry_sql = "
 		INSERT INTO
-			dev.ENTRY_PREORDER
+			ENTRY_PREORDER
 		(
 			COUNTRY,
 			PREORDER_IDX,
@@ -88,10 +88,10 @@ if ($country != null && $member_idx > 0 && $preorder_idx > 0 && $option_idx > 0)
 			'".$member_id."'	AS CREATER,
 			'".$member_id."'	AS UPDATER
 		FROM
-			dev.PAGE_PREORDER PP
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_PREORDER PP
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PP.PRODUCT_IDX = PR.IDX
-			LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+			LEFT JOIN ORDERSHEET_OPTION OO ON
 			PR.ORDERSHEET_IDX = OO.ORDERSHEET_IDX
 		WHERE
 			PP.IDX = ".$preorder_idx." AND

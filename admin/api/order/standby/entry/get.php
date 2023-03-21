@@ -31,7 +31,7 @@ if ($country != null && $standby_idx != null) {
 						SELECT
 							COUNT(S_PI.IDX)
 						FROM
-							dev.PRODUCT_IMG S_PI
+							PRODUCT_IMG S_PI
 						WHERE
 							S_PI.PRODUCT_IDX = PR.IDX AND
 							S_PI.IMG_TYPE = 'P' AND
@@ -42,7 +42,7 @@ if ($country != null && $standby_idx != null) {
 							SELECT
 								REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
 							FROM
-								dev.PRODUCT_IMG S_PI
+								PRODUCT_IMG S_PI
 							WHERE
 								S_PI.PRODUCT_IDX = PR.IDX AND
 								S_PI.DEL_FLG = FALSE AND
@@ -67,8 +67,8 @@ if ($country != null && $standby_idx != null) {
 			PS.MEMBER_LEVEL			AS MEMBER_LEVEL,
 			(SELECT COLOR FROM ORDERSHEET_MST WHERE IDX = PR.ORDERSHEET_IDX) AS COLOR
 		FROM
-			dev.PAGE_STANDBY PS
-			LEFT JOIN dev.SHOP_PRODUCT PR ON
+			PAGE_STANDBY PS
+			LEFT JOIN SHOP_PRODUCT PR ON
 			PS.PRODUCT_IDX = PR.IDX
 		WHERE
 			PS.IDX = ".$standby_idx."
@@ -89,7 +89,7 @@ if ($country != null && $standby_idx != null) {
 					QS.BARCODE				AS BARCODE,
 					QS.PRODUCT_QTY			AS PRODUCT_QTY
 				FROM
-					dev.QTY_STANDBY QS
+					QTY_STANDBY QS
 				WHERE
 					QS.STANDBY_IDX = ".$standby_idx."
 			";
@@ -114,10 +114,10 @@ if ($country != null && $standby_idx != null) {
 							ES.ORDER_IDX			AS ORDER_IDX,
 							ES.CREATE_dATE			AS CREATE_DATE
 						FROM
-							dev.ENTRY_STANDBY ES
-							LEFT JOIN dev.ORDER_INFO OI ON
+							ENTRY_STANDBY ES
+							LEFT JOIN ORDER_INFO OI ON
 							ES.ORDER_IDX = OI.IDX
-							LEFT JOIN dev.ORDER_PRODUCT OP ON
+							LEFT JOIN ORDER_PRODUCT OP ON
 							ES.ORDER_IDX = OP.ORDER_IDX
 						WHERE
 							ES.STANDBY_IDX = ".$standby_idx." AND
@@ -159,8 +159,8 @@ if ($country != null && $standby_idx != null) {
 									OI.TO_DETAIL_ADDR		AS TO_DETAIL_ADDR,
 									OI.ORDER_MEMO			AS TO_ORDER_MEMO
 								FROM
-									dev.ORDER_INFO OI
-									LEFT JOIN dev.ORDER_PRODUCT OP ON
+									ORDER_INFO OI
+									LEFT JOIN ORDER_PRODUCT OP ON
 									OI.IDX = OP.ORDER_IDX
 								WHERE
 									OI.IDX = ".$order_idx."

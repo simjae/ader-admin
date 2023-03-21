@@ -20,7 +20,7 @@ $refund_content_en	= $_POST['refund_content_en'];
 $refund_content_cn	= $_POST['refund_content_cn'];
 
 $sql = "INSERT INTO
-			dev.PRODUCT_REFUND
+			PRODUCT_REFUND
 		(
 			REFUND_CATEGORY,
 			REFUND_TITLE,

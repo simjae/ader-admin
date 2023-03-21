@@ -119,7 +119,7 @@ if ($member_idx == 0 || $country == null) {
 
 //쇼핑백 선택 상품 예외처리
 if ($basket_idx != null) {
-	$basket_cnt = $db->count("dev.BASKET_INFO","IDX IN (".implode(",",$basket_idx).") AND MEMBER_IDX = ".$member_idx);
+	$basket_cnt = $db->count("BASKET_INFO","IDX IN (".implode(",",$basket_idx).") AND MEMBER_IDX = ".$member_idx);
 	if (count($basket_idx) != $basket_cnt) {
 		$json_result['code'] = 402;
 		$json_result['msg'] = "결제하려는 상품이 존재하지 않습니다. 쇼핑백에서 결제하려는 상품 정보를 확인해주세요.";
@@ -131,7 +131,7 @@ if ($basket_idx != null) {
 //보유 바우처 예외처리
 $voucher_info = array();
 if ($voucher_idx > 0) {
-	$voucher_cnt = $db->count("dev.VOUCHER_ISSUE","IDX = ".$voucher_idx." AND MEMBER_IDX = ".$member_idx." AND (NOW() BETWEEN USABLE_START_DATE AND USABLE_END_DATE)");
+	$voucher_cnt = $db->count("VOUCHER_ISSUE","IDX = ".$voucher_idx." AND MEMBER_IDX = ".$member_idx." AND (NOW() BETWEEN USABLE_START_DATE AND USABLE_END_DATE)");
 	
 	if ($voucher_cnt == 0) {
 		$json_result['code'] = 402;
@@ -147,8 +147,8 @@ if ($voucher_idx > 0) {
 			VM.SALE_TYPE		AS SALE_TYPE,
 			VM.SALE_PRICE		AS SALE_PRICE
 		FROM
-			dev.VOUCHER_ISSUE VI
-			LEFT JOIN dev.VOUCHER_MST VM ON
+			VOUCHER_ISSUE VI
+			LEFT JOIN VOUCHER_MST VM ON
 			VI.VOUCHER_IDX = VM.IDX
 		WHERE
 			VI.IDX = ".$voucher_idx." AND
@@ -174,7 +174,7 @@ if ($price_mileage_point > 0 || $price_charge_point > 0) {
 				SELECT 
 					IFNULL(S_MI.MILEAGE_BALANCE,0)
 				FROM 
-					dev.MILEAGE_INFO S_MI
+					MILEAGE_INFO S_MI
 				WHERE 
 					S_MI.MEMBER_IDX = MB.IDX
 				ORDER BY 
@@ -183,7 +183,7 @@ if ($price_mileage_point > 0 || $price_charge_point > 0) {
 					0,1
 			)					AS MEMBER_MILEAGE
 		FROM
-			dev.MEMBER_".$country." MB
+			MEMBER_".$country." MB
 		WHERE
 			MB.IDX = ".$member_idx."
 	";
@@ -226,12 +226,12 @@ $select_product_sql = "
 		BI.PRODUCT_QTY					AS PRODUCT_QTY,
 		PR.SALES_PRICE_".$country."		AS SALES_PRICE
 	FROM
-		dev.BASKET_INFO BI
-		LEFT JOIN dev.SHOP_PRODUCT PR ON
+		BASKET_INFO BI
+		LEFT JOIN SHOP_PRODUCT PR ON
 		BI.PRODUCT_IDX = PR.IDX
-		LEFT JOIN dev.ORDERSHEET_MST OM ON
+		LEFT JOIN ORDERSHEET_MST OM ON
 		PR.ORDERSHEET_IDX = OM.IDX
-		LEFT JOIN dev.ORDERSHEET_OPTION OO ON
+		LEFT JOIN ORDERSHEET_OPTION OO ON
 		BI.OPTION_IDX = OO.IDX
 	WHERE
 		BI.IDX IN (".implode(",",$basket_idx).")
@@ -295,7 +295,7 @@ if ($product_cnt > 1) {
 try {
 	$insert_tmp_order_info_sql = "
 		INSERT INTO
-			dev.TMP_ORDER_INFO
+			TMP_ORDER_INFO
 		(
 			COUNTRY,
 			ORDER_CODE,
@@ -368,7 +368,7 @@ try {
 		for ($i=0; $i<count($product_info); $i++) {
 			$insert_tmp_order_product_sql = "
 				INSERT INTO
-					dev.TMP_ORDER_PRODUCT
+					TMP_ORDER_PRODUCT
 				(
 					ORDER_IDX,
 					ORDER_CODE,
@@ -420,7 +420,7 @@ try {
 		if (count($voucher_info) > 0) {
 			$insert_tmp_voucher_sql = "
 				INSERT INTO
-					dev.TMP_ORDER_PRODUCT
+					TMP_ORDER_PRODUCT
 				(
 					ORDER_IDX,
 					ORDER_CODE,

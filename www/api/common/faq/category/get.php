@@ -42,7 +42,7 @@ function get_category_node($father_no, $country, $db) {
 			FC.STATUS		AS STATUS,
 			FC.REG_DATE		AS REG_DATE
 		FROM
-			dev.FAQ_CATEGORY FC
+			FAQ_CATEGORY FC
 		WHERE
 			FATHER_NO = ".$father_no." AND
 			LANG = '".$country."'

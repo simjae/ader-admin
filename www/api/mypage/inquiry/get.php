@@ -41,7 +41,7 @@ $inquiry_list_sql = "
             CONTENTS,
             ANSWER_STATE
         FROM
-            dev.PAGE_BOARD
+            PAGE_BOARD
         WHERE
             BOARD_TYPE = 'ONE'
         AND
@@ -62,7 +62,7 @@ foreach($db->fetch() as $data){
             SELECT
                 CONTENTS
             FROM
-                dev.BOARD_REPLY
+                BOARD_REPLY
             WHERE
                 BOARD_IDX = ".$board_idx."
         ";
@@ -82,7 +82,7 @@ foreach($db->fetch() as $data){
                 IDX,
                 REPLACE(IMG_LOCATION,'/var/www/admin/www', 'http://116.124.128.246:81') AS IMG_LOCATION
             FROM
-                dev.BOARD_IMAGE
+                BOARD_IMAGE
             WHERE
                 BOARD_IDX = ".$board_idx."
         ";

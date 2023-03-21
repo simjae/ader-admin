@@ -61,12 +61,12 @@ if ($country != null && $member_idx != null && $voucher_issue_code != null) {
 			MB.LEVEL_IDX			AS LEVEL_IDX,
 			ML.TITLE				AS TITLE
 		FROM
-			dev.VOUCHER_ISSUE VI
-			LEFT JOIN dev.VOUCHER_MST VM ON
+			VOUCHER_ISSUE VI
+			LEFT JOIN VOUCHER_MST VM ON
 			VI.VOUCHER_IDX = VM.IDX
-			LEFT JOIN dev.MEMBER_".$country." MB ON
+			LEFT JOIN MEMBER_".$country." MB ON
 			VI.MEMBER_IDX = MB.IDX
-			LEFT JOIN dev.MEMBER_LEVEL ML ON
+			LEFT JOIN MEMBER_LEVEL ML ON
 			MB.LEVEL_IDX = ML.IDX
 		WHERE
 			VI.VOUCHER_ISSUE_CODE = '".$voucher_issue_code."'
@@ -106,8 +106,8 @@ if ($country != null && $member_idx != null && $voucher_issue_code != null) {
 			$exist_flg = true;
 			$update_voucher_issue_sql = "
 				UPDATE 
-					dev.VOUCHER_ISSUE VI, 
-					dev.VOUCHER_MST VM
+					VOUCHER_ISSUE VI, 
+					VOUCHER_MST VM
 				SET       
 					VI.MEMBER_IDX = ".$member_idx.",
 					VI.MEMBER_ID = '".$member_id."',

@@ -217,8 +217,6 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
 						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PRODUCT_NAME|ASC">상품명 순</option>
 						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
@@ -257,6 +255,7 @@
 							</TH>
 							<TH style="width:3%;">No.</TH>
 							<TH style="width:6%;">상품코드</TH>
+							<TH>이미지 수량정보(갯수)</TH>
 							<TH>상품명</TH>
 							<TH >등록자</TH>
 							<TH >등록일자</TH>
@@ -475,46 +474,71 @@ function getOrdersheetTabInfo(){
 	get_contents($("#frm-filter"),{
 		pageObj : $(".paging"),
 		html : function(d) {
-			if (d.length > 0) {
-				$("#result_table").html('');
-			}
+			if(d != null){
+				if (d.length > 0) {
+					$("#result_table").html('');
+				}
 
-			d.forEach(function(row) {
-				var background_url = "background-image:url('" + row.ordersheet_img + "');";
-				var strDiv 				= "";
-				var update_flg_str 		= "";
-				var btn_class 			= "";
-				var btn_onclick_func 	= "";
-				strDiv = `
-						<tr> 
-							<td>
-								<div class="cb__color">
-									<label>
-										<input type="checkbox" class="select" name="ordersheet_idx_list[]" value="${row.ordersheet_idx}">
-										<span></span>
-									</label>
-								</div>
-							</td>
-							<td>${row.num}</td>
-							<td>
-								<font ordersheet_idx="${row.ordersheet_idx}" >${row.product_code}</font>
-							</td>
-							<td style="cursor:pointer" onclick="location.href='/product/ordersheet/get?ordersheet_idx=${row.ordersheet_idx}'">
-								<div class="product__img__wrap">
-									<div class="product__img" style="${background_url}"></div>
-									<div>
-										<p>${row.product_name}</p><br>
+				d.forEach(function(row) {
+					var imageInfoDiv = "";
+					if(row.product_image_info != null && row.product_image_info.length != 0){
+						imageInfoDiv += `
+							<table>
+								<tbody>
+									<tr>
+										<td>아웃풋 이미지</td>
+										<td>${row.product_image_info.output_cnt}</td>
+									</tr>
+									<tr>
+										<td>상품 이미지</td>
+										<td>${row.product_image_info.product_cnt}</td>
+									</tr>
+									<tr>
+										<td>디테일 이미지</td>
+										<td>${row.product_image_info.detail_cnt}</td>
+									</tr>
+								</tbody>
+							</table>
+						`;
+					}
+					else{
+						imageInfoDiv = "상품코드명의 폴더및 파일이 존재하지않습니다.";
+					}
+					var background_url = "background-image:url('" + row.ordersheet_img + "');";
+					var strDiv 				= "";
+					var update_flg_str 		= "";
+					var btn_class 			= "";
+					var btn_onclick_func 	= "";
+					strDiv = `
+							<tr> 
+								<td>
+									<div class="cb__color">
+										<label>
+											<input type="checkbox" class="select" name="ordersheet_idx_list[]" value="${row.ordersheet_idx}">
+											<span></span>
+										</label>
 									</div>
-								</div>
-							</TD>
-							<td>${row.creater}</td>
-							<td>${row.create_date}</td>
-							<td>${row.updater}</td>
-							<td>${row.update_date}</td>
-						</tr>
-				`;
-				$("#result_table").append(strDiv);
-			});
+								</td>
+								<td>${row.num}</td>
+								<td>
+									<font ordersheet_idx="${row.ordersheet_idx}" >${row.product_code}</font>
+								</td>
+								<td>
+									${imageInfoDiv}
+								</td>
+								<td style="cursor:pointer" onclick="location.href='/pcs/ordersheet?ordersheet_idx=${row.ordersheet_idx}'">
+									<p style="margin-bottom:5px;color:#ff7f00">※ 클릭하시면 상세페이지로 이동합니다.</p>
+									<p>${row.product_name}</p>
+								</TD>
+								<td>${row.creater}</td>
+								<td>${row.create_date}</td>
+								<td>${row.updater}</td>
+								<td>${row.update_date}</td>
+							</tr>
+					`;
+					$("#result_table").append(strDiv);
+				});
+			}
 		},
 	},rows, page);
 }
@@ -583,6 +607,7 @@ function ordersheetActionCheck() {
 				dataType: "json",
 				url: config.api + "product/add",
 				error: function() {
+					closeLoadingWithMask();
 					alert('독립몰 상품등록 처리에 실패했습니다.');
 				},
 				beforeSend: function(){
@@ -597,6 +622,7 @@ function ordersheetActionCheck() {
 					}
 					else{
 						alert(d.msg);
+						closeLoadingWithMask();
 					}
 				}
 			});
