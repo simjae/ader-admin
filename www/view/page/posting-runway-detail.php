@@ -27,7 +27,7 @@
 					''
 				)				AS IMG_LOCATION
 			FROM
-				dev.RUNWAY_THUMB ET
+				RUNWAY_THUMB ET
 			WHERE
 				ET.PAGE_IDX = " . $page_idx . " AND
 				ET.SIZE_TYPE = '" . $size_type . "' AND
@@ -53,7 +53,7 @@
 							''
 						)					AS CONTENTS_URL
 					FROM
-						dev.RUNWAY_CONTENTS EC
+						RUNWAY_CONTENTS EC
 					WHERE
 						EC.THUMB_IDX = " . $thumb_idx . " AND
 						SIZE_TYPE = '" . $size_type . "'
@@ -82,7 +82,7 @@
 			SELECT
 				RP.PRODUCT_IDX		AS PRODUCT_IDX
 			FROM
-				dev.RUNWAY_PRODUCT RP
+				RUNWAY_PRODUCT RP
 			WHERE
 				RP.PAGE_IDX = ".$page_idx."
 		";

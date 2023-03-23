@@ -186,20 +186,15 @@
         .preorder__tab__contents .contents__info {
             height: 16px;
             font-size: 11px;
-            white-space: nowrap;
-        }
-
-        .preorder__tab__contents .info__title {
-            margin-right: 10px;
         }
 
         .preorder__tab__contents .info__value {
             margin-right: 20px;
         }
 
-        .preorder__wrap .footer {
-            margin-bottom: 60px;
-        }
+    .preorder__wrap .footer {
+        margin-bottom: 60px;
+    }
     }
 
     @media (min-width: 600px) {
@@ -254,7 +249,7 @@
     <div class="preorder__tab__wrap">
         <div class="preorder__tab preorder__apply__form__wrap">
             <div class="title">
-                <p>프리오더 신청하기</p>
+                <p>프리오더 방법</p>
             </div>
             <div class="description">
                 <div class="pc__view">
@@ -263,7 +258,7 @@
                         단, 사이즈 교환은 재고가 있는 제품에 한하여 처리 가능합니다.</p>
                     <p>·&nbsp;주문과 동시에 배송되는 제품이 아니니 유의해주세요.</p>
                     <p>·&nbsp;재고 소진 시, 프리오더 신청이 조기 종료될 수 있습니다.</p>
-                    <p>·&nbsp;프리오더 제품은 충전 포인트로 결제 가능합니다.</p>
+                    <p>·&nbsp;프리오더 제품은 적립/예치금으로 결제 가능합니다.</p>
                 </div>
                 <div class="mobile__view">
                     <p>·&nbsp;프리오더 제품은 정해진 기간에만 주문 가능합니다.<br>
@@ -272,7 +267,7 @@
                         단, 사이즈 교환은 재고가 있는 제품에 한하여 처리 가능합니다.</p>
                     <p>·&nbsp;주문과 동시에 배송되는 제품이 아니니 유의해주세요.</p>
                     <p>·&nbsp;재고 소진 시, 프리오더 신청이 조기 종료될 수 있습니다.</p>
-                    <p>·&nbsp;프리오더 제품은 충전 포인트로 결제 가능합니다.</p>
+                    <p>·&nbsp;프리오더 제품은 적립/예치금으로 결제 가능합니다.</p>
                 </div>
             </div>
             <div class="info__wrap">
@@ -299,12 +294,8 @@
                 <p>프리오더 유의사항</p>
             </div>
             <div class="description">
-                <p>·&nbsp;프리오더 제품은 정해진 기간에만 주문 가능합니다. 제품별 주문 가능 기간을 확인해주세요.</p>
-                <p class="next__line__exist">·&nbsp;주문 취소 및 사이즈 교환은 프리오더 기간 내에만 가능합니다.</p>
-                <p>&nbsp;&nbsp;단, 사이즈 교환은 재고가 있는 제품에 한하여 처리 가능합니다.</p>
-                <p>·&nbsp;주문과 동시에 배송되는 제품이 아니니 유의해주세요.</p>
-                <p>·&nbsp;재고 소진 시, 프리오더 신청이 조기 종료될 수 있습니다.</p>
-                <p>·&nbsp;프리오더 제품은 충전 포인트로 결제 가능합니다.</p>
+                <p>·&nbsp;프리오더 주문 이후 제품이 준비되는 기간에는 취소 및 교환이 불가합니다.</p>
+                <p>·&nbsp;제품 배송 시작과 동시에 알림 메시지를 받으실 수 있습니다.</p>
             </div>
             <div class="footer"></div>
         </div>

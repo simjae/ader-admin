@@ -89,10 +89,53 @@
 		height: 100px;
 		text-align: center;
 	}
+
 	.orderlist__tab__contents .contents__info .info {
 		display: flex;
 	}
+
 	@media (max-width: 1024px) {
+		.order_status_btn_box_else_m {
+			display: flex;
+			align-items: center;
+			line-height: 0.3;
+			margin-bottom: 5px;
+		}
+
+		.order_status_btn_box_dpr_m {
+			display: flex;
+			justify-content: end;
+			align-items: center;
+			line-height: 0.3;
+		}
+
+		.order_status_before_msg_m {
+			font-size: 10px !important;
+			width: 110px;
+		}
+
+		.order_status_td_m {
+			padding-right: 0;
+			padding-left: 10px;
+		}
+
+		.orderlist__tab__contents .contents__info .info {
+			align-items: center;
+		}
+
+		.info__value {
+			margin-right: 20px;
+		}
+
+		.contents__info .info__value.order__code {
+			width: 65px;
+			word-wrap: break-word;
+		}
+
+		.contents__info {
+			align-items: center;
+		}
+
 		.orderlist__tab__wrap {
 			width: 100%;
 		}
@@ -135,6 +178,7 @@
 		.order_status_box {
 			padding: 7px 8px;
 		}
+
 		.product_info_mob p {
 			width: 80px;
 		}
@@ -175,6 +219,7 @@
 		.orderlist__paging {
 			margin-top: 30px;
 		}
+
 		.orderlist__tab__contents .info__value {
 			margin-right: 10px;
 		}
@@ -388,12 +433,12 @@
 				str_div += '        <table>';
 				str_div += '            <colsgroup>';
 				str_div += '                <col style="width:120px;">';
-				str_div += '                <col style="width:240px;">';
-				str_div += '                <col style="width:125px;">';
-				str_div += '                <col style="width:125px;">';
-				str_div += '                <col style="width:125px;">';
-				str_div += '                <col style="width:125px;">';
-				str_div += '                <col style="width:140px;">';
+				str_div += '                <col style="width:230px;">';
+				str_div += '                <col style="width:120px;">';
+				str_div += '                <col style="width:120px;">';
+				str_div += '                <col style="width:120px;">';
+				str_div += '                <col style="width:120px;">';
+				str_div += '                <col style="width:190px;">';
 				str_div += '            </colsgroup>';
 				str_div += '            <tbody>';
 
@@ -408,6 +453,7 @@
 					let display = "";
 					if (order_status == "PCP" || order_status == "PPR") {
 						display = "flex";
+						// data-i18n ="o_payment_complete";
 						order_btn = '<button class="order_status_box" data-i18n="o_canel_order" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'OCC\')">주문취소</button>';
 						order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
 					} else if (order_status == "DPR" || order_status == "DPG") {
@@ -437,7 +483,7 @@
 					str_div += '            <td><p>Qty: ' + product.product_qty + '</p></td>';
 					str_div += '            <td><p>' + product.product_price + '</p></td>';
 					str_div += '            <td style="padding-top: 10px !important; padding-right:0; margin: 0 auto;">'
-					str_div += '                <div>';
+					str_div += '                <div style="float:right;">';
 					str_div += '                    <div style="display:' + display + ';align-items:center;margin-bottom:10px;line-height:0.3;">' + txt_order_status + order_btn + '</div>'
 					str_div += '                    ' + order_cancel_msg;
 					str_div += '                </div>';
@@ -519,8 +565,8 @@
 					let order_cancel_msg = "";
 
 					if (order_status == "PCP") {
-						order_btn = '<button class="order_status_box" data-i18n="o_canel_order" data-i18n="o_canel_order" style="font-size: 10px; float: right; onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-						order_cancel_msg = '<p style="font-size: 10px; float: right; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+						order_btn = '<button class="order_status_box" data-i18n="o_canel_order" style="font-size: 10px; float: right;" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
+						order_cancel_msg = '<p class="order_status_before_msg_m">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
 					} else if (order_status == "DPR" || order_status == "DPG") {
 						order_btn = '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>';
 					} else if (order_status == "DCP") {
@@ -548,12 +594,12 @@
 					str_div += '            <td>';
 					str_div += '                <p>Qty: ' + product.product_qty + '</p>';
 					str_div += '            </td>';
-					str_div += '            <td style="padding-right:0;">';
+					str_div += '            <td class="order_status_td_m">';
 					str_div += '                <div>';
 					if (order_status == "DPR" || order_status == "DCP") {
-						str_div += '                    <div style="display: flex; justify-content: end; align-items:center; line-height:0.3;">' + txt_order_status + order_btn + '</div>';
+						str_div += '                    <div class="order_status_btn_box_dpr_m">' + txt_order_status + order_btn + '</div>';
 					} else {
-						str_div += '                    <div style="display:flex; align-items: center; float: right; line-height:0.3;">' + txt_order_status + order_btn + '</div>';
+						str_div += '                    <div class="order_status_btn_box_else_m">' + txt_order_status + order_btn + '</div>';
 					}
 					str_div += '                ' + order_cancel_msg;
 					str_div += '                </div>';
@@ -1031,7 +1077,7 @@
 		let order_status = "";
 		switch (param_status) {
 			case "PCP":
-				order_status = "결제완료";
+				order_status = '<div data-i18n="o_payment_complete">결제완료</div>';
 				break;
 
 			case "PPR" || "POD":
@@ -1043,15 +1089,15 @@
 				break;
 
 			case "DPG":
-				order_status = "배송중";
+				order_status = '<div data-i18n="o_shipped">배송중</div>';
 				break;
 
 			case "DCP":
-				order_status = "배송완료";
+				order_status = '<div data-i18n="o_delivered">배송완료</div>';
 				break;
 
 			case "OCC":
-				order_status = "취소완료";
+				order_status = '<div data-i18n="o_cancelled">취소완료</div>';
 				break;
 
 			case "OEX":
@@ -1059,7 +1105,7 @@
 				break;
 
 			case "OEP":
-				order_status = "교환완료";
+				order_status = '<div data-i18n="o_exchanged">교환완료</div>';
 				break;
 
 			case "ORF":

@@ -163,7 +163,7 @@
     $.ajax({
         type: "post",
         data: {
-            "country": country
+            "country": getLanguage()
         },
         dataType: "json",
         url: "http://116.124.128.246:80/_api/policy/footer/get",

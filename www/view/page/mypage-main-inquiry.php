@@ -493,7 +493,7 @@
             <div class="inquiry__faq__detail__container">
                 <div class="inquiry__faq__detail__area">
                     <div class="search__small">
-                        <input class="search__keyword" type="text" placeholder="무엇을 도와드릴까요?">
+                        <input class="search__keyword" type="text">
                         <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg"
                             onclick="searchAction(this)">
                         <div class="close" onclick="deleteResult()">
@@ -819,7 +819,7 @@
                                             </div>
                                             <div style="margin-top:20px;">${request_flg}</div>
                                             <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="margin-top:20px;">
-                                            <div class="delete_inquiry_btn" onclick="deleteInquiry(${row.board_idx})">삭제</div>
+                                            <div class="delete_inquiry_btn"><span onclick="deleteInquiry(${row.board_idx})" style="cursor: pointer;">삭제</span></div>
                                         </div>
                                     </div>
                                 `;

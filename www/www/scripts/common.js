@@ -27,14 +27,14 @@ function addBasketApi(add_type, idx, optionIdx) {
             "add_type": add_type,
             "product_idx": idx,
             "option_idx": optionIdx,
-            "country": country,
+            "country": getLanguage()
         }
     } else if (add_type == "whish") {
         dataResult = {
             "add_type": add_type,
             "whish_idx": idx,
             "option_idx": optionIdx,
-            "country": "KR",
+            "country": getLanguage()
         }
     }
     $.ajax({
@@ -337,28 +337,9 @@ function getUrlParamValue(key) {
 }
 
 function getLanguage() {
-    let lng = navigator.language || navigator.userLanguage;
-
-    let country = null;
-    switch (lng) {
-        case "ko-KR":
-            country = "KR";
-            break;
-
-        case "en-US":
-            country = "EN";
-            break;
-
-        case "zh-CN":
-            country = "CN";
-            break;
-
-        default:
-            country = "EN";
-            break;
-    }
-
-    return country;
+	const local_lng = localStorage.getItem('lang');
+    
+	return local_lng;
 }
 /**
  * @author SIMJAE
@@ -388,8 +369,6 @@ function saveRecentlyViewed(product) {
     let recentlyresultReverse;
     if (JSON.stringify(Array.from(recentlyViewed)) !== JSON.stringify(prevValue)) {
         recentlyresultReverse = Array.from(recentlyViewed).reverse();
-        console.log("최신 본 상품 스와이프 초기화 필요 ");
-        console.log(recentlyresultReverse);
     }
     recentlyresultReverse = Array.from(recentlyViewed).reverse();
     return recentlyresultReverse;
@@ -436,8 +415,8 @@ const cnLnData = (() => {
  */
 function changeLanguage(){
     const ln = localStorage.getItem('lang') || getLanguage();
+    
     i18next.init({
-        // fallbackLng: ["KR"], // 
         lng: ln,
         resources: {
             KR: {
@@ -451,8 +430,8 @@ function changeLanguage(){
             },
         },
     },
-    function(){
-        console.log('i18next initialized');
+    
+	function(){
         changeText();
         changePlaceholder();
     });
@@ -462,6 +441,7 @@ function changeLanguage(){
         changeText();
         changePlaceholder();
     });
+	
     function changeText(){
         const elements = document.querySelectorAll('[data-i18n]');
         elements.forEach(el => {
@@ -469,6 +449,7 @@ function changeLanguage(){
             el.textContent = i18next.t(key);
         });
     }
+	
     function changePlaceholder(){
         const elements = document.querySelectorAll('[data-i18n-placeholder]');
         elements.forEach(el => {
@@ -476,6 +457,8 @@ function changeLanguage(){
             el.placeholder = i18next.t(key);
         });
     }
+	
+    return ln;
 }
 /**
  * @author YOON
@@ -483,11 +466,8 @@ function changeLanguage(){
  */
 function changeLanguageR() {
     // const ln = localStorage.getItem('lang') || getLanguage();
-    // console.log("현재 언어 확인",ln);
     const elements = document.querySelectorAll('[data-i18n]');
-    // console.log(elements);
     elements.forEach(el => {
-        // console.log(el);
         const key = el.dataset.i18n;
         el.textContent = i18next.t(key);
     });

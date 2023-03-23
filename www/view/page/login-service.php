@@ -121,13 +121,13 @@
 
 <script>
     $(document).ready(function () {
-        getNotice('KR');
+        getNotice();
     })
-    function getNotice(country) {
+    function getNotice() {
         $.ajax({
             type: "post",
             data: {
-                "COUNTRY": country
+                country: getLanguage(),
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/common/notice/get",

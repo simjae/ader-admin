@@ -514,7 +514,7 @@
                 type: "post",
                 url: "http://116.124.128.246:80/_api/product/bluemark/put",
                 data: {
-                    "country": "KR",
+                    "country": getLanguage(),
                     "member_id": bluemark_member_id,
                     "serial_code": bluemark_serial_code
                 },
@@ -544,7 +544,7 @@
         $.ajax({
             type: "post",
             data: {
-                "country": "KR"
+                "country": getLanguage(),
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/product/bluemark/list/get",
@@ -594,14 +594,14 @@
             (handover_id != "" && handover_id != null) &&
             (country != "" && country != null)
         ) {
-            console.log(country);
+            
             $.ajax({
                 type: "post",
                 url: "http://116.124.128.246:80/_api/product/bluemark/put",
                 data: {
                     "bluemark_idx": bluemark_idx,
                     "handover_id": handover_id,
-                    "country": country
+                    "country": getLanguage(),
                 },
                 dataType: "json",
                 error: function () {

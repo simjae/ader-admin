@@ -334,7 +334,7 @@
 	.wrapper[data-group="1"] {
 		border-bottom: 1px solid #dcdcdc;
 		padding-bottom: 20px;
-		margin-bottom: 40px;
+		margin-bottom: 37.5px;
 		display: none;
 	}
 
@@ -488,7 +488,6 @@
 	}
 
 	.voucher-select-box {
-		border: 1px solid #808080;
 		height: 39px;
 	}
 
@@ -600,7 +599,7 @@
 		width: 99%;
 		max-width: 100%;
 		height: 40px;
-		margin: 20px 0;
+		margin-top: 10px;
 		border-radius: 1px;
 		border: solid 1px #dcdcdc;
 		font-family: var(--ft-no-fu);
@@ -628,10 +627,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
+		margin-top: 10px;
 	}
 
 	.address-info .cn-box {
-		padding-bottom: 20px;
+		/* padding-bottom: 20px; */
 	}
 
 	.address-info .confirm-text.check::after {
@@ -651,7 +651,9 @@
 		color: #ff0000;
 		text-decoration: underline;
 	}
-
+	.edit-box {
+		margin-top: 10px;
+	}
 	.edit-box .input-row {
 		display: flex;
 		flex-direction: column;
@@ -736,7 +738,7 @@
 	}
 
 	.to-place {
-		margin-bottom: 20px;
+		/* margin-bottom: 20px; */
 		text-decoration: underline;
 	}
 
@@ -821,9 +823,10 @@
 
 
 	#postcodify {
-		margin: 0;
+		margin: 0 !important;
 		max-height: 400px;
 		overflow: auto;
+		gap: 0;
 	}
 
 	#postcodify .keyword {
@@ -876,10 +879,9 @@
 
 	.list-box .cn-box {
 		position: relative;
-		margin-top: 8px;
+		/* margin-top: 8px; */
 		display: flex;
 		flex-direction: column;
-		gap: 8px;
 		width: 100%;
 
 	}
@@ -936,6 +938,7 @@
 			display: flex;
 			width: 100%;
 			justify-content: space-between;
+			margin: 0;
 		}
 
 		.mobile {
@@ -945,7 +948,7 @@
 		.banner-wrap {
 			display: flex;
 			height: 37px;
-			top: 40px;
+			top: 46px;
 			padding-left: 10px;
 		}
 
@@ -966,7 +969,7 @@
 		}
 
 		.content.rigth {
-			padding-top: 47px;
+			padding-top: 34px;
 		}
 
 		.content.mobile {
@@ -1080,7 +1083,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 			</script>
 		";
 } else {
-	$basket_cnt = $db->count("dev.BASKET_INFO", "IDX IN (" . $basket_idx . ") AND MEMBER_IDX = " . $member_idx . " AND DEL_FLG = FALSE");
+	$basket_cnt = $db->count("BASKET_INFO", "IDX IN (" . $basket_idx . ") AND MEMBER_IDX = " . $member_idx . " AND DEL_FLG = FALSE");
 
 	$tmp_arr = explode(",", $basket_idx);
 
@@ -1101,7 +1104,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 	
 	<div class="banner-wrap">
 		<div class="banner-box">
-			<span>결제하기</span>
+			<span data-i18n="s_checkout">결제하기</span>
 		</div>
 	</div>
 	<section class="order-section">
@@ -1247,7 +1250,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 			<div class="wrapper address-info" data-group="3">
 				<div class="header-wrap">
 					<div class="header-box">
-						<span class="hd-title">배송지정보</span>
+						<span class="hd-title">배송지 정보</span>
 					</div>
 
 					<div class="header-box-btn">
@@ -1368,8 +1371,8 @@ if ($member_idx == 0 || $basket_idx == null) {
 			<div class="content mobile"></div>
 			<div class="select-box"></div>
 			<div class="step-btn-wrap">
-				<div class="step-btn pre" data-step="0"><a><span>이전단계</span></a></div>
-				<div class="step-btn next" data-step="1"><span>다음단계</span></div>
+				<div class="step-btn pre" data-step="0"><a><span>이전 단계</span></a></div>
+				<div class="step-btn next" data-step="1"><span>다음 단계</span></div>
 			</div>
 		</div>
 	</section>

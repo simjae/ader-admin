@@ -192,18 +192,25 @@
     }
 
     .icon__item .icon {
-        margin: 0 15px;
+        /* margin: 0 15px; */
+        margin: 0 auto;
         background-image: url("data:image/svg+xml,%3Csvg id='구성_요소_152_1' data-name='구성 요소 152 – 1' xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E .cls-1, .cls-3 %7B fill: none; %7D .cls-1 %7B stroke: %23dcdcdc; %7D .cls-2 %7B stroke: none; %7D %3C/style%3E%3C/defs%3E%3Cg id='타원_85' data-name='타원 85' class='cls-1'%3E%3Ccircle class='cls-2' cx='25' cy='25' r='25'/%3E%3Ccircle class='cls-3' cx='25' cy='25' r='24.5'/%3E%3C/g%3E%3C/svg%3E%0A");
         width: 50px;
         height: 50px;
     }
 
-    .icon__item:hover .icon {
+    /* .icon__item .icon {
+        margin: 0 auto;
+        background-image: url("data:image/svg+xml,%3Csvg id='구성_요소_156_1' data-name='구성 요소 156 – 1' xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E .cls-1, .cls-3 %7B fill: none; %7D .cls-1 %7B stroke: %23343434; %7D .cls-2 %7B stroke: none; %7D %3C/style%3E%3C/defs%3E%3Cg id='타원_82' data-name='타원 82' class='cls-1'%3E%3Ccircle class='cls-2' cx='25' cy='25' r='25'/%3E%3Ccircle class='cls-3' cx='25' cy='25' r='24.5'/%3E%3C/g%3E%3C/svg%3E%0A");
+        width: 50px;
+        height: 50px;
+    } */
+    /* .icon__item:hover .icon {
         margin: 0 15px;
         background-image: url("data:image/svg+xml,%3Csvg id='구성_요소_156_1' data-name='구성 요소 156 – 1' xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cdefs%3E%3Cstyle%3E .cls-1, .cls-3 %7B fill: none; %7D .cls-1 %7B stroke: %23343434; %7D .cls-2 %7B stroke: none; %7D %3C/style%3E%3C/defs%3E%3Cg id='타원_82' data-name='타원 82' class='cls-1'%3E%3Ccircle class='cls-2' cx='25' cy='25' r='25'/%3E%3Ccircle class='cls-3' cx='25' cy='25' r='24.5'/%3E%3C/g%3E%3C/svg%3E%0A");
         width: 50px;
         height: 50px;
-    }
+    } */
 
     .icon__item:hover .icon__title {
         text-decoration: underline;
@@ -263,7 +270,7 @@
         padding-top: 40px;
         display: grid;
         place-items: center;
-        grid-template-columns: repeat(15, 80px);
+        grid-template-columns: repeat(14, 80px);
         margin: 0 auto;
     }
 
@@ -719,10 +726,13 @@
             padding: 0 19.5px;
         }
 
-        .icon__item .icon,
-        .icon__item:hover .icon {
-            margin: 0 10px;
+        .icon__item .icon {
+            margin: 0 0px;
         }
+        /* .icon__item .icon,
+        .icon__item:hover .icon {
+            margin: 0 0px;
+        } */
 
         .recommend-wrap {
             margin-bottom: 60px;
@@ -795,12 +805,12 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
             </div>
             <div class="mypage__items profile_info">
                 <div class="point__item" style="cursor:pointer" info-type="mileage" onclick="memberInfoClick(this)">
-                    <div class="point__title" data-i18n="m_mileage">적립포인트</div>
+                    <div class="point__title" data-i18n="m_mileage">적립금</div>
                     <div class="point__value" id="mileage_value"></div>
 
                 </div>
                 <div class="point__item" style="cursor:pointer" info-type="charging" onclick="memberInfoClick(this)">
-                    <div class="point__title" data-i18n="m_prepaid_mileage">충전포인트</div>
+                    <div class="point__title" data-i18n="m_prepaid_mileage">예치금</div>
                     <div class="point__value" id="charging_value"></div>
                 </div>
                 <div class="point__item" style="cursor:pointer" info-type="voucher" onclick="memberInfoClick(this)">
@@ -830,7 +840,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                         <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
                     </div>
                     <div class="icon__title">
-                        <p data-i18n="m_mileage">적립포인트</p>
+                        <p data-i18n="m_mileage_charging">적립/예치금</p>
                     </div>
                 </div>
                 <div id="charging_icon" class="icon__item" btn-type="charging" onclick="">
@@ -839,7 +849,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                             style="width:18px;height:34px;padding-top:16px;margin-left:16px;">
                     </div>
                     <div class="icon__title">
-                        <p data-i18n="m_prepaid_mileage">충전포인트</p>
+                        <p data-i18n="m_prepaid_mileage">예치금</p>
                     </div>
                 </div>
                 <div id="voucher_icon" class="icon__item" btn-type="voucher" onclick="mypageTabBtnClick('voucher',0)">
@@ -896,7 +906,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                             style="padding-top:18px;padding-left:15px;">
                     </div>
                     <div class="icon__title">
-                        <p data-i18n="m_membership">멤버쉽</p>
+                        <p data-i18n="m_membership">멤버십</p>
                     </div>
                 </div>
                 <div class="icon__item" btn-type="inquiry" onclick="mypageTabBtnClick('inquiry',0)">
@@ -959,7 +969,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                     <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
                 </div>
                 <div class="icon__title">
-                    <p data-i18n="m_mileage">적립포인트</p>
+                    <p data-i18n="m_mileage_charging">적립/예치금</p>
                 </div>
             </div>
             <!--
@@ -1027,7 +1037,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                     <img src="/images/mypage/mypage_membership_icon.svg" style="padding-top:18px;padding-left:15px;">
                 </div>
                 <div class="icon__title">
-                    <p data-i18n="m_membership">멤버쉽</p>
+                    <p data-i18n="m_membership">멤버십</p>
                 </div>
             </div>
             <div class="swiper-slide icon__item" btn-type="inquiry" onclick="mypageTabBtnClick('inquiry',0)">
@@ -1225,7 +1235,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         $.ajax({
             type: "post",
             data: {
-                "country": country
+                "country": getLanguage()
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/get",

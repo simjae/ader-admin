@@ -308,7 +308,9 @@ li {
     background-color: black;
     color: #ffffff;
 }
-
+.layout_change_btn {
+    white-space: nowrap;
+}
 /* web */
 .line {
     grid-column: 1 / 17;

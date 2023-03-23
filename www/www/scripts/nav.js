@@ -22,7 +22,7 @@
 		$.ajax({
 			type: "post",
 			data: {
-				"country": country
+				"country": getLanguage()
 			},
 			dataType: "json",
 			url: "http://116.124.128.246:80/_api/menu/get",
@@ -302,13 +302,13 @@
 		});
 		*/
 		
-		let lrgLang = ["m_trending", "m_men", "m_women", "m_life_style", "m_collaboration", "m_story", "m_stockist"];
-		let menu_lrg = document.querySelectorAll(".drop.web .menu-ul.lrg");
-		for(let i = 0; i < menu_lrg.length; i++) {
-			menu_lrg[i].dataset.i18n = lrgLang[i];
-			menu_lrg[i].textContent = i18next.t(lrgLang[i]);
-		}
-		changeLanguageR();
+		// let lrgLang = ["m_trending", "m_men", "m_women", "m_life_style", "m_collaboration", "m_story", "m_stockist"];
+		// let menu_lrg = document.querySelectorAll(".drop.web .menu-ul.lrg");
+		// for(let i = 0; i < menu_lrg.length; i++) {
+		// 	menu_lrg[i].dataset.i18n = lrgLang[i];
+		// 	menu_lrg[i].textContent = i18next.t(lrgLang[i]);
+		// }
+		// changeLanguageR();
 	}
 	
 	const webPostingStoryHtml = (d) => {
@@ -545,7 +545,7 @@
 							<div class="bluemark-icon"></div><span>Bluemark</span>
 						</div>
 						<div class="mobile__bluemark__description">
-							<p>BLUE MARK는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.</p>
+							<p>Bluemark는 본 브랜드의 모조품으로부터 소비자의 혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.</p>
 							<p>ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여 적극적으로 대응중입니다.</p>
 						</div>
 						<div class="mobile__bluemark__btn__wrap">
@@ -600,13 +600,13 @@
 		ulInterval = midClassPosTop - topClassPosTop;
 		lrgInterval = clickPosTop - prevPosTop;
 
-		let lrgLang = ["m_trending", "m_men", "m_women", "m_life_style", "m_collaboration", "m_story"];
-		let menu_lrg = document.querySelectorAll(".lrg .lrg__title");
-		for(let i = 0; i < menu_lrg.length; i++) {
-			menu_lrg[i].dataset.i18n = lrgLang[i];
-			menu_lrg[i].textContent = i18next.t(lrgLang[i]);
-		}
-		changeLanguageR();
+		// let lrgLang = ["m_trending", "m_men", "m_women", "m_life_style", "m_collaboration", "m_story"];
+		// let menu_lrg = document.querySelectorAll(".lrg .lrg__title");
+		// for(let i = 0; i < menu_lrg.length; i++) {
+		// 	menu_lrg[i].dataset.i18n = lrgLang[i];
+		// 	menu_lrg[i].textContent = i18next.t(lrgLang[i]);
+		// }
+		// changeLanguageR();
 		
 		menuLrgClick();
 		logoutClick();
@@ -1052,7 +1052,7 @@
 					// }
 				}else if(typeTarget === "B"){
 					if(getLoginStatus() == 'false'){
-						location.href='/login';
+						location.href='/login?r_url=/order/basket/list';
 						return 
 					} else {
 						const basket = new Basket("basket",true);

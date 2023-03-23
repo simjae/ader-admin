@@ -29,91 +29,29 @@ $(document).ready(function() {
 });
 
 function login() {
-	var ip = '0.0.0.0';
+	var country = getLanguage();
+	$("#frm-login").find('input[name=country]').val(country);
 
-	/*
-	$.getJSON("https://api.ipify.org?format=jsonp&callback=?",
-		function(json) {
-			ip = json.ip;
-		}
-	).then(function(){
-		$('input[name="member_ip"]').val(ip);
-		console.log(ip);
-		var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-		var member_id = $('#member_id').val();
-		var member_pw = $('#member_pw').val();
-		mail_regex.test(member_id);
-	
-		$('.font__underline.font__red').text('');
-		if(member_id == ''){
-			$('.member_id_msg').text('이메일을 입력해주세요');
-		
-			return false;
-		}
-		
-		if(!mail_regex.test(member_id)){
-			$('.member_id_msg').text('이메일을 올바르게 입력해주세요');
-	
-			return false;
-		}
-	
-		if (member_pw == '') {
-			$('.member_pw_msg').text('비밀번호를 입력해주세요');
-	
-			return false;
-		}
-		
-		$.ajax({
-			type: 'POST',
-			url: "http://116.124.128.246:80/_api/account/login",
-			data: $("#frm-login").serialize(),
-			dataType: "json",
-			error:function(){
-				alert("로그인 처리중 오류가 발생했습니다.");
-			},
-			success:function(d){
-				if(d.code == "200") {
-					sessionStorage.login_session = "true";
-					if(d.data != null){
-						location.href=d.data;
-					}
-					else{
-						location.href='/main';
-					}
-				} else {
-					$('.result_msg').text("로그인정보 재확인 후 다시 시도해주세요.");
-				}
-			}
-		});
-	})
-	*/
-
-	$('input[name="member_ip"]').val(ip);
-	//console.log(ip);
 	var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
 	var member_id = $('#member_id').val();
 	var member_pw = $('#member_pw').val();
 	mail_regex.test(member_id);
+	
 
 	$('.font__underline.font__red').text('');
 	if(member_id == ''){
 		$('.member_id_msg').text('이메일을 입력해주세요');
-	
 		return false;
 	}
-	
 	if(!mail_regex.test(member_id)){
 		$('.member_id_msg').text('이메일을 올바르게 입력해주세요');
-
 		return false;
 	}
 
 	if (member_pw == '') {
 		$('.member_pw_msg').text('비밀번호를 입력해주세요');
-
 		return false;
 	}
-	
 	$.ajax({
 		type: 'POST',
 		url: "http://116.124.128.246:80/_api/account/login",
@@ -137,19 +75,17 @@ function login() {
 	});
 }
 
-    function logout(){
-        $.ajax(
-            {
-                url: "http://116.124.128.246:80/_api/account/logout",
-                type: 'POST',
-                success:function(){
-                    // exceptionHandling("",'로그아웃');
-                    // $('#exception-modal .close-btn').attr('onclick', 'location.href="/main"');
-										location.replace("/main");
-                }
-            }
-        )
-    }
+function logout(){
+	$.ajax(
+		{
+			url: "http://116.124.128.246:80/_api/account/logout",
+			type: 'POST',
+			success:function(){
+				location.replace("/main");
+			}
+		}
+	)
+}
 function setCookie(cookieName, value, exdays){
 	let exdate = new Date();
 	exdate.setDate(exdate.getDate() + exdays);
@@ -214,7 +150,6 @@ function password_find_check() {
 			success:function(data){
 				if(data.code == "200") { // 이메일검사 성공
 					$('.member_id_msg').css('visibility','hidden');
-					// exceptionHandling('',"입력하신 이메일로<br>비밀번호 변경창 링크를 전송했습니다.");
 					notiModal("로그인에 실패하였습니다.", "입력하신 이메일로 <br> 비밀번호 변경창 링크를 전송했습니다.");
 				}
 				else {	// 이메일검사 실패
@@ -227,7 +162,6 @@ function password_find_check() {
 				}
 			},
 			complete:function(data){
-				//$("#result1").html(data.responseText);
 			},
 			dataType:'json'
 		}
@@ -284,7 +218,7 @@ function updateMemberPw(){
 	//비밀번호 변경 -> 이메일로 변경페이지 링크생성될때 파라미터로 주어진 값.
 	//로그인 유무와는 상관없음.
 	var member_idx = $('input[name="member_idx"]').val();
-	var country = $('input[name="country"]').val();
+	var country = localStorage.getItem('lang');
 
 	var member_pw = $('input[name="member_pw"]').val();
 	var member_pw_confirm = $('input[name="member_pw_confirm"]').val();
@@ -502,6 +436,8 @@ function joinAction(){
 		$('.warn__msg.birth').css('visibility', 'visible');
 		return false;
 	}
+	var country = getLanguage();
+	$('#frm-regist').find('input[name=country]').val(country);
 	$.ajax(
 		{
 			url: "http://116.124.128.246:80/_api/account/add",
@@ -523,7 +459,6 @@ function joinAction(){
 				}
 			},
 			complete:function(data){
-				//$("#result1").html(data.responseText);
 			},
 			dataType:'json'
 		}

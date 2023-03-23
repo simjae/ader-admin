@@ -4,41 +4,16 @@ let breakpoint = window.matchMedia('screen and (min-width:1025px)');
 const urlParams = new URL(location.href).searchParams;
 const productIdx = urlParams.get('product_idx');
 const productDetailInfoArr = getProductDetailInfo(productIdx);
-const sizeGuideData = getSizeGudieApi(productIdx);
-
-
-
-function getSizeGudieApi (productIdx) {
-    let result;
-    $.ajax({
-        type: "post",
-        data: {
-            "country": getLanguage(),
-            product_idx: productIdx
-        },
-        async: false,
-        dataType: "json",
-        url: "http://116.124.128.246/_api/product/size/get",
-        error: function () {
-            alert("error");
-        },
-        success: function (d) {
-            result = d.data;
-        }
-    });
-    return result;
-}
-
 
 const getProductApi = (productIdx) => {
     const main = document.querySelector("main");
-    let country = getLanguage();
+    let country = main.dataset.country;
     let result;
     $.ajax({
         type: "post",
         data: {
             "product_idx": productIdx,
-            "country": getLanguage(),
+            "country": getLanguage()
         },
         async: false,
         dataType: "json",
@@ -769,14 +744,12 @@ function mobileDetailBtnHanddler() {
 
     prevBtn.addEventListener("click", function (e) {
         if (currentIdx == 0) { return false; }
-        currentIdx--
         updateSelectElem(currentIdx);
         updateControllBtnCss(currentIdx);
         mobileSizeGuideContentBody(currentIdx);
     });
     nextBtn.addEventListener("click", function (e) {
         if (currentIdx == 4) { return false; }
-        currentIdx++
         updateSelectElem(currentIdx);
         updateControllBtnCss(currentIdx);
         mobileSizeGuideContentBody(currentIdx);
@@ -810,28 +783,24 @@ function mobileDetailBtnHanddler() {
     function mobileSizeGuideContentBody(idx) {
         let contentHeader = document.querySelector(".rM-detail-containner .content-header span");
         let contentBody = document.querySelector(".rM-detail-containner .content-body");
+        contentBody.innerHTML = productDetailInfoArr[idx];
         let detailContentWrap = document.querySelector(".rM-detail-containner .detail-content");
         if (idx == 0) {
             detailContentWrap.className = "detail-content sizeguide";
             contentHeader.dataset.i18n = "pd_size_guide";
             contentHeader.innerHTML = "사이즈가이드";
-            contentBody.innerHTML='';
-            contentBody.appendChild(makeSizeGuideHtml());
         } else if (idx == 1) {
             detailContentWrap.className = "detail-content material";
             contentHeader.dataset.i18n = "pd_material";
             contentHeader.innerHTML = "소재";
-            contentBody.innerHTML = productDetailInfoArr[idx];
         } else if (idx == 2) {
             detailContentWrap.className = "detail-content productinfo";
             contentHeader.dataset.i18n = "pd_details";
             contentHeader.innerHTML = "제품 상세 정보";
-            contentBody.innerHTML = productDetailInfoArr[idx];
         } else if (idx == 3) {
             detailContentWrap.className = "detail-content precaution";
             contentHeader.dataset.i18n = "pd_care";
             contentHeader.innerHTML = "취급 유의 사항";
-            contentBody.innerHTML = productDetailInfoArr[idx];
         }
         let key = contentHeader.dataset.i18n;
         contentHeader.textContent = i18next.t(key);
@@ -897,8 +866,7 @@ function webDetailBtnHanddler(){
             detailContentWrap.className = "detail-content sizeguide";
             contentHeader.dataset.i18n = "pd_size_guide";
             contentHeader.innerHTML = "사이즈가이드";
-            contentBody.innerHTML='';
-            contentBody.appendChild(makeSizeGuideHtml());
+            sizeguideBtnEvent();
         } else if (idx == 1) {
             detailContentWrap.className = "detail-content material";
             contentHeader.dataset.i18n = "pd_material";
@@ -959,14 +927,13 @@ function webDetailBtnHanddler(){
  */
 function getProductDetailInfo (product_idx){
     const main = document.querySelector("main");
-    let country = getLanguage();
+    let country = main.dataset.country;
     let sizeGuideArr = new Array();
-    let sizeGuide;
     $.ajax({
         type: "post",
         data: {
             "product_idx": product_idx,
-            "country": getLanguage(),
+            "country": getLanguage()
         },
         async: false,
         dataType: "json",
@@ -975,51 +942,51 @@ function getProductDetailInfo (product_idx){
             alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
         },
         success: function (d) {
-            let {care, detail, material } = d.data[0];
-            
-            // sizeGuide = `
-            // <div class="sizeguide-box">
-            //         <div class="sizeguide-btn ">A1</div>
-            //         <div class="sizeguide-btn">A2</div>
-            //         <div class="sizeguide-btn select">A3</div>
-            //         <div class="sizeguide-btn">A4</div>
-            //         <div class="sizeguide-btn">A5</div>
-            //     </div>
-            //     <div class="sizeguide-noti"><span data-i18n="pd_model_msg_01">모델 신장 </span><span>179</span><span data-i18n="pd_model_msg_02">cm,착용사이즈는 </span><span>A3</span><span data-i18n="pd_model_msg_03">입니다.</span></div>
-            //     <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
-            //     <ul class="sizeguide-dct">
-            //         <li class="dct-row">
-            //             <span>A. 총장</span>
-            //             <span>옆목점에서 끝단까지의 수직길이</span>
-            //             <span class="dct-value">103.5</span>
-            //         </li>
-            //         <li class="dct-row">
-            //             <span>B. 목너비</span>
-            //             <span>옆목점 양끝의 수평길이</span>
-            //             <span class="dct-value">103.5</span>
-            //         </li>
-            //         <li class="dct-row">
-            //             <span>C. 어깨너비</span>
-            //             <span>옆어깨점 양끝의 수평길이</span>
-            //             <span class="dct-value">103.5</span>
-            //         </li>
-            //         <li class="dct-row">
-            //             <span>B. 가슴단면</span>
-            //             <span>암홀점에서 1cm아래 양끝의 수평길이</span>
-            //             <span class="dct-value">103.5</span>
-            //         </li>
-            //         <li class="dct-row">
-            //             <span>D. 소매통</span>
-            //             <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
-            //             <span class="dct-value">103.5</span>
-            //         </li>
-            //         <li class="dct-row">
-            //             <span>E. 소매장</span>
-            //             <span>어깨점부터 소매끝단까지의 길이</span>
-            //             <span class="dct-value">103.5</span>
-            //         </li>
-            //     </ul>
-            // </div>`
+            let { sizeGuide, care, detail, material } = d.data[0];
+            sizeGuide = `
+            <div class="sizeguide-box">
+                    <div class="sizeguide-btn ">A1</div>
+                    <div class="sizeguide-btn">A2</div>
+                    <div class="sizeguide-btn select">A3</div>
+                    <div class="sizeguide-btn">A4</div>
+                    <div class="sizeguide-btn">A5</div>
+                </div>
+                <div class="sizeguide-noti"><span data-i18n="pd_model_msg_01">모델 신장 </span><span>179</span><span data-i18n="pd_model_msg_02">cm,착용사이즈는 </span><span>A3</span><span data-i18n="pd_model_msg_03">입니다.</span></div>
+                <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
+                <ul class="sizeguide-dct">
+                    <li class="dct-row">
+                        <span>A. 총장</span>
+                        <span>옆목점에서 끝단까지의 수직길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>B. 목너비</span>
+                        <span>옆목점 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>C. 어깨너비</span>
+                        <span>옆어깨점 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>B. 가슴단면</span>
+                        <span>암홀점에서 1cm아래 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>D. 소매통</span>
+                        <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>E. 소매장</span>
+                        <span>어깨점부터 소매끝단까지의 길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                </ul>
+            </div>`
+
             sizeGuideArr.push(sizeGuide);
             sizeGuideArr.push(material);
             sizeGuideArr.push(detail);
@@ -1029,101 +996,49 @@ function getProductDetailInfo (product_idx){
     return sizeGuideArr;
 }
 function makeSizeGuideHtml() {
-    const sizeData = sizeGuideData;
-    const sizeKeys = Object.keys(sizeData.dimensions);
-    const firstSizeKey = sizeKeys[0]; 
-    let dom = document.createDocumentFragment();
-    let sizeguideBox = document.createElement('div');
-    sizeguideBox.id = 'sizeguide-box';
-    sizeguideBox.className = 'sizeguide-box';
-
-    let sizeguideNoti = document.createElement('div');
-    sizeguideNoti.id = 'sizeguide-noti';
-    sizeguideNoti.className = 'sizeguide-noti';
-
-    let sizeguideImg = document.createElement('div');
-    sizeguideImg.id = 'sizeguide-img';
-    sizeguideImg.className = 'sizeguide-img';
-
-    let sizeguideDct = document.createElement('ul');
-    sizeguideDct.id = 'sizeguide-dct';
-    sizeguideDct.className = 'sizeguide-dct';
-
-    dom.appendChild(sizeguideBox);
-    dom.appendChild(sizeguideNoti);
-    dom.appendChild(sizeguideImg);
-    dom.appendChild(sizeguideDct);
-    
-    
-    function createSizeButtons() {
-        const sizeBox = dom.querySelector('#sizeguide-box');
-        const sizeKeys = Object.keys(sizeData.dimensions);
-    
-        sizeKeys.forEach(size => {
-            const btn = document.createElement('div');
-            btn.classList.add('sizeguide-btn');
-            btn.dataset.size = size;
-            btn.textContent = size;
-            if (size === firstSizeKey) {
-                btn.classList.add('select');
-            }
-            btn.addEventListener('click', function () {
-                document.querySelector('.sizeguide-btn.select').classList.remove('select');
-                this.classList.add('select');
-                updateSizeGuide(this.dataset.size);
-            });
-            sizeBox.appendChild(btn);
-        });
-    }
-    
-    function domUpdateSizeGuide(size) {
-        const data = sizeData.dimensions[size];
-        const noti = dom.querySelector('#sizeguide-noti');
-        const img = dom.querySelector('#sizeguide-img');
-        const dct = dom.querySelector('#sizeguide-dct');
-        if(!sizeData.model || !sizeData.model_wear){
-            noti.innerHTML ='';
-        } else{
-            noti.innerHTML = `<span data-i18n="pd_model_msg_01">모델 신장 </span><span>${sizeData.model}</span><span data-i18n="pd_model_msg_02">, 착용 사이즈는 </span><span>${sizeData.model_wear}</span><span data-i18n="pd_model_msg_03">입니다.</span>`;
-        }
-        img.style.backgroundImage = `url('http://116.124.128.246:81/${sizeData.img_file_name}')`;
-        dct.innerHTML = data.map(dimension => `
-            <li class="dct-row">
-                <span>${dimension.title}</span>
-                <span>${dimension.desc}</span>
-                <span class="dct-value">${dimension.value}</span>
-            </li>
-        `).join('');
-    }
-    function updateSizeGuide(size) {
-        const data = sizeData.dimensions[size];
-        const noti = document.querySelector('#sizeguide-noti');
-        const img = document.querySelector('#sizeguide-img');
-        const dct = document.querySelector('#sizeguide-dct');
-    
-        if(!sizeData.model || !sizeData.model_wear){
-            noti.innerHTML ='';
-        } else{
-            noti.innerHTML = `<span data-i18n="pd_model_msg_01">모델 신장 </span><span>${sizeData.model}</span><span data-i18n="pd_model_msg_02">, 착용 사이즈는 </span><span>${sizeData.model_wear}</span><span data-i18n="pd_model_msg_03">입니다.</span>`;
-        }
-        img.style.backgroundImage = `url('http://116.124.128.246:81/${sizeData.img_file_name}')`;
-        dct.innerHTML = data.map(dimension => `
-            <li class="dct-row">
-                <span>${dimension.title}</span>
-                <span>${dimension.desc}</span>
-                <span class="dct-value">${dimension.value}</span>
-            </li>
-        `).join('');
-    }
-    
-    createSizeButtons();
-    domUpdateSizeGuide(firstSizeKey);
-    
-    // document.querySelector('.detail__sidebar__wrap .sidebar__body .detail__content__box .content-body').innerHTML = '';
-    // document.querySelector('.detail__sidebar__wrap .sidebar__body .detail__content__box .content-body').appendChild(dom);
-
-    return dom;
-    
+    sizeGuide = `
+                <div class="sizeguide-box">
+                    <div class="sizeguide-btn ">A1</div>
+                    <div class="sizeguide-btn">A2</div>
+                    <div class="sizeguide-btn select">A3</div>
+                    <div class="sizeguide-btn">A4</div>
+                    <div class="sizeguide-btn">A5</div>
+                </div>
+                <div class="sizeguide-noti"><span data-i18n="pd_model_msg_01">모델 신장 </span><span>179</span><span data-i18n="pd_model_msg_02">cm,착용사이즈는 </span><span>A3</span><span data-i18n="pd_model_msg_03">입니다.</span></div>
+                <div class="sizeguide-img" style="background-image: url('/images/svg/guide-top.svg');"></div>
+                <ul class="sizeguide-dct">
+                    <li class="dct-row">
+                        <span>A. 총장</span>
+                        <span>옆목점에서 끝단까지의 수직길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>B. 목너비</span>
+                        <span>옆목점 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>C. 어깨너비</span>
+                        <span>옆어깨점 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>B. 가슴단면</span>
+                        <span>암홀점에서 1cm아래 양끝의 수평길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>D. 소매통</span>
+                        <span>암홀점에서 반대 소매면까지의 수직길이옆목점에서 끝단까지의 수직길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                    <li class="dct-row">
+                        <span>E. 소매장</span>
+                        <span>어깨점부터 소매끝단까지의 길이</span>
+                        <span class="dct-value">103.5</span>
+                    </li>
+                </ul>
+            </div>`
 }
 /**
  * @author SIMJAE
@@ -1153,11 +1068,14 @@ function innerSideBar(){
         </div>
     `
     document.querySelector(".info__wrap").appendChild(sideWrap);
+    
+    
+   
 }
 
 function addProductForGA(data){
     const main = document.querySelector("main");
-    let country = getLanguage();
+    let country = main.dataset.country;
     if(data[0] != null && country != null){
         let d = data[0];
         var productNo = d.product_idx;
@@ -1193,7 +1111,7 @@ function addProductForGA(data){
 
 function addCartForGA(option_arr){
     const main = document.querySelector("main");
-    let country = getLanguage();
+    let country = main.dataset.country;
 
     let currency_str = null;
     if(country == 'KR'){
@@ -1208,13 +1126,13 @@ function addCartForGA(option_arr){
 //장바구니 담기를 할 수 있는지와 장바구니에 담을 목록을 구한다.
 function getOptionProductList(option_arr, currency_str){
     const main = document.querySelector("main");
-    let country = getLanguage();
+    let country = main.dataset.country;
     var pList = [];
     $.ajax({
         type: "post",
         data: {
             "option_idx_arr": option_arr,
-            "country": getLanguage(),
+            "country": getLanguage()
         },
         async: false,
         dataType: "json",

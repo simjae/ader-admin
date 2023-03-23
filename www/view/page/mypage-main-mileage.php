@@ -140,7 +140,7 @@
     <div class="mileage__tab__wrap">
         <div class="mileage__tab mileage__total__wrap">
             <div class="title">
-                <p data-i18n="ml_mileage_history">적립포인트 현황</p>
+                <p data-i18n="ml_mileage_history">적립금 현황</p>
             </div>
             <div class="contents__table bluemark total">
                 <table class="border__bottom__th" style="width:100%">
@@ -151,13 +151,13 @@
                     </colsgroup>
                     <thead>
                         <th>
-                            <p data-i18n="ml_current_mileage">현재 적립포인트</p>
+                            <p data-i18n="ml_current_mileage">사용 가능</p>
                         </th>
                         <th>
-                            <p data-i18n="ml_used_mileage">사용된 포인트</p>
+                            <p data-i18n="ml_complete_mileage">사용 완료</p>
                         </th>
                         <th>
-                            <p data-i18n="ml_awaiting_refund">환불예정 포인트</p>
+                            <p data-i18n="ml_awaiting_refund">환불 예정</p>
                         </th>
                     </thead>
                     <tbody id="mileage_summary_table">
@@ -188,79 +188,10 @@
                     <p data-i18n="ml_mileage_msg_04">적립 포인트는 바우처와 함께 사용하실 수 없습니다.</p>
                 </span>
             </div>
-            <div class="contents__table bluemark all_list">
-                <form id="frm-mileage-total-list">
-                    <input type="hidden" name="rows" value="10">
-                    <input type="hidden" name="page" value="1">
-                    <input type="hidden" name="list_type" value="total">
-                    <div class="pc__view">
-                        <table class="border__bottom border__bottom__th">
-                            <colsgroup>
-                                <col style="width:120px;">
-                                <col style="width:120px;">
-                                <col style="width:120px;">
-                                <col style="width:120px;">
-                                <col style="width:120px;">
-                                <col style="width:110px;">
-                            </colsgroup>
-                            <thead>
-                                <th>
-                                    <p data-i18n="m_date">일자</p>
-                                </th>
-                                <th>
-                                    <p data-i18n="m_order_number">주문번호</p>
-                                </th>
-                                <th>
-                                    <p data-i18n="m_history">내용</p>
-                                </th>
-                                <th>
-                                    <p data-i18n="m_price">구매금액</p>
-                                </th>
-                                <th>
-                                    <p data-i18n="m_earned">적립</p>
-                                </th>
-                                <th>
-                                    <p data-i18n="m_used">사용</p>
-                                </th>
-                            </thead>
-                            <tbody id="mileage_total_result">
-                            </tbody>
-                        </table>
-                        <div class="mypage__paging"></div>
-                    </div>
-                    <div class="mobile__view">
-                        <table class="border__bottom border__bottom__th">
-                            <colsgroup>
-                                <col style="width:25%;">
-                                <col style="width:25%;">
-                                <col style="width:25%;">
-                                <col style="width:25%;">
-                            </colsgroup>
-                            <thead>
-                                <th>
-                                    <p data-i18n="m_order_number">주문번호</p>
-                                </th>
-                                <th>
-                                    <p data-i18n="m_date">일자</p>
-                                </th>
-                                <th>
-                                    <p data-i18n="m_history">내용</p>
-                                </th>
-                                <th>
-                                    <p>포인트</p>
-                                </th>
-                            </thead>
-                            <tbody id="mileage_total_result_mobile">
-                            </tbody>
-                        </table>
-                        <div class="mypage__paging"></div>
-                    </div>
-                </form>
-            </div>
         </div>
         <div class="mileage__tab mileage__save__wrap">
             <div class="title">
-                <p data-i18n="ml_earned_mileage">적립된 포인트</p>
+                <p data-i18n="ml_earned_mileage">적립 내역</p>
             </div>
             <form id="frm-mileage-save-list">
                 <input type="hidden" name="rows" value="10">
@@ -291,10 +222,10 @@
                                     <p data-i18n="m_price">구매금액</p>
                                 </th>
                                 <th>
-                                    <p data-i18n="m_earned">적립</p>
+                                    <p data-i18n="ml_earned">적립</p>
                                 </th>
                                 <th>
-                                    <p data-i18n="m_used">사용</p>
+                                    <p data-i18n="m_balance">잔액</p>
                                 </th>
                             </thead>
                             <tbody id="mileage_save_result">
@@ -334,7 +265,7 @@
         </div>
         <div class="mileage__tab mileage__use__wrap">
             <div class="title">
-                <p data-i18n="ml_used_mileage">사용된 포인트</p>
+                <p data-i18n="ml_used_mileage">사용 내역</p>
             </div>
             <form id="frm-mileage-use-list">
                 <input type="hidden" name="rows" value="10">
@@ -365,10 +296,10 @@
                                     <p data-i18n="m_price">구매금액</p>
                                 </th>
                                 <th>
-                                    <p data-i18n="m_earned">적립</p>
+                                    <p data-i18n="m_used">사용</p>
                                 </th>
                                 <th>
-                                    <p data-i18n="m_used">사용</p>
+                                    <p data-i18n="m_balance">잔액</p>
                                 </th>
                             </thead>
                             <tbody id="mileage_use_result">
@@ -408,7 +339,7 @@
         </div>
         <div class="mileage__tab mileage__notice__wrap">
             <div class='title'>
-                <p data-i18n="ml_ml_notice">적립포인트 유의사항</p>
+                <p data-i18n="ml_ml_notice">적립금 유의사항</p>
             </div>
             <div class='description tab__notice' style="margin-left:-6px;">
                 <span class="flex_text">·&nbsp;&nbsp;&nbsp;

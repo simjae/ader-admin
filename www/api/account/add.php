@@ -83,9 +83,18 @@ if (isset($_POST['gender'])) {
 }
 
 //동일 ID 중복체크
-$member_cnt = $db->count('MEMBER_'.$country, 'MEMBER_ID = "'.$member_id.'" ');
+$member_kr_cnt = 0;
+$member_en_cnt = 0;
+$member_cn_cnt = 0;
+$member_total_cnt = 0;
 
-if($member_cnt > 0){
+$member_kr_cnt = $db->count('MEMBER_KR', 'MEMBER_ID = "'.$member_id.'" ');
+$member_en_cnt = $db->count('MEMBER_EN', 'MEMBER_ID = "'.$member_id.'" ');
+$member_cn_cnt = $db->count('MEMBER_CN', 'MEMBER_ID = "'.$member_id.'" ');
+
+$member_total_cnt = $member_kr_cnt + $member_en_cnt + $member_cn_cnt;
+
+if($member_total_cnt > 0){
 	$json_result['code'] = 303;
 	$json_result['msg'] = "이미 동일한 이메일의 계정이 있습니다.";
 	return $json_result;

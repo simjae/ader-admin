@@ -4,7 +4,7 @@ export function User() {
         $.ajax({
             type: "post",
             data: {
-                "country": "KR"
+                "country": getLanguage()
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/menu/get ",
@@ -46,13 +46,13 @@ export function User() {
             </div>
             <div class="user-content">
                 <div class="content-point left">
-                    <div>적립포인트</div>
+                    <div>적립금</div>
                     <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=mileage_first">
                         <div class="user-mileage">${member_mileage}</div>
                     </a>
                 </div>
                 <div class="content-point center">
-                    <div>충전포인트</div>
+                    <div>예치금</div>
                     <a class="content-link" href="http://116.124.128.246/mypage">
                         <div class="user-point">600,000</div>
                     </a>
@@ -83,7 +83,7 @@ export function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>적립포인트</p>
+                    <p>적립/예치금</p>
                 </div>
             </div>
             <div id="voucher_icon" class="icon__item" btn-type="voucher">
@@ -153,7 +153,7 @@ export function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p>멤버쉽</p>
+                    <p>멤버십</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="inquiry">

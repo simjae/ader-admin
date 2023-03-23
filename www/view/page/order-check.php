@@ -169,7 +169,7 @@
 				if ($order_code != null && $pg_mid != null) {
 					$insert_order_info_sql = "
 						INSERT INTO
-							dev.ORDER_INFO
+							ORDER_INFO
 						(
 							COUNTRY,
 							ORDER_CODE,
@@ -264,7 +264,7 @@
 							TI.UPDATE_DATE				AS UPDATE_DATE,
 							TI.UPDATER					AS UPDATER
 						FROM
-							dev.TMP_ORDER_INFO TI
+							TMP_ORDER_INFO TI
 						WHERE
 							TI.ORDER_CODE = '".$order_code."'
 					";
@@ -276,7 +276,7 @@
 					if (!empty($order_idx)) {
 						$insert_order_product_sql = "
 							INSERT INTO
-								dev.ORDER_PRODUCT
+								ORDER_PRODUCT
 							(
 								ORDER_IDX,
 								ORDER_CODE,
@@ -319,7 +319,7 @@
 								TP.UPDATE_DATE			AS UPDATE_DATE,
 								TP.UPDATER				AS UPDATER	
 							FROM
-								dev.TMP_ORDER_PRODUCT TP
+								TMP_ORDER_PRODUCT TP
 							WHERE
 								TP.ORDER_CODE = '".$order_code."'
 							ORDER BY
@@ -333,8 +333,8 @@
 					deleteVoucherInfo($db,$order_code);
 					putMileageInfo($db,$order_idx);
 					
-					$db->query("DELETE FROM dev.TMP_ORDER_PRODUCT WHERE ORDER_CODE = '".$order_code."'");
-					$db->query("DELETE FROM dev.TMP_ORDER_INFO WHERE ORDER_CODE = '".$order_code."'");
+					$db->query("DELETE FROM TMP_ORDER_PRODUCT WHERE ORDER_CODE = '".$order_code."'");
+					$db->query("DELETE FROM TMP_ORDER_INFO WHERE ORDER_CODE = '".$order_code."'");
 
 					$new_order_product_sql = "
 						SELECT
@@ -345,10 +345,10 @@
 							OM.BRAND						AS BRAND,
 							OP.PRODUCT_QTY					AS PRODUCT_QTY
 						FROM
-							dev.ORDER_PRODUCT OP
-							LEFT JOIN dev.SHOP_PRODUCT PR ON
+							ORDER_PRODUCT OP
+							LEFT JOIN SHOP_PRODUCT PR ON
 							OP.PRODUCT_IDX = PR.IDX
-							LEFT JOIN dev.ORDERSHEET_MST OM ON
+							LEFT JOIN ORDERSHEET_MST OM ON
 							PR.ORDERSHEET_IDX = OM.IDX
 						WHERE
 							OP.ORDER_IDX = ".$order_idx." AND
@@ -373,13 +373,13 @@
 						";
 					}
 
-					$mapping_cnt = $db->count("dev.ORDER_MAPPING","TMP_ORDER_CODE = '".$order_code."'");
+					$mapping_cnt = $db->count("ORDER_MAPPING","TMP_ORDER_CODE = '".$order_code."'");
 					if ($mapping_cnt > 0) {
 						$select_order_mapping_sql = "
 							SELECT
 								OM.ORDER_CODE		AS ORDER_CODE
 							FROM
-								dev.ORDER_MAPPING OM
+								ORDER_MAPPING OM
 							WHERE
 								OM.TMP_ORDER_CODE = '".$order_code."'
 						";
@@ -397,8 +397,8 @@
 									OI.PG_PAYMENT_KEY		AS PG_PAYMENT_KEY,
 									OP.PRODUCT_PRICE		AS PRODUCT_PRICE
 								FROM
-									dev.ORDER_INFO OI
-									LEFT JOIN dev.ORDER_PRODUCT OP ON
+									ORDER_INFO OI
+									LEFT JOIN ORDER_PRODUCT OP ON
 									OI.IDX = OP.ORDER_IDX
 								WHERE
 									OI.ORDER_CODE = '".$oex_order_code."' AND
@@ -464,7 +464,7 @@
 										
 										$update_order_product_sql = "
 											UPDATE
-												dev.ORDER_PRODUCT
+												ORDER_PRODUCT
 											SET
 												ORDER_STATUS = 'OEP',
 												PG_CANCEL_DATE = '".$pg_cancel_date."',
@@ -481,13 +481,13 @@
 										
 										if ($db_result > 0) {
 											//주문정보 상태 변경
-											$order_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_CODE = '".$oex_order_code."'");
-											$order_cancel_cnt = $db->count("dev.ORDER_PRODUCT","ORDER_CODE = '".$oex_order_code."' AND ORDER_STATUS = 'OEP'");
+											$order_cnt = $db->count("ORDER_PRODUCT","ORDER_CODE = '".$oex_order_code."'");
+											$order_cancel_cnt = $db->count("ORDER_PRODUCT","ORDER_CODE = '".$oex_order_code."' AND ORDER_STATUS = 'OEP'");
 											
 											if ($order_cnt == $order_cancel_cnt) {
 												$update_order_info_sql = "
 													UPDATE
-														dev.ORDER_INFO
+														ORDER_INFO
 													SET
 														ORDER_STATUS = 'OEP',
 														CANCEL_DATE = '".$pg_cancel_date."',
@@ -557,11 +557,11 @@
 			
 			try {
 				if ($order_id != null) {
-					$tmp_product_cnt = $db->count("dev.TMP_ORDER_PRODUCT","ORDER_CODE = '".$order_id."'");
+					$tmp_product_cnt = $db->count("TMP_ORDER_PRODUCT","ORDER_CODE = '".$order_id."'");
 					
 					$update_tmp_order_basket_sql = "
 						UPDATE
-							dev.BASKET_INFO
+							BASKET_INFO
 						SET
 							DEL_FLG = FALSE
 						WHERE
@@ -573,14 +573,14 @@
 										SELECT
 											BI.IDX
 										FROM
-											dev.BASKET_INFO BI
+											BASKET_INFO BI
 										WHERE
 											BI.MEMBER_IDX = 1 AND
 											BI.PRODUCT_IDX IN (
 												SELECT
 													TP.PRODUCT_IDX
 												FROM
-													dev.TMP_ORDER_PRODUCT TP
+													TMP_ORDER_PRODUCT TP
 												WHERE
 													TP.ORDER_CODE = '".$order_id."' AND
 													TP.PRODUCT_CODE NOT LIKE 'VOUXXX%'
@@ -595,12 +595,12 @@
 					
 					$db->query($update_tmp_order_basket_sql);
 					
-					$voucher_cnt = $db->count("dev.TMP_ORDER_PRODUCT","ORDER_CODE = '".$order_id."' AND PRODUCT_CODE LIKE 'VOUXXX%'");
+					$voucher_cnt = $db->count("TMP_ORDER_PRODUCT","ORDER_CODE = '".$order_id."' AND PRODUCT_CODE LIKE 'VOUXXX%'");
 					
 					if ($voucher_cnt > 0) {
 						$update_voucher_sql = "
 							UPDATE
-								dev.VOUCHER_ISSUE
+								VOUCHER_ISSUE
 							SET
 								USED_FLG = FALSE,
 								UPDATE_DATE = NOW(),
@@ -610,7 +610,7 @@
 									SELECT
 										TP.PRODUCT_IDX
 									FROM
-										dev.TMP_ORDER_PRODUCT TP
+										TMP_ORDER_PRODUCT TP
 									WHERE
 										TP.ORDER_CODE = '".$order_id."' AND
 										TP.PRODUCT_CODE LIKE 'VOUXXX%'
@@ -620,8 +620,8 @@
 						$db->query($update_voucher_sql);
 					}
 					
-					$db->query("DELETE FROM dev.TMP_ORDER_PRODUCT WHERE ORDER_CODE = '".$order_id."'");
-					$db->query("DELETE FROM dev.TMP_ORDER_INFO WHERE ORDER_CODE = '".$order_id."'");
+					$db->query("DELETE FROM TMP_ORDER_PRODUCT WHERE ORDER_CODE = '".$order_id."'");
+					$db->query("DELETE FROM TMP_ORDER_INFO WHERE ORDER_CODE = '".$order_id."'");
 					
 					$db->commit();
 					
@@ -864,7 +864,7 @@
 				OI.PRICE_MILEAGE_POINT		AS PRICE_MILEAGE_POINT,
 				OI.PRICE_CHARGE_POINT		AS PRICE_CHARGE_POINT
 			FROM
-				dev.ORDER_INFO OI
+				ORDER_INFO OI
 			WHERE
 				OI.IDX = ".$order_idx."
 		";
@@ -897,14 +897,14 @@
 					ML.MILEAGE_PER,0
 				)						AS MEMBER_MILEAGE
 			FROM
-				dev.ORDER_PRODUCT OP
-				LEFT JOIN dev.ORDER_INFO OI ON
+				ORDER_PRODUCT OP
+				LEFT JOIN ORDER_INFO OI ON
 				OP.ORDER_IDX = OI.IDX
-				LEFT JOIN dev.MEMBER_LEVEL ML ON
+				LEFT JOIN MEMBER_LEVEL ML ON
 				OI.MEMBER_LEVEL = ML.IDX
-				LEFT JOIN dev.SHOP_PRODUCT PR ON
+				LEFT JOIN SHOP_PRODUCT PR ON
 				OP.PRODUCT_IDX = PR.IDX
-				LEFT JOIN dev.PRODUCT_MILEAGE PM ON
+				LEFT JOIN PRODUCT_MILEAGE PM ON
 				OP.PRODUCT_IDX = PM.PRODUCT_IDX AND
 				OI.MEMBER_LEVEL = PM.LEVEL_IDX
 			WHERE
@@ -929,7 +929,7 @@
 		if ($order_info['mileage'] > 0) {
 			$insert_mileage_dec_sql = "
 				INSERT INTO
-					dev.MILEAGE_INFO
+					MILEAGE_INFO
 				(
 					COUNTRY,
 					MEMBER_IDX,
@@ -960,7 +960,7 @@
 								SELECT
 									S_MI.MILEAGE_BALANCE - ".$order_info['mileage']."
 								FROM
-									dev.MILEAGE_INFO S_MI
+									MILEAGE_INFO S_MI
 								WHERE
 									S_MI.MEMBER_IDX = ".$order_info['member_idx']."
 								ORDER BY
@@ -1004,7 +1004,7 @@
 					
 					$insert_mileage_inc_sql = "
 						INSERT INTO
-							dev.MILEAGE_INFO
+							MILEAGE_INFO
 						(
 							COUNTRY,
 							MEMBER_IDX,
@@ -1035,7 +1035,7 @@
 										SELECT
 											S_MI.MILEAGE_BALANCE
 										FROM
-											dev.MILEAGE_INFO S_MI
+											MILEAGE_INFO S_MI
 										WHERE
 											S_MI.MEMBER_IDX = ".$order_info['member_idx']."
 										ORDER BY
@@ -1065,7 +1065,7 @@
 			SELECT
 				TI.BASKET_IDX		AS BASKET_IDX
 			FROM
-				dev.TMP_ORDER_INFO TI
+				TMP_ORDER_INFO TI
 			WHERE
 				TI.ORDER_CODE = '".$order_code."'
 		";
@@ -1080,7 +1080,7 @@
 		if (strlen($basket_idx > 0)) {
 			$delete_basket_sql = "
 				UPDATE
-					dev.BASKET_INFO
+					BASKET_INFO
 				SET
 					DEL_FLG = TRUE,
 					UPDATE_DATE = NOW(),
@@ -1094,12 +1094,12 @@
 	}
 	
 	function deleteVoucherInfo($db,$order_code) {
-		$voucher_cnt = $db->count("dev.TMP_ORDER_PRODUCT","ORDER_CODE = '".$order_code."' AND PRODUCT_CODE LIKE 'VOUXXX%'");
+		$voucher_cnt = $db->count("TMP_ORDER_PRODUCT","ORDER_CODE = '".$order_code."' AND PRODUCT_CODE LIKE 'VOUXXX%'");
 		
 		if ($voucher_cnt > 0) {
 			$delete_voucher_sql = "
 				UPDATE
-					dev.VOUCHER_ISSUE
+					VOUCHER_ISSUE
 				SET
 					USED_FLG = TRUE,
 					UPDATE_DATE = NOW(),
@@ -1109,7 +1109,7 @@
 						SELECT
 							TP.PRODUCT_IDX
 						FROM
-							dev.TMP_ORDER_PRODUCT TP
+							TMP_ORDER_PRODUCT TP
 						WHERE
 							TP.ORDER_CODE = '".$order_code."' AND
 							TP.PRODUCT_CODE LIKE 'VOUXXX%'

@@ -56,6 +56,11 @@ if (isset($_POST['last_idx'])) {
 	$last_idx = intval($_POST['last_idx']);
 }
 
+$preview_flg = false;
+if (isset($_GET['preview_flg'])) {
+	$preview_flg = $_GET['preview_flg'];
+}
+
 $menu_info = array();
 if ($menu_sort != null && $menu_idx > 0) {
 	$upper_filter = getMenuFilter($db,$country,$menu_sort,$menu_idx,"UP");
@@ -164,7 +169,7 @@ if ($order_param != null) {
 
 if ($page_idx != null && $country != null) {
 	$page_count = $db->count("PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
-	if ($page_count > 0) {
+	if ($page_count > 0 || $preview_flg == true) {
 		$check_result = checkListLevel($db,$member_idx,$page_idx);
 		if ($check_result['result'] == false) {
 			$json_result['code'] = 402;

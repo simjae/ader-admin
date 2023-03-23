@@ -748,7 +748,7 @@ if ($member_idx == 0) {
                 <input id="wish-product-cnt" type="hidden" />
             </div>
         </div>
-        <div class="content right">
+        <div class="content right hidden">
             <div class="add-list-wrap">
                 <div>
                     <div class="header-wrap">
@@ -834,6 +834,7 @@ if ($member_idx == 0) {
     wish_quickSwiper.on('click', function () {
         let idx = wish_quickSwiper.clickedIndex;
         let whishIdx = wish_quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
+        console.log(whishIdx);
         elementScroll("body-list", whishIdx);
     });
     const getWhishProductList = () => {
@@ -841,7 +842,7 @@ if ($member_idx == 0) {
         $.ajax({
             type: "post",
             data: {
-                "country": country,
+                "country": getLanguage(),
                 "MEMBER_IDX": 1
             },
             dataType: "json",
@@ -1239,7 +1240,7 @@ if ($member_idx == 0) {
         $.ajax({
             type: "post",
             data: {
-                "country": country,
+                "country": getLanguage(),
                 "whish_idx": whishIdx
             },
             dataType: "json",
@@ -1388,22 +1389,25 @@ if ($member_idx == 0) {
         let contentRight = document.querySelector(".content.right");
         let addListWrap = document.querySelector(".add-list-wrap");
         let addbox = addListWrap.querySelectorAll(".body-wrap .add-box");
-        // let allRemoveBtn = addListWrap.querySelector(".hd-title");
-        // let basketLinkBtn = addListWrap.querySelector(".basket-link-btn");
-        // addListWrap.classList.remove("hidden");
-        // allRemoveBtn.classList.remove("hidden");
+
+        let allRemoveBtn = addListWrap.querySelector(".hd-title");
+        let basketLinkBtn = addListWrap.querySelector(".basket-link-btn");
+        addListWrap.classList.remove("hidden");
+        allRemoveBtn.classList.remove("hidden");
 
 
         if (addbox.length > 0) {
             contentRight.classList.add("open");
-            // addListWrap.classList.remove("hidden");
-            // allRemoveBtn.classList.remove("hidden");
-            // contentRight.classList.remove("hidden");
+
+            addListWrap.classList.remove("hidden");
+            allRemoveBtn.classList.remove("hidden");
+            contentRight.classList.remove("hidden");
         } else {
             contentRight.classList.remove("open");
-            // addListWrap.classList.add("hidden");
-            // allRemoveBtn.classList.add("hidden");
-            // contentRight.classList.add("hidden");
+
+            addListWrap.classList.add("hidden");
+            allRemoveBtn.classList.add("hidden");
+            contentRight.classList.add("hidden");
         }
     }
     //퀵슬라이드 클릭시 스크롤 이동

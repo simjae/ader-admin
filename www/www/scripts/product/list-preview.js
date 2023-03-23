@@ -147,71 +147,51 @@ function productWriteHtml(grid_info) {
             }
 
             let product_p_slide = () => {
-                let imgDiv;
-                let pimg = el.product_img.product_p_img;
-                
-                pimg.forEach((img) => {
-                    imgDiv += `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
-                                <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
-                            </div>`
-                });
-                return imgDiv;
-            }
-
-            let product_o_slide = () => {
-                let imgDiv;
-                let oimg =  el.product_img.product_o_img;
-                
-                if(oimg.length > 0){
-                    oimg.forEach((img) => {
-                        imgDiv +=`<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
+                let imgDiv = "";
+                if (el.product_img && el.product_img.product_p_img && el.product_img.product_p_img.length > 0) {
+                    imgDiv = el.product_img.product_p_img.map((img) => {
+                        return `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
                                     <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
-                                </div>`
-                        })
+                                </div>`;
+                    }).join("");
                 } else {
-                    let pimg = el.product_img.product_p_img;
-                    pimg.forEach((img) => {
-                        imgDiv += `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
-                                    <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${img.img_location}" alt="">
-                                </div>`
-                        })
+                    imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
+                                <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${'images/default_product_img.jpg'}" alt="">
+                            </div>`;
                 }
                 return imgDiv;
-                
-            }
+            };
+            let product_o_slide = () => {
+                let imgDiv = "";
+                if (el.product_img && el.product_img.product_o_img && el.product_img.product_o_img.length > 0) {
+                    imgDiv = el.product_img.product_o_img.map((img) => {
+                        return `<div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
+                                    <img class="prd-img" cnt="${el.product_idx}" data-src="${img_root}${img.img_location}" src="${img_root}${img.img_location}" alt="">
+                                </div>`;
+                    }).join("");
+                } else if (el.product_img && el.product_img.product_p_img && el.product_img.product_p_img.length > 0) {
+                    imgDiv = el.product_img.product_p_img.map((img) => {
+                        return `<div class="swiper-slide" data-imgtype="outfit" style="${slide_product}">
+                                    <img class="prd-img" cnt="${el.product_idx}" data-src="${img_root}${img.img_location}" src="${img_root}${img.img_location}" alt="">
+                                </div>`;
+                    }).join("");
+                } else {
+                    imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
+                                <img class="prd-img" cnt="${el.product_idx}" src="${img_root}${'images/default_product_img.jpg'}" alt="">
+                            </div>`;
+                }
+                return imgDiv;
+            };
             productListHtml +=
                 `<div class="product prd">
                 <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
                     ${whish_img}
                 </div>
-                <a href="http://116.124.128.246:80/${el.link_url}">
-                    <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
+                <a href="http://116.124.128.246:80/product/detail-preview?product_idx=${el.product_idx}">
+                    <div class="product-img swiper" onClick="location.href='/product/detail-preview?product_idx=${el.product_idx}'">
                         <div class="swiper-wrapper">
-                        
-                        ${el.product_img.product_p_img.map((img) => {
-                            imgDiv = `<div class="swiper-slide" data-imgtype="item" style="${slide_product}">
-                                        <img class="prd-img" cnt="${el.product_idx}" data-src="${img_root}${img.img_location}" src="${img_root}${img.img_location}" alt="">
-                                    </div>`
-                            return imgDiv;
-                            }).join("")
-                        }
-                        ${el.product_img.product_o_img.length === 0
-                            ?
-                            el.product_img.product_p_img.map((img) => {
-                                imgDiv = `<div class="swiper-slide" data-imgtype="outfit" style="${slide_product}">
-                                            <img class="prd-img" cnt="${el.product_idx}" data-src="${img_root}${img.img_location}" src="${img_root}${img.img_location}" alt="">
-                                        </div>`
-                                return imgDiv;
-                                }).join("")
-                            : 
-                            el.product_img.product_o_img.map((img) => {
-                            const imgDiv = `
-                                <div class="swiper-slide" data-imgtype="outfit" style="${slide_outfit}">
-                                    <img class="prd-img" cnt="${el.product_idx}" data-src="${img_root}${img.img_location}" src="${img_root}${img.img_location}" alt="">
-                                </div>`;
-                            return imgDiv;
-                        }).join("")}     
-                        
+                        ${product_p_slide()}
+                        ${product_o_slide()}
                         </div>
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-button-next"></div>
@@ -221,7 +201,7 @@ function productWriteHtml(grid_info) {
                     <div class="info-row">
                         <div class="name" data-soldout="${el.stock_status != null && el.stock_status == 'STCL' ? 'STCL' : ''}">
                             <span>${el.product_name != null ? el.product_name : '상품이름 없음'}</span>
-                    </div>
+                        </div>
                         <div class="price" data-soldout="${el.stock_status != null ? el.stock_status : ''}" data-saleprice="${saleprice != null ? saleprice : ''}" data-discount="${el.discount != null ? el.discount : ''}" data-dis="${el.discount != null && el.discount != 0 ? 'true' : 'false'}">
                             ${el.price != null ? (el.discount == null || el.discount == 0 ? el.price.toLocaleString('ko-KR') : `<span>${el.price.toLocaleString('ko-KR')}</span>`) : '상품가격 없음'}
                         </div>
@@ -233,32 +213,32 @@ function productWriteHtml(grid_info) {
                                 if (!color) {
                                     return null;
                                 }
-                            let maxCnt = 5;
-                            let colorData = color.color_rgb;
-                            let multi = colorData.split(";");
+                                let maxCnt = 5;
+                                let colorData = color.color_rgb;
+                                let multi = colorData.split(";");
                                 console.log(multi.length);
-                            if (idx < maxCnt) {
+                                if (idx < maxCnt) {
                                     let style = "";
                                     if (multi.length === 2) {
                                         if(multi[1].length > 0 ){
                                             style = `background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%)`;
                                         }else {
                                             style = `background-color:${multi[0] || ""}`;    
-                            }
+                                        }
                                     } else if (multi.length === 1) {
                                         style = `background-color:${multi[0] || ""}`;
-                            }
+                                    }
                                     return `<div class="color" data-color="${color.color_rgb || ""}" data-productidx="${color.product_idx || ""}" data-soldout="${color.stock_status || ""}" style="${style}"></div>`;
                                 }
                             }).join("")}
                         </div>
-                                
-                                <div class="size__box">
+                                                    
+                        <div class="size__box">
 
                             ${!el.product_size ? '사이즈 없음' : el.product_size.map((size) => {
                                 if (!size) {
                                     return null;
-                        }   
+                                }
                                 return `<li class="size" data-sizetype="" data-productidx="${size.product_idx || ""}" data-optionidx="${size.option_idx || ""}" data-soldout="${size.stock_status || ""}">${size.option_name || ""}</li>`;
                             }).join("")}
                             

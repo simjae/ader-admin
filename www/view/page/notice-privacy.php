@@ -150,7 +150,7 @@ let language = localStorage.getItem('lang') || getLanguage();
 $.ajax({
     type: "post",
     data: {
-        "country": language
+        "country": getLanguage()
     },
     dataType: "json",
     url: "http://116.124.128.246:80/_api/policy/page/get",

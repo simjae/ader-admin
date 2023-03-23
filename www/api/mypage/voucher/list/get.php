@@ -68,11 +68,11 @@ if($member_idx > 0 && $list_type != null && $country != null){
 				WHEN
 					VM.SALE_TYPE = 'PRC'
 					THEN
-						CONCAT(VM.SALE_PRICE,'원 할인')
+						CONCAT(VM.SALE_PRICE,'원 OFF')
 				WHEN
 					VM.SALE_TYPE = 'PER'
 					THEN
-						CONCAT(VM.SALE_PRICE,'% 할인')
+						CONCAT(VM.SALE_PRICE,'% OFF')
 			END						AS SALE_PRICE_TYPE,
 			VM.MIN_PRICE			AS MIN_PRICE,
 			VM.VOUCHER_NAME			AS VOUCHER_NAME,

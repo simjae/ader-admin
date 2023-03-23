@@ -81,7 +81,7 @@
 			
 			$update_order_info_sql = "
 				UPDATE
-					dev.ORDER_INFO
+					ORDER_INFO
 				SET
 					ORDER_STATUS = 'PCP',
 					PG_DATE = '".$pg_date."',

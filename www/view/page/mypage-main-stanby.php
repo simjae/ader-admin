@@ -83,7 +83,7 @@
     .stanby__wrap img {
         max-width: 100%;
     }
-
+    
     .stanby__tab__contents {
         width: 100%;
         margin: 0 auto;
@@ -189,6 +189,9 @@
     }
 
     @media (min-width: 1024px) {
+        .stanby__wrap .stanby__notice__wrap .description p {
+            white-space: nowrap;
+        }
         .stanby__tab__wrap {
             grid-column: 1/17;
             width: 710px;
@@ -230,12 +233,12 @@
                     <p data-i18n="sb_standby_info_01">·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
                     <p class="text_margin_left" data-i18n="sb_standby_info_02">&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
                     <p class="text_margin_left" data-i18n="sb_standby_info_03">&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된 시스템으로,</p>
-                    <p class="text_margin_left" data-i18n="sb_standby_info_04">&nbsp;&nbsp;과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
+                    <p class="text_margin_left" data-i18n="sb_standby_info_04">&nbsp;&nbsp;과열 제품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
                 </div>
                 <div class="mobile__view">
                     <p data-i18n="sb_standby_info_mo_01">·&nbsp;새롭게 도입하는 아더의 스탠바이(STAND BY)는 사전 예약 시스템으로,</p>
                     <p data-i18n="sb_standby_info_mo_02">&nbsp;&nbsp;정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.</p>
-                    <p data-i18n="sb_standby_info_mo_03">&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br>시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.
+                    <p data-i18n="sb_standby_info_mo_03">&nbsp;&nbsp;해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된<br>시스템으로, 과열 제품 및 한정 에디션의 원활한 구매를 돕고자 합니다.
                     </p>
                 </div>
             </div>

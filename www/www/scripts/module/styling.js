@@ -27,7 +27,7 @@ export default function StylingRender(relevant_idx) {
             type: "post",
             data: {
                 "relevant_idx": relevantIdx,
-                "country": "KR"
+                "country": getLanguage()
             },
             url: "http://116.124.128.246/_api/common/relevant/get",
             error: function() {

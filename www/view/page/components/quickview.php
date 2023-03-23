@@ -2,7 +2,7 @@
     #quickview {
         position: absolute;
         transition-duration: 0.3s;
-        z-index: 2;
+        z-index: 11;
     }
     
     .remove-btn {
@@ -327,7 +327,11 @@
     .common-contents-container p, .common-contents-container span,.common-contents-container input{font-size:11px;}
     .contents-btn{font-size:11px;}
     .quickview__content__wrap .faq-btn-wrap.member .btn{float:right;vertical-align:middle}
-    .contents-footer{display:flex;padding:10px;gap:10px;}
+    .contents-footer {
+        /* display: flex; */
+        padding: 10px;
+        gap: 10px;
+    }
     .contents-footer .file-upload-btn{width:60px;height:40px;border:1px solid #000}
     #inquiryTextBox{height:40px;width:100%;border:1px solid #000;padding:10px;outline: none;}
     .contents-footer .submit_btn{width:95px;height:40px;border:1px solid #000;background-color:#191919;color:#fff;}
@@ -763,6 +767,7 @@
                         contents_footer.style.display = 'none';
                     }
                     if (targetData == "faq") {
+                        console.log("faq");
                         whishSwiperWrap.innerHTML = "";
                         $titleBoxSpan.innerText = "문의하기";
                         $titleBoxImg.src = "/images/svg/wish-faq-bk.svg";

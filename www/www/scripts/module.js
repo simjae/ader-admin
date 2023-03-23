@@ -135,7 +135,7 @@ function Basket(el, useSidebar) {
 							<div class="pay__total__price">0</div>
 						</div>
 						<div class="pay__btn" id="pay_btn"><span data-i18n="s_checkout">결제하기</span></div>
-                        <div class="check_basket_btn" onClick="location.href='/order/basket/list'"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span>쇼핑백 보러가기</span></div>
+                        <div class="check_basket_btn" onClick="location.href='/order/basket/list'"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span data-i18n="s_goto_shoppingbag">쇼핑백 보러가기</span></div>
 					</div>
 				</section>
 			`;
@@ -909,7 +909,7 @@ function Basket(el, useSidebar) {
             type: "POST",
             url: "http://116.124.128.246:80/_api/order/reorder/add",
             data: {
-                "country": country,
+                "country": getLanguage(),
                 "add_type": "basket",
                 "product_idx": product_idx,
                 "basket_idx": basket_idx,
@@ -1179,37 +1179,10 @@ function Search() {
 
 function Login() {
     (() => {
-        // $(document).ready(function() {
-        //     console.log('getCookie');
-        //     $('#member_id').val('');
-        //     var usermember_id = getCookie("usermember_id");
-        //     if(usermember_id) {
-        //         $('#member_id').val(usermember_id);
-        //     } else {
-        //         $('#member_id').val('');
-        //     }
-
-        //     if($('#member_id').val() != ""){
-        //         $("input:checkbox[id='member_id_flg']").prop("checked", true);
-        //     }
-
-        //     $("input:checkbox[id='member_id_flg']").change(function(){
-        //         if($("input:checkbox[id='member_id_flg']").is(":checked")){
-        //             setCookie("usermember_id", $('#member_id').val(), 7);
-        //         }
-        //         else{
-        //             deleteCookie("usermember_id");
-        //         }
-        //     })
-
-        //     $('#member_id').keyup(function(){
-        //         if($('input:checked[id="member_id_flg"]').is(":checked")){
-        //             setCookie("usermember_id", $('#member_id').val(), 7);
-        //         }
-        //     })
-        // });
-
         function login() {
+            var country = getLanguage();
+	        $("#frm-login").find('input[name=country]').val(country);
+
             var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
             var member_id = $('#member_id').val();
             var member_pw = $('#member_pw').val();
@@ -1738,7 +1711,7 @@ function User() {
         $.ajax({
             type: "post",
             data: {
-                "country": "KR"
+                "country": getLanguage()
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/menu/get ",
@@ -1780,13 +1753,13 @@ function User() {
             </div>
             <div class="user-content">
                 <div class="content-point left">
-                    <div data-i18n="m_mileage">적립포인트</div>
+                    <div data-i18n="m_mileage">적립금</div>
                     <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=mileage_first">
                         <div class="user-mileage">${member_mileage}</div>
                     </a>
                 </div>
                 <div class="content-point center">
-                    <div data-i18n="m_prepaid_mileage">충전포인트</div>
+                    <div data-i18n="m_prepaid_mileage">예치금</div>
                     <a class="content-link" href="http://116.124.128.246/mypage">
                         <div class="user-point">0</div>
                     </a>
@@ -1817,7 +1790,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p data-i18n="m_mileage">적립포인트</p>
+                    <p data-i18n="m_mileage_charging">적립/예치금</p>
                 </div>
             </div>
             <div id="voucher_icon" class="icon__item" btn-type="voucher">
@@ -1887,7 +1860,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p data-i18n="m_membership">멤버쉽</p>
+                    <p data-i18n="m_membership">멤버십</p>
                 </div>
             </div>
             <div class="icon__item" btn-type="inquiry">
@@ -1935,7 +1908,7 @@ function User() {
             <a href="http://116.124.128.246/mypage">
                 <div class="user-button mypageBtn" data-i18n="m_my-page">마이페이지 홈 가기</div>
             </a>
-            <div class="user-button logoutBtn" onclick="logout()">로그아웃</div>
+            <div class="user-button logoutBtn" data-i18n="m_logout" onclick="logout()">로그아웃</div>
         </div>
         `
         sideBox.appendChild(userContent);
@@ -1956,7 +1929,7 @@ function User() {
             </div>
             <div class="card__body">
                 <form id="frm-login" method="post" onSubmit="login();return false;">
-                    <input type="hidden" name="country" value="KR">
+                    <input type="hidden" name="country" value="">
                     <input type="hidden" name="member_ip" value="0.0.0.0">
                     <div class="content__wrap">
                         <div class="content__wrap__msg">
@@ -2055,6 +2028,9 @@ function User() {
         });
         $('#member_pw, #member_id').on('keypress', function (e) {
             if (e.keyCode == '13') {
+                var country = getLanguage();
+	            $("#frm-login").find('input[name=country]').val(country);
+                
                 var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
                 var member_id = $('#member_id').val();
                 var member_pw = $('#member_pw').val();
@@ -2187,26 +2163,7 @@ function Vctrbox(el) {
 }
 
 function getLanguage() {
-    let lng = navigator.language || navigator.userLanguage;
-
-    let country = null;
-    switch (lng) {
-        case "ko-KR":
-            country = "KR";
-            break;
-
-        case "en-US":
-            country = "EN";
-            break;
-
-        case "zh-CN":
-            country = "CN";
-            break;
-
-        default:
-            country = "EN";
-            break;
-    }
-
-    return country;
+    const local_lng = localStorage.getItem('lang');
+    
+	return local_lng;
 }

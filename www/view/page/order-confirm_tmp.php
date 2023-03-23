@@ -1080,7 +1080,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 			</script>
 		";
 } else {
-	$basket_cnt = $db->count("dev.BASKET_INFO", "IDX IN (" . $basket_idx . ") AND MEMBER_IDX = " . $member_idx . " AND DEL_FLG = FALSE");
+	$basket_cnt = $db->count("BASKET_INFO", "IDX IN (" . $basket_idx . ") AND MEMBER_IDX = " . $member_idx . " AND DEL_FLG = FALSE");
 
 	$tmp_arr = explode(",", $basket_idx);
 

@@ -27,7 +27,7 @@
 						''
 					)				AS IMG_LOCATION
 				FROM
-					dev.EDITORIAL_THUMB ET
+					EDITORIAL_THUMB ET
 				WHERE
 					ET.PAGE_IDX = " . $page_idx . " AND
 					ET.SIZE_TYPE = '" . $size_type . "' AND
@@ -53,7 +53,7 @@
 								''
 							)					AS CONTENTS_URL
 						FROM
-							dev.EDITORIAL_CONTENTS EC
+							EDITORIAL_CONTENTS EC
 						WHERE
 							EC.THUMB_IDX = " . $thumb_idx . " AND
 							SIZE_TYPE = '" . $size_type . "'
@@ -82,7 +82,7 @@
 			SELECT
 				EP.PRODUCT_IDX		AS PRODUCT_IDX
 			FROM
-				dev.EDITORIAL_PRODUCT EP
+				EDITORIAL_PRODUCT EP
 			WHERE
 				EP.PAGE_IDX = ".$page_idx."
 		";

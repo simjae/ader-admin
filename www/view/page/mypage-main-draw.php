@@ -239,7 +239,7 @@
 <div class="draw__wrap">
     <div class="draw__tab__btn__container">
         <div class="tab__btn__item" form-id="draw__apply__form__wrap" onclick="getTotalDraw()">
-            <span data-i18n="d_enter_draw">응모하기</span>
+            <span data-i18n="d_enter_draw">응모</span>
         </div>
         <div class="tab__btn__item" form-id="draw__result__wrap" onclick="getEntryDraw('result')">
             <span data-i18n="d_all">전체</span>
@@ -257,7 +257,7 @@
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
             <div class="swiper-slide tab__btn__item" form-id="draw__apply__form__wrap" onclick="getTotalDraw()">
-                <span data-i18n="d_enter_draw">응모하기</span>
+                <span data-i18n="d_enter_draw">응모</span>
             </div>
             <div class="swiper-slide tab__btn__item" form-id="draw__result__wrap" onclick="getEntryDraw('result')">
                 <span data-i18n="d_all">전체</span>
@@ -282,21 +282,21 @@
             <div class="description">
                 <div class="pc__view">
                     <div class="flex_text" style="margin-left: -6px;">·&nbsp;&nbsp;&nbsp;
-                        <p data-i18n="d_draw_msg_01" style="margin-left:0;">새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,</p>
+                        <p data-i18n="d_draw_msg_01" style="margin-left:0;">안내 문구 삽입 필요</p>
                     </div>
-                    <p data-i18n="d_draw_msg_02">정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및 구매할 수 있는 권한을 부여하는 시스템입니다.
-                    <p data-i18n="d_draw_msg_03">해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된 시스템으로,
-                    <p data-i18n="d_draw_msg_04">과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
+                    <p data-i18n="d_draw_msg_02"></p>
+                    <p data-i18n="d_draw_msg_03"></p>
+                    <p data-i18n="d_draw_msg_04"></p>
                     </span>
                 </div>
                 <div class="mobile__view">
                     <div class="flex_text" style="margin-left: -6px;">·&nbsp;&nbsp;&nbsp;
-                        <p data-i18n="d_draw_msg_05" style="margin-left:0;">새롭게 도입하는 아더의 드로우(DRAW)는 사전 예약 시스템으로,</p>
+                        <p data-i18n="d_draw_msg_05" style="margin-left:0;">안내 문구 삽입 필요</p>
                     </div>
-                    <p data-i18n="d_draw_msg_06">정식 런칭 전 구매자로 등록하여 등록된 사람에 한해 개별 링크 발송 및</p>
-                    <p data-i18n="d_draw_msg_07">구매할 수 있는 권한을 부여하는 시스템입니다.</p>
-                    <p data-i18n="d_draw_msg_08">해당 시스템은 무분별한 제품 사재기와 제품 선점을 근절하기 위해 도입된</p>
-                    <p data-i18n="d_draw_msg_09">시스템으로, 과열 상품 및 한정 에디션의 원활한 구매를 돕고자 합니다.</p>
+                    <p data-i18n="d_draw_msg_06"></p>
+                    <p data-i18n="d_draw_msg_07"></p>
+                    <p data-i18n="d_draw_msg_08"></p>
+                    <p data-i18n="d_draw_msg_09"></p>
                     </span>
                 </div>
 
@@ -327,7 +327,8 @@
             </div>
             <div class="footer">
                 <span class="flex_text">·&nbsp;<p data-i18n="d_draw_after_msg_01">드로우 응모 이후 사이즈 수정은 불가합니다.</p></span>
-                <span class="flex_text">·&nbsp;<p data-i18n="d_draw_after_msg_02">당첨 여부는 문자 메시지로 개별 연락 드립니다.</p></span>
+                <span class="flex_text">·&nbsp;<p data-i18n="d_draw_after_msg_02">당첨자에 한하여 개별 메시지로 연락드립니다.</p></span>
+                <span class="flex_text">·&nbsp;<p>스팸 메시지로 등록 시 메시지 수신이 제한될 수 있습니다.</p></span>
             </div>
         </div>
         <div class="draw__tab draw__win__wrap">

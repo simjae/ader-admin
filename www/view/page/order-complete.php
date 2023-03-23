@@ -972,7 +972,7 @@
 	}
 	
 	if ($member_idx > 0 && $order_idx > 0) {
-		$order_cnt = $db->count("dev.ORDER_INFO", "IDX = ".$order_idx." AND MEMBER_IDX = ".$member_idx);
+		$order_cnt = $db->count("ORDER_INFO", "IDX = ".$order_idx." AND MEMBER_IDX = ".$member_idx);
 
 		if ($order_cnt > 0) {
 			$select_order_sql = "
@@ -999,7 +999,7 @@
 						OI.PRICE_DELIVERY			AS PRICE_DELIVERY,
 						OI.PRICE_TOTAL				AS PRICE_TOTAL
 					FROM
-						dev.ORDER_INFO OI
+						ORDER_INFO OI
 					WHERE
 						OI.IDX = ".$order_idx.";
 				";
@@ -1024,7 +1024,7 @@
 										''
 									)
 								FROM
-									dev.PRODUCT_IMG S_PI
+									PRODUCT_IMG S_PI
 								WHERE
 									S_PI.PRODUCT_IDX = OP.PRODUCT_IDX AND
 									S_PI.IMG_TYPE = 'P' AND
@@ -1045,10 +1045,10 @@
 								OP.PRODUCT_QTY * OP.PRODUCT_PRICE
 							)								AS PRICE_TOTAL
 						FROM
-							dev.ORDER_PRODUCT OP
-							LEFT JOIN dev.SHOP_PRODUCT PR ON
+							ORDER_PRODUCT OP
+							LEFT JOIN SHOP_PRODUCT PR ON
 							OP.PRODUCT_IDX = PR.IDX
-							LEFT JOIN dev.ORDERSHEET_MST OM ON
+							LEFT JOIN ORDERSHEET_MST OM ON
 							PR.ORDERSHEET_IDX = OM.IDX
 						WHERE
 							OP.ORDER_IDX = ".$order_idx." AND

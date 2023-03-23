@@ -30,7 +30,7 @@
 		$order_code = $_GET['order_code'];
 	}
 	
-	$order_cnt = $db->count("dev.TMP_ORDER_INFO","ORDER_CODE = '".$order_code."'");
+	$order_cnt = $db->count("TMP_ORDER_INFO","ORDER_CODE = '".$order_code."'");
 	
 	if ($order_cnt > 0) {
 		$select_tmp_order_info_sql = "
@@ -40,7 +40,7 @@
 				TI.MEMBER_NAME		AS MEMBER_NAME,
 				TI.PRICE_TOTAL		AS PRICE_TOTAL
 			FROM
-				dev.TMP_ORDER_INFO TI
+				TMP_ORDER_INFO TI
 			WHERE
 				ORDER_CODE = '".$order_code."' AND
 				ORDER_STATUS = 'PWT'

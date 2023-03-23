@@ -155,7 +155,7 @@
         font-family: var(--ft-no-fu);
         color: #343434;
         margin-top: 20px;
-        margin-bottom: 49.5px;
+        margin-bottom: 38.5px;
     }
 
     .verify__list__wrap .description p {
@@ -295,7 +295,6 @@
         line-height: 1.36;
         letter-spacing: normal;
         margin-bottom: 10px;
-        text-indent: -6px;
         word-break: break-all;
     }
 
@@ -393,10 +392,6 @@
         margin-bottom: 0px;
     }
 
-    .description.verify_pc {
-        padding-left: 6px;
-    }
-
     .description.verify_mobile p {
         margin-bottom: 0px;
     }
@@ -411,8 +406,9 @@
     }
 
     .bluemark_info {
-        margin-left: 6px;
         margin-bottom: 0 !important;
+        text-indent: unset !important;
+        white-space: nowrap;
     }
 
     .b_transfer_btn {
@@ -463,9 +459,7 @@
         }
 
         .voucher__handover__wrap {
-            width: 90%;
-            padding-left: 10px;
-            padding-right: 10px;
+            width: 95%;
         }
 
         .form {
@@ -502,6 +496,10 @@
             width: fit-content;
             float: inherit;
         }
+        .bluemark_info{
+     
+        white-space: unset;
+    }
     }
 
     @media (min-width: 600px) {
@@ -581,7 +579,7 @@
                 <p class="title_name">Bluemark</p>
             </div>
             <div class="description">
-                <p class="bluemark_info" data-i18n="my_b_bluemark_info_01">&nbsp;&nbsp;BLUE MARK는 본 브랜드의 모조품으로부터 소비자의
+                <p class="bluemark_info" data-i18n="my_b_bluemark_info_01">&nbsp;&nbsp;Bluemark는 본 브랜드의 모조품으로부터 소비자의
                     혼란을 최소화하기 위해 제공되는 정품 인증 서비스입니다.</p>
                 <p class="bluemark_info" data-i18n="my_b_bluemark_info_02">ADER는 모조품 판매를 인지하고 소비자와 브랜드의 이미지를 보호하기 위하여
                     적극적으로 대응중입니다.</p>
@@ -592,7 +590,7 @@
             </div>
             <div class="verify_form">
                 <input data-i18n-placeholder="b_bluemark_serial_code" class="bluemark_serial_code" type="text"
-                    name="serial_code" placeholder="BLUE MARK 시리얼 코드">
+                    name="serial_code" placeholder="Bluemark 시리얼 코드">
             </div>
             <div class="button">
                 <button onclick="verifyBluemark()">VERIFY</button>
@@ -606,10 +604,10 @@
                 </div>
             </div>
             <div class="description">
-                <p data-i18n="b_bluemark_msg_01">BLUE MARK가 인증 된 해당 제품은 ADER 브랜드의 정품입니다.</p>
+                <p data-i18n="b_bluemark_msg_01" style="text-align:center;">Bluemark가 인증 된 해당 제품은 ADER 브랜드의 정품입니다.</p>
             </div>
             <div class="button">
-                <button>VERIFY</button>
+                <button>CERTIFIED</button>
             </div>
         </div>
         <div class="bluemark__tab verify__fail__wrap">
@@ -619,12 +617,12 @@
                     <img src="/images/mypage/tmp_img/X-12.svg" />
                 </div>
             </div>
-            <div class="description fail_pc" data-i18n="b_bluemark_msg_02">
-                <p>BLUE MARK가 인증되지 않은 해당 제품은 ADER 브랜드의 정품이 아닌 가품입니다.</p>
-                <p>가품으로 의심되는 제품 또는 판매처를 발견하셨을 때에는 ADER 측에 문의 바랍니다.</p>
+            <div class="description fail_pc">
+                <p data-i18n="b_bluemark_msg_02_1">Bluemark가 인증되지 않은 해당 제품은 ADER 브랜드의 정품이 아닌 가품입니다.</p>
+                <p data-i18n="b_bluemark_msg_02_2">가품으로 의심되는 제품 또는 판매처를 발견하셨을 때에는 ADER 측에 문의 바랍니다.</p>
             </div>
-            <div class="description fail_mobile" data-i18n="b_bluemark_msg_02">
-                <p>BLUE MARK가 인증되지 않은 해당 제품은</p>
+            <div class="description fail_mobile" data-i18n="b_bluemark_msg_02_1">
+                <p>Bluemark가 인증되지 않은 해당 제품은</p>
                 <p>ADER 브랜드의 정품이 아닌 가품입니다.</p>
                 <p>가품으로 의심되는 제품 또는 판매처를 발견하셨을 때에는</p>
                 <p>ADER 측에 문의 바랍니다.</p>
@@ -808,7 +806,7 @@
                 type: "post",
                 url: "http://116.124.128.246:80/_api/product/bluemark/put",
                 data: {
-                    "country": "KR",
+                    "country": getLanguage(),
                     "serial_code": bluemark_serial_code
                 },
                 dataType: "json",
@@ -875,7 +873,7 @@
         $.ajax({
             type: "post",
             data: {
-                "country": "KR",
+                "country": getLanguage(),
                 'rows': rows,
                 'page': page
             },
@@ -975,7 +973,7 @@
                 data: {
                     "bluemark_idx": bluemark_idx,
                     "handover_id": handover_id,
-                    "country": country
+                    "country": getLanguage(),
                 },
                 dataType: "json",
                 error: function () {

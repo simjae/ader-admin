@@ -583,7 +583,7 @@
                 <span class="flex_text">&nbsp;&nbsp;&nbsp;<p data-i18n="p_member_msg_03_2" style="margin-bottom: 5px;">
                         통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p></span>
                 <span class="flex_text" style="margin-bottom: 36px;">·&nbsp;&nbsp;
-                    <p data-i18n="p_privacy_policy_01" class="underline" onclick="mypageTabBtnClick('service', 3)">개인정보처리방침&nbsp;</p>
+                    <p data-i18n="p_privacy_policy_01" class="underline" onclick="mypageTabBtnClick('service', 3)">zz개인정보처리방침&nbsp;</p>
                     <p data-i18n="p_privacy_policy_02">및</p>
                     <p data-i18n="p_privacy_policy_03" class="underline" onclick="mypageTabBtnClick('service', 2)">&nbsp;이용약관</p>
                 </span>
@@ -1200,7 +1200,7 @@
         $.ajax({
             type: "post",
             data: {
-                "country": countryData
+                "country": getLanguage()
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/member/order_to/list/get",
@@ -1299,7 +1299,7 @@
                 type: "post",
                 data: {
                     "order_to_idx": order_to_idx,
-                    "country": countryData
+                    "country": getLanguage()
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/get",
@@ -1347,7 +1347,7 @@
                 type: "post",
                 data: {
                     "order_to_idx": order_to_idx,
-                    "country": countryData
+                    "country": getLanguage()
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/delete",
@@ -1384,7 +1384,7 @@
                 data: {
                     "order_to_idx": order_to_idx,
                     "default_flg": default_flg,
-                    "country": countryData
+                    "country": getLanguage()
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/member/order_to/put",
@@ -1463,7 +1463,7 @@
         $.ajax({
             type: "post",
             data: {
-                "country": countryData,
+                "country": getLanguage(),
                 "to_place": to_place,
                 "to_name": to_name,
                 "to_mobile": to_mobile,
@@ -1548,7 +1548,7 @@
         $.ajax({
             type: "post",
             data: {
-                "country": countryData,
+                "country": getLanguage(),
                 "order_to_idx": order_to_idx,
                 "to_place": to_place,
                 "to_name": to_name,

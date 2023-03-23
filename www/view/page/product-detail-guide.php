@@ -327,7 +327,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 			type: "post",
 			data: {
 				"product_idx": product_idx,
-				"country": country,
+				"country": getLanguage()
 			},
 			async:false,
 			dataType: "json",
@@ -408,7 +408,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
         type: "post",
         data: {
             "product_idx": productIdx,
-            "country": country,
+            "country": getLanguage()
         },
         dataType: "json",
         url: "http://116.124.128.246:80/_api/product/get",

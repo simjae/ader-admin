@@ -14,6 +14,7 @@
  +=============================================================================
 */
 
+/*
 function checkProduct($db,$product_idx,$country,$member_idx) {
 	$product_result = false;
 	
@@ -28,6 +29,7 @@ function checkProduct($db,$product_idx,$country,$member_idx) {
 	
 	return $product_result;
 }
+*/
 
 function checkProductStockQty($db,$product_idx,$option_idx) {
 	$stock_result = false;

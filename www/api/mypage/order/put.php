@@ -53,6 +53,7 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 			$select_order_sql = "
 				SELECT
 					OI.PG_PAYMENT_KEY		AS PG_PAYMENT_KEY,
+					OI.PRICE_TOTAL			AS PRICE_TOTAL,
 					OP.PRODUCT_PRICE		AS PRODUCT_PRICE
 				FROM
 					ORDER_INFO OI
@@ -100,12 +101,12 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 				
 				if (!$err) {
 					$result = json_decode($response);
-					
 					$pg_payment_key = null;
 					if (isset($result->paymentKey)) {
 						$pg_payment_key = $result->paymentKey;
 					}
 					
+					$message = null;
 					if ($pg_payment_key != null) {
 						$pg_status = null;
 						if (isset($result->status)) {
@@ -117,7 +118,6 @@ if ($member_idx > 0 && $order_idx > 0 && $order_product_idx > 0) {
 							$pg_cancel_date = $result->approvedAt;
 						}
 						
-						$message = null;
 						if (isset($result->message)) {
 							$message = $result->message;
 						}

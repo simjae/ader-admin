@@ -320,7 +320,7 @@
         <div class="level__info__container">
             <div class="level__info__item">
                 <div class="title">
-                    <p>회원등급 선정 기준</p>
+                    <p>등급 선정 기준</p>
                 </div>
             </div>
             <div class="level__info__item">

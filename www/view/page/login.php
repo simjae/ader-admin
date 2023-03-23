@@ -288,7 +288,7 @@ input:-webkit-autofill:active  {
         </div>
         <div class="card__body">
             <form id="frm-login">
-                <input type="hidden" name="country" value="KR">
+                <input type="hidden" name="country" value="">
                 <input type="hidden" name="member_ip" value="0.0.0.0">
                 <input type="hidden" name="r_url" value="<?=$r_url?>">
                 <div class="content__wrap">

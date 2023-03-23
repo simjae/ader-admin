@@ -622,7 +622,7 @@
         $.ajax({
             type: "post",
             data: {
-                "country": "KR",
+                "country": getLanguage(),
                 "member_pw": nowPassword
             },
             dataType: "json",
@@ -665,7 +665,7 @@
         $.ajax({
             type: "post",
             data: {
-                "country": "KR",
+                "country": getLanguage(),
                 "member_pw": newPassword,
                 "member_tel_mobile": newTelMobile
             },

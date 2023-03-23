@@ -30,6 +30,9 @@ export function Login() {
     });
     
     function login() {
+        var country = getLanguage();
+	    $("#frm-login").find('input[name=country]').val(country);
+
         var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
         var member_id = $('#member_id').val();
         var member_pw = $('#member_pw').val();

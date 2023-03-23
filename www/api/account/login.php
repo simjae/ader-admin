@@ -18,8 +18,8 @@
 include_once("/var/www/admin/api/voucher/issue/add.php");
 
 $member_ip = '0.0.0.0';
-if (isset($_POST['member_ip'])) {
-	$member_ip = $_POST['member_ip'];
+if (isset($_SERVER['REMOTE_ADDR'])) {
+	$member_ip = $_SERVER['REMOTE_ADDR'];
 }
 
 $country = null;

@@ -82,6 +82,10 @@
         margin-bottom: 20px;
     }
 
+    .bluemark_mini_description span p {
+        margin-bottom: 10px;
+    }
+
     .as__table__container {
         padding-bottom: 10px;
     }
@@ -95,7 +99,6 @@
         margin: auto;
         padding: 5px 10px;
         cursor: pointer;
-        float: right;
     }
 
     .bluemark_input_wrap {
@@ -278,19 +281,62 @@
 
     .apply_complete__wrap {
         grid-column: 1/17;
-       
+
         margin: 0 auto;
     }
 
     .apply_complete {
-        text-align: center ;
+        text-align: center;
     }
+
     .as_com_title {
         font-size: 13px;
         margin: 100px 0 30px;
     }
+
     .as_com_contents {
         font-size: 11px;
+    }
+
+    .as_shipping_form {
+        position: fixed;
+        border: 1px solid #808080;
+        padding: 20px;
+        margin: 0 auto;
+        background-color: #fff;
+        display: none;
+        z-index: 2;
+        left: 50%;
+        top: 250px;
+        transform: translate(-50%, 50%);
+        width: 490px;
+        text-align: left;
+    }
+
+    .as_shipping_form_title {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+    }
+
+    .shipping_form_input {
+        width: 450px;
+        height: 40px;
+        border-radius: 1px;
+        border: solid 1px #808080;
+
+    }
+
+    .as_step_contents.step_two {
+        display: grid;
+    }
+
+    .as_step_contents.step_two_return {
+        display: none;
+    }
+
+    .close_shipping {
+        margin-top: -6px;
     }
 
     @media (max-width: 1024px) {
@@ -396,23 +442,28 @@
 
 <div class="as_container">
     <ul class="as_tab_btn">
-        <li class="on" onclick="clickAsTab (this)" tab_num="one" style="width: 86px;" form-id="as__notice__wrap">약관 및 요금</li>
+        <li class="on" onclick="clickAsTab (this)" tab_num="one" style="width: 86px;" form-id="as__notice__wrap">약관 및 요금
+        </li>
         <li onclick="clickAsTab (this)" tab_num="two" form-id="as__apply__wrap">A/S 신청</li>
         <li onclick="clickAsTab (this)" tab_num="three" form-id="as__condition__wrap">A/S 현황</li>
         <li onclick="clickAsTab (this)" tab_num="four" form-id="as__history__wrap">A/S 내역</li>
     </ul>
     <div class="swiper tab__btn">
         <div class="swiper-wrapper">
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="one" form-id="as__notice__wrap">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="one"
+                form-id="as__notice__wrap">
                 <span>약관 및 요금</span>
             </div>
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="two" form-id="as__apply__wrap">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="two"
+                form-id="as__apply__wrap">
                 <span>A/S 신청</span>
             </div>
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="three" form-id="as__condition__wrap">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="three"
+                form-id="as__condition__wrap">
                 <span>A/S 현황</span>
             </div>
-            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="four" form-id="as__history__wrap">
+            <div class="swiper-slide tab__btn__item" onclick="clickAsTab (this)" tab_num="four"
+                form-id="as__history__wrap">
                 <span>A/S 내역</span>
             </div>
         </div>
@@ -428,7 +479,7 @@
                 </ul>
             </div>
             <div class="as_buying_wrap one_one">
-                <p>·&nbsp; 회원님의 주문 내역에서 A/S 접수할 제품을 선택해 주세요.</p>
+                <p>·&nbsp; 주문 내역에서 A/S 신청 원하시는 제품을 선택해 주세요.</p>
                 <div class="as__table__container first">
                     <div class="as__contents__table">
                         <div class="pc__view">
@@ -459,7 +510,9 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
+                                            <div class="as_order_status_box" style="margin-bottom: 10px;" onclick="">
+                                                Bluemark 인증하기</div>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -480,7 +533,9 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
+                                            <div class="as_order_status_box" style="margin-bottom: 10px;" onclick="">
+                                                Bluemark 인증하기</div>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -512,7 +567,9 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
+                                            <div class="as_order_status_box" style="margin-bottom: 10px;" onclick="">
+                                                Bluemark 인증하기</div>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -533,7 +590,9 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
+                                            <div class="as_order_status_box" style="margin-bottom: 10px;" onclick="">
+                                                Bluemark 인증하기</div>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -680,7 +739,7 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -712,7 +771,7 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -725,7 +784,20 @@
                     <ul>Bluemark 인증 내역</ul>
                 </div>
                 <div class="as__table__container">
-                    <div class="bluemark_mini_description">·&nbsp;회원님의 Bluemark 인증 내역에서 A/S 접수할 제품을 선택해 주세요.</div>
+                    <div class="bluemark_mini_description">
+                        <span class="flex_text">·&nbsp;
+                            <p>인증 내역이 보이지 않는 경우 Bluemark 등록을 먼저 진행 해주세요.</p>
+                        </span>
+                        <span class="flex_text">·&nbsp;
+                            <p>아더에러 온라인 구매 시 내역은 자동으로 확인됩니다.</p>
+                        </span>
+                        <span class="flex_text">·&nbsp;
+                            <p>아더에러 오프라인 구매 시 적립을 하실 경우 내역은 자동으로 확인됩니다.​</p>
+                        </span>
+                        <span class="flex_text">·&nbsp;
+                            <p>공식몰을 제외한 타 사이트 구매는 블루마크 등록이 먼저 필요합니다.​</p>
+                        </span>​
+                    </div>
                     <div class="as__contents__table">
                         <div class="pc__view">
                             <table>
@@ -755,7 +827,7 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -776,7 +848,7 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -808,7 +880,7 @@
                                         <td class="table_colspan_td">
                                             <p>000,000</p>
                                         </td>
-                                        <td style="padding-bottom: 10px;">
+                                        <td>
                                             <div class="as_order_status_box" onclick="asApply(this)">A/S 신청</div>
                                         </td>
                                     </tr>
@@ -973,9 +1045,6 @@
                     <P>신청 내역 검토 이후 다음 단계로 변경됩니다.</p>
                     <p>요청일: 2022.12.08</p>
                     <p>요청내용: 수선요청</p>
-                    <div class="as_order_status_box" id="as_step_btn_one" onclick="asStatusStep(this)"
-                        style="width: 110px;">A/S 신청 취소
-                    </div>
                 </div>
             </div>
             <div class="as_step_contents step_one_return" style="display: none;">
@@ -986,26 +1055,42 @@
                 </div>
             </div>
             <button class="btn_step" step_num="step_two" onclick="asStepBtn(this)">STEP 02. 회수</button>
-            <div class="as_step_contents step_two" style="display: none;">
-                <div>
+            <div>
+                <div class="as_step_contents step_two" style="display: none;">
                     <p>제품의 A/S를 위하여 발송 후 배송 정보를 입력해 주세요.</p>
-                    <div class="as_order_status_box" id="as_step_btn_two" onclick="asStatusStep(this)"
-                        style="width: 106px; margin-bottom: 10px;">배송정보 입력
-                    </div>
                     <p>발송 주소: 서울시 성동구 연무장길 53 삼영빌딩 3층 ADER A/S</p>
                     <p>연락처: 02-792-2232</p>
+                    <div class="as_order_status_box" id="as_step_btn_two" style="width: 106px; margin-bottom: 10px;"
+                        onclick="shippingForm()">
+                        배송정보 입력
+                    </div>
                 </div>
-            </div>
-            <div class="as_step_contents step_two_return" style="display: none;">
-                <div style="margin-bottom:10px;">
-                    <p>A/S 신청하신 제품의 입고 대기 중입니다.</p>
-                    <p>입고 및 제품 확인 이후 다음 단계로 변경됩니다.</p>
-                    <P>입력일시: 2023.02.27 7:14 PM</p>
-                    <P>배송사: GS25편의점택배(CJ대한통운)</p>
-                    <P style="cursor: pointer;">
-                        <a href="https://www.cjlogistics.com/ko/tool/parcel/tracking" id="sample_a"
-                            target="_blank">운송장번호: 520136281865</a>
-                    </p>
+                <div class="as_shipping_form">
+                    <div class="as_shipping_form_title">
+                        <p>배송 정보 입력</p>
+                        <button class="close_shipping" onclick="closeShipping()">
+                            <img src="/images/mypage/tmp_img/X-12.svg" />
+                        </button>
+                    </div>
+                    <div>
+                        <select>
+                            <option value="shipping" selected>배송사</option>
+                        </select>
+                    </div>
+                    <input type="text" placeholder="운송장 번호를 입력해주세요." style="margin-bottom: 40px;">
+                    <button class="black__full__width__btn" onclick="shippingFormComplete()">입력 완료</button>
+                </div>
+                <div class="as_step_contents step_two_return">
+                    <div style="margin-bottom:10px;">
+                        <p>A/S 신청하신 제품의 입고 대기 중입니다.</p>
+                        <p>입고 및 제품 확인 이후 다음 단계로 변경됩니다.</p>
+                        <P>입력일시: 2023.02.27 7:14 PM</p>
+                        <P>배송사: GS25편의점택배(CJ대한통운)</p>
+                        <P style="cursor: pointer;">
+                            <a href="https://www.cjlogistics.com/ko/tool/parcel/tracking" id="sample_a"
+                                target="_blank">운송장번호: 520136281865</a>
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -1353,11 +1438,11 @@
                     <p>· 제품의 디자인 및 디테일의 변경을 요청하는 A/S는 접수가 불가합니다.</p>
                     <p>· 제품 상태에 따라 유선상 안내가 어려울 수 있습니다.</p>
                     <p>· 실 제품 입고 이후 제품 상태에 따라 금액 변동이 있을 수 있습니다.</p>
-                    <p>· 정품 여부 확인이 어려운 제품의 경우, A/S비용이 상이할 수 있습니다.</p>
+                    <p>· 정품 여부 확인이 어려운 제품의 경우, A/S가 불가할 수 있습니다.</p>
                 </div>
             </div>
             <div class="as_payment_container">
-                <div class="title">A/S 요금표</div>
+                <div class="title">A/S 요금</div>
                 <div class="contents__table_as_payment">
                     <table>
                         <colsgroup>
@@ -1535,15 +1620,20 @@
             $('.as_status_title').text('A/S 완료');
         }
     }
+    function shippingForm() {
+        $('.as_shipping_form').show();
+    }
 
-    $('.as_order_status_box').on('click', function (e) {
-        $('.as_step_contents').hide();
-        if (e.target.id === 'as_step_btn_one') {
-            $('.as_step_contents.step_one_return').show();
-        }
-        if (e.target.id === 'as_step_btn_two') {
-            $('.as_step_contents.step_two_return').show();
-        }
-    })
+    function closeShipping() {
+        $('.close_shipping').on('click', function () {
+            $('.as_shipping_form').css('display', 'none');
+        });
+    }
+
+    function shippingFormComplete() {
+        $('.as_shipping_form').css('display', 'none');
+        $('.as_step_contents.step_two').css('display', 'none');
+        $('.as_step_contents.step_two_return').show();
+    }
 
 </script>

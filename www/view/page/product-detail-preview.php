@@ -78,7 +78,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 	<section class="styling-with-wrap"></section>
 	<section class="recommend-wrap"></section>
 </main>
-<script src="/scripts/product/detail.js"></script>
+<script src="/scripts/product/detail-preview.js"></script>
 <script type="module"></script>
 <script type="module">
 	import StylingRender from '/scripts/module/styling.js';
