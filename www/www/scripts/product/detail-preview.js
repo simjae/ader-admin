@@ -13,7 +13,7 @@ function getSizeGudieApi (productIdx) {
     $.ajax({
         type: "post",
         data: {
-            country: 'KR',
+            "country": getLanguage(),
             product_idx: productIdx
         },
         async: false,
@@ -32,7 +32,7 @@ function getSizeGudieApi (productIdx) {
 
 const getProductApi = (productIdx) => {
     const main = document.querySelector("main");
-    let country = main.dataset.country;
+    let country = getLanguage();
     let result;
     $.ajax({
         type: "post",
@@ -966,7 +966,7 @@ function webDetailBtnHanddler(){
  */
 function getProductDetailInfo (product_idx){
     const main = document.querySelector("main");
-    let country = main.dataset.country;
+    let country = getLanguage();
     let sizeGuideArr = new Array();
     let sizeGuide;
     $.ajax({
@@ -1045,8 +1045,11 @@ function makeSizeGuideHtml() {
         const noti = dom.querySelector('#sizeguide-noti');
         const img = dom.querySelector('#sizeguide-img');
         const dct = dom.querySelector('#sizeguide-dct');
-    
-        noti.innerHTML = `<span data-i18n="pd_model_msg_01">모델 신장 </span><span>${sizeData.model}</span><span data-i18n="pd_model_msg_02">, 착용 사이즈는 </span><span>${sizeData.model_wear}</span><span data-i18n="pd_model_msg_03">입니다.</span>`;
+        if(!sizeData.model || !sizeData.model_wear){
+            noti.innerHTML ='';
+        } else{
+            noti.innerHTML = `<span data-i18n="pd_model_msg_01">모델 신장 </span><span>${sizeData.model}</span><span data-i18n="pd_model_msg_02">, 착용 사이즈는 </span><span>${sizeData.model_wear}</span><span data-i18n="pd_model_msg_03">입니다.</span>`;
+        }
         img.style.backgroundImage = `url('http://116.124.128.246:81/${sizeData.img_file_name}')`;
         dct.innerHTML = data.map(dimension => `
             <li class="dct-row">
@@ -1062,7 +1065,11 @@ function makeSizeGuideHtml() {
         const img = document.querySelector('#sizeguide-img');
         const dct = document.querySelector('#sizeguide-dct');
     
-        noti.innerHTML = `<span data-i18n="pd_model_msg_01">모델 신장 </span><span>${sizeData.model}</span><span data-i18n="pd_model_msg_02">, 착용 사이즈는 </span><span>${sizeData.model_wear}</span><span data-i18n="pd_model_msg_03">입니다.</span>`;
+        if(!sizeData.model || !sizeData.model_wear){
+            noti.innerHTML ='';
+        } else{
+            noti.innerHTML = `<span data-i18n="pd_model_msg_01">모델 신장 </span><span>${sizeData.model}</span><span data-i18n="pd_model_msg_02">, 착용 사이즈는 </span><span>${sizeData.model_wear}</span><span data-i18n="pd_model_msg_03">입니다.</span>`;
+        }
         img.style.backgroundImage = `url('http://116.124.128.246:81/${sizeData.img_file_name}')`;
         dct.innerHTML = data.map(dimension => `
             <li class="dct-row">
@@ -1114,7 +1121,7 @@ function innerSideBar(){
 
 function addProductForGA(data){
     const main = document.querySelector("main");
-    let country = main.dataset.country;
+    let country = getLanguage();
     if(data[0] != null && country != null){
         let d = data[0];
         var productNo = d.product_idx;
@@ -1150,7 +1157,7 @@ function addProductForGA(data){
 
 function addCartForGA(option_arr){
     const main = document.querySelector("main");
-    let country = main.dataset.country;
+    let country = getLanguage();
 
     let currency_str = null;
     if(country == 'KR'){
@@ -1165,7 +1172,7 @@ function addCartForGA(option_arr){
 //장바구니 담기를 할 수 있는지와 장바구니에 담을 목록을 구한다.
 function getOptionProductList(option_arr, currency_str){
     const main = document.querySelector("main");
-    let country = main.dataset.country;
+    let country = getLanguage();
     var pList = [];
     $.ajax({
         type: "post",
