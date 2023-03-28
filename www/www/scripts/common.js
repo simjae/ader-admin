@@ -161,6 +161,17 @@ function notiModal(main,sub) {
     }
 
 }
+let mobileProductDetailWhishSwiperOption = {
+    // observer: true,
+    // observeParents: true,
+    navigation: {
+        nextEl: ".mobile-whishlist-wrap .quickview-whish-swiper .swiper-button-next",
+        prevEl: ".mobile-whishlist-wrap .quickview-whish-swiper .swiper-button-prev",
+    },
+    autoHeight: true,
+    // slidesPerView: 'auto',
+    slidesPerView: 5.6
+}
 //위시리스트 함수 
 function setWhishListBtn(obj) {
     let product_idx = $(obj).attr('product_idx');
@@ -186,7 +197,13 @@ function setWhishListBtn(obj) {
                     whish_img.attr('style', 'width:19px');
                     $(obj).attr('onClick', 'deleteWhishListBtn(this);');
                     if (basket_wrap.hasClass("nav")) {
-                        basket_wrap.find(".whish-btn").append("<div class='whislist-tilte'>whislist</div>")
+                        basket_wrap.find(".whish-btn").append("<div class='whislist-tilte'>whislist</div>");
+                        $('.mobile-whishlist-wrap').html('');
+                        $('.mobile-whishlist-wrap').append($('.quickview__content__wrap').clone());
+                        sideQuickSwiper = new Swiper('.mobile-whishlist-wrap .quickview-whish-swiper',mobileProductDetailWhishSwiperOption);
+                        $('.mobile-whishlist-wrap .remove-btn').on('click', function() {
+                            $('.mobile-whishlist-wrap').html('');
+                        })
                     }
                 }
             }
@@ -218,6 +235,45 @@ function deleteWhishListBtn(obj) {
                     $(obj).attr('onClick', 'setWhishListBtn(this);');
                     if (basket_wrap.hasClass("nav")) {
                         basket_wrap.find(".whislist-tilte").remove();
+                        $('.mobile-whishlist-wrap .quickview__content__wrap').remove();
+                        $('.mobile-whishlist-wrap').html('');
+                        $('.mobile-whishlist-wrap').append($('.quickview__content__wrap').clone());
+                        sideQuickSwiper = new Swiper('.mobile-whishlist-wrap .quickview-whish-swiper',mobileProductDetailWhishSwiperOption);
+                        $('.mobile-whishlist-wrap .remove-btn').on('click', function() {
+                            $('.mobile-whishlist-wrap').html('');
+                        })
+                    }
+                }
+            }
+        });
+    }
+}
+function deleteWhish(obj) {
+    let product_idx = $(obj).attr('product_idx');
+    let basket_wrap = $(obj).parent().parent();
+    let whish_list_cnt = document.querySelectorAll('.whish_list_mp').length;
+    if (product_idx != null) {
+        $.ajax({
+            type: "post",
+            data: {
+                "product_idx": product_idx
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/order/whish/delete",
+            error: function () {
+                alert("위시리스트 등록/해제 처리에 실패했습니다.");
+            },
+            success: function (d) {
+                let code = d.code;
+
+                if (code == "200") {
+                    basket_wrap.remove();
+                    if(whish_list_cnt == 1) {
+                        let swiperContainer = document.querySelector(".swiper-grid");
+                        let swiperMsgWrap = document.createElement("div");
+                        swiperMsgWrap.className = "no_whishlist_msg";
+                        swiperMsgWrap.textContent = "위시리스트가 비어있습니다."
+                        swiperContainer.appendChild(swiperMsgWrap);
                     }
                 }
             }
@@ -336,11 +392,6 @@ function getUrlParamValue(key) {
     return param_value;
 }
 
-function getLanguage() {
-	const local_lng = localStorage.getItem('lang');
-    
-	return local_lng;
-}
 /**
  * @author SIMJAE
  * @param {Object} product
@@ -503,8 +554,46 @@ function throttle(func, interval) {
     };
 }
 
+function getLanguage() {
+    let local_lng = localStorage.getItem('lang');
+	if (!local_lng) {
+		let country = navigator.language || navigator.userLanguage;
+		switch (country) {
+			case "ko-KR" :
+				local_lng = "KR";
+				break;
+			
+			case "zh-CN" :
+				local_lng = "CN";
+				break;
+			
+			default :
+				local_lng = "EU";
+				break
+		}
+	}
+    
+	return local_lng;
+}
+function xssDecode(data){
+    var decode_str = null;
+    if(data != null){
+        decode_str = data.replace(/&amp;/g, '&');
+        decode_str = decode_str.replace(/&quot;/g, '\"');
+        decode_str = decode_str.replace(/&apos;/g, "'");
+        decode_str = decode_str.replace(/&lt;/g, '<');
+        decode_str = decode_str.replace(/&gt;/g, '>');
+        decode_str = decode_str.replace(/<br>/g, '\r');
+        decode_str = decode_str.replace(/<p>/g, '\n');
+    }
+    
+    return decode_str;
+}
+
 window.addEventListener("DOMContentLoaded", function () {
     createFooterObserver();
-    changeLanguage();
+    
 })
-
+window.addEventListener("load", function(){
+    changeLanguage(); 
+})

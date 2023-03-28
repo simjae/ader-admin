@@ -4,7 +4,7 @@
         transition-duration: 0.3s;
         z-index: 11;
     }
-    
+
     .remove-btn {
         display: flex;
         position: relative;
@@ -20,26 +20,17 @@
 
     .quickview__box {
         position: fixed;
-        margin: 0 auto;
-        margin-right: 0;
         bottom: 0;
-        left: 0;
-        max-width: 2560px;
-        width: 37vw;
-        right: 0;
-
-        /* height: 200px; */
+        right: -80px;
         min-height: 202px;
-
-        display: flex;
-        justify-content: flex-end;
-        overflow: hidden;
     }
+
     .wish-msg {
         display: flex;
         justify-content: center;
         margin-left: 20px;
     }
+
     .quickview__box.on {
         position: absolute;
     }
@@ -47,7 +38,7 @@
     .quickview__btn__wrap {
         /* quickview_contents height에 종속되지 않기 위함  */
         position: absolute;
-
+        right: 0px;
         width: 60px;
         order: 2;
         z-index: 20;
@@ -58,18 +49,18 @@
     }
 
     .quickview__btn__wrap.open {
-        transform: translateX(0px);
-        
+        transform: translateX(-80px);
+
         /*FAQ 클릭시 퀵메뉴영역 아래로 고정*/
         bottom: 0;
     }
 
     .quickview__content__wrap {
         background-color: #ffffff;
-        transform: translateX(500px);
+        transform: translateX(430px);
         transition: all 0.5s;
         order: 1;
-        /* display: none; */
+        display: none;
         border-bottom: solid 1px #000;
         border-top: solid 1px #000;
         border-left: solid 1px #000;
@@ -79,8 +70,8 @@
         height: 202px;
         min-width: 205px;
         max-width: 430px;
-        /* display: block; */
-        transform: translateX(0px);
+        display: block;
+        transform: translateX(-79px);
         overflow-x: hidden;
         position: relative;
     }
@@ -112,7 +103,7 @@
     .quickview__btn__wrap .btn__box {
         display: flex;
         flex-direction: column;
-        width:60px;
+        width: 60px;
         height: 50px;
         border-bottom: solid 1px #000;
         padding: 7px 0 0px 7px;
@@ -236,7 +227,10 @@
         display: none;
         text-decoration: underline;
     }
-    .hidden{display:none}
+
+    .hidden {
+        display: none
+    }
 
     /* 스와이프 css */
     .quickview-whish-swiper .swiper-box {
@@ -284,27 +278,35 @@
     .quickview-whish-swiper .swiper-slide {
         width: 80px;
     }
+
     .close-swiper {
         max-width: 0;
     }
-    .common-contents-container.hidden{display:none}
-    .chat-box{
-        position:relative;
+
+    .common-contents-container.hidden {
+        display: none
+    }
+
+    .chat-box {
+        position: relative;
         display: flex;
         justify-content: flex-end;
     }
+
     .arrow_box {
         position: relative;
         background: #ffffff;
         border: 1px solid #000;
-        max-width:310px;
-        border-radius:2px;
-        padding:15px 20px;
+        max-width: 310px;
+        border-radius: 2px;
+        padding: 15px 20px;
     }
-    .arrow_box :after, .arrow_box :before {
+
+    .arrow_box :after,
+    .arrow_box :before {
         left: 100%;
         top: 50%;
-        border: solid ;
+        border: solid;
         content: "";
         height: 0;
         width: 0;
@@ -318,56 +320,130 @@
         border-width: 10px;
         margin-top: -10px;
     }
+
     .arrow_box :before {
         border-color: rgba(128, 128, 128, 0);
         border-left-color: #000;
         border-width: 11px;
         margin-top: -11px;
     }
-    .common-contents-container p, .common-contents-container span,.common-contents-container input{font-size:11px;}
-    .contents-btn{font-size:11px;}
-    .quickview__content__wrap .faq-btn-wrap.member .btn{float:right;vertical-align:middle}
+
+    .common-contents-container p,
+    .common-contents-container span,
+    .common-contents-container input {
+        font-size: 11px;
+    }
+
+    .contents-btn {
+        font-size: 11px;
+    }
+
+    .quickview__content__wrap .faq-btn-wrap.member .btn {
+        float: right;
+        vertical-align: middle
+    }
+
     .contents-footer {
         /* display: flex; */
         padding: 10px;
         gap: 10px;
     }
-    .contents-footer .file-upload-btn{width:60px;height:40px;border:1px solid #000}
-    #inquiryTextBox{height:40px;width:100%;border:1px solid #000;padding:10px;outline: none;}
-    .contents-footer .submit_btn{width:95px;height:40px;border:1px solid #000;background-color:#191919;color:#fff;}
-    .parent-move-link{float:right;text-decoration:underline;cursor:pointer}
-    
-    .quickview__content__wrap .faq-btn-wrap.admin .contents{margin-bottom:20px}
-    .quickview__content__wrap .faq-btn-wrap.admin .question{margin-top:24px;}
-    .quickview__content__wrap .faq-btn-wrap.admin .answer{margin-top:16px;}
-    .quickview__content__wrap .faq-btn-wrap.member{
-        min-height:46px;
-        margin-right:10px;
-        margin-bottom:22px;
+
+    .contents-footer .file-upload-btn {
+        width: 60px;
+        height: 40px;
+        border: 1px solid #000
     }
-    .quickview__content__wrap.faq.open .all-btn.mobile{display:none;}
-    @media (min-width: 1024px){
-        .common-contents-container{width:420px;}
-        .quickview__content__wrap.open{margin-right:60px;border:1px solid #000;overflow:none}
-        .quickview__content__wrap.faq.open{height:100%;min-height:202px;max-height:calc(100vh - 52px);display:flex;flex-direction:column;width:420px;}
-        .quickview__content__wrap.faq.open .common-contents-container{flex: 1;overflow-y:auto;overflow-x:hidden;}
-        .quickview__content__wrap .faq-btn-wrap.admin{
-            width:310px;
-            margin-left:27px;
-            background-color:#f8f8f8;
-            margin-bottom:22px;
-            padding:20px
+
+    #inquiryTextBox {
+        height: 40px;
+        width: 100%;
+        border: 1px solid #000;
+        padding: 10px;
+        outline: none;
+    }
+
+    .contents-footer .submit_btn {
+        width: 95px;
+        height: 40px;
+        border: 1px solid #000;
+        background-color: #191919;
+        color: #fff;
+    }
+
+    .parent-move-link {
+        float: right;
+        text-decoration: underline;
+        cursor: pointer
+    }
+
+    .quickview__content__wrap .faq-btn-wrap.admin .contents {
+        margin-bottom: 20px
+    }
+
+    .quickview__content__wrap .faq-btn-wrap.admin .question {
+        margin-top: 24px;
+    }
+
+    .quickview__content__wrap .faq-btn-wrap.admin .answer {
+        margin-top: 16px;
+    }
+
+    .quickview__content__wrap .faq-btn-wrap.member {
+        min-height: 46px;
+        margin-right: 10px;
+        margin-bottom: 22px;
+    }
+
+    .quickview__content__wrap.faq.open .all-btn.mobile {
+        display: none;
+    }
+
+    @media (min-width: 1024px) {
+        .common-contents-container {
+            width: 420px;
         }
-        .quickview__content__wrap .faq-btn-wrap.admin .contents-btn{
-            width:270px;
-            height:30px;
-            border:1px solid #dcdcdc;
-            margin-top:10px;
-            text-align:center;
-            line-height:30px;
-            cursor:pointer;
+
+        .quickview__content__wrap.open {
+            margin-right: 60px;
+            border: 1px solid #000;
+            overflow: none
+        }
+
+        .quickview__content__wrap.faq.open {
+            height: 100%;
+            min-height: 202px;
+            max-height: calc(100vh - 52px);
+            display: flex;
+            flex-direction: column;
+            width: 420px;
+        }
+
+        .quickview__content__wrap.faq.open .common-contents-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .quickview__content__wrap .faq-btn-wrap.admin {
+            width: 310px;
+            margin-left: 27px;
+            background-color: #f8f8f8;
+            margin-bottom: 22px;
+            padding: 20px
+        }
+
+        .quickview__content__wrap .faq-btn-wrap.admin .contents-btn {
+            width: 270px;
+            height: 30px;
+            border: 1px solid #dcdcdc;
+            margin-top: 10px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
         }
     }
+
     @media (max-width: 1024px) {
         .quickview__btn__wrap .btn__box p {
             visibility: hidden;
@@ -381,24 +457,21 @@
             text-align: left;
             color: #343434;
         }
+
         .btn__box .btn_icon_wrap {
             display: flex;
             gap: 5px;
             margin-top: 10px;
         }
+
         .quickview__box {
             position: fixed;
-            margin: 0 auto;
+            width: 101vw;
+            min-height: auto;
             bottom: 0;
-            left: 0;
-            max-width: 2560px;
-            width: 100vw;
-            right: 0;
-            /* height: 200px; */
-            display: flex;
-            justify-content: flex-end;
-            overflow: hidden;
+            height: auto;
         }
+
         .swiper-quick-container {
             min-height: auto;
         }
@@ -409,11 +482,6 @@
 
         .all-btn.mobile {
             display: block;
-        }
-        .quickview__box {
-            bottom: 0;
-            height: auto;
-            flex-direction: column;
         }
 
         .quickview__content__wrap {
@@ -427,9 +495,9 @@
 
         .quickview__content__wrap.open {
             height: 110px;
-            max-width: 100vw;
+            max-width: 101vw;
             visibility: visible;
-            margin-bottom:46px;
+            margin-bottom: 46px;
         }
 
         .quickview__btn__wrap {
@@ -437,6 +505,7 @@
             display: flex;
             justify-content: space-evenly;
             border: 0;
+            right: 0;
             border-top: 1px solid #000;
             transform: translateX(0px);
             transform: translateY(60px);
@@ -444,7 +513,7 @@
         }
 
         .quickview__btn__wrap.open {
-            transform: translateX(0px);
+            transform: translateX(-80px);
         }
 
         .btn__box {
@@ -487,23 +556,37 @@
             max-height: 55px;
         }
 
-        .quickview__content__wrap.faq.open{height:100%;min-height:100px;max-height:calc(100vh - 205px);z-index:10;display:flex;flex-direction:column;}
-        .quickview__content__wrap.faq.open .common-contents-container{flex: 1;overflow-y:auto;overflow-x:hidden;}
-        .quickview__content__wrap .faq-btn-wrap.admin{
-            width:calc(100% - 40px);
-            background-color:#f8f8f8;
-            margin:20px 0 20px 20px;
-            padding:20px;
+        .quickview__content__wrap.faq.open {
+            height: 100%;
+            min-height: 100px;
+            max-height: calc(100vh - 205px);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
         }
-        .quickview__content__wrap .faq-btn-wrap.admin .contents-btn{
-            width:100%;
-            height:30px;
-            padding:0 20px 0 20px;
-            border:1px solid #dcdcdc;
-            margin-top:10px;
-            text-align:center;
-            line-height:30px;
-            cursor:pointer;
+
+        .quickview__content__wrap.faq.open .common-contents-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .quickview__content__wrap .faq-btn-wrap.admin {
+            width: calc(100% - 40px);
+            background-color: #f8f8f8;
+            margin: 20px 0 20px 20px;
+            padding: 20px;
+        }
+
+        .quickview__content__wrap .faq-btn-wrap.admin .contents-btn {
+            width: 100%;
+            height: 30px;
+            padding: 0 20px 0 20px;
+            border: 1px solid #dcdcdc;
+            margin-top: 10px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
         }
     }
 </style>
@@ -518,7 +601,7 @@
                 </div>
             </div>
             <div class="btn__box real__btn" data-quick="real">
-                <div class="btn_icon_wrap">    
+                <div class="btn_icon_wrap">
                     <img src="/images/svg/wish-real.svg" alt="">
                     <p>Top</p>
                 </div>
@@ -562,7 +645,7 @@
                     <img src="/images/svg/file_clip_btn.svg" style="width:22px;height:22px;margin:5px auto;margin-left:11px">
                 </div>
                 <input type="text" id="inquiryTextBox" name="inquiryTextBox">
-                
+
                 <button class="submit_btn" onclick="registQuickViewInquiry()">확인</button>
             </div>
             <div class="swiper-quick-container">
@@ -579,16 +662,16 @@
     let contentWrap = document.querySelector(".quickview__content__wrap");
     let quickViewWarp = document.querySelector(".quickview__box");
     let swiperContainer = document.querySelector(".swiper-quick-container");
-    
+
     let quickViewTimer;
     let observer = new MutationObserver(mutations => {
         mutations.forEach(mutation => {
-            if(target.value == 'open') {
+            if (target.value == 'open') {
                 clearTimeout(quickViewTimer);
                 contentWrap.classList.add('open');
                 swiperContainer.classList.remove('close-swiper');
-            } 
-            if(target.value == 'close') {
+            }
+            if (target.value == 'close') {
                 quickViewTimer = setTimeout(function() {
                     contentWrap.classList.remove('open');
                     swiperContainer.classList.add('close-swiper');
@@ -613,19 +696,19 @@
     quickViewWarp.addEventListener('mouseleave', function() {
         target.value = 'close';
     })
-    
-    let quickviewBreakpoint = window.matchMedia('screen and (min-width:1025px)');//미디어 쿼리 
+
+    let quickviewBreakpoint = window.matchMedia('screen and (min-width:1025px)'); //미디어 쿼리 
     let sideQuickSwiper; //스와이퍼 변수
     const webSideQuickSwiperOption = {
         // observer: true,
         // observeParents: true,
-        autoHeight:false,
+        autoHeight: false,
         navigation: {
             nextEl: ".swiper-quick-container .swiper-button-next",
             prevEl: ".swiper-quick-container .swiper-button-prev",
         },
         breakpointsBase: "container",
-        grabCursor: true,
+        // grabCursor: true,
         breakpoints: {
             170: {
                 spaceBetween: 5,
@@ -653,36 +736,68 @@
             prevEl: ".quickview-whish-swiper .swiper-button-prev",
         },
         autoHeight: true,
-        grabCursor: true,
+        // grabCursor: true,
         // slidesPerView: 'auto',
-        spaceBetween: 5,
-        slidesPerView: 5.2,
-        breakpoints: {
-            320: {
-                spaceBetween: 5,
-                slidesPerView: 5.2
-            },
-            400: {
-                spaceBetween: 5,
-                slidesPerView: 6.2
-            },
-            500: {
-                spaceBetween: 5,
-                slidesPerView: 10
-            }
-
-        }
+        slidesPerView: 5.6
+        // breakpoints: {
+        //     320: {
+        //         spaceBetween: 3.2,
+        //         slidesPerView: 5.2
+        //     },
+        //     400: {
+        //         spaceBetween: 3.2,
+        //         slidesPerView: 6.2
+        //     },
+        //     500: {
+        //         spaceBetween: 3.2,
+        //         slidesPerView: 10
+        //     },
+        //     600: {
+        //         spaceBetween: 3.2,
+        //         slidesPerView: 10
+        //     },
+        //     700: {
+        //         spaceBetween: 3.2,
+        //         slidesPerView: 10
+        //     },
+        //     800: {
+        //         spaceBetween: 3.2,
+        //         slidesPerView: 10
+        //     }, 
+        //     900: {
+        //         spaceBetween: 3.2,
+        //         slidesPerView: 10
+        //     }
+        // }
     }
+    // function initSideQuickSwiper(el, option) {
+    //     if (sideQuickSwiper !== undefined) {
+    //         console.log("🏂 ~ file: quickview.php:656 ~ initSideQuickSwiper ~ sideQuickSwiper:", sideQuickSwiper)
+    //         if (typeof (sideQuickSwiper) == 'object') {
+    //             console.log("🏂 ~ file: quickview.php:658 ~ initSideQuickSwiper ~ typeof (sideQuickSwiper):", typeof (sideQuickSwiper))
+    //             sideQuickSwiper.destroy();
+    //             sideQuickSwiper = null;
+    //         }
+    //     }
+    //     sideQuickSwiper = new Swiper(el, option);
+    //     return sideQuickSwiper;
+    // }
     function initSideQuickSwiper(el, option) {
-        if (sideQuickSwiper !== undefined) {
-            if (typeof (sideQuickSwiper) == 'object') {
-                sideQuickSwiper.destroy();
-                sideQuickSwiper = null;
-            }
-        }
+        // if (typeof sideQuickSwiper !== 'undefined') {
+        //     if (Array.isArray(sideQuickSwiper)) {
+        //         sideQuickSwiper.forEach(function(swiper) {
+        //             swiper.destroy();
+        //         });
+        //     } else if (typeof sideQuickSwiper === 'object') {
+        //         sideQuickSwiper.destroy();
+        //     }
+        //     sideQuickSwiper = null;
+        // }
+        console.log("🏂 ~ file: quickview.php:798 ~ initSideQuickSwiper ~ sideQuickSwiper:", sideQuickSwiper)
         sideQuickSwiper = new Swiper(el, option);
         return sideQuickSwiper;
     }
+
     function responsiveQuickSwiper(el) {
         if (quickviewBreakpoint.matches === true) {
             return initSideQuickSwiper(el, webSideQuickSwiperOption);
@@ -690,6 +805,7 @@
             return initSideQuickSwiper(el, mobileSideQuickSwiperOption);
         }
     };
+
     function quickClickHandler() {
         let $btnBox = document.querySelector(".btn__box");
         let $btnBoxImg = document.querySelector(".btn__box img");
@@ -700,24 +816,24 @@
         let $titleBoxSpan = document.querySelector(".title__box span");
         let $titleBoxImg = document.querySelector(".title__box img");
         let swiper = document.querySelector(".swiper-quick-container");
-        
+
         let commonContents = document.querySelector('.common-contents-container');
         let contents_footer = document.querySelector('.contents-footer');
 
         let $contentWrap = document.querySelector(".quickview__content__wrap");
         const whishSwiperWrap = document.querySelector(".quickview-whish-swiper");
-        
+
         $$btnBox.forEach((el) => {
-            el.addEventListener("click", function (e) {
+            el.addEventListener("click", function(e) {
                 let $currentTarget = e.currentTarget;
                 let $target = e.target;
                 let targetData = e.currentTarget.dataset.quick;
                 let $$allBtn = document.querySelectorAll(".quickview__box .all-btn");
-                
+
                 $$allBtn[1].style.display = "flex";
-                swiper.style.display="flex";
+                swiper.style.display = "flex";
                 swiper.classList.remove("close-swiper");
-                
+
                 if (e.currentTarget.classList.contains("select")) {
                     e.currentTarget.classList.remove("select");
                     $contentWrap.classList.remove("open");
@@ -734,7 +850,7 @@
                         $contentWrap.classList.add("open");
                         commonContents.classList.add('hidden');
                         contents_footer.style.display = 'none';
-                        const recentlyViewedStr = localStorage.getItem('recentlyViewed'); 
+                        const recentlyViewedStr = localStorage.getItem('recentlyViewed');
                         const recentlyViewedArr = JSON.parse(recentlyViewedStr);
                         console.log("🏂 ~ file: quickview.php:610 ~ recentlyViewedArr:", recentlyViewedArr)
                         if (recentlyViewedArr && recentlyViewedArr.length > 0) {
@@ -743,6 +859,7 @@
                         } else {
                             recentWriteSwiperHtml([]);
                         }
+                        $('.all-btn').hide();
                     }
                     if (targetData == "real") {
                         whishSwiperWrap.innerHTML = "";
@@ -754,6 +871,7 @@
                         $contentWrap.classList.add("open");
                         commonContents.classList.add('hidden');
                         contents_footer.style.display = 'none';
+                        $('.all-btn').hide();
                     }
                     if (targetData == "list") {
                         whishSwiperWrap.innerHTML = "";
@@ -777,11 +895,12 @@
                         commonContents.classList.remove('hidden');
                         contents_footer.style.display = 'flex';
                         swiper.classList.add("close-swiper");
-                        swiper.style.display="none";
+                        swiper.style.display = "none";
                         $$allBtn[1].style.display = "none";
                         $('.common-contents-container').html('');
                         getFaqCategoryList();
                         contents_footer.style.display = 'none';
+                        $('.all-btn').hide();
                     }
                 }
             });
@@ -793,33 +912,37 @@
             });
         }
     };
+
     function getPopularProductList() {
         let country = getLanguage();
         $.ajax({
             type: "post",
-            data: {'country':country },
+            data: {
+                'country': country
+            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/quickview/popular/get",
-            error: function () {
+            error: function() {
                 alert("위시 리스트 등록 상품 불러오기 처리에 실패했습니다.");
             },
-            success: function (d) {
+            success: function(d) {
                 let data = d.data;
                 writeSwiperHtml(data);
             }
         });
     }
     let nowData;
+
     function getWhishlistProductList() {
         let country = getLanguage();
         $.ajax({
             type: "post",
             dataType: "json",
             url: "http://116.124.128.246:80/_api/order/whish/list/get",
-            error: function () {
+            error: function() {
                 alert("위시 리스트 등록 상품 불러오기 처리에 실패했습니다.");
             },
-            success: function (d) {
+            success: function(d) {
                 let data = d.data;
                 if (data != null) {
                     writeWishlistSwiperHtml(data);
@@ -837,10 +960,14 @@
                     whishDomFlag.appendChild(swiperWrapper);
                     quickviewWrap.appendChild(whishDomFlag);
                     quickviewWrap.appendChild(nextBtn);
+                    $('.quickview-whish-swiper .swiper-button-next').hide();
+                    $('.all-btn').hide();
+
                 }
             }
         });
     }
+
     function resizeWidth(dataCnt) {
         let arrowWidth = 30;
         let width = 420;
@@ -857,15 +984,16 @@
             width = (200 - arrowWidth) + "px";
         }
         console.log("🏂 ~ file: quickview.php:713 ~ resizeWidth ~ width:", width)
-        
-        $(".swiper-quick-container .quickview-swiper-wrapper").css('width',width);
+
+        $(".swiper-quick-container .quickview-swiper-wrapper").css('width', width);
     }
+
     function recentWriteSwiperHtml(data) {
-        if(data != null){
+        if (data != null) {
             let dataCnt = 0;
             dataCnt = data.length;
             console.log("🏂 ~ file: quickview.php:718 ~ recentWriteSwiperHtml ~ dataCnt:", dataCnt)
-            console.log("Object.keys Length : ",Object.keys(data).length);
+            console.log("Object.keys Length : ", Object.keys(data).length);
             const whishDomFlag = document.createDocumentFragment();
             const swiperWrapper = document.createElement("div");
             const swiperWrap = document.querySelector(".quickview-whish-swiper");
@@ -883,7 +1011,12 @@
                 data = Array.from(data).reverse();
                 data.forEach((product, idx) => {
                     let data = JSON.parse(product);
-                    let { product_idx, product_name, img_main, stock_status } = data;
+                    let {
+                        product_idx,
+                        product_name,
+                        img_main,
+                        stock_status
+                    } = data;
                     //const domain = img_main.replace(/^(http(s)?:\/\/)?[\d\.]+(:\d+)?/, "");
                     slideDiv += `<div class="swiper-slide" data-productidx="${product_idx}">
                                     <a href="">
@@ -905,8 +1038,9 @@
             }
         }
     }
+
     function writeSwiperHtml(data) {
-        if(data != null){
+        if (data != null) {
             let dataCnt = 0;
             dataCnt = data.length;
             const whishDomFlag = document.createDocumentFragment();
@@ -917,7 +1051,12 @@
             swiperWrapper.className = "swiper-wrapper quickview-swiper-wrapper";
             let slideDiv = "";
             data.forEach((product, idx) => {
-                let { product_idx, product_name, img_location, product_link } = product;
+                let {
+                    product_idx,
+                    product_name,
+                    img_location,
+                    product_link
+                } = product;
                 slideDiv += `<div class="swiper-slide" data-productidx="${product_idx}">
                                 <a href="116.124.128.246:80${product_link}">
                                     <div class="swiper-box"><img src="${img_root}${img_location}" alt="">
@@ -937,8 +1076,9 @@
             responsiveQuickSwiper(el);
         }
     }
+
     function writeWishlistSwiperHtml(data) {
-        if(data != null){
+        if (data != null) {
             let dataCnt = 0;
             dataCnt = data.length;
             const whishDomFlag = document.createDocumentFragment();
@@ -949,7 +1089,11 @@
             swiperWrapper.className = "swiper-wrapper quickview-swiper-wrapper";
             let slideDiv = "";
             data.forEach((product, idx) => {
-                let { product_idx, product_name, product_img } = product;
+                let {
+                    product_idx,
+                    product_name,
+                    product_img
+                } = product;
                 slideDiv += `<div class="swiper-slide" data-productidx="${product_idx}">
                                 <a href="116.124.128.246:80/product/detail?product_idx=${product_idx}">
                                     <div class="swiper-box"><img src="${img_root}${product_img}" alt="">
@@ -958,7 +1102,7 @@
                                 </a>
                             </div>`;
             });
-            
+
             swiperWrapper.innerHTML = slideDiv;
             whishDomFlag.appendChild(swiperWrapper);
             whishSwiperWrap.innerHTML = "";
@@ -973,22 +1117,23 @@
 
 
 
-    window.addEventListener('resize', function () {
+    window.addEventListener('resize', function() {
         let delay = 500;
         let timer = null;
         clearTimeout(timer);
-        timer = setTimeout(function () {
+        timer = setTimeout(function() {
             let breakpoint = window.matchMedia('screen and (min-width:1025px)');
             let el = ".swiper-quick-container";
-            if(nowData != null) {
+            if (nowData != null) {
                 writeWishlistSwiperHtml(nowData);
             }
         }, delay);
     });
-    window.addEventListener('DOMContentLoaded', function () {
+    window.addEventListener('DOMContentLoaded', function() {
         // elemScrollFooterUpEvent(".quickview__box");
         quickClickHandler();
     });
+
     function quickviewContentClose() {
         let $contentWrap = document.querySelector("#quickview .quickview__content__wrap");
         let $listBtn = document.querySelector("#quickview .btn__box.list__btn");
@@ -999,28 +1144,28 @@
         $listBtn.classList.remove("select");
     }
 
-    function getFaqCategoryList(){
+    function getFaqCategoryList() {
         let country = getLanguage();
         $.ajax({
             type: "post",
-            data:{ 
-                    'country': country,
-                    'category_type' : 'FAQ'
-                },
+            data: {
+                'country': country,
+                'category_type': 'FAQ'
+            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/quickview/inquiry/category/get",
-            error: function () {
+            error: function() {
                 alert("FAQ 카테고리 불러오기 처리에 실패했습니다.");
             },
-            success: function (d) {
-                if(d != null){
-                    if(d.data != null && d.data.length > 0){
+            success: function(d) {
+                if (d != null) {
+                    if (d.data != null && d.data.length > 0) {
                         strDiv = `
                             <div class="faq-btn-wrap admin">
                                 <div class="contents-header"><p>무엇을 도와드릴까요?</p></div>
                                 <div class="contents-body">
                             `;
-                        d.data.forEach(function(row){
+                        d.data.forEach(function(row) {
                             strDiv += `
                                     <div class="contents-btn" onclick="getQuickViewFaqList(${row.idx}, '${row.title}')">${row.title}</div>
                             `;
@@ -1033,39 +1178,42 @@
                         $('.quickview__content__wrap .common-contents-container').append(strDiv);
 
                         let scroll_height = $(".common-contents-container").prop('scrollHeight');
-                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({scrollTop : scroll_height}, 400);
-                        $(".quickview__content__wrap.faq.open").animate({scrollTop : scroll_height}, 400);
-                    }
-                    else{
+                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                        $(".quickview__content__wrap.faq.open").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                    } else {
 
                     }
-                }
-                else{
+                } else {
 
                 }
             }
         });
     }
-    function getQuickViewFaqList(category_no, category_title){
+
+    function getQuickViewFaqList(category_no, category_title) {
         let country = getLanguage();
-        
+
         $('#sel_category_no').val(category_no);
         $('#sel_category_title').val(category_title);
 
         $.ajax({
             type: "post",
-            data:{ 
-                    'country': country,
-                    'category_no' : category_no
-                },
+            data: {
+                'country': country,
+                'category_no': category_no
+            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/quickview/inquiry/list/get",
-            error: function () {
+            error: function() {
                 alert("FAQ 카테고리 불러오기 처리에 실패했습니다.");
             },
-            success: function (d) {
-                if(d != null){
-                    if(d.data != null && d.data.length > 0){
+            success: function(d) {
+                if (d != null) {
+                    if (d.data != null && d.data.length > 0) {
                         strDiv = '';
                         strDiv += `
                             <div class="faq-btn-wrap member">
@@ -1086,7 +1234,7 @@
                             <div class="faq-btn-wrap admin">
                                 <div class="contents-body">
                             `;
-                        d.data.forEach(function(row){
+                        d.data.forEach(function(row) {
                             strDiv += `
                                     <div class="contents-btn" onclick="getFaqContents(${row.idx}, '${row.subcategory}')">${row.subcategory}</div>
                             `;
@@ -1098,38 +1246,41 @@
                         $('.quickview__content__wrap .common-contents-container').append(strDiv);
 
                         let scroll_height = $(".common-contents-container").prop('scrollHeight');
-                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({scrollTop : scroll_height}, 400);
-                        $(".quickview__content__wrap.faq.open").animate({scrollTop : scroll_height}, 400);
-                    }
-                    else{
+                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                        $(".quickview__content__wrap.faq.open").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                    } else {
 
                     }
-                }
-                else{
+                } else {
 
                 }
             }
         });
     }
-    function getFaqContents(faq_idx, subcategory){
+
+    function getFaqContents(faq_idx, subcategory) {
         let country = getLanguage();
-        
+
         let prev_category_no = $('#sel_category_no').val();
         let prev_category_tilte = $('#sel_category_title').val();
         $.ajax({
             type: "post",
-            data:{ 
-                    'country': country,
-                    'faq_idx' : faq_idx
-                },
+            data: {
+                'country': country,
+                'faq_idx': faq_idx
+            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/quickview/inquiry/get",
-            error: function () {
+            error: function() {
                 alert("FAQ 카테고리 불러오기 처리에 실패했습니다.");
             },
-            success: function (d) {
-                if(d != null){
-                    if(d.data != null){
+            success: function(d) {
+                if (d != null) {
+                    if (d.data != null) {
                         strDiv = '';
                         strDiv += `
                             <div class="faq-btn-wrap member">
@@ -1167,35 +1318,37 @@
                         $('.quickview__content__wrap .common-contents-container').append(strDiv);
 
                         let scroll_height = $(".common-contents-container").prop('scrollHeight');
-                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({scrollTop : scroll_height}, 400);
-                        $(".quickview__content__wrap.faq.open").animate({scrollTop : scroll_height}, 400);
-                    }
-                    else{
+                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                        $(".quickview__content__wrap.faq.open").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                    } else {
 
                     }
-                }
-                else{
-                }
+                } else {}
             }
         });
     }
-    function getInquiryCategory(){
+
+    function getInquiryCategory() {
         let country = getLanguage();
-        
+
         $.ajax({
             type: "post",
-            data:{ 
-                    'country': country,
-                    'category_type' : 'INQ'
-                },
+            data: {
+                'country': country,
+                'category_type': 'INQ'
+            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/quickview/inquiry/category/get",
-            error: function () {
+            error: function() {
                 alert("FAQ 카테고리 불러오기 처리에 실패했습니다.");
             },
-            success: function (d) {
-                if(d != null){
-                    if(d.data != null && d.data.length > 0){
+            success: function(d) {
+                if (d != null) {
+                    if (d.data != null && d.data.length > 0) {
                         strDiv = `
                             <div class="faq-btn-wrap member">
                                 <div class="chat-box">
@@ -1211,7 +1364,7 @@
                                 </div>
                                 <div class="contents-body">
                             `;
-                        d.data.forEach(function(row){
+                        d.data.forEach(function(row) {
                             strDiv += `
                                     <div class="contents-btn" onclick="moveInquiryForm('${row.code_value}','${row.code_name}')">${row.code_name}</div>
                             `;
@@ -1223,22 +1376,25 @@
                         $('.quickview__content__wrap .common-contents-container').append(strDiv);
 
                         let scroll_height = $(".common-contents-container").prop('scrollHeight');
-                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({scrollTop : scroll_height}, 400);
-                        $(".quickview__content__wrap.faq.open").animate({scrollTop : scroll_height}, 400);
-                    }
-                    else{
+                        $(".quickview__content__wrap.faq.open .common-contents-container").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                        $(".quickview__content__wrap.faq.open").animate({
+                            scrollTop: scroll_height
+                        }, 400);
+                    } else {
 
                     }
-                }
-                else{
+                } else {
 
                 }
             }
         });
     }
-    function moveInquiryForm(code_value,code_name){
+
+    function moveInquiryForm(code_value, code_name) {
         let country = getLanguage();
-    
+
         strDiv = `
                 <div class="faq-btn-wrap member">
                     <div class="chat-box">
@@ -1261,16 +1417,21 @@
         contents_footer.style.display = "flex";
 
         let scroll_height = $(".common-contents-container").prop('scrollHeight');
-        $(".quickview__content__wrap.faq.open .common-contents-container").animate({scrollTop : scroll_height}, 400);
-        $(".quickview__content__wrap.faq.open").animate({scrollTop : scroll_height}, 400);
+        $(".quickview__content__wrap.faq.open .common-contents-container").animate({
+            scrollTop: scroll_height
+        }, 400);
+        $(".quickview__content__wrap.faq.open").animate({
+            scrollTop: scroll_height
+        }, 400);
     }
-    function registQuickViewInquiry(){
+
+    function registQuickViewInquiry() {
         let inquiry_type = $('#inquiry_type').val();
         let inquiry_title = $('#inquiry_title').val();
         let inquiryTextBox = $('#inquiryTextBox').val();
         let country = getLanguage();
 
-        if(inquiryTextBox != null && inquiryTextBox.length > 0){
+        if (inquiryTextBox != null && inquiryTextBox.length > 0) {
             strDiv = `
                 <div class="faq-btn-wrap member">
                     <div class="chat-box">
@@ -1283,18 +1444,17 @@
             $.ajax({
                 type: "post",
                 data: {
-                    'inquiry_type' : inquiry_type,
-                    'inquiry_title' : inquiry_title,
-                    'inquiryTextBox' :  inquiryTextBox,
-                    'country' : country
+                    'inquiry_type': inquiry_type,
+                    'inquiry_title': inquiry_title,
+                    'inquiryTextBox': inquiryTextBox,
+                    'country': country
                 },
                 dataType: "json",
                 url: "http://116.124.128.246:80/_api/mypage/inquiry/add",
-                error: function () {
-                },
-                success: function (d) {
-                    if(d != null){
-                        if(d.code == 200){
+                error: function() {},
+                success: function(d) {
+                    if (d != null) {
+                        if (d.code == 200) {
                             strDiv += `
                                 <div class="faq-btn-wrap admin">
                                     <div class="contents-header">
@@ -1313,14 +1473,17 @@
                                         <div class="contents-btn" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=inquiry_list'">나의 문의내역 보러가기</div>
                                     </div>
                                 </div>
-                            `; 
+                            `;
                             $('.quickview__content__wrap .common-contents-container').append(strDiv);
 
                             let scroll_height = $(".common-contents-container").prop('scrollHeight');
-                            $(".quickview__content__wrap.faq.open .common-contents-container").animate({scrollTop : scroll_height}, 400); 
-                            $(".quickview__content__wrap.faq.open").animate({scrollTop : scroll_height}, 400);
-                        }
-                        else{
+                            $(".quickview__content__wrap.faq.open .common-contents-container").animate({
+                                scrollTop: scroll_height
+                            }, 400);
+                            $(".quickview__content__wrap.faq.open").animate({
+                                scrollTop: scroll_height
+                            }, 400);
+                        } else {
                             strDiv += `
                                 <div class="faq-btn-wrap admin">
                                     <div class="contents-header">
@@ -1330,12 +1493,16 @@
                                         <div class="contents-btn" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=inquiry_list'">로그인 창으로 이동</div>
                                     </div>
                                 </div>
-                            `; 
+                            `;
                             $('.quickview__content__wrap .common-contents-container').append(strDiv);
 
                             let scroll_height = $(".common-contents-container").prop('scrollHeight');
-                            $(".quickview__content__wrap.faq.open .common-contents-container").animate({scrollTop : scroll_height}, 400); 
-                            $(".quickview__content__wrap.faq.open").animate({scrollTop : scroll_height}, 400);
+                            $(".quickview__content__wrap.faq.open .common-contents-container").animate({
+                                scrollTop: scroll_height
+                            }, 400);
+                            $(".quickview__content__wrap.faq.open").animate({
+                                scrollTop: scroll_height
+                            }, 400);
                         }
                     }
                 }
