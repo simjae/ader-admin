@@ -39,6 +39,45 @@ if ($country != null && $draw_idx != null) {
 		";
 		
 		$db->query($delete_draw_sql);
+		
+		$db_result = $db->affectedRows();
+		
+		$display_num = 1;
+		if ($db_result > 0) {
+			$select_draw_sql = "
+				SELECT
+					PD.IDX		AS DRAW_IDX
+				FROM
+					PAGE_DRAW PD
+				WHERE
+					PD.COUNTRY = '".$country."' AND
+					PD.DEL_FLG = FALSE
+				ORDER BY
+					PD.DISPLAY_NUM ASC
+			";
+			
+			$db->query($select_draw_sql);
+			
+			foreach($db->fetch() as $draw_data) {
+				$tmp_idx = $draw_data['DRAW_IDX'];
+				
+				if (!empty($tmp_idx)) {
+					$update_draw_sql = "
+						UPDATE
+							PAGE_DRAW
+						SET
+							DISPLAY_NUM = ".$display_num."
+						WHERE
+							IDX = ".$tmp_idx."
+					";
+					
+					$db->query($update_draw_sql);
+					
+					$display_num++;
+				}
+			}
+			
+		}
 	}
 }
 

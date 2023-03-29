@@ -17,7 +17,7 @@
                     DELIVERY_PRICE,
                     ISOLATED_FLG
                 FROM
-                    dev.DELIVERY_LOCATION
+                    DELIVERY_LOCATION
                 WHERE
                     IDX = ".$sel_idx;
 

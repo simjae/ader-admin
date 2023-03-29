@@ -5,6 +5,7 @@ table.draw__checkbox__table{width:30px;margin-bottom:14px;}
 
 .select_copy {width:150px;height:30px;border:1px solid #bfbfbf;border-radius:5px;float:right;margin-right:10px;}
 .save_font {font-size:12px;font-family:'NanumSquareRound',sans-serif;line-height:2.8;float:right;margin-right:10px;}
+#loading_img {position:absolute;width:75px;height:75px;z-index:9999;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
 </style>
 
 <?php include_once("check.php"); ?>
@@ -93,18 +94,6 @@ function getDrawList(country){
 	
 	let frm = $('#frm-draw-filter_' + country);
 	
-	let country_index = 0;
-	switch(country){
-		case 'KR':
-			country_index = 0;
-			break;
-		case 'EN':
-			country_index = 1;
-			break;
-		case 'CN':
-			country_index = 2;
-			break;
-	}
 	let result_checkbox_table = $("#draw_checkbox_table_" + country);
 	let result_table = $("#draw_result_table_" + country);
 	
@@ -126,7 +115,7 @@ function getDrawList(country){
 	var page = frm.find('.page').val();
 	
 	get_contents(frm,{
-		pageObj : $(".paging_"+country),
+		pageObj : $(".paging_" + country),
 		html : function(d) {
 			if(d != null){
 				if (d.length > 0) {
@@ -178,7 +167,7 @@ function getDrawList(country){
 					strDiv  += '			<span class="tooltip top">아래로</span>';
 					strDiv  += '		</div>';
 					strDiv  += '	</td>';
-					strDiv  += '	<td rowspan="' + rowspan_num + '">' + row.display_num + '</td>';
+					strDiv  += '	<td rowspan="' + rowspan_num + '">' + row.num + '</td>';
 					strDiv  += '	<td rowspan="' + rowspan_num + '" style="cursor:pointer;" onClick="window.open(\'http://116.124.128.246:81/product/detail/basic?product_idx=' + row.product_idx + '\')">';
 					strDiv  += '		<p style="margin-bottom:5px;"></p>';
 					strDiv  += '		<div class="product__img__wrap">';
@@ -353,25 +342,32 @@ function displayNumCheck(action_type,recent_num,draw_idx) {
 	}
 }
 function deleteDraw(){
-	confirm('선택한 드로우를 삭제하시겠습니까?',function(){
-		let country = $('#country').val();
-		var formData = new FormData();
-		formData = $("#frm-draw-list_"+country.toLowerCase()).serializeObject();
-		formData.country = country;
+	confirm(
+		'선택한 드로우를 삭제하시겠습니까?',
+		function(){
+			let country = $('#country').val();
+			var formData = new FormData();
+			formData = $("#frm-draw-list_" + country).serializeObject();
+			formData.country = country;
 
-		$.ajax({
-			url: config.api + "order/draw/delete",
-			type: "post",
-			data: formData,
-			dataType: "json",
-			error: function() {
-				alert('드로우 삭제 처리중 오류가 발생했습니다.');
-			},
-			success: function(d) {
-				getDrawList(country);
-				alert('선택한 드로우가 삭제되었습니다.');
+			$.ajax({
+				url: config.api + "order/draw/delete",
+				type: "post",
+				data: formData,
+				dataType: "json",
+				error: function() {
+					alert('드로우 삭제 처리중 오류가 발생했습니다.');
+				},
+				success: function(d) {
+					if (d.code == 200) {
+						getDrawList(country);
+						alert('선택한 드로우가 삭제되었습니다.');
+					} else {
+						alert(d.msg);
+					}
+				}
 			}
-		})
+		);
 	});
 }
 function updateDisplayNum(action, num, idx){
@@ -489,9 +485,10 @@ function copyDraw() {
 				},
 				dataType: "json",
 				beforeSend: function(){
-					loadingWithMask('/images/default/loading_img.gif')
+					loadingWithMask('/images/default/loading_img.gif');
 				},
 				error: function() {
+					closeLoadingWithMask();
 					alert('드로우 정보 복사처리중 오류가 발생했습니다.');
 				},
 				success: function(d) {
@@ -502,43 +499,46 @@ function copyDraw() {
 						
 						alert("드로우 정보가 복사되었습니다.");
 					}
+					else{
+						closeLoadingWithMask();
+						alert(d.msg);
+					}
 				}
 			});
 		}
 	)
 }
-
 function loadingWithMask(gif) {
-	var maskHeight = $(document).height();
-	var maskWidth  = window.document.body.clientWidth;
-	var top = 0;
-	var left = 0;
+   var maskHeight = $(document).height();
+   var maskWidth  = window.document.body.clientWidth;
+   var top = 0;
+   var left = 0;
 
-	top = ( $(window).height()) / 2 + $(window).scrollTop();
-	left = ( $(window).width()) / 2 + $(window).scrollLeft();
+   top = ( $(window).height()) / 2 + $(window).scrollTop();
+   left = ( $(window).width()) / 2 + $(window).scrollLeft();
 
-	//화면에 출력할 마스크를 설정해줍니다.
-	var mask	   = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
-	
-	let strDiv = "";
-	strDiv += '<div id="loading_img">';
-	strDiv += '	<img src="' + gif + '" style="width:75px; height:75px;"/>';
-	strDiv += '</div>';
+   //화면에 출력할 마스크를 설정해줍니다.
+   var mask      = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+   
+   let strDiv = "";
+   strDiv += '<div id="loading_img">';
+   strDiv += '   <img src="' + gif + '" style="width:75px; height:75px;"/>';
+   strDiv += '</div>';
 
-	$('body').append(mask);
-	$('body').append(strDiv);
-	
-	$('#loading_img').css('top',top);
-	$('#loading_img').css('left',left);
+   $('body').append(mask);
+   $('body').append(strDiv);
+   
+   $('#loading_img').css('top',top);
+   $('#loading_img').css('left',left);
+   
+   $('#mask_loading').css({'width' : maskWidth,'height': maskHeight,'opacity' : '0.5'}); 
 
-	$('#mask_loading').css({'width' : maskWidth,'height': maskHeight,'opacity' : '0.5'}); 
-
-	$('#mask_loading').show();
-	$('#loading_img').show();
+   $('#mask_loading').show();
+   $('#loadingImg').show();
 }
 
 function closeLoadingWithMask() {
-    $('#mask_loading, #loading_img').hide();
-    $('#mask_loading, #loading_img').empty();  
+   $('#mask_loading, #loading_img').hide();
+   $('#mask_loading, #loading_img').empty();  
 }
 </script>

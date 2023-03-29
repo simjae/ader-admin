@@ -430,30 +430,34 @@ if($price_type != null){
 
 //검색 유형 - 상품 등록일
 if ($search_date != null) {
+	$tmp_date = "DATE_FORMAT(PR.".$date_type.",'%Y-%m-%d')";
 	switch ($search_date) {
 		case "today" :
-			$where .= ' AND (PR.'.$date_type.' = CURDATE()) ';
+			$where .= " AND (".$tmp_date." = CURDATE()) ";
 			break;
+		
 		case "01d" :
-			$where .= ' AND (PR.'.$date_type.' = (CURDATE() - INTERVAL 1 DAY)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 DAY)) ";
 			break;
+		
 		case "03d" :
-			$where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 3 DAY)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 DAY)) ";
 			break;
+		
 		case "01w" :
-			$where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 7 DAY)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 7 DAY)) ";
 			break;
-		case "15d" :
-			$where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 15 DAY)) ';
-			break;
+		
 		case "01m" :
-			$where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 1 MONTH)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 MONTH)) ";
 			break;
+		
 		case "03m" :
-			$where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 3 MONTH)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 MONTH)) ";
 			break;
+		
 		case "01y" :
-			$where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 1 YEAR)) ';
+			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 YEAR)) ";
 			break;
 	}
 }

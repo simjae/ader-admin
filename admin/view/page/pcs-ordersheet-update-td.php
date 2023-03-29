@@ -6,6 +6,7 @@
 .btn__gray{height: 20px;color: #fff;padding: 3.5px 20px;border-radius: 2px;background-color: #bfbfbf;cursor:pointer;}
 .size_info_text {height:150px;}
 .smart_editer_text {height:180px;}
+.required_title{color:red;font-weight:800;}
 </style>
 
 <?php include_once("check.php"); ?>
@@ -54,35 +55,26 @@
 							<TBODY>
 								<TR>
 									<TH>스타일코드</TH>
-									<TD id="style_code"></TD>
+									<TD class="style_code"></TD>
 									
 									<TH>컬러코드</TH>
-									<TD id="color_code"></TD>
+									<TD class="color_code"></TD>
 									
 									<TH>상품코드</TH>
-									<TD id="product_code"></TD>
+									<TD class="product_code"></TD>
 								</TR>
-							</TBODY>
-						</TABLE>
-						
-						<TABLE>
-							<colgroup>
-								<col width="10%">
-								<col width="15%">
-								<col width="10%">
-								<col width="15%">
-								<col width="10%">
-								<col width="15%">
-								<col width="10%">
-								<col width="15%">
-							</colgroup>
-							<TBODY>
-								<TR>
+								<tr>
+									<TH>소재</td>
+									<td id="material"></td>
+									
+									<TH>상품 핏</TH>
+									<td id="fit"></td>
+									
 									<TH>프리오더 사용여부</TH>
-									<TD colspan="3" id="preorder_flg">
+									<TD id="preorder_flg">
 									
 									<TH>교환 환불 가능유무</TH>
-									<TD colspan="3" id="refund_flg">
+									<TD id="refund_flg">
 								</TR>
 								<tr>
 									<TH>라인 유형</TH>
@@ -205,32 +197,18 @@
                         <TABLE class="size_info_table">
                             <colgroup>
                                 <col width="10%">
-                                <col width="auto">
+                                <col width="15%">
                                 <col width="10%">
-                                <col width="auto">
+                                <col width="15%">
                                 <col width="10%">
-                                <col width="auto">
+                                <col width="15%">
 								<col width="10%">
-                                <col width="auto">
+                                <col width="15%">
                             </colgroup>
                             <TBODY>
 								<tr>
-									<TH>소재</td>
-									<td id="material"></td>
-									
-									<TH>상품 핏</TH>
-									<td id="fit"></td>
-									
-									<TH>rgb코드</TH>
-									<td id="color_rgb"></td>
-									
-									<TH>팬톤 코드</TH>
-									<td id="pantone_code"></td>
-								</tr>
-								
-								<tr>
                                     <TH>W/K/L/A</TH>
-									<TD colspan="3">
+									<TD>
 										<div id="div_wkla" style="margin-top:5px">
 										</div>
 									</TD>
@@ -240,56 +218,10 @@
                                     
 									<TH>모델착용 사이즈</TH>
                                     <TD id="model_wear">착용 사이즈 미입력</TD>
-                                </tr>
-								
-								<TR>
-									<TH>최초 TP 작성일</TH>
-									<TD id="tp_completion_date" colspan="7"></TD>
-								</TR>
-								
-                                <TR>
-									<TD colspan="8">
-										<div class="content__row">
-											<select id="size_guide_idx" name="size_guide_idx" class="fSelect eSearch" style="width:163px;" onChange="getSizeGuideList();">
-												<?php
-													$select_size_guide_sql = "
-														SELECT
-															SG.IDX				AS SIZE_IDX,
-															SG.CATEGORY_TYPE	AS CATEGORY_TYPE
-														FROM
-															dev.ORDERSHEET_MST OM
-															LEFT JOIN dev.SIZE_GUIDE SG ON
-															OM.SIZE_GUIDE_IDX = SG.IDX
-														WHERE
-															OM.IDX = ".$ordersheet_idx."
-													";
-													
-													$db->query($select_size_guide_sql);
-
-													foreach ($db->fetch() as $size_data) {
-														$size_idx = $size_data['SIZE_IDX'];
-														if (!empty($size_idx)) {
-												?>
-													<option value="<?=$size_data['SIZE_IDX']?>" readonly><?=$size_data['CATEGORY_TYPE']?></option>
-												<?php
-														} else {
-												?>
-													<option value="" readonly>사이즈 가이드 미선택</option>
-												<?php
-														}
-													}
-												?>
-											</select>
-										</div>
-										
-										<div id="div_size_guide">
-										</div>
-									</TD>
-								</TR>
-								
-								<TR id="ordersheet_option_info">
 									
-								</TR>
+									<TH>최초 TP 작성일</TH>
+									<TD id="tp_completion_date"></TD>
+                                </tr>
                             </TBODY>
                         </TABLE>
 						
@@ -299,41 +231,19 @@
                                 <col width="90%">
                             </colgroup>
                             <TBODY>
+								<TR>
+									<TH>[디자인] 소재</TH>
+									<TD class="smart_editer_text" id="material_dsn_kr"></TD>
+								</TR>
+								
                                 <TR>
-                                    <TH style="width:10%;">제품 상세정보 (한글)</TH>
+                                    <TH>[디자인] 상세정보</TH>
                                     <TD class="smart_editer_text" id="detail_kr"></TD>
                                 </TR>
-
+								
                                 <TR>
-                                    <TH style="width:10%;">제품 상세정보 (영문)</TH>
-                                    <TD class="smart_editer_text" id="detail_en"></TD>
-                                </TR>
-
-                                <TR>
-                                    <TH style="width:10%;">제품 상세정보 (중문)</TH>
-                                    <TD class="smart_editer_text" id="detail_cn"></TD>
-                                </TR>
-                            </TBODY>
-                        </TABLE>
-                        <TABLE style="margin-top:5px">
-                            <colgroup>
-                                <col width="10%">
-                                <col width="90%">
-                            </colgroup>
-                            <TBODY>
-                                <TR>
-                                    <TH style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TH>
+                                    <TH>[디자인] 취급 유의사항</TH>
                                     <TD class="smart_editer_text" id="care_dsn_kr"></TD>
-                                </TR>
-
-                                <TR>
-                                    <TH style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TH>
-                                    <TD class="smart_editer_text" id="care_dsn_en"></TD>
-                                </TR>
-
-                                <TR>
-                                    <TH style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TH>
-                                    <TD class="smart_editer_text" id="care_dsn_cn"></TD>
                                 </TR>
                             </TBODY>
                         </TABLE>
@@ -346,85 +256,123 @@
 						<TABLE>
 							<colgroup>
 								<col width="10%">
+								<col width="auto">
+								<col width="10%">
+								<col width="auto">
+								<col width="10%">
+								<col width="auto">
+							</colgroup>
+							<TBODY>
+								<TR>
+									<TH>스타일코드</TH>
+									<TD class="style_code"></TD>
+									
+									<TH>컬러코드</TH>
+									<TD class="color_code"></TD>
+									
+									<TH>상품코드</TH>
+									<TD class="product_code"></TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+						<TABLE>
+							<colgroup>
+								<col width="10%">
 								<col width="90%">
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TD>
-										<p>제품 취급 유의사항<br>생산 (한글)<p>
-										<button type="button" style="width:40%;background-color: #ffffff;margin-left:30%;margin-top:50px" country="kr" onclick="initCareStr(this)">초기화</button>
-									</TD>
-									<TD>
-										<textarea class="width-100p" id="care_td_kr" name="care_td_kr"
-											style="width:90%; height:150px;"></textarea>
-									</TD>
-								</TR>
-								<TR>
-									<TD>
-										<p>제품 취급 유의사항<br>생산 (영문)<p>
-										<button type="button" style="width:40%;background-color: #ffffff;margin-left:30%;margin-top:50px" country="en" onclick="initCareStr(this)">초기화</button>
-									</TD>
-									<TD>
-										<textarea class="width-100p" id="care_td_en" name="care_td_en"
-											style="width:90%; height:150px;"></textarea>
-									</TD>
-								</TR>
-								<TR>
-									<TD>
-										<p>제품 취급 유의사항<br>생산 (중문)<p>
-										<button type="button" style="width:40%;background-color: #ffffff;margin-left:30%;margin-top:50px" country="cn" onclick="initCareStr(this)">초기화</button>
-									</TD>
-									<TD>
-										<textarea class="width-100p" id="care_td_cn" name="care_td_cn"
-											style="width:90%; height:150px;"></textarea>
-									</TD>
-								</TR>
-								<TR>
-									<TD>소재 (한글)</TD>
-									<TD>
-										<textarea class="width-100p" id="material_kr" name="material_kr"
-											style="width:90%; height:150px;"></textarea>
-									</TD>
-								</TR>
+									<TD colspan="2">
+										<div class="content__row">
+											<select id="size_guide_category" name="size_guide_category" class="fSelect eSearch" style="width:163px;" onChange="getSizeGuideList();">
+												<?php
+													$select_size_guide_sql = "
+														SELECT
+															SG.CATEGORY_TYPE	AS CATEGORY_TYPE
+														FROM
+															ORDERSHEET_MST OM
+															LEFT JOIN SIZE_GUIDE SG ON
+															OM.SIZE_GUIDE_CATEGORY = SG.CATEGORY_TYPE
+														WHERE
+															OM.IDX = ".$ordersheet_idx." AND
+															SG.COUNTRY = 'KR'
+													";
+													
+													$db->query($select_size_guide_sql);
 
-								<TR>
-									<TD>소재 (영문)</TD>
-									<TD>
-										<textarea class="width-100p" id="material_en" name="material_en"
-											style="width:90%; height:150px;"></textarea>
+													foreach ($db->fetch() as $size_data) {
+														$size_idx = $size_data['CATEGORY_TYPE'];
+														if (!empty($size_idx)) {
+												?>
+													<option value="<?=$size_data['CATEGORY_TYPE']?>" readonly><?=$size_data['CATEGORY_TYPE']?></option>
+												<?php
+														} else {
+												?>
+													<option value="" readonly>사이즈 가이드 미선택</option>
+												<?php
+														}
+													}
+												?>
+											</select>
+											
+											<button id="reset_option_btn" onClick="resetOrdersheetOption();">초기화</button>
+										</div>
+										
+										<div id="div_size_guide">
+										</div>
+										
+										<TR id="ordersheet_option_info">
+									
+										</TR>
 									</TD>
 								</TR>
-
 								<TR>
-									<TD>소재 (중문)</TD>
+									<TH class="required_title">
+										[생산] 취급 유의사항
+										<br/>
+										<button type="button" style="width:40%;background-color:#ffffff;margin-top:10px;" country="kr" onclick="initCareStr(this)">초기화</button>
+									</TH>
 									<TD>
-										<textarea class="width-100p" id="material_cn" name="material_cn"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p" id="care_td_kr" name="care_td_kr" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+								
+								<TR>
+									<TH class="required_title">
+										[생산] 소재
+										<br/>
+										<button type="button" style="width:40%;background-color:#ffffff;margin-top:10px;" country="kr" onclick="initCareStr(this)">초기화</button>
+									</TH>
+									<TD>
+										<textarea class="width-100p" id="material_td_kr" name="material_td_kr" style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
 							</TBODY>
 						</TABLE>
-						<TABLE style="margin-top:50px">
+						<TABLE>
 							<colgroup>
 								<col width="10%">
-								<col width="40%">
+								<col width="15%">
 								<col width="10%">
-								<col width="40%">
+								<col width="15%">
+								<col width="10%">
+								<col width="15%">
+								<col width="10%">
+								<col width="15%">
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TD>제조사</TD>
+									<TH>제조사</TH>
 									<TD>
 										<input type="text" id="manufacturer" name="manufacturer" value="">
 									</TD>
 
-									<TD>공급사</TD>
+									<TH>공급사</TH>
 									<TD>
 										<input type="text" id="supplier" name="supplier" value="">
 									</TD>
-								</TR>
-								<TR>
-									<TD>원산지</TD>
+									
+									<TH>원산지</TH>
 									<TD>
 										<input type="text" id="origin_country" name="origin_country" value="">
 									</TD>
@@ -433,8 +381,8 @@
 									<TD id="brand"></TD>
 								</TR>
 								<tr>
-									<TD>상품 적재박스 유형</TD>
-									<TD colspan="3">
+									<TH>상품 적재박스 유형</TH>
+									<TD colspan="7">
 										<div class="content__row" >
 											<select id="load_box_idx" name="load_box_idx" class="fSelect eSearch" style="width:163px;" onChange="getBoxInfo();">
 												<option value="0">박스를 선택해주세요</option>
@@ -444,7 +392,7 @@
 															IDX				AS BOX_IDX,
 															BOX_NAME		AS BOX_NAME
 														FROM
-															dev.BOX_INFO
+															BOX_INFO
 													";
 													
 													$db->query($select_box_info_sql);
@@ -463,32 +411,28 @@
 									</TD>
 								</tr>
 								<tr>
-									<TD>상품 적재중량 (kg)</TD>
-									<TD>
-										<input id="load_weight" class="product_volume" type="number" step="0.01"
-											name="load_weight" value="0">
+									<TH>상품 적재중량 (kg)</TH>
+									<TD colspan="3">
+										<input id="load_weight" class="product_volume" type="number" step="0.01" name="load_weight" value="0">
 									</TD>
-									<TD>상품 적재수량</TD>
-									<TD>
-										<input id="load_qty" class="product_volume" type="number"
-											name="load_qty" value="0">
+									<TH>상품 적재수량</TH>
+									<TD colspan="3">
+										<input id="load_qty" class="product_volume" type="number" name="load_qty" value="0">
 									</TD>
 								</tr>
 								<tr>
-									<td>부자재 검색</td>
-									<td colspan="3">
-										<input type="hidden" id="param_json">
-										<div class="btn" onclick="openSubMaterialModal()">검색창 열기</div>
-									</td>
-								</tr>
-								<tr>
-									<TD>포장부자재</TD>
+									<TH>
+										포장부자재
+										<div class="btn" style="margin-left:10px;" onclick="openSubMaterialModal()">부자재검색</div>
+									</TH>
 									<TD colspan="3">
 										<div class="form-group td"></div>
 									</TD>
-								</tr>
-								<tr>
-									<TD>배송부자재</TD>
+									
+									<TH>
+										배송부자재
+										<div class="btn" style="margin-left:10px;" onclick="openSubMaterialModal()">부자재검색</div>
+									</TH>
 									<TD colspan="3">
 										<div class="form-group delivery"></div>
 									</TD>
@@ -497,6 +441,88 @@
 						</TABLE>
 					</div>
 				</div>
+				
+				<div class="table table__wrap">
+                    <button class="toggle_table_btn" type="button" onClick="toggleTableClick('COM');">오더시트 - 번역정보</button>
+                    <div class="overflow-x-auto" id="insert_table_COM">
+                        <TABLE style="margin-top:5px">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="90%">
+                            </colgroup>
+                            <TBODY class="editor_body">
+								<TR>
+									<TH>[디자인] 소재 (영문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_dsn_en" name="material_dsn_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+
+								<TR>
+									<TH>[디자인] 소재 (중문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_dsn_cn" name="material_dsn_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+								
+                                <TR>
+                                    <TH>[디자인] 상세정보 (영문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="detail_en" name="detail_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+
+                                <TR>
+                                    <TH>[디자인] 상세정보 (중문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="detail_cn" name="detail_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+								
+								<TR>
+                                    <TH>[디자인] 취급 유의사항 (영문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_dsn_en" name="care_dsn_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+
+                                <TR>
+                                    <TH>[디자인] 취급 유의사항 (중문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_dsn_cn" name="care_dsn_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+								
+								<TR>
+									<TH>[생산] 소재 (영문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_td_en" name="material_td_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+
+								<TR>
+									<TH>[생산] 소재 (중문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_td_cn" name="material_td_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+								
+								<TR>
+									<TH>[생산] 취급 유의사항 (영문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_td_en" name="care_td_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+                                <TR>
+									<TH>[생산] 취급 유의사항 (중문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_td_cn" name="care_td_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+                            </TBODY>
+                        </TABLE>
+                    </div>
+                </div>
 			</form>
 		</div>
 		<div class="flex justify-center">
@@ -507,58 +533,101 @@
 	</div>
 </div>
 <script>
-var size_category_info = {};
+var material_dsn_en = [];
+var material_dsn_cn = [];
+var detail_en = [];
+var detail_cn = [];
+var care_dsn_en = [];
+var care_dsn_cn = [];
 
+var material_td_kr = [];
+var material_td_en = [];
+var material_td_cn = [];
 var care_td_kr = [];
 var care_td_en = [];
 var care_td_cn = [];
 
-var material_kr = [];
-var material_en = [];
-var material_cn = [];
-
-var care_dsn_kr_html = '';
-var care_dsn_en_html = '';
-var care_dsn_cn_html = '';
-
 function setSmartEditor() {
+	//material_dsn
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: material_dsn_en,
+		elPlaceHolder: "material_dsn_en",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: material_dsn_cn,
+		elPlaceHolder: "material_dsn_cn",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	
+	//detail
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: detail_en,
+		elPlaceHolder: "detail_en",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: detail_cn,
+		elPlaceHolder: "detail_cn",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	
+	//care_dsn
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: care_dsn_en,
+		elPlaceHolder: "care_dsn_en",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: care_dsn_cn,
+		elPlaceHolder: "care_dsn_cn",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	
+	//material_td
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: material_td_kr,
+		elPlaceHolder: "material_td_kr",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: material_td_en,
+		elPlaceHolder: "material_td_en",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: material_td_cn,
+		elPlaceHolder: "material_td_cn",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	
 	//care_td
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: care_td_kr,
 		elPlaceHolder: "care_td_kr",
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
-		htParams: { fOnBeforeUnload : function(){}}
+		htParams: { fOnBeforeUnload: function () { } }
 	});
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: care_td_en,
 		elPlaceHolder: "care_td_en",
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
-		htParams: { fOnBeforeUnload : function(){}}
+		htParams: { fOnBeforeUnload: function () { } }
 	});
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: care_td_cn,
 		elPlaceHolder: "care_td_cn",
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
-		htParams: { fOnBeforeUnload : function(){}}
-	});
-	//material
-	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: material_kr,
-		elPlaceHolder: "material_kr",
-		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
-		htParams: { fOnBeforeUnload : function(){}}
-	});
-	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: material_en,
-		elPlaceHolder: "material_en",
-		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
-		htParams: { fOnBeforeUnload : function(){}}
-	});
-	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: material_cn,
-		elPlaceHolder: "material_cn",
-		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
-		htParams: { fOnBeforeUnload : function(){}}
+		htParams: { fOnBeforeUnload: function () { } }
 	});
 }
 
@@ -568,12 +637,25 @@ $(document).ready(function() {
 	
 	$('#insert_table_MD').toggle();
 	$('#insert_table_DSN').toggle();
+	$('#insert_table_COM').toggle();
 	
 	getOrdersheetInfo_TD();
 });
 
 function toggleTableClick(toggle_val) {
 	$('#insert_table_' + toggle_val).toggle();
+	
+	if (toggle_val == "COM") {
+		let editor_body = $('.editor_body');
+		let iframe = editor_body.find('iframe');
+		
+		if (iframe.length > 0) {
+			for (let i=0; i<iframe.length; i++) {
+				let iframe_id = iframe.eq(i).attr('id');
+				$('#' + iframe_id).attr('src',$('#' + iframe_id).attr('src'));
+			}
+		}
+	}
 }
 
 function getOrdersheetInfo_TD() {
@@ -597,9 +679,9 @@ function getOrdersheetInfo_TD() {
 				$('input[name=product_code]').val(data.product_code);
 				
 				//기획 MD
-				$('#style_code').text(data.style_code);
-				$('#color_code').text(data.color_code);
-				$('#product_code').text(data.product_code);
+				$('.style_code').text(data.style_code);
+				$('.color_code').text(data.color_code);
+				$('.product_code').text(data.product_code);
 				
 				switch(data.preorder_flg){
 					case 0:
@@ -618,40 +700,28 @@ function getOrdersheetInfo_TD() {
 						$('#refund_flg').text('교환 가능');
 				}
 
-				if(data.line_idx != null && data.line_idx > 0){
-					var type_str = '';
-					switch(data.line_type){
-						case 'C':
-							type_str = '컬렉션 라인';
-							break;
-						case 'O':
-							type_str = '오리진 라인';
-							break;
-						case 'T':
-							type_str = '티피컬 라인';
-							break;
-					}
-					
+				if (data.line_idx != null && data.line_idx > 0) {
 					let strDiv = "";
-					strDiv += '<table style="width:100%">';
-					strDiv += '    <thead>';
-					strDiv += '        <tr>';
-					strDiv += '            <th>라인명</th>';
-					strDiv += '            <th>타입</th>';
-					strDiv += '            <th>색깔</th>';
-					strDiv += '        </tr>';
-					strDiv += '    </thead>';
-					strDiv += '    <tbody>';
-					strDiv += '        <tr>';
-					strDiv += '            <td>' + data.line_name + '</td>';
-					strDiv += '            <td>' + type_str + '</td>';
-					strDiv += '            <td>' + data.line_memo + '</td>';
-					strDiv += '        </tr>';
-					strDiv += '    </tbody>';
-					strDiv += '</table>';
+					strDiv += '    <table style="width:100%">';
+					strDiv += '        <thead>';
+					strDiv += '            <tr>';
+					strDiv += '                <th>라인명</th>';
+					strDiv += '                <th>타입</th>';
+					strDiv += '                <th>색깔</th>';
+					strDiv += '            </tr>';
+					strDiv += '        </thead>';
+					strDiv += '        <tbody>';
+					strDiv += '            <tr>';
+					strDiv += '                <td>' + data.line_name + '</td>';
+					strDiv += '                <td>' + data.line_type + '</td>';
+					strDiv += '                <td>' + data.line_memo + '</td>';
+					strDiv += '            </tr>';
+					strDiv += '        </tbody>';
+					strDiv += '    </table>';
 					
 					$('#line_info_table').append(strDiv);
 				}
+				
 				$('#category_lrg_title').text(data.category_lrg_title);
 				$('#category_mdl_title').text(data.category_mdl_title);
 				$('#category_sml_title').text(data.category_sml_title);
@@ -684,7 +754,6 @@ function getOrdersheetInfo_TD() {
 				$('#material').text(data.material);
 				$('#fit').text(data.fit);
 				$('#color_rgb').text(data.color_rgb);
-				$('#pantone_code').text(data.pantone_code);
 				$('#tp_completion_date').text(data.tp_completion_date);
 
 				$('#model').text(data.model);
@@ -693,40 +762,27 @@ function getOrdersheetInfo_TD() {
 				let option_info = data.option_info;
 				getSizeGuideList(option_info);
 				
-				$('#detail_kr').html(data.detail_kr);
-				$('#detail_en').html(data.detail_en);
-				$('#detail_cn').html(data.detail_cn);
-				$('#care_dsn_kr').html(data.care_dsn_kr);
-				$('#care_dsn_en').html(data.care_dsn_en);
-				$('#care_dsn_cn').html(data.care_dsn_cn);
-				care_dsn_kr_html = data.care_dsn_kr;
-				care_dsn_en_html = data.care_dsn_en;
-				care_dsn_cn_html = data.care_dsn_cn;
+				$('#material_dsn_kr').html(xssDecode(data.material_dsn_kr));
+				$('#material_dsn_en').html(xssDecode(data.material_dsn_en));
+				$('#material_dsn_cn').html(xssDecode(data.material_dsn_cn));
+				
+				$('#care_dsn_kr').html(xssDecode(data.care_dsn_kr));
+				$('#care_dsn_en').html(xssDecode(data.care_dsn_en));
+				$('#care_dsn_cn').html(xssDecode(data.care_dsn_cn));
+				
+				$('#detail_kr').html(xssDecode(data.detail_kr));
+				$('#detail_en').html(xssDecode(data.detail_en));
+				$('#detail_cn').html(xssDecode(data.detail_cn));
+				
+				$('#material_td_kr').html(xssDecode(data.material_td_kr));
+				$('#material_td_en').html(xssDecode(data.material_td_en));
+				$('#material_td_cn').html(xssDecode(data.material_td_cn));
+				
+				$('#care_td_kr').html(xssDecode(data.care_td_kr));
+				$('#care_td_en').html(xssDecode(data.care_td_en));
+				$('#care_td_cn').html(xssDecode(data.care_td_cn));
 				
 				//생산
-				if(data.care_td_kr != null && data.care_td_kr.length > 0){
-					$('#care_td_kr').html(data.care_td_kr);	
-				}
-				else{
-					$('#care_td_kr').html(data.care_dsn_kr);
-				}
-
-				if(data.care_td_en != null && data.care_td_en.length > 0){
-					$('#care_td_en').html(data.care_td_en);	
-				}
-				else{
-					$('#care_td_en').html(data.care_dsn_en);
-				}
-
-				if(data.care_td_cn != null && data.care_td_cn.length > 0){
-					$('#care_td_cn').html(data.care_td_cn);	
-				}
-				else{
-					$('#care_td_cn').html(data.care_dsn_cn);
-				}
-				$('#material_kr').html(data.material_kr);
-				$('#material_en').html(data.material_en);
-				$('#material_cn').html(data.material_cn);
 				$('#manufacturer').val(data.manufacturer);
 				$('#supplier').val(data.supplier);
 				$('#origin_country').val(data.origin_country);
@@ -885,13 +941,13 @@ function getBoxInfo() {
 }
 
 function getSizeGuideList(option_info) {
-	let size_guide_idx = $('#size_guide_idx').val();
+	let size_guide_category = $('#size_guide_category').val();
 	
 	$.ajax({
 		type: "post",
 		url: config.api + "product/size_guide/get",
 		data: {
-			'size_guide_idx' : size_guide_idx
+			'size_guide_category' : size_guide_category
 		},
 		dataType: "json",
 		error: function () {
@@ -1050,7 +1106,9 @@ function setOptionInfo(option_info) {
 			strDiv += '<TD>' + row.option_size_6 + '</TD>';
 		}
 			
-		strDiv += '    <TD>' + row.option_weight + '</TD>';
+		strDiv += '    <TD>';
+		strDiv += '        <input class="option_weight" type="text" name="option_weight[]" value="' + row.option_weight + '">';
+		strDiv += '    </TD>';
 		strDiv += '    <TD>' + row.limit_option_qty + '</TD>';
 		strDiv += '</TR>';
 	});
@@ -1073,13 +1131,22 @@ function productVolumeCalc() {
 }
 
 function ordersheetTdUpdate(flg) {
-	care_td_kr.getById["care_td_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	care_td_en.getById["care_td_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	care_td_cn.getById["care_td_cn"].exec("UPDATE_CONTENTS_FIELD", []);
+	material_dsn_en.getById["material_dsn_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	material_dsn_cn.getById["material_dsn_cn"].exec("UPDATE_CONTENTS_FIELD", []);
+	
+	care_dsn_en.getById["care_dsn_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	care_dsn_cn.getById["care_dsn_cn"].exec("UPDATE_CONTENTS_FIELD", []);
 
-	material_kr.getById["material_kr"].exec("UPDATE_CONTENTS_FIELD", []); 
-	material_en.getById["material_en"].exec("UPDATE_CONTENTS_FIELD", []); 
-	material_cn.getById["material_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
+	detail_en.getById["detail_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	detail_cn.getById["detail_cn"].exec("UPDATE_CONTENTS_FIELD", []);
+
+	material_td_kr.getById["material_td_kr"].exec("UPDATE_CONTENTS_FIELD", []);
+	material_td_en.getById["material_td_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	material_td_cn.getById["material_td_cn"].exec("UPDATE_CONTENTS_FIELD", []);
+
+	care_td_kr.getById["care_td_kr"].exec("UPDATE_CONTENTS_FIELD", []);
+	care_td_en.getById["care_td_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	care_td_cn.getById["care_td_cn"].exec("UPDATE_CONTENTS_FIELD", []);
 
 	if(flg != undefined){
 		$('input[name=overwrite_flg]').val(flg);
@@ -1181,5 +1248,19 @@ function openSubMaterialModal() {
 
 	var json_str = JSON.stringify(param_json);
 	modal('/sub_material', `json_str=${json_str}`);
+}
+
+function xssDecode(data) {
+	var decode_str = null;
+	if (data != null) {
+		decode_str = data.replace(/&amp;/g, '&');
+		decode_str = decode_str.replace(/&quot;/g, '\"');
+		decode_str = decode_str.replace(/&apos;/g, "'");
+		decode_str = decode_str.replace(/&lt;/g, '<');
+		decode_str = decode_str.replace(/&gt;/g, '>');
+		decode_str = decode_str.replace(/<br>/g, '\r');
+		decode_str = decode_str.replace(/<p>/g, '\n');
+	}
+	return decode_str;
 }
 </script>

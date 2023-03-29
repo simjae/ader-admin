@@ -13,7 +13,7 @@ if ($admin_idx > 0) {
 			AP.IDX				AS PERMITION_IDX,
 			AP.PERMITION_TAB	AS PERMITION_TAB
 		FROM
-			dev.ADMIN_PERMITION AP
+			ADMIN_PERMITION AP
 		WHERE
 			AP.PERMITION_URL = '".$permition_url."'
 	";
@@ -27,7 +27,7 @@ if ($admin_idx > 0) {
 		$tmp_permition_idx = $permition_data['PERMITION_IDX'];
 		$tmp_permition_tab = $permition_data['PERMITION_TAB'];
 		
-		$tmp_cnt = $db->count("dev.PERMITION_MAPPING","ADMIN_IDX = ".$admin_idx." AND PERMITION_IDX = ".$tmp_permition_idx);
+		$tmp_cnt = $db->count("PERMITION_MAPPING","ADMIN_IDX = ".$admin_idx." AND PERMITION_IDX = ".$tmp_permition_idx);
 		if ($tmp_cnt > 0) {
 			$permition_cnt++;
 			
@@ -37,7 +37,7 @@ if ($admin_idx > 0) {
 		}
 	}
 	
-	$history_permition_cnt = $db->count("dev.PERMITION_MAPPING","ADMIN_IDX = ".$admin_idx." AND PERMITION_IDX = (SELECT S_AP.IDX FROM dev.ADMIN_PERMITION S_AP WHERE S_AP.PERMITION_URL = '/pcs/ordersheet/history')");
+	$history_permition_cnt = $db->count("PERMITION_MAPPING","ADMIN_IDX = ".$admin_idx." AND PERMITION_IDX = (SELECT S_AP.IDX FROM ADMIN_PERMITION S_AP WHERE S_AP.PERMITION_URL = '/pcs/ordersheet/history')");
 	if ($history_permition_cnt > 0) {
 		$history_flg = true;
 	}
@@ -61,7 +61,7 @@ if ($admin_idx > 0) {
 			alert(
 				'로그인 후 다시 시도해주세요.',
 				function() {
-					location.href='/login'
+					location.href='/login?r_url=".$permition_url."'
 				}
 			);
 			

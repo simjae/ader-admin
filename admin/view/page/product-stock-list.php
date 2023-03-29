@@ -290,7 +290,6 @@
 									</div>
 								</TH>
 								<TH>품목명</TH>
-								<TH style="width:8%;">재고관리 등급</TH>
 								<TH style="width:5%;">재고수량</TH>
 								<TH style="width:5%;">판매수량</TH>
 								<TH style="width:5%;">안전재고</TH>
@@ -406,21 +405,6 @@ function getProductStockInfo_02() {
 						strDiv += '    <TD>';
 						strDiv += '        ' + row.option_name + '<br>';
 						strDiv += '        (' + row.barcode + ')';
-						strDiv += '    </TD>';
-
-						var stock_type_nml = "";
-						var stock_type_imp = "";
-						if (row.stock_grade == 'NML') {
-							stock_type_nml = "selected";
-						} else if (row.stock_grade == 'IMP') {
-							stock_type_imp = "selected";
-						}
-						
-						strDiv += '    <TD>';
-						strDiv += '        <select class="fSelect" name="" style="font-size:0.5rem;">';
-						strDiv += '            <option value="NML" ' + stock_type_nml + '>일반재고</option>';
-						strDiv += '            <option value="IMP" ' + stock_type_imp + '>중요재고</option>';
-						strDiv += '        </select>';
 						strDiv += '    </TD>';
 						
 						strDiv += '    <TD>' + row.stock_qty + '</TD>';

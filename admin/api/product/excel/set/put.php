@@ -22,6 +22,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 $sheet_str = $_POST['sheet_data'];
 $sheet_data = json_decode($sheet_str, true);
 $set_update_sheet = $sheet_data['set_update_sheet'];
+$relevant_sheet = $sheet_data['relevant_sheet'];
 
 $update_column_arr = array();
 $set_product_true = array();     //상품옵션 등록 성공
@@ -969,7 +970,7 @@ if($relevant_sheet != null && count($relevant_sheet) != 0){
                 WHERE
                     PRODUCT_CODE = '".$array_key."'
             ";
-
+            
             $db->query($sql);
             $db->commit();
         }

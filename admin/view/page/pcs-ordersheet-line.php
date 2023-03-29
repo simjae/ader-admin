@@ -44,7 +44,7 @@
                         <select name="line_type_idx" class="fSelect" style="width:163px;float:right;margin-right:10px;">
                             <option value="">타입을 선택해주세요</option>
 <?php 
-                        $db->query('SELECT IDX, TYPE_NAME FROM dev.LINE_TYPE');
+                        $db->query('SELECT IDX, TYPE_NAME FROM LINE_TYPE');
                                 
                         foreach($db->fetch() as $line_type_data){
 ?>
@@ -171,7 +171,7 @@
                                     <select name="line_type_idx" class="fSelect" style="width:163px;float:right;margin-right:10px;">
                                         <option value="">타입을 선택해주세요</option>
 <?php 
-                                $db->query('SELECT IDX, TYPE_NAME FROM dev.LINE_TYPE');
+                                $db->query('SELECT IDX, TYPE_NAME FROM LINE_TYPE');
                                         
                                 foreach($db->fetch() as $line_type_data){
 ?>

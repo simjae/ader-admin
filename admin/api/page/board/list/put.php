@@ -56,7 +56,7 @@ try {
     ";
     $sql = "
         UPDATE 
-            dev.PAGE_BOARD
+            PAGE_BOARD
         SET
             ".$set."
         WHERE
@@ -69,17 +69,16 @@ try {
         $display_new_sql = "
             SELECT
                 BOARD.IDX
-            FROM dev.PAGE_BOARD BOARD
+            FROM
+            	PAGE_BOARD BOARD
             WHERE
-                BOARD_TYPE = '".$tab_status."'
-            AND
-                COUNTRY = '".$country."'
-            AND
+                BOARD_TYPE = '".$tab_status."' AND
+                COUNTRY = '".$country."' AND
                 DEL_FLG = FALSE
         ";
         $db->query($display_new_sql);
         foreach($db->fetch() as $new_display_info){
-            $db->query('UPDATE dev.PAGE_BOARD SET DISPLAY_NUM = '.$new_display_num.' WHERE IDX = '.$new_display_info['IDX'].' ');
+            $db->query('UPDATE PAGE_BOARD SET DISPLAY_NUM = '.$new_display_num.' WHERE IDX = '.$new_display_info['IDX'].' ');
             $new_display_num++;
         }
     }

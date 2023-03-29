@@ -5,7 +5,7 @@
 <div class="content__card modal__view" style="max-width:1000px;margin: 0;">
 	<div class="card__header">
 		<div class="flex justify-between">
-			<h3>교환상품 검색</h3>
+			<h3>상품 라이브러리 검색</h3>
 			<a href="javascript:;" onclick="modal_close();" class="btn-close"><i class="xi-close"></i></a>
 		</div>
 		<div class="drive--x"></div>
@@ -126,8 +126,10 @@
 							<option value="PRODUCT_NAME|ASC">상품 이름 순</option>
 							<option value="PRODUCT_CODE|DESC">상품 코드 역순</option>
 							<option value="PRODUCT_CODE|ASC">상품 코드 순</option>
-							<option value="PRODUCT_CODE|DESC">상품 재고 역순</option>
-							<option value="PRODUCT_CODE|ASC">상품 재고 순</option>
+							<option value="STOCK_QTY|DESC">상품재고 역순</option>
+							<option value="STOCK_QTY|ASC">상품재고 순</option>
+							<option value="ORDER_QTY|DESC">판매수량 역순</option>
+							<option value="ORDER_QTY|ASC">판매수량 순</option>
 						</select>
 						<select name="rows" style="width:163px;margin-right:10px;float:right;" lib_type="PRD" onChange="rowsChange(this);">
 							<option value="5" selected>5개씩보기</option>
@@ -149,9 +151,13 @@
 							<colgroup>
 								<col width="100px;">
 								<col width="50px;">
+								
 								<col width="auto;">
-								<col width="150px;">
+								
 								<col width="100px;">
+								<col width="100px;">
+								<col width="100px;">
+								
 								<col width="80px;">
 								<col width="80px;">
 								<col width="80px;">
@@ -160,9 +166,10 @@
 								<TR>
 									<TH>라이브러리<br/>삭제</TH>
 									<TH>상품<br>구분</TH>
-									<TH>교환대상 상품</TH>
-									<TH>상품수량</TH>
-									<TH>상품가격</TH>
+									<TH>상품정보</TH>
+									<TH>상품가격(한국몰)</TH>
+									<TH>상품가격(영문몰)</TH>
+									<TH>상품가격(중문몰)</TH>
 									<TH>상품<br/>재고</TH>
 									<TH>판매<br/>수량</TH>
 									<TH>잔여<br/>재고</TH>
@@ -183,13 +190,15 @@
 					<div class="overflow-x-auto">
 						<TABLE id="excel_table" style="min-width:100%;width:auto;">
 							<colgroup>
-								<col width="80px;">
-								<col width="80px;">
+								<col width="100px;">
 								<col width="50px;">
+								
 								<col width="auto;">
+								
 								<col width="100px;">
 								<col width="100px;">
 								<col width="100px;">
+								
 								<col width="80px;">
 								<col width="80px;">
 								<col width="80px;">
@@ -197,12 +206,14 @@
 							<THEAD>
 								<TR>
 									<TH>라이브러리<br/>추가</TH>
-									<TH>No.</TH>
 									<TH>상품<br>구분</TH>
+									
 									<TH>상품정보</TH>
+									
 									<TH>판매가<br>(한국몰)</TH>
 									<TH>판매가<br>(영문몰)</TH>
 									<TH>판매가<br>(중국몰)</TH>
+									
 									<TH>상품<br/>재고</TH>
 									<TH>판매<br/>수량</TH>
 									<TH>잔여<br/>재고</TH>
@@ -245,14 +256,6 @@ function getProductInfoList() {
 	let frm = $("#frm-filter_PRD");
 	
 	let result_body = $(".result_body_tmp");
-	result_body.html('');
-	
-	var strDiv = '';
-	strDiv += '<TD class="default_td" colspan="10" style="text-align:center;">';
-	strDiv += '    조회 결과가 없습니다';
-	strDiv += '</TD>';
-	
-	result_body.append(strDiv);
 	
 	var rows = frm.find('.rows').val();
 	var page = frm.find('.page').val(1);
@@ -260,82 +263,85 @@ function getProductInfoList() {
 	get_contents(frm,{
 		pageObj : $(".paging_PRD"),
 		html : function(d) {
-			if (d.length > 0) {
-				result_body.html('');
+			result_body.html('');
+			
+			let strDiv = "";
+			if (d != null) {
+				d.forEach(function(row) {
+					strDiv += '<tr>';
+					strDiv += '    <td>';
+					strDiv += '        <div class="lib_btn" onClick="getProductLib(' + row.product_idx + ');">라이브러리 추가</div>'
+					strDiv += '    </td>';
+					
+					var product_type = "";
+					if (row.product_type == "B") {
+						product_type = "일반";
+					} else if (row.product_type == "S") {
+						product_type = "세트";
+					}
+					
+					strDiv += '    <td>' + product_type + '</td>';
+					strDiv += '    <TD>';
+					strDiv += '        <div class="product__img__wrap">';
+					
+					var background_url = "background-image:url('" + row.img_location + "');";
+					
+					strDiv += '            <div class="product__img" style="' + background_url + '">';
+					strDiv += '            </div>';
+					strDiv += '            <div>';
+					strDiv += '                <p>' + row.product_code + '</p><br>';
+					strDiv += '                <p>' + row.product_name + '</p><br>';
+					strDiv += '            </div>';
+					strDiv += '        </div>';
+					strDiv += '    </TD>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					var discount_kr = row.discount_kr;
+					if (discount_kr != 0) {
+						strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
+						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr + "</span></br>";
+						strDiv += '        <span>' + row.sales_price_kr + "</span></br>";
+					} else {
+						strDiv += '        ' + row.price_kr;
+					}
+					
+					strDiv += '    </td>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					var discount_en = row.discount_en;
+					if (discount_en != 0) {
+						strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
+						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en + "</span></br>";
+						strDiv += '        <span>' + row.sales_price_en + "</span></br>";
+					} else {
+						strDiv += '        ' + row.price_en;
+					}
+					
+					strDiv += '    </td>';
+					
+					strDiv += '    <td style="text-align: right;">';
+					var discount_cn = row.discount_cn;
+					if (discount_cn != 0) {
+						strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
+						strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn + "</span></br>";
+						strDiv += '        <span>' + row.sales_price_cn + "</span></br>";
+					} else {
+						strDiv += '        ' + row.price_cn;
+					}
+					
+					strDiv += '    </td>';
+					strDiv += '    <td>' + row.stock_qty + '</td>';
+					strDiv += '    <td>' + row.order_qty + '</td>';
+					strDiv += '    <td>' + row.product_qty + '</td>';
+					strDiv += '</tr>';
+				});
+			} else {
+				strDiv += '<TD class="default_td" colspan="10" style="text-align:left;">';
+				strDiv += '    조회 결과가 없습니다';
+				strDiv += '</TD>';
 			}
 			
-			d.forEach(function(row) {
-				var strDiv = "";
-				strDiv += '<tr>';
-				strDiv += '    <td>';
-				strDiv += '        <div class="lib_btn" onClick="getProductLib(' + row.product_idx + ');">라이브러리 추가</div>'
-				strDiv += '    </td>';
-				strDiv += '    <td>' + row.num + '</td>';
-				
-				var product_type = "";
-				if (row.product_type == "B") {
-					product_type = "일반";
-				} else if (row.product_type == "S") {
-					product_type = "세트";
-				}
-				
-				strDiv += '    <td>' + product_type + '</td>';
-				strDiv += '    <TD>';
-				strDiv += '        <div class="product__img__wrap">';
-				
-				var background_url = "background-image:url('" + row.img_location + "');";
-				
-				strDiv += '            <div class="product__img" style="' + background_url + '">';
-				strDiv += '            </div>';
-				strDiv += '            <div>';
-				strDiv += '                <p>' + row.product_code + '</p><br>';
-				strDiv += '                <p>' + row.product_name + '</p><br>';
-				strDiv += '            </div>';
-				strDiv += '        </div>';
-				strDiv += '    </TD>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_kr = row.discount_kr;
-				if (discount_kr != 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_kr + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_kr + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_kr + "</span></br>";
-				} else {
-					strDiv += '        ' + row.price_kr;
-				}
-				
-				strDiv += '    </td>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_en = row.discount_en;
-				if (discount_en != 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_en + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_en + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_en + "</span></br>";
-				} else {
-					strDiv += '        ' + row.price_en;
-				}
-				
-				strDiv += '    </td>';
-				
-				strDiv += '    <td style="text-align: right;">';
-				var discount_cn = row.discount_cn;
-				if (discount_cn != 0) {
-					strDiv += '        <span style="color:#EF5012;">' + discount_cn + '%</span><br>';
-					strDiv += '        <span style="color:#EF5012;text-decoration: line-through;">' + row.price_cn + "</span></br>";
-					strDiv += '        <span>' + row.sales_price_cn + "</span></br>";
-				} else {
-					strDiv += '        ' + row.price_cn;
-				}
-				
-				strDiv += '    </td>';
-				strDiv += '    <td>' + row.stock_qty + '</td>';
-				strDiv += '    <td>' + row.order_qty + '</td>';
-				strDiv += '    <td>' + row.product_qty + '</td>';
-				strDiv += '</tr>';
-				
-				result_body.append(strDiv);
-			});
+			result_body.append(strDiv);
 		},
 	},rows,1);
 }
@@ -370,9 +376,8 @@ function getProductLib(product_idx) {
 						
 						strDiv += '<tr class="product_lib product_idx_' + data.product_idx + '" product_idx="' + data.product_idx + '">';
 						strDiv += '    <td>';
-						strDiv += '        <div class="lib_btn" onClick="getProductLib(' + data.product_idx + ');">라이브러리 삭제</div>'
+						strDiv += '        <div class="lib_btn" onClick="deleteProductLib(this);">라이브러리 삭제</div>'
 						strDiv += '    </td>';
-						strDiv += '    <td>' + data.num + '</td>';
 						
 						var product_type = "";
 						if (data.product_type == "B") {
@@ -512,32 +517,36 @@ function addProductLib() {
 	}
 }
 
-function deleteProductPWT(order_product_idx) {
-	let order_code = $('#param_order_code').val();
+function deleteProductLib(obj) {
+	$(obj).parent().parent().remove();
 	
-	confirm(
-		'교환대상 상품을 삭제하시겠습니까?',
-		function() {
-			$.ajax({
-				type: "post",
-				url: config.api + "order/pg/modal/exchange/delete",
-				data: {
-					'order_product_idx' : order_product_idx
-				},
-				dataType: "json",
-				error: function() {
-					alert('환불완료 처리중 오류가 발생했습니다.');
-				},
-				success: function(d) {
-					if (d.code == 200) {
-						getProductListPWT(order_code);
-					} else {
-						alert(d.msg);
-					}
-				}
-			});
-		}
-	);
+	let result_body = $('.result_body');
+	if (result_body.children().length == 0) {
+		let strDiv = "";
+		strDiv += '<TD class="default_td" colspan="10" style="text-align:left;">';
+		strDiv += '    조회 결과가 없습니다';
+		strDiv += '</TD>';
+		
+		result_body.append(strDiv);
+	}
 }
 
+function init_fileter(frm_id, func_name){
+	var formObj = $('#' + frm_id);
+	formObj.find('.rd__block').find('input:radio[value="all"]').prop('checked', true);
+	formObj.find('.rd__block').find('input:radio[value="ALL"]').prop('checked', true);
+
+	formObj.find('.fSelect').prop("selectedIndex", 0);
+
+	formObj.find('input[type=checkbox]').attr("checked", false);
+	formObj.find('input[type=text]').val('');
+	formObj.find('input[type=number]').val('');
+	formObj.find('input[type=date]').val('');
+
+	formObj.find('.date__picker').css('background-color','#ffffff');
+	formObj.find('.date__picker').css('color','#000000');
+	formObj.find('input[name="search_date"]').val('');
+	
+	window[func_name]();
+}
 </script>

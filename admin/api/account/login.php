@@ -87,7 +87,12 @@ if($admin_id != null && $admin_pw != null) {
 					setcookie('USER_PASSWORD','', 0, '/');
 				}
 				
+				$r_url = 'main';
+				if (isset($_POST['r_url'])) {
+					$r_url	= $_POST['r_url'];
+				}
 				$json_result['data'] = $permition_type;
+				$json_result['r_url'] = $r_url;
 			}
 		}
 	} else {

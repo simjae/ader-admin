@@ -112,7 +112,7 @@ if($title != null){
     ";
     $db->query($admin_get_sql);
     $admin_idx = 0;
-    $admin_name = '';
+    $admin_name = 'ader_admin';
     foreach($db->fetch() as $admin_data){
         $admin_idx = $admin_data['IDX'];
         $admin_name = $admin_data['ADMIN_NAME'];

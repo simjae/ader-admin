@@ -22,6 +22,7 @@
 			<input class="param_admin_idx" type="hidden" name="admin_idx" value="<?=$admin_idx?>">
 			<input class="param_permition_idx" type="hidden" name="permition_idx" value="">
 			
+			<h3>공통</h3>
 			<div sort="COMMON" class="table__toggle__btn toggle_permition">공통</div>
 			<input type="hidden" name="permition_idx" value="">
 			<div class="table__wrap table" style="display:none;">
@@ -46,7 +47,7 @@
 					</TBODY>
 				</TABLE>
 			</div>
-			
+			<h3 style="margin-top:15px;">WCC</h3>
 			<div sort="DASHBOARD" class="table__toggle__btn toggle_permition">1. 대시보드</div>
 			<div class="table__wrap table" style="display:none;">
 				<TABLE class="table_DASHBOARD">
@@ -214,7 +215,7 @@
 					</TBODY>
 				</TABLE>
 			</div>
-			
+			<h4 style="margin-top:15px;">PCS</h4>
 			<div sort="COLUMN" class="table__toggle__btn toggle_permition">항목관리</div>
 			<div class="table__wrap table" style="display:none;">
 				<TABLE class="table_COLUMN">

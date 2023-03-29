@@ -18,7 +18,7 @@
 #seo {margin-top : 50px;}
 .sub {margin-top : 10px;}
 .tmp_set_product {width:230px;height:20px;line-height:10px;background-color:#140f82;border-radius:5px;color:#ffffff;font-size:0.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:5px;margin-right:5px;margin-top:5px;float:left;cursor:pointer;}
-#loading_img {position:absolute;top:${top}px;left:${left}px;width:75px;height:75px;z-index:9999;background:#f0f0f0;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
+#loading_img {position:absolute;width:75px;height:75px;z-index:9999;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
 .mileage__per{width:50px!important;}
 .detail_category_title{margin:10px 0 10px 0}
 </style>
@@ -271,29 +271,29 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 							<TR>
 								<TD colspan="8">
 									<div class="content__row">
-										<select id="size_guide_idx" name="size_guide_idx" class="fSelect eSearch" style="width:163px;" onChange="getSizeGuideList();">
+										<select id="size_guide_category" name="size_guide_category" class="fSelect eSearch" style="width:163px;" onChange="getSizeGuideList();">
 											<?php
 												$select_size_guide_sql = "
 													SELECT
-														SG.IDX				AS SIZE_IDX,
 														SG.CATEGORY_TYPE	AS CATEGORY_TYPE
 													FROM
-														dev.SHOP_PRODUCT PR
-														LEFT JOIN dev.ORDERSHEET_MST OM ON
+														SHOP_PRODUCT PR
+														LEFT JOIN ORDERSHEET_MST OM ON
 														PR.ORDERSHEET_IDX = OM.IDX
-														LEFT JOIN dev.SIZE_GUIDE SG ON
-														OM.SIZE_GUIDE_IDX = SG.IDX
+														LEFT JOIN SIZE_GUIDE SG ON
+														OM.SIZE_GUIDE_CATEGORY = SG.CATEGORY_TYPE
 													WHERE
-														PR.IDX = ".$product_idx."
+														PR.IDX = ".$product_idx." AND
+														SG.COUNTRY = 'KR'
 												";
 												
 												$db->query($select_size_guide_sql);
 
 												foreach ($db->fetch() as $size_data) {
-													$size_idx = $size_data['SIZE_IDX'];
-													if (!empty($size_idx)) {
+													$category_type = $size_data['CATEGORY_TYPE'];
+													if (!empty($category_type)) {
 											?>
-												<option value="<?=$size_data['SIZE_IDX']?>" readonly><?=$size_data['CATEGORY_TYPE']?></option>
+												<option value="<?=$size_data['CATEGORY_TYPE']?>" readonly><?=$size_data['CATEGORY_TYPE']?></option>
 											<?php
 													} else {
 											?>
@@ -329,17 +329,23 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 						<TBODY>
 							<TR>
 								<TH style="width:10%;">제품 상세정보 (한글)</TH>
-								<TD class="smart_editer_text" id="detail_dsn_kr"></TD>
+								<TD class="smart_editer_text">
+									<div id="detail_dsn_kr"></div>
+								</TD>
 							</TR>
 
 							<TR>
 								<TH style="width:10%;">제품 상세정보 (영문)</TH>
-								<TD class="smart_editer_text" id="detail_dsn_en"></TD>
+								<TD class="smart_editer_text">
+									<div id="detail_dsn_en"></div>
+								</TD>
 							</TR>
 
 							<TR>
 								<TH style="width:10%;">제품 상세정보 (중문)</TH>
-								<TD class="smart_editer_text" id="detail_dsn_cn"></TD>
+								<TD class="smart_editer_text">
+									<div id="detail_dsn_cn"></div>
+								</TD>
 							</TR>
 						</TBODY>
 					</TABLE>
@@ -352,17 +358,23 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 						<TBODY>
 							<TR>
 								<TH style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TH>
-								<TD class="smart_editer_text" id="care_dsn_kr"></TD>
+								<TD class="smart_editer_text">
+									<div id="care_dsn_kr"></div>
+								</TD>
 							</TR>
 
 							<TR>
 								<TH style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TH>
-								<TD class="smart_editer_text" id="care_dsn_en"></TD>
+								<TD class="smart_editer_text">
+									<div id="care_dsn_en"></div>
+								</TD>
 							</TR>
 
 							<TR>
 								<TH style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TH>
-								<TD class="smart_editer_text" id="care_dsn_cn"></TD>
+								<TD class="smart_editer_text">
+									<div id="care_dsn_cn"></div>
+								</TD>
 							</TR>
 						</TBODY>
 					</TABLE>
@@ -380,29 +392,41 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 						<TBODY>
 							<TR>
 								<TH>제품 취급 유의사항<br>생산(한글)</TH>
-								<TD class="smart_editer_text" id="care_td_kr"></TD>
+								<TD class="smart_editer_text">
+									<div id="care_td_kr"></div>
+								</TD>
 							</TR>
 							<TR>
 								<TH>제품 취급 유의사항<br>생산(영문)</TH>
-								<TD class="smart_editer_text" id="care_td_en"></TD>
+								<TD class="smart_editer_text">
+									<div id="care_td_en"></div>
+								</TD>
 							</TR>
 							<TR>
 								<TH>제품 취급 유의사항<br>생산(중문)</TH>
-								<TD class="smart_editer_text" id="care_td_cn"></TD>
+								<TD class="smart_editer_text">
+									<div id="care_td_cn"></div>
+								</TD>
 							</TR>
 							<TR>
 								<TH>소재(한글)</TH>
-								<TD class="smart_editer_text" id="material_text_kr"></TD>
+								<TD class="smart_editer_text">
+									<div id="material_text_kr"></div>
+								</TD>
 							</TR>
 
 							<TR>
 								<TH>소재(영문)</TH>
-								<TD class="smart_editer_text" id="material_text_en"></TD>
+								<TD class="smart_editer_text">
+									<div id="material_text_en"></div>
+								</TD>
 							</TR>
 
 							<TR>
 								<TH>소재(중문)</TH>
-								<TD class="smart_editer_text" id="material_text_cn"></TD>
+								<TD class="smart_editer_text">
+									<div id="material_text_cn"></div>
+								</TD>
 							</TR>
 						</TBODY>
 					</TABLE>
@@ -598,6 +622,22 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 								</TD>
 							</TR>
 							<TR>
+								<TH>RGB 코드
+									<label class="rd__square update__flg__area">
+										<input type="radio" name="shop_color_rgb_update_flg" value="false">
+										<div><div></div></div>
+										<span>수정안함</span>
+									</label>
+									
+									<label class="rd__square update__flg__area">
+										<input type="radio" name="shop_color_rgb_update_flg" value="true" checked>
+										<div><div></div></div>
+										<span>수정함</span>
+									</label>
+								</TH>
+								<TD colspan="5">
+									<input type="text" id="shop_color_rgb" name="shop_color_rgb" style="width:200px;" value="">
+								</TD>
 								<TH>해외 통관 정보
 									<label class="rd__square update__flg__area">
 										<input type="radio" name="custom_clearance_update_flg" value="false">
@@ -612,7 +652,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								
-								<TD colspan="11">
+								<TD colspan="5">
 									<div class="content__row">
 										<select id="custom_clearance" name="custom_clearance" class="fSelect eSearch" style="width:163px;">
 											<option value="" selected>--해외 통관 분류--</option>	
@@ -626,7 +666,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 					CATEGORY_IDX,
 					HS_CODE
 				FROM
-					dev.CUSTOM_CLEARANCE
+					CUSTOM_CLEARANCE
 			";
 			$db->query($get_sql);
 			foreach($db->fetch() as $data){
@@ -732,8 +772,9 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 										<span>수정함</span>
 									</label>
 								</TH>
+								
 								<TD colspan="3">
-									<input id="shop_price_kr" class="price" type="number" step="0.01" name="price_kr" value="0">
+									<input id="shop_price_KR" class="price" country="KR" type="number" step="0.01" name="price_kr" value="0">
 								</TD>
 
 								<TH>
@@ -750,7 +791,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="3">
-									<input id="shop_price_en" class="price" type="number" step="0.01" name="price_en" value="0">
+									<input id="shop_price_EN" class="price" country="EN" type="number" step="0.01" name="price_en" value="0">
 								</TD>
 
 								<TH>중국몰 가격
@@ -766,7 +807,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="3">
-									<input id="shop_price_cn" class="price" type="number" step="0.01" name="price_cn" value="0">
+									<input id="shop_price_CN" class="price" country="CN" type="number" step="0.01" name="price_cn" value="0">
 								</TD>
 							</TR>
 							
@@ -777,6 +818,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 										<div><div></div></div>
 										<span>수정안함</span>
 									</label>
+									
 									<label class="rd__square update__flg__area">
 										<input type="radio" name="sales_price_kr_update_flg" value="true" checked>
 										<div><div></div></div>
@@ -784,7 +826,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TD>
 								<TD colspan="3">
-									<input id="sales_price_kr" class="sales_price" type="number" step="0.01" name="sales_price_kr" value="0">
+									<input id="sales_price_KR" class="sales_price" country="KR" type="number" step="0.01" name="sales_price_kr" value="0">
 								</TD>
 								
 								<TH>영문몰 세일가격
@@ -800,7 +842,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TD>
 								<TD colspan="3">
-									<input id="sales_price_en" class="sales_price" type="number" step="0.01" name="sales_price_en" value="0">
+									<input id="sales_price_EN" class="sales_price" country="EN" type="number" step="0.01" name="sales_price_en" value="0">
 								</TD>
 
 								<TH>중국몰 세일가격
@@ -817,7 +859,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TD>
 								<TD colspan="3">
-									<input id="sales_price_cn" class="sales_price" type="number" step="0.01" name="sales_price_cn" value="0">
+									<input id="sales_price_CN" class="sales_price" country="CN" type="number" step="0.01" name="sales_price_cn" value="0">
 								</TD>
 							</TR>
 							
@@ -835,7 +877,9 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 										<span>수정함</span>
 									</label>
 								</TD>
-								<TD colspan="3"><input id="discount_kr" class="result" type="number" step="0.01" name="discount_kr" value="0" readonly></TD>
+								<TD colspan="3">
+									<input id="discount_KR" class="result" type="number" step="0.01" name="discount_kr" value="0" readonly>
+								</TD>
 
 								<TH>영문몰 할인율
 									<label class="rd__square update__flg__area">
@@ -850,7 +894,9 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 										<span>수정함</span>
 									</label>
 								</TD>
-								<TD colspan="3"><input id="discount_en" class="result" type="number" step="0.01" name="discount_en" value="0" readonly></TD>
+								<TD colspan="3">
+									<input id="discount_EN" class="result" type="number" step="0.01" name="discount_en" value="0" readonly>
+								</TD>
 
 								<TH>중국몰 할인율
 									<label class="rd__square update__flg__area">
@@ -865,7 +911,9 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 										<span>수정함</span>
 									</label>
 								</TD>
-								<TD colspan="3"><input id="discount_cn" class="result" type="number" step="0.01" name="discount_cn" value="0" readonly></TD>
+								<TD colspan="3">
+									<input id="discount_CN" class="result" type="number" step="0.01" name="discount_cn" value="0" readonly>
+								</TD>
 							</TR>
 
 							<TR> 
@@ -880,7 +928,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 			ML.TITLE 					AS LEVEL_TITLE,
 			IFNULL(PM.MILEAGE_PER,0)	AS MILEAGE_PER
 		FROM
-			dev.MEMBER_LEVEL   ML
+			MEMBER_LEVEL   ML
 		LEFT JOIN
 			(SELECT
 				IDX,
@@ -888,7 +936,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 				PRODUCT_IDX,
 				MILEAGE_PER
 			FROM
-				dev.PRODUCT_MILEAGE
+				PRODUCT_MILEAGE
 			WHERE
 				PRODUCT_IDX = ".$product_idx."
 			) 					PM
@@ -955,7 +1003,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 													IDX,
 													TITLE
 												FROM
-													dev.MEMBER_LEVEL
+													MEMBER_LEVEL
 												WHERE
 													DEL_FLG = FALSE
 											";
@@ -1042,6 +1090,26 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									<input id="limit_shop_product_qty" type="number" step="1" name="limit_product_qty" value="0">
 								</TD>
 							</TR>
+							
+							<TR>
+								<TH>
+									상품 재고<br>품절 임박 수량
+									<label class="rd__square update__flg__area">
+										<input type="radio" name="sold_out_qty_update_flg" value="false">
+										<div><div></div></div>
+										<span>수정안함</span>
+									</label>
+									<label class="rd__square update__flg__area">
+										<input type="radio" name="sold_out_qty_update_flg" value="true" checked>
+										<div><div></div></div>
+										<span>수정함</span>
+									</label>
+								</TH>
+								<TD colspan="11">
+									<input id="sold_out_qty" type="number" step="1" style="width:30%" name="sold_out_qty" value="0">
+								</TD>
+							</TR>
+							
 							<tr>
 								<td colspan="12" id="option_info_marker">
 									<h3 class="detail_category_title">옵션정보</h3>
@@ -1052,10 +1120,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 								<TD colspan="11">
 									<table style="width:50%">
 										<colgroup>
-											<col width="25%;">
-											<col width="25%;">
-											<col width="25%;">
-											<col width="25%;">
+											<col width="20%;">
+											<col width="20%;">
+											<col width="20%;">
+											<col width="20%;">
+											<col width="20%;">
 										</colgroup>
 										<thead>
 											<tr>
@@ -1063,6 +1132,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 													<TH>옵션이름</TH>
 													<TH>바코드</TH>
 													<TH>판매 제한 수량</TH>
+													<TH>판매수량 제한 여부</TH>
 													<TH>판매여부</TH>
 												</TR>
 											</tr>
@@ -1166,30 +1236,13 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 								</TD>
 							</TR>
 							
-							<TR>
-								<TH>
-									상품 재고<br>품절 임박 수량
-									<label class="rd__square update__flg__area">
-										<input type="radio" name="sold_out_qty_update_flg" value="false">
-										<div><div></div></div>
-										<span>수정안함</span>
-									</label>
-									<label class="rd__square update__flg__area">
-										<input type="radio" name="sold_out_qty_update_flg" value="true" checked>
-										<div><div></div></div>
-										<span>수정함</span>
-									</label>
-								</TH>
-								<TD colspan="11">
-									<input id="sold_out_qty" type="number" step="1" style="width:30%" name="sold_out_qty" value="0">
-								</TD>
-							</TR>
-							<tr>
+							<tr class="editor_title" category="care">
 								<td colspan="12" id="care_info_marker">
 									<h3 class="detail_category_title">유의사항</h3>
 								</td>
 							</tr>
-							<TR>
+							
+							<TR class="tr_editor tr_editor_care" style="display:none;">
 								<TH>
 									제품 취급 유의사항<br>(한글)
 									<label class="rd__square update__flg__area">
@@ -1204,12 +1257,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="care_kr" name="care_kr"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="care_kr" name="care_kr" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_care" style="display:none;">
 								<TH>
 									제품 취급 유의사항<br>(영문)
 									<label class="rd__square update__flg__area">
@@ -1224,12 +1276,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="care_en" name="care_en"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="care_en" name="care_en" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_care" style="display:none;">
 								<TH>
 									제품 취급 유의사항<br>(중문)
 									<label class="rd__square update__flg__area">
@@ -1244,16 +1295,17 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="care_cn" name="care_cn"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="care_cn" name="care_cn" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
-							<tr>
+							
+							<tr class="editor_title" category="detail">
 								<td colspan="12" id="detail_info_marker">
 									<h3 class="detail_category_title">상세정보</h3>
 								</td>
 							</tr>
-							<TR>
+							
+							<TR class="tr_editor tr_editor_detail" style="display:none;">
 								<TH>
 									제품 상세정보 (한글)
 									<label class="rd__square update__flg__area">
@@ -1268,12 +1320,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="detail_kr" name="detail_kr"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="detail_kr" name="detail_kr" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_detail" style="display:none;">
 								<TH>
 									제품 상세정보 (영문)
 									<label class="rd__square update__flg__area">
@@ -1288,12 +1339,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="detail_en" name="detail_en"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="detail_en" name="detail_en" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_detail" style="display:none;">
 								<TH>
 									제품 상세정보 (중문)
 									<label class="rd__square update__flg__area">
@@ -1308,16 +1358,17 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="detail_cn" name="detail_cn"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="detail_cn" name="detail_cn" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
-							<tr>
+							
+							<tr class="editor_title" category="material">
 								<td colspan="12" id="material_info_marker">
 									<h3 class="detail_category_title">소재</h3>
 								</td>
 							</tr>
-							<TR>
+							
+							<TR class="tr_editor tr_editor_material" style="display:none;">
 								<TH>
 									소재 (한글)
 									<label class="rd__square update__flg__area">
@@ -1332,11 +1383,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="material_kr" name="material_kr" style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="material_kr" name="material_kr" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_material" style="display:none;">
 								<TH>
 									소재 (영문)
 									<label class="rd__square update__flg__area">
@@ -1351,11 +1402,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="material_en" name="material_en" style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="material_en" name="material_en" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_material" style="display:none;">
 								<TH>
 									소재 (중문)
 									<label class="rd__square update__flg__area">
@@ -1370,16 +1421,17 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="material_cn" name="material_cn"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="material_cn" name="material_cn" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
-							<tr>
+							
+							<tr class="editor_title" category="refund">
 								<td colspan="12" id="refund_info_marker">
 									<h3 class="detail_category_title">환불정보</h3>
 								</td>
 							</tr>
-							<TR>	
+							
+							<TR class="tr_editor tr_editor_refund" style="display:none;">
 								<TH>구매 전<br>환불정보 표시 플래그</TH>
 								<TD colspan="11">
 									<div class="content__row">
@@ -1397,7 +1449,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_refund" style="display:none;">
 								<TH>
 									구매 전<br>환불정보 표시 메세지(한국몰)
 									<label class="rd__square update__flg__area">
@@ -1412,11 +1464,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<input type="text" id="refund_msg_kr" name="refund_msg_kr">
+									<textarea id="refund_msg_kr" name="refund_msg_kr" style="width:100%; height:150px; border:solid 1px #bfbfbf;padding:5px;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_refund" style="display:none;">
 								<TH>
 									구매 전<br>환불정보 표시 메세지(영문몰)
 									<label class="rd__square update__flg__area">
@@ -1431,11 +1483,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<input type="text" id="refund_msg_en" name="refund_msg_en">
+									<textarea id="refund_msg_en" name="refund_msg_en" style="width:100%; height:150px; border:solid 1px #bfbfbf;padding:5px;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>	
+							<TR class="tr_editor tr_editor_refund" style="display:none;">
 								<TH>
 									구매 전<br>환불정보 표시 메세지(중문몰)
 									<label class="rd__square update__flg__area">
@@ -1450,11 +1502,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<input type="text" id="refund_msg_cn" name="refund_msg_cn">
+									<textarea id="refund_msg_cn" name="refund_msg_cn" style="width:100%; height:150px; border:solid 1px #bfbfbf;padding:5px;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_refund" style="display:none;">
 								<TH>
 									추가 교환/환불<br>상세정보<br>(한국몰)
 									<label class="rd__square update__flg__area">
@@ -1469,12 +1521,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="refund_kr" name="refund_kr"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="refund_kr" name="refund_kr" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 
-							<TR>
+							<TR class="tr_editor tr_editor_refund" style="display:none;">
 								<TH>
 									추가 교환/환불<br>상세정보<br>(영문몰)
 									<label class="rd__square update__flg__area">
@@ -1489,12 +1540,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="refund_en" name="refund_en"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="refund_en" name="refund_en" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 
-							<TR>
+							<TR class="tr_editor tr_editor_refund" style="display:none;">
 								<TH>
 									추가 교환/환불<br>상세정보<br>(중국몰)
 									<label class="rd__square update__flg__area">
@@ -1509,36 +1559,17 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="refund_cn" name="refund_cn"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="refund_cn" name="refund_cn" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 
-							<TR>
-								<TH>
-									메모
-									<label class="rd__square update__flg__area">
-										<input type="radio" name="memo_update_flg" value="false">
-										<div><div></div></div>
-										<span>수정안함</span>
-									</label>
-									<label class="rd__square update__flg__area">
-										<input type="radio" name="memo_update_flg" value="true" checked>
-										<div><div></div></div>
-										<span>수정함</span>
-									</label>
-								</TH>
-								<TD colspan="11">
-									<textarea class="width-100p" id="memo" name="memo"
-										style="width:90%; height:150px;"></textarea>
-								</TD>
-							</TR>
-							<tr>
+							<tr class="editor_title" category="search">
 								<td colspan="12" id="search_info_marker">
 									<h3 class="detail_category_title">검색정보</h3>
 								</td>
 							</tr>
-							<TR>
+							
+							<TR class="tr_editor tr_editor_search" style="display:none;">
 								<TH>검색엔진<br>노출설정</TH>
 								<TD colspan="11">
 									<div class="flex" style="gap: 10px;">
@@ -1554,7 +1585,9 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 										</label>
 									</div>
 								</TD>
-							<TR>
+							</TR>
+							
+							<TR class="tr_editor tr_editor_search" style="display:none;">
 								<TH>
 									검색엔진<br>브라우저 타이틀
 									<label class="rd__square update__flg__area">
@@ -1573,7 +1606,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_search" style="display:none;">
 								<TH>메타태그<br>Author
 									<label class="rd__square update__flg__area">
 										<input type="radio" name="seo_author_update_flg" value="false">
@@ -1591,7 +1624,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_search" style="display:none;">
 								<TH>메타태그<br>Description
 									<label class="rd__square update__flg__area">
 										<input type="radio" name="seo_description_update_flg" value="false">
@@ -1605,12 +1638,11 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="seo_description" name="seo_description"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="seo_description" name="seo_description" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_search" style="display:none;">
 								<TH>
 									메타태그<br>Keyword
 									<label class="rd__square update__flg__area">
@@ -1629,7 +1661,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 								</TD>
 							</TR>
 							
-							<TR>
+							<TR class="tr_editor tr_editor_search" style="display:none;">
 								<TH>
 									검색엔진<br>상품이미지<br>ALT 텍스트
 									<label class="rd__square update__flg__area">
@@ -1644,10 +1676,10 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</label>
 								</TH>
 								<TD colspan="11">
-									<textarea class="width-100p" id="seo_alt_text" name="seo_alt_text"
-										style="width:90%; height:150px;"></textarea>
+									<textarea class="width-100p" id="seo_alt_text" name="seo_alt_text" style="width:90%;height:150px;visibility:hidden;"></textarea>
 								</TD>
 							</TR>
+							
 							<tr>
 								<td colspan="12" id="image_info_marker">
 									<h3 class="detail_category_title">이미지</h3>
@@ -1673,9 +1705,37 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 										<input type="button" class="gray_btn" value="체크" style="margin-right:10px" onclick="imgExistChk()">
 										<input type="button" class="gray_btn" active_flg="false" value="미리보기" onclick="previewImg(this)">
 									</div>
+									<table id="thumbname_img_url_table" style="width:200px;margin-bottom:20px;">
+										<colgroup>
+											<col width="100px">
+											<col width="100px">
+										</colgroup>
+										<TR>
+											<TH>이미지 타입</TH>
+											<TH>갯수</TH>
+										</TR>
+										<tr>
+											<TD>
+												<input type="hidden" name="img_type[]" value="thumbnail_O">
+												<p class="type__name">썸네일-아웃핏</p>
+											</TD>
+											<TD>
+												<div class="imgCnt thumbnail_O" style="width:15%"></div>
+											</TD>
+										</tr>
+										<tr>
+											<TD>
+												<input type="hidden" name="img_type[]" value="thumbnail_P">
+												<p class="type__name">썸네일-상품</p>
+											</TD>
+											<TD>
+												<div class="imgCnt thumbnail_P" style="width:15%"></div>
+											</TD>
+										</tr>
+									</tr>
 									<table id="img_url_table" style="width:50%">
 										<colgroup>
-											<col width="10%">
+											<col width="100px">
 											<col width="60%">
 											<col width="30%">
 										</colgroup>
@@ -1744,10 +1804,13 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 									</table>
 								</TD>
 							</TR>
-							
 							<tr id="img_preview">
 								<TH>미리보기</TH>
 								<td colspan="11">
+									<div class="thumbnail__outfit__area">
+									</div>
+									<div class="thumbnail__product__area">
+									</div>
 									<div class="outfit__area">
 									</div>
 									<div class="product__area">
@@ -1906,16 +1969,11 @@ var refund_kr = [];
 var refund_en = [];
 var refund_cn = [];
 
-var memo = [];
-
 var seo_description = [];
 var seo_alt_text = [];
 
-var originImg = [];
-var productImg = [];
-var detailImgData = [];
-
 var imgData = [];
+
 function setSmartEditor() {
 	//care
 	nhn.husky.EZCreator.createInIFrame({
@@ -2006,13 +2064,6 @@ function setSmartEditor() {
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload : function(){}}
 	});
-	//memo
-	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: memo,
-		elPlaceHolder: "memo",
-		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
-		htParams: { fOnBeforeUnload : function(){}}
-	});
 }
 
 function getFilterInfo() {
@@ -2064,13 +2115,41 @@ $(document).ready(function() {
 	$('#insert_table_MD').toggle();
 	$('#insert_table_DSN').toggle();
 	$('#insert_table_TD').toggle();
-
-	$('.cal_discount').keyup(function(){
-		var price = $(this).find('.price').val();
-		var sales_price = $(this).find('.sales_price').val();
-
-		if(price * sales_price > 0){
-			$(this).find('.result').val( ((price - sales_price) / price * 100 ).toFixed(2))
+	
+	$('.editor_title').click(function() {
+		let category = $(this).attr('category');
+		
+		let editor_category = $('.tr_editor_' + category)
+		editor_category.toggle();
+		let iframe = editor_category.find('iframe');
+		
+		if (iframe.length > 0) {
+			for (let i=0; i<iframe.length; i++) {
+				let iframe_id = iframe.eq(i).attr('id');
+				$('#' + iframe_id).attr('src',$('#' + iframe_id).attr('src'));
+			}
+		}		
+	});
+	
+	$('.price').keyup(function() {
+		let country = $(this).attr('country');
+		let price = $(this).val();
+		
+		$('#sales_price_' + country).val(price);
+	});
+	
+	$('.sales_price').focusout(function() {
+		let country = $(this).attr('country');
+		
+		let price = $('#shop_price_' + country).val();
+		let sales_price = $('#sales_price_' + country).val();
+		
+		if (parseInt(sales_price) > parseInt(price)) {
+			$(this).val(price);
+			alert('세일가격에 가격 이상의 금액을 입력할 수 없습니다.');
+		} else {
+			let discount = (100 - ((parseInt(sales_price) / parseInt(price)) * 100));
+			$('#discount_' + country).val(Math.ceil(discount));
 		}
 	});
 	
@@ -2092,7 +2171,7 @@ $(document).ready(function() {
 
 	$('#custom_clearance').on('change', function(){
 		let hs_code = $('#custom_clearance').val()
-		var msg = "통관번호 : " + hs_code;
+		var msg = `통관번호 : ${hs_code}`;
 		$('#select_clearance_msg').text(msg);
 	});
 
@@ -2119,8 +2198,10 @@ $(document).ready(function() {
 			}
 		})
 	});
-	getFilterInfo();
+	
 	getProductInfo();
+	
+	getFilterInfo();
 });
 
 function toggleTableClick(toggle_val) {
@@ -2247,6 +2328,7 @@ function getProductInfo() {
 				
 				$('#shop_style_code').val(data.style_code);
 				$('#shop_color_code').val(data.color_code);
+				$('#shop_color_rgb').val(data.color_rgb);
 				$('#shop_product_code').val(data.product_code);
 				$('#shop_product_name').val(data.product_name);
 				
@@ -2298,17 +2380,17 @@ function getProductInfo() {
 					$('input:radio[name=exclusive_flg]:input[value="true"]').attr("checked",true);
 				}
 				
-				$('#shop_price_kr').val(data.price_kr);
-				$('#sales_price_kr').val(data.sales_price_kr);
-				$('#discount_kr').val(data.discount_kr);
+				$('#shop_price_KR').val(data.price_kr);
+				$('#sales_price_KR').val(data.sales_price_kr);
+				$('#discount_KR').val(data.discount_kr);
 				
-				$('#shop_price_en').val(data.price_en);
-				$('#sales_price_en').val(data.sales_price_en);
-				$('#discount_en').val(data.discount_en);
+				$('#shop_price_EN').val(data.price_en);
+				$('#sales_price_EN').val(data.sales_price_en);
+				$('#discount_EN').val(data.discount_en);
 				
-				$('#shop_price_cn').val(data.price_cn);
-				$('#sales_price_cn').val(data.sales_price_cn);
-				$('#discount_cn').val(data.discount_cn);
+				$('#shop_price_CN').val(data.price_cn);
+				$('#sales_price_CN').val(data.sales_price_cn);
+				$('#discount_CN').val(data.discount_cn);
 				
 				if(data.limit_member != null && data.limit_member.length > 0){
 					var limit_member_arr = [];
@@ -2341,23 +2423,39 @@ function getProductInfo() {
 						strDiv += '    </TD>'
 						strDiv += '    <TD>';
 						
-						let txt_sale_flg = "";
+						let checked_limit_true = "";
+						if (option_row.limit_qty_flg == true) {
+							checked_limit_true = "checked";
+						}
+						strDiv += '        <input class="option_limit_qty_flg" type="hidden" name="option_limit_qty_flg[]" value="' + option_row.sale_flg + '">';
+						strDiv += '        <div style="display:flex;">'
+						strDiv += '             <label class="cb__color update__flg__area">';
+						strDiv += '					<input type="checkbox" name="option_limit_qty_flg_' + option_row.product_option_idx + '" product_option_idx="' + option_row.product_option_idx + '" value="true" ' + checked_limit_true + ' onClick="clickOptionLimitQtyFlg(this);">';
+						strDiv += '					<span>제한</span>';
+						strDiv += '				</label>';
+						strDiv += '        </div>'
+						strDiv += '    </TD>';
+						strDiv += '    <TD>';
+						
+						console.log(option_row.sale_flg);
+						let checked_true = "";
+						let checked_false = "";
 						if (option_row.sale_flg == true) {
-							txt_sale_flg = "true";
-						} else {
-							txt_sale_flg = "false";
+							checked_true = "checked";
+						} else if (option_row.sale_flg == false) {
+							checked_false = "checked";
 						}
 						
-						strDiv += '        <input class="option_sale_flg" type="hidden" name="option_sale_flg[]" value="' + txt_sale_flg + '">';
+						strDiv += '        <input class="option_sale_flg" type="hidden" name="option_sale_flg[]" value="' + option_row.sale_flg + '">';
 						strDiv += '        <div style="display:flex;">'
 						strDiv += '            <label class="rd__square update__flg__area">';
-						strDiv += '                <input type="radio" name="option_sale_flg_' + option_row.product_option_idx + '" product_option_idx="' + option_row.product_option_idx + '" value="true" checked onClick="clickOptionSaleFlg(this);">';
+						strDiv += '                <input type="radio" name="option_sale_flg_' + option_row.product_option_idx + '" product_option_idx="' + option_row.product_option_idx + '" value="true" ' + checked_true + ' onClick="clickOptionSaleFlg(this);">';
 						strDiv += '                <div><div></div></div>';
 						strDiv += '                <span>판매</span>';
 						strDiv += '            </label>';
 
 						strDiv += '            <label class="rd__square update__flg__area" style="margin-left:15px;">';
-						strDiv += '                <input type="radio" name="option_sale_flg_' + option_row.product_option_idx + '" product_option_idx="' + option_row.product_option_idx + '" value="false" onClick="clickOptionSaleFlg(this);">';
+						strDiv += '                <input type="radio" name="option_sale_flg_' + option_row.product_option_idx + '" product_option_idx="' + option_row.product_option_idx + '" value="false" ' + checked_false + ' onClick="clickOptionSaleFlg(this);">';
 						strDiv += '                <div><div></div></div>';
 						strDiv += '                <span>판매안함</span>';
 						strDiv += '            </label>';
@@ -2406,7 +2504,7 @@ function getProductInfo() {
                         let strDiv = "";
 
                         strDiv += '<TR>';
-                        strDiv += '		<td onclick="setProductDelete(this)"><a class="btn red"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>';
+                        strDiv += '		<td onclick="relevantProductDelete(this)"><a class="btn red"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>';
 						strDiv += '    <input type="hidden" name="relevant_idx[]" value="' + row.product_idx + '">';
 						strDiv += '</td>';
 						
@@ -2510,8 +2608,8 @@ function getProductInfo() {
 				$('#sold_out_qty').val(data.sold_out_qty);
 				
 				$('#care_kr').html(data.care_kr);
-				$('#care_en').html(data.care_kr);
-				$('#care_cn').html(data.care_kr);
+				$('#care_en').html(data.care_en);
+				$('#care_cn').html(data.care_cn);
 				
 				$('#detail_kr').html(data.detail_kr);
 				$('#detail_en').html(data.detail_en);
@@ -2527,15 +2625,13 @@ function getProductInfo() {
 					$('input:radio[name=refund_msg_flg]:input[value="true"]').attr("checked",true);
 				}
 				
-				$('#refund_msg_kr').val(data.refund_msg_kr);
-				$('#refund_msg_en').val(data.refund_msg_en);
-				$('#refund_msg_cn').val(data.refund_msg_cn);
+				$('#refund_msg_kr').val(xssDecode(data.refund_msg_kr));
+				$('#refund_msg_en').val(xssDecode(data.refund_msg_en));
+				$('#refund_msg_cn').val(xssDecode(data.refund_msg_cn));
 				
 				$('#refund_kr').html(data.refund_kr);
 				$('#refund_en').html(data.refund_en);
 				$('#refund_cn').html(data.refund_cn);
-				
-				$('#memo').html(data.memo);
 				
 				if(data.seo_exposure_flg == 0){
 					$('input:radio[name=seo_exposure_flg]:input[value="false"]').attr("checked",true);
@@ -2702,20 +2798,21 @@ function getOrdersheetInfo(ordersheet_idx) {
 				getSizeGuideList(option_info);
 				
 				$('#tp_completion_date').text(data.tp_completion_date);
-				$('#detail_dsn_kr').html(data.detail_kr);
-				$('#detail_dsn_en').html(data.detail_en);
-				$('#detail_dsn_cn').html(data.detail_cn);
-				$('#care_dsn_kr').html(data.care_dsn_kr);
-				$('#care_dsn_en').html(data.care_dsn_en);
-				$('#care_dsn_cn').html(data.care_dsn_cn);
+				$('#detail_dsn_kr').append(xssDecode(data.detail_kr));
+				$('#detail_dsn_en').append(xssDecode(data.detail_en));
+				$('#detail_dsn_cn').append(xssDecode(data.detail_cn));
+				$('#care_dsn_kr').append(xssDecode(data.care_dsn_kr));
+				$('#care_dsn_en').append(xssDecode(data.care_dsn_en));
+				$('#care_dsn_cn').append(xssDecode(data.care_dsn_cn));
 				
 				//ORDERSHEET - TD
-				$('#care_td_kr').html(data.care_td_kr);
-				$('#care_td_en').html(data.care_td_en);
-				$('#care_td_cn').html(data.care_td_cn);
-				$('#material_text_kr').html(data.material_kr);
-				$('#material_text_en').html(data.material_en);
-				$('#material_text_cn').html(data.material_cn);
+				$('#care_td_kr').append(xssDecode(data.care_td_kr));
+				$('#care_td_en').append(xssDecode(data.care_td_en));
+				$('#care_td_cn').append(xssDecode(data.care_td_cn));
+				$('#material_text_kr').append(xssDecode(data.material_kr));
+				$('#material_text_en').append(xssDecode(data.material_en));
+				$('#material_text_cn').append(xssDecode(data.material_cn));
+				
 				$('#manufacturer').text(data.manufacturer);
 				$('#supplier').text(data.supplier);
 				$('#origin_country').text(data.origin_country);
@@ -2749,9 +2846,6 @@ function getOrdersheetInfo(ordersheet_idx) {
 				
 				$('#load_weight').text(data.load_weight);
 				$('#load_qty').text(data.load_qty);
-				
-				var sub_info = data.sub_material_info;
-				console.log(sub_info);
 				
 				var sub_info = data.sub_material_info;
 				sub_info.forEach(function(sub_data){
@@ -2910,6 +3004,8 @@ function updateDisplayNum(action_type,num) {
 }
 
 function imgExistChk(){
+	$('.thumbnail__outfit__area').html('');
+	$('.thumbnail__product__area').html('');
 	$('.outfit__area').html('');
 	$('.product__area').html('');
 	$('.detail__area').html('');
@@ -2943,8 +3039,8 @@ function imgExistChk(){
 						
 						$('.imgCnt.' + type).text(cnt + '개');
 					});
-					
 					imgData = data;
+
 					img_chk_flg = true;
 					img_dir_error_flg = true;
 				} else {
@@ -2962,9 +3058,10 @@ function imgExistChk(){
 		}
 	});
 }
-
 function previewImg(obj) {
 	var active_flg = $(obj).attr('active_flg');
+	$('.thumbnail__outfit__area').html('');
+	$('.thumbnail__product__area').html('');
 	$('.outfit__area').html('');
 	$('.product__area').html('');
 	$('.detail__area').html('');
@@ -2984,10 +3081,17 @@ function previewImg(obj) {
 		}
 		else{
 			imgData.forEach(function(val, idx, arr){
-				
 				var typeDiv = '';
 				var typeStr = '';
 				switch(val.type){
+					case 'thumbnail_O':
+						typeDiv = $('.thumbnail__outfit__area');
+						typeStr = '썸네일-아웃핏';
+						break;
+					case 'thumbnail_P':
+						typeDiv = $('.thumbnail__product__area');
+						typeStr = '썸네일-상품';
+						break;
 					case 'outfit':
 						typeDiv = $('.outfit__area');
 						typeStr = '아웃핏';
@@ -3001,7 +3105,7 @@ function previewImg(obj) {
 						typeStr = '디테일';
 						break;
 				}
-				if (val.file_list.length > 0) {
+				if (val.file_list != null && val.file_list.length > 0) {
 					let strDiv = "";
 					
 					strDiv += '<div class="content__title" style="margin-bottom:5px;"><h3>' + typeStr + '</h3></div>';
@@ -3073,7 +3177,6 @@ function productUpdateCheck(){
 		refund_en.getById["refund_en"].exec("UPDATE_CONTENTS_FIELD", []); 
 		refund_cn.getById["refund_cn"].exec("UPDATE_CONTENTS_FIELD", []); 
 
-		memo.getById["memo"].exec("UPDATE_CONTENTS_FIELD", []); 
 		seo_description.getById["seo_description"].exec("UPDATE_CONTENTS_FIELD", []); 
 		seo_alt_text.getById["seo_alt_text"].exec("UPDATE_CONTENTS_FIELD", []); 
 		
@@ -3108,10 +3211,11 @@ function productUpdateCheck(){
 			dataType: "json",
 			url: config.api + "product/put",
 			error: function() {
+				closeLoadingWithMask();
 				alert("독립몰 상품 수정 처리에 실패했습니다.");
 			},
 			beforeSend: function(){
-				LoadingWithMask('/images/default/loading_img.gif')
+				loadingWithMask('/images/default/loading_img.gif');
 			},
 			success: function(d) {
 				if(d.code == 200) {
@@ -3120,50 +3224,18 @@ function productUpdateCheck(){
                         location.href = 'http://116.124.128.246:81/product/list';
 					});
 				}
+				else{
+					closeLoadingWithMask();
+					alert(d.msg);
+				}
 			}
 		});
 	})
 }
 
-function LoadingWithMask(gif) {
-	var maskHeight = $(document).height();
-	var maskWidth  = window.document.body.clientWidth;
-	var top = 0;
-	var left = 0;
-
-	top = ( $(window).height()) / 2 + $(window).scrollTop();
-	left = ( $(window).width()) / 2 + $(window).scrollLeft();
-
-	//화면에 출력할 마스크를 설정해줍니다.
-	var mask       = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
-	
-	var str_loading_img = "";
-	str_loading_img += '<div id="loading_img">';
-	str_loading_img += '    <img src="' + gif + '" style="width:75px; height:75px;"/>';
-	str_loading_img += '</div>';
-
-	$('body').append(mask);
-	$('body').append(str_loading_img);
-
-	$('#mask_loading').css({
-			'width' : maskWidth,
-			'height': maskHeight,
-			'opacity' : '1'
-	}); 
-
-	$('#mask_loading').show();
-	$('#loadingImg').show();
-}
-
-function closeLoadingWithMask() {
-    $('#mask_loading, #loadingImg').hide();
-    $('#mask_loading, #loadingImg').empty();  
-}
-
 function moveInfoScroll(str){
 	$('.content__card.product__detail .card__body').animate({scrollTop : 0}, 0);
 	let clickOffset = $('#' + str + '_info_marker').position();
-	console.log(clickOffset);
 	$('.content__card.product__detail .card__body').animate({scrollTop : clickOffset.top - 150}, 0);
 }
 
@@ -3228,13 +3300,13 @@ function getWklaInfo(wkla_idx) {
 }
 
 function getSizeGuideList(option_info) {
-	let size_guide_idx = $('#size_guide_idx').val();
+	let size_guide_category = $('#size_guide_category').val();
 	
 	$.ajax({
 		type: "post",
 		url: config.api + "product/size_guide/get",
 		data: {
-			'size_guide_idx' : size_guide_idx
+			'size_guide_category' : size_guide_category
 		},
 		dataType: "json",
 		error: function () {
@@ -3242,10 +3314,8 @@ function getSizeGuideList(option_info) {
 		},
 		success: function (d) {
 			if (d.code == 200) {
-				let data = d.data;
-				if (data != null) {
-					let size_data = d.data[0];
-					
+				let size_data = d.data[0];
+				if (size_data != null) {
 					let str_div_option_th = "";
 					let colspan_cnt = 0;
 					
@@ -3262,7 +3332,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_1 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_1 + '</TH>';
+						str_div_option_th += '            <TH><p class="requird_title">' + size_data.size_title_1 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -3272,7 +3342,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_2 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_2 + '</TH>';
+						str_div_option_th += '            <TH><p class="requird_title">' + size_data.size_title_2 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -3282,7 +3352,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_3 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_3 + '</TH>';
+						str_div_option_th += '            <TH><p class="requird_title">' + size_data.size_title_3 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -3292,7 +3362,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_4 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_4 + '</TH>';
+						str_div_option_th += '            <TH><p class="requird_title">' + size_data.size_title_4 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -3302,7 +3372,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_5 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_5 + '</TH>';
+						str_div_option_th += '            <TH><p class="requird_title">' + size_data.size_title_5 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -3312,7 +3382,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_6 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_6 + '</TH>';
+						str_div_option_th += '            <TH><p class="requird_title">' + size_data.size_title_6 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -3324,11 +3394,11 @@ function getSizeGuideList(option_info) {
 					
 					let str_div_option_table = "";
 					
-					str_div_option_table += '<TD colspan="8">';
+					str_div_option_table += '<TD colspan="12">';
 					str_div_option_table += '    <TABLE>';
 					str_div_option_table += '        <THEAD>';
 					str_div_option_table += '            <TR>';
-					str_div_option_table += '                <TH>옵션이름</TH>';
+					str_div_option_table += '                <TH><p class="requird_title">옵션이름</p></TH>';
 					str_div_option_table += '                <TH>바코드</TH>';
 					
 					str_div_option_table += str_div_option_th;
@@ -3338,8 +3408,8 @@ function getSizeGuideList(option_info) {
 					str_div_option_table += '            </TR>';
 					str_div_option_table += '        </THEAD>';
 					str_div_option_table += '        <TBODY id="option_info">';
-					str_div_option_table += '            <TR>';
-					str_div_option_table += '                <TD colspan="' + (colspan_cnt + 4) + '">등록된 옵션정보가 없습니다.</TD>';
+					str_div_option_table += '            <TR class="default_tr">';
+					str_div_option_table += '                <TD colspan="' + (colspan_cnt + 5) + '">등록된 옵션이 없습니다.</TD>';
 					str_div_option_table += '            </TR>';
 					str_div_option_table += '        </TBODY>';
 					str_div_option_table += '    </TABLE>';
@@ -3349,7 +3419,7 @@ function getSizeGuideList(option_info) {
 					$('#ordersheet_option_info').append(str_div_option_table);
 					$('#ordersheet_option_info').show();
 					
-					if (option_info.length > 0) {
+					if (option_info != "" && option_info != null) {
 						setOptionInfo(option_info);
 					}
 				}
@@ -3400,12 +3470,70 @@ function setOptionInfo(option_info) {
 	
 	$('#option_info').append(strDiv);
 }
-
+function clickOptionLimitQtyFlg(obj) {
+	let product_option_idx = $(obj).attr('product_option_idx');
+	let selected_tr = $('#product_option_' + product_option_idx);
+	
+	let checkbox_value = $(obj).prop('checked');
+	let flg_value = 'false';
+	if(checkbox_value == true){
+		flg_value = 'true';
+	}
+	
+	selected_tr.find('.option_limit_qty_flg').val(flg_value);
+}
 function clickOptionSaleFlg(obj) {
 	let product_option_idx = $(obj).attr('product_option_idx');
 	let selected_tr = $('#product_option_' + product_option_idx);
 	
 	let radio_value = $(obj).val();
 	selected_tr.find('.option_sale_flg').val(radio_value);
+}
+function loadingWithMask(gif) {
+	var maskHeight = $(document).height();
+	var maskWidth  = window.document.body.clientWidth;
+	var top = 0;
+	var left = 0;
+
+	top = ( $(window).height()) / 2 + $(window).scrollTop();
+	left = ( $(window).width()) / 2 + $(window).scrollLeft();
+
+	//화면에 출력할 마스크를 설정해줍니다.
+	var mask = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+	
+	let strDiv = "";
+	strDiv += '<div id="loading_img">';
+	strDiv += '    <img src="' + gif + '" style="width:75px; height:75px;"/>';
+	strDiv += '</div>';
+
+	$('body').append(mask);
+	$('body').append(strDiv);
+	
+	$('#loading_img').css('top',top);
+	$('#loading_img').css('left',left);
+
+	$('#mask_loading').css({'width':maskWidth,'height':maskHeight,'opacity':'0.5'}); 
+
+	$('#mask_loading').show();
+	$('#loading_img').show();
+}
+
+function closeLoadingWithMask() {
+    $('#mask_loading,#loading_img').hide();
+    $('#mask_loading,#loading_img').remove();  
+}
+function xssDecode(data){
+	var decode_str = null;
+	if(data != null){
+		decode_str = data.replace(/&amp;/g, '&');
+		decode_str = decode_str.replace(/&quot;/g, '\"');
+		decode_str = decode_str.replace(/&apos;/g, "'");
+		decode_str = decode_str.replace(/&lt;/g, '<');
+		decode_str = decode_str.replace(/&gt;/g, '>');
+		decode_str = decode_str.replace(/<br>/g, '\r');
+		decode_str = decode_str.replace(/<p>/g, '\n');
+	}
+	
+	return decode_str;
 }
 </script>

@@ -43,7 +43,7 @@
 				ADMIN_SEND_MSG,
 				SUPPLIER_SEND_MSG
 			FROM
-				dev.SMS_INFO
+				SMS_INFO
 			WHERE
 				SMS_TYPE = 'BRD'
 			AND

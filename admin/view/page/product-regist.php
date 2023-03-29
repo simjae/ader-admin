@@ -1,10 +1,11 @@
 <style>
-	.white_btn{
-		font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;
-	}
-	.gray_btn{
-		font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#a0a0a0;cursor: not-allowed;
-	}
+.white_btn{
+	font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#ffffff;
+}
+.gray_btn{
+	font-size:0.5rem;width:60px;height:30px;border:1px solid;background-color:#a0a0a0;cursor: not-allowed;
+}
+#loading_img {position:absolute;width:75px;height:75px;z-index:9999;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
 </style>
 <div class="content__card">
 	<form id="frm-filter" action="pcs/ordersheet/list/get">
@@ -486,8 +487,16 @@ function getOrdersheetTabInfo(){
 							<table>
 								<tbody>
 									<tr>
+										<td>썸네일-아웃핏 이미지</td>
+										<td>${row.product_image_info.thumbnail_O_cnt}</td>
+									</tr>
+									<tr>
+										<td>썸네일-상품 이미지</td>
+										<td>${row.product_image_info.thumbnail_P_cnt}</td>
+									</tr>
+									<tr>
 										<td>아웃풋 이미지</td>
-										<td>${row.product_image_info.output_cnt}</td>
+										<td>${row.product_image_info.outfit_cnt}</td>
 									</tr>
 									<tr>
 										<td>상품 이미지</td>
@@ -583,7 +592,7 @@ function selectAllClick(obj) {
 }
 
 function ordersheetActionCheck() {
-	confirm('독립몰 상품등록작업을 진행하시겠습니까?', function(){
+	confirm('이미지 순서설정 모달창으로 이동합니다.', function(){
 		var select_idx = [];
 		var length = $('#frm-list').find('.select').length;
 		
@@ -592,44 +601,50 @@ function ordersheetActionCheck() {
 				select_idx.push($('#frm-list').find('.select').eq(i).val());
 			}
 		}
-		if (select_idx.length == 0) {
-			alert('독립몰 상품등록 할 상품를 선택해주세요.');
-		} else {
-			var cnt = 0;
-			var action_name = "독립몰 상품등록";
-			
-			var formData = new FormData();
-			formData = $("#frm-list").serializeObject();
-			
-			$.ajax({
-				type: "post",
-				data: formData,
-				dataType: "json",
-				url: config.api + "product/add",
-				error: function() {
-					closeLoadingWithMask();
-					alert('독립몰 상품등록 처리에 실패했습니다.');
-				},
-				beforeSend: function(){
-					LoadingWithMask('/images/default/loading_img.gif')
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						closeLoadingWithMask();
-						alert('독립몰 상품등록작업 처리에 성공했습니다.');
-						insertLog("상품관리 > 독립몰 상품등록", '독립몰 상품등록', select_idx.length);
-						getOrdersheetTabInfo();
-					}
-					else{
-						alert(d.msg);
-						closeLoadingWithMask();
-					}
-				}
-			});
-		}
+		openImgRegistModal(select_idx);
 	});
 }
+function openImgRegistModal(select_idx_arr){
+	if (select_idx_arr.length > 0) {
+		modal('img/regist','ordersheet_idx_arr=' + select_idx_arr);
+	} else {
+		alert('변경할 대상을 선택해주세요');
+		return false;
+	}
+}
+function loadingWithMask(gif) {
+	var maskHeight = $(document).height();
+	var maskWidth  = window.document.body.clientWidth;
+	var top = 0;
+	var left = 0;
 
+	top = ( $(window).height()) / 2 + $(window).scrollTop();
+	left = ( $(window).width()) / 2 + $(window).scrollLeft();
+
+	//화면에 출력할 마스크를 설정해줍니다.
+	var mask = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+	
+	let strDiv = "";
+	strDiv += '<div id="loading_img">';
+	strDiv += '    <img src="' + gif + '" style="width:75px; height:75px;"/>';
+	strDiv += '</div>';
+
+	$('body').append(mask);
+	$('body').append(strDiv);
+	
+	$('#loading_img').css('top',top);
+	$('#loading_img').css('left',left);
+
+	$('#mask_loading').css({'width':maskWidth,'height':maskHeight,'opacity':'0.5'}); 
+
+	$('#mask_loading').show();
+	$('#loading_img').show();
+}
+
+function closeLoadingWithMask() {
+    $('#mask_loading,#loading_img').hide();
+    $('#mask_loading,#loading_img').remove();  
+}
 function rowsChange(obj) {
 	var rows = $(obj).val();
 	
@@ -648,46 +663,5 @@ function orderChange(obj) {
 	$('#frm-filter').find('.sort_type').val(order_value[1]);
 
 	getOrdersheetTabInfo();
-}
-function LoadingWithMask(gif) {
-    //화면의 높이와 너비를 구합니다.
-    var maskHeight = $(document).height();
-    var maskWidth  = window.document.body.clientWidth;
-	var top = 0;
-	var left = 0;
-	top = ( $(window).height()) / 2 + $(window).scrollTop();
-    left = ( $(window).width()) / 2 + $(window).scrollLeft();
-	
-    //화면에 출력할 마스크를 설정해줍니다.
-    var mask       = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
-    var loadingImg = '';
-      
-	loadingImg = `
-					<div id='loadingImg' style="position:absolute; top:${top}px; left:${left}px; width:75px; height:75px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; ">
-						<img src='${gif}' style="width:75px; height:75px;"/>
-					</div>
-				`;
- 
-    //화면에 레이어 추가
-    $('body').append(mask);
-	$('body').append(loadingImg);
- 
-    //마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채웁니다.
-    $('#mask_loading').css({
-            'width' : maskWidth,
-            'height': maskHeight,
-            'opacity' : '0.3'
-    }); 
-  
-    //마스크 표시
-    $('#mask_loading').show();
-  
-    //로딩중 이미지 표시
-    $('#loadingImg').show();
-}
-
-function closeLoadingWithMask() {
-    $('#mask_loading, #loadingImg').hide();
-    $('#mask_loading, #loadingImg').empty();  
 }
 </script>

@@ -44,6 +44,7 @@ function init_filter(frm_id, func_name){
 
 	formObj.find('.date__picker').css('background-color','#ffffff');
 	formObj.find('.date__picker').css('color','#000000');
+	formObj.find('input[name="date_param"]').val('');
 	formObj.find('input[name="search_date"]').val('');
 	
 	window[func_name]();
@@ -97,8 +98,8 @@ function dateParamChange(obj) {
 	
 	$('#date_param_' + date_type).val('');
 
-	if(date_from != null && date_to != null){
-		if (date_to > date_from) {
+	if(date_from != '' && date_to != ''){
+		if (date_to < date_from) {
 			$(obj).val('');
 			
 			alert('검색일에 올바른 날짜를 입력해주세요.');
@@ -210,7 +211,7 @@ function boardActionClick(obj) {
 					if(d.code == 200) {
 						alert(action_name + ' 처리에 성공했습니다.');
 						$("#frm-list-" + tab_status).find('.page').val(1);
-						window['getBoardTabInfo' + tab_status]();
+						window['getBoardInfoList_' + tab_status]();
 					}
 				}
 			});
@@ -276,7 +277,7 @@ function updateDisplayNum(action, num, idx,country){
 			alert('공지사항 순서번경 처리중 오류가 발생했습니다.');
 		},
 		success: function(d) {
-			window['getBoardTabInfo' + tab_status]();
+			window['getBoardInfoList_' + tab_status]();
 		}
 	})
 }

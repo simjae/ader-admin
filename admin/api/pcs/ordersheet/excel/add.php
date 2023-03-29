@@ -32,6 +32,8 @@ date_default_timezone_set('Asia/Seoul');
 if ($ordersheet_sheet != NULL && count($ordersheet_sheet) != 0) {
     $excel_start_row = 4;
     $success_cnt = 0;
+
+
     $db->begin_transaction();
     try {
         foreach ($ordersheet_sheet as $key => $val) {
@@ -70,11 +72,23 @@ if ($ordersheet_sheet != NULL && count($ordersheet_sheet) != 0) {
             */
             $product_code = NULL;
             $exist_ordersheet_cnt = -1;
-            $product_code = $val[2];
+            $product_code = $val[3];
             if($product_code != NULL){
                 $exist_ordersheet_cnt = $db->count('ORDERSHEET_MST', 'PRODUCT_CODE = "'.$product_code.'" ');
             }
             
+            $currency_info_sql = " 
+                            SELECT 
+                                COUNTRY, 
+                                CURRENCY 
+                            FROM 
+                                PRODUCT_CURRENCY";
+            $currency_arr = array();
+            $db->query($currency_info_sql);
+            foreach($db->fetch() as $currency_info){
+                $currency_arr[$currency_info['COUNTRY']] = $currency_info['CURRENCY'];
+            }
+
             //insert
             if($exist_ordersheet_cnt == 0){
                 $year = NULL;
@@ -243,34 +257,23 @@ if ($ordersheet_sheet != NULL && count($ordersheet_sheet) != 0) {
                 }
                 $price_kr = NULL;
                 $price_kr_arr = array();
+                $price_kr_gb_arr = array();
+                $price_en_arr = array();
+                $price_cn_arr = array();
                 $price_kr = $val[35];
                 if($price_kr != NULL){
                     $price_kr_arr[0] = ' PRICE_KR, ';
                     $price_kr_arr[1] = ' '.$price_kr.', ';
-                }
-                /*
-                $price_kr_gb = NULL;
-                $price_kr_gb_arr = array();
-                $price_kr_gb = $val[36];
-                if($price_kr_gb != NULL){
+
                     $price_kr_gb_arr[0] = ' PRICE_KR_GB, ';
-                    $price_kr_gb_arr[1] = ' '.$price_kr_gb.', ';
-                }
-                $price_en = NULL;
-                $price_en_arr = array();
-                $price_en = $val[37];
-                if($price_en != NULL){
+                    $price_kr_gb_arr[1] = ' '.$price_kr.' * 1.4, ';
+
                     $price_en_arr[0] = ' PRICE_EN, ';
-                    $price_en_arr[1] = ' '.$price_en.', ';
-                }
-                $price_cn = NULL;
-                $price_cn_arr = array();
-                $price_cn = $val[38];
-                if($price_cn != NULL){
+                    $price_en_arr[1] = ' ('.$price_kr.' * 1.4 ) * '.$currency_arr['EN'].' , ';
+
                     $price_cn_arr[0] = ' PRICE_CN, ';
-                    $price_cn_arr[1] = ' '.$price_cn.', ';
+                    $price_cn_arr[1] = ' ('.$price_kr.' * 1.4 ) * '.$currency_arr['CN'].' , ';
                 }
-                */
                 $product_qty = NULL;
                 $product_qty_arr = array();
                 $product_qty = $val[39];
@@ -313,6 +316,9 @@ if ($ordersheet_sheet != NULL && count($ordersheet_sheet) != 0) {
                         ".$limit_product_qty_arr[0]."
                         ".$price_cost_arr[0]."
                         ".$price_kr_arr[0]."
+                        ".$price_kr_gb_arr[0]."
+                        ".$price_en_arr[0]."
+                        ".$price_cn_arr[0]."
                         ".$product_qty_arr[0]."
                         ".$safe_qty_arr[0]."
                         CREATER,
@@ -344,6 +350,9 @@ if ($ordersheet_sheet != NULL && count($ordersheet_sheet) != 0) {
                         ".$limit_product_qty_arr[1]."
                         ".$price_cost_arr[1]."
                         ".$price_kr_arr[1]."
+                        ".$price_kr_gb_arr[1]."
+                        ".$price_en_arr[1]."
+                        ".$price_cn_arr[1]."
                         ".$product_qty_arr[1]."
                         ".$safe_qty_arr[1]."
                         '".$session_id."',

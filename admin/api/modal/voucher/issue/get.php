@@ -88,6 +88,8 @@ if ($voucher_idx != null) {
 			OP.PRODUCT_CODE NOT LIKE 'VOUXXX%'
 		WHERE
 			VI.VOUCHER_IDX = ".$voucher_idx."
+		ORDER BY
+			".$order."
 	";
 	
 	$limit_start = (intval($page)-1)*$rows;	

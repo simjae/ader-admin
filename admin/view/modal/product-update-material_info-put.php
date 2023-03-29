@@ -15,26 +15,62 @@
 			<div class="row table__wrap" style="margin-top:10px;">
 				<TABLE id="insert_table_wkla_material">
 					<colgroup>
-						<col width="10%">
-						<col width="90%">
+						<col width="120px">
+						<col width="auto">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD>소재<br>(한국몰)</TD>
+							<TH>
+								소재 (한글)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="material_kr_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="material_kr_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="material_kr" name="material_kr" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD>소재<br>(영문몰)</TD>
+							<TH>
+								소재 (영문)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="material_en_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="material_en_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="material_en" name="material_en" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD>소재<br>(중문몰)</TD>
+							<TH>
+								소재 (중문)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="material_cn_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="material_cn_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="material_cn" name="material_cn" required style="width:90%; height:150px;"></textarea>
 							</TD>

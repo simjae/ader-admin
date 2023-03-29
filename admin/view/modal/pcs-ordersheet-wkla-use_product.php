@@ -28,7 +28,7 @@
 	
 	<div class="card__header">
 <?php
-	$db->query('SELECT WKLA_NAME FROM dev.WKLA_INFO WHERE IDX = '.$wkla_idx.' ');
+	$db->query('SELECT WKLA_NAME FROM WKLA_INFO WHERE IDX = '.$wkla_idx.' ');
 
 	foreach($db->fetch() as $wkla_data){
 ?>

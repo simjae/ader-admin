@@ -589,6 +589,7 @@ function addRunwayImg(){
 			dataType: "json",
 			url: config.api + "display/posting/runway/add",
 			error: function() {
+				closeLoadingWithMask();
 				alert('FTP 서버 내 런웨이 이미지 체크작업이 실패했습니다.');
 			},
 			beforeSend: function(){
@@ -706,7 +707,6 @@ function convertSizeType(obj){
 		}
 	})
 }
-
 function loadingWithMask(gif) {
 	var maskHeight = $(document).height();
 	var maskWidth  = window.document.body.clientWidth;
@@ -717,11 +717,11 @@ function loadingWithMask(gif) {
 	left = ( $(window).width()) / 2 + $(window).scrollLeft();
 
 	//화면에 출력할 마스크를 설정해줍니다.
-	var mask	   = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+	var mask = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
 	
 	let strDiv = "";
 	strDiv += '<div id="loading_img">';
-	strDiv += '	<img src="' + gif + '" style="width:75px; height:75px;"/>';
+	strDiv += '    <img src="' + gif + '" style="width:75px; height:75px;"/>';
 	strDiv += '</div>';
 
 	$('body').append(mask);
@@ -730,14 +730,14 @@ function loadingWithMask(gif) {
 	$('#loading_img').css('top',top);
 	$('#loading_img').css('left',left);
 
-	$('#mask_loading').css({'width' : maskWidth,'height': maskHeight,'opacity' : '0.5'}); 
+	$('#mask_loading').css({'width':maskWidth,'height':maskHeight,'opacity':'0.5'}); 
 
 	$('#mask_loading').show();
 	$('#loading_img').show();
 }
 
 function closeLoadingWithMask() {
-    $('#mask_loading, #loading_img').hide();
-    $('#mask_loading, #loading_img').empty();  
+    $('#mask_loading,#loading_img').hide();
+    $('#mask_loading,#loading_img').remove();  
 }
 </script>

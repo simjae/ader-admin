@@ -39,6 +39,46 @@ if ($country != null && $standby_idx != null) {
 		";
 		
 		$db->query($delete_standby_sql);
+		
+		$db_result = $db->affectedRows();
+		
+		if (!empty($db_result)) {
+			$select_standby_sql = "
+				SELECT
+					PS.IDX		AS STANDBY_IDX
+				FROM
+					PAGE_STANDBY PS
+				WHERE
+					PS.COUNTRY = '".$country."' AND
+					PS.DEL_FLG = FALSE
+				ORDER BY
+					PS.DISPLAY_NUM ASC
+			";
+			
+			$db->query($select_standby_sql);
+			
+			$display_num = 1;
+			foreach($db->fetch() as $standby_data) {
+				$tmp_idx = $standby_data['STANDBY_IDX'];
+				
+				if (!empty($tmp_idx)) {
+					$update_standby_sql = "
+						UPDATE
+							dev.PAGE_STANDBY
+						SET
+							DISPLAY_NUM = ".$display_num."
+						WHERE
+							IDX = ".$tmp_idx." AND
+							COUNTRY = '".$country."' AND
+							DEL_FLG = FALSE
+					";
+					
+					$db->query($update_standby_sql);
+					
+					$display_num++;
+				}
+			}
+		}
 	}
 }
 

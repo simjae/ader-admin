@@ -31,12 +31,6 @@ $page 				= $_POST['page'];
 $where = '1=1 ';
 $where_cnt = $where;
 
-$tables = "
-	ADMIN_LOG AL
-	LEFT JOIN ADMIN AD ON
-	AL.CREATER = AD.ADMIN_ID
-";
-
 if ($permition_idx != null && $permition_idx != "ALL") {
 	$where .= " AND (AD.PERMITION_IDX = ".$permition_idx.") ";
 }
@@ -96,11 +90,9 @@ if ($sort_value != null && $sort_type != null) {
 	$order = ' AL.IDX DESC';
 }
 
-$limit_start = (intval($page)-1)*$rows;
-
-$total_cnt = $db->count($tables,$where_cnt);
+$total_cnt = $db->count("ADMIN_LOG AL LEFT JOIN ADMIN AD ON AL.CREATER = AD.ADMIN_ID",$where_cnt);
 $json_result = array(
-	'total' => $db->count($tables,$where),
+	'total' => $db->count("ADMIN_LOG AL LEFT JOIN ADMIN AD ON AL.CREATER = AD.ADMIN_ID",$where),
 	'total_cnt' => $total_cnt,
 	'page' => $page
 );
@@ -115,13 +107,16 @@ $select_log_sql = "
 		AL.CREATER_LEVEL	AS CREATER_LEVEL,
 		AL.CREATER_IP		AS CREATER_IP
 	FROM
-		".$tables."
+		ADMIN_LOG AL
+		LEFT JOIN ADMIN AD ON
+		AL.CREATER = AD.ADMIN_ID
 	WHERE 
 		".$where."
 	ORDER BY 
 		".$order."
 ";
 
+$limit_start = (intval($page)-1)*$rows;
 if ($rows != null) {
 	$select_log_sql .= " LIMIT ".$limit_start.",".$rows;
 }

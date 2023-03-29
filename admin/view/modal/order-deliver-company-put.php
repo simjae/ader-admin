@@ -20,7 +20,7 @@
                     HOMEPAGE,
                     DEFAULT_FLG
                 FROM
-                    dev.DELIVERY_COMPANY
+                    DELIVERY_COMPANY
                 WHERE
                     IDX = ".$sel_idx;
 

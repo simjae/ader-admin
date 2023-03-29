@@ -234,7 +234,7 @@ function orderChange_INQ(obj) {
 	frm.find('.sort_value').val(order_value[0]);
 	frm.find('.sort_type').val(order_value[1]);
 	
-	getModalMileageInfo();
+	getModalInqInfoList();
 }
 
 function rowsChange_INQ(obj) {
@@ -244,7 +244,7 @@ function rowsChange_INQ(obj) {
 	frm.find('.rows').val(rows);
 	frm.find('.page').val(1);
 	
-	getModalMileageInfo();
+	getModalInqInfoList();
 }
 
 function setPaging_INQ(obj) {

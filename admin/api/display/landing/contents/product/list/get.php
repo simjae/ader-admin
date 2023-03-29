@@ -46,7 +46,7 @@ $select_contents_product_sql = "
 		)							AS UPDATE_DATE
 	FROM
 		TMP_CONTENTS_PRODUCT CP
-		LEFT JOIN dev.SHOP_PRODUCT PR ON
+		LEFT JOIN SHOP_PRODUCT PR ON
 		CP.PRODUCT_IDX = PR.IDX
 	WHERE
 		CP.COUNTRY = '".$country."'

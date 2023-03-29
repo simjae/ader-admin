@@ -20,15 +20,15 @@
                                 PARENT.TITLE    AS PARENT_TITLE,
                                 CHILD.TITLE     AS CHILD_TITLE
                             FROM
-                                dev.FAQ_CATEGORY PARENT LEFT JOIN
-                                dev.FAQ_CATEGORY CHILD 
+                                FAQ_CATEGORY PARENT LEFT JOIN
+                                FAQ_CATEGORY CHILD 
                             ON
                                 PARENT.IDX = CHILD.FATHER_NO LEFT JOIN
                                 (SELECT
                                     IDX,
                                     CATEGORY_NO
                                 FROM
-                                    dev.FAQ
+                                    FAQ
                                 WHERE
                                     IDX = ".$faq_idx.") FAQ
                             ON
@@ -67,7 +67,7 @@
                     QUESTION,
                     ANSWER
                 FROM
-                    dev.FAQ
+                    FAQ
                 WHERE
                     IDX = ".$faq_idx."
             ";

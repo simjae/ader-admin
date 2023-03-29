@@ -95,11 +95,11 @@ if ($country != null && $voucher_idx != null) {
 	}
 
 	if ($create_year != null) {
-		$where .= " AND (CREATE_YEAR = '".$create_year;."') ";
+		$where .= " AND (CREATE_YEAR = '".$create_year."') ";
 	}
 	
 	if ($create_month != null) {
-		$where .= " AND (CREATE_MONTH = '".$create_month;."') ";
+		$where .= " AND (CREATE_MONTH = '".$create_month."') ";
 	}
 	
 	if ($search_type != null && $search_keyword != null) {

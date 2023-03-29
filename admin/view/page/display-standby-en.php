@@ -13,7 +13,7 @@
 		<form id="frm-standby-filter_EN" action="order/standby/list/get">
 			<?php
 			$sql = " 	SELECT MAX(DISPLAY_NUM) AS MAX 
-						FROM dev.PAGE_STANDBY 
+						FROM PAGE_STANDBY 
 						WHERE COUNTRY='EN' ";
 			$db->query($sql);
 			$display_num_max = 0;
@@ -146,7 +146,7 @@
 								IDX,
 								TITLE
 							FROM
-								dev.MEMBER_LEVEL
+								MEMBER_LEVEL
 							WHERE
 								DEL_FLG = FALSE
 						";

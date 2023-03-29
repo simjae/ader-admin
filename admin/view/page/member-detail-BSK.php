@@ -14,8 +14,8 @@
 				
 				<div class="content__row">
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange_BSK(this);">
-						<option value="WL.CREATE_DATE|DESC">등록일 역순</option>
-						<option value="WL.CREATE_DATE|ASC" selected>등록일 순</option>
+						<option value="BI.CREATE_DATE|DESC">등록일 역순</option>
+						<option value="BI.CREATE_DATE|ASC" selected>등록일 순</option>
 						<option value="PR.PRODUCT_NAME|DESC">상품명 역순</option>
 						<option value="PR.PRODUCT_NAME|ASC">상품명 순</option>
 						<option value="PR.SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>

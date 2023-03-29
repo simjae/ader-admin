@@ -14,7 +14,7 @@
 								SELECT
 									S_MI.MILEAGE_BALANCE
 								FROM
-									dev.MILEAGE_INFO S_MI
+									MILEAGE_INFO S_MI
 								WHERE
 									S_MI.MEMBER_IDX = ".$member_idx."
 								ORDER BY
@@ -26,7 +26,7 @@
 								SELECT
 									SUM(S_MI.MILEAGE_UNUSABLE)
 								FROM
-									dev.MILEAGE_INFO S_MI
+									MILEAGE_INFO S_MI
 								WHERE
 									S_MI.MEMBER_IDX = ".$member_idx." AND
 									S_MI.MILEAGE_USABLE_DATE <= NOW()
@@ -35,7 +35,7 @@
 								SELECT
 									SUM(S_MI.MILEAGE_USABLE_INC)
 								FROM
-									dev.MILEAGE_INFO S_MI
+									MILEAGE_INFO S_MI
 								WHERE
 									S_MI.MEMBER_IDX = ".$member_idx."
 							)		AS MILEAGE_USABLE_INC,
@@ -43,7 +43,7 @@
 								SELECT
 									SUM(S_MI.MILEAGE_USABLE_DEC)
 								FROM
-									dev.MILEAGE_INFO S_MI
+									MILEAGE_INFO S_MI
 								WHERE
 									S_MI.MEMBER_IDX = ".$member_idx."
 							)		AS MILEAGE_USABLE_DEC

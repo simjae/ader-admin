@@ -284,19 +284,19 @@ else{
             case "today" :
                 $where .= ' AND (PR.'.$date_type.' = CURDATE()) ';
                 break;
-            case "3d" :
+            case "03d" :
                 $where .= ' AND (PR.'.$date_type.' = (CURDATE() - INTERVAL 3 DAY)) ';
                 break;
-            case "1w" :
+            case "01w" :
                 $where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 7 DAY)) ';
                 break;
-            case "1m" :
+            case "01m" :
                 $where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 1 MONTH)) ';
                 break;
-            case "3m" :
+            case "03m" :
                 $where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 3 MONTH)) ';
                 break;
-            case "1y" :
+            case "01y" :
                 $where .= ' AND (PR.'.$date_type.' >= (CURDATE() - INTERVAL 1 YEAR)) ';
                 break;
         }

@@ -793,7 +793,7 @@ if ($set_regist_sheet != NULL && count($set_regist_sheet) != 0) {
                     $filter_ft = NULL;
                     $filter_ft_arr = array();
                     $filter_ft = $val[93];
-                    if($pantone_code != NULL){
+                    if($filter_ft != NULL){
                         $filter_ft_arr[0] = ' FILTER_FT, ';
                         $filter_ft_arr[1] = ' '.$filter_ft.', ';
                     }

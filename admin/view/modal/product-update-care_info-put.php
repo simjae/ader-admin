@@ -9,32 +9,65 @@
 	<div class="card__body">
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
-			<input type="hidden" name="care_kr_update_flg" value="true">
-			<input type="hidden" name="care_en_update_flg" value="true">
-			<input type="hidden" name="care_cn_update_flg" value="true">
 			<div class="row table__wrap" style="margin-top:10px;">
 				<TABLE id="insert_table_care">
 					<colgroup>
-						<col width="10%">
-						<col width="90%">
+						<col width="120px">
+						<col width="auto">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD style="width:10%;">제품취급<br>유의사항<br>(한국몰)</TD>
+							<TH>
+								제품 취급 유의사항<br>(한글)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="care_kr_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="care_kr_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="care_kr" name="care_kr" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD style="width:10%;">제품취급<br>유의사항<br>(영문몰)</TD>
+							<TH>
+								제품 취급 유의사항<br>(영문)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="care_en_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="care_en_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="care_en" name="care_en" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD style="width:10%;">제품취급<br>유의사항<br>(중국몰)</TD>
+							<TH>
+								제품 취급 유의사항<br>(중문)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="care_cn_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="care_cn_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="care_cn" name="care_cn" required style="width:90%; height:150px;"></textarea>
 							</TD>

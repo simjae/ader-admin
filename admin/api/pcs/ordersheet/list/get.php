@@ -63,7 +63,8 @@ $tables = "
 //검색 유형 - 디폴트
 $where = '1=1';
 $where .= ' AND OM.DEL_FLG = FALSE
-			AND OM.SET_FLG = FALSE';
+			AND OM.SET_FLG = FALSE
+			AND OM.INDP_FLG = FALSE';
 
 if($regist_flg != null && $regist_flg == 'true'){
 	$where .= ' AND OM.UPDATE_FLG = TRUE ';
@@ -243,10 +244,10 @@ if($price_type != null){
 
 //검색 유형 - 런칭일
 if($min_launching_date != null){
-    $where .= " AND OM.LAUNCHING_DATE >= '".$min_launching_date." ";
+    $where .= " AND OM.LAUNCHING_DATE >= '".$min_launching_date."' ";
 }
 if($max_launching_date != null){
-    $where .= " AND OM.LAUNCHING_DATE <= '".$max_launching_date." ";
+    $where .= " AND OM.LAUNCHING_DATE <= '".$max_launching_date."' ";
 }
 
 /** 정렬 조건 **/
@@ -346,7 +347,9 @@ foreach($db->fetch() as $data) {
 		$result_arr = getProductFileCnt($db,$data['PRODUCT_CODE']);
 
 		if($result_arr['folder_exist'] == true){
-			$product_image_info['output_cnt'] = $result_arr['output_cnt']==null?0:$result_arr['output_cnt'];
+			$product_image_info['thumbnail_O_cnt'] = $result_arr['thumbnail_O_cnt']==null?0:$result_arr['thumbnail_O_cnt'];
+			$product_image_info['thumbnail_P_cnt'] = $result_arr['thumbnail_P_cnt']==null?0:$result_arr['thumbnail_P_cnt'];
+			$product_image_info['outfit_cnt'] = $result_arr['outfit_cnt']==null?0:$result_arr['outfit_cnt'];
 			$product_image_info['product_cnt'] = $result_arr['product_cnt']==null?0:$result_arr['product_cnt'];
 			$product_image_info['detail_cnt'] = $result_arr['detail_cnt']==null?0:$result_arr['detail_cnt'];
 		}

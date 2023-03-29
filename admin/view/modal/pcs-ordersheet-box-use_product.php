@@ -28,7 +28,7 @@
 	
 	<div class="card__header">
 <?php
-	$db->query('SELECT BOX_NAME FROM dev.BOX_INFO WHERE IDX = '.$box_idx.' ');
+	$db->query('SELECT BOX_NAME FROM BOX_INFO WHERE IDX = '.$box_idx.' ');
 
 	foreach($db->fetch() as $box_data){
 ?>

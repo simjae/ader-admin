@@ -529,13 +529,21 @@ function excelDownload(str, type) {
 }
 
 function setOrderHead(column_arr) {
-	let select_product_flg = $('.select_product_flg').val();
+	let tab_status = $('#tab_status').val();
+	let select_product_flg = $('.select_product_flg_' + tab_status).val();
 	
 	let column_date_div = "";
+	let column_product_div = "";
 	let column_div = "";
 	
 	let head_date_div = "";
 	let head_div = "";
+	let head_product_div = "";
+	
+	if (select_product_flg == "true") {
+		column_product_div += '<col width="300px;">';
+		head_product_div += '<TH>상품정보</TH>';
+	}
 	
 	if (column_arr.length > 0) {
 		for (let i=0; i<column_arr.length; i++) {
@@ -648,16 +656,15 @@ function setOrderHead(column_arr) {
 	strDiv += column_date_div;
 	
 	strDiv += '    <col width="150px">';
-	strDiv += '    <col width="100px">';
-	strDiv += '    <col width="100px">';
-	strDiv += '    <col width="100px">';
-	strDiv += '    <col width="100px">';
-	strDiv += '    <col width="100px">';
-	strDiv += '    <col width="100px">';
 	
-	if (select_product_flg != "false") {
-		strDiv += '<col width="auto;">';
-	}
+	strDiv += column_product_div;
+	
+	strDiv += '    <col width="100px">';
+	strDiv += '    <col width="100px">';
+	strDiv += '    <col width="100px">';
+	strDiv += '    <col width="100px">';
+	strDiv += '    <col width="100px">';
+	strDiv += '    <col width="100px">';
 	
 	strDiv += column_div;
 	
@@ -673,16 +680,15 @@ function setOrderHead(column_arr) {
 	strDiv += head_date_div;
 	
 	strDiv += '        <TH>주문자</TH>';
+	
+	strDiv += head_product_div;
+	
 	strDiv += '        <TH>상품<br/>총가격</TH>';
 	strDiv += '        <TH>사용<br/>적립포인트</TH>';
 	strDiv += '        <TH>사용<br/>충전포인트</TH>';
 	strDiv += '        <TH>할인금액</TH>';
 	strDiv += '        <TH>배송비</TH>';
 	strDiv += '        <TH>총 결제금액</TH>';
-	
-	if (select_product_flg != "false") {
-		strDiv += '    <TH>상품 정보</TH>';
-	}
 	
 	strDiv += head_div;
 	
@@ -695,6 +701,8 @@ function setOrderHead(column_arr) {
 
 function setOrderBody(column_arr,d,order_status) {
 	let result_checkbox_table = $("#result_checkbox_table_" + order_status);
+	let select_product_flg = $('.select_product_flg_' + order_status).val();
+	
 	let strDiv = "";
 	
 	d.forEach(function(row) {
@@ -724,6 +732,56 @@ function setOrderBody(column_arr,d,order_status) {
 		
 		let body_date_div = "";
 		let body_div = "";
+		let body_product_div = "";
+		
+		if (select_product_flg == "true") {
+			let order_product_info = row.order_product_info;
+			if (order_product_info.length > 0 && order_product_info != null) {
+				body_product_div += '<td style="width:300px;">';
+				body_product_div += '    <table style="width:100%;">';
+				body_product_div += '        <colgroup>';
+				body_product_div += '            <col width="30%;">';
+				body_product_div += '            <col width="15%;">';
+				body_product_div += '            <col width="15%;">';
+				body_product_div += '            <col width="20%;">';
+				body_product_div += '            <col width="20%;">';
+				body_product_div += '        </colgroup>';
+				body_product_div += '        <thead>';
+				body_product_div += '            <th>상품이름 / 사이즈 / 상품코드</th>';
+				body_product_div += '            <th>주문상태</th>';
+				body_product_div += '            <th>바코드</th>';
+				body_product_div += '            <th>상품수량</th>';
+				body_product_div += '            <th>상품가격</th>';
+				body_product_div += '        </thead>';
+				body_product_div += '        <tbody>';
+
+				order_product_info.forEach(function(product_row) {
+					var background_url = "background-image:url('" + product_row.img_location + "');";
+					
+					body_product_div += '        <tr>';
+					body_product_div += '            <td>';
+					body_product_div += '                <div style="padding:5px;">';
+					body_product_div += '                    <div class="product__img__wrap">';
+					body_product_div += '                        <div>';
+					body_product_div += '                            <p style="margin-bottom:5px;">' + product_row.product_name + '</p>';
+					body_product_div += '                            <p style="margin-bottom:5px;">' + product_row.option_name + '</p>';
+					body_product_div += '                            <p>' + product_row.product_code + '</p>';
+					body_product_div += '                        </div>';
+					body_product_div += '                    </div>';
+					body_product_div += '                </div>';
+					body_product_div += '            </td>';
+					body_product_div += '            <TD>' + product_row.txt_order_status + '</TD>';
+					body_product_div += '            <TD>' + product_row.barcode + '</TD>';
+					body_product_div += '            <TD style="text-align:right;">' + product_row.product_qty + '</TD>';
+					body_product_div += '            <TD style="text-align:right;">' + product_row.product_price + '</TD>';
+					body_product_div += '        </tr>';
+				});
+				
+				body_product_div += '            </tbody>';
+				body_product_div += '        </table>';
+				body_product_div += '    </td>';
+			}
+		}
 		
 		for (let i=0; i<column_arr.length; i++) {
 			switch (column_arr[i]) {
@@ -802,7 +860,6 @@ function setOrderBody(column_arr,d,order_status) {
 				case "order_memo" :
 					body_div += '<TD>' + row.order_memo + '</TD>';
 					break;
-				
 			}
 		}
 		
@@ -832,70 +889,15 @@ function setOrderBody(column_arr,d,order_status) {
 		strDiv += '        ' + row.member_name + '<br>';
 		strDiv += '        ' + row.member_level;
 		strDiv += '    </TD>';
+		
+		strDiv += body_product_div
+		
 		strDiv += '    <TD style="text-align:right;">' + row.price_product + '</TD>';
 		strDiv += '    <TD ' + detail_mileage_link + '>' + row.price_mileage_point + '</TD>';
 		strDiv += '    <TD style="text-align:right;">' + row.price_charge_point + '</TD>';
 		strDiv += '    <TD ' + detail_voucher_link + '>' + row.price_discount + '</TD>';
 		strDiv += '    <TD style="text-align:right;">' + row.price_delivery + '</TD>';
 		strDiv += '    <TD style="text-align:right;">' + row.price_total + '</TD>';
-		
-		let order_product_info = row.order_product_info;
-		if (order_product_info.length > 0 && order_product_info != null) {
-			strDiv += '<td>';
-			strDiv += '    <table style="width:1080px">';
-			strDiv += '        <colgroup>';
-			strDiv += '            <col width="50px;">';
-			strDiv += '            <col width="150px;">';
-			strDiv += '            <col width="50px;">';
-			strDiv += '            <col width="50px;">';
-			strDiv += '            <col width="100px;">';
-			strDiv += '            <col width="50px;">';
-			strDiv += '            <col width="100px;">';
-			strDiv += '            <col width="50px;">';
-			strDiv += '        </colgroup>';
-			strDiv += '        <thead>';
-			strDiv += '            <th>상품타입</th>';
-			strDiv += '            <th>상품정보</th>';
-			strDiv += '            <th>상품<br/>주문상태</th>';
-			strDiv += '            <th>옵션이름</th>';
-			strDiv += '            <th>바코드</th>';
-			strDiv += '            <th>상품수량</th>';
-			strDiv += '            <th>상품가격</th>';
-			strDiv += '            <th>리뷰<br/>작성유무</th>';
-			strDiv += '        </thead>';
-			strDiv += '        <tbody>';
-
-			order_product_info.forEach(function(product_row) {
-				var background_url = "background-image:url('" + product_row.img_location + "');";
-				
-				strDiv += '        <tr>';
-				strDiv += '            <td>' + product_row.product_type + '</td>';
-				strDiv += '            <td>';
-				strDiv += '                <div style="padding:5px; margin-bottom:10px;">';
-				strDiv += '                    <p style="margin-bottom:5px;">' + product_row.product_name + '</p>';
-				strDiv += '                    <div class="product__img__wrap">';
-				strDiv += '                        <div class="product__img" style="' + background_url + '">';
-				strDiv += '                        </div>';
-				strDiv += '                        <div>';
-				strDiv += '                            <p>' + product_row.product_name + '</p><br>';
-				strDiv += '                        	   <p style="color:#EF5012">' + product_row.update_date + '</p>';
-				strDiv += '                        </div>';
-				strDiv += '                    </div>';
-				strDiv += '                </div>';
-				strDiv += '            </td>';
-				strDiv += '            <TD>' + product_row.op_status + '</TD>';
-				strDiv += '            <TD>' + product_row.option_name + '</TD>';
-				strDiv += '            <TD>' + product_row.barcode + '</TD>';
-				strDiv += '            <TD>' + product_row.product_qty + '</TD>';
-				strDiv += '            <TD style="text-align:right;">' + product_row.product_price + '</TD>';
-				strDiv += '            <TD>' + product_row.review_type + '</TD>';
-				strDiv += '        </tr>';
-			});
-			
-			strDiv += '            </tbody>';
-			strDiv += '        </table>';
-			strDiv += '    </td>';
-		}
 		
 		strDiv += body_div;
 		

@@ -122,19 +122,19 @@
 					<div class="content__date__wrap">
 						<div class="content__date__btn">
 							<input id="search_date_admin" type="hidden" name="search_date" value="" style="width:150px;">
-							<div class="search_date_admin date__picker " date_type="admin" date="today" type="button"  onclick="searchDateClick(this);">오늘</div>
-							<div class="search_date_admin date__picker " date_type="admin" date="01d" type="button"  onclick="searchDateClick(this);">어제</div>
-							<div class="search_date_admin date__picker " date_type="admin" date="03d" type="button"  onclick="searchDateClick(this);">3일</div>
-							<div class="search_date_admin date__picker " date_type="admin" date="07d" type="button"  onclick="searchDateClick(this);">7일</div>
-							<div class="search_date_admin date__picker " date_type="admin" date="15d" type="button"  onclick="searchDateClick(this);">15일</div>
-							<div class="search_date_admin date__picker " date_type="admin" date="01m" type="button"  onclick="searchDateClick(this);">1개월</div>
-							<div class="search_date_admin date__picker " date_type="admin" date="03m" type="button"  onclick="searchDateClick(this);">3개월</div>
-							<div class="search_date_admin date__picker " date_type="admin" date="01y" type="button"  onclick="searchDateClick(this);">1년</div>
+							<div class="date__picker " date_type="admin" date="today" type="button"  onclick="searchDateClick(this);">오늘</div>
+							<div class="date__picker " date_type="admin" date="01d" type="button"  onclick="searchDateClick(this);">어제</div>
+							<div class="date__picker " date_type="admin" date="03d" type="button"  onclick="searchDateClick(this);">3일</div>
+							<div class="date__picker " date_type="admin" date="07d" type="button"  onclick="searchDateClick(this);">7일</div>
+							<div class="date__picker " date_type="admin" date="15d" type="button"  onclick="searchDateClick(this);">15일</div>
+							<div class="date__picker " date_type="admin" date="01m" type="button"  onclick="searchDateClick(this);">1개월</div>
+							<div class="date__picker " date_type="admin" date="03m" type="button"  onclick="searchDateClick(this);">3개월</div>
+							<div class="date__picker " date_type="admin" date="01y" type="button"  onclick="searchDateClick(this);">1년</div>
 						</div>
 						<div class="content__date__picker">
-							<input id="admin_from" class="date_param  " type="date" name="admin_from"  placeholder="From" readonly="" style="width:150px;" date_type="admin" onChange="dateParamChange(this);">
+							<input id="admin_from" class="date_param" type="date" name="admin_from"  placeholder="From" readonly="" style="width:150px;" date_type="admin" onChange="dateParamChange(this);">
 							<font class="" >~</font>
-							<input id="admin_to" class="date_param  " type="date" name="admin_to" placeholder="To" readonly="" style="width:150px;" date_type="admin" onChange="dateParamChange(this);">
+							<input id="admin_to" class="date_param" type="date" name="admin_to" placeholder="To" readonly="" style="width:150px;" date_type="admin" onChange="dateParamChange(this);">
 						</div>
 					</div>
 				</div>
@@ -189,6 +189,14 @@
 			</div>
 			
 			<TABLE id="excel_table">
+				<colgroup>
+					<col width="5%;">
+					<col width="40%">
+					<col width="40%">
+					<col width="5%">
+					<col width="5%">
+					<col width="5%">
+				</colgroup>
 				<THEAD>
 					<tr>
 						<th>No.</th>
@@ -246,7 +254,7 @@ function getAdminInfoList(){
 				strDiv += '    <TD>';
 				strDiv += '        <div class="cb__color">';
 				strDiv += '            <label for="">';
-				strDiv += '                <input type="checkbox" class="select" name="adminMemberListIdx[]" value="' + row.admin_idx + '"><span></span> ';
+				strDiv += '                <input type="checkbox" class="select" name="admin_idx[]" value="' + row.admin_idx + '"><span></span> ';
 				strDiv += '            </label>';
 				strDiv += '        </div>';
 				strDiv += '    </TD>';
@@ -302,13 +310,18 @@ function putAdminStatus(action_type) {
 	let action_name = getActionName(action_type);
 	
 	let formData = new FormData();
-	formData = $('#frm-admin').serialize();
+	formData = $('#frm-admin').serializeObject();
 
 	formData.admin_status_flg = true;
 	formData.action_type = action_type;
 
-	console.log(formData);
-	if(formData['adminMemberListIdx[]'] == null || formData['adminMemberListIdx[]'].length == 0){
+	let check_cnt = 0;
+	$('#frm-admin').find('.result_table .select').each(function(){
+		if($(this).prop('checked') == true){
+			check_cnt++;
+		}
+	})
+	if(check_cnt == 0){
 		alert('운영자를 선택해주세요');
 		return false;
 	}
@@ -387,49 +400,44 @@ function setResultCount(obj) {
 function searchDateClick(obj) {
 	var date = $(obj).attr('date');
 	
+	$('.date__picker').css('background-color','#ffffff');
+	$('.date__picker').css('color','#000000');
+
 	$(obj).css('background-color','#707070');
 	$(obj).css('color','#fff');
-	$('.date__picker').not($(obj)).css('color','#000');
-	$('.date_param').css('color','#000');
 	
-	var date_type = $(obj).attr('date_type');
-	
-	if (date_type == "admin") {
-		$('.search_date_admin').not($(obj)).css('background-color','#ffffff');
-		$('#search_date_admin').val(date);
+	$('#search_date_admin').val(date);
 
-		$('#admin_from').val('');
-		$('#admin_to').val('');
-	}
+	$('#admin_from').val('');
+	$('#admin_to').val('');
 }
 
 function dateParamChange(obj) {
 	var date_type = $(obj).attr('date_type');
 	
-	if (date_type == "admin") {
-		$('.search_date_admin').css('background-color','#ffffff');
-		$('.search_date_admin').css('color','#000000');
-		
-		$('#search_date_admin').val('');
+	$('.date__picker').css('background-color','#ffffff');
+	$('.date__picker').css('color','#000000');
+	
+	$('#search_date_admin').val('');
 
-		var date_from = $("#" + date_type + "_from").val();
-		var date_to = $("#" + date_type + "_to").val();
+	var date_from = $("#admin_from").val();
+	var date_to = $("#admin_to").val();
 
-		var start_date = new Date(date_from);
-		var end_date = new Date(date_to);
-		var now_date = new Date();
+	var start_date = new Date(date_from);
+	var end_date = new Date(date_to);
+	var now_date = new Date();
 
-		if(start_date > now_date) {
-			alert('검색 시작일에 올바른 날짜를 입력해주세요.');
-			$(obj).val('');
-			return false;
-		}
-		if(start_date > end_date) {
-			alert('검색 시작일/종료일에 올바른 날짜를 입력해주세요.');
-			$(obj).val('');
-			return false;
-		}
-	} 
+	if(start_date > now_date) {
+		alert('검색 시작일에 올바른 날짜를 입력해주세요.');
+		$(obj).val('');
+		return false;
+	}
+	
+	if(start_date > end_date) {
+		alert('검색 시작일/종료일에 올바른 날짜를 입력해주세요.');
+		$(obj).val('');
+		return false;
+	}
 }
 
 function excelDownload() {
@@ -503,14 +511,6 @@ function orderChange(obj) {
 function getLogInfoList(){
 	let frm = $("#frm-log");
 	let result_table = $("#result_log_table")
-	result_table.html('');
-	
-	var strDiv = '';
-	strDiv += '<TD class="default_td" colspan="10" style="text-align:left;">';
-	strDiv += '    조회 결과가 없습니다';
-	strDiv += '</TD>';
-	
-	result_table.append(strDiv);
 	
 	var rows = frm.find('.rows').val();
 	frm.find('.page').val(1);
@@ -518,26 +518,30 @@ function getLogInfoList(){
 	get_contents(frm,{
 		pageObj : $(".paging.log"),
 		html : function(d) {
-			if (d.length > 0) {
-				result_table.html('');
-			}
+			result_table.html('');
 			
 			let strDiv = "";
-			d.forEach(function(row) {
-				strDiv += '<TR>';
-				strDiv += '    <td>';
-				strDiv += '        <p>' + row.num + '</p>';
-				strDiv += '    </td>';
-				strDiv += '    <td>' + row.log_type + '</td>';
-				strDiv += '    <td align="left">' + row.log_contents + '</td>';
-				strDiv += '    <td>' + row.create_date + '</td>';
-				strDiv += '    <td>';
-				strDiv += '        <p>' + row.creater + '</p>';
-				strDiv += '        <p style="margin-top:5px;">' + row.creater_ip + '</p>';
-				strDiv += '    </td>';
-				strDiv += '    <td>' + row.creater_level + '</td>';
-				strDiv += '</TR>';
-			});
+			if (d != null) {
+				d.forEach(function(row) {
+					strDiv += '<TR>';
+					strDiv += '    <td>';
+					strDiv += '        <p>' + row.num + '</p>';
+					strDiv += '    </td>';
+					strDiv += '    <td>' + row.log_type + '</td>';
+					strDiv += '    <td align="left">' + row.log_contents + '</td>';
+					strDiv += '    <td>' + row.create_date + '</td>';
+					strDiv += '    <td>';
+					strDiv += '        <p>' + row.creater + '</p>';
+					strDiv += '        <p style="margin-top:5px;">' + row.creater_ip + '</p>';
+					strDiv += '    </td>';
+					strDiv += '    <td>' + row.creater_level + '</td>';
+					strDiv += '</TR>';
+				});
+			} else {
+				strDiv += '<TD class="default_td" colspan="10" style="text-align:left;">';
+				strDiv += '    조회 결과가 없습니다';
+				strDiv += '</TD>';
+			}
 			
 			result_table.append(strDiv);
 		},

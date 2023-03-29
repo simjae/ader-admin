@@ -92,7 +92,7 @@ if($title != null){
 	if (!empty($board_idx)) {
 		$update_page_board_sql = "
 			UPDATE
-				dev.PAGE_BOARD
+				PAGE_BOARD
 			SET
 				DISPLAY_NUM = DISPLAY_NUM + 1
 			WHERE

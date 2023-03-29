@@ -17,7 +17,7 @@
 		</h1>
 	</div>
 	
-    <div class="contents modal__body" >
+    <div class="contents modal__body">
 		<form id="frm-put" action="store/admin/put">
 			<input type="hidden" name="admin_update_flg" value="true">
 			<input class="admin_idx" type="hidden" name="admin_idx" value="">
@@ -76,7 +76,8 @@
 				<input type="text" name="admin_fax" value="" maxlength="13" class="width-150 phone">
 				<label class="control-label">팩스</label>
 			</div>
-			
+
+			<h3 style="margin-top:30px;">공통</h3>
 			<div sort="COMMON" class="table__toggle__btn toggle_permition">공통</div>
 			<input type="hidden" name="permition_idx" value="">
 			<div class="table__wrap table" style="display:none;">
@@ -101,7 +102,7 @@
 					</TBODY>
 				</TABLE>
 			</div>
-			
+			<h3 style="margin-top:15px;">WCC</h3>
 			<div sort="DASHBOARD" class="table__toggle__btn toggle_permition">1. 대시보드</div>
 			<div class="table__wrap table" style="display:none;">
 				<TABLE class="table_DASHBOARD">
@@ -269,7 +270,7 @@
 					</TBODY>
 				</TABLE>
 			</div>
-			
+			<h4 style="margin-top:15px;">PCS</h4>
 			<div sort="COLUMN" class="table__toggle__btn toggle_permition">항목관리</div>
 			<div class="table__wrap table" style="display:none;">
 				<TABLE class="table_COLUMN">

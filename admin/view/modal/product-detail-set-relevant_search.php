@@ -310,7 +310,7 @@ function rowsChange(obj) {
 	frm.find('.rows').val(rows);
 	frm.find('.page').val(1);
 
-	getProdTabInfo();
+	getRelevantProductList();
 }
 
 function orderChange(obj) {
@@ -325,7 +325,7 @@ function orderChange(obj) {
 	frm.find('.sort_value').val(order_value[0]);
 	frm.find('.sort_type').val(order_value[1]);
 
-	getProdTabInfo();
+	getRelevantProductList();
 }
 
 function getRelevantProduct() {
@@ -358,7 +358,7 @@ function getRelevantProduct() {
 								
 								data.forEach(function(row){
 									strDiv += '<TR>';
-									strDiv += '		<td onclick="setProductDelete(this)"><a class="btn red"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>';
+									strDiv += '		<td onclick="relevantProductDelete(this)"><a class="btn red"><i class="xi-trash"></i><span class="tooltip top">삭제</span></a>';
 									strDiv += '    <input class="relevant_idx" type="hidden" name="relevant_idx[]" value="' + row.product_idx + '">';
 									strDiv += '</td>';
 									

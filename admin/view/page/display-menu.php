@@ -995,6 +995,7 @@ function saveMenu(country) {
 			loadingWithMask('/images/default/loading_img.gif');
 		},
 		error: function() {
+			closeLoadingWithMask();
 			alert('메뉴 리스트 저장처리중 오류가 발생했습니다.');
 		},
 		success: function(d) {
@@ -1003,6 +1004,10 @@ function saveMenu(country) {
 				closeLoadingWithMask();
 				alert('선택한 국가의 메뉴 리스트가 저장되었습니다.');
 				getMenuInfoList(country);
+			}
+			else{
+				closeLoadingWithMask();
+				alert(d.msg);
 			}
 		}
 	});
@@ -1035,6 +1040,7 @@ function copyMenu() {
 					loadingWithMask('/images/default/loading_img.gif')
 				},
 				error: function() {
+					closeLoadingWithMask();
 					alert('메뉴 복사처리중 오류가 발생했습니다.');
 				},
 				success: function(d) {
@@ -1043,6 +1049,10 @@ function copyMenu() {
 						closeLoadingWithMask();
 						
 						alert("메뉴가 복사되었습니다.");
+					}
+					else{
+						closeLoadingWithMask();
+						alert(d.msg);
 					}
 				}
 			});

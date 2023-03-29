@@ -27,7 +27,7 @@ textarea {
             SELECT
                 RAW_DATA
             FROM
-                dev.EVENT
+                EVENT
             WHERE
                 IDX = ".$idx."
         ";

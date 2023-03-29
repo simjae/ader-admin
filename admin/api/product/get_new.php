@@ -42,6 +42,7 @@ if ($select_idx_flg == true) {
                 SP.PRODUCT_TYPE             AS PRODUCT_TYPE,
                 SP.STYLE_CODE               AS STYLE_CODE,
                 SP.COLOR_CODE               AS COLOR_CODE,
+				SP.COLOR_RGB				AS COLOR_RGB,
                 SP.PRODUCT_CODE             AS PRODUCT_CODE,
                 SP.PRODUCT_NAME             AS PRODUCT_NAME,
                 SP.MD_CATEGORY_1            AS MD_CATEGORY_1,
@@ -63,6 +64,7 @@ if ($select_idx_flg == true) {
                 SP.DISCOUNT_CN              AS DISCOUNT_CN,
 				SP.REORDER_CNT				AS REORDER_CNT,
                 SP.SALES_PRICE_CN           AS SALES_PRICE_CN,
+				SP.LIMIT_ID_FLG				AS LIMIT_ID_FLG,
                 SP.LIMIT_MEMBER             AS LIMIT_MEMBER,
 				SP.LIMIT_PRODUCT_QTY		AS LIMIT_PRODUCT_QTY,
                 SP.LIMIT_PURCHASE_QTY_FLG   AS LIMIT_PURCHASE_QTY_FLG,
@@ -196,7 +198,9 @@ if ($select_idx_flg == true) {
 							S_SP.PRODUCT_IDX = PR.IDX
 						AND
 							SET_PRODUCT_IDX = ".$product_idx."
-					)						AS OPTION_IDX
+					)						AS OPTION_IDX,
+					PR.CREATE_DATE 			AS CREATE_DATE,
+					PR.UPDATE_DATE			AS UPDATE_DATE
 				FROM
 					SHOP_PRODUCT PR
 				WHERE
@@ -250,6 +254,7 @@ if ($select_idx_flg == true) {
 					OO.OPTION_NAME		AS OPTION_NAME,
 					OO.BARCODE			AS BARCODE,
 					PO.QTY				AS QTY,
+					PO.LIMIT_QTY_FLG	AS LIMIT_QTY_FLG,
 					PO.SALE_FLG			AS SALE_FLG
 				FROM
 					PRODUCT_OPTION PO
@@ -267,6 +272,7 @@ if ($select_idx_flg == true) {
 					'option_name'			=>$option_data['OPTION_NAME'],
 					'barcode'				=>$option_data['BARCODE'],
 					'qty'					=>$option_data['QTY'],
+					'limit_qty_flg'			=>$option_data['LIMIT_QTY_FLG'],
 					'sale_flg'				=>$option_data['SALE_FLG']
 				);
 			}
@@ -359,6 +365,7 @@ if ($select_idx_flg == true) {
             'color_code'					=>$data['COLOR_CODE'],
 			'product_code'					=>$data['PRODUCT_CODE'],
 			'product_name'					=>$data['PRODUCT_NAME'],
+			'color_rgb'						=>$data['COLOR_RGB'],
 
 			'md_category_1'					=>$data['MD_CATEGORY_1'],
 			'md_category_2'					=>$data['MD_CATEGORY_2'],
@@ -381,6 +388,7 @@ if ($select_idx_flg == true) {
 			'price_cn'				        =>$data['PRICE_CN'],
 			'discount_cn'				    =>$data['DISCOUNT_CN'],
 			'sales_price_cn'				=>$data['SALES_PRICE_CN'],
+			'limit_id_flg'					=>$data['LIMIT_ID_FLG'],
 			'limit_member'				    =>$data['LIMIT_MEMBER'],
 			'limit_purchase_qty_flg'		=>$data['LIMIT_PURCHASE_QTY_FLG'],
             'limit_purchase_qty_min'		=>$data['LIMIT_PURCHASE_QTY_MIN'],

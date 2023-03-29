@@ -2,8 +2,9 @@
 .btn-close{float:right;}
 .content__card.update__modal{width:1100px;}
 .double__table__container{display:flex;}
+.update__flg__area{justify-content:flex-start!important}
 table.checkbox__table{width:30px;margin-bottom:14px;}
-#loading_img {position:absolute;top:50vh;left:50vw;width:75px;height:75px;z-index:9999;background:#f0f0f0;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
+#loading_img {position:absolute;width:75px;height:75px;z-index:9999;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
 </style>
 
 <?php include_once("check.php"); ?>
@@ -1194,7 +1195,7 @@ function setProductBody(column_arr,d) {
 function openSelectColumnModal() {
 	modal('/get');
 }
-function LoadingWithMask(gif) {
+function loadingWithMask(gif) {
 	var maskHeight = $(document).height();
 	var maskWidth  = window.document.body.clientWidth;
 	var top = 0;

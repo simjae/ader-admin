@@ -56,6 +56,7 @@
 	<!-- Helix base scripts -->
 	<script src="/scripts/static/functions.js"></script>
 	<script src="/scripts/functions.js"></script>
+	<script src="/scripts/login.js"></script>
 	<script src="/scripts/helix.js"></script>
 	
 	<script src="/scripts/smarteditor2/js/HuskyEZCreator.js"></script>
@@ -124,6 +125,13 @@
 		<div class="profile__name">로그인</div>
 	</div>
 <?php	
+	}
+	else{
+?>
+	<div class="profile__wrap" onclick="logout();" style="cursor:pointer">
+		<div class="profile__name">로그아웃</div>
+	</div>
+<?php
 	}
 ?>
 	<!-- <div class="navigator__wrap">
@@ -253,7 +261,7 @@
 						<span class="nav__title">8. 분석</span><img class="nav__tilte__icon" src="/images/plus.svg" alt="">  
 					</div>
 					<div class="nav__child__wrap">
-						<div class="nav__child" data-url="/analysis/exel">8-1. 통합 엑셀 다운로드</div>
+						<div class="nav__child" data-url="/analysis/excel">8-1. 통합 엑셀 다운로드</div>
 						<div class="nav__child" data-url="/analysis/dashboard" style="display:none;">대시보드</div>
 					</div>	
 				</div>	

@@ -109,7 +109,7 @@ function boardUpdateCheck() {
 			return false;
 		}
 	}
-    modal_submit($('#frm-update-date-NTC'),'getBoardTabInfoNTC');  
+    modal_submit($('#frm-update-date-NTC'),'getBoardInfoList_NTC');  
 }
 function timeSelectInit(){
 	for(var i = 0; i < 24; i++){

@@ -39,6 +39,46 @@ if ($country != null && $preorder_idx != null) {
 		";
 		
 		$db->query($delete_preorder_sql);
+		
+		$db_result = $db->affectedRows();
+		
+		if (!empty($db_result)) {
+			$select_preorder_sql = "
+				SELECT
+					PP.IDX		AS PREORDER_IDX
+				FROM
+					PAGE_PREORDER PP
+				WHERE
+					PP.COUNTRY = '".$country."' AND
+					PP.DEL_FLG = FALSE
+				ORDER BY
+					PP.DISPLAY_NUM ASC
+			";
+			
+			$db->query($select_preorder_sql);
+			
+			$display_num = 1;
+			
+			foreach($db->fetch() as $preorder_data) {
+				$tmp_idx = $preorder_data['PREORDER_IDX'];
+				
+				if (!empty($tmp_idx)) {
+					$update_preorder_sql = "
+						UPDATE
+							PAGE_PREORDER
+						SET
+							DISPLAY_NUM = ".$display_num."
+						WHERE
+							IDX = ".$tmp_idx." AND
+							COUNTRY = '".$country."'
+					";
+					
+					$db->query($update_preorder_sql);
+					
+					$display_num++;
+				}
+			}
+		}
 	}
 }
 

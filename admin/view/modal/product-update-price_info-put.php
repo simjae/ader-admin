@@ -9,15 +9,6 @@
 	
 	<div class="card__body">
 		<form id="frm-update" action="product/put">
-			<input type="hidden" name="price_kr_update_flg" value="true">
-			<input type="hidden" name="price_en_update_flg" value="true">
-			<input type="hidden" name="price_cn_update_flg" value="true">
-			<input type="hidden" name="discount_kr_update_flg" value="true">
-			<input type="hidden" name="discount_en_update_flg" value="true">
-			<input type="hidden" name="discount_cn_update_flg" value="true">
-			<input type="hidden" name="sales_price_kr_update_flg" value="true">
-			<input type="hidden" name="sales_price_en_update_flg" value="true">
-			<input type="hidden" name="sales_price_cn_update_flg" value="true">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
 			<div id="currency_table" class="row form-group" style="margin-top:5px;display:none;"></div>
 			
@@ -33,45 +24,160 @@
 					</colgroup>
 					<TBODY>
 						<TR class="cal_discount">
-							<TD>한국몰 가격</TD>
+							<TH>
+								한국몰 가격
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="price_kr_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="price_kr_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
+							
 							<TD>
-								<input id="shop_price_kr" class="price" type="number" step="0.01" name="price_kr" value="0">
+								<input id="shop_price_KR" class="price" country="KR" type="number" step="0.01" name="price_kr" value="0">
 							</TD>
-							<TD>한국몰 세일가격</TD>
+
+							<TH>
+								영문몰 가격
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="price_en_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="price_en_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
-								<input id="sales_price_kr" class="sales_price" type="number" step="0.01" name="sales_price_kr" value="0">
+								<input id="shop_price_EN" class="price" country="EN" type="number" step="0.01" name="price_en" value="0">
 							</TD>
-							<TD>한국몰 할인율</TD>
+
+							<TH>중국몰 가격
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="price_cn_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="price_cn_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
-								<input id="discount_kr" class="result" type="number" step="0.01" name="discount_kr" value="0" readonly>
+								<input id="shop_price_CN" class="price" country="CN" type="number" step="0.01" name="price_cn" value="0">
 							</TD>
 						</TR>
+						
 						<TR class="cal_discount">
-							<TD>영문몰 가격</TD>
-							<TD>
-								<input id="shop_price_en" class="price" type="number" step="0.01" name="price_en" value="0">
+							<TH>한국몰 세일가격
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="sales_price_kr_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="sales_price_kr_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
 							</TD>
-							<TD>영문몰 세일가격</TD>
 							<TD>
-								<input id="sales_price_en" class="sales_price" type="number" step="0.01" name="sales_price_en" value="0">
+								<input id="sales_price_KR" class="sales_price" country="KR" type="number" step="0.01" name="sales_price_kr" value="0">
 							</TD>
-							<TD>영문몰 할인율</TD>
+							
+							<TH>영문몰 세일가격
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="sales_price_en_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="sales_price_en_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TD>
 							<TD>
-								<input id="discount_en" class="result" type="number" step="0.01" name="discount_en" value="0" readonly>
+								<input id="sales_price_EN" class="sales_price" country="EN" type="number" step="0.01" name="sales_price_en" value="0">
+							</TD>
+
+							<TH>중국몰 세일가격
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="sales_price_cn_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="sales_price_cn_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TD>
+							<TD>
+								<input id="sales_price_CN" class="sales_price" country="CN" type="number" step="0.01" name="sales_price_cn" value="0">
 							</TD>
 						</TR>
-						<TR class="cal_discount"> 
-							<TD>중국몰 가격</TD>
-							<TD>
-								<input id="shop_price_cn" class="price" type="number" step="0.01" name="price_cn" value="0">
+						
+						<TR class="cal_discount" > 
+							<TH>한국몰 할인율
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="discount_kr_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="discount_kr_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
 							</TD>
-							<TD>중국몰 세일가격</TD>
 							<TD>
-								<input id="sales_price_cn" class="sales_price" type="number" step="0.01" name="sales_price_cn" value="0">
+								<input id="discount_KR" class="result" type="number" step="0.01" name="discount_kr" value="0" readonly>
 							</TD>
-							<TD>중국몰 할인율</TD>
+
+							<TH>영문몰 할인율
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="discount_en_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="discount_en_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TD>
 							<TD>
-								<input id="discount_cn" class="result" type="number" step="0.01" name="discount_cn" value="0" readonly>
+								<input id="discount_EN" class="result" type="number" step="0.01" name="discount_en" value="0" readonly>
+							</TD>
+
+							<TH>중국몰 할인율
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="discount_cn_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="discount_cn_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TD>
+							<TD>
+								<input id="discount_CN" class="result" type="number" step="0.01" name="discount_cn" value="0" readonly>
 							</TD>
 						</TR>
 					</TBODY>

@@ -14,9 +14,9 @@
  +=============================================================================
 */
 
-$size_guide_idx			= $_POST['size_guide_idx'];
+$size_guide_category			= $_POST['size_guide_category'];
 
-if ($size_guide_idx != null) {
+if ($size_guide_category != null) {
 	$select_size_guide_sql = "
 		SELECT
 			SG.CATEGORY_TYPE	AS CATEGORY_TYPE,
@@ -36,7 +36,8 @@ if ($size_guide_idx != null) {
 		FROM
 			SIZE_GUIDE SG
 		WHERE
-			IDX = ".$size_guide_idx."
+			CATEGORY_TYPE = '".$size_guide_category."' AND
+			COUNTRY = 'KR'
 	";
 	
 	$db->query($select_size_guide_sql);

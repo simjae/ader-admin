@@ -89,7 +89,7 @@
 											RO.OPTION_CONDITION		AS OPTION_CONDITION,
 											RO.OPTION_VALUE			AS OPTION_VALUE
 										FROM
-											dev.RECOMMEND_OPTION RO
+											RECOMMEND_OPTION RO
 									";
 									
 									$db->query($option_sql);

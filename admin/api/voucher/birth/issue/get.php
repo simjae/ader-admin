@@ -33,7 +33,7 @@ $sort_type				= $_POST['sort_type'];			//정렬타입
 
 $tables ="
 	MEMBER_".$country." AS MB
-	LEFT JOIN dev.MEMBER_LEVEL AS ML ON
+	LEFT JOIN MEMBER_LEVEL AS ML ON
 	MB.LEVEL_IDX = ML.IDX
 	LEFT JOIN (
 		SELECT 

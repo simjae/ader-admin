@@ -1,15 +1,9 @@
 <style>
-	.checked{background-color:#707070!important;color:#ffffff!important;}
-	.unchecked{background-color:#ffffff!important;color:#000000!important;}
-	.btn__gray{
-		height: 20px;
-		color: #fff;
-		padding: 3.5px 20px;
-		border-radius: 2px;
-		background-color: #bfbfbf;
-		cursor:pointer;
-	}
-	.size_textarea{width:90%; height:150px;resize: none;border: solid 1px #bfbfbf;}
+.checked{background-color:#707070!important;color:#ffffff!important;}
+.unchecked{background-color:#ffffff!important;color:#000000!important;}
+.btn__gray{height: 20px;color: #fff;padding: 3.5px 20px;border-radius: 2px;background-color: #bfbfbf;cursor:pointer;}
+.size_textarea{width:90%; height:150px;resize: none;border: solid 1px #bfbfbf;}
+.required_title{color:red;font-weight:800;}
 </style>
 
 <?php include_once("check.php"); ?>
@@ -28,28 +22,6 @@
                         onClick="toggleTableClick(this);">오더시트 - 기획MD</button>
 					<div class="overflow-x-auto" id="insert_table_ordersheet">
 						<TABLE>
-							<TBODY>
-								<TR>
-									<TD style="width:10%;">스타일코드</TD>
-									<TD>
-										<input id="style_code" class="product_code_unit" type="text" name="style_code" maxlength="15" value="" >
-									</TD>
-									<TD style="width:10%;">컬러코드</TD>
-									<TD>
-										<input id="color_code" class="product_code_unit" type="text" name="color_code" maxlength="15" value="" >
-									</TD>
-									<TD style="width:10%;">상품코드</TD>
-									<TD>
-										<div>
-											<input id="duplicate_check" type="hidden" value="false">
-											<input id="product_code" type="text" readonly name="product_code" style="width:55%;" value="">
-											<button id="duplicate_btn" class="btn__gray" type="button"onClick="productDuplicateCheck();">상품코드 중복체크</button>
-										</div>
-									</TD>
-								</TR>
-							</TBODY>
-						</TABLE>
-						<TABLE>
 							<colgroup>
 								<col width="10%">
 								<col width="15%">
@@ -60,10 +32,46 @@
 								<col width="10%">
 								<col width="15%">
 							</colgroup>
-                            <TBODY>
+							<TBODY>
 								<TR>
-									<TD>프리오더 사용여부</TD>
-									<TD colspan="3">
+									<TH>제품년도</TH>
+									<TD>
+										<input id="year" type="text" name="year" value="">
+									</TD>
+									
+									<TH class="required_title">스타일코드</TH>
+									<TD>
+										<input id="style_code" class="product_code_unit" type="text" name="style_code" maxlength="15" value="" >
+									</TD>
+									
+									<TH class="required_title">컬러코드</TD>
+									<TD>
+										<input id="color_code" class="product_code_unit" type="text" name="color_code" maxlength="15" value="" >
+									</TD>
+									
+									<TH class="required_title">상품코드</TH>
+									<TD>
+										<div>
+											<input id="duplicate_check" type="hidden" value="false">
+											<input id="product_code" type="text" readonly name="product_code" style="width:65%;" value="">
+											<button id="duplicate_btn" class="btn__gray" type="button"onClick="productDuplicateCheck();">중복체크</button>
+										</div>
+									</TD>
+								</TR>
+								
+								<tr>
+									<TH>소재</td>
+									<TD>
+										<input id="material" type="text" name="material" value="">
+									</td>
+									
+									<TH>상품 핏</TH>
+									<TD>
+										<input id="fit" type="text" name="fit" value="">
+									</td>
+									
+									<TH>프리오더 사용여부</TH>
+									<TD>
 										<div class="flex" style="gap: 10px;">
 											<label class="rd__square">
 												<input type="radio" name="preorder_flg" value="false" checked>
@@ -77,8 +85,9 @@
 											</label>
 										</div>
 									</TD>
-									<TD>교환 환불 가능유무</TD>
-									<TD colspan="3">
+									
+									<TH>교환 환불 가능유무</TH>
+									<TD>
 										<div class="flex" style="gap: 10px;">
 											<label class="rd__square">
 												<input type="radio" name="refund_flg" value="false" checked>
@@ -93,60 +102,78 @@
 										</div>
 									</TD>
 								</TR>
+								
 								<tr>
-                                	<TD>라인 유형</TD>
-									<TD colspan="7">
+                                	<TH>라인 유형</TH>
+									<TD colspan="3">
                                         <div class="content__row" >
-                                            <select id="line_idx" name="line_idx" class="fSelect eSearch" style="width:163px;">
+                                            <select id="line_idx" name="line_idx" class="fSelect eSearch" style="width:100%;" onChange="getLineInfo();">
                                                 <option value="0">라인을 선택해주세요</option>
+												<?php
+													$select_line_sql = "
+														SELECT
+															IDX				AS LINE_IDX,
+															LINE_NAME		AS LINE_NAME
+														FROM
+															LINE_INFO
+													";
+													
+													$db->query($select_line_sql);
+													
+													foreach ($db->fetch() as $line_data) {
+												?>
+												<option value="<?=$line_data['LINE_IDX']?>"><?=$line_data['LINE_NAME']?></option>
+												<?php
+													}
+												?>
                                             </select>
                                         </div>
-                                        <div id="line_table" class="line_table" style="margin-top:5px">
+										
+                                        <div id="div_line" style="margin-top:5px">
                                         </div>
 									</TD>
-                                </tr>
-
-								<TR>
-                                    <TD>MD 카테고리</TD>
-                                    <TD colspan="7">
+									
+                                    <TH>MD 카테고리</TH>
+                                    <TD colspan="3">
 										<div class="content__row">
-											<select class="fSelect category eCategory eCategory1" depth="1" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
+											<select class="fSelect category eCategory eCategory1" depth="1" name="md_category[]" style="font-size:0.5rem;width:25%;" onChange="mdCategoryChange(this);">
 												<option value="0">대분류</option>	
 											</select>
-											<select class="fSelect category eCategory eCategory2" depth="2" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
+											<select class="fSelect category eCategory eCategory2" depth="2" name="md_category[]" style="font-size:0.5rem;width:25%;" onChange="mdCategoryChange(this);">
 												<option value="0">중분류</option>
 											</select>
-											<select class="fSelect category eCategory eCategory3" depth="3" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
+											<select class="fSelect category eCategory eCategory3" depth="3" name="md_category[]" style="font-size:0.5rem;width:25%;" onChange="mdCategoryChange(this);">
 												<option value="0">소분류</option>
 											</select>
-											<select class="fSelect category eCategory eCategory4" depth="4" name="md_category[]" style="font-size:0.5rem;width:15%;" onChange="mdCategoryChange(this);">
+											<select class="fSelect category eCategory eCategory4" depth="4" name="md_category[]" style="font-size:0.5rem;width:25%;" onChange="mdCategoryChange(this);">
 												<option value="0">세분류</option>
 											</select>
 										</div>
 									</TD>
                                 </TR>
                                 <TR>
-									<TD>상품 이름</TD>
-									<TD colspan="3">
+									<TH class="required_title">상품 이름</TH>
+									<TD>
 										<input type="text" id="product_name" name="product_name" value="">
 									</TD>
-									<TD>상품 그래픽</TD>
-									<TD colspan="3">
+									
+									<TH>상품 그래픽</TH>
+									<TD>
                                         <input id="graphic" type="text" name="graphic" value="">
 									</TD>
-								</TR>
-								<TR>
-									<TD>상품 사이즈</TD>
-									<TD colspan="3">
+									
+									<TH>상품 사이즈</TH>
+									<TD>
 										<input type="text" id="product_size" name="product_size" value="">
 									</TD>
-									<TD>상품 색상</TD>
-									<TD colspan="3">
+									
+									<TH class="required_title">상품 색상</TH>
+									<TD>
 										<input id="color" type="text" name="color" value="">
 									</TD>
 								</TR>
 								<TR>
-									<TD>ID당 구매 제한우뮤</TD>
+									<TH>ID당 구매 제한우뮤</TH>
 									<TD colspan="3">
 										<div class="flex" style="gap: 10px;">
 											<label class="rd__square">
@@ -161,8 +188,9 @@
 											</label>
 										</div>
 									</TD>
-									<TD>구매수량 제한 유무</TD>
-									<TD colspan="3">
+									
+									<TH>구매수량 제한 유무</TH>
+									<TD>
 										<div class="flex" style="gap: 10px;">
 											<label class="rd__square">
 												<input type="radio" name="limit_product_qty_flg" value="false" checked>
@@ -176,18 +204,20 @@
 											</label>
 										</div>
 									</TD>
-								</TR>
-								<TR>
-									<TD>MD 카테고리 가이드</TD>
-									<TD colspan="3">
-										<input type="text" id="md_category_guide" name="md_category_guide" value="">
-									</TD>
-									<TD>구매제한 수량</TD>
+									
+									<TH>구매제한 수량</TH>
 									<TD>
 										<input type="text" id="limit_product_qty" name="limit_product_qty" value="">
 									</TD>
-									<TD>구매 멤버 제한</TD>
-									<TD>
+								</TR>
+								<TR>
+									<TH>MD 카테고리 가이드</TH>
+									<TD colspan="3">
+										<input type="text" id="md_category_guide" name="md_category_guide" value="">
+									</TD>
+									
+									<TH>구매 멤버 제한</TH>
+									<TD colspan="3">
 										<input type="text" id="limit_member" name="limit_member" value="">
 									</TD>
 								</TR>
@@ -195,15 +225,9 @@
 						</TABLE>
 						<div style="margin-top:5px;">
 							<div class="row form-group">
-								<button type="button"
-									style="width:120px;height:30px;border:1px solid #000000;cursor:pointer;float:right;"
-									onClick="$('#currency_table').toggle();">환율정보 조회</button>
-								<button type="button"
-									style="width:80px;height:30px;border:1px solid #000000;cursor:pointer;margin-right:10px;float:right;"
-									onClick="productPriceCalc();">계산</button>
-								<input id="calc_val" type="text"
-									style="width:163px;height:30px;margin-right:10px;float:right;" placeholder="배율"
-									value="1.4">
+								<button type="button" style="width:120px;height:30px;border:1px solid #000000;cursor:pointer;float:right;" onClick="$('#currency_table').toggle();">환율정보 조회</button>
+								<button type="button" style="width:80px;height:30px;border:1px solid #000000;cursor:pointer;margin-right:10px;float:right;" onClick="productPriceCalc();">계산</button>
+								<input id="calc_val" type="text" style="width:163px;height:30px;margin-right:10px;float:right;" placeholder="배율" value="1.4">
 							</div>
 
 							<div id="currency_table" class="row form-group" style="margin-top:5px;display:none;"></div>
@@ -218,11 +242,11 @@
 									</colgroup>
 									<TBODY>
 										<TR>
-											<TD>기획원가</TD>
-											<TD>한국몰 판매가격 (KRW)</TD>
-											<TD>한국몰 변환가격 (KRW)</TD>
-											<TD>영문몰 판매가격 (USD)</TD>
-											<TD>중문몰 판매가격 (USD)</TD>
+											<TH class="required_title">기획원가</TH>
+											<TH class="required_title">한국몰 판매가격 (KRW)</TH>
+											<TH class="required_title">한국몰 변환가격 (KRW)</TH>
+											<TH class="required_title">영문몰 판매가격 (USD)</TH>
+											<TH class="required_title">중문몰 판매가격 (USD)</TH>
 										</TR>
 										<TR>
 											<TD>
@@ -259,27 +283,22 @@
 							</colgroup>
 							<TBODY>
 								<tr>
-									<TD>기획재고 수량</TD>
-									<TD colspan="3">
-										<input id="product_qty" type="number" name="product_qty"
-												value="">
+									<TH>기획재고 수량</TH>
+									<TD>
+										<input id="product_qty" type="number" name="product_qty" value="">
 									</TD>
-									<TD>안전재고 수량</TD>
-									<TD colspan="3">
-										<input id="safe_qty" type="number" name="safe_qty"
-												value="">
+									<TH>안전재고 수량</TH>
+									<TD>
+										<input id="safe_qty" type="number" name="safe_qty" value="">
 									</TD>
-								</tr>
-								<tr>
-									<TD>입고 요청일</TD>
-									<TD colspan="3">
-										<input id="receive_request_date" type="date" name="receive_request_date"
-												value="" date_type="receive_request">
+									
+									<TH>입고 요청일</TH>
+									<TD>
+										<input id="receive_request_date" type="date" name="receive_request_date" style="width:100%;" value="" date_type="receive_request">
 									</TD>
-									<TD>런칭일</TD>
-									<TD colspan="3">
-										<input id="launching_date" type="date" name="launching_date"
-												value="" date_type="launching">
+									<TH>런칭일</TH>
+									<TD>
+										<input id="launching_date" type="date" name="launching_date" style="width:100%;" value="" date_type="launching">
 									</TD>
 								</tr>
 							</TBODY>
@@ -309,64 +328,6 @@ $(document).ready(function() {
 	});
 	lineInfoGet();
 	getCurrencyInfo();
-
-	$('#line_idx').change(function() {	
-        var sel_tr = $(this).parents('tr');
-        var sel_line_idx = sel_tr.find('.eSearch option:checked').val();
-		
-        sel_tr.find('.line_table').html('');
-		if(sel_line_idx > 0){
-			$.ajax({
-				type: "post",
-				data: {
-                    'sel_line_idx' : sel_line_idx
-                },
-				dataType: "json",
-				url: config.api + "pcs/ordersheet/md/line/get",
-				error: function() {
-					alert("사이즈정보 입력창 불러오기 처리에 실패했습니다.");
-				},
-				success: function(d) {
-					if(d.code == 200) {
-						if(d.data != null){
-							var line_info = d.data[0];
-							var type_str = '';
-							switch(line_info.line_type){
-								case 'C':
-									type_str = '컬렉션 라인';
-									break;
-								case 'O':
-									type_str = '오리진 라인';
-									break;
-								case 'T':
-									type_str = '티피컬 라인';
-									break;
-							}
-                            strTable = `
-                                <table style="width:40%">
-                                    <thead>
-                                        <tr>
-                                            <th>라인명</th>
-                                            <th>타입</th>
-                                            <th>비고</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>${line_info.line_name}</td>
-                                            <td>${type_str}</td>
-                                            <td>${line_info.line_memo}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            `;
-                            sel_tr.find('.line_table').append(strTable);
-						}
-					}
-				}
-			});
-		}
-	});
 });
 function lineInfoGet(){
 	$.ajax({
@@ -651,4 +612,50 @@ function getDateInterval(startDate, endDate){
 	return (endDate.getTime() - startDate.getTime()) / ( 1000*60*60*24 );
 }
 
+function getLineInfo() {
+	let line_idx = $('#line_idx').val();
+	
+	if (line_idx > 0) {
+		$.ajax({
+			type: "post",
+			url: config.api + "pcs/ordersheet/md/line/get",
+			data: {
+				'sel_line_idx' : line_idx
+			},
+			dataType: "json",
+			error: function() {
+				alert("라인정보 조회처리중 오류가 발생했습니다.");
+			},
+			success: function(d) {
+				if(d.code == 200) {
+					if(d.data != null){
+						var line_info = d.data[0];
+						
+						$('#div_line').html('');
+						
+						let strDiv = "";
+						strDiv += '<table style="width:100%">';
+						strDiv += '    <thead>';
+						strDiv += '        <tr>';
+						strDiv += '            <th>라인명</th>';
+						strDiv += '            <th>타입</th>';
+						strDiv += '            <th>비고</th>';
+						strDiv += '        </tr>';
+						strDiv += '    </thead>';
+						strDiv += '    <tbody>';
+						strDiv += '        <tr>';
+						strDiv += '            <td>' + line_info.line_name + '</td>';
+						strDiv += '            <td>' + line_info.line_type + ' 라인</td>';
+						strDiv += '            <td>' + line_info.line_memo + '</td>';
+						strDiv += '        </tr>';
+						strDiv += '    </tbody>';
+						strDiv += '</table>';
+						
+						$('#div_line').append(strDiv);
+					}
+				}
+			}
+		});
+	}
+}
 </script>

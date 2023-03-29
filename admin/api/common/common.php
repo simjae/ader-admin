@@ -42,6 +42,8 @@ function url_to_file_up($ftp_dir,$server_img_path,$product_dir_name,$img_type_se
 	}
 	
 	if($img_type_seq != null && is_array($img_type_seq)){
+		$thumbnail_O_exist = array_search('thumbnail_O', $img_type_seq);
+		$thumbnail_P_exist = array_search('thumbnail_P', $img_type_seq);
 		$outfit_exist = array_search('outfit', $img_type_seq);
 		$product_exist =  array_search('product', $img_type_seq);
 		$detail_exist =  array_search('detail', $img_type_seq);
@@ -53,12 +55,20 @@ function url_to_file_up($ftp_dir,$server_img_path,$product_dir_name,$img_type_se
 	$contents = ftp_nlist($conn,$ftp_file_path);
 	
 	if(!empty($contents)){
+		$thumbnail_O_file_arr = array();
+		$thumbnail_P_file_arr = array();
 		$outfit_file_arr = array();
 		$product_file_arr = array();
 		$detail_file_arr = array();
 
 		foreach($contents as $file_name_list){
-			if(strpos($file_name_list, 'outfit') !== false){
+			if(strpos($file_name_list, 'thumbnail_O') !== false){
+				$thumbnail_O_file_arr[] = $file_name_list;
+			}
+			else if(strpos($file_name_list, 'thumbnail_P') !== false){
+				$thumbnail_P_file_arr[] = $file_name_list;
+			}
+			else if(strpos($file_name_list, 'outfit') !== false){
 				$outfit_file_arr[] = $file_name_list;
 			}
 			else if(strpos($file_name_list, 'product') !== false){
@@ -73,6 +83,12 @@ function url_to_file_up($ftp_dir,$server_img_path,$product_dir_name,$img_type_se
 		foreach(${$img_type_seq[0].'_file_arr'} as $file_item){
 			$img_type = '';
 			switch($img_type_seq[0]){
+				case 'thumbnail_O':
+					$img_type = 'TO';
+					break;
+				case 'thumbnail_P':
+					$img_type = 'TP';
+					break;
 				case 'outfit':
 					$img_type = 'O';
 					break;
@@ -220,6 +236,12 @@ function url_to_file_up($ftp_dir,$server_img_path,$product_dir_name,$img_type_se
 		foreach(${$img_type_seq[1].'_file_arr'} as $file_item){
 			$img_type = '';
 			switch($img_type_seq[1]){
+				case 'thumbnail_O':
+					$img_type = 'TO';
+					break;
+				case 'thumbnail_P':
+					$img_type = 'TP';
+					break;
 				case 'outfit':
 					$img_type = 'O';
 					break;
@@ -366,6 +388,12 @@ function url_to_file_up($ftp_dir,$server_img_path,$product_dir_name,$img_type_se
 		foreach(${$img_type_seq[2].'_file_arr'} as $file_item){
 			$img_type = '';
 			switch($img_type_seq[2]){
+				case 'thumbnail_O':
+					$img_type = 'TO';
+					break;
+				case 'thumbnail_P':
+					$img_type = 'TP';
+					break;
 				case 'outfit':
 					$img_type = 'O';
 					break;
@@ -375,6 +403,310 @@ function url_to_file_up($ftp_dir,$server_img_path,$product_dir_name,$img_type_se
 				case 'detail':
 					$img_type = 'D';
 			}
+			$cnt++;
+			$explode_arr = explode('.', $file_item);
+			$ext = $explode_arr[count($explode_arr) - 1];
+
+			if($ext == 'gif' || $ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
+				$ftp_file_name = str_replace($ftp_file_path,'',$file_item);
+				$tmp_file_name = $server_img_path."tmp_".$ftp_file_name;
+
+				$url = "http://".$ftp_host."/".$ftp_dir."/".$product_dir_name."/".$ftp_file_name;
+				$ftp_file = file_get_contents($url);
+				$res = file_put_contents($tmp_file_name, $ftp_file);
+
+				if($res == true){
+					array_push($upload_file,[
+						'url'			=>$url,
+						'filename'		=>$url,
+						'img_size'		=>"L",
+						'img_type'		=>$img_type
+					]);
+
+					$size = getimageSize($tmp_file_name);
+					$width = $size[0];
+					$height = $size[1];
+					$imgtype = $size[2];
+					
+					if($imgtype==1)      $img_lrg = ImageCreateFromGif($tmp_file_name);
+					else if($imgtype==2) $img_lrg = ImageCreateFromJpeg($tmp_file_name);
+					else if($imgtype==3) $img_lrg = ImageCreateFromPng($tmp_file_name);
+						
+					$makesize_mdl = 1000;
+					$makesize_sml = 600;
+						
+					$filename_mdl = "";
+					if ($width > $makesize_mdl || $height > $makesize_mdl) {            
+						$filename_mdl = "img_".$product_dir_name."_".sprintf('%02d', $cnt)."_".$img_type."_M_".time().".".$ext;
+
+						if ($width >= $height) {
+							$mdl_width = $makesize_mdl;
+							$mdl_height = ($height*$makesize_mdl)/$width;
+							
+						} else if($width < $height) {
+							$mdl_width = ($width * $makesize_mdl)/$height;
+							$mdl_height = $makesize_mdl;
+						}
+
+						if ($imgtype==1) {
+							$img_mdl = ImageCreate($mdl_width,$mdl_height); // GIF일경우
+							$white = ImageColorAllocate($img_mdl, 255,255,255);
+							
+							imagefill($img_mdl,1,1,$white);
+							ImageCopyResized($img_mdl,$img_lrg,0,0,0,0,$mdl_width,$mdl_height,$width,$height);
+							$upload_result = imageGIF($img_mdl,$server_img_path.$filename_mdl);
+							
+						} else if ($imgtype==2) {
+							$img_mdl=ImageCreateTrueColor($mdl_width,$mdl_height); // JPG일경우
+							$white = ImageColorAllocate($img_mdl, 255,255,255);
+							
+							imagefill($img_mdl,1,1,$white);
+							imagecopyresampled($img_mdl,$img_lrg,0,0,0,0,$mdl_width,$mdl_height,$width,$height);
+							$upload_result = imageJPEG($img_mdl,$server_img_path.$filename_mdl,90);
+							
+						} else {
+							$img_mdl=ImageCreateTrueColor($mdl_width,$mdl_height); // PNG일경우
+							imagesavealpha($img_mdl, true);
+							$white = Imagecolorallocatealpha($img_mdl,0x00,0x00,0x00,127);
+							
+							imagefill($img_mdl,0,0,$white);
+							imagecopyresampled($img_mdl,$img_lrg,0,0,0,0,$mdl_width,$mdl_height,$width,$height);
+							$upload_result = imagePNG($img_mdl,$server_img_path.$filename_mdl);
+						}
+						if ($upload_result == true) {								
+							array_push($upload_file,[
+								'url'			=>$url,
+								'filename'		=>$filename_mdl,
+								'img_size'		=>"M",
+								'img_type'		=>$img_type
+							]);
+						}
+
+						ImageDestroy($img_mdl);
+					}
+						
+					if ($width > $makesize_sml || $height > $makesize_sml) {            
+						$filename_sml = "img_".$product_dir_name."_".sprintf('%02d', $cnt)."_".$img_type."_S_".time().".".$ext;
+
+						if ($width >= $height) {
+							$sml_width = $makesize_sml;
+							$sml_height = ($height*$makesize_sml)/$width;
+							
+						} else if($width < $height) {
+							$sml_width = ($width * $makesize_sml)/$height;
+							$sml_height = $makesize_sml;
+						}
+
+						if ($imgtype==1) {
+							$img_sml = ImageCreate($sml_width,$sml_height); // GIF일경우
+							$white = ImageColorAllocate($img_sml, 255,255,255);
+							
+							imagefill($img_sml,1,1,$white);
+							ImageCopyResized($img_sml,$img_lrg,0,0,0,0,$sml_width,$sml_height,$width,$height);
+							$upload_result = imageGIF($img_sml,$server_img_path.$filename_sml);
+							
+						} else if ($imgtype==2) {
+							$img_sml=ImageCreateTrueColor($sml_width,$sml_height); // JPG일경우
+							$white = ImageColorAllocate($img_sml, 255,255,255);
+							
+							imagefill($img_sml,1,1,$white);
+							imagecopyresampled($img_sml,$img_lrg,0,0,0,0,$sml_width,$sml_height,$width,$height);
+							$upload_result = imageJPEG($img_sml,$server_img_path.$filename_sml,90);
+							
+						} else {
+							$img_sml=ImageCreateTrueColor($sml_width,$sml_height); // PNG일경우
+							imagesavealpha($img_sml, true);
+							$white = Imagecolorallocatealpha($img_sml,0x00,0x00,0x00,127);
+							
+							imagefill($img_sml,0,0,$white);
+							imagecopyresampled($img_sml,$img_lrg,0,0,0,0,$sml_width,$sml_height,$width,$height);
+							$upload_result = imagePNG($img_sml,$server_img_path.$filename_sml);
+						}
+						if ($upload_result == true) {
+							array_push($upload_file,[
+								'url'			=>$url,
+								'filename'		=>$filename_sml,
+								'img_size'		=>"S",
+								'img_type'		=>$img_type
+							]);
+						}
+						ImageDestroy($img_sml);
+					}
+					file_del($tmp_file_name);
+				}
+			}
+		}
+		foreach(${$img_type_seq[3].'_file_arr'} as $file_item){
+			$img_type = '';
+			switch($img_type_seq[3]){
+				case 'thumbnail_O':
+					$img_type = 'TO';
+					break;
+				case 'thumbnail_P':
+					$img_type = 'TP';
+					break;
+				case 'outfit':
+					$img_type = 'O';
+					break;
+				case 'product':
+					$img_type = 'P';
+					break;
+				case 'detail':
+					$img_type = 'D';
+			}
+			
+			$cnt++;
+			$explode_arr = explode('.', $file_item);
+			$ext = $explode_arr[count($explode_arr) - 1];
+
+			if($ext == 'gif' || $ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
+				$ftp_file_name = str_replace($ftp_file_path,'',$file_item);
+				$tmp_file_name = $server_img_path."tmp_".$ftp_file_name;
+
+				$url = "http://".$ftp_host."/".$ftp_dir."/".$product_dir_name."/".$ftp_file_name;
+				$ftp_file = file_get_contents($url);
+				$res = file_put_contents($tmp_file_name, $ftp_file);
+
+				if($res == true){
+					array_push($upload_file,[
+						'url'			=>$url,
+						'filename'		=>$url,
+						'img_size'		=>"L",
+						'img_type'		=>$img_type
+					]);
+
+					$size = getimageSize($tmp_file_name);
+					$width = $size[0];
+					$height = $size[1];
+					$imgtype = $size[2];
+					
+					if($imgtype==1)      $img_lrg = ImageCreateFromGif($tmp_file_name);
+					else if($imgtype==2) $img_lrg = ImageCreateFromJpeg($tmp_file_name);
+					else if($imgtype==3) $img_lrg = ImageCreateFromPng($tmp_file_name);
+						
+					$makesize_mdl = 1000;
+					$makesize_sml = 600;
+						
+					$filename_mdl = "";
+					if ($width > $makesize_mdl || $height > $makesize_mdl) {            
+						$filename_mdl = "img_".$product_dir_name."_".sprintf('%02d', $cnt)."_".$img_type."_M_".time().".".$ext;
+
+						if ($width >= $height) {
+							$mdl_width = $makesize_mdl;
+							$mdl_height = ($height*$makesize_mdl)/$width;
+							
+						} else if($width < $height) {
+							$mdl_width = ($width * $makesize_mdl)/$height;
+							$mdl_height = $makesize_mdl;
+						}
+
+						if ($imgtype==1) {
+							$img_mdl = ImageCreate($mdl_width,$mdl_height); // GIF일경우
+							$white = ImageColorAllocate($img_mdl, 255,255,255);
+							
+							imagefill($img_mdl,1,1,$white);
+							ImageCopyResized($img_mdl,$img_lrg,0,0,0,0,$mdl_width,$mdl_height,$width,$height);
+							$upload_result = imageGIF($img_mdl,$server_img_path.$filename_mdl);
+							
+						} else if ($imgtype==2) {
+							$img_mdl=ImageCreateTrueColor($mdl_width,$mdl_height); // JPG일경우
+							$white = ImageColorAllocate($img_mdl, 255,255,255);
+							
+							imagefill($img_mdl,1,1,$white);
+							imagecopyresampled($img_mdl,$img_lrg,0,0,0,0,$mdl_width,$mdl_height,$width,$height);
+							$upload_result = imageJPEG($img_mdl,$server_img_path.$filename_mdl,90);
+							
+						} else {
+							$img_mdl=ImageCreateTrueColor($mdl_width,$mdl_height); // PNG일경우
+							imagesavealpha($img_mdl, true);
+							$white = Imagecolorallocatealpha($img_mdl,0x00,0x00,0x00,127);
+							
+							imagefill($img_mdl,0,0,$white);
+							imagecopyresampled($img_mdl,$img_lrg,0,0,0,0,$mdl_width,$mdl_height,$width,$height);
+							$upload_result = imagePNG($img_mdl,$server_img_path.$filename_mdl);
+						}
+						if ($upload_result == true) {								
+							array_push($upload_file,[
+								'url'			=>$url,
+								'filename'		=>$filename_mdl,
+								'img_size'		=>"M",
+								'img_type'		=>$img_type
+							]);
+						}
+
+						ImageDestroy($img_mdl);
+					}
+						
+					if ($width > $makesize_sml || $height > $makesize_sml) {            
+						$filename_sml = "img_".$product_dir_name."_".sprintf('%02d', $cnt)."_".$img_type."_S_".time().".".$ext;
+
+						if ($width >= $height) {
+							$sml_width = $makesize_sml;
+							$sml_height = ($height*$makesize_sml)/$width;
+							
+						} else if($width < $height) {
+							$sml_width = ($width * $makesize_sml)/$height;
+							$sml_height = $makesize_sml;
+						}
+
+						if ($imgtype==1) {
+							$img_sml = ImageCreate($sml_width,$sml_height); // GIF일경우
+							$white = ImageColorAllocate($img_sml, 255,255,255);
+							
+							imagefill($img_sml,1,1,$white);
+							ImageCopyResized($img_sml,$img_lrg,0,0,0,0,$sml_width,$sml_height,$width,$height);
+							$upload_result = imageGIF($img_sml,$server_img_path.$filename_sml);
+							
+						} else if ($imgtype==2) {
+							$img_sml=ImageCreateTrueColor($sml_width,$sml_height); // JPG일경우
+							$white = ImageColorAllocate($img_sml, 255,255,255);
+							
+							imagefill($img_sml,1,1,$white);
+							imagecopyresampled($img_sml,$img_lrg,0,0,0,0,$sml_width,$sml_height,$width,$height);
+							$upload_result = imageJPEG($img_sml,$server_img_path.$filename_sml,90);
+							
+						} else {
+							$img_sml=ImageCreateTrueColor($sml_width,$sml_height); // PNG일경우
+							imagesavealpha($img_sml, true);
+							$white = Imagecolorallocatealpha($img_sml,0x00,0x00,0x00,127);
+							
+							imagefill($img_sml,0,0,$white);
+							imagecopyresampled($img_sml,$img_lrg,0,0,0,0,$sml_width,$sml_height,$width,$height);
+							$upload_result = imagePNG($img_sml,$server_img_path.$filename_sml);
+						}
+						if ($upload_result == true) {
+							array_push($upload_file,[
+								'url'			=>$url,
+								'filename'		=>$filename_sml,
+								'img_size'		=>"S",
+								'img_type'		=>$img_type
+							]);
+						}
+						ImageDestroy($img_sml);
+					}
+					file_del($tmp_file_name);
+				}
+			}
+		}
+		foreach(${$img_type_seq[4].'_file_arr'} as $file_item){
+			$img_type = '';
+			switch($img_type_seq[4]){
+				case 'thumbnail_O':
+					$img_type = 'TO';
+					break;
+				case 'thumbnail_P':
+					$img_type = 'TP';
+					break;
+				case 'outfit':
+					$img_type = 'O';
+					break;
+				case 'product':
+					$img_type = 'P';
+					break;
+				case 'detail':
+					$img_type = 'D';
+			}
+			
 			$cnt++;
 			$explode_arr = explode('.', $file_item);
 			$ext = $explode_arr[count($explode_arr) - 1];
@@ -543,6 +875,8 @@ function getProductFileCnt($db, $product_code){
 		$contents = ftp_nlist($conn,$url_path);
 
 		if(!empty($contents)){
+			$thumbnail_O_file_cnt = 0;
+			$thumbnail_P_file_cnt = 0;
 			$outfit_file_cnt = 0;
 			$product_file_cnt = 0;
 			$detail_file_cnt = 0;
@@ -553,6 +887,12 @@ function getProductFileCnt($db, $product_code){
 				$ext = $explode_arr[count($explode_arr) - 1];
 		
 				if($ext == 'gif' || $ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
+					if(strpos($val, 'thumbnail_O') != false){
+						$thumbnail_O_file_cnt++;
+					}
+					else if(strpos($val, 'thumbnail_P') != false){
+						$thumbnail_P_file_cnt++;
+					}
 					if(strpos($val, 'outfit') != false){
 						$outfit_file_cnt++;
 					}
@@ -564,9 +904,11 @@ function getProductFileCnt($db, $product_code){
 					}
 				}
 			}
-			$result_arr['outfit_cnt'] = $outfit_file_cnt;
-			$result_arr['product_cnt'] = $product_file_cnt;
-			$result_arr['detail_cnt'] = $detail_file_cnt;
+			$result_arr['thumbnail_O_cnt'] 	= $thumbnail_O_file_cnt;
+			$result_arr['thumbnail_P_cnt'] 	= $thumbnail_P_file_cnt;
+			$result_arr['outfit_cnt'] 		= $outfit_file_cnt;
+			$result_arr['product_cnt'] 		= $product_file_cnt;
+			$result_arr['detail_cnt'] 		= $detail_file_cnt;
 		}
 	}
 	return $result_arr;

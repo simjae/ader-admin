@@ -64,7 +64,7 @@
 								SELECT
 									'CN'	AS COUNTRY
 							) TMP
-							LEFT JOIN dev.MILEAGE_INFO MI ON
+							LEFT JOIN MILEAGE_INFO MI ON
 							TMP.COUNTRY = MI.COUNTRY
 						GROUP BY 
 							TMP.COUNTRY
@@ -138,7 +138,7 @@
 						IDX,
 						TITLE
 					FROM
-						dev.MEMBER_LEVEL
+						MEMBER_LEVEL
 		";
 		$db->query($sql);
 		foreach($db->fetch() as $data){

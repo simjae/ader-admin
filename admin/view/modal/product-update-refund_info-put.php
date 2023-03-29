@@ -8,12 +8,6 @@
     <div class="card__body">
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
-			<input type="hidden" name="refund_msg_kr_update_flg" value="true">
-            <input type="hidden" name="refund_msg_en_update_flg" value="true">
-            <input type="hidden" name="refund_msg_cn_update_flg" value="true">
-			<input type="hidden" name="refund_kr_update_flg" value="true">
-			<input type="hidden" name="refund_en_update_flg" value="true">
-			<input type="hidden" name="refund_cn_update_flg" value="true">
 
 			<div class="row table__wrap" style="margin-top:10px;">
 				<TABLE id="insert_table_wkla_material">
@@ -23,7 +17,7 @@
 					</colgroup>
 					<TBODY>
                         <TR>	
-                            <TD>구매 전<br>환불정보 표시 플래그</TD>
+                            <TH>구매 전<br>환불정보 표시 플래그</TH>
                             <TD>
                                 <div class="content__row">
                                     <label class="rd__square">
@@ -40,25 +34,73 @@
                             </TD>
                         </TR>
                         <TR>
-                            <TD>구매 전<br>환불정보 표시 메세지(한국몰)</TD>
+                            <TH>
+                                구매 전<br>환불정보 표시 메세지(한국몰)
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_msg_kr_update_flg" value="false" checked>
+                                    <div><div></div></div>
+                                    <span>수정안함</span>
+                                </label>
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_msg_kr_update_flg" value="true">
+                                    <div><div></div></div>
+                                    <span>수정함</span>
+                                </label>
+                            </TH>
                             <TD colspan="11">
                                 <input type="text" id="refund_msg_kr" name="refund_msg_kr">
                             </TD>
                         </TR>
                         <TR>
-                            <TD>구매 전<br>환불정보 표시 메세지(영문몰)</TD>
+                            <TH>
+                                구매 전<br>환불정보 표시 메세지(영문몰)
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_msg_en_update_flg" value="false" checked>
+                                    <div><div></div></div>
+                                    <span>수정안함</span>
+                                </label>
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_msg_en_update_flg" value="true">
+                                    <div><div></div></div>
+                                    <span>수정함</span>
+                                </label>
+                            </TH>
                             <TD colspan="11">
                                 <input type="text" id="refund_msg_en" name="refund_msg_en">
                             </TD>
                         </TR>
                         <TR>
-                            <TD>구매 전<br>환불정보 표시 메세지(중국몰)</TD>
+                            <TH>
+                                구매 전<br>환불정보 표시 메세지(중문몰)
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_msg_cn_update_flg" value="false" checked>
+                                    <div><div></div></div>
+                                    <span>수정안함</span>
+                                </label>
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_msg_cn_update_flg" value="true">
+                                    <div><div></div></div>
+                                    <span>수정함</span>
+                                </label>
+                            </TH>
                             <TD colspan="11">
                                 <input type="text" id="refund_msg_cn" name="refund_msg_cn">
                             </TD>
                         </TR>
                         <TR>
-                            <TD>추가 교환/환불<br>상세정보<br>(한국몰)</TD>
+                            <TH>
+                                추가 교환/환불<br>상세정보<br>(한국몰)
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_kr_update_flg" value="false" checked>
+                                    <div><div></div></div>
+                                    <span>수정안함</span>
+                                </label>
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_kr_update_flg" value="true">
+                                    <div><div></div></div>
+                                    <span>수정함</span>
+                                </label>
+                            </TH>
                             <TD colspan="11">
                                 <textarea class="width-100p" id="refund_kr" name="refund_kr"
                                     style="width:90%; height:150px;"></textarea>
@@ -66,7 +108,19 @@
                         </TR>
 
                         <TR>
-                            <TD>추가 교환/환불<br>상세정보<br>(영문몰)</TD>
+                            <TH>
+                                추가 교환/환불<br>상세정보<br>(영문몰)
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_en_update_flg" value="false" checked>
+                                    <div><div></div></div>
+                                    <span>수정안함</span>
+                                </label>
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_en_update_flg" value="true">
+                                    <div><div></div></div>
+                                    <span>수정함</span>
+                                </label>
+                            </TH>
                             <TD colspan="11">
                                 <textarea class="width-100p" id="refund_en" name="refund_en"
                                     style="width:90%; height:150px;"></textarea>
@@ -74,7 +128,19 @@
                         </TR>
 
                         <TR>
-                            <TD>추가 교환/환불<br>상세정보<br>(중국몰)</TD>
+                            <TH>
+                                추가 교환/환불<br>상세정보<br>(중국몰)
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_cn_update_flg" value="false" checked>
+                                    <div><div></div></div>
+                                    <span>수정안함</span>
+                                </label>
+                                <label class="rd__square update__flg__area">
+                                    <input type="radio" name="refund_cn_update_flg" value="true">
+                                    <div><div></div></div>
+                                    <span>수정함</span>
+                                </label>
+                            </TH>
                             <TD colspan="11">
                                 <textarea class="width-100p" id="refund_cn" name="refund_cn"
                                     style="width:90%; height:150px;"></textarea>

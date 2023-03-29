@@ -31,6 +31,8 @@ $sleep_to			= $_POST['sleep_to'];			//휴면 처리일 - 종료일
 $drop_from			= $_POST['drop_from'];			//탈퇴 처리일 - 시작일
 $drop_to			= $_POST['drop_to'];			//탈퇴 처리일 - 종료일
 
+$order_from			= $_POST['drop_from'];			//탈퇴 처리일 - 시작일
+$order_to			= $_POST['drop_to'];			//탈퇴 처리일 - 종료일
 
 $min_sales_cnt		= $_POST['min_sales_cnt'];		//구매항목 최소값
 $max_sales_cnt		= $_POST['max_sales_cnt'];		//구매항목 최대값
@@ -129,7 +131,7 @@ if ($search_keyword != null) {
 }
 
 if ($search_date_type != null && $search_date != null) {
-	$tmp_date = "DATE_FORMAT(MB.".$search_date_type.",'%Y-%m-%d')";
+	$tmp_date = "DATE_FORMAT(".$search_date_type.",'%Y-%m-%d')";
 	switch ($search_date) {
 		case "today" :
 			$where .= " AND (".$tmp_date." = CURDATE()) ";
@@ -311,6 +313,9 @@ $table = "
 	MEMBER_".$country." MB
 	LEFT JOIN MEMBER_LEVEL LV ON
 	MB.LEVEL_IDX = LV.IDX
+	LEFT JOIN ORDER_INFO OI ON
+	MB.IDX = OI.MEMBER_IDX AND
+	MB.COUNTRY = OI.COUNTRY
 ";
 
 $table .= $order_table;

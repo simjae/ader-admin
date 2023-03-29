@@ -52,7 +52,7 @@
                 BOARD.UPDATE_DATE,
                 BOARD.UPDATER
             FROM
-                dev.PAGE_BOARD BOARD
+                PAGE_BOARD BOARD
             WHERE
                 BOARD.IDX = ".$page_idx."
     ";
@@ -324,7 +324,7 @@ function noticeUpdate(){
 			success: function(d) {
 				if(d.code == 200) {
 					alert("공지사항 수정에 성공했습니다.",function(){
-						getBoardTabInfoNTC();
+						getBoardInfoList_NTC();
                         modal_close();
 					});
 				}

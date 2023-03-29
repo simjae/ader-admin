@@ -109,9 +109,9 @@ if($independent_sheet != null && count($independent_sheet) != 0){
                             COLOR_CODE,
                             PRODUCT_CODE,
                             PRODUCT_NAME,
-                            ".$val[1].",
-                            ".$val[2].",
-                            ".$val[3].",
+                            ".((!isset($val[1])||strlen($val[1])==0)?0:$val[1]).",
+                            ".((!isset($val[2])||strlen($val[2])==0)?0:$val[2]).",
+                            ".((!isset($val[3])||strlen($val[3])==0)?0:$val[3]).",
                             TRUE,
                             '".$session_id."',
                             '".$session_id."'

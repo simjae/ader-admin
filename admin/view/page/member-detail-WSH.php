@@ -85,8 +85,8 @@
 	</div>
 	
 	<form id="frm-WSH" action="modal/whish/get">
-		<input type="hidden" class="page" name="country" value="<?=$country?>">
-		<input type="hidden" class="rows" name="member_idx" value="<?=$member_idx?>">
+		<input type="hidden" class="country" name="country" value="<?=$country?>">
+		<input type="hidden" class="member_idx" name="member_idx" value="<?=$member_idx?>">
 		
 		<input type="hidden" class="sort_type" name="sort_type" value="DESC">
 		<input type="hidden" class="sort_value" name="sort_value" value="CREATE_DATE">

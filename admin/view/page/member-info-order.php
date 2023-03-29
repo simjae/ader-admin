@@ -50,7 +50,7 @@
 									ML.IDX		AS LEVEL_IDX,
 									ML.TITLE	AS LEVEL_TITLE
 								FROM
-									dev.MEMBER_LEVEL ML
+									MEMBER_LEVEL ML
 								WHERE
 									DEL_FLG = FALSE
 							";
@@ -79,6 +79,33 @@
 							
 							<input type="radio" id="member_gender_ORD_F" class="radio__input" value="F" name="member_gender"/>
 							<label for="member_gender_ORD_F">여</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="content__wrap">
+				<div class="content__title">주문일</div>
+				<div class="content__row">
+					<div class="content__date__wrap">
+						<div class="content__date__btn">
+							<input class="search_date_type" type="hidden" name="search_date_type" value="">
+							<input class="search_date" type="hidden" name="search_date" value="">
+							
+							<div class="date__picker" date_type="order" date="all" type="button"  onclick="searchDateClick(this);">전체</div>
+							<div class="date__picker" date_type="order" date="today" type="button"  onclick="searchDateClick(this);">오늘</div>
+							<div class="date__picker" date_type="order" date="01d" type="button"  onclick="searchDateClick(this);">어제</div>
+							<div class="date__picker" date_type="order" date="03d" type="button"  onclick="searchDateClick(this);">3일</div>
+							<div class="date__picker" date_type="order" date="07d" type="button"  onclick="searchDateClick(this);">7일</div>
+							<div class="date__picker" date_type="order" date="15d" type="button"  onclick="searchDateClick(this);">15일</div>
+							<div class="date__picker" date_type="order" date="01m" type="button"  onclick="searchDateClick(this);">1개월</div>
+							<div class="date__picker" date_type="order" date="03m" type="button"  onclick="searchDateClick(this);">3개월</div>
+							<div class="date__picker" date_type="order" date="01y" type="button"  onclick="searchDateClick(this);">1년</div>
+						</div>
+						
+						<div class="content__date__picker">
+							<input id="order_from" class="date_param" type="date" name="order_from"  placeholder="From" readonly="" style="width:150px;" date_type="order" onChange="dateParamChange(this);">
+							<input id="order_to" class="date_param" type="date" name="order_to" placeholder="To" readonly="" style="width:150px;" date_type="order" onChange="dateParamChange(this);">
 						</div>
 					</div>
 				</div>

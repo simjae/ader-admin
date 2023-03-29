@@ -336,7 +336,7 @@ function getPageProductList() {
 					strDiv += '    </td>';
 					strDiv += '    <td>' + row.num + '</td>';
 					strDiv += '    <TD style="text-align:center;">';
-					strDiv += '        <div class="edit_page_btn" type="button" onClick="window.open(\'http://116.124.128.246/product/list?page_idx=' + row.page_idx + '\');">미리보기</div>';
+					strDiv += '        <div class="edit_page_btn" type="button" onClick="window.open(\'http://116.124.128.246/product/list-preview?preview_flg=T&page_idx=' + row.page_idx + '\');">미리보기</div>';
 					strDiv += '    </TD>';
 					strDiv += '    <TD style="text-align:center;">';
 					strDiv += '        <div class="edit_page_btn" type="button" onClick="openProductModal(' + row.page_idx + ')">페이지편집</div>';
@@ -431,36 +431,38 @@ function copyPageProduct() {
 }
 
 function deletePageProduct() {
-	let page_idx = getCheckedPageIdx();
+	confirm('선택하신 페이지를 삭제하시겠습니까?', function(){
+		let page_idx = getCheckedPageIdx();
 	
-	if (page_idx.length > 0) {
-		$.ajax({
-			type: "post",
-			data: {
-				'page_idx' : page_idx
-			},
-			dataType: "json",
-			url: config.api + "display/product/delete",
-			error: function() {
-				alert("페이지 삭제 처리중 오류가 발생했습니다.");
-			},
-			success: function(d) {
-				if(d.code == 200) {
-					$('input[name="selectAll"]').prop('checked', false);
-					
-					insertLog("전시관리 > 상품진열", '페이지 삭제', page_idx.length);
-					getPageProductList();
-					
-					alert('선택한 상품 진열 페이지가 삭제되었습니다.');
-				} else {
-					alert(d.msg);
+		if (page_idx.length > 0) {
+			$.ajax({
+				type: "post",
+				data: {
+					'page_idx' : page_idx
+				},
+				dataType: "json",
+				url: config.api + "display/product/delete",
+				error: function() {
+					alert("페이지 삭제 처리중 오류가 발생했습니다.");
+				},
+				success: function(d) {
+					if(d.code == 200) {
+						$('input[name="selectAll"]').prop('checked', false);
+						
+						insertLog("전시관리 > 상품진열", '페이지 삭제', page_idx.length);
+						getPageProductList();
+						
+						alert('선택한 상품 진열 페이지가 삭제되었습니다.');
+					} else {
+						alert(d.msg);
+					}
 				}
-			}
-		});
-	} else {
-		alert('삭제하려는 상품 진열 페이지를 선택해주세요.');
-		return false;
-	}
+			});
+		} else {
+			alert('삭제하려는 상품 진열 페이지를 선택해주세요.');
+			return false;
+		}
+	})
 }
 
 function displayPageProduct(display_flg) {

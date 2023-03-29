@@ -196,6 +196,7 @@ function putExcel(){
 							result_cnt = d.data.success;
 						}
 						alert(`[${result_cnt}]건 등록이 완료되었습니다.`,function(){
+							getMileageTabInfo();
 							modal_close();
 						});
 					}

@@ -252,8 +252,8 @@
 															SG.IDX				AS SIZE_IDX,
 															SG.CATEGORY_TYPE	AS CATEGORY_TYPE
 														FROM
-															dev.ORDERSHEET_MST OM
-															LEFT JOIN dev.SIZE_GUIDE SG ON
+															ORDERSHEET_MST OM
+															LEFT JOIN SIZE_GUIDE SG ON
 															OM.SIZE_GUIDE_IDX = SG.IDX
 														WHERE
 															OM.IDX = ".$ordersheet_idx."

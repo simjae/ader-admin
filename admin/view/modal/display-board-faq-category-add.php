@@ -19,7 +19,7 @@
                                 IDX,
                                 TITLE
                             FROM
-                                dev.FAQ_CATEGORY
+                                FAQ_CATEGORY
                             WHERE
                                 IDX = ".$category_idx."
                         ";

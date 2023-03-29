@@ -9,32 +9,65 @@
 	<div class="card__body">
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
-			<input type="hidden" name="detail_kr_update_flg" value="true">
-			<input type="hidden" name="detail_en_update_flg" value="true">
-			<input type="hidden" name="detail_cn_update_flg" value="true">
 			<div class="row table__wrap" style="margin-top:10px;">
 				<TABLE id="insert_table_detail" >
 					<colgroup>
-						<col width="10%">
-						<col width="90%">
+						<col width="130px">
+						<col width="auto">
 					</colgroup>
 					<TBODY>
 						<TR>
-							<TD>제품<br>상세정보<br>(한국몰)</TD>
+							<TH>
+								제품 상세정보 (한글)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="detail_kr_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="detail_kr_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="detail_kr" name="detail_kr" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-							<TD>제품<br>상세정보<br>(영문몰)</TD>
+							<TH>
+								제품 상세정보 (영문)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="detail_en_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="detail_en_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="detail_en" name="detail_en" required style="width:90%; height:150px;"></textarea>
 							</TD>
 						</TR>
 						
 						<TR>
-						<TD>제품<br>상세정보<br>(중문몰)</TD>
+							<TH>
+								제품 상세정보 (중문)
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="detail_cn_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="detail_cn_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD>
 								<textarea class="width-100p" id="detail_cn" name="detail_cn" required style="width:90%; height:150px;"></textarea>
 							</TD>

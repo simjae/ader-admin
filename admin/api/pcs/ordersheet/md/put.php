@@ -34,89 +34,162 @@ $limit_id_flg			= $_POST['limit_id_flg'];
 $limit_product_qty_flg	= $_POST['limit_product_qty_flg'];
 
 $line_idx = 0;
-if (isset($_POST['line_idx']) && $_POST['line_idx'] != "") {
-	$line_idx = "'".$_POST['line_idx']."'";
+if (isset($_POST['line_idx'])) {
+	$line_idx = $_POST['line_idx'];
+}
+
+$material = "NULL";
+if (isset($_POST['material'])) {
+	$material = "'".$_POST['material']."', ";
 }
 
 $graphic = "NULL";
-if (isset($_POST['graphic']) && $_POST['graphic'] != "") {
-	$graphic = "'".$_POST['graphic']."'";
+if (isset($_POST['graphic'])) {
+	$graphic = "'".$_POST['graphic']."', ";
+}
+
+$fit = "NULL";
+if (isset($_POST['fit'])) {
+	$fit = "'".$_POST['fit']."', ";
 }
 
 $product_name = "NULL";
-if (isset($_POST['product_name']) && $_POST['product_name'] != "") {
+if (isset($_POST['product_name'])) {
 	$product_name = $_POST['product_name'];
 }
 
 $product_size = "NULL";
-if (isset($_POST['product_size']) && $_POST['product_size'] != "") {
+if (isset($_POST['product_size'])) {
 	$product_size = "'".$_POST['product_size']."'";
 }
 
 $color = "NULL";
-if (isset($_POST['color']) && $_POST['color'] != "") {
+if (isset($_POST['color'])) {
 	$color = "'".$_POST['color']."'";
 }
 
 $md_category_guide = "NULL";
-if (isset($_POST['md_category_guide']) && $_POST['md_category_guide'] != "") {
+if (isset($_POST['md_category_guide'])) {
 	$md_category_guide = "'".$_POST['md_category_guide']."'";
 }
 
 $limit_product_qty = 0;
-if (isset($_POST['limit_product_qty']) && $_POST['limit_product_qty'] != "") {
+if (isset($_POST['limit_product_qty'])) {
 	$limit_product_qty = $_POST['limit_product_qty'];
 }
 
 $limit_member = "NULL";
-if (isset($_POST['limit_member']) && $_POST['limit_member'] != "") {
+if (isset($_POST['limit_member'])) {
 	$limit_member = "'".$_POST['limit_member']."'";
 }
 
 //오더시트 - price
 $price_cost = 0;
-if (isset($_POST['price_cost']) && $_POST['price_cost'] != "") {
+if (isset($_POST['price_cost'])) {
 	$price_cost = $_POST['price_cost'];
 }
 
 $price_kr = 0;
-if (isset($_POST['price_kr']) && $_POST['price_kr'] != "") {
+if (isset($_POST['price_kr'])) {
 	$price_kr = $_POST['price_kr'];
 }
 
 $price_kr_gb = 0;
-if (isset($_POST['price_kr_gb']) && $_POST['price_kr_gb'] != "") {
+if (isset($_POST['price_kr_gb'])) {
 	$price_kr_gb = $_POST['price_kr_gb'];
 }
 
 $price_en = 0;
-if (isset($_POST['price_en']) && $_POST['price_en'] != "") {
+if (isset($_POST['price_en'])) {
 	$price_en = $_POST['price_en'];
 }
 
 $price_cn = 0;
-if (isset($_POST['price_en']) && $_POST['price_en'] != "") {
-	$price_en = $_POST['price_en'];
+if (isset($_POST['price_cn'])) {
+	$price_cn = $_POST['price_cn'];
 }
 
 $product_qty = 0;
-if (isset($_POST['product_qty']) && $_POST['product_qty'] != "") {
+if (isset($_POST['product_qty'])) {
 	$product_qty = $_POST['product_qty'];
 }
 
 $safe_qty = 0;
-if (isset($_POST['safe_qty']) && $_POST['safe_qty'] != "") {
+if (isset($_POST['safe_qty'])) {
 	$safe_qty = $_POST['safe_qty'];
 }
 
 $launching_date = "NULL";
-if (isset($_POST['launching_date']) && $_POST['launching_date'] != "") {
+if (isset($_POST['launching_date'])) {
 	$launching_date = "'".$_POST['launching_date']."'";
 }
 
 $receive_request_date = "NULL";
-if (isset($_POST['receive_request_date']) && $_POST['receive_request_date'] != "") {
+if (isset($_POST['receive_request_date'])) {
 	$receive_request_date = "'".$_POST['receive_request_date']."'";
+}
+
+$option_idx				= $_POST['option_idx'];
+$limit_option_qty		= $_POST['limit_option_qty'];
+
+$material_dsn_en = "NULL";
+if (isset($_POST['material_dsn_en'])) {
+	$material_dsn_en = str_replace("<p>&nbsp;</p>","",$_POST['material_dsn_en']);
+	$material_dsn_en = "'".xssEncode($material_dsn_en)."'";
+}
+
+$material_dsn_cn = "NULL";
+if (isset($_POST['material_dsn_cn'])) {
+	$material_dsn_cn = str_replace("<p>&nbsp;</p>","",$_POST['material_dsn_cn']);
+	$material_dsn_cn = "'".xssEncode($material_dsn_cn)."'";
+}
+
+$detail_en = "NULL";
+if (isset($_POST['detail_en'])) {
+	$detail_en = str_replace("<p>&nbsp;</p>","",$_POST['detail_en']);
+	$detail_en = "'".xssEncode($detail_en)."'";
+}
+
+$detail_cn = "NULL";
+if (isset($_POST['detail_cn'])) {
+	$detail_cn = str_replace("<p>&nbsp;</p>","",$_POST['detail_cn']);
+	$detail_cn = "'".xssEncode($detail_cn)."'";
+}
+
+$care_dsn_en = "NULL";
+if (isset($_POST['care_dsn_en'])) {
+	$care_dsn_en = str_replace("<p>&nbsp;</p>","",$_POST['care_dsn_en']);
+	$care_dsn_en = "'".xssEncode($care_dsn_en)."'";
+}
+
+$care_dsn_cn = "NULL";
+if (isset($_POST['care_dsn_cn'])) {
+	$care_dsn_cn = str_replace("<p>&nbsp;</p>","",$_POST['care_dsn_cn']);
+	$care_dsn_cn = "'".xssEncode($care_dsn_cn)."'";
+}
+
+$material_td_en = "NULL";
+if (isset($_POST['material_td_en'])) {
+	$material_td_en = str_replace("<p>&nbsp;</p>","",$_POST['material_td_en']);
+	$material_td_en = "'".xssEncode($material_td_en)."'";
+}
+
+$material_td_cn = "NULL";
+if (isset($_POST['material_td_cn'])) {
+	$material_td_cn = str_replace("<p>&nbsp;</p>","",$_POST['material_td_cn']);
+	$material_td_cn = "'".xssEncode($material_td_cn)."'";
+}
+
+$care_td_en = "NULL";
+if (isset($_POST['care_td_en'])) {
+	$care_td_en = str_replace("<p>&nbsp;</p>","",$_POST['care_td_en']);
+	$care_td_en = "'".xssEncode($care_td_en)."'";
+}
+
+$care_td_cn = "NULL";
+if (isset($_POST['care_td_cn'])) {
+	$care_td_cn = str_replace("<p>&nbsp;</p>","",$_POST['care_td_cn']);
+	$care_td_cn = "'".xssEncode($care_td_cn)."'";
 }
 
 $verify_ordersheet_query = "
@@ -202,7 +275,10 @@ if($ordersheet_idx != null){
 				".$category_sml_str."
 				".$category_dtl_str."
 				".$category_idx_str."
-				GRAPHIC					= ".$graphic.",
+				
+				MATERIAL				= ".$material."
+				GRAPHIC					= ".$graphic."
+				FIT						= ".$fit."
 				PRODUCT_NAME			= '".$product_name."',
 				PRODUCT_SIZE			= ".$product_size.",
 				COLOR					= ".$color.",
@@ -212,15 +288,29 @@ if($ordersheet_idx != null){
 				LIMIT_PRODUCT_QTY_FLG	= ".$limit_product_qty_flg.",
 				LIMIT_PRODUCT_QTY		= ".$limit_product_qty.",
 				PRICE_COST				= ".$price_cost.",
+				
 				PRICE_KR				= ".$price_kr.",
 				PRICE_KR_GB				= ".$price_kr_gb.",
 				PRICE_EN				= ".$price_en.",
 				PRICE_CN				= ".$price_cn.",
+				
 				PRODUCT_QTY				= ".$product_qty.",
 				SAFE_QTY				= ".$safe_qty.",
 				LAUNCHING_DATE			= ".$launching_date.",
 				RECEIVE_REQUEST_DATE	= ".$receive_request_date.",
-
+				
+				MATERIAL_DSN_EN			= ".$material_dsn_en.",
+				MATERIAL_DSN_CN			= ".$material_dsn_cn.",
+				DETAIL_EN				= ".$detail_en.",
+				DETAIL_CN				= ".$detail_cn.",
+				CARE_DSN_EN				= ".$care_dsn_en.",
+				CARE_DSN_CN				= ".$care_dsn_cn.",
+				
+				MATERIAL_TD_EN			= ".$material_td_en.",
+				MATERIAL_TD_CN			= ".$material_td_cn.",
+				CARE_TD_EN				= ".$care_td_en.",
+				CARE_TD_CN				= ".$care_td_cn.",
+				
 				UPDATE_DATE = NOW(),
 				UPDATER = '".$session_id."'
 			WHERE
@@ -229,9 +319,25 @@ if($ordersheet_idx != null){
 		
 		$db->query($update_ordersheet_mst_sql);
 		
-		$db_result = $db->mysqli_affected_rows();
+		$db_result = $db->affectedRows();
 
 		if ($db_result > 0) {
+			if ($option_idx != null && $limit_option_qty != null) {
+				for ($i=0; $i<count($option_idx); $i++) {
+					$update_ordersheet_option_sql = "
+						UPDATE
+							ORDERSHEET_OPTION
+						SET
+							LIMIT_OPTION_QTY = ".$limit_option_qty[$i]."
+						WHERE
+							IDX = ".$option_idx[$i]." AND
+							ORDERSHEET_IDX = ".$ordersheet_idx."
+					";
+					
+					$db->query($update_ordersheet_option_sql);
+				}
+			}
+			
 			$insert_ordersheet_history_sql = "
 				INSERT INTO ORDERSHEET_HISTORY
 				(	
@@ -272,4 +378,15 @@ if($ordersheet_idx != null){
 	$json_result['msg'] = '오더시트 정보를 얻는데 실패했습니다.';
 }
 
+function xssEncode($value){
+	$value = str_replace("&","&amp;",$value);
+	$value = str_replace("\"","&quot;",$value);
+	$value = str_replace("'","&apos;",$value);
+	$value = str_replace("<","&lt;",$value);
+	$value = str_replace(">","&gt;",$value);
+	$value = str_replace("\r","<br>",$value);
+	$value = str_replace("\n","<p>",$value);
+
+	return $value;
+}
 ?>

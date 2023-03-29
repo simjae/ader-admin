@@ -54,8 +54,7 @@ table.checkbox__table{width:30px;margin-bottom:14px;}
 				<div class="content__row search_type_td" style="display: block;">
 					<div class="">
 						<select class="fSelect eSearch search_type" name="search_type[]" style="width:163px;" onChange="searchTypeChange(this);">
-							<option value="" selected>검색분류 선택</option>
-							<option value="name">상품명</option>
+							<option value="name" selected>상품명</option>
 							<option value="code">상품코드</option>
 							<option value="category">상품분류</option>
 							<option value="material">주원료</option>
@@ -345,7 +344,7 @@ table.checkbox__table{width:30px;margin-bottom:14px;}
 									<div class="td__wrap">
 										<div class="cb__color">
 											<label>
-												<input type="checkbox" onClick="selectAllClick(this);">
+												<input type="checkbox" onclick="selectAllClick(this);">
 												<span></span>
 											</label>
 										</div>
@@ -889,10 +888,10 @@ function setPaging(obj) {
 function selectAllClick(obj) {
 	if ($(obj).prop('checked') == true) {
 		$(obj).prop('checked',true);
-		$("#result_body").find('.select').prop('checked',true);
+		$("#result_checkbox_table").find('.select').prop('checked',true);
 	} else {
 		$(obj).attr('checked',false);
-		$("#result_body").find('.select').prop('checked',false);
+		$("#result_checkbox_table").find('.select').prop('checked',false);
 	}
 }
 function excelDownload() {
@@ -1427,7 +1426,7 @@ function setProductBody(column_arr,d) {
 			strDiv += '    <td>';
 			strDiv += '        <div style="display:grid;grid-template-columns: 1fr">';
 			strDiv += '            <button class="btn" onclick="openProductUpdateWindow(this)" ordersheet_idx="' + row.ordersheet_idx + '" product_type="' + row.product_type + '" product_idx="' + row.product_idx + '" style="cursor:pointer">상세보기</button>';
-			strDiv += '            <button class="btn" onclick="window.open(\'http://116.124.128.246/product/detail?product_idx=' + row.product_idx + '\')" style="margin-top:4px;cursor:pointer;">상세페이지</button>';
+			strDiv += '            <button class="btn" onclick="window.open(\'http://116.124.128.246/product/detail-preview?product_idx=' + row.product_idx + '\')" style="margin-top:4px;cursor:pointer;">상세페이지</button>';
 			strDiv += '        </div>';
 			strDiv += '    </td>';
 			strDiv += '    <td>' + row.product_type + '</td>';

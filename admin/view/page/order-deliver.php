@@ -16,15 +16,15 @@
 <input id="country" type="hidden" value="KR">
 
 <div id="delivery_tab_KR" class="row delivery_tab" style="margin-top:0px;">
-	<?php include_once("order-delivery-kr.php"); ?>
+	<?php include_once("order-deliver-kr.php"); ?>
 </div>
 
 <div id="delivery_tab_EN" class="row delivery_tab" style="display:none;margin-top:0px;">
-	<?php include_once("order-delivery-en.php"); ?>
+	<?php include_once("order-deliver-en.php"); ?>
 </div>
 
 <div id="delivery_tab_CN" class="row delivery_tab" style="display:none;margin-top:0px;">
-	<?php include_once("order-delivery-cn.php"); ?>
+	<?php include_once("order-deliver-cn.php"); ?>
 </div>
 
 <script>

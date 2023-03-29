@@ -20,7 +20,7 @@
 							ML.IDX		AS LEVEL_IDX,
 							ML.TITLE	AS LEVEL_TITLE
 						FROM
-							dev.MEMBER_LEVEL ML
+							MEMBER_LEVEL ML
 						WHERE
 							DEL_FLG = FALSE
 					";

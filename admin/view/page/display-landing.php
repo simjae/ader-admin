@@ -72,6 +72,7 @@
 
 .select_copy {width:150px;height:30px;border:1px solid #bfbfbf;border-radius:5px;float:right;margin-right:10px;}
 .save_font {font-size:12px;font-family:'NanumSquareRound',sans-serif;line-height:2.8;float:right;margin-right:10px;}
+#loading_img {position:absolute;width:75px;height:75px;z-index:9999;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
 </style>
 
 <?php include_once("check.php"); ?>
@@ -1284,6 +1285,7 @@ function saveMainInfo(country) {
 			loadingWithMask('/images/default/loading_img.gif');
 		},
 		error: function() {
+			closeLoadingWithMask();
 			alert('메인랜딩 저장처리중 오류가 발생했습니다.');
 		},
 		success: function(d) {
@@ -1306,6 +1308,10 @@ function saveMainInfo(country) {
 				closeLoadingWithMask();
 				
 				alert('선택한 국가의 메인 정보가 저장되었습니다.');
+			}
+			else{
+				closeLoadingWithMask();
+				alert(d.msg);
 			}
 		}
 	});
@@ -1346,6 +1352,7 @@ function copySearchInfo() {
 					loadingWithMask('/images/default/loading_img.gif')
 				},
 				error: function() {
+					closeLoadingWithMask();
 					alert(copy_name + ' 복사처리중 오류가 발생했습니다.');
 				},
 				success: function(d) {
@@ -1367,6 +1374,10 @@ function copySearchInfo() {
 						closeLoadingWithMask();
 						
 						alert(copy_name + "이(가) 복사되었습니다.");
+					}
+					else{
+						closeLoadingWithMask();
+						alert(d.msg);
 					}
 				}
 			});

@@ -100,119 +100,119 @@ if ($product_update_sheet != NULL && count($product_update_sheet) != 0) {
 
                 if($product_cnt > 0){
                     $product_name = NULL;
-                    $product_name_arr = array();
+                    $product_name_str = '';
                     $product_name = $val[1];
                     if($product_name != NULL){
                         $product_name_str = ' PRODUCT_NAME = "'.$product_name.'", ';
                     }
         
                     $sale_flg = NULL;
-                    $sale_flg_arr = array();
+                    $sale_flg_str = '';
                     $sale_flg = $val[3];
                     if($sale_flg != NULL){
                         $sale_flg_str = ' SALE_FLG = '.$sale_flg.', ';
                     }
 
                     $md_category_1 = NULL;
-                    $md_category_1_arr = array();
+                    $md_category_1_str = '';
                     $md_category_1 = $val[5];
                     if($md_category_1 != NULL){
                         $md_category_1_str = ' MD_CATEGORY_1 = '.$md_category_1.', ';
                     }
         
                     $md_category_2 = NULL;
-                    $md_category_2_arr = array();
+                    $md_category_2_str = '';
                     $md_category_2 = $val[7];
                     if($md_category_2 != NULL){
                         $md_category_2_str = ' MD_CATEGORY_2 = '.$md_category_2.', ';
                     }
         
                     $md_category_3 = NULL;
-                    $md_category_3_arr = array();
+                    $md_category_3_str = '';
                     $md_category_3 = $val[9];
                     if($md_category_3 != NULL){
                         $md_category_3_str = ' MD_CATEGORY_3 = '.$md_category_3.', ';
                     }
         
                     $md_category_4 = NULL;
-                    $md_category_4_arr = array();
+                    $md_category_4_str = '';
                     $md_category_4 = $val[11];
                     if($md_category_4 != NULL){
                         $md_category_4_str = ' MD_CATEGORY_4 = '.$md_category_4.', ';
                     }
         
                     $md_category_5 = NULL;
-                    $md_category_5_arr = array();
+                    $md_category_5_str = '';
                     $md_category_5 = $val[13];
                     if($md_category_5 != NULL){
                         $md_category_5_str = ' MD_CATEGORY_5 = '.$md_category_5.', ';
                     }
         
                     $md_category_6 = NULL;
-                    $md_category_6_arr = array();
+                    $md_category_6_str = '';
                     $md_category_6 = $val[15];
                     if($md_category_6 != NULL){
                         $md_category_6_str = ' MD_CATEGORY_6 = '.$md_category_6.', ';
                     }
         
                     $mileage_flg = NULL;
-                    $mileage_flg_arr = array();
+                    $mileage_flg_str = '';
                     $mileage_flg = $val[17];
                     if($mileage_flg != NULL){
                         $mileage_flg_str = ' MILEAGE_FLG = '.$mileage_flg.', ';
                     }
         
                     $exclusive_flg = NULL;
-                    $exclusive_flg_arr = array();
+                    $exclusive_flg_str = '';
                     $exclusive_flg = $val[19];
                     if($exclusive_flg != NULL){
                         $exclusive_flg_str = ' EXCLUSIVE_FLG = '.$exclusive_flg.', ';
                     }
         
                     $price_kr = NULL;
-                    $price_kr_arr = array();
+                    $price_kr_str = '';
                     $price_kr = $val[20];
                     if($price_kr != NULL){
                         $price_kr_str = ' PRICE_KR = '.$price_kr.', ';
                     }
         
                     $sales_price_kr = NULL;
-                    $sales_price_kr_arr = array();
+                    $sales_price_kr_str = '';
                     $sales_price_kr = $val[21];
                     if($sales_price_kr != NULL){
                         $sales_price_kr_str = ' SALES_PRICE_KR = '.$sales_price_kr.', ';
                     }
         
                     $discount_kr = NULL;
-                    $discount_kr_arr = array();
+                    $discount_kr_str = '';
                     $discount_kr = $val[22];
                     if($discount_kr != NULL){
                         $discount_kr_str = ' DISCOUNT_KR = '.$discount_kr.', ';
                     }
         
                     $price_en = NULL;
-                    $price_en_arr = array();
+                    $price_en_str = '';
                     $price_en = $val[23];
                     if($price_en != NULL){
                         $price_en_str = ' PRICE_EN = '.$price_en.', ';
                     }
         
                     $sales_price_en = NULL;
-                    $sales_price_en_arr = array();
+                    $sales_price_en_str = '';
                     $sales_price_en = $val[24];
                     if($sales_price_en != NULL){
                         $sales_price_en_str = ' SALES_PRICE_EN = '.$sales_price_en.', ';
                     }
         
                     $discount_en = NULL;
-                    $discount_en_arr = array();
+                    $discount_en_str = '';
                     $discount_en = $val[25];
                     if($discount_en != NULL){
                         $discount_en_str = ' DISCOUNT_EN = '.$discount_en.', ';
                     }
         
                     $price_cn = NULL;
-                    $price_cn_arr = array();
+                    $price_cn_str = '';
                     $price_cn = $val[26];
                     if($price_cn != NULL){
                         $price_cn_str = ' PRICE_CN = '.$price_cn.', ';
@@ -249,7 +249,7 @@ if ($product_update_sheet != NULL && count($product_update_sheet) != 0) {
                     $limit_id_flg_str = '';
                     $limit_id_flg = $val[32];
                     if($limit_id_flg != NULL){
-                        $limit_id_flg = ' LIMIT_ID_FLG = '.$limit_id_flg.', ';
+                        $limit_id_flg_str = ' LIMIT_ID_FLG = '.$limit_id_flg.', ';
                     }
 
                     $reorder_cnt = NULL;
@@ -514,7 +514,7 @@ if ($product_update_sheet != NULL && count($product_update_sheet) != 0) {
                             ".$md_category_5_str."
                             ".$md_category_6_str."
                             ".$mileage_flg_str."
-                            ".$exclusize_flg_str."
+                            ".$exclusive_flg_str."
                             ".$price_kr_str."
                             ".$sales_price_kr_str."
                             ".$discount_kr_str."
@@ -567,7 +567,7 @@ if ($product_update_sheet != NULL && count($product_update_sheet) != 0) {
                             PRODUCT_CODE = '".$product_code."'
                         
                     ";
-                    //print_r($regist_set_product_sql);
+                    print_r($regist_set_product_sql);
                     $db->query($regist_set_product_sql);
 
                     $product_update_cnt = NULL;

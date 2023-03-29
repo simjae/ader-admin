@@ -15,17 +15,24 @@
 	<div class="card__body">
 		<form id="frm-update" action="product/put">
 			<input type="hidden" name="product_idx_arr" value="<?=$product_idx_arr?>">
-			
-			<input type="hidden" name="md_category_flg" value="true">
-			<input type="hidden" name="limit_member_update_flg" value="true">
-			<input type="hidden" name="reorder_cnt_update_flg" value="true">
-			<input type="hidden" name="limit_product_qty_update_flg" value="true">
 
 			<div class="row table__wrap" style="margin-top:10px;">
 				<TABLE id="insert_table_sales_info">
 					<TBODY>
 						<TR>
-							<TD>MD 제품 카테고리</TD>
+							<TH style="width:120px;">
+								MD 제품 카테고리
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="md_category_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="md_category_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD colspan="5">
 								<div class="content__row">
 									<input type="hidden" id="md_category_1" name="md_category_1" value="">
@@ -55,9 +62,26 @@
 								</div>
 							</TD>
 						</TR>
-						
 						<tr>
-							<TD>판매 여부</TD>
+							<TH style="width:120px;">
+								RGB 코드
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="shop_color_rgb_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="shop_color_rgb_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
+							<TD colspan="5">
+								<input type="text" id="shop_color_rgb" name="shop_color_rgb" style="width:200px;" value="">
+							</TD>
+						</tr>
+						<tr>
+							<TH>판매 여부</HD>
 							<TD colspan="2">
 								<div class="content__row">
 									<label class="rd__square">
@@ -73,7 +97,7 @@
 								</div>
 							</TD>
 							
-							<TD>품절 여부</TD>
+							<TH>품절 여부</TH>
 							<TD colspan="2">
 								<div class="content__row">
 									<label class="rd__square">
@@ -92,7 +116,7 @@
 						</tr>
 						
 						<tr>
-							<TD>마일리지 사용유무</TD>
+							<TH>마일리지 사용유무</TH>
 							<TD colspan="2">
 								<div class="content__row">
 									<label class="rd__square">
@@ -107,7 +131,7 @@
 									</label>
 								</div>
 							</TD>
-							<TD>단독구매 제한유무</TD>
+							<TH>단독구매 제한유무</TH>
 							<TD colspan="2">
 								<div class="content__row">
 									<label class="rd__square">
@@ -125,7 +149,19 @@
 						</tr>
 						
 						<tr>
-							<TD >구매 멤버 제한</TD>
+							<TH>구매 멤버 제한
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="limit_member_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="limit_member_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD colspan="11">
 								<div class="content__row form-group">
 								<?php
@@ -134,7 +170,7 @@
 											IDX,
 											TITLE
 										FROM
-											dev.MEMBER_LEVEL
+											MEMBER_LEVEL
 										WHERE
 											DEL_FLG = FALSE
 									";
@@ -153,7 +189,7 @@
 							</TD>
 						</tr>
 						<TR>
-							<TD>ID당 구매제한</TD>
+							<TH>ID당 구매제한</TH>
 							<TD colspan="2">
 								<div class="content__row">
 									<label class="rd__square">
@@ -168,11 +204,23 @@
 									</label>
 								</div>
 							</TD>
-							<TD>리오더 차수</TD>
+							<TH style="width:130px;">
+								리오더 차수
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="reorder_cnt_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="reorder_cnt_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD colspan="2"><input id="reorder_cnt" type="number" step="1" name="reorder_cnt" value="0"></TD>
 						</TR>
 						<TR>
-							<TD>구매수량 제한</TD>
+							<TH>구매수량 제한</TH>
 							<TD colspan="2">
 								<div class="content__row">
 									<label class="rd__square">
@@ -187,7 +235,18 @@
 									</label>
 								</div>
 							</TD>
-							<TD>상품별 구매제한 수량</TD>
+							<TH style="width:120px;">상품별 구매제한 수량
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="limit_product_qty_update_flg" value="false" checked>
+									<div><div></div></div>
+									<span>수정안함</span>
+								</label>
+								<label class="rd__square update__flg__area">
+									<input type="radio" name="limit_product_qty_update_flg" value="true">
+									<div><div></div></div>
+									<span>수정함</span>
+								</label>
+							</TH>
 							<TD colspan="2"><input id="limit_product_qty" type="number" step="1" name="limit_product_qty" value="0"></TD>
 						</TR>
 					</TBODY>

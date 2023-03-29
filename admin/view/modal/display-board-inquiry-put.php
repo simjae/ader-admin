@@ -183,6 +183,6 @@ $(document).ready(function() {
 
 function answerUpdateCheck(){
 	answer_contents.getById["answer_contents"].exec("UPDATE_CONTENTS_FIELD", []);
-	modal_submit($('#frm-update'),'getBoardTabInfoONE');
+	modal_submit($('#frm-update'),'getBoardInfoList_ONE');
 }
 </script>

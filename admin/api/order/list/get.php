@@ -408,8 +408,6 @@ if ($sort_value != null && $sort_type != null) {
 	$order = ' OI.IDX DESC';
 }
 
-$limit_start = (intval($page)-1)*$rows;
-
 $json_result = array(
 	'total' => $db->count("
 		(
@@ -469,6 +467,7 @@ $select_order_idx_sql = "
 		".$where."
 ";
 
+$limit_start = (intval($page)-1)*$rows;
 if ($rows != null) {
 	$select_order_idx_sql .= " LIMIT ".$limit_start.",".$rows;
 }
@@ -534,7 +533,7 @@ if(count($order_idx_arr) > 0){
 		$order_idx = $order_data['ORDER_IDX'];
 		
 		$order_product_info = array();
-		if (!empty($order_idx) && $select_product_flg != "false") {
+		if (!empty($order_idx)) {
 			$select_order_product_sql = "
 				SELECT
 					OP.ORDER_STATUS			AS ORDER_STATUS,
@@ -590,7 +589,8 @@ if(count($order_idx_arr) > 0){
 					LEFT JOIN SHOP_PRODUCT PR ON
 					OP.PRODUCT_IDX = PR.IDX
 				WHERE
-					OP.ORDER_IDX = ".$order_idx."
+					OP.ORDER_IDX = ".$order_idx." AND
+					OP.PRODUCT_CODE NOT LIKE 'VOUXXX%'
 			";
 
 			$db->query($select_order_product_sql);
@@ -612,7 +612,7 @@ if(count($order_idx_arr) > 0){
 					'barcode'				=>$product_data['BARCODE'],
 					'product_qty'			=>$product_data['PRODUCT_QTY'],
 					'product_price'			=>number_format($product_data['PRODUCT_PRICE']),
-					'review_type'			=>$product_data['REVIEW_TYPE']
+					'review_type'			=>($product_data['REVIEW_TYPE'] == true) ? "리뷰작성" : "리뷰미작성"
 				);
 			}
 		}

@@ -20,7 +20,7 @@
                                 IDX,
                                 TITLE
                             FROM
-                                dev.FAQ_CATEGORY
+                                FAQ_CATEGORY
                             WHERE
                                 IDX = ".$category_idx."
                         ";
@@ -52,7 +52,7 @@
                                 IDX,
                                 TITLE
                             FROM
-                                dev.FAQ_CATEGORY
+                                FAQ_CATEGORY
                             WHERE
                                 FATHER_NO = ".$parent_idx."
                             ORDER BY SEQ

@@ -17,11 +17,12 @@ $product_idx	= $_POST['product_idx'];
 $option_idx		= $_POST['option_idx'];
 
 if ($product_idx != null || $option_idx != null) {
-	$where = "";
+	$where = " NOW() >= PS.STOCK_DATE ";
+	
 	if ($product_idx != null) {
-		$where .= " PS.PRODUCT_IDX = ".$product_idx;
+		$where .= " AND (PS.PRODUCT_IDX = ".$product_idx.") ";
 	} else if ($option_idx != null){
-		$where .= " PS.OPTION_IDX = ".$option_idx;
+		$where .= " AND (PS.OPTION_IDX = ".$option_idx.") ";
 	}
 	
 	$sql = "SELECT

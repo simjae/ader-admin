@@ -65,7 +65,7 @@
 				<div class="content__row search_keyword_td" style="display:block;">
 					<div class="row">
 						<select class="fSelect search_keyword" name="search_keyword[]" style="width:163px;" onchange="searchKeywordChange(this)">
-							<option value="ALL" selected>검색 키워드 선택</option>
+							<option value="ALL" selected>검색 키워드 선택(검색X)</option>
 							<option value="order_code">주문번호</option>
 							<option value="delivery_num">운송장번호</option>
 							<option value="member_name">멤버 이름</option>
@@ -89,7 +89,7 @@
 				<div class="content__title">기간</div>
 				<div class="content__row">
 					<select class="fSelect" name="date_type" style="width:163px;" class="fSelect disabled">
-						<option value="ALL" selected>기간정보 선택</option>
+						<option value="ALL" selected>기간정보 선택(검색X)</option>
 						<option value="order_date">주문일</option>
 						<option value="exchange_date">조문 교환일</option>
 						<option value="delivery_start_date">배송 시작일</option>
@@ -124,7 +124,7 @@
 				<div class="content__row search_product_td" style="display:block;">
 					<div class="row">
 						<select class="fSelect eSearch search_product" name="search_product[]" style="width:163px;" onChange="searchTypeChange(this);">
-							<option value="ALL" selected>상품정보 선택</option>
+							<option value="ALL" selected>상품정보 선택(검색X)</option>
 							<option value="code">상품 코드</option>
 							<option value="name">상품 이름</option>
 						</select>
@@ -147,7 +147,7 @@
 											IDX				AS DELIVERY_IDX,
 											COMPANY_NAME	AS COMPANY_NAME
 										FROM
-											dev.DELIVERY_COMPANY";
+											DELIVERY_COMPANY";
 								$db->query($sql);
 								foreach($db->fetch() as $data) {
 							?>
@@ -188,7 +188,7 @@
 												IDX		AS LEVEL_IDX,
 												TITLE	AS TITLE
 											FROM
-												dev.MEMBER_LEVEL";
+												MEMBER_LEVEL";
 									
 									$db->query($sql);
 									foreach($db->fetch() as $data) {
@@ -306,14 +306,8 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC">등록일 순</option>
-						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
-						<option value="PRODUCT_NAME|ASC">상품명 순</option>
-						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
-						<option value="SALES_PRICE_KR|ASC">판매가(힌국몰) 순</option>
-						<option value="SALES_PRICE_EN|DESC">판매가(영문몰) 역순</option>
-						<option value="SALES_PRICE_EN|ASC">판매가(영문몰) 순</option>
-						<option value="SALES_PRICE_CN|DESC">판매가(중문몰) 역순</option>
-						<option value="SALES_PRICE_CN|ASC">판매가(중문몰) 순</option>
+						<option value="PRICE_TOTAL|DESC">총 결제금액 역순</option>
+						<option value="PRICE_TOTAL|ASC">총 결제금액 순</option>
 					</select>
 					
 					<select name="rows" style="width:163px;float:right;" onChange="rowsChange(this);">

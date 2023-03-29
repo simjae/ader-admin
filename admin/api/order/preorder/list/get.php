@@ -217,11 +217,6 @@ if ($sort_value != null && $sort_type != null) {
 	$order = ' PP.IDX DESC';
 }
 
-$limit_start = (intval($page)-1)*$rows;
-if ($rows != null) {
-	$limit .= " LIMIT ".$limit_start.",".$rows;
-}
-
 $select_preorder_sql = "
 	SELECT
 		PP.IDX					AS PREORDER_IDX,
@@ -278,8 +273,12 @@ $select_preorder_sql = "
 		".$where."
 	ORDER BY
 		PP.DISPLAY_NUM ASC
-	".$limit."
 ";
+
+$limit_start = (intval($page)-1)*$rows;
+if ($rows != null) {
+	$select_preorder_sql .= " LIMIT ".$limit_start.",".$rows;
+}
 
 $db->query($select_preorder_sql);
 
@@ -317,7 +316,7 @@ foreach($db->fetch() as $preorder_data) {
 	}
 	
 	$json_result['data'][] = array(
-		'num'					=>$total_cnt,
+		'num'					=>$total_cnt--,
 		'preorder_idx'			=>$preorder_data['PREORDER_IDX'],
 		'country'				=>$preorder_data['COUNTRY'],
 		'product_idx'			=>$preorder_data['PRODUCT_IDX'],

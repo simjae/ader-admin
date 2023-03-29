@@ -119,7 +119,7 @@
 								IDX,
 								TITLE
 							FROM
-								dev.MEMBER_LEVEL
+								MEMBER_LEVEL
 							WHERE
 								DEL_FLG = FALSE
 						";
@@ -386,8 +386,8 @@
 							<td>${row.used_flg}</td>
 							<td ${detail_link}>${row.member_id}</td>
 							<td ${detail_link}>${row.member_name}</td>
-							<td>${row.member_birth}</td>
 							<td>${row.member_level}</td>
+							<td>${row.member_birth}</td>
 							<td>${row.tel_mobile}</td>
 							<td>사용가능 시작일 : ${row.usable_start_date}<br>사용가능 종료일 : ${row.usable_end_date}</td>
 							<td>${row.update_date}</td>

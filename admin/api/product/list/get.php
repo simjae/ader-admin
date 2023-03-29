@@ -277,27 +277,27 @@ if ($search_date != null) {
 			$where .= " AND (".$tmp_date." = CURDATE()) ";
 			break;
 		
-		case "1d" :
+		case "01d" :
 			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 DAY)) ";
 			break;
 		
-		case "3d" :
+		case "03d" :
 			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 DAY)) ";
 			break;
 		
-		case "1w" :
+		case "01w" :
 			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 7 DAY)) ";
 			break;
 		
-		case "1m" :
+		case "01m" :
 			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 MONTH)) ";
 			break;
 		
-		case "3m" :
+		case "03m" :
 			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 3 MONTH)) ";
 			break;
 		
-		case "1y" :
+		case "01y" :
 			$where .= " AND (".$tmp_date." >= (CURDATE() - INTERVAL 1 YEAR)) ";
 			break;
 	}

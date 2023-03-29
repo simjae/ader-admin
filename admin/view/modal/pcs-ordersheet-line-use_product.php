@@ -28,7 +28,7 @@
 
 	<div class="card__header">
 <?php
-	$db->query('SELECT LINE_NAME FROM dev.LINE_INFO WHERE IDX = '.$line_idx.' ');
+	$db->query('SELECT LINE_NAME FROM LINE_INFO WHERE IDX = '.$line_idx.' ');
 
 	foreach($db->fetch() as $line_data){
 ?>

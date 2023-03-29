@@ -141,9 +141,9 @@
 			<div class="info__wrap " style="justify-content:space-between; align-items: center;">
 				<div class="body__info--count">
 					<div class="drive--left"></div>
-					총 <font class="cnt_total info__count">0</font>건
+					총 <font class="cnt_ONE_total info__count">0</font>건
 					<div class="drive--left"></div>
-					검색결과 <font class="cnt_result info__count">0</font>건
+					검색결과 <font class="cnt_ONE_result info__count">0</font>건
 				</div>
 
 				<div class="content__row">

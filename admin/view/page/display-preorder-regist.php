@@ -118,7 +118,7 @@
 								IDX,
 								TITLE
 							FROM
-								dev.MEMBER_LEVEL
+								MEMBER_LEVEL
 							WHERE
 								DEL_FLG = FALSE
 						";

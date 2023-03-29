@@ -122,8 +122,12 @@
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
 						<option value="CREATE_DATE|DESC">등록일 역순</option>
 						<option value="CREATE_DATE|ASC" selected>등록일 순</option>
-						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
-						<option value="PRODUCT_NAME|ASC">상품명 순</option>
+						<option value="FILTER_NAME_KR|DESC">필터명(한국몰) 역순</option>
+						<option value="FILTER_NAME_KR|ASC">필터명(한국몰) 순</option>
+						<option value="FILTER_NAME_EN|DESC">필터명(영문몰) 역순</option>
+						<option value="FILTER_NAME_EN|ASC">필터명(영문몰) 순</option>
+						<option value="FILTER_NAME_CN|DESC">필터명(중문몰) 역순</option>
+						<option value="FILTER_NAME_CN|ASC">필터명(중문몰) 순</option>
 					</select>
 					<select name="rows" style="width:163px;margin-right:10px;float:right;" onChange="rowsChange(this);">
 						<option value="10" selected>10개씩보기</option>
@@ -314,7 +318,7 @@ function rowsChange(obj) {
 	$('#frm-filter').find('.rows').val(rows);
 	$('#frm-filter').find('.page').val(1);
 
-	getProdTabInfo();
+	getFilterInfoList();
 }
 
 function orderChange(obj) {
@@ -325,7 +329,7 @@ function orderChange(obj) {
 	$('#frm-filter').find('.sort_value').val(order_value[0]);
 	$('#frm-filter').find('.sort_type').val(order_value[1]);
 
-	getProdTabInfo();
+	getFilterInfoList();
 }
 
 function init_fileter(frm_id, func_name){

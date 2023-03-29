@@ -759,7 +759,7 @@ function setProductBody(column_arr,d, delete_status) {
 				strDiv += '        <span>' + row.sales_price_kr + "</span></br>";
 			} else {
 				if(row.price_kr != null){
-					strDiv += '        ' + row.price_kr;
+					strDiv += '        ' + row.sales_price_kr;
 				}
 			}
 			strDiv += '    </td>';
@@ -771,7 +771,7 @@ function setProductBody(column_arr,d, delete_status) {
 				strDiv += '        <span>' + row.sales_price_en + "</span></br>";
 			} else {
 				if(row.price_en != null){
-					strDiv += '        ' + row.price_en;
+					strDiv += '        ' + row.sales_price_en;
 				}
 			}
 			strDiv += '    </td>';
@@ -783,7 +783,7 @@ function setProductBody(column_arr,d, delete_status) {
 				strDiv += '        <span>' + row.sales_price_cn + "</span></br>";
 			} else {
 				if(row.price_cn != null){
-					strDiv += '        ' + row.price_cn;
+					strDiv += '        ' + row.sales_price_cn;
 				}
 			}
 			strDiv += '    </td>';

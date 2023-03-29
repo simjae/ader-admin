@@ -45,7 +45,7 @@
 										VOUCHER_NAME,
 										IDX
 									FROM
-										dev.VOUCHER_MST
+										VOUCHER_MST
 									WHERE
 										COUNTRY = 'KR' 
 									AND
@@ -104,7 +104,7 @@
 										TITLE,
 										IDX
 									FROM
-										dev.MEMBER_LEVEL
+										MEMBER_LEVEL
 									WHERE
 										DEL_FLG = FALSE";
 							
@@ -190,7 +190,7 @@
 												TITLE,
 												IDX
 											FROM
-												dev.MEMBER_LEVEL
+												MEMBER_LEVEL
 											WHERE
 												DEL_FLG = FALSE";
 									

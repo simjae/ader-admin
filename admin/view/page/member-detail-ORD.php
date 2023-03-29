@@ -129,7 +129,7 @@
 													IDX				AS DELIVERY_IDX,
 													COMPANY_NAME	AS COMPANY_NAME
 												FROM
-													dev.DELIVERY_COMPANY";
+													DELIVERY_COMPANY";
 										$db->query($sql);
 										foreach($db->fetch() as $data) {
 									?>

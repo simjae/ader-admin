@@ -85,7 +85,7 @@
 						IDX,
 						LINE_NAME
 					FROM
-						dev.LINE_INFO
+						LINE_INFO
 				";
 				$db->query($get_line_info_sql);
 				foreach($db->fetch() as $line_info){
@@ -160,7 +160,7 @@
 							IDX,
 							WKLA_NAME
 						FROM
-							dev.WKLA_INFO
+							WKLA_INFO
 					";
 					$db->query($get_wkla_info_sql);
 					foreach($db->fetch() as $wkla_info){
@@ -197,7 +197,7 @@
 						IDX,
 						BOX_NAME
 					FROM
-						dev.BOX_INFO
+						BOX_INFO
 				";
 				$db->query($get_box_info_sql);
 				foreach($db->fetch() as $box_info){
@@ -408,7 +408,7 @@
 								IDX,
 								TITLE
 							FROM
-								dev.MEMBER_LEVEL
+								MEMBER_LEVEL
 							WHERE
 								DEL_FLG = FALSE
 						";

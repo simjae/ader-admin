@@ -34,6 +34,8 @@ if(!$result){
 }
 
 $result_arr = [];
+$thumbnail_O_file_array = [];
+$thumbnail_P_file_array = [];
 $outfit_file_array = [];
 $product_file_array = [];
 $detail_file_array = [];
@@ -45,7 +47,13 @@ if($url_path != null){
         $ext = $explode_arr[count($explode_arr) - 1];
 
         if($ext == 'gif' || $ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
-            if(strpos($val, 'outfit') != false){
+            if(strpos($val, 'thumbnail_O') != false){
+                $thumbnail_O_file_arr[] = "http://".$host."/".$val;
+			}
+            else if(strpos($val, 'thumbnail_P') != false){
+                $thumbnail_P_file_arr[] = "http://".$host."/".$val;
+			}
+            else if(strpos($val, 'outfit') != false){
                 $outfit_file_arr[] = "http://".$host."/".$val;
 			}
 			else if(strpos($val, 'product') != false){
@@ -58,6 +66,8 @@ if($url_path != null){
 			
         }
     }
+    array_push($result_arr, array('type'=>'thumbnail_O', 'file_list'=>$thumbnail_O_file_arr));
+    array_push($result_arr, array('type'=>'thumbnail_P', 'file_list'=>$thumbnail_P_file_arr));
     array_push($result_arr, array('type'=>'outfit', 'file_list'=>$outfit_file_arr));
     array_push($result_arr, array('type'=>'product', 'file_list'=>$product_file_arr));
     array_push($result_arr, array('type'=>'detail', 'file_list'=>$detail_file_arr));

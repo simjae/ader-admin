@@ -27,7 +27,7 @@
 			</div>
 			
 			<div class="content__wrap grid__half">
-				<div class="content__wrap">
+				<div class="half__box__wrap">
 					<div class="content__title">필터 한국몰 이름</div>
 					<div class="content__row">
 						<input class="filter_name_kr" type="text" name="filter_name_kr" value="" style="width:80%;">
@@ -38,12 +38,13 @@
 					<div class="content__title">RGB 컬러</div>
 					<div class="content__row">
 						<input class="rgb_color" type="color" name="rgb_color" value="">
+						<input class="rgb_color_code" type="text" name="rgb_color_code" value="" style="width:210px;">
 					</div>
 				</div>
 			</div>
 			
 			<div class="content__wrap grid__half">
-				<div class="content__wrap">
+				<div class="half__box__wrap">
 					<div class="content__title">필터 영문몰 이름</div>
 					<div class="content__row">
 						<input class="filter_name_en" type="text" name="filter_name_en" value="" style="width:80%;">
@@ -68,7 +69,7 @@
 			</div>
 			
 			<div class="content__wrap grid__half">
-				<div class="content__wrap">
+				<div class="half__box__wrap">
 					<div class="content__title">필터 중문몰 이름</div>
 					<div class="content__row">
 						<input class="filter_name_cn" type="text" name="filter_name_cn" value="" style="width:80%;">
@@ -76,11 +77,9 @@
 				</div>
 				
 				<div class="half__box__wrap">
-					<div class="content__wrap">
-						<div class="content__title">메모</div>
-						<div class="content__row country_price">
-							<input class="memo" type="text" name="memo" value="">
-						</div>
+					<div class="content__title">메모</div>
+					<div class="content__row country_price">
+						<input class="memo" type="text" name="memo" value="">
 					</div>
 				</div>
 			</div>
@@ -101,6 +100,18 @@
 <script>
 $(document).ready(function() {
 	getFilterInfo();
+
+	$('.rgb_color').on('change',function(){
+		$(this).next().val($(this).val());
+	}) 
+	$('.rgb_color_code').on('keyup',function(){
+		const color_code_regex =  /^#?([a-fA-f0-9]{6})$/;
+		console.log($(this).val());
+		console.log(color_code_regex.test($(this).val()));
+		if(color_code_regex.test($(this).val())){
+			$(this).prev().val($(this).val());
+		}
+	})
 });
 
 function getFilterInfo() {
@@ -139,6 +150,7 @@ function getFilterInfo() {
 						frm.find('.filter_name_en').val(row.filter_name_en);
 						frm.find('.filter_name_cn').val(row.filter_name_cn);
 						frm.find('.rgb_color').val(row.rgb_color);
+						frm.find('.rgb_color_code').val(row.rgb_color);
 						frm.find('.size_type').val(row.size_type);
 					});
 				}

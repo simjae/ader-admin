@@ -38,7 +38,7 @@
 
 .country_copy {width:150px;height:30px;border:1px solid #bfbfbf;border-radius:5px;float:right;margin-right:10px;}
 .save_font {font-size:12px;font-family:'NanumSquareRound',sans-serif;line-height:2.8;float:right;margin-right:10px;}
-
+#loading_img {position:absolute;width:75px;height:75px;z-index:9999;filter:alpha(opacity=50);opacity:alpha*0.5;margin:auto;padding:0;}
 </style>
 
 <?php include_once("check.php"); ?>
@@ -752,7 +752,11 @@ function copyPostingStory() {
 				},
 				dataType: "json",
 				error: function() {
+					closeLoadingWithMask();
 					alert('게시물 스토리 복사처리중 오류가 발생했습니다.');
+				},
+				beforeSend: function(){
+					loadingWithMask('/images/default/loading_img.gif');
 				},
 				success: function(d) {
 					if (d.code == 200) {
@@ -761,13 +765,15 @@ function copyPostingStory() {
 						
 						alert("게시물 스토리가 복사되었습니다.");
 					}
+					else{
+						closeLoadingWithMask();
+						alert(d.msg);
+					}
 				}
 			});
 		}
 	)
 }
-
-
 function loadingWithMask(gif) {
 	var maskHeight = $(document).height();
 	var maskWidth  = window.document.body.clientWidth;
@@ -778,11 +784,11 @@ function loadingWithMask(gif) {
 	left = ( $(window).width()) / 2 + $(window).scrollLeft();
 
 	//화면에 출력할 마스크를 설정해줍니다.
-	var mask	   = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+	var mask = "<div id='mask_loading' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
 	
 	let strDiv = "";
 	strDiv += '<div id="loading_img">';
-	strDiv += '	<img src="' + gif + '" style="width:75px; height:75px;"/>';
+	strDiv += '    <img src="' + gif + '" style="width:75px; height:75px;"/>';
 	strDiv += '</div>';
 
 	$('body').append(mask);
@@ -791,14 +797,14 @@ function loadingWithMask(gif) {
 	$('#loading_img').css('top',top);
 	$('#loading_img').css('left',left);
 
-	$('#mask_loading').css({'width' : maskWidth,'height': maskHeight,'opacity' : '0.5'}); 
+	$('#mask_loading').css({'width':maskWidth,'height':maskHeight,'opacity':'0.5'}); 
 
 	$('#mask_loading').show();
 	$('#loading_img').show();
 }
 
 function closeLoadingWithMask() {
-    $('#mask_loading, #loading_img').hide();
-    $('#mask_loading, #loading_img').empty();  
+    $('#mask_loading,#loading_img').hide();
+    $('#mask_loading,#loading_img').remove();  
 }
 </script>

@@ -49,7 +49,7 @@
 				IDX,
 				TITLE
 			FROM 
-				dev.MEMBER_LEVEL
+				MEMBER_LEVEL
 			ORDER BY
 				IDX ASC
 	";

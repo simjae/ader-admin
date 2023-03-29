@@ -11,6 +11,8 @@
 #reset_option_btn {width:50px;height:30px;border:1px solid #000000;cursor:pointer;background-color:#ffffff;color:#000000;cursor:pointer;}
 .reset_tmp_option {height:28px;margin-left:15px;}
 .add_tmp_option {height:28px;margin-left:15px;}
+.required_title{color:red;font-weight:800;}
+.smart_editer_text {height:180px;}
 </style>
 
 <?php include_once("check.php"); ?>
@@ -72,27 +74,18 @@
 									<TH>상품코드</TH>
 									<TD id="product_code"></TD>
 								</TR>
-							</TBODY>
-						</TABLE>
-						
-						<TABLE>
-							<colgroup>
-								<col width="10%">
-								<col width="15%">
-								<col width="10%">
-								<col width="15%">
-								<col width="10%">
-								<col width="15%">
-								<col width="10%">
-								<col width="15%">
-							</colgroup>
-							<TBODY>
 								<TR>
+									<TH>소재</TH>
+									<TD id="material"></TD>
+									
+									<TH>fit</TH>
+									<TD id="fit"></TD>
+									
 									<TH>프리오더 사용여부</TH>
-									<TD colspan="3" id="preorder_flg">
+									<TD id="preorder_flg">
 									
 									<TH>교환 환불 가능유무</TH>
-									<TD colspan="3" id="refund_flg">
+									<TD id="refund_flg">
 								</TR>
 								<tr>
 									<TH>라인 유형</TH>
@@ -219,39 +212,26 @@
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TH>제품 취급 유의사항<br>생산(한글)</TH>
+									<TH>[생산] 소재</TH>
+									<TD class="smart_editer_text" id="material_td_kr"></TD>
+								</TR>
+								
+								<TR>
+									<TH>[생산] 취급 유의사항</TH>
 									<TD class="smart_editer_text" id="care_td_kr"></TD>
-								</TR>
-								<TR>
-									<TH>제품 취급 유의사항<br>생산(영문)</TH>
-									<TD class="smart_editer_text" id="care_td_en"></TD>
-								</TR>
-								<TR>
-									<TH>제품 취급 유의사항<br>생산(중문)</TH>
-									<TD class="smart_editer_text" id="care_td_cn"></TD>
-								</TR>
-								<TR>
-									<TH>소재(한글)</TH>
-									<TD class="smart_editer_text" id="material_kr"></TD>
-								</TR>
-
-								<TR>
-									<TH>소재(영문)</TH>
-									<TD class="smart_editer_text" id="material_en"></TD>
-								</TR>
-
-								<TR>
-									<TH>소재(중문)</TH>
-									<TD class="smart_editer_text" id="material_cn"></TD>
 								</TR>
 							</TBODY>
 						</TABLE>
 						<TABLE>
 							<colgroup>
 								<col width="10%">
-								<col width="40%">
+								<col width="15%">
 								<col width="10%">
-								<col width="40%">
+								<col width="15%">
+								<col width="10%">
+								<col width="15%">
+								<col width="10%">
+								<col width="15%">
 							</colgroup>
 							<TBODY>
 								<TR>
@@ -260,8 +240,7 @@
 									
 									<TH>공급사</TD>
 									<TD id="supplier"></TD>
-								</TR>
-								<TR>
+									
 									<TH>원산지</TH>
 									<TD id="origin_country"></TD>
 									
@@ -270,25 +249,24 @@
 								</TR>
 								<tr>
 									<TH>상품 적재박스 유형</TH>
-									<TD colspan="3" id="load_box_info_table">
+									<TD colspan="7" id="load_box_info_table">
 								</tr>
-								<tr>
 									<TH>상품 적재중량 (kg)</TH>
-									<TD id="load_weight"></TD>
+									<TD id="load_weight" colspan="3"></TD>
 									
 									<TH>상품 적재수량</TH>
-									<TD id="load_qty"></TD>
+									<TD id="load_qty" colspan="3"></TD>
 								</tr>
 								<tr>
 									<TH>포장부자재</TH>
-									<TD>
+									<TD colspan="3">
 										<table style="width:50%">
 											<tbody id="td_sub_material"></tbody>
 										</table>
 									</TD>
 									
 									<TH>배송부자재</TH>
-									<TD>
+									<TD colspan="3">
 										<table style="width:50%">
 											<tbody id="delivery_sub_material"></tbody>
 										</table>
@@ -314,33 +292,11 @@
 								<col width="15%">
 							</colgroup>
 							<TBODY>
-								<TR>
-									<TH>소재</TH>
-									<TD>
-										<input type="text" id="material" name="material" value="">
-									</TD>
-									
-									<TH>fit</TH>
-									<TD>
-										<input type="text" id="fit" name="fit" value="">
-									</TD>
-									
-									<TH>RGB 코드</TH>
-									<TD>
-										<input type="text" id="color_rgb" name="color_rgb" value="">
-									</TD>
-									
-									<TH>팬톤코드</TH>
-									<TD>
-										<input type="text" id="pantone_code" name="pantone_code" value="">
-									</TD>
-								</TR>
-								
 								<tr>
 									<TH>W/K/L/A</TH>
-									<TD colspan="3">
+									<TD>
 										<div class="content__row">
-											<select id="wkla_idx" name="wkla_idx" class="fSelect eSearch" style="width:163px;" onChange="getWklaInfo();">
+											<select id="wkla_idx" name="wkla_idx" class="fSelect eSearch" style="width:100%;" onChange="getWklaInfo();">
 												<option value="0">WKLA을 선택해주세요</option>
 												<?php
 													$select_wkla_sql = "
@@ -348,7 +304,7 @@
 															WK.IDX			AS WKLA_IDX,
 															WK.WKLA_NAME	AS WKLA_NAME
 														FROM
-															dev.WKLA_INFO WK
+															WKLA_INFO WK
 													";
 													
 													$db->query($select_wkla_sql);
@@ -375,39 +331,40 @@
 									<TD>
 										<input type="text" id="model_wear" name="model_wear" value="">
 									</TD>
-								</TR>
-								
-								<TR>
+									
 									<TH>최초 TP 작성일</TH>
-									<TD colspan="7">
-										<input id="tp_completion_date" type="date" name="tp_completion_date" value="" date_type="tp_completion">
+									<TD>
+										<input id="tp_completion_date" type="date" name="tp_completion_date" style="width:100%;" value="" date_type="tp_completion">
 									</TD>
 								</TR>
 								
 								<TR>
 									<TD colspan="12">
 										<div class="content__row">
-											<select id="size_guide_idx" name="size_guide_idx" class="fSelect eSearch" style="width:163px;" onChange="getSizeGuideList();">
-												<option value="0">사이즈가이드</option>
+											<select id="size_guide_category" name="size_guide_category" class="fSelect eSearch" style="width:163px;" onChange="getSizeGuideList();">
 												<?php
 													$select_size_guide_sql = "
 														SELECT
-															SG.IDX				AS SIZE_IDX,
 															SG.CATEGORY_TYPE	AS CATEGORY_TYPE
 														FROM
-															dev.SIZE_GUIDE	SG
+															SIZE_GUIDE SG
 														WHERE
 															SG.COUNTRY = 'KR'
-														ORDER BY
-															IDX ASC
 													";
 													
 													$db->query($select_size_guide_sql);
 
 													foreach ($db->fetch() as $size_data) {
+														$size_idx = $size_data['CATEGORY_TYPE'];
+														if (!empty($size_idx)) {
 												?>
-													<option value="<?=$size_data['SIZE_IDX']?>"><?=$size_data['CATEGORY_TYPE']?></option>
+													<option value="<?=$size_data['CATEGORY_TYPE']?>" readonly><?=$size_data['CATEGORY_TYPE']?></option>
 												<?php
+														} else {
+												?>
+													<option value="" readonly>사이즈 가이드 미선택</option>
+												<?php
+														}
 													}
 												?>
 											</select>
@@ -421,375 +378,490 @@
 								</TR>
 								
 								<TR>
-									<TD>일반</TD>
+									<th>일반</th>
 									<TD colspan="7">
-										<div class="rd__block">
-											<input id="size_name_Onesize" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_Onesize">Onesize</label>
-											
-											<input id="size_name_A1" class="size_name" type="radio" name="size_name" value="1">
-											<label for="size_name_A1">A1</label>
-											
-											<input id="size_name_A2" class="size_name" type="radio" name="size_name" value="2">
-											<label for="size_name_A2">A2</label>
-											
-											<input id="size_name_A3" class="size_name" type="radio" name="size_name" value="3">
-											<label for="size_name_A3">A3</label>
-											
-											<input id="size_name_A4" class="size_name" type="radio" name="size_name" value="4">
-											<label for="size_name_A4">A4</label>
-											
-											<input id="size_name_A5" class="size_name" type="radio" name="size_name" value="5">
-											<label for="size_name_A5">A5</label>
-											
-											<input id="size_name_XS" class="size_name" type="radio" name="size_name" value="XS">
-											<label for="size_name_XS">XS</label>
-											
-											<input id="size_name_S" class="size_name" type="radio" name="size_name" value="S">
-											<label for="size_name_S">S</label>
-											
-											<input id="size_name_M" class="size_name" type="radio" name="size_name" value="M">
-											<label for="size_name_M">M</label>
-											
-											<input id="size_name_L" class="size_name" type="radio" name="size_name" value="L">
-											<label for="size_name_L">L</label>
-											
-											<input id="size_name_XL" class="size_name" type="radio" name="size_name" value="XL">
-											<label for="size_name_XL">XL</label>
-											
-											<input id="size_name_2XL" class="size_name" type="radio" name="size_name" value="2XL">
-											<label for="size_name_2XL">2XL</label>
+										<div class="cb__color">
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="F">
+												<span>Onesize</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="1">
+												<span>A1</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="2">
+												<span>A2</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="3">
+												<span>A3</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="4">
+												<span>A4</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="5">
+												<span>A5</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="XS">
+												<span>XS</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="S">
+												<span>S</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="M">
+												<span>M</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="L">
+												<span>L</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="XL">
+												<span>XL</span>
+											</label>
+											<label>
+												<input class="size_name common" type="checkbox" name="size_name" value="2XL">
+												<span>2XL</span>
+											</label>
+										</div>
+									</TD>
+								</TR>
+								<TR>
+									<th>신발 23FW</th>
+									<TD colspan="7">
+										<div class="cb__color">
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="2H">
+												<span>225</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="36">
+												<span>230</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="3H">
+												<span>235</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="37">
+												<span>240</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="4H">
+												<span>245</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="40">
+												<span>250</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="5H">
+												<span>255</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="41">
+												<span>260</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="6H">
+												<span>265</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="42">
+												<span>270</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="7H">
+												<span>275</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="43">
+												<span>280</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="8H">
+												<span>285</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="44">
+												<span>290</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="9H">
+												<span>295</span>
+											</label>
+											<label>
+												<input class="size_name shoes_23fw" type="checkbox" name="size_name" value="45">
+												<span>300</span>
+											</label>
 										</div>
 									</TD>
 								</TR>
 								
 								<TR>
-									<TD>신발 23FW</TD>
+									<th>신발 24FW</th>
 									<TD colspan="7">
-										<div class="rd__block">
-											<input id="size_name_23_2H" class="size_name" type="radio" name="size_name" value="2H">
-											<label for="size_name_23_2H">225</label>
-											
-											<input id="size_name_23_36" class="size_name" type="radio" name="size_name" value="36">
-											<label for="size_name_23_36">230</label>
-											
-											<input id="size_name_23_3H" class="size_name" type="radio" name="size_name" value="3H">
-											<label for="size_name_23_3H">235</label>
-											
-											<input id="size_name_23_37" class="size_name" type="radio" name="size_name" value="37">
-											<label for="size_name_23_37">240</label>
-											
-											<input id="size_name_23_4H" class="size_name" type="radio" name="size_name" value="4H">
-											<label for="size_name_23_4H">245</label>
-											
-											<input id="size_name_23_40" class="size_name" type="radio" name="size_name" value="40">
-											<label for="size_name_23_40">250</label>
-											
-											<input id="size_name_23_5H" class="size_name" type="radio" name="size_name" value="5H">
-											<label for="size_name_23_5H">255</label>
-											
-											<input id="size_name_23_41" class="size_name" type="radio" name="size_name" value="41">
-											<label for="size_name_23_41">260</label>
-											
-											<input id="size_name_23_6H" class="size_name" type="radio" name="size_name" value="6H">
-											<label for="size_name_23_6H">265</label>
-											
-											<input id="size_name_23_42" class="size_name" type="radio" name="size_name" value="42">
-											<label for="size_name_23_42">270</label>
-											
-											<input id="size_name_23_7H" class="size_name" type="radio" name="size_name" value="7H">
-											<label for="size_name_23_7H">275</label>
-											
-											<input id="size_name_23_43" class="size_name" type="radio" name="size_name" value="43">
-											<label for="size_name_23_43">280</label>
-											
-											<input id="size_name_23_8H" class="size_name" type="radio" name="size_name" value="8H">
-											<label for="size_name_23_8H">285</label>
-											
-											<input id="size_name_23_44" class="size_name" type="radio" name="size_name" value="44">
-											<label for="size_name_23_44">290</label>
-											
-											<input id="size_name_23_9H" class="size_name" type="radio" name="size_name" value="9H">
-											<label for="size_name_23_9H">295</label>
-											
-											<input id="size_name_23_45" class="size_name" type="radio" name="size_name" value="45">
-											<label for="size_name_23_45">300</label>
+										<div class="cb__color">
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="220">
+												<span>220</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="225">
+												<span>225</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="230">
+												<span>230</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="235">
+												<span>235</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="240">
+												<span>240</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="245">
+												<span>245</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="250">
+												<span>250</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="255">
+												<span>255</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="260">
+												<span>260</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="265">
+												<span>265</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="270">
+												<span>270</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="275">
+												<span>275</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="280">
+												<span>280</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="285">
+												<span>285</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="290">
+												<span>290</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="295">
+												<span>295</span>
+											</label>
+											<label>
+												<input class="size_name shoes_24fw" type="checkbox" name="size_name" value="300">
+												<span>300</span>
+											</label>
 										</div>
 									</TD>
 								</TR>
 								
 								<TR>
-									<TD>신발 24FW</TD>
+									<th>악세서리</th>
 									<TD colspan="7">
-										<div class="rd__block">
-											<input id="size_name_24_220" class="size_name" type="radio" name="size_name" value="220">
-											<label for="size_name_24_220">220</label>
-
-											<input id="size_name_24_225" class="size_name" type="radio" name="size_name" value="225">
-											<label for="size_name_24_225">225</label>
-
-											<input id="size_name_24_230" class="size_name" type="radio" name="size_name" value="230">
-											<label for="size_name_24_230">230</label>
-
-											<input id="size_name_24_235" class="size_name" type="radio" name="size_name" value="235">
-											<label for="size_name_24_235">235</label>
-
-											<input id="size_name_24_240" class="size_name" type="radio" name="size_name" value="240">
-											<label for="size_name_24_240">240</label>
-
-											<input id="size_name_24_245" class="size_name" type="radio" name="size_name" value="245">
-											<label for="size_name_24_245">245</label>
-
-											<input id="size_name_24_250" class="size_name" type="radio" name="size_name" value="250">
-											<label for="size_name_24_250">250</label>
-
-											<input id="size_name_24_255" class="size_name" type="radio" name="size_name" value="255">
-											<label for="size_name_24_255">255</label>
-
-											<input id="size_name_24_260" class="size_name" type="radio" name="size_name" value="260">
-											<label for="size_name_24_260">260</label>
-
-											<input id="size_name_24_265" class="size_name" type="radio" name="size_name" value="265">
-											<label for="size_name_24_265">265</label>
-
-											<input id="size_name_24_270" class="size_name" type="radio" name="size_name" value="270">
-											<label for="size_name_24_270">270</label>
-
-											<input id="size_name_24_275" class="size_name" type="radio" name="size_name" value="275">
-											<label for="size_name_24_275">275</label>
-
-											<input id="size_name_24_280" class="size_name" type="radio" name="size_name" value="280">
-											<label for="size_name_24_280">280</label>
-
-											<input id="size_name_24_285" class="size_name" type="radio" name="size_name" value="285">
-											<label for="size_name_24_285">285</label>
-
-											<input id="size_name_24_290" class="size_name" type="radio" name="size_name" value="290">
-											<label for="size_name_24_290">290</label>
-
-											<input id="size_name_24_295" class="size_name" type="radio" name="size_name" value="295">
-											<label for="size_name_24_295">295</label>
-
-											<input id="size_name_24_300" class="size_name" type="radio" name="size_name" value="300">
-											<label for="size_name_24_300">300</label>
+										<div class="cb__color">
+											<label>
+												<input class="size_name accessory" type="checkbox" name="size_name" value="F">
+												<span>Onesize</span>
+											</label>
 										</div>
 									</TD>
 								</TR>
 								
 								<TR>
-									<TD>악세서리</TD>
-									<TD colspan="7">
-										<div class="rd__block">
-											<input id="size_name_acc_Onesize" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_acc_Onesize">Onesize</label>
+									<th rowspan="5">모바일 악세서리<br/>22FW TECH</th>
+									<th>Cellphone<br/>iPhone</th>
+									<TD colspan="6">
+										<div class="cb__color">
+											<label>
+												<input class="size_name mobile_iphone_22fw" type="checkbox" name="size_name" value="F">
+												<span>iPhone Mini</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone_22fw" type="checkbox" name="size_name" value="F">
+												<span>iPhone</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone_22fw" type="checkbox" name="size_name" value="F">
+												<span>iPhone Plus</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone_22fw" type="checkbox" name="size_name" value="F">
+												<span>iPhone Pro</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone_22fw" type="checkbox" name="size_name" value="F">
+												<span>iPhone Pro Max</span>
+											</label>
+										</div>
+									</TD>
+								</TR>
+
+								<TR>
+									<th>Cellphone<br/>Galaxy</th>
+									<TD colspan="6">
+										<div class="cb__color">
+											<label>
+												<input class="size_name mobile_galaxy_22fw" type="checkbox" name="size_name" value="F">
+												<span>Galaxy S23</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy_22fw" type="checkbox" name="size_name" value="F">
+												<span>Galaxy S23+</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy_22fw" type="checkbox" name="size_name" value="F">
+												<span>Galaxy Ultra</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy_22fw" type="checkbox" name="size_name" value="F">
+												<span>Galaxy Z FLIP</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy_22fw" type="checkbox" name="size_name" value="F">
+												<span>Galaxy Z FOLD</span>
+											</label>
+										</div>
+									</TD>
+								</TR>
+
+								<TR>
+									<th>Airpods</th>
+									<TD colspan="6">
+										<div class="cb__color">
+											<label>
+												<input class="size_name airpods_22fw" type="checkbox" name="size_name" value="F">
+												<span>AirPods 2세대</span>
+											</label>
+											<label>
+												<input class="size_name airpods_22fw" type="checkbox" name="size_name" value="F">
+												<span>AirPods 3세대</span>
+											</label>
+											<label>
+												<input class="size_name airpods_22fw" type="checkbox" name="size_name" value="F">
+												<span>AirPods Pro</span>
+											</label>
+											<label>
+												<input class="size_name airpods_22fw" type="checkbox" name="size_name" value="F">
+												<span>AirPods Pro 2세대</span>
+											</label>
+											<label>
+												<input class="size_name airpods_22fw" type="checkbox" name="size_name" value="F">
+												<span>AirPods Pro Max</span>
+											</label>
+										</div>
+									</TD>
+								</TR>
+
+								<TR>
+									<th>Laptop</th>
+									<TD colspan="6">
+										<div class="cb__color">
+											<label>
+												<input class="size_name laptop_22fw" type="checkbox" name="size_name" value="F">
+											<span>Macbook AIR M1</span>
+											</label>
+											<label>
+												<input class="size_name laptop_22fw" type="checkbox" name="size_name" value="F">
+												<span>Macbook AIR M2</span>
+											</label>
+											<label>
+												<input class="size_name laptop_22fw" type="checkbox" name="size_name" value="F">
+												<span>Macbook Pro 13</span>
+											</label>
+											<label>
+												<input class="size_name laptop_22fw" type="checkbox" name="size_name" value="F">
+												<span>Macbook Pro 14</span>
+											</label>
+											<label>
+												<input class="size_name laptop_22fw" type="checkbox" name="size_name" value="F">
+												<span>Macbook Pro 16</span>
+											</label>
+										</div>
+									</TD>
+								</TR>
+								<TR>
+									<th>Watch</td>
+									<TD colspan="6">
+										<div class="cb__color">
+											<label>
+												<input class="size_name watch_22fw" type="checkbox" name="size_name" value="F">
+												<span>Apple Watch 38/40/41</span>
+											</label>
+											<label>
+												<input class="size_name watch_22fw" type="checkbox" name="size_name" value="F">
+												<span>Apple Watch 42/44/45</span>
+											</label>
 										</div>
 									</TD>
 								</TR>
 								
+
 								<TR>
-									<TD rowspan="5">모바일 악세서리<br/>22FW TECH</TD>
-									<td>Cellphone<br/>iPhone</td>
+									<th rowspan="5">모바일 악세서리</th>
+									<th>Cellphone<br/>iPhone</th>
 									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_22fw_i_mini" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_i_mini">iPhone Mini</label>
-											
-											<input id="size_name_m_acc_22fw_i" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_i">iPhone</label>
-											
-											<input id="size_name_m_acc_22fw_i_plus" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_i_plus">iPhone Plus</label>
-											
-											<input id="size_name_m_acc_22fw_i_pro" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_i_pro">iPhone Pro</label>
-											
-											<input id="size_name_m_acc_22fw_i_pro_max" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_i_pro_max">iPhone Pro Max</label>
+										<div class="cb__color">
+											<label>
+												<input class="size_name mobile_iphone" type="checkbox" name="size_name" value="IMI">
+												<span>iPhone Mini</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone" type="checkbox" name="size_name" value="IBA">
+												<span>iPhone</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone" type="checkbox" name="size_name" value="IPL">
+												<span>iPhone Plus</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone" type="checkbox" name="size_name" value="IPR">
+												<span>iPhone Pro</span>
+											</label>
+											<label>
+												<input class="size_name mobile_iphone" type="checkbox" name="size_name" value="IPM">
+												<span>iPhone Pro Max</span>
+											</label>
 										</div>
 									</TD>
 								</TR>
 
 								<TR>
-									<td>Cellphone<br/>Galaxy</td>
+									<th>Cellphone<br/>Galaxy</th>
 									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_22fw_g_s_23" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_g_s_23">Galaxy S23</label>
-											
-											<input id="size_name_m_acc_22fw_g_s_23_plus" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_g_s_23_plus">Galaxy S23+</label>
-											
-											<input id="size_name_m_acc_22fw_g_ultra" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_g_ultra">Galaxy Ultra</label>
-											
-											<input id="size_name_m_acc_22fw_g_z_flip" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_g_z_flip">Galaxy Z FLIP</label>
-											
-											<input id="size_name_m_acc_22fw_g_z_fold" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_g_z_fold">Galaxy Z FOLD</label>
+										<div class="cb__color">
+											<label>
+												<input class="size_name mobile_galaxy" type="checkbox" name="size_name" value="GSB">
+												<span>Galaxy S23</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy" type="checkbox" name="size_name" value="GSP">
+												<span>Galaxy S23+</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy" type="checkbox" name="size_name" value="GUR">
+												<span>Galaxy Ultra</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy" type="checkbox" name="size_name" value="GZF">
+												<span>Galaxy Z FLIP</span>
+											</label>
+											<label>
+												<input class="size_name mobile_galaxy" type="checkbox" name="size_name" value="GZO">
+												<span>Galaxy Z FOLD</span>
+											</label>
 										</div>
 									</TD>
 								</TR>
 
 								<TR>
-									<td>Airpods</td>
+									<th>Airpods</th>
 									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_22fw_airpods_2" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_airpods_2">AirPods 2세대</label>
-											
-											<input id="size_name_m_acc_22fw_airpods_3" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_airpods_3">AirPods 3세대</label>
-											
-											<input id="size_name_m_acc_22fw_airpods_pro" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_airpods_pro">AirPods Pro</label>
-											
-											<input id="size_name_m_acc_22fw_airpods_pro_2" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_airpods_pro_2">AirPods Pro 2세대</label>
-											
-											<input id="size_name_m_acc_22fw_airpods_pro_max" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_airpods_pro_max">AirPods Pro Max</label>
+										<div class="cb__color">
+											<label>
+												<input class="size_name airpods" type="checkbox" name="size_name" value="AD2">
+												<span>AirPods 2세대</span>
+											</label>
+											<label>
+												<input class="size_name airpods" type="checkbox" name="size_name" value="AD3">
+												<span>AirPods 3세대</span>
+											</label>
+											<label>
+												<input class="size_name airpods" type="checkbox" name="size_name" value="APP">
+												<span>AirPods Pro</span>
+											</label>
+											<label>
+												<input class="size_name airpods" type="checkbox" name="size_name" value="AP2">
+												<span>AirPods Pro 2세대</span>
+											</label>
+											<label>
+												<input class="size_name airpods" type="checkbox" name="size_name" value="APM">
+												<span>AirPods Pro Max</span>
+											</label>
 										</div>
 									</TD>
 								</TR>
 
 								<TR>
-									<td>Laptop</td>
+									<th>Laptop</th>
 									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_22fw_macbook_air_m1" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_macbook_air_m1">Macbook AIR M1</label>
-											
-											<input id="size_name_m_acc_22fw_macbook_air_m2" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_macbook_air_m2">Macbook AIR M2</label>
-											
-											<input id="size_name_m_acc_22fw_macbook_pro_13" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_macbook_pro_13">Macbook Pro 13</label>
-											
-											<input id="size_name_m_acc_22fw_macbook_pro_14" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_macbook_pro_14">Macbook Pro 14</label>
-											
-											<input id="size_name_m_acc_22fw_macbook_pro_16" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_macbook_pro_16">Macbook Pro 16</label>
+										<div class="cb__color">
+											<label>
+												<input class="size_name laptop" type="checkbox" name="size_name" value="AM1">
+											<span>Macbook AIR M1</span>
+											</label>
+											<label>
+												<input class="size_name laptop" type="checkbox" name="size_name" value="AM2">
+												<span>Macbook AIR M2</span>
+											</label>
+											<label>
+												<input class="size_name laptop" type="checkbox" name="size_name" value="P13">
+												<span>Macbook Pro 13</span>
+											</label>
+											<label>
+												<input class="size_name laptop" type="checkbox" name="size_name" value="P14">
+												<span>Macbook Pro 14</span>
+											</label>
+											<label>
+												<input class="size_name laptop" type="checkbox" name="size_name" value="P16">
+												<span>Macbook Pro 16</span>
+											</label>
 										</div>
 									</TD>
+								</TR>
+								<TR>
+									<th>Watch</td>
+									<TD colspan="6">
+										<div class="cb__color">
+											<label>
+												<input class="size_name watch" type="checkbox" name="size_name" value="AWS">
+												<span>Apple Watch 38/40/41</span>
+											</label>
+											<label>
+												<input class="size_name watch" type="checkbox" name="size_name" value="AWM">
+												<span>Apple Watch 42/44/45</span>
+											</label>
+										</div>
+									</TD>
+								</TR>
+								<TR id="tmp_option_info" style="display:none;">
+									<TD colspan="12">
+										<div style="display:flex;">
+											<input type="text" id="tmp_option_name" value="" style="width:30%;">
+											
+											<div class="btn reset_tmp_option">초기화</div>
+											
+											<div class="btn add_tmp_option" onClick="addOptionInfo();">추가</div>
+										</div>
+									</TD>
+								</TR>
+								
+								<TR id="ordersheet_option_info">
 									
-								</TR>
-
-								<TR>
-									<td>Watch</td>
-									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_22fw_watch_38" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_watch_38">Apple Watch 38/40/41</label>
-											
-											<input id="size_name_m_acc_22fw_watch_41" class="size_name" type="radio" name="size_name" value="F">
-											<label for="size_name_m_acc_22fw_watch_41">Apple Watch 42/44/45</label>
-										</div>
-									</TD>
-								</TR>
-								
-								<TR>
-									<TD rowspan="5">모바일 악세서리</TD>
-									<td>Cellphone<br/>iPhone</td>
-									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_i_mini" class="size_name" type="radio" name="size_name" value="IMI">
-											<label for="size_name_m_acc_i_mini">iPhone Mini</label>
-											
-											<input id="size_name_m_acc_i" class="size_name" type="radio" name="size_name" value="IBA">
-											<label for="size_name_m_acc_i">iPhone</label>
-											
-											<input id="size_name_m_acc_i_plus" class="size_name" type="radio" name="size_name" value="IPL">
-											<label for="size_name_m_acc_i_plus">iPhone Plus</label>
-											
-											<input id="size_name_m_acc_i_pro" class="size_name" type="radio" name="size_name" value="iPR">
-											<label for="size_name_m_acc_i_pro">iPhone Pro</label>
-											
-											<input id="size_name_m_acc_i_pro_max" class="size_name" type="radio" name="size_name" value="IPM">
-											<label for="size_name_m_acc_i_pro_max">iPhone Pro Max</label>
-										</div>
-									</TD>
-								</TR>
-
-								<TR>
-									<td>Cellphone<br/>Galaxy</td>
-									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_g_s_23" class="size_name" type="radio" name="size_name" value="GSB">
-											<label for="size_name_m_acc_g_s_23">Galaxy S23</label>
-											
-											<input id="size_name_m_acc_g_s_23_plus" class="size_name" type="radio" name="size_name" value="GSP">
-											<label for="size_name_m_acc_g_s_23_plus">Galaxy S23+</label>
-											
-											<input id="size_name_m_acc_g_ultra" class="size_name" type="radio" name="size_name" value="GUR">
-											<label for="size_name_m_acc_g_ultra">Galaxy Ultra</label>
-											
-											<input id="size_name_m_acc_g_z_flip" class="size_name" type="radio" name="size_name" value="GZF">
-											<label for="size_name_m_acc_g_z_flip">Galaxy Z FLIP</label>
-											
-											<input id="size_name_m_acc_g_z_fold" class="size_name" type="radio" name="size_name" value="GZO">
-											<label for="size_name_m_acc_g_z_fold">Galaxy Z FOLD</label>
-										</div>
-									</TD>
-								</TR>
-
-								<TR>
-									<td>Airpods</td>
-									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_airpods_2" class="size_name" type="radio" name="size_name" value="AD2">
-											<label for="size_name_m_acc_airpods_2">AirPods 2세대</label>
-											
-											<input id="size_name_m_acc_airpods_3" class="size_name" type="radio" name="size_name" value="AD3">
-											<label for="size_name_m_acc_airpods_3">AirPods 3세대</label>
-											
-											<input id="size_name_m_acc_airpods_pro" class="size_name" type="radio" name="size_name" value="APP">
-											<label for="size_name_m_acc_airpods_pro">AirPods Pro</label>
-											
-											<input id="size_name_m_acc_airpods_pro_2" class="size_name" type="radio" name="size_name" value="AP2">
-											<label for="size_name_m_acc_airpods_pro_2">AirPods Pro 2세대</label>
-											
-											<input id="size_name_m_acc_airpods_pro_max" class="size_name" type="radio" name="size_name" value="APM">
-											<label for="size_name_m_acc_airpods_pro_max">AirPods Pro Max</label>
-										</div>
-									</TD>
-								</TR>
-
-								<TR>
-									<td>Laptop</td>
-									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_macbook_air_m1" class="size_name" type="radio" name="size_name" value="AM1">
-											<label for="size_name_m_acc_macbook_air_m1">Macbook AIR M1</label>
-											
-											<input id="size_name_m_acc_macbook_air_m2" class="size_name" type="radio" name="size_name" value="AM2">
-											<label for="size_name_m_acc_macbook_air_m2">Macbook AIR M2</label>
-											
-											<input id="size_name_m_acc_macbook_pro_13" class="size_name" type="radio" name="size_name" value="P13">
-											<label for="size_name_m_acc_macbook_pro_13">Macbook Pro 13</label>
-											
-											<input id="size_name_m_acc_macbook_pro_14" class="size_name" type="radio" name="size_name" value="P14">
-											<label for="size_name_m_acc_macbook_pro_14">Macbook Pro 14</label>
-											
-											<input id="size_name_m_acc_macbook_pro_16" class="size_name" type="radio" name="size_name" value="P16">
-											<label for="size_name_m_acc_macbook_pro_16">Macbook Pro 16</label>
-										</div>
-									</TD>
-									
-								</TR>
-
-								<TR>
-									<td>Watch</td>
-									<TD colspan="6">
-										<div class="rd__block">
-											<input id="size_name_m_acc_watch_38" class="size_name" type="radio" name="size_name" value="AWS">
-											<label for="size_name_m_acc_watch_38">Apple Watch 38/40/41</label>
-											
-											<input id="size_name_m_acc_watch_41" class="size_name" type="radio" name="size_name" value="AWM">
-											<label for="size_name_m_acc_watch_41">Apple Watch 42/44/45</label>
-										</div>
-									</TD>
 								</TR>
 								
 								<TR id="tmp_option_info" style="display:none;">
@@ -816,105 +888,155 @@
 							</colgroup>
 							<TBODY>
 								<TR>
-									<TH style="width:10%;">제품 상세정보 (한글)</TH>
+									<TH class="required_title" style="width:10%;">[디자인] 소재</TH>
 									<TD>
-										<textarea class="width-100p" id="detail_kr" name="detail_kr"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p" id="material_dsn_kr" name="material_dsn_kr" style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
-
+								
 								<TR>
-									<TH style="width:10%;">제품 상세정보 (영문)</TH>
+									<TH class="required_title" style="width:10%;">[디자인] 상세정보</TH>
 									<TD>
-										<textarea class="width-100p" id="detail_en" name="detail_en"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p" id="detail_kr" name="detail_kr" style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
-
+								
 								<TR>
-									<TH style="width:10%;">제품 상세정보 (중문)</TH>
+									<TH style="width:10%;">[디자인] 취급 유의사항</TH>
 									<TD>
-										<textarea class="width-100p" id="detail_cn" name="detail_cn"
-											style="width:90%; height:150px;"></textarea>
-									</TD>
-								</TR>
-							</TBODY>
-						</TABLE>
-						<TABLE>
-							<colgroup>
-								<col width="10%">
-								<col width="90%">
-							</colgroup>
-							<TBODY>
-								<TR>
-									<TH style="width:10%;">제품 취급 유의사항<br>디자인 (한글)</TH>
-									<TD>
-										<textarea class="width-100p" id="care_dsn_kr" name="care_dsn_kr"
-											style="width:90%; height:150px;"></textarea>
-									</TD>
-								</TR>
-
-								<TR>
-									<TH style="width:10%;">제품 취급 유의사항<br>디자인 (영문)</TH>
-									<TD>
-										<textarea class="width-100p" id="care_dsn_en" name="care_dsn_en"
-											style="width:90%; height:150px;"></textarea>
-									</TD>
-								</TR>
-
-								<TR>
-									<TH style="width:10%;">제품 취급 유의사항<br>디자인 (중문)</TH>
-									<TD>
-										<textarea class="width-100p" id="care_dsn_cn" name="care_dsn_cn"
-											style="width:90%; height:150px;"></textarea>
+										<textarea class="width-100p" id="care_dsn_kr" name="care_dsn_kr" style="width:90%; height:150px;"></textarea>
 									</TD>
 								</TR>
 							</TBODY>
 						</TABLE>
 					</div>
 				</div>
+				
+				<div class="table table__wrap">
+                    <button class="toggle_table_btn" type="button" onClick="toggleTableClick('COM');">오더시트 - 번역정보</button>
+                    <div class="overflow-x-auto" id="insert_table_COM">
+                        <TABLE style="margin-top:5px">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="90%">
+                            </colgroup>
+                            <TBODY class="editor_body">
+								<TR>
+									<TH>[디자인] 소재 (영문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_dsn_en" name="material_dsn_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+
+								<TR>
+									<TH>[디자인] 소재 (중문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_dsn_cn" name="material_dsn_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+								
+                                <TR>
+                                    <TH>[디자인] 상세정보 (영문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="detail_en" name="detail_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+
+                                <TR>
+                                    <TH>[디자인] 상세정보 (중문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="detail_cn" name="detail_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+								
+								<TR>
+                                    <TH>[디자인] 취급 유의사항 (영문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_dsn_en" name="care_dsn_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+
+                                <TR>
+                                    <TH>[디자인] 취급 유의사항 (중문)</TH>
+                                    <TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_dsn_cn" name="care_dsn_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+                                </TR>
+								
+								<TR>
+									<TH>[생산] 소재 (영문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_td_en" name="material_td_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+
+								<TR>
+									<TH>[생산] 소재 (중문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="material_td_cn" name="material_td_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+								
+								<TR>
+									<TH>[생산] 취급 유의사항 (영문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_td_en" name="care_td_en" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+                                <TR>
+									<TH>[생산] 취급 유의사항 (중문)</TH>
+									<TD class="smart_editer_text">
+										<textarea class="width-100p" id="care_td_cn" name="care_td_cn" style="width:90%; height:150px;"></textarea>
+									</TD>
+								</TR>
+                            </TBODY>
+                        </TABLE>
+                    </div>
+                </div>
 			</form>
 		</div>
 		<div class="flex justify-center">
-			<button type="button"
-				style="width:130px;height:36px;background-color:#140f82;color:#ffffff;cursor:pointer;margin-top:50px"
-				onClick="confirm('상품을 등록하시겠습니까?.','putOrdersheetInfo_DSN()');">개별상품 업데이트</button>
+			<button type="button" style="width:130px;height:36px;background-color:#140f82;color:#ffffff;cursor:pointer;margin-top:50px" onClick="confirm('상품을 등록하시겠습니까?.','putOrdersheetInfo_DSN()');">개별상품 업데이트</button>
 		</div>
 	</div>
 </div>
 <script>
+var material_dsn_kr = [];
+var material_dsn_en = [];
+var material_dsn_cn = [];
+var detail_kr = [];
+var detail_en = [];
+var detail_cn = [];
 var care_dsn_kr = [];
 var care_dsn_en = [];
 var care_dsn_cn = [];
 
-var detail_kr = [];
-var detail_en = [];
-var detail_cn = [];
-
-var size_category_info = {};
-var chk_list_arr = [];
+var material_td_en = [];
+var material_td_cn = [];
+var care_td_en = [];
+var care_td_cn = [];
 
 function setSmartEditor() {
-	//care
+	//material_dsn
 	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: care_dsn_kr,
-		elPlaceHolder: "care_dsn_kr",
+		oAppRef: material_dsn_kr,
+		elPlaceHolder: "material_dsn_kr",
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload: function () { } }
 	});
 	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: care_dsn_en,
-		elPlaceHolder: "care_dsn_en",
+		oAppRef: material_dsn_en,
+		elPlaceHolder: "material_dsn_en",
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload: function () { } }
 	});
 	nhn.husky.EZCreator.createInIFrame({
-		oAppRef: care_dsn_cn,
-		elPlaceHolder: "care_dsn_cn",
+		oAppRef: material_dsn_cn,
+		elPlaceHolder: "material_dsn_cn",
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload: function () { } }
 	});
-
+	
 	//detail
 	nhn.husky.EZCreator.createInIFrame({
 		oAppRef: detail_kr,
@@ -934,6 +1056,54 @@ function setSmartEditor() {
 		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
 		htParams: { fOnBeforeUnload: function () { } }
 	});
+	
+	//care_dsn
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: care_dsn_kr,
+		elPlaceHolder: "care_dsn_kr",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: care_dsn_en,
+		elPlaceHolder: "care_dsn_en",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: care_dsn_cn,
+		elPlaceHolder: "care_dsn_cn",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	
+	//material_td
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: material_td_en,
+		elPlaceHolder: "material_td_en",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: material_td_cn,
+		elPlaceHolder: "material_td_cn",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	
+	//care_td
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: care_td_en,
+		elPlaceHolder: "care_td_en",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
+	nhn.husky.EZCreator.createInIFrame({
+		oAppRef: care_td_cn,
+		elPlaceHolder: "care_td_cn",
+		sSkinURI: "/scripts/smarteditor2/SmartEditor2Skin.html",
+		htParams: { fOnBeforeUnload: function () { } }
+	});
 }
 
 $(document).ready(function () {
@@ -941,22 +1111,9 @@ $(document).ready(function () {
 	
 	$('#insert_table_MD').toggle();
 	$('#insert_table_TD').toggle();
+	$('#insert_table_COM').toggle();
 	
 	getOrdersheetInfo_DSN();
-	
-	$('.size_name').click(function() {
-		let radio_id = $(this).attr('id');
-		let tmp_option_name = $("label[for='" + radio_id + "']").text(); 
-		
-		$('#tmp_option_info').show();
-		$('#tmp_option_name').val(tmp_option_name);
-	});
-	
-	$('.reset_tmp_option').click(function() {
-		$('.size_name').prop('checked',false);
-		$('#tmp_option_info').hide();
-		$('#tmp_option_name').val('');
-	})
 	
 	$('.add_tmp_option').click(function() {
 		let cnt = $('.tr_size').length;
@@ -975,10 +1132,49 @@ $(document).ready(function () {
 		
 		strDiv += "</TR>";
 	});
+	
+	$('input[type=checkbox]').on('click',function(){
+		let val = $(this).val();
+		if(val == 'F'){
+			$('.size_name').not($(this)).prop('checked',false);
+		}
+		else{
+			let sel_class = $(this).attr('class');
+			sel_class = '.' + sel_class.replace(' ','.');
+			$('.size_name').not($(sel_class)).prop('checked',false);
+			if($(sel_class).eq(0).val() == 'F'){
+				$(sel_class).eq(0).prop('checked',false);
+			}
+		}
+	})
+
+	$('.size_name').click(function() {
+		let size_name_obj = $('input[name="size_name"]:checked');
+		let tmp_name_arr = new Array();
+		if(size_name_obj.length > 0){
+			size_name_obj.each(function(){
+				tmp_name_arr.push($(this).next().text());
+			})
+		}
+		$('#tmp_option_info').show();
+		$('#tmp_option_name').val(tmp_name_arr.join(','));
+	});
 });
 
 function toggleTableClick(toggle_val) {
 	$('#insert_table_' + toggle_val).toggle();
+	
+	if (toggle_val == "COM") {
+		let editor_body = $('.editor_body');
+		let iframe = editor_body.find('iframe');
+		
+		if (iframe.length > 0) {
+			for (let i=0; i<iframe.length; i++) {
+				let iframe_id = iframe.eq(i).attr('id');
+				$('#' + iframe_id).attr('src',$('#' + iframe_id).attr('src'));
+			}
+		}
+	}
 }
 
 function getOrdersheetInfo_DSN() {
@@ -1008,6 +1204,9 @@ function getOrdersheetInfo_DSN() {
 				$('#color_code').text(data.color_code);
 				$('#product_code').text(data.product_code);
 				
+				$('#material').text(data.product_code);
+				$('#fit').text(data.product_code);
+				
 				switch (data.preorder_flg) {
 					case 0:
 						$('#preorder_flg').text('고객상품');
@@ -1026,19 +1225,6 @@ function getOrdersheetInfo_DSN() {
 				}
 				
 				if (data.line_idx != null && data.line_idx > 0) {
-					var type_str = '';
-					switch (data.line_type) {
-						case 'C':
-							type_str = '컬렉션 라인';
-							break;
-						case 'O':
-							type_str = '오리진 라인';
-							break;
-						case 'T':
-							type_str = '티피컬 라인';
-							break;
-					}
-					
 					let strDiv = "";
 					strDiv += '    <table style="width:100%">';
 					strDiv += '        <thead>';
@@ -1051,7 +1237,7 @@ function getOrdersheetInfo_DSN() {
 					strDiv += '        <tbody>';
 					strDiv += '            <tr>';
 					strDiv += '                <td>' + data.line_name + '</td>';
-					strDiv += '                <td>' + type_str + '</td>';
+					strDiv += '                <td>' + data.line_type + '</td>';
 					strDiv += '                <td>' + data.line_memo + '</td>';
 					strDiv += '            </tr>';
 					strDiv += '        </tbody>';
@@ -1059,11 +1245,31 @@ function getOrdersheetInfo_DSN() {
 					
 					$('#line_info_table').append(strDiv);
 				}
-
-				$('#category_lrg_title').text(data.category_lrg_title);
-				$('#category_mdl_title').text(data.category_mdl_title);
-				$('#category_sml_title').text(data.category_sml_title);
-				$('#category_dtl_title').text(data.category_dtl_title);
+				
+				let category_lrg_title = "카테고리 미선택";
+				if (data.category_lrg_title.length > 0) {
+					category_lrg_title = data.category_lrg_title;
+				}
+				
+				let category_mdl_title = "카테고리 미선택";
+				if (data.category_mdl_title.length > 0) {
+					category_mdl_title = data.category_mdl_title;
+				}
+				
+				let category_sml_title = "카테고리 미선택";
+				if (data.category_sml_title.length > 0) {
+					category_sml_title = data.category_sml_title;
+				}
+				
+				let category_dtl_title = "카테고리 미선택";
+				if (data.category_dtl_title.length > 0) {
+					category_dtl_title = data.category_dtl_title;
+				}
+					
+				$('#category_lrg_title').text(category_lrg_title);
+				$('#category_mdl_title').text(category_mdl_title);
+				$('#category_sml_title').text(category_sml_title);
+				$('#category_dtl_title').text(category_dtl_title);
 				$('#graphic').text(data.graphic);
 				$('#product_name').text(data.product_name);
 				$('#product_size').text(data.product_size);
@@ -1142,8 +1348,6 @@ function getOrdersheetInfo_DSN() {
 				
 				$('#material').val(data.material);
 				$('#fit').val(data.fit);
-				$('#color_rgb').val(data.color_rgb);
-				$('#pantone_code').val(data.pantone_code);
 				$('#tp_completion_date').val(data.tp_completion_date);
 
 				$('#wkla_idx').val(data.wkla_idx).attr("selected", "selected").change();
@@ -1151,17 +1355,31 @@ function getOrdersheetInfo_DSN() {
 				$('#model_wear').val(data.model_wear);
 				
 				let option_info = data.option_info;
-				$('#size_guide_idx').val(data.size_guide_idx);
-				if (data.size_guide_idx > 0) {
+				
+				$('#size_guide_category').val(data.size_guide_category);
+				if (data.size_guide_category != null) {
 					getSizeGuideList(option_info);
 				}
 				
-				$('#detail_kr').html(data.detail_kr);
-				$('#detail_en').html(data.detail_en);
-				$('#detail_cn').html(data.detail_cn);
-				$('#care_dsn_kr').html(data.care_dsn_kr);
-				$('#care_dsn_en').html(data.care_dsn_en);
-				$('#care_dsn_cn').html(data.care_dsn_cn);
+				$('#material_dsn_kr').html(xssDecode(data.material_dsn_kr));
+				$('#material_dsn_en').html(xssDecode(data.material_dsn_en));
+				$('#material_dsn_cn').html(xssDecode(data.material_dsn_cn));
+				
+				$('#care_dsn_kr').html(xssDecode(data.care_dsn_kr));
+				$('#care_dsn_en').html(xssDecode(data.care_dsn_en));
+				$('#care_dsn_cn').html(xssDecode(data.care_dsn_cn));
+				
+				$('#detail_kr').html(xssDecode(data.detail_kr));
+				$('#detail_en').html(xssDecode(data.detail_en));
+				$('#detail_cn').html(xssDecode(data.detail_cn));
+				
+				$('#material_td_kr').html(xssDecode(data.material_td_kr));
+				$('#material_td_en').html(xssDecode(data.material_td_en));
+				$('#material_td_cn').html(xssDecode(data.material_td_cn));
+				
+				$('#care_td_kr').html(xssDecode(data.care_td_kr));
+				$('#care_td_en').html(xssDecode(data.care_td_en));
+				$('#care_td_cn').html(xssDecode(data.care_td_cn));
 
 				if (data.size_category != null && data.size_category.length != 0) {
 					$('#size_category').val(data.size_category).prop("selected", true).change();
@@ -1193,7 +1411,7 @@ function getWklaInfo() {
 					let data = d.data[0];
 					if (data != null) {
 						let strDiv = "";
-						strDiv += '    <table style="width:40%">';
+						strDiv += '    <table style="width:100%">';
 						strDiv += '        <thead>';
 						strDiv += '            <tr>';
 						strDiv += '                <th style="width:50%;">W/K/L/A</th>';
@@ -1217,6 +1435,10 @@ function getWklaInfo() {
 }
 
 function putOrdersheetInfo_DSN(flg) {
+	material_dsn_kr.getById["material_dsn_kr"].exec("UPDATE_CONTENTS_FIELD", []);
+	material_dsn_en.getById["material_dsn_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	material_dsn_cn.getById["material_dsn_cn"].exec("UPDATE_CONTENTS_FIELD", []);
+	
 	care_dsn_kr.getById["care_dsn_kr"].exec("UPDATE_CONTENTS_FIELD", []);
 	care_dsn_en.getById["care_dsn_en"].exec("UPDATE_CONTENTS_FIELD", []);
 	care_dsn_cn.getById["care_dsn_cn"].exec("UPDATE_CONTENTS_FIELD", []);
@@ -1225,6 +1447,12 @@ function putOrdersheetInfo_DSN(flg) {
 	detail_en.getById["detail_en"].exec("UPDATE_CONTENTS_FIELD", []);
 	detail_cn.getById["detail_cn"].exec("UPDATE_CONTENTS_FIELD", []);
 
+	material_td_en.getById["material_td_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	material_td_cn.getById["material_td_cn"].exec("UPDATE_CONTENTS_FIELD", []);
+
+	care_td_en.getById["care_td_en"].exec("UPDATE_CONTENTS_FIELD", []);
+	care_td_cn.getById["care_td_cn"].exec("UPDATE_CONTENTS_FIELD", []);
+	
 	if (flg != undefined) {
 		$('input[name=overwrite_flg]').val(flg);
 	}
@@ -1259,28 +1487,6 @@ function putOrdersheetInfo_DSN(flg) {
 				}
 			}
 		}
-		
-		let option_weight = $('.option_weight');
-		if (option_weight.length > 0) {
-			let cnt = option_weight.length;
-			for (let i=0; i<cnt; i++) {
-				let weight_value = option_weight.eq(i).val();
-				if (weight_value.length == 0) {
-					weight_err_cnt++;
-				}
-			}
-		}
-		
-		let limit_option_qty = $('.limit_option_qty');
-		if (limit_option_qty.length > 0) {
-			let cnt = limit_option_qty.length;
-			for (let i=0; i<cnt; i++) {
-				let limit_value = limit_option_qty.eq(i).val();
-				if (limit_value.length == 0) {
-					limit_err_cnt++;
-				}
-			}
-		}
 	}
 	
 	if (name_err_cnt > 0) {
@@ -1290,16 +1496,6 @@ function putOrdersheetInfo_DSN(flg) {
 	
 	if (size_err_cnt > 0) {
 		alert('사이즈 정보가 미입력된 옵션이 존재합니다. 사이즈 정보 입력 후 다시 시도해주세요.');
-		return false;
-	}
-	
-	if (weight_err_cnt > 0) {
-		alert('중량 정보가 미입력된 옵션이 존재합니다. 중량 정보 입력 후 다시 시도해주세요.');
-		return false;
-	}
-	
-	if (limit_err_cnt > 0) {
-		alert('구매수량제한 정보가 미입력된 옵션이 존재합니다. 구매수량제한 정보 입력 후 다시 시도해주세요.');
 		return false;
 	}
 	
@@ -1342,13 +1538,13 @@ function putOrdersheetInfo_DSN(flg) {
 }
 
 function getSizeGuideList(option_info) {
-	let size_guide_idx = $('#size_guide_idx').val();
+	let size_guide_category = $('#size_guide_category').val();
 	
 	$.ajax({
 		type: "post",
 		url: config.api + "product/size_guide/get",
 		data: {
-			'size_guide_idx' : size_guide_idx
+			'size_guide_category' : size_guide_category
 		},
 		dataType: "json",
 		error: function () {
@@ -1374,7 +1570,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_1 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_1 + '</TH>';
+						str_div_option_th += '            <TH><p class="required_title">' + size_data.size_title_1 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -1384,7 +1580,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_2 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_2 + '</TH>';
+						str_div_option_th += '            <TH><p class="required_title">' + size_data.size_title_2 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -1394,7 +1590,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_3 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_3 + '</TH>';
+						str_div_option_th += '            <TH><p class="required_title">' + size_data.size_title_3 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -1404,7 +1600,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_4 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_4 + '</TH>';
+						str_div_option_th += '            <TH><p class="required_title">' + size_data.size_title_4 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -1414,7 +1610,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_5 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_5 + '</TH>';
+						str_div_option_th += '            <TH><p class="required_title">' + size_data.size_title_5 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -1424,7 +1620,7 @@ function getSizeGuideList(option_info) {
 						str_div_size_desc += '            <td class="size_desc">' + size_data.size_desc_6 + '</td>';
 						str_div_size_desc += '        </tr>';
 						
-						str_div_option_th += '            <TH>' + size_data.size_title_6 + '</TH>';
+						str_div_option_th += '            <TH><p class="required_title">' + size_data.size_title_6 + '</p></TH>';
 						colspan_cnt++;
 					}
 					
@@ -1441,7 +1637,7 @@ function getSizeGuideList(option_info) {
 					str_div_option_table += '        <THEAD>';
 					str_div_option_table += '            <TR>';
 					str_div_option_table += '                <TH>옵션삭제</TH>';
-					str_div_option_table += '                <TH>옵션이름</TH>';
+					str_div_option_table += '                <TH><p class="required_title">옵션이름</p></TH>';
 					str_div_option_table += '                <TH>바코드</TH>';
 					
 					str_div_option_table += str_div_option_th;
@@ -1527,10 +1723,12 @@ function setOptionInfo(option_info) {
 		}
 			
 		strDiv += '    <TD>';
-		strDiv += '        <input class="option_weight" type="text" name="option_weight[]" value="' + row.option_weight + '">';
+		strDiv += '        ' + row.option_weight;
+		strDiv += '        <input type="hidden" name="option_weight[]" value="' + row.option_weight + '">';
 		strDiv += '    </TD>';
 		strDiv += '    <TD>';
-		strDiv += '        <input class="limit_option_qty" type="text" name="limit_option_qty[]" value="' + row.limit_option_qty + '">';
+		strDiv += '        ' + row.limit_option_qty;
+		strDiv += '        <input type="hidden" name="limit_option_qty[]" value="' + row.limit_option_qty + '">';
 		strDiv += '    </TD>';
 		strDiv += '</TR>';
 	});
@@ -1539,48 +1737,48 @@ function setOptionInfo(option_info) {
 }
 
 function addOptionInfo() {
-	let size_guide_idx = $('#size_guide_idx').val();
-	if (size_guide_idx == 0) {
+	let size_guide_category = $('#size_guide_category').val();
+	if (size_guide_category == "" || size_guide_category == null) {
 		alert('사이즈 가이드를 선택해주세요.');
 		return false;
 	}
 	
 	$('.default_tr').remove();
-	let option_name = $('#tmp_option_name').val();
-	let option_type = $('input[name="size_name"]:checked').val();
-	
-	if (option_name != null && option_type != null) {
+	let size_name_obj = $('input[name="size_name"]:checked');
+	if(size_name_obj.length > 0){
 		let cnt_th = $('#ordersheet_option_info').find('th').length;
-		
 		let product_code = $('#product_code').text();
-		
 		let strDiv = "";
-		strDiv += '<TR>';
-		strDiv += '    <TD>';
-		strDiv += '        <div class="btn remove_option_btn" onClick="removeOptionInfo(this);">옵션삭제</div>';
-		strDiv += '    </TD>';
-		strDiv += '    <TD>';
-		strDiv += '        <input class="option_name" type="text" name="option_name[]" value="' + option_name + '">';
-		strDiv += '        <input class="option_type" type="hidden" name="option_type[]" value="' + option_type + '">';
-		strDiv += '    </TD>';
-		strDiv += '    <TD>' + product_code + option_type + '</TD>';
-			
-		for (let i=1; i<(cnt_th - 4); i++) {
-			strDiv += '<TD>';
-			strDiv += '    <input class="option_size_' + i + '" type="text" name="option_size_' + i + '[]" value="">';
-			strDiv += '</TD>';
-		}
+		size_name_obj.each(function(){
+			strDiv += '<TR>';
+			strDiv += '    <TD>';
+			strDiv += '        <div class="btn remove_option_btn" onClick="removeOptionInfo(this);">옵션삭제</div>';
+			strDiv += '    </TD>';
+			strDiv += '    <TD>';
+			strDiv += '        <input class="option_name" type="text" name="option_name[]" value="' + $(this).next().text() + '">';
+			strDiv += '        <input class="option_type" type="hidden" name="option_type[]" value="' + $(this).val() + '">';
+			strDiv += '    </TD>';
+			strDiv += '    <TD>' + product_code + $(this).val() + '</TD>';
+				
+			for (let i=1; i<(cnt_th - 4); i++) {
+				strDiv += '<TD>';
+				strDiv += '    <input class="option_size_' + i + '" type="text" name="option_size_' + i + '[]" value="">';
+				strDiv += '</TD>';
+			}
 
-		strDiv += '    <TD>';
-		strDiv += '        <input class="option_weight" type="text" name="option_weight[]" value="">';
-		strDiv += '    </TD>';
-		strDiv += '    <TD>';
-		strDiv += '        <input class="limit_option_qty" type="text" name="limit_option_qty[]" value="">';
-		strDiv += '    </TD>';
-		strDiv += '</TR>';
-		
+			strDiv += '    <TD>';
+			strDiv += '        0';
+			strDiv += '        <input type="hidden" name="option_weight[]" value="0">';
+			strDiv += '    </TD>';
+			strDiv += '    <TD>';
+			strDiv += '        0';
+			strDiv += '        <input type="hidden" name="limit_option_qty[]" value="0">';
+			strDiv += '    </TD>';
+			strDiv += '</TR>';
+		});
 		$('#option_info').append(strDiv);
-	} else {
+	}
+	else {
 		alert('옵션의 이름과 유형을 선택해주세요.');
 		return false;
 	}

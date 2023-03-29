@@ -219,11 +219,6 @@ if ($sort_value != null && $sort_type != null) {
 	$order = ' PS.IDX DESC';
 }
 
-$limit_start = (intval($page)-1)*$rows;
-if ($rows != null) {
-	$limit .= " LIMIT ".$limit_start.",".$rows;
-}
-
 $select_standby_sql = "
 	SELECT
 		PS.IDX					AS STANDBY_IDX,
@@ -282,8 +277,12 @@ $select_standby_sql = "
 		".$where."
 	ORDER BY
 		PS.DISPLAY_NUM ASC
-	".$limit."
 ";
+
+$limit_start = (intval($page)-1)*$rows;
+if ($rows != null) {
+	$select_standby_sql .= " LIMIT ".$limit_start.",".$rows;
+}
 
 $db->query($select_standby_sql);
 

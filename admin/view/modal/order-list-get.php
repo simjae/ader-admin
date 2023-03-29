@@ -304,9 +304,9 @@ function setSelectColumn() {
 	let select_table = $('#select_table');
 	let order_product = select_table.find('.order_product');
 	if (order_product.prop('checked') == true) {
-		frm.find('.select_product_flg').val(true);
+		frm.find('.select_product_flg_' + order_status).val(true);
 	} else {
-		frm.find('.select_product_flg').val(false);
+		frm.find('.select_product_flg_' + order_status).val(false);
 	}
 	
 	let checkbox = select_table.find('.select_column');

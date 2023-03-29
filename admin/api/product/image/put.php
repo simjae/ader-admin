@@ -37,7 +37,7 @@ if($product_idx_list != null){
         $upload_file = url_to_file_up($default_url_path, $server_img_path, $data['PRODUCT_CODE'], $img_type_list);
 
         if ($upload_file != null) {
-            $db->query('DELETE FROM PRODUCT_IMG WHERE PRODUCT_IDX = '.$data['IDX'].' ');
+            $db->query('DELETE FROM PRODUCT_IMG WHERE PRODUCT_IDX = '.$data['IDX'].' AND IMG_TYPE NOT IN ("TO","TP")');
             for ($i=0; $i<count($upload_file); $i++) {
                 $img_type = $upload_file[$i]['img_type'];
                 $img_url = $upload_file[$i]['url'];

@@ -51,6 +51,8 @@ $select_page_recommend_sql = "
 			PAGE_RECOMMEND RE
 		WHERE
 			RE.DEL_FLG = FALSE
+		ORDER BY
+			".$order."
 		";
 
 $limit_start = (intval($page)-1)*$rows;

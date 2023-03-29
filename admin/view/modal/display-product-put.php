@@ -58,7 +58,7 @@
 										LV.IDX		AS LEVEL_IDX,
 										LV.TITLE	AS LEVEL_TITLE
 									FROM 
-										dev.MEMBER_LEVEL LV
+										MEMBER_LEVEL LV
 									ORDER BY
 										LV.IDX ASC
 							";

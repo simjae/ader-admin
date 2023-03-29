@@ -49,7 +49,7 @@
                     PRODUCT_CODE,
                     PRODUCT_NAME
                 FROM
-                    dev.SHOP_PRODUCT
+                    SHOP_PRODUCT
                 WHERE 
                     IDX = '".$product_idx."'
             ";
@@ -231,10 +231,11 @@ function productUpdateCheck() {
 		dataType: "json",
 		url: config.api + "product/image/put",
         error: function() {
+            closeLoadingWithMask();
             alert("상품 이미지 일괄업로드 처리에 실패했습니다.");
         },
         beforeSend: function(){
-            LoadingWithMask('/images/default/loading_img.gif')
+            loadingWithMask('/images/default/loading_img.gif')
         },
         success: function(d) {
             if(d != null){
@@ -243,6 +244,10 @@ function productUpdateCheck() {
                     alert('상품 이미지 일괄 업로드 성공했습니다.',function(){
                         modal_close();
                     });
+                }
+                else{
+                    closeLoadingWithMask();
+                    alert(d.msg);
                 }
             }
         }

@@ -28,7 +28,7 @@
 	
 	<div class="card__header">
 <?php
-	$db->query('SELECT SUB_MATERIAL_NAME FROM dev.SUB_MATERIAL_INFO WHERE IDX = '.$sub_material_idx.' ');
+	$db->query('SELECT SUB_MATERIAL_NAME FROM SUB_MATERIAL_INFO WHERE IDX = '.$sub_material_idx.' ');
 
 	foreach($db->fetch() as $sub_material_data){
 ?>

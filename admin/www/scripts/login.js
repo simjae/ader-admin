@@ -28,12 +28,29 @@ function login() {
 				success:function(d){
 					if(d.code == "200") { // 로그인 성공
 						//location.reload();
+						let url_first = null;
+						if(d.r_url != null && d.r_url.length > 0){
+							url_first = d.r_url.split('/')[1];
+						}
 						let permition_type = d.data;
+						console.log(url_first);
 						console.log(permition_type);
+						
 						if (permition_type == "PCS") {
-							location.href = "/pcs";
+							if(url_first == 'pcs'){
+								location.href = d.r_url;
+							}
+							else{
+								location.href = "/pcs";
+							}
 						} else {
-							location.href = "/analysis/dashboard";
+							if(url_first != 'pcs'){
+								location.href = d.r_url;
+							}
+							else{
+								location.href = "/analysis/dashboard";
+							}
+							
 						}
 					}
 					else {	// 로그인 실패
@@ -49,7 +66,23 @@ function login() {
 		);
 	}
 }
-
+function logout() {
+	$.ajax(
+	{
+		url:'/_api/account/logout',
+		type:'POST',
+		data:$("#frm").serialize(),
+		error:function(d){
+			$("#alert-box > span").html("모듈에 문제가 발생했습니다.");
+			$("#alert-box").removeClass('display-hide')
+		},
+		success:function(d){
+			alert('로그아웃되었습니다. 로그인화면으로 돌아갑니다.',function(){
+				location.href="/login";
+			});
+		}
+	});
+}
 function forgetpassword() {
 	if($("#frm2").formvaild()) {
 		$.ajax(

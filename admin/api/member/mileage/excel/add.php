@@ -94,7 +94,7 @@ try {
                             '".$country."',
                             IDX,
                             MEMBER_ID,
-                            'AM',
+                            'APM',
                             ".$mileage_usable_arr[1].",
                             ".$recent_mileage_balance.",
                             '".$session_id."',

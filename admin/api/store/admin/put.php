@@ -46,9 +46,9 @@ if ($admin_status_flg != null) {
 	if ($admin_idx != null && count($admin_idx) > 0 && $action_type != null) {
 		$admin_status = null;
 		if ($action_type == "ACT") {
-			$admin_status = true;
+			$admin_status = 'TRUE';
 		} else if ($action_type == "DAC") {
-			$admin_status = false;
+			$admin_status = 'FALSE';
 		}
 		
 		if ($admin_status != null) {
@@ -56,7 +56,7 @@ if ($admin_status_flg != null) {
 				UPDATE
 					ADMIN
 				SET
-					ADMIN_STATUS = '".$admin_status."'
+					ADMIN_STATUS = ".$admin_status."
 				WHERE
 					IDX IN (".implode(",",$admin_idx).")
 			";

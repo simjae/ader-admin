@@ -141,7 +141,7 @@
 											IDX				AS DELIVERY_IDX,
 											COMPANY_NAME	AS COMPANY_NAME
 										FROM
-											dev.DELIVERY_COMPANY";
+											DELIVERY_COMPANY";
 								$db->query($sql);
 								foreach($db->fetch() as $data) {
 							?>
@@ -182,7 +182,7 @@
 												IDX		AS LEVEL_IDX,
 												TITLE	AS TITLE
 											FROM
-												dev.MEMBER_LEVEL";
+												MEMBER_LEVEL";
 									
 									$db->query($sql);
 									foreach($db->fetch() as $data) {

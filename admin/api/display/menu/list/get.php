@@ -57,7 +57,7 @@ foreach($db->fetch() as $menu_lrg_data) {
 			$menu_mdl_type = $menu_mdl_data['LINK_TYPE'];
 			
 			$menu_sml = array();
-			if (!empty($menu_mdl_idx) && $menu_mdl_type == 'PR') {
+			if (!empty($menu_mdl_idx)) {
 				$select_menu_sml_sql = "
 					SELECT
 						MS.IDX			AS MENU_SML_IDX,

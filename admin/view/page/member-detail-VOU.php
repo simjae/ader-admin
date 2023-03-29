@@ -4,7 +4,7 @@
 			<div class="table__wrap">
 				<?php
 					$usable_voucher_cnt = $db->count(
-						"dev.VOUCHER_ISSUE",
+						"VOUCHER_ISSUE",
 						"
 							COUNTRY = '".$country."' AND
 							MEMBER_IDX = ".$member_idx." AND
@@ -12,7 +12,7 @@
 							USED_FLG = FALSE
 						"
 					);
-					$used_voucher_cnt = $db->count("dev.VOUCHER_ISSUE","COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx." AND USED_FLG = TRUE");
+					$used_voucher_cnt = $db->count("VOUCHER_ISSUE","COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx." AND USED_FLG = TRUE");
 				?>
 				<table>
 					<colgroup>
@@ -119,8 +119,8 @@
 </div>
 
 <form id="frm-VOU" action="modal/voucher/get">
-	<input type="hidden" class="page" name="country" value="<?=$country?>">
-	<input type="hidden" class="rows" name="member_idx" value="<?=$member_idx?>">
+	<input type="hidden" name="country" value="<?=$country?>">
+	<input type="hidden" name="member_idx" value="<?=$member_idx?>">
 	
 	<input type="hidden" class="sort_type" name="sort_type" value="ASC">
 	<input type="hidden" class="sort_value" name="sort_value" value="VI.IDX">

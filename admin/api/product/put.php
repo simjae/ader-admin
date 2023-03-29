@@ -40,9 +40,16 @@ if($product_code != null){
 
 $shop_product_name				= $_POST['shop_product_name'];
 $shop_product_name_update_flg   = $_POST['shop_product_name_update_flg'];
-$shop_product_name_str		  = '';
+$shop_product_name_str		  	= '';
 if($shop_product_name_update_flg == 'true'){
 	$shop_product_name_str		= " PRODUCT_NAME = '".$shop_product_name."', ";
+}
+
+$shop_color_rgb						= $_POST['shop_color_rgb'];
+$shop_color_rgb_update_flg   		= $_POST['shop_color_rgb_update_flg'];
+$shop_color_rgb_str		  			= '';
+if($shop_color_rgb_update_flg == 'true'){
+	$shop_color_rgb_str				= " COLOR_RGB = '".$shop_color_rgb."', ";
 }
 
 $md_category_flg = $_POST['md_category_flg'];
@@ -237,7 +244,7 @@ $limit_member				   = $_POST['limit_member'];
 $limit_member_str = '';
 if ($limit_member_update_flg == 'true') {
 	if(!isset($limit_member) || !is_array($limit_member)){
-		$limit_member = 'NULL';
+		$limit_member = '0';
 	}
 	else{
 		$limit_member = "'".implode(",", $limit_member)."'";
@@ -359,9 +366,9 @@ $care_td_kr_str = '';
 if($care_kr_update_flg == 'true'){
 	$care_kr = str_replace("<p>&nbsp;</p>","",$care_kr);
 	if ($care_kr != null) {
-		$care_kr_str		= " CARE_KR = '".$care_kr."',";
-		$care_dsn_kr_str	= " CARE_DSN_KR = '".$care_kr."',";
-		$care_td_kr_str	 = " CARE_TD_KR = '".$care_kr."',";
+		$care_kr_str		= " CARE_KR = '".xssEncode($care_kr)."',";
+		$care_dsn_kr_str	= " CARE_DSN_KR = '".xssEncode($care_kr)."',";
+		$care_td_kr_str	 = " CARE_TD_KR = '".xssEncode($care_kr)."',";
 	}
 	else{
 		$care_kr_str		= " CARE_KR = NULL,";
@@ -377,9 +384,9 @@ $care_td_en_str = '';
 if($care_en_update_flg == 'true'){
 	$care_en = str_replace("<p>&nbsp;</p>","",$care_en);
 	if ($care_en != null) {
-		$care_en_str		= " CARE_EN = '".$care_en."',";
-		$care_dsn_en_str	= " CARE_DSN_EN = '".$care_en."',";
-		$care_td_en_str	 = " CARE_TD_EN = '".$care_en."',";
+		$care_en_str		= " CARE_EN = '".xssEncode($care_en)."',";
+		$care_dsn_en_str	= " CARE_DSN_EN = '".xssEncode($care_en)."',";
+		$care_td_en_str	 = " CARE_TD_EN = '".xssEncode($care_en)."',";
 	}
 	else{
 		$care_en_str		= " CARE_EN = NULL,";
@@ -395,9 +402,9 @@ $care_td_cn_str = '';
 if($care_cn_update_flg == 'true'){
 	$care_cn = str_replace("<p>&nbsp;</p>","",$care_cn);
 	if ($care_cn != null) {
-		$care_cn_str		= " CARE_CN = '".$care_cn."',";
-		$care_dsn_cn_str	= " CARE_DSN_CN = '".$care_cn."',";
-		$care_td_cn_str	 = " CARE_TD_CN = '".$care_cn."',";
+		$care_cn_str		= " CARE_CN = '".xssEncode($care_cn)."',";
+		$care_dsn_cn_str	= " CARE_DSN_CN = '".xssEncode($care_cn)."',";
+		$care_td_cn_str	 = " CARE_TD_CN = '".xssEncode($care_cn)."',";
 	}
 	else{
 		$care_cn_str		= " CARE_CN = NULL,";
@@ -412,7 +419,7 @@ $material_kr_str = '';
 if($material_kr_update_flg == 'true'){
 	$material_kr = str_replace("<p>&nbsp;</p>","",$material_kr);
 	if ($material_kr != null) {
-		$material_kr_str	= " MATERIAL_KR = '".$material_kr."',";
+		$material_kr_str	= " MATERIAL_KR = '".xssEncode($material_kr)."',";
 	}
 	else{
 		$material_kr_str	= " MATERIAL_KR = NULL,";
@@ -424,7 +431,7 @@ $material_en_str = '';
 if($material_en_update_flg == 'true'){
 	$material_en = str_replace("<p>&nbsp;</p>","",$material_en);
 	if ($material_en != null) {
-		$material_en_str	= " MATERIAL_EN = '".$material_en."',";
+		$material_en_str	= " MATERIAL_EN = '".xssEncode($material_en)."',";
 	}
 	else{
 		$material_en_str	= " MATERIAL_EN = NULL,";
@@ -436,7 +443,7 @@ $material_cn_str = '';
 if($material_cn_update_flg == 'true'){
 	$material_cn = str_replace("<p>&nbsp;</p>","",$material_cn);
 	if ($material_cn != null) {
-		$material_cn_str	= " MATERIAL_CN = '".$material_cn."',";
+		$material_cn_str	= " MATERIAL_CN = '".xssEncode($material_cn)."',";
 	}
 	else{
 		$material_cn_str	= " MATERIAL_CN = NULL,";
@@ -452,21 +459,21 @@ $refund_msg_kr_update_flg	 = $_POST['refund_msg_kr_update_flg'];
 $refund_msg_kr				 = $_POST['refund_msg_kr'];
 $refund_msg_kr_str = '';
 if ($refund_msg_kr_update_flg == 'true') {
-	$refund_msg_kr_str		 = " REFUND_MSG_KR = '".$refund_msg_kr."',";
+	$refund_msg_kr_str		 = " REFUND_MSG_KR = '".xssEncode($refund_msg_kr)."',";
 }
 
 $refund_msg_en_update_flg	  = $_POST['refund_msg_en_update_flg'];
 $refund_msg_en				 = $_POST['refund_msg_en'];
 $refund_msg_en_str = '';
 if ($refund_msg_en_update_flg == 'true') {
-	$refund_msg_en_str		 = " REFUND_MSG_EN = '".$refund_msg_en."',";
+	$refund_msg_en_str		 = " REFUND_MSG_EN = '".xssEncode($refund_msg_en)."',";
 }
 
 $refund_msg_cn_update_flg	  = $_POST['refund_msg_cn_update_flg'];
 $refund_msg_cn				 = $_POST['refund_msg_cn'];
 $refund_msg_cn_str = '';
 if ($refund_msg_cn_update_flg == 'true') {
-	$refund_msg_cn_str		 = " REFUND_MSG_CN = '".$refund_msg_cn."',";
+	$refund_msg_cn_str		 = " REFUND_MSG_CN = '".xssEncode($refund_msg_cn)."',";
 }
 
 $refund_kr				  = $_POST['refund_kr'];
@@ -475,7 +482,7 @@ $refund_kr_str = '';
 if($refund_kr_update_flg == 'true'){
 	$refund_kr = str_replace("<p>&nbsp;</p>","",$refund_kr);
 	if ($refund_kr != null) {
-		$refund_kr_str	  = " REFUND_KR = '".$refund_kr."',";
+		$refund_kr_str	  = " REFUND_KR = '".xssEncode($refund_kr)."',";
 	}
 	else{
 		$refund_kr_str	  = " REFUND_KR = NULL,";
@@ -487,7 +494,7 @@ $refund_en_str = '';
 if($refund_en_update_flg == 'true'){
 	$refund_en = str_replace("<p>&nbsp;</p>","",$refund_en);
 	if ($refund_en != null) {
-		$refund_en_str	  = " REFUND_EN = '".$refund_en."',";
+		$refund_en_str	  = " REFUND_EN = '".xssEncode($refund_en)."',";
 	}
 	else{
 		$refund_en_str	  = " REFUND_EN = NULL,";
@@ -499,7 +506,7 @@ $refund_cn_str = '';
 if($refund_cn_update_flg == 'true'){
 	$refund_cn = str_replace("<p>&nbsp;</p>","",$refund_cn);
 	if ($refund_cn != null) {
-		$refund_cn_str	  = " REFUND_CN = '".$refund_cn."',";
+		$refund_cn_str	  = " REFUND_CN = '".xssEncode($refund_cn)."',";
 	}
 	else{
 		$refund_cn_str	  = " REFUND_CN = NULL,";
@@ -543,7 +550,7 @@ $seo_description_str = '';
 if($seo_description_update_flg == 'true'){
 	$seo_description = str_replace("<p>&nbsp;</p>","",$seo_description);
 	if ($seo_description != null) {
-		$seo_description_str	= " SEO_DESCRIPTION = '".$seo_description."',";
+		$seo_description_str	= " SEO_DESCRIPTION = '".xssEncode($seo_description)."',";
 	}
 	else{
 		$seo_description_str	= " SEO_DESCRIPTION = NULL,";
@@ -562,7 +569,7 @@ $seo_alt_text_str = '';
 if($seo_alt_text_update_flg == 'true'){
 	$seo_alt_text = str_replace("<p>&nbsp;</p>","",$seo_alt_text);
 	if ($seo_alt_text != null) {
-		$seo_alt_text_str   = " SEO_ALT_TEXT = '".$seo_alt_text."',";
+		$seo_alt_text_str   = " SEO_ALT_TEXT = '".xssEncode($seo_alt_text)."',";
 	}
 	else{
 		$seo_alt_text_str   = " SEO_ALT_TEXT = NULL,";
@@ -769,6 +776,7 @@ try {
 					".$color_code_str."
 					".$product_code_str."
 					".$shop_product_name_str."
+					".$shop_color_rgb_str."
 					".$md_category_1_str."
 					".$md_category_2_str."
 					".$md_category_3_str."
@@ -874,6 +882,7 @@ try {
 					".$color_code_str."
 					".$product_code_str."
 					".$shop_product_name_str."
+					".$shop_color_rgb_str."
 					".$md_category_1_str."
 					".$md_category_2_str."
 					".$md_category_3_str."
@@ -946,6 +955,7 @@ try {
 					".$style_code_str."
 					".$color_code_str."
 					".$product_code_str."
+					".$shop_color_rgb_str."
 					".$shop_product_name_str."
 					".$md_category_1_str."
 					".$md_category_2_str."
@@ -1024,7 +1034,6 @@ try {
 		
 
 		$upload_file = url_to_file_up($ftp_dir, $server_img_path, $product_dir_name, $img_type_list);
-		
 		if ($upload_file != null) {
 			$db->query('DELETE FROM PRODUCT_IMG WHERE PRODUCT_IDX = '.$product_idx.' ');
 			for ($i=0; $i<count($upload_file); $i++) {
@@ -1073,21 +1082,31 @@ try {
 	
 	$product_option_idx		= $_POST['product_option_idx'];
 	$option_qty				= $_POST['option_qty'];
-	$option_sale_flg		= $_POST['option_qty'];
+	$option_sale_flg		= $_POST['option_sale_flg'];
+	$option_limit_qty_flg	= $_POST['option_limit_qty_flg'];
 	
 	if(is_array($product_option_idx) && is_array($option_qty)){
 		for($i=0; $i<count($product_option_idx); $i++){
-			$update_product_option_sql = "
-				UPDATE
-					PRODUCT_OPTION
-				SET
-					QTY = ".$option_qty[$i].",
-					SALE_FLG = ".$option_sale_flg[$i]."
-				WHERE
-					IDX = ".$product_option_idx[$i]."
-			";
+			if(is_numeric($option_qty[$i])){
+				$update_product_option_sql = "
+					UPDATE
+						PRODUCT_OPTION
+					SET
+						QTY = ".$option_qty[$i].",
+						LIMIT_QTY_FLG = ".$option_limit_qty_flg[$i].",
+						SALE_FLG = ".$option_sale_flg[$i]."
+					WHERE
+						IDX = ".$product_option_idx[$i]."
+				";
+				
+				$db->query($update_product_option_sql);
+			}
+			else{
+				$json_result['code'] = 301;
+				$json_result['msg'] = '옵션별 수량정보는 숫자로 기입해주세요';
+				return $json_result;
+			}
 			
-			$db->query($update_product_option_sql);
 		}
 	}
 
@@ -1204,4 +1223,15 @@ try {
 	$json_result['msg'] = "등록작업에 실패했습니다.";
 }
 
+function xssEncode($value){
+	$value = str_replace("&","&amp;",$value);
+	$value = str_replace("\"","&quot;",$value);
+	$value = str_replace("'","&apos;",$value);
+	$value = str_replace("<","&lt;",$value);
+	$value = str_replace(">","&gt;",$value);
+	$value = str_replace("\r","<br>",$value);
+	$value = str_replace("\n","<p>",$value);
+
+	return $value;
+}
 ?>

@@ -19,7 +19,7 @@ $get_img_location_sql = "
         SELECT
             REPLACE(WO_IMG_LOCATION,'/var/www/admin/www', '') AS WO_IMG_LOCATION
         FROM
-            dev.SUB_MATERIAL_IMAGE
+            SUB_MATERIAL_IMAGE
         WHERE
             SUB_MATERIAL_IDX = ".$sub_material_idx."
 ";

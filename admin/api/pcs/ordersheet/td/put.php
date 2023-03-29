@@ -26,40 +26,76 @@ $product_name       = $_POST['product_name'];
 $update_date 		= $_POST['update_date'];
 $overwrite_flg		= $_POST['overwrite_flg'];
 
+$material_dsn_en = "NULL";
+if (isset($_POST['material_dsn_en'])) {
+	$material_dsn_en = str_replace("<p>&nbsp;</p>","",$_POST['material_dsn_en']);
+	$material_dsn_en = "'".xssEncode($material_dsn_en)."'";
+}
+
+$material_dsn_cn = "NULL";
+if (isset($_POST['material_dsn_cn'])) {
+	$material_dsn_cn = str_replace("<p>&nbsp;</p>","",$_POST['material_dsn_cn']);
+	$material_dsn_cn = "'".xssEncode($material_dsn_cn)."'";
+}
+
+$detail_en = "NULL";
+if (isset($_POST['detail_en'])) {
+	$detail_en = str_replace("<p>&nbsp;</p>","",$_POST['detail_en']);
+	$detail_en = "'".xssEncode($detail_en)."'";
+}
+
+$detail_cn = "NULL";
+if (isset($_POST['detail_cn'])) {
+	$detail_cn = str_replace("<p>&nbsp;</p>","",$_POST['detail_cn']);
+	$detail_cn = "'".xssEncode($detail_cn)."'";
+}
+
+$care_dsn_en = "NULL";
+if (isset($_POST['care_dsn_en'])) {
+	$care_dsn_en = str_replace("<p>&nbsp;</p>","",$_POST['care_dsn_en']);
+	$care_dsn_en = "'".xssEncode($care_dsn_en)."'";
+}
+
+$care_dsn_cn = "NULL";
+if (isset($_POST['care_dsn_cn'])) {
+	$care_dsn_cn = str_replace("<p>&nbsp;</p>","",$_POST['care_dsn_cn']);
+	$care_dsn_cn = "'".xssEncode($care_dsn_cn)."'";
+}
+
+$material_td_kr = "NULL";
+if (isset($_POST['material_td_kr'])) {
+	$material_td_kr = str_replace("<p>&nbsp;</p>","",$_POST['material_td_kr']);
+	$material_td_kr = "'".xssEncode($material_td_kr)."'";
+}
+
+$material_td_en = "NULL";
+if (isset($_POST['material_td_en'])) {
+	$material_td_en = str_replace("<p>&nbsp;</p>","",$_POST['material_td_en']);
+	$material_td_en = "'".xssEncode($material_td_en)."'";
+}
+
+$material_td_cn = "NULL";
+if (isset($_POST['material_td_cn'])) {
+	$material_td_cn = str_replace("<p>&nbsp;</p>","",$_POST['material_td_cn']);
+	$material_td_cn = "'".xssEncode($material_td_cn)."'";
+}
+
 $care_td_kr = "NULL";
-if (isset($_POST['care_td_kr']) && $_POST['care_td_kr'] != "") {
-	$care_td_kr = "'".$_POST['care_td_kr']."'";
-	$care_td_kr = str_replace("<p>&nbsp;</p>","",$care_td_kr);
+if (isset($_POST['care_td_kr'])) {
+	$care_td_kr = str_replace("<p>&nbsp;</p>","",$_POST['care_td_kr']);
+	$care_td_kr = "'".xssEncode($care_td_kr)."'";
 }
 
 $care_td_en = "NULL";
-if (isset($_POST['care_td_en']) && $_POST['care_td_en'] != "") {
-	$care_td_en = "'".$_POST['care_td_en']."'";
-	$care_td_en = str_replace("<p>&nbsp;</p>","",$care_td_en);
+if (isset($_POST['care_td_en'])) {
+	$care_td_en = str_replace("<p>&nbsp;</p>","",$_POST['care_td_en']);
+	$care_td_en = "'".xssEncode($care_td_en)."'";
 }
 
 $care_td_cn = "NULL";
-if (isset($_POST['care_td_cn']) && $_POST['care_td_cn'] != "") {
-	$care_td_cn = "'".$_POST['care_td_cn']."'";
-	$care_td_cn = str_replace("<p>&nbsp;</p>","",$care_td_cn);
-}
-
-$material_kr = "NULL";
-if (isset($_POST['material_kr']) && $_POST['material_kr'] != "") {
-	$material_kr = "'".$_POST['material_kr']."'";
-	$material_kr = str_replace("<p>&nbsp;</p>","",$material_kr);
-}
-
-$material_en = "NULL";
-if (isset($_POST['material_en']) && $_POST['material_en'] != "") {
-	$material_en = "'".$_POST['material_en']."'";
-	$material_en = str_replace("<p>&nbsp;</p>","",$material_en);
-}
-
-$material_cn = "NULL";
-if (isset($_POST['material_cn']) && $_POST['material_cn'] != "") {
-	$material_cn = "'".$_POST['material_cn']."'";
-	$material_cn = str_replace("<p>&nbsp;</p>","",$material_cn);
+if (isset($_POST['care_td_cn'])) {
+	$care_td_cn = str_replace("<p>&nbsp;</p>","",$_POST['care_td_cn']);
+	$care_td_cn = "'".xssEncode($care_td_cn)."'";
 }
 
 $manufacturer = "NULL";
@@ -86,7 +122,6 @@ $load_weight = 0;
 if (isset($_POST['load_weight']) && $_POST['load_weight'] != "") {
 	$load_weight = $_POST['load_weight'];
 }
-
 
 $load_qty = 0;
 if (isset($_POST['load_qty']) && $_POST['load_qty'] != "") {
@@ -207,18 +242,26 @@ if($ordersheet_idx != null){
 				UPDATE
 					ORDERSHEET_MST
 				SET
-					CARE_TD_KR		= ".$care_td_kr.",
-					CARE_TD_EN		= ".$care_td_en.",
-					CARE_TD_CN		= ".$care_td_cn.",
-					MATERIAL_KR		= ".$material_kr.",
-					MATERIAL_EN		= ".$material_en.",
-					MATERIAL_CN		= ".$material_cn.",
-					MANUFACTURER	= ".$manufacturer.",
-					SUPPLIER		= ".$supplier.",
-					ORIGIN_COUNTRY	= ".$origin_country.",
-					LOAD_BOX_IDX	= ".$load_box_idx.",
-					LOAD_WEIGHT		= ".$load_weight.",
-					LOAD_QTY		= ".$load_qty.",
+					MATERIAL_DSN_EN			= ".$material_dsn_en.",
+					MATERIAL_DSN_CN			= ".$material_dsn_cn.",
+					DETAIL_EN				= ".$detail_en.",
+					DETAIL_CN				= ".$detail_cn.",
+					CARE_DSN_EN				= ".$care_dsn_en.",
+					CARE_DSN_CN				= ".$care_dsn_cn.",
+					
+					MATERIAL_TD_KR			= ".$material_td_kr.",
+					MATERIAL_TD_EN			= ".$material_td_en.",
+					MATERIAL_TD_CN			= ".$material_td_cn.",
+					CARE_TD_KR				= ".$care_td_kr.",
+					CARE_TD_EN				= ".$care_td_en.",
+					CARE_TD_CN				= ".$care_td_cn.",
+				
+					MANUFACTURER			= ".$manufacturer.",
+					SUPPLIER				= ".$supplier.",
+					ORIGIN_COUNTRY			= ".$origin_country.",
+					LOAD_BOX_IDX			= ".$load_box_idx.",
+					LOAD_WEIGHT				= ".$load_weight.",
+					LOAD_QTY				= ".$load_qty.",
 					
 					UPDATE_DATE = NOW(),
 					UPDATER = '".$session_id."'
@@ -293,5 +336,17 @@ if($ordersheet_idx != null){
 		$json_result['code'] = 301;
 		$json_result['msg'] = "오더시트 생산정보 작성처리중 오류가 발생했습니다.";
 	}
+}
+
+function xssEncode($value){
+	$value = str_replace("&","&amp;",$value);
+	$value = str_replace("\"","&quot;",$value);
+	$value = str_replace("'","&apos;",$value);
+	$value = str_replace("<","&lt;",$value);
+	$value = str_replace(">","&gt;",$value);
+	$value = str_replace("\r","<br>",$value);
+	$value = str_replace("\n","<p>",$value);
+
+	return $value;
 }
 ?>

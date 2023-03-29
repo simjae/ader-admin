@@ -123,7 +123,7 @@
 									SELECT
 										DISTINCT SUB_MATERIAL_SORT		AS SUB_MATERIAL_SORT
 									FROM
-										dev.SUB_MATERIAL_INFO
+										SUB_MATERIAL_INFO
 									WHERE
 										SUB_MATERIAL_TYPE = 'T'
 								";

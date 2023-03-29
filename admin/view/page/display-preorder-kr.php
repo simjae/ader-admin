@@ -11,7 +11,7 @@
 		<form id="frm-preorder-filter_KR" action="order/preorder/list/get">
 			<?php
 			$sql = " 	SELECT MAX(DISPLAY_NUM) AS MAX 
-						FROM dev.PAGE_PREORDER 
+						FROM PAGE_PREORDER 
 						WHERE COUNTRY='KR' ";
 			$db->query($sql);
 			$display_num_max = 0;
@@ -103,7 +103,7 @@
 								IDX,
 								TITLE
 							FROM
-								dev.MEMBER_LEVEL
+								MEMBER_LEVEL
 							WHERE
 								DEL_FLG = FALSE
 						";
@@ -143,7 +143,7 @@
 		<div class="drive--x"></div>
 	</div>
 	<div class="card__body">
-		<form id="frm-preorder-list_kr">
+		<form id="frm-preorder-list_KR">
 			<div class="info__wrap " style="justify-content:space-between; align-items: center;">
 				<div class="body__info--count">
 					<div class="drive--left"></div>

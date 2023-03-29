@@ -20,15 +20,9 @@ $sheet_str = $_POST['sheet_data'];
 $sheet_data = json_decode($sheet_str, true);
 $relevant_sheet   = $sheet_data['relevant_sheet'];
 
-$relevant_info = array();
-$relevant_true = array();
-$relevant_false = array();
-
 date_default_timezone_set('Asia/Seoul');
 
 if($relevant_sheet != null && count($relevant_sheet) != 0){
-    $excel_start_row = 2;
-    $success_cnt = 0;
     $db->begin_transaction();
     try {
         foreach($relevant_sheet as $key=>$relevant_val){
@@ -39,50 +33,54 @@ if($relevant_sheet != null && count($relevant_sheet) != 0){
             $relevant_val[1] = trim($relevant_val[1]);
     
             if($relevant_val[0] != null && $relevant_val[1] != null){
-           // $json_result['data_cnt'] = count($related_product_sheet);
                 $product_code_cnt = $db->count("SHOP_PRODUCT"," PRODUCT_CODE='".$relevant_val[0]."'");
             
                 if($product_code_cnt > 0 ){
-                    //있음
-                    $new_relevant_idx = null;
-    
+                    $relevant_code_arr = array();
+                    $relevant_idx_arr = array();
+                    $relevant_code_arr = array_map('makeVarchar',explode(',',$relevant_val[1]));
+
                     $db->query("
                         SELECT 
                             IDX 
                         FROM 
                             SHOP_PRODUCT 
                         WHERE 
-                            PRODUCT_CODE = '".$relevant_val[1]."'");
+                            PRODUCT_CODE IN (".implode(',',$relevant_code_arr).")");
+
                     foreach($db->fetch() as $data){
-                        $new_relevant_idx = $data['IDX'];
+                        array_push($relevant_idx_arr, $data['IDX']);
                     }
-                    if($new_relevant_idx != null){
-                        //처음
-                        if(!isset($relevant_info[$relevant_val[0]])){
-                            $relevant_info[$relevant_val[0]] = $new_relevant_idx;
-                        }
-                        //처음아님
-                        else{
-                            $relevant_info[$relevant_val[0]] .= ",".$new_relevant_idx;
-                        }
+
+                    if(count($relevant_idx_arr) > 0){
+                        $sql = "
+                            UPDATE 
+                                SHOP_PRODUCT 
+                            SET
+                                RELEVANT_IDX = '".implode(',', $relevant_idx_arr)."',
+                                UPDATER = '".$session_id."',
+                                UPDATE_DATE = NOW()
+                            WHERE
+                                PRODUCT_CODE = '".$relevant_val[0]."'
+                        ";
+            
+                        $db->query($sql);
+                        $success_cnt++;
+                    }
+                    else{
+                        $json_result['code'] = 301;
+                        $db->rollback();
+                        $json_result['msg'] = '기입한 관련상품 코드가 유효하지 않습니다.';
+                        return $json_result;
                     }
                 }
+                else{
+                    $json_result['code'] = 301;
+                    $db->rollback();
+                    $json_result['msg'] = '기입한 상품코드가 유효하지 않습니다.';
+                    return $json_result;
+                }
             }
-        }
-        foreach($relevant_info as $array_key=>$array_val){
-            $sql = "
-                UPDATE 
-                    SHOP_PRODUCT 
-                SET
-                    RELEVANT_IDX = '".$array_val."',
-                    UPDATER = '".$session_id."',
-                    UPDATE_DATE = NOW()
-                WHERE
-                    PRODUCT_CODE = '".$array_key."'
-            ";
-
-            $db->query($sql);
-            $success_cnt++;
         }
         $json_result['data']['success'] = $success_cnt;
         $db->commit();
@@ -99,6 +97,8 @@ else{
     $json_result['msg']     = '빈 시트입니다. 파일을 다시 확인해주세요';
     return $json_result;
 }
-
-
+function makeVarchar($item){
+    $item = "'".$item."'";
+    return $item;
+}
 ?>

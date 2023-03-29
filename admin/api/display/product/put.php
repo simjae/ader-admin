@@ -29,6 +29,7 @@ $page_idx				= $_POST['page_idx'];
 $page_title         	= $_POST['page_title'];				//페이지 타이틀
 $page_memo     			= $_POST['page_memo'];				//페이지 비고
 
+$display_member_level	= $_POST['display_member_level'];
 $member_level           = $_POST['member_level'];          	//접근대상 LEVEL LIST
 $prodIp					= $_POST['prodIp'];             	//차단 IP LIST
 
@@ -177,11 +178,17 @@ if ($update_flg != null && $page_idx != null) {
 		}
 	}
 	
-	if ($member_level != null) {
-		$member_level = implode(",",$member_level);
-	} else {
-		$member_level = "ALL";
+	if($display_member_level == 'all'){
+		$member_level = "0";
 	}
+	else{
+		if ($member_level != null) {
+			$member_level = implode(",",$member_level);
+		} else {
+			$member_level = "0";
+		}
+	}
+	
 	
 	$update_page_product_sql = "
 		UPDATE

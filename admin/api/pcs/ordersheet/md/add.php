@@ -28,6 +28,13 @@ if($verify_ordersheet_cnt > 0){
 	return $json_result;
 }
 
+$year = $_POST['year'];
+$year_arr = array();
+if ($year != null) {
+	$year_arr[0] = ' YEAR, ';
+	$year_arr[1] = "'".$year."',";
+}
+
 $style_code = $_POST['style_code'];
 $style_code_arr = array();
 if ($style_code != null) {
@@ -252,6 +259,7 @@ if($product_code != null){
 		$sql = 	"INSERT INTO
 					ORDERSHEET_MST
 				(
+					".$year_arr[0]."
 					".$style_code_arr[0]."
 					".$color_code_arr[0]."
 					".$product_code_arr[0]."
@@ -289,6 +297,7 @@ if($product_code != null){
 				)
 				VALUES
 				(
+					".$year_arr[1]."
 					".$style_code_arr[1]."
 					".$color_code_arr[1]."
 					".$product_code_arr[1]."

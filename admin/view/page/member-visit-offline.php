@@ -51,7 +51,7 @@
 				SELECT 
 					DISTINCT STORE AS STORE 
 				FROM 
-					dev.OFFLINE_ENTERANCE
+					OFFLINE_ENTERANCE
 				WHERE
 					STORE IS NOT NULL
 				group by 

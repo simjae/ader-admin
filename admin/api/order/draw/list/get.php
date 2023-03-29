@@ -38,11 +38,11 @@ $purchase_end_time		= $_POST['purchase_end_time'];
 $announce_start_date	= $_POST['announce_start_date'];
 $announce_end_date		= $_POST['announce_end_date'];
 
-$rows				= $_POST['rows'];
-$page				= $_POST['page'];
+$rows					= $_POST['rows'];
+$page					= $_POST['page'];
 
-$sort_value			= $_POST['sort_value'];	
-$sort_type			= $_POST['sort_type'];
+$sort_value				= $_POST['sort_value'];	
+$sort_type				= $_POST['sort_type'];
 
 if ($entry_start_date != null) {
 	if (isset($_POST['entry_start_time'])) {
@@ -244,11 +244,6 @@ if ($sort_value != null && $sort_type != null) {
 	$order = ' PD.IDX DESC';
 }
 
-$limit_start = (intval($page)-1)*$rows;
-if ($rows != null) {
-	$limit .= " LIMIT ".$limit_start.",".$rows;
-}
-
 $select_draw_sql = "
 	SELECT
 		PD.IDX					AS DRAW_IDX,
@@ -310,10 +305,12 @@ $select_draw_sql = "
 		".$where."
 	ORDER BY
 		PD.DISPLAY_NUM ASC
-	".$limit."
 ";
 
-
+$limit_start = (intval($page)-1)*$rows;
+if ($rows != null) {
+	$select_draw_sql .= " LIMIT ".$limit_start.",".$rows;
+}
 
 $db->query($select_draw_sql);
 
@@ -352,6 +349,7 @@ foreach($db->fetch() as $draw_data) {
 	}
 	
 	$json_result['data'][] = array(
+		'num'					=>$total_cnt--,
 		'draw_idx'				=>$draw_data['DRAW_IDX'],
 		'country'				=>$draw_data['COUNTRY'],
 		'product_idx'			=>$draw_data['PRODUCT_IDX'],

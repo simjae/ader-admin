@@ -40,7 +40,7 @@
 										SELECT
 											DISTINCT BI.BOX_TYPE	AS BOX_TYPE
 										FROM
-											dev.BOX_INFO BI
+											BOX_INFO BI
 									";
 									
 									$db->query($select_box_type_sql);

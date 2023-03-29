@@ -1,4 +1,8 @@
 <style>
+.sold_out_status {width:100%;height:20px;margin-top:-30px;font-size:1.1rem;padding-left:37%;padding-right:37%;font-weight:800;color:red;position:absolute;z-index:99;}
+.link_btn {width:50px;height:30px;font-size:12px;position:absolute;top:80px;left:65px;z-index:999;background-color:#ffffff;border:1px solid #bfbfbf;border-radius:5px;}
+	.link_font {position:absolute;top:-35px;left:13px;}
+
 .controls {margin: 30px -10px;}
 .control {position: relative;float: left;width: 25%;padding: 0 10px;}
 .grid__wrap {display: flex;gap: 10px;}
@@ -33,7 +37,7 @@
 .item.blue .card {color: #4A9FF9;}
 .item.gray .card {color: #707070; }
 .card-id {position: absolute;left: 7px;top: 0;height: 30px;line-height: 30px;text-align: left;font-size: 16px;font-weight: 400;}
-.card-remove {position: absolute;right: 0;top: 0;width: 30px;height: 30px;line-height: 30px;text-align: center;font-size: 20px;font-weight: 400;cursor: pointer;-moz-transform: scale(0);-webkit-transform: scale(0);-o-transform: scale(0);-ms-transform: scale(0);transform: scale(0);-webkit-transition: all 0.15s ease-out;-moz-transition: all 0.15s ease-out;-ms-transition: all 0.15s ease-out;-o-transition: all 0.15s ease-out;transition: all 0.15s ease-out;}
+.card-remove {position: absolute;right: 0;top: 0;width: 30px;height: 30px;line-height: 30px;text-align: center;font-size: 20px;font-weight: 400;cursor: pointer;-moz-transform: scale(0);-webkit-transform: scale(0);-o-transform: scale(0);-ms-transform: scale(0);transform: scale(0);-webkit-transition: all 0.15s ease-out;-moz-transition: all 0.15s ease-out;-ms-transition: all 0.15s ease-out;-o-transition: all 0.15s ease-out;transition: all 0.15s ease-out;z-index:998;}
 .card:hover >.card-remove {-moz-transform: scale(1);-webkit-transform: scale(1);-o-transform: scale(1);-ms-transform: scale(1);transform: scale(1);}
 .card-add {position: absolute;right: 0px;top: 75px;width: 30px;height: 30px;line-height: 30px;text-align: center;font-size: 20px;font-weight: 400;cursor: pointer;-moz-transform: scale(0);-webkit-transform: scale(0);-o-transform: scale(0);-ms-transform: scale(0);transform: scale(0);-webkit-transition: all 0.15s ease-out;-moz-transition: all 0.15s ease-out;-ms-transition: all 0.15s ease-out;-o-transition: all 0.15s ease-out;transition: all 0.15s ease-out;}
 .card:hover>.card-add {-moz-transform: scale(1);-webkit-transform: scale(1);-o-transform: scale(1);-ms-transform: scale(1);transform: scale(1);}
@@ -661,9 +665,16 @@ function libraryDrop(ev) {
 		}
 		ev.target.appendChild(item);
 		
+		let div_sold_out = "<div></div>";
+		let div_link = "<div></div>";
+		
 		if (lib_type == "PRD" && product_qty == 0) {
-			$(item).parent().find('.card-id').before('<div style="width:100%;height:20px;font-size:1.1rem;margin-top:-30px;font-weight:800;color:red;position:absolute;z-index:999;">품절</div>');
+			div_sold_out = '<div class="sold_out_status">품절</div>';
 		}
+		div_link = '<div class="link_btn" onClick="console.log(\'HERE\');"><font class="link_font">링크</font></div>';
+		
+		$(item).parent().find('.card-id').before(div_sold_out);
+		$(item).parent().find('.card-id').before(div_link);
 		
 		resetProductWrap();
 	}
@@ -1196,7 +1207,7 @@ $(document).ready(function () {
 	
 	function removeItem(event) {
 		var elem = elementClosest(event.target, '.item');
-		
+		console.log('remove');
 		var index = (parseInt($(elem).find('.card-id').text()) - 1);
 		grid.remove(grid.getItems(index), {
 			removeElements: true
@@ -1544,10 +1555,11 @@ function getProductGridList() {
 						
 						strDiv += "    <input " + grid_id + " data-gridinput='" + display_num + "' product_idx='" + row.product_idx + "' type='hidden' class='grid_info_temp' name='grid_info_temp' value='" + default_value + "'>";
 						strDiv += '    <div class="item-content">';
-						if (row.product_qty == 0) {
-							strDiv += '    <div style="width:100%;height:20px;font-size:1.1rem;margin-top:-25px;padding-left:37%;padding-right:37%;font-weight:800;color:red;position:absolute;z-index:999;">품절</div>';
-						}
 						strDiv += '        <div class="card">';
+						if (row.product_qty == 0) {
+							strDiv += '    <div class="sold_out_status">품절</div>';
+						}
+						strDiv += '            <div class="link_btn" onClick="console.log(\'HERE\');"><font class="link_font">링크</font></div>';
 						strDiv += '            <div class="card-id">' + display_num + '</div>';
 						
 						strDiv += '            <div class="card-remove">';

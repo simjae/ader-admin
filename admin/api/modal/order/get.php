@@ -412,6 +412,8 @@ if ($country != null && $member_idx != null) {
 				OI.MEMBER_LEVEL = ML.IDX
 			WHERE
 				OI.IDX IN (".implode(",",$order_idx).")
+			ORDER BY
+				".$order."
 		";
 		
 		$db->query($select_order_info_sql);

@@ -38,74 +38,96 @@ if (isset($_POST['model']) && $_POST['model'] != "") {
 }
 
 $model_wear = "NULL";
-if (isset($_POST['model_wear']) && $_POST['model_wear'] != "") {
+if (isset($_POST['model_wear'])) {
 	$model_wear = "'".$_POST['model_wear']."'";
 }
 
-$material = "NULL";
-if (isset($_POST['material']) && $_POST['material'] != "") {
-	$material = "'".$_POST['material']."'";
-}
-
-$fit = "NULL";
-if (isset($_POST['fit']) && $_POST['fit'] != "") {
-	$fit = "'".$_POST['fit']."'";
-}
-
-$color_rgb = "NULL";
-if (isset($_POST['color_rgb']) && $_POST['color_rgb'] != "") {
-	$color_rgb = "'".$_POST['color_rgb']."'";
-}
-
-$pantone_code = "NULL";
-if (isset($_POST['pantone_code']) && $_POST['pantone_code'] != "") {
-	$pantone_code = "'".$_POST['pantone_code']."'";
-}
-
 $tp_completion_date = "NULL";
-if (isset($_POST['tp_completion_date']) && $_POST['tp_completion_date'] != "") {
+if (isset($_POST['tp_completion_date'])) {
 	$tp_completion_date = "'".$_POST['tp_completion_date']."'";
 }
 
-$size_guide_idx = 0;
-if (isset($_POST['size_guide_idx']) && $_POST['size_guide_idx'] != "") {
-	$size_guide_idx = $_POST['size_guide_idx'];
+$size_guide_category = "NULL";
+if (isset($_POST['size_guide_category'])) {
+	$size_guide_category = "'".$_POST['size_guide_category']."'";
 }
 
-$care_dsn_kr = "NULL";
-if (isset($_POST['care_dsn_kr']) && $_POST['care_dsn_kr'] != "") {
-	$care_dsn_kr = "'".$_POST['care_dsn_kr']."'";
-	$care_dsn_kr = str_replace("<p>&nbsp;</p>","",$care_dsn_kr);
-}
-
-$care_dsn_en = "NULL";
-if (isset($_POST['care_dsn_en']) && $_POST['care_dsn_en'] != "") {
-	$care_dsn_en = "'".$_POST['care_dsn_en']."'";
-	$care_dsn_en = str_replace("<p>&nbsp;</p>","",$care_dsn_en);
-}
-
-$care_dsn_cn = "NULL";
-if (isset($_POST['care_dsn_cn']) && $_POST['care_dsn_cn'] != "") {
-	$care_dsn_cn = "'".$_POST['care_dsn_cn']."'";
-	$care_dsn_cn = str_replace("<p>&nbsp;</p>","",$care_dsn_cn);
+$material_dsn_kr = "NULL";
+if (isset($_POST['material_dsn_kr'])) {
+	$material_dsn_kr = str_replace("<p>&nbsp;</p>","",$_POST['material_dsn_kr']);
+	$material_dsn_kr = "'".xssEncode($material_dsn_kr)."'";
 }
 
 $detail_kr = "NULL";
-if (isset($_POST['detail_kr']) && $_POST['detail_kr'] != "") {
-	$detail_kr = "'".$_POST['detail_kr']."'";
-	$detail_kr = str_replace("<p>&nbsp;</p>","",$detail_kr);
+if (isset($_POST['detail_kr'])) {
+	$detail_kr = str_replace("<p>&nbsp;</p>","",$_POST['detail_kr']);
+	$detail_kr = "'".xssEncode($detail_kr)."'";
+}
+
+$care_dsn_kr = "NULL";
+if (isset($_POST['care_dsn_kr'])) {
+	$care_dsn_kr = str_replace("<p>&nbsp;</p>","",$_POST['care_dsn_kr']);
+	$care_dsn_kr = "'".xssEncode($care_dsn_kr)."'";
+}
+
+$material_dsn_en = "NULL";
+if (isset($_POST['material_dsn_en'])) {
+	$material_dsn_en = str_replace("<p>&nbsp;</p>","",$_POST['material_dsn_en']);
+	$material_dsn_en = "'".xssEncode($material_dsn_en)."'";
+}
+
+$material_dsn_cn = "NULL";
+if (isset($_POST['material_dsn_cn'])) {
+	$material_dsn_cn = str_replace("<p>&nbsp;</p>","",$_POST['material_dsn_cn']);
+	$material_dsn_cn = "'".xssEncode($material_dsn_cn)."'";
 }
 
 $detail_en = "NULL";
-if (isset($_POST['detail_en']) && $_POST['detail_en'] != "") {
-	$detail_en = "'".$_POST['detail_en']."'";
-	$detail_en = str_replace("<p>&nbsp;</p>","",$detail_en);
+if (isset($_POST['detail_en'])) {
+	$detail_en = str_replace("<p>&nbsp;</p>","",$_POST['detail_en']);
+	$detail_en = "'".xssEncode($detail_en)."'";
 }
 
 $detail_cn = "NULL";
-if (isset($_POST['detail_cn']) && $_POST['detail_cn'] != "") {
-	$detail_cn = "'".$_POST['detail_cn']."'";
-	$detail_cn = str_replace("<p>&nbsp;</p>","",$detail_cn);
+if (isset($_POST['detail_cn'])) {
+	$detail_cn = str_replace("<p>&nbsp;</p>","",$_POST['detail_cn']);
+	$detail_cn = "'".xssEncode($detail_cn)."'";
+}
+
+$care_dsn_en = "NULL";
+if (isset($_POST['care_dsn_en'])) {
+	$care_dsn_en = str_replace("<p>&nbsp;</p>","",$_POST['care_dsn_en']);
+	$care_dsn_en = "'".xssEncode($care_dsn_en)."'";
+}
+
+$care_dsn_cn = "NULL";
+if (isset($_POST['care_dsn_cn'])) {
+	$care_dsn_cn = str_replace("<p>&nbsp;</p>","",$_POST['care_dsn_cn']);
+	$care_dsn_cn = "'".xssEncode($care_dsn_cn)."'";
+}
+
+$material_td_en = "NULL";
+if (isset($_POST['material_td_en'])) {
+	$material_td_en = str_replace("<p>&nbsp;</p>","",$_POST['material_td_en']);
+	$material_td_en = "'".xssEncode($material_td_en)."'";
+}
+
+$material_td_cn = "NULL";
+if (isset($_POST['material_td_cn'])) {
+	$material_td_cn = str_replace("<p>&nbsp;</p>","",$_POST['material_td_cn']);
+	$material_td_cn = "'".xssEncode($material_td_cn)."'";
+}
+
+$care_td_en = "NULL";
+if (isset($_POST['care_td_en'])) {
+	$care_td_en = str_replace("<p>&nbsp;</p>","",$_POST['care_td_en']);
+	$care_td_en = "'".xssEncode($care_td_en)."'";
+}
+
+$care_td_cn = "NULL";
+if (isset($_POST['care_td_cn'])) {
+	$care_td_cn = str_replace("<p>&nbsp;</p>","",$_POST['care_td_cn']);
+	$care_td_cn = "'".xssEncode($care_td_cn)."'";
 }
 
 $option_type		= $_POST['option_type'];
@@ -152,21 +174,26 @@ if($ordersheet_idx != null){
 			UPDATE
 				ORDERSHEET_MST
 			SET
-				MATERIAL			= ".$material.",
-				FIT					= ".$fit.",
-				COLOR_RGB			= ".$color_rgb.",
-				PANTONE_CODE		= ".$pantone_code.",
 				TP_COMPLETION_DATE	= ".$tp_completion_date.",
 				WKLA_IDX			= ".$wkla_idx.",
 				MODEL				= ".$model.",
 				MODEL_WEAR			= ".$model_wear.",
-				SIZE_GUIDE_IDX		= ".$size_guide_idx.",
-				CARE_DSN_KR			= ".$care_dsn_kr.",
-				CARE_DSN_EN			= ".$care_dsn_en.",
-				CARE_DSN_CN			= ".$care_dsn_cn.",
-				DETAIL_KR			= ".$detail_kr.",
-				DETAIL_EN			= ".$detail_en.",
-				DETAIL_CN			= ".$detail_cn.",
+				SIZE_GUIDE_CATEGORY	= ".$size_guide_category.",
+				
+				MATERIAL_DSN_KR			= ".$material_dsn_kr.",
+				MATERIAL_DSN_EN			= ".$material_dsn_en.",
+				MATERIAL_DSN_CN			= ".$material_dsn_cn.",
+				DETAIL_KR				= ".$detail_kr.",
+				DETAIL_EN				= ".$detail_en.",
+				DETAIL_CN				= ".$detail_cn.",
+				CARE_DSN_KR				= ".$care_dsn_kr.",
+				CARE_DSN_EN				= ".$care_dsn_en.",
+				CARE_DSN_CN				= ".$care_dsn_cn.",
+				
+				MATERIAL_TD_EN			= ".$material_td_en.",
+				MATERIAL_TD_CN			= ".$material_td_cn.",
+				CARE_TD_EN				= ".$care_td_en.",
+				CARE_TD_CN				= ".$care_td_cn.",
 				
 				UPDATE_DATE = NOW(),
 				UPDATER = '".$session_id."'

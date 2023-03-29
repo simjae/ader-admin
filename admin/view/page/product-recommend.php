@@ -22,18 +22,10 @@
 					
 				<div class="content__row">
 					<select style="width:163px;float:right;margin-right:10px;" onChange="orderChange(this);">
-						<option value="CREATE_DATE|DESC">등록일 역순</option>
-						<option value="CREATE_DATE|ASC" selected>등록일 순</option>
-						<option value="UPDATE_DATE|DESC">삭제일 역순</option>
-						<option value="UPDATE_DATE|ASC">삭제일 순</option>
-						<option value="PRODUCT_NAME|DESC">상품명 역순</option>
-						<option value="PRODUCT_NAME|ASC">상품명 순</option>
-						<option value="SALES_PRICE_KR|DESC">판매가(힌국몰) 역순</option>
-						<option value="SALES_PRICE_KR|ASC">판매가(힌국몰) 순</option>
-						<option value="SALES_PRICE_EN|DESC">판매가(영문몰) 역순</option>
-						<option value="SALES_PRICE_EN|ASC">판매가(영문몰) 순</option>
-						<option value="SALES_PRICE_CN|DESC">판매가(중문몰) 역순</option>
-						<option value="SALES_PRICE_CN|ASC">판매가(중문몰) 순</option>
+						<option value="CREATE_DATE|DESC" selected>등록일 역순</option>
+						<option value="CREATE_DATE|ASC">등록일 순</option>
+						<option value="UPDATE_DATE|DESC">수정일 역순</option>
+						<option value="UPDATE_DATE|ASC">수정일 순</option>
 					</select>
 					<select style="width:163px;margin-right:10px;float:right;" onChange="rowsChange(this);">
 						<option value="10" selected>10개씩보기</option>
