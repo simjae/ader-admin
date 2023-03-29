@@ -40,6 +40,7 @@ if($member_idx > 0 && $country != NULL){
 					FROM 
 						MILEAGE_INFO 
 					WHERE 
+						COUNTRY = '".$country."' AND
 						MEMBER_IDX = ".$member_idx."
 					ORDER BY 
 						IDX DESC 

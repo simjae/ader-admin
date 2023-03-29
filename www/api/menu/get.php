@@ -54,7 +54,8 @@ if ($member_idx > 0) {
 					S_MI.MILEAGE_BALANCE
 				FROM 
 					MILEAGE_INFO S_MI
-				WHERE 
+				WHERE
+					S_MI.COUNTRY = '".$country."' AND
 					S_MI.MEMBER_IDX = MB.IDX
 				ORDER BY 
 					S_MI.IDX DESC 
@@ -67,6 +68,7 @@ if ($member_idx > 0) {
 				FROM 
 					VOUCHER_ISSUE S_VI
 				WHERE
+					S_VI.COUNTRY = '".$country."' AND
 					S_VI.MEMBER_IDX = MB.IDX AND
 					S_VI.DEL_FLG = FALSE AND
 					S_VI.VOUCHER_ADD_DATE IS NOT NULL AND

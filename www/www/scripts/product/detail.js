@@ -277,9 +277,7 @@ function makeProductListFlag(d) {
                 ${whish_flg == 'true' ? whishlistTitle : ""}
             </div>
         </div>
-        <div class="mobile-whishlist-wrap">
-            <div></div>
-        </div>
+        <div class="mobile-whishlist-wrap"></div>
         ${refund_msg_flg == 1 ?
                 `<div class="detail__refund__box"> 
                 <div class='close-box'>

@@ -354,19 +354,18 @@
                         <div class="membership__sub__info">
                             <p class="underline">적립금 적립 기준</p>
                             <p>·&nbsp;1,000원 이상 구매 시 적립됩니다.</p>
-                            <p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 적립금으로 전환됩니다.</p>
+                            <p>·&nbsp;주문으로 발생한 적립금은 배송 완료 후 7일부터 실제 사용 가능한 적립금으로 전환됩니다.</p>
                             <p>·&nbsp;적립금은 등급별로 차등 적립됩니다.</p>
                             <p>·&nbsp;적립금 사용 구매 시 해당 구매 건에 대한 적립금은 적립 불가합니다.</p>
                             <p>·&nbsp;회원 탈퇴 시 적립금은 자동 소멸됩니다.</p>
                         </div>
                         <div class="membership__sub__info">
                             <p class="underline">적립금 사용 기준</p>
-                            <p>·&nbsp;적립금 1,000원 이상부터 사용 가능합니다.</p>
-                            <p>·&nbsp;적립금, 바우처 그리고 쿠폰은 중복 사용이 불가능합니다.</p>
+                            <p>·&nbsp;1,000원 이상부터 사용 가능합니다.</p>
                         </div>
                         <div class="membership__sub__info">
                             <p class="underline">적립금 유효 기간</p>
-                            <p>·&nbsp;발행시점으로 부터 1년 유효하며, 이후 자동 소멸됩니다.</p>
+                            <p>·&nbsp;지급 시점으로부터 1년간 유효하며, 이후 자동 소멸됩니다.</p>
                         </div>
                     </div>
                     <div class="mobile__view">

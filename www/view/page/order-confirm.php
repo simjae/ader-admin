@@ -1137,13 +1137,13 @@ if ($member_idx == 0 || $basket_idx == null) {
 									<span class="price_discount" data-price_discount="0">0</span>
 								</div>
 								<div class="calculation-row">
-									<span>적립 포인트 사용</span>
+									<span>적립금 사용</span>
 									<span class="price_mileage_point" data-price_mileage_point="0">0</span>
 								</div>
-								<div class="calculation-row">
+								<!-- <div class="calculation-row">
 									<span>충전 포인트 사용</span>
 									<span class="price_charge_point" data-price_charge_point="0">0</span>
-								</div>
+								</div> -->
 							</div>
 
 							<div class="calculation-row">
@@ -1181,33 +1181,27 @@ if ($member_idx == 0 || $basket_idx == null) {
 			<div class="wrapper reserves-info" data-group="1">
 				<div class="header-wrap">
 					<div class="header-box">
-						<span class="hd-title">적립 포인트</span>
+						<span class="hd-title">적립금</span>
 					</div>
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요." style="padding-left:10px;" onChange="setPriceMileagePoint(this);">
-						<div class="mileage_point_btn" onclick="getTotalMileage(true)"><span
-								class="mileage_point_msg">모두적용</span></div>
+						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립금을 입력해주세요." style="padding-left:10px;" onChange="setPriceMileagePoint(this);">
+						<div class="mileage_point_btn" onclick="getTotalMileage(true)">
+							<span class="mileage_point_msg">모두적용</span></div>
 					</div>
 					<div class="get-point reserves">
-						<span>보유 적립 포인트</span>
+						<span>사용 가능 적립금</span>
 						<span id="txt_total_mileage" style="margin-left:5px;"></span>
 					</div>
 					<div class="reserves-info-list hidden">
-						<p>·&nbsp;주문으로 발생한 적립 포인트는 배송완료 후 7일 부터 실제 사용 가능한 적립 포인트로 전환됩니다. 배송
-							완료 시점으로부터 7일 동안은 미가용 적립 포인트로 분류됩니다.</p>
-						<p>·&nbsp;미가용 적립 포인트는 반품, 구매취소 등을 대비한 임시 적립 포인트로 사용가능 포인트로 전환되기까지
-							상품구매에 사용하실 수 없습니다.</p>
-						<p>·&nbsp;사용가능 적립 포인트(총 적립 포인트, 사용된 적립 포인트, 미가용 적립 포인트)는 상품구매 시 바로 사용
-							가능합니다.</li>
-						<p>·&nbsp;2019.07.01부터 개정 시행되는 특정 금융거래정보법에 따라 계좌 미연결한 고객은 적립 포인트 최대 50
-							만원 및 충전 포인트 최대 50만원까지 보유가능합니다.</p>
-						<p>·&nbsp;적립 포인트는 예치금과 이니시스 결제 시에만 적립됩니다.</p>
+						<p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 적립금으로 전환됩니다. 배송 완료 시점으로부터 7일 동안은 미가용 적립금으로 분류됩니다.</p>
+						<p>·&nbsp;미가용 적립금의 경우, 반품 및 취소의 경우에 대비하여 임시로 적립됩니다. 사용 가능 적립금으로 변환 완료된 이후 사용 가능합니다.</p>
 					</div>
 				</div>
 			</div>
-			<div class="wrapper charge-info" data-group="1">
+
+			<!-- <div class="wrapper charge-info" data-group="1">
 				<div class="header-wrap">
 					<div class="header-box">
 						<span class="hd-title">충전 포인트</span>
@@ -1215,7 +1209,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립 포인트를 입력해주세요."
+						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립금을 입력해주세요."
 							style="padding-left:10px;">
 						<div class="charge_point_btn"><span>모두적용</span></div>
 					</div>
@@ -1226,11 +1220,10 @@ if ($member_idx == 0 || $basket_idx == null) {
 					<div class="charge-btn"><span>충전하기</span></div>
 					<div class="reserves-info-list">
 						<p>·&nbsp;충전 포인트는 현금과 동일하게 사용 가능합니다.</p>
-						<p>·&nbsp;충전 포인트 사용 시 적립 포인트 3% 추가 적립이 적용됩니다.</p>
+						<p>·&nbsp;충전 포인트 사용 시 적립금 3% 추가 적립이 적용됩니다.</p>
 					</div>
-
 				</div>
-			</div>
+			</div> -->
 
 			<div class="wrapper member_info" data-group="2">
 				<div class="header-wrap">
@@ -1318,8 +1311,8 @@ if ($member_idx == 0 || $basket_idx == null) {
 							<span class="hd-title">배송메시지</span>
 							<div class="edit-message-box">
 								<div class="addr-message-select-box"></div>
-								<textarea placeholder="내용을 입력해주세요.(최대 50자)" id="tmp_order_memo" class="tmp_order_memo"
-									type="text"></textarea>
+								<!-- <input id="recent_order_msg" type="hidden"> -->
+								<textarea placeholder="내용을 입력해주세요.(최대 50자)" id="tmp_order_memo" class="tmp_order_memo" type="text"></textarea>
 							</div>
 							<div class="save-message-box hidden">
 								<p class="message-content"></p>
@@ -1339,7 +1332,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 
 			<div class="terms-service hidden" data-group="4">
 				<div class="terms-info-list">
-					<p>·&nbsp;최소 결제 가능 금액은 결제금액에서 배송비를 제외한 금액입니다.</p>
+					<p>·&nbsp;최소 결제 가능 금액은 결제 금액에서 배송비를 제외한 금액입니다.</p>
 					<p>·&nbsp;소액 결제의 경우 PG사 정책에 따라 결제 금액 제한이 있을 수 있습니다.</p>
 				</div>
 				<div class="check-row">
@@ -1470,7 +1463,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 				getTotalMileage(false);
 			} else {
-				exceptionHandling("디자인 필요", d.msg);
+				notiModal(d.msg);
 			}
 		}
 	});
@@ -1625,7 +1618,7 @@ function listAdd() {
 					document.querySelector(".list-box").classList.add("hidden");
 				}
 			} else {
-				exceptionHandling("디자인 필요", d.msg);
+				notiModal(d.msg);
 			}
 		}
 	});
@@ -1679,7 +1672,7 @@ function getOrderToInfo(order_to_idx) {
 					});
 				}
 			} else {
-				exceptionHandling("디자인 필요", d.msg);
+				notiModal(d.msg);
 			}
 		}
 	});
@@ -1760,7 +1753,7 @@ function listAddr() {
 
 	if (addrSearch.value.length == 0) {
 		if (document.querySelector(".tmp_to_zipcode").value === document.querySelector(".postcodify_search_controls .keyword").value) {
-			exceptionHandling("디자인 필요", "배송지를 선택해주세요");
+			notiModal('배송지를 선택해주세요');
 		}
 		return false;
 	}
@@ -1837,25 +1830,25 @@ function addOrderToInfo() {
 let orderMemoSelectBox = new tui.SelectBox('.addr-message-select-box', {
 	placeholder: '배송시 요청사항을 선택해주세요',
 	data: [
+		// {
+		// 	label: document.querySelector("#recent_order_msg").value,
+		// 	value: '1'
+		// },
 		{
-			label: '부재시 문앞에 놓아주세요.',
+			label: '부재 시 문 앞에 놓아주세요.',
 			value: '1'
 		},
 		{
-			label: '택배함에 넣어 주세요.',
+			label: '택배함에 넣어주세요.',
 			value: '2'
 		},
 		{
-			label: '파손위험상품입니다. 배송시 주의해주세요.',
+			label: '파손 위험이 있는 제품입니다. 배송 시 주의 부탁드립니다.',
 			value: '3'
 		},
 		{
-			label: '배송전 연락주세요.',
+			label: '배송 전 연락 주세요.',
 			value: '4'
-		},
-		{
-			label: '(최근)문 앞에 두고가주에요~',
-			value: '5'
 		},
 		{
 			label: '직접입력',
@@ -1870,6 +1863,7 @@ function orderMemoChangeEvent() {
 	orderMemoSelectBox.on('change', ev => {
 		let tmp_order_memo = document.querySelector("#tmp_order_memo");
 		let massageValue = document.querySelector(".message-content");
+		// let resent_msg = document.querySelector("#recent_order_msg").value;
 
 		let select_label = ev.curr.getLabel();
 		let select_value = ev.curr.getValue();
@@ -1951,9 +1945,6 @@ function setVoucherInfoList(voucher_cnt,voucher_info) {
 			let sale_type = voucher_info['sale_type'];
 			let sale_price = voucher_info['sale_price'];
 			
-			console.log(sale_type);
-			console.log(sale_price);
-			
 			let tmp_discount = 0;
 			if (sale_type == "PRC") {
 				tmp_discount = voucher_info['sale_prices'];
@@ -1989,11 +1980,13 @@ function setVoucherInfoList(voucher_cnt,voucher_info) {
 			let price_discount = document.querySelector(".price_discount");
 			price_discount.dataset.price_discount = 0;
 			price_discount.innerHTML = 0;
-
+			
+			/*
 			let price_mileage_point = document.querySelector(".price_mileage_point");
 			price_mileage_point.dataset.price_mileage_point = 0;
 			price_mileage_point.innerHTML = 0;
-
+			*/
+			
 			$('#use_mileage').attr('disabled', false);
 			$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
 		}
@@ -2008,7 +2001,7 @@ function getTotalMileage(calc_flg) {
 		dataType: "json",
 		url: "http://116.124.128.246/_api/mileage/get",
 		error: function () {
-			console.log("적립 포인트 불러오기에 실패했습니다.");
+			console.log("적립금 불러오기에 실패했습니다.");
 		},
 		success: function (d) {
 			let code = d.code;
@@ -2020,14 +2013,14 @@ function getTotalMileage(calc_flg) {
 				let price_mileage_point = document.querySelector(".price_mileage_point");
 				price_mileage_point.dataset.price_mileage_point = mileage_point;
 				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
-				
-				$('#price_mileage_point').val(mileage_point);
 
 				if (calc_flg == true) {
 					$('.mileage_point_msg').text('적용취소');
 					$('.mileage_point_btn').attr('onClick', 'getTotalMileage(false);');
 					$('.reserves-info-list.hidden').removeClass('hidden');
 					calcPriceTotal();
+					
+					$('#price_mileage_point').val(mileage_point);
 				} else {
 					price_mileage_point.dataset.price_mileage_point = '0';
 					price_mileage_point.innerHTML = 0;
@@ -2036,9 +2029,11 @@ function getTotalMileage(calc_flg) {
 					$('.mileage_point_msg').text('모두적용');
 					$('.reserves-info-list').addClass('hidden');
 					calcPriceTotal();
+					
+					$('#price_mileage_point').val(0);
 				}
 			} else {
-				exceptionHandling("디자인 필요", d.msg);
+				notiModal(d.msg);
 			}
 		}
 	});
@@ -2063,7 +2058,7 @@ $('#use_mileage').keyup(function () {
 		},
 		dataType: "json",
 		error: function () {
-			console.log("적립 포인트 불러오기에 실패했습니다.");
+			console.log("적립금 불러오기에 실패했습니다.");
 		},
 		success: function (d) {
 			let code = d.code;
@@ -2078,10 +2073,11 @@ $('#use_mileage').keyup(function () {
 
 				let price_mileage_point = document.querySelector(".price_mileage_point");
 				price_mileage_point.dataset.price_mileage_point = mileage_point;
+				$('#price_mileage_point').val(mileage_point);
 				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
 				calcPriceTotal();
 			} else if (code == 403) {
-				exceptionHandling("디자인 필요", d.msg);
+				notiModal(d.msg);
 			}
 		}
 	});
@@ -2152,6 +2148,8 @@ next_step_btn.addEventListener("click", function () {
 	let mobileData = document.querySelector("#to_mobile").value;
 	let zipcodeData = document.querySelector("#to_zipcode").value;
 
+	
+
 	let width = document.querySelector("body").offsetWidth;
 
 	if (width <= 1024) {
@@ -2168,7 +2166,7 @@ next_step_btn.addEventListener("click", function () {
 	}
 	if (next_step_level == 2) {
 		if (orderSection.dataset.status === "F") {
-			exceptionHandling("디자인 필요", "이용약관에 동의가 필요합니다.");
+			notiModal('이용약관에 동의가 필요합니다.');
 		} else if (orderSection.dataset.status === "T") {
 			addTmpOrderInfo();
 		}
@@ -2177,6 +2175,7 @@ next_step_btn.addEventListener("click", function () {
 		prev_step_btn.dataset.step = "1";
 		calculationWrap.dataset.step = "2";
 		orderSection.dataset.status = "F";
+
 		if (next_step_btn.dataset.step === "2") {
 			next_step_btn.querySelector("span").innerHTML = "결제하기";
 		}
@@ -2208,6 +2207,12 @@ next_step_btn.addEventListener("click", function () {
 		if (tmp_order_memo.length > 0) {
 			document.querySelector(".save-message-box .message-content").innerHTML = tmp_order_memo;
 			$('#order_memo').val(tmp_order_memo);
+			// 최근 메세지 
+			// let resent_msg_strg = document.querySelector("#recent_order_msg").value;
+			// let resent_msg_label = orderMemoSelectBox.dropdown.items[0].label;
+			// document.querySelector("#recent_order_msg").value = $('#order_memo').val();
+			// console.log(document.querySelector("#recent_order_msg").value);
+			// orderMemoSelectBox.dropdown.items[0].label = '(최근) ' + document.querySelector("#recent_order_msg").value;
 		}
 
 		calcPriceTotal();
@@ -2277,7 +2282,7 @@ function calcPriceTotal() {
 	let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
 	let price_discount = document.querySelector(".calculation-wrap .price_discount").dataset.price_discount;
 	let price_mileage_point = document.querySelector(".calculation-wrap .price_mileage_point").dataset.price_mileage_point;
-	let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
+	// let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
 	let price_delivery = document.querySelector(".calculation-wrap .price_delivery").dataset.price_delivery;
 
 	let price_total = document.querySelector(".calculation-wrap .price_total");
@@ -2297,10 +2302,10 @@ function calcPriceTotal() {
 			"title": "price_mileage_point",
 			"price": price_mileage_point
 		},
-		{
-			"title": "price_charge_point",
-			"price": price_charge_point
-		},
+		// {
+		// 	"title": "price_charge_point",
+		// 	"price": price_charge_point
+		// },
 		/*{
 			"title": "price_delivery",
 			"price": price_delivery

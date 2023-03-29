@@ -1,6 +1,11 @@
 <?php	
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 	
+	$member_idx = null;
+	if (isset($_SESSION['MEMBER_IDX'])) {
+		$member_idx = $_SESSION['MEMBER_IDX'];
+	}
+	
 	$member_id = null;
 	if (isset($_SESSION['MEMBER_ID'])) {
 		$member_id = $_SESSION['MEMBER_ID'];
@@ -329,8 +334,8 @@
 						$db->query($insert_order_product_sql);
 					}
 					
-					deleteBasketInfo($db,$order_code);
-					deleteVoucherInfo($db,$order_code);
+					deleteBasketInfo($db,$order_code,$member_id);
+					deleteVoucherInfo($db,$order_code,$member_idx,$member_id);
 					putMileageInfo($db,$order_idx);
 					
 					$db->query("DELETE FROM TMP_ORDER_PRODUCT WHERE ORDER_CODE = '".$order_code."'");
@@ -890,9 +895,7 @@
 				OP.PRODUCT_PRICE		AS PRODUCT_PRICE,
 				PR.MILEAGE_FLG			AS MILEAGE_FLG,
 				
-				IFNULL(
-					PM.MILEAGE_PER,0
-				)						AS PRODUCT_MILEAGE,
+				PM.MILEAGE_PER			AS PRODUCT_MILEAGE,
 				IFNULL(
 					ML.MILEAGE_PER,0
 				)						AS MEMBER_MILEAGE
@@ -908,7 +911,8 @@
 				OP.PRODUCT_IDX = PM.PRODUCT_IDX AND
 				OI.MEMBER_LEVEL = PM.LEVEL_IDX
 			WHERE
-				OP.ORDER_IDX = ".$order_idx."
+				OP.ORDER_IDX = ".$order_idx." AND
+				OP.PRODUCT_CODE NOT LIKE 'VOUXXX%'
 		";
 		
 		$db->query($select_order_product_sql);
@@ -993,7 +997,7 @@
 					$member_mileage = $product_info[$i]['member_mileage'];
 					
 					$mileage_per = 0;
-					if ($product_mileage > 0) {
+					if (!empty($product_mileage)) {
 						$mileage_per = $product_mileage;
 					} else {
 						$mileage_per = $member_mileage;
@@ -1060,7 +1064,7 @@
 		}
 	}
 	
-	function deleteBasketInfo($db,$order_code) {
+	function deleteBasketInfo($db,$order_code,$member_id) {
 		$select_tmp_order_info_sql = "
 			SELECT
 				TI.BASKET_IDX		AS BASKET_IDX
@@ -1070,9 +1074,9 @@
 				TI.ORDER_CODE = '".$order_code."'
 		";
 		
-		$basket_idx = "";
 		$db->query($select_tmp_order_info_sql);
 		
+		$basket_idx = 0;
 		foreach($db->fetch() as $tmp_order_data) {
 			$basket_idx = $tmp_order_data['BASKET_IDX'];
 		}
@@ -1093,7 +1097,7 @@
 		}
 	}
 	
-	function deleteVoucherInfo($db,$order_code) {
+	function deleteVoucherInfo($db,$order_code,$member_idx,$member_id) {
 		$voucher_cnt = $db->count("TMP_ORDER_PRODUCT","ORDER_CODE = '".$order_code."' AND PRODUCT_CODE LIKE 'VOUXXX%'");
 		
 		if ($voucher_cnt > 0) {
@@ -1105,7 +1109,7 @@
 					UPDATE_DATE = NOW(),
 					UPDATER = '".$member_id."'
 				WHERE
-					IDX = (
+					VOUCHER_IDX = (
 						SELECT
 							TP.PRODUCT_IDX
 						FROM
@@ -1113,8 +1117,11 @@
 						WHERE
 							TP.ORDER_CODE = '".$order_code."' AND
 							TP.PRODUCT_CODE LIKE 'VOUXXX%'
-					)
+					) AND
+					MEMBER_IDX = ".$member_idx."
 			";
+			
+			print_r($delete_voucher_sql);
 			
 			$db->query($delete_voucher_sql);
 		}

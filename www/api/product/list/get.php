@@ -56,9 +56,9 @@ if (isset($_POST['last_idx'])) {
 	$last_idx = intval($_POST['last_idx']);
 }
 
-$preview_flg = false;
-if (isset($_GET['preview_flg'])) {
-	$preview_flg = $_GET['preview_flg'];
+$preview_flg = null;
+if (isset($_POST['preview_flg'])) {
+	$preview_flg = $_POST['preview_flg'];
 }
 
 $menu_info = array();
@@ -168,9 +168,15 @@ if ($order_param != null) {
 }
 
 if ($page_idx != null && $country != null) {
-	$page_count = $db->count("PAGE_PRODUCT","IDX = ".$page_idx." AND DISPLAY_FLG = TRUE");
-	if ($page_count > 0 || $preview_flg == true) {
+	if ($preview_flg == null) {
+		$tmp_display_flg = " AND DISPLAY_FLG = TRUE ";
+	}
+	
+	$page_count = $db->count("PAGE_PRODUCT","IDX = ".$page_idx." AND (NOW() BETWEEN DISPLAY_START_DATE AND DISPLAY_END_DATE) ".$tmp_display_flg);
+	
+	if ($page_count > 0) {
 		$check_result = checkListLevel($db,$member_idx,$page_idx);
+		
 		if ($check_result['result'] == false) {
 			$json_result['code'] = 402;
 			$json_result['msg'] = "페이지에 접근할 수 있는 권한이 없습니다.";

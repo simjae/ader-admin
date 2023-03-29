@@ -1,5 +1,4 @@
 <style>
-
     .inquiry__wrap .description::-webkit-scrollbar {
         width: 5px;
     }
@@ -77,7 +76,8 @@
         text-align: left;
         margin-bottom: 0px;
     }
-    .toggle__list.inquiry__list{
+
+    .toggle__list.inquiry__list {
         font-size: 11px;
         font-weight: normal;
         font-stretch: normal;
@@ -305,16 +305,19 @@
         width: 110px;
         float: right;
     }
-    .category__small{
-        margin-top:20px;
+
+    .category__small {
+        margin-top: 20px;
     }
-    .child__category__btn.click__btn{
-        color:#343434;
+
+    .child__category__btn.click__btn {
+        color: #343434;
     }
-    .child__category__btn{
-        cursor:pointer;
-        width:100%;
-        height:30px;
+
+    .child__category__btn {
+        cursor: pointer;
+        width: 100%;
+        height: 30px;
         background-color: white;
         font-size: 11px;
         font-weight: normal;
@@ -322,22 +325,35 @@
         font-style: normal;
         line-height: normal;
         letter-spacing: normal;
-        color:#999;
-        font-family:var(--ft-no-fu);
+        color: #999;
+        font-family: var(--ft-no-fu);
         text-align: left;
-        line-height:30px;
-        padding-left:10px;
+        line-height: 30px;
+        padding-left: 10px;
         border-radius: 1px;
-        border-top:1px solid #dcdcdc;
+        border-top: 1px solid #dcdcdc;
     }
-    .child__category__btn.click__btn{
-        color:#343434;
+
+    .child__category__btn.click__btn {
+        color: #343434;
     }
-    .delete_inquiry_btn{
-        margin-top:20px;
+
+    .delete_inquiry_btn {
+        margin-top: 20px;
         text-align: right;
         text-decoration: underline;
     }
+
+    .pc_inquiry_list {
+        display: grid;
+        grid-template-columns: 110px 1fr 110px 20px 110px;
+        min-height: 70px
+    }
+
+    .mobile_inquiry_list {
+        display: none;
+    }
+
     @media (max-width: 1024px) {
         .inquiry__tab__wrap {
             grid-column: 1/17;
@@ -418,10 +434,21 @@
             border-radius: 1px;
             border: 1px solid #dcdcdc;
         }
-        .search input{ font-size: 11px;}
+
+        .search input {
+            font-size: 11px;
+        }
+
+        .mobile_inquiry_list {
+            display: block;
+        }
+
+        .pc_inquiry_list {
+            display: none;
+        }
 
     }
-    
+
     @media (min-width: 600px) {
         .inquiry__tab__wrap {
             grid-column: 1/17;
@@ -483,7 +510,7 @@
     <div class="inquiry__tab__wrap">
         <div class="inquiry__tab inquiry__faq__wrap">
             <div class="search">
-                <input class="search__keyword" type="text" placeholder="무엇을 도와드릴까요?">
+                <input class="search__keyword" type="text" placeholder="무엇을 도와드릴까요?" onkeyup="enterToSearch(this)">
                 <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg" onclick="searchAction(this)">
             </div>
             <div class="category"></div>
@@ -493,7 +520,7 @@
             <div class="inquiry__faq__detail__container">
                 <div class="inquiry__faq__detail__area">
                     <div class="search__small">
-                        <input class="search__keyword" type="text">
+                        <input class="search__keyword" type="text" onkeyup="enterToSearch(this)">
                         <img class="search__icon__img" src="/images/mypage/mypage_search_icon.svg"
                             onclick="searchAction(this)">
                         <div class="close" onclick="deleteResult()">
@@ -521,7 +548,8 @@
             <div class="footer"></div>
         </div>
         <div class="inquiry__tab inquiry__action__wrap">
-            <form id="frm-inquiry" target="registIfr" enctype="multipart/form-data" method="post" action="_api/mypage/inquiry/add">
+            <form id="frm-inquiry" target="registIfr" enctype="multipart/form-data" method="post"
+                action="_api/mypage/inquiry/add">
                 <div class="hidden board__image__wrap">
                     <input type="hidden" id="img_index">
                     <input type="hidden" id="country" name="country">
@@ -531,7 +559,7 @@
                     <input type="file" class="board__image" name="board_img4" onchange="previewImg(this);">
                     <input type="file" class="board__image" name="board_img5" onchange="previewImg(this);">
                 </div>
-                
+
                 <div class="title">
                     <p>문의하기</p>
                 </div>
@@ -561,22 +589,25 @@
                 </div>
 
                 <div class="inquiry__info inquiry__contents">
-                    <textarea placeholder="내용을 입력하세요. (최대 1,000자)" id="inquiryTextBox" name="inquiryTextBox" class="inquiryTextBox"
-                        type="text"></textarea>
+                    <textarea placeholder="내용을 입력하세요. (최대 1,000자)" id="inquiryTextBox" name="inquiryTextBox"
+                        class="inquiryTextBox" type="text"></textarea>
                 </div>
                 <div class="inquiry__info inquiry__photo">
                     <p class="description">사진첨부</p>
                     <div class="inquiry__photo__container">
-                        <div class="inquiry__photo__item" onclick="imageUplode(0)"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                        <div class="inquiry__photo__item" onclick="imageUplode(1)"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                        <div class="inquiry__photo__item" onclick="imageUplode(2)"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                        <div class="inquiry__photo__item" onclick="imageUplode(3)"><img src="/images/mypage/mypage_photo_btn.svg"></div>
-                        <div class="inquiry__photo__item" onclick="imageUplode(4)"><img src="/images/mypage/mypage_photo_btn.svg"></div>
+                        <div class="inquiry__photo__item" onclick="imageUplode(0)"><img
+                                src="/images/mypage/mypage_photo_btn.svg"></div>
+                        <div class="inquiry__photo__item" onclick="imageUplode(1)"><img
+                                src="/images/mypage/mypage_photo_btn.svg"></div>
+                        <div class="inquiry__photo__item" onclick="imageUplode(2)"><img
+                                src="/images/mypage/mypage_photo_btn.svg"></div>
+                        <div class="inquiry__photo__item" onclick="imageUplode(3)"><img
+                                src="/images/mypage/mypage_photo_btn.svg"></div>
+                        <div class="inquiry__photo__item" onclick="imageUplode(4)"><img
+                                src="/images/mypage/mypage_photo_btn.svg"></div>
                     </div>
-                    <p class="description">
-                        ·&nbsp;상품 불량 및 오배송의 경우, 해당 제품 사진을 등록 부탁드립니다.</p>
-                    <p style="margin-top: 10px;">
-                        ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
+                    <p class="description">·&nbsp;제품 불량 및 오 배송의 경우, 수령하신 제품의 상태와 배송 패키지 사진을 등록 부탁드립니다.</p>
+                    <p style="margin-top: 10px;">·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
                 </div>
                 <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
                 <button class="black__full__width__btn inquiry" onclick='registInquiry()'>등록</button>
@@ -603,9 +634,7 @@
                 </p>
             </div>
             <div class="toggle__list inquiry__list" style="border-top: 1px solid #dcdcdc;padding-top:20px;">
-                <div class="toggle__list__tab">
-
-                </div>
+                <div class="toggle__list__tab"></div>
             </div>
         </div>
     </div>
@@ -650,11 +679,11 @@
                                     </div>
                                     <div class="children__category">
                             `;
-                            if(row.children != null && row.children.length > 0 ){
+                            if (row.children != null && row.children.length > 0) {
                                 var child_data = row.children;
                                 var child_data_len = child_data.length;
 
-                                child_data.forEach(function(child_row){
+                                child_data.forEach(function (child_row) {
                                     var cateChildDiv = `<div class="child__category__btn" category-no="${child_row.no}" onclick="childCateBtnAction(this)">${child_row.title}</div>`;
                                     smallCateDiv += cateChildDiv;
                                 })
@@ -672,55 +701,55 @@
             }
         });
         getInquiry();
-        $('.board__image').on('click', function(){
+        $('.board__image').on('click', function () {
             let index = $(this).index() - 2;
             $('#img_index').val(index);
         });
-        $('.board__image').on('change', function(e){
+        $('.board__image').on('change', function (e) {
             var files = $(this).val();
             var file = e.target.files;
-            var max_size = 10*1024*1024;
+            var max_size = 10 * 1024 * 1024;
 
             var file_name_arr = [];
-            if(files != null){
+            if (files != null) {
                 file_name_arr = files.split('.');
-                if(file_name_arr.length > 1){
+                if (file_name_arr.length > 1) {
                     let fileExt = file_name_arr[file_name_arr.length - 1];
-                    if(fileExt == 'jpg' || fileExt == 'png' || fileExt == 'gif' || fileExt == 'jpeg' || fileExt == 'jpe'){
+                    if (fileExt == 'jpg' || fileExt == 'png' || fileExt == 'gif' || fileExt == 'jpeg' || fileExt == 'jpe') {
                         ;
                     }
-                    else{
+                    else {
                         console.log('확장자가 올바르지 않습니다.');
                     }
                 }
-                else{
+                else {
                     console.log('파일의 확장자가 없습니다. 파일을 다시 선택해주세요.');
                 }
                 var file_size = $(this)[0].files[0].size;
-                if(file_size > max_size){
+                if (file_size > max_size) {
                     console.log('첨부파일은 10MB 이내로 선택해주세요');
                     $(this).val('');
                     $(this).find('img').eq(0).attr('src', "/images/mypage/mypage_photo_btn.svg");
                     return false;
                 }
             }
-            else{
+            else {
                 return false;
             }
         })
     })
-    function previewImg(obj){
+    function previewImg(obj) {
         let img_index = $('#img_index').val();
-        if((obj.files && obj.files[0])){
+        if ((obj.files && obj.files[0])) {
             let reader = new FileReader();
-            reader.onload = function(e){
+            reader.onload = function (e) {
                 $('.inquiry__photo__item').eq(img_index).find('img').attr('src', e.target.result);
             };
             reader.readAsDataURL(obj.files[0]);
         }
     }
-    function nomalizeNFC(files){
-        for(var i= 0; i < files.length; i++){
+    function nomalizeNFC(files) {
+        for (var i = 0; i < files.length; i++) {
             files[i].name = files[i].name.normalize('NFC');
         }
         return files;
@@ -729,7 +758,7 @@
         $('.search__keyword').val('');
     }
 
-    function getInquiry(){
+    function getInquiry() {
         $('.toggle__list.inquiry__list').find('.toggle__list__tab').html('');
 
         $.ajax({
@@ -739,14 +768,14 @@
             error: function (d) {
             },
             success: function (d) {
-                if(d != null){
+                if (d != null) {
                     if (d.code == 200) {
                         let data = d.data;
-                        
-                        if(data != null && data.length > 0){
-                            data.forEach(function(row){
+
+                        if (data != null && data.length > 0) {
+                            data.forEach(function (row) {
                                 let strDiv = '';
-                                switch(row.category){
+                                switch (row.category) {
                                     case 'CAR':
                                         category_str = '취소/환불';
                                         break;
@@ -787,8 +816,8 @@
                                 let request_str = `Q. ${row.contents} 
                                                     <div class="inquiry__photo__container">
                                                    `;
-                                if(row.image_info != null && row.image_info.length > 0){
-                                    row.image_info.forEach(function(img_row){
+                                if (row.image_info != null && row.image_info.length > 0) {
+                                    row.image_info.forEach(function (img_row) {
                                         request_str += `<div class="inquiry__photo__item" onclick="imageUplode(0)">
                                                             <div class="inquiry__photo__item">
                                                                 <img src="${img_row.img_location}">
@@ -797,14 +826,31 @@
                                     });
                                 }
                                 request_str += '</div>';
-                                    
-                                if(row.reply_info != null && row.reply_info.length > 0){
+
+                                if (row.reply_info != null && row.reply_info.length > 0) {
                                     request_flg = '답변 완료';
-                                    request_str += `<br> ${row.reply_info[0].contents == null?'':'A.'+row.reply_info[0].contents}`;
+                                    request_str += `<br> ${row.reply_info[0].contents == null ? '' : 'A.' + row.reply_info[0].contents}`;
                                 }
                                 strDiv = `
                                     <div class="toggle__item">
-                                        <div style="display:grid;grid-template-columns: 110px 1fr 110px 20px 110px; min-height:70px">
+                                        <div class="pc_inquiry_list">
+                                            <div>
+                                                <p style="margin-bottom:10px;">${row.create_date}</p>
+                                                <p>${category_str}</p>
+                                            </div>
+                                            <div style="margin-top:20px;">
+                                                <div class="inquiry_question" style="cursor:pointer;" onclick="inquiryQuestionClick(this)">
+                                                    ${row.title}
+                                                </div>
+                                                <div class="inquiry_request" style="display:none; margin-top:20px;margin-bottom:20px;">
+                                                    ${request_str}
+                                                </div>
+                                            </div>
+                                            <div style="margin-top:20px;">${request_flg}</div>
+                                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="margin-top:20px;">
+                                            <div class="delete_inquiry_btn"><span onclick="deleteInquiry(${row.board_idx})" style="cursor: pointer;">삭제</span></div>
+                                        </div>
+                                        <div class="mobile_inquiry_list">
                                             <div>
                                                 <p style="margin-bottom:10px;">${row.create_date}</p>
                                                 <p>${category_str}</p>
@@ -876,7 +922,6 @@
         if (keyword.length == 0 || keyword == '') {
             return false;
         }
-
         $('.inquiry__tab').hide();
         $('.inquiry__faq__detail__wrap').show();
 
@@ -886,6 +931,13 @@
         $('.search__keyword').val(keyword);
 
         getFaqList('search', keyword);
+    }
+
+    function enterToSearch(obj) {
+        let el = $(obj).parent().find('img');
+        if (window.event.keyCode == 13) {
+            searchAction(el);
+        }
     }
 
     function cateBtnAction(obj) {
@@ -935,43 +987,43 @@
         }
         $(obj).next().toggle();
     }
-    function inquiryQuestionClick(obj) { 
+    function inquiryQuestionClick(obj) {
         if ($(obj).parent().find('.inquiry_request').eq(0).css('display') == 'none') {
             $(obj).parent().parent().find('.down__up__icon').eq(0).attr('src', '/images/mypage/mypage_up_tab_btn.svg');
         }
         else {
             $(obj).parent().parent().find('.down__up__icon').eq(0).attr('src', '/images/mypage/mypage_down_tab_btn.svg');
         }
-        
+
         $(obj).parent().find('.inquiry_request').eq(0).toggle();
     }
-    
-    function registInquiry(){
+
+    function registInquiry() {
         $('#frm-inquiry').submit();
-        
+
         setTimeout(() => {
             getInquiry();
             $(`.inquiry__wrap`).find('.tab__btn__item').eq(2).click();
         }, 500);
     }
 
-    function deleteInquiry(idx){
+    function deleteInquiry(idx) {
         $.ajax({
             type: "post",
-            data: { 
-                    'board_idx': idx,
-                    'country' : getLanguage()
-                 },
+            data: {
+                'board_idx': idx,
+                'country': getLanguage()
+            },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/mypage/inquiry/delete",
             error: function (d) {
             },
             success: function (d) {
-                setTimeout(() => {getInquiry();}, 300);
+                setTimeout(() => { getInquiry(); }, 300);
             }
         });
     }
-    function imageUplode(index){
+    function imageUplode(index) {
         $('.board__image').eq(index).click();
     }
 </script>

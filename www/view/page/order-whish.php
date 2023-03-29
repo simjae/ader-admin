@@ -250,7 +250,6 @@
     .info-box .option-box .size__box .size.select {
         border-bottom: 1px solid #343434;
     }
-
     .info-box .option-box .size__box .size[data-soldout="STSC"].select {
         border-bottom: 0px;
     }
@@ -1196,7 +1195,7 @@ if ($member_idx == 0) {
                     if (d.code == 200) {
                         location.href = '/order/basket/list';
                     } else {
-                        exceptionHandling("[ 디자인 필요 ]", d.msg);
+                        notiModal(d.msg);
                     }
                 }
             });

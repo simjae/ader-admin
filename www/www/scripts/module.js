@@ -164,7 +164,7 @@ function Basket(el, useSidebar) {
 
                 let basket_so_info = data.basket_so_info;
                 let basket_st_info = data.basket_st_info;
-                if(sideWrap.hasClass('open')) {
+                if (sideWrap.hasClass('open')) {
                     if (basket_so_info.length > 0 || basket_st_info.length > 0) {
                         writeProductListDomTree(basket_st_info, basket_so_info);
                     } else {
@@ -180,6 +180,8 @@ function Basket(el, useSidebar) {
             tungDiv.className = "tung-data";
             tungDiv.innerHTML = `<h1>쇼핑백이 비어있습니다.</h1>`
             list__body.appendChild(tungDiv);
+            $('.checkbox__box').hide();
+            $('.pay__box').hide();
         }
     }
     function writeProductListDomTree(st_info, so_info) {
@@ -438,17 +440,25 @@ function Basket(el, useSidebar) {
 
     //재고상품 선택삭제 버튼
     function deleteBasketInfo() {
-        const $checkedDelete = document.querySelector(".st__checked__btn");
+        const $checkedDelete = document.querySelectorAll(".st__checked__btn");
+        let product__box = document.querySelector(".product__box");
         $checkedDelete.addEventListener("click", () => {
             selfCheckbox("stock", true);
+            // if (product__box.length == 0) {
+            //     productNull();
+            // }
         });
     };
 
     //재고상품 전체삭제 버튼
     function deleteAllBasketInfo() {
-        const $checkedDelete = document.querySelector(".st__all__btn");
+        const $checkedDelete = document.querySelectorAll(".st__all__btn");
+        let product__box = document.querySelector(".product__box");
         $checkedDelete.addEventListener("click", () => {
             selfCheckbox("stock", false);
+            // if (product__box.length == 0) {
+            //     productNull();
+            // }
         });
     };
 
@@ -506,7 +516,7 @@ function Basket(el, useSidebar) {
             },
             success: function (d) {
                 if (d.code != 200) {
-                    exceptionHandling("디자인 필요", d.msg)
+                    notiModal(d.msg)
                 }
             }
         });
@@ -713,15 +723,15 @@ function Basket(el, useSidebar) {
             });
         }
         $stso_checkbox.forEach(el => {
-			el.addEventListener("click", function() {
-				let checkedStso = document.querySelectorAll(".sold__list__box .self__cb[name='sold']:checked");
-				if($stso_checkbox.length == checkedStso.length) {
-					$all_stso_checkbox.checked = true;
-				} else {
-					$all_stso_checkbox.checked = false;
-				}
-			})
-		})
+            el.addEventListener("click", function () {
+                let checkedStso = document.querySelectorAll(".sold__list__box .self__cb[name='sold']:checked");
+                if ($stso_checkbox.length == checkedStso.length) {
+                    $all_stso_checkbox.checked = true;
+                } else {
+                    $all_stso_checkbox.checked = false;
+                }
+            })
+        })
     }
 
     /************************* 공통함수 **************************/
@@ -828,7 +838,7 @@ function Basket(el, useSidebar) {
                 if (d.code == 200) {
                     getBasketProductList();
                 } else {
-                    exceptionHandling("디자인 필요", d.msg);
+                    notiModal(d.msg);
                 }
             }
         });
@@ -865,7 +875,7 @@ function Basket(el, useSidebar) {
 
                             setBasketOptionSTSC();
                         } else {
-                            exceptionHandling("디자인 필요", d.msg)
+                            notiModal(d.msg)
                         }
                     }
                 });
@@ -988,7 +998,7 @@ function Language() {
             el.addEventListener("click", function () {
                 $$languageBtn.forEach(el => el.classList.remove("select"));
                 this.classList.add("select");
-                window.location.reload();
+                //window.location.reload();
             })
         })
     }
@@ -999,66 +1009,66 @@ function Language() {
  * @description 검색 생성자 함수
  */
 function Search() {
-	let search_keyword = "";
-	let popular_product = "";
-	
-	function getSearchInfoList() {
-		let country = getLanguage();
-		
-		$.ajax({
-			type: "post",
-			url: "http://116.124.128.246:80/_api/search/list/get",
-			async:false,
-			data: {
-				'country' : country
-			},
-			dataType: "json",
-			error: function () {
-				alert("추천검색어/실시간 인기 제품 조회중 오류가 발생했습니다.");
-			},
-			success: function (d) {
-				if (d.code == 200) {
-					let data = d.data;
-					if (data != null) {
-						let keyword_info = data.keyword_info;
-						writeKeywordInfo(keyword_info);
-						
-						let popular_info = data.popular_info;
-						writePopularInfo(popular_info);
-					}
-				}
-			}
-		});
-	}
-	
-	function writeKeywordInfo(keyword_info) {
-		keyword_info.forEach(function(row) {
-			search_keyword += `<li><a href="${row.menu_link}">${row.keyword_txt}</a></li>`;
-		});
-	}
-	
-	function writePopularInfo(popular_info) {
-		popular_info.forEach(function(row) {
-			popular_product += `
+    let search_keyword = "";
+    let popular_product = "";
+
+    function getSearchInfoList() {
+        let country = getLanguage();
+
+        $.ajax({
+            type: "post",
+            url: "http://116.124.128.246:80/_api/search/list/get",
+            async: false,
+            data: {
+                'country': country
+            },
+            dataType: "json",
+            error: function () {
+                alert("추천검색어/실시간 인기 제품 조회중 오류가 발생했습니다.");
+            },
+            success: function (d) {
+                if (d.code == 200) {
+                    let data = d.data;
+                    if (data != null) {
+                        let keyword_info = data.keyword_info;
+                        writeKeywordInfo(keyword_info);
+
+                        let popular_info = data.popular_info;
+                        writePopularInfo(popular_info);
+                    }
+                }
+            }
+        });
+    }
+
+    function writeKeywordInfo(keyword_info) {
+        keyword_info.forEach(function (row) {
+            search_keyword += `<li><a href="${row.menu_link}">${row.keyword_txt}</a></li>`;
+        });
+    }
+
+    function writePopularInfo(popular_info) {
+        popular_info.forEach(function (row) {
+            popular_product += `
 				<div class="popular-box" onClick="location.href='/product/detail?product_idx=${row.product_idx}'">
 					<img src="${img_root}${row.img_location}" alt="">
 					<span class="product-name">${row.product_name}</span>
 				</div>
 			`;
-		});
-	}
-	
+        });
+    }
+
     this.writeHtml = () => {
         let sideBox = document.querySelector(`.side__box`);
         let sideWrap = document.querySelector(`#sidebar .side__wrap`);
-        
-		sideWrap.dataset.module = "search";
-        
-		const searchContent = document.createElement("section");
+
+        sideWrap.dataset.module = "search";
+
+        const searchContent = document.createElement("section");
         searchContent.className = "search-wrap";
-		
-		getSearchInfoList();
-		
+
+        getSearchInfoList();
+
         searchContent.innerHTML =
             `
                 <div class="search-header">
@@ -1087,14 +1097,14 @@ function Search() {
         `
         sideBox.appendChild(searchContent);
     };
-	
+
     this.mobileWriteHtml = () => {
         let mobileSearchWrap = document.querySelector(`.search__cont`);
         mobileSearchWrap.innerHTML = "";
-        
-		getSearchInfoList();
-		
-		const mdlBox = document.createElement("div");
+
+        getSearchInfoList();
+
+        const mdlBox = document.createElement("div");
         mdlBox.className = "mdlSearchBox";
         mdlBox.innerHTML =
             `
@@ -1124,54 +1134,54 @@ function Search() {
             `
         mobileSearchWrap.append(mdlBox);
     };
-	
-	function getSearchResult() {
+
+    function getSearchResult() {
         let searchResult = document.querySelector(".search-content.result");
         let searchCurrent = document.querySelector(".search-content.current");
-		
-		let search_keyword = $('#search-input').val();
-		
-		$.ajax({
-			type: "post",
-			url: "http://116.124.128.246:80/_api/search/get",
-			async:false,
-			data: {
-				'search_keyword' : search_keyword
-			},
-			dataType: "json",
-			error: function () {
-				alert("상품 검색처리중 오류가 발생했습니다.");
-			},
-			success: function (d) {
-				if (d.code == 200) {
-					let data = d.data;
-					
-					let search_result_wrap = $('.search-result-wrap');
-					search_result_wrap.html('');
-					
-					if (data != null) {
-						let search_result = "";
-						data.forEach(function(row) {
-							search_result += `
+
+        let search_keyword = $('#search-input').val();
+
+        $.ajax({
+            type: "post",
+            url: "http://116.124.128.246:80/_api/search/get",
+            async: false,
+            data: {
+                'search_keyword': search_keyword
+            },
+            dataType: "json",
+            error: function () {
+                alert("상품 검색처리중 오류가 발생했습니다.");
+            },
+            success: function (d) {
+                if (d.code == 200) {
+                    let data = d.data;
+
+                    let search_result_wrap = $('.search-result-wrap');
+                    search_result_wrap.html('');
+
+                    if (data != null) {
+                        let search_result = "";
+                        data.forEach(function (row) {
+                            search_result += `
 								<div class="search-result-box" onClick="location.href='/product/detail?product_idx=${row.product_idx}'">
 									<img src="${img_root}${row.img_location}" alt=""/>
 									<span class="product-name">${row.product_name}</span>
 								</div>
 							`;
-						});
-						
-						search_result_wrap.append(search_result);
-						
-						searchCurrent.classList.add("hidden");
-						searchResult.classList.remove("hidden");
-					}
-				}
-			}
-		});
-	}
+                        });
+
+                        search_result_wrap.append(search_result);
+
+                        searchCurrent.classList.add("hidden");
+                        searchResult.classList.remove("hidden");
+                    }
+                }
+            }
+        });
+    }
     this.addSearchEvent = () => {
         let input = document.getElementById("search-input");
-        input.addEventListener('input', debounce(getSearchResult,500));
+        input.addEventListener('input', debounce(getSearchResult, 500));
     }
 }
 
@@ -1181,7 +1191,7 @@ function Login() {
     (() => {
         function login() {
             var country = getLanguage();
-	        $("#frm-login").find('input[name=country]').val(country);
+            $("#frm-login").find('input[name=country]').val(country);
 
             var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
             var member_id = $('#member_id').val();
@@ -1780,7 +1790,7 @@ function User() {
                     </div>
                 </a>
                 <div class="icon__title">
-                    <p data-i18n="m_order_history">주문조회</p>
+                    <p data-i18n="m_order_history">주문내역</p>
                 </div>
             </div>
             <div id="mileage_icon" class="icon__item" btn-type="mileage">
@@ -1996,7 +2006,7 @@ function User() {
         `
         sideBox.appendChild(loginContent);
         changeLanguageR();
-        
+
         $(document).ready(function () {
 
             $('#member_id').val('');
@@ -2029,8 +2039,8 @@ function User() {
         $('#member_pw, #member_id').on('keypress', function (e) {
             if (e.keyCode == '13') {
                 var country = getLanguage();
-	            $("#frm-login").find('input[name=country]').val(country);
-                
+                $("#frm-login").find('input[name=country]').val(country);
+
                 var mail_regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
                 var member_id = $('#member_id').val();
                 var member_pw = $('#member_pw').val();
@@ -2055,7 +2065,7 @@ function User() {
                     return false;
                 }
 
-                
+
                 $.ajax({
                     type: 'POST',
                     url: "http://116.124.128.246:80/_api/account/login",
@@ -2163,7 +2173,23 @@ function Vctrbox(el) {
 }
 
 function getLanguage() {
-    const local_lng = localStorage.getItem('lang');
-    
-	return local_lng;
+    let local_lng = localStorage.getItem('lang');
+    if (!local_lng) {
+        let country = navigator.language || navigator.userLanguage;
+        switch (country) {
+            case "ko-KR":
+                local_lng = "KR";
+                break;
+
+            case "zh-CN":
+                local_lng = "CN";
+                break;
+
+            default:
+                local_lng = "EU";
+                break
+        }
+    }
+
+    return local_lng;
 }

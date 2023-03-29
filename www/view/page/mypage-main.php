@@ -832,7 +832,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                         <img src="/images/mypage/mypage_orderlist_icon.svg" style="padding-top:15px;padding-left:17px;">
                     </div>
                     <div class="icon__title">
-                        <p data-i18n="m_order_history">주문조회</p>
+                        <p data-i18n="m_order_history">주문내역</p>
                     </div>
                 </div>
                 <div id="mileage_icon" class="icon__item" btn-type="mileage" onclick="mypageTabBtnClick('mileage',0)">
@@ -840,7 +840,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                         <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
                     </div>
                     <div class="icon__title">
-                        <p data-i18n="m_mileage_charging">적립/예치금</p>
+                        <p data-i18n="m_mileage_charging">적립금</p>
                     </div>
                 </div>
                 <div id="charging_icon" class="icon__item" btn-type="charging" onclick="">
@@ -969,7 +969,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                     <img src="/images/mypage/mypage_point_icon.svg" style="padding-top:17px;padding-left:17px;">
                 </div>
                 <div class="icon__title">
-                    <p data-i18n="m_mileage_charging">적립/예치금</p>
+                    <p data-i18n="m_mileage_charging">적립금</p>
                 </div>
             </div>
             <!--

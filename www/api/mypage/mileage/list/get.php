@@ -13,6 +13,7 @@
  | 
  +=============================================================================
 */
+
 $country = null;
 if (isset($_SESSION['COUNTRY'])) {
 	$country = $_SESSION['COUNTRY'];
@@ -102,6 +103,7 @@ if ($member_idx > 0 && $country != NULL && $list_type != NULL) {
 				FROM
 					MILEAGE_INFO
 				WHERE
+					COUNTRY = '".$country."' AND
 					MEMBER_IDX = ".$member_idx."
 			) MI
 			LEFT JOIN MILEAGE_CODE MC ON

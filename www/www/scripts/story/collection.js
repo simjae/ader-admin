@@ -117,9 +117,9 @@ function appendLookbook(projectIdx, last_idx) {
     if (Array.isArray(data) && data.length === 0 ){
         lookbookObserve.disconnect();
     }else{
-        data.forEach((el) => {
+        data.forEach((el,idx) => {
             let { c_product_idx, img_location, relevant_flg } = el;
-            let list = makeLookbookHtml(c_product_idx, img_location);
+            let list = makeLookbookHtml(c_product_idx, img_location, idx);
             lookbookResult.appendChild(list);
         });
         const items = document.querySelectorAll('.lookbook-result .lookbook');
@@ -179,12 +179,13 @@ function appendRelated(data) {
 }
 
 //html make 관련 
-function makeLookbookHtml(c_product_idx, src) {
+function makeLookbookHtml(c_product_idx, src ,idx) {
     let lookbook = document.createElement("div");
     // let titleText = title !== undefined ? title : "";
     let imgHtml = ` <img idx="${c_product_idx}" src="http://116.124.128.246:81/${src}" alt="">`;
     lookbook.className = "lookbook";
     lookbook.innerHTML = imgHtml;
+    lookbook.dataset.index = idx;
     lookbook.setAttribute('product', c_product_idx);
     return lookbook;
 }
@@ -277,15 +278,16 @@ function slideClickEvent() {
             pagination: {
                 el: '.lookbook-detail-wrap .swiper-pagination',
                 type: 'fraction',
-            },
-            on:{
-                activeIndexChange: function () {
-                    let idx = this.realIndex;
-                    let current_idx = this.slides[idx].querySelector('.lookbook-detail').getAttribute("product");
-                    let data = getRelevantProduct(current_idx);
-                    appendRelated(data);
-                }
             }
+            // on:{
+            //     activeIndexChange: function () {
+            //         let idx = this.realIndex;
+            //         console.log("🏂 ~ file: collection.js:284 ~ idx:", idx)
+            //         let current_idx = this.slides[idx].querySelector('.lookbook-detail').getAttribute("product");
+            //         let data = getRelevantProduct(current_idx);
+            //         appendRelated(data);
+            //     }
+            // }
         });
         
         appendLookbook(projectIdx);
@@ -311,19 +313,25 @@ function lookbookClickEvent() {
         let c_product_idx = ev.target.offsetParent.getAttribute("product");
         let detailData = getCollectionProduct(project_idx);
         let relevantData = getRelevantProduct(c_product_idx);
+        // slideTo(parseInt(ev.target.offsetParent)
+        
         
 		appendDetailSwiper(detailData);
         appendRelated(relevantData)
         
 		let target = ev.target.offsetParent;
         let productIdx = target.getAttribute('product');
+
+        console.log("🏂 ~ file: collection.js:321 ~ productIdx:", productIdx)
         
 		lookbookWrap.classList.remove("open");
         lookbookDetailWrap.classList.add("open");
 		
 		lookbookWrap.querySelector('.lookbook-title-box').classList.add("hidden");
         lookbookDetailWrap.querySelector('.lookbook-title-box').classList.remove('hidden');
+        console.log("🏂 ~ file: collection.js:331 ~ lookbookDetailSwiper:", lookbookDetailSwiper.slideTo(2))
     });
+       
 }
 
 function imgTypeBtn() {
@@ -480,7 +488,10 @@ let lookbookDetailSwiper = new Swiper(".lookbook-detail-swiper", {
     on:{
         activeIndexChange: function () {
             let idx = this.realIndex;
+            console.log("🏂 ~ file: collection.js:491 ~ idx:", idx)
+            console.log(this.slides);
             let current_idx = this.slides[idx].querySelector('.lookbook-detail').getAttribute("product");
+            console.log("🏂 ~ file: collection.js:492 ~ current_idx:", current_idx)
             let data = getRelevantProduct(current_idx);
             
 			appendRelated(data);

@@ -170,6 +170,7 @@ let mobileProductDetailWhishSwiperOption = {
     },
     autoHeight: true,
     // slidesPerView: 'auto',
+    spaceBetween: 5,
     slidesPerView: 5.6
 }
 //위시리스트 함수 
@@ -196,6 +197,19 @@ function setWhishListBtn(obj) {
                     whish_img.attr('src', '/images/svg/wishlist-bk.svg');
                     whish_img.attr('style', 'width:19px');
                     $(obj).attr('onClick', 'deleteWhishListBtn(this);');
+
+
+                    let wishlist = [];
+                    let wishlistCookie = getCookie('wishlist');
+                    if (wishlistCookie) {
+                        wishlist = JSON.parse(wishlistCookie);
+                    }
+                    wishlist.push({ product_idx: product_idx });
+                    wishlistCookie = JSON.stringify(wishlist);
+                    setCookie('wishlist', wishlistCookie, 365);
+
+
+
                     if (basket_wrap.hasClass("nav")) {
                         basket_wrap.find(".whish-btn").append("<div class='whislist-tilte'>whislist</div>");
                         $('.mobile-whishlist-wrap').html('');

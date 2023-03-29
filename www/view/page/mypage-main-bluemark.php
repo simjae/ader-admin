@@ -423,6 +423,150 @@
         float: right;
     }
 
+    .tui-select-box-highlight {
+        background: #f8f8f8 !important;
+    }
+
+    .tui-select-box-placeholder {
+        font-family: var(--ft-no-fu);
+        font-size: 11px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        letter-spacing: normal;
+        padding: 5px 0;
+    }
+
+    .tui-selected {
+        color: #343434;
+    }
+
+    .tui-select-box-input:focus {
+        outline: 0px;
+    }
+
+    .tui-select-box-input {
+        border: 1px solid #808080;
+        height: 39px;
+    }
+
+    .tui-select-box-item {
+        color: var(--bk);
+        font-family: var(--ft-no-fu);
+        font-size: 11px;
+        padding: 3px 10px;
+        border-bottom: 1px solid #eeeeee;
+        height: 35px;
+    }
+
+    .offline-bluemark-box {
+        margin-top: 10px;
+    }
+    .purchase-wrap.dropdown {
+        padding-top: 10px;
+        position: relative;
+        max-width: 470px;
+        /* z-index: 19; */
+    }
+
+    .purchase-wrap .purchase-btn {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #808080;
+    }
+
+    .purchase-wrap .calendar {
+        position: relative;
+        top: 100%;
+        width: 100%;
+        left: 0;
+        display: none;
+        z-index: 1;
+        background-color: white;
+        border: 1px solid #808080;
+        box-sizing: border-box;
+        border-width: 0 1px 1px 1px;
+        padding: 20px;
+    }
+
+    .purchase-wrap .calendar-header {
+        display: flex;
+        gap: 20px;
+        padding-bottom: 30px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .purchase-wrap .calendar-header button {
+        cursor: pointer;
+        font-size: 12px;
+        border: 0px;
+        background-color: #ffffff;
+    }
+
+    .purchase-wrap .calendar-weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        column-gap: 10px;
+        row-gap: 20px;
+        padding-bottom: 20px;
+    }
+
+    .purchase-wrap .calendar-weekdays .weekday {
+        font-size: 12px;
+        
+        text-align: center;
+    }
+
+    .purchase-wrap .calendar-days {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        column-gap: 10px;
+        row-gap: 10px;
+        padding: 0px;
+    }
+
+    .purchase-wrap .calendar-days .day {
+        display: flex;
+        font-size: 12px;
+        width: 22px;
+        height: 22px;
+        text-align: center;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .purchase-wrap .calendar-days .day:hover {
+        background-color: lightgray;
+    }
+
+    .purchase-wrap .calendar-days .day.today {
+        
+    }
+
+    .purchase-wrap .calendar-days .day.selected div {
+        background-color: #000000;
+        display: flex;
+        color: #ffffff;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .purchase-wrap .calendar-days .day.purchase {
+        background-color: lightgreen;
+    }
+    
+
 
     @media (max-width: 1024px) {
         .bluemark__tab__wrap {
@@ -496,10 +640,15 @@
             width: fit-content;
             float: inherit;
         }
-        .bluemark_info{
-     
-        white-space: unset;
-    }
+
+        .bluemark_info {
+
+            white-space: unset;
+        }
+
+        .tui-select-box {
+            padding: 0;
+        }
     }
 
     @media (min-width: 600px) {
@@ -589,6 +738,33 @@
 
             </div>
             <div class="verify_form">
+                <div class="bluemark-box">
+                    <div class="mall-bluemark-box">
+                        <div class="mall-select-box"></div>
+                    </div>
+                    <div class="offline-bluemark-box hidden">
+                        <div class="offline-select-box"></div>
+                    </div>
+                    <div class="purchase-wrap dropdown hidden" data-selectdate="">
+                        <div class='purchase-btn'>
+                            <span class="purchase-date">구매일</span>
+                            <span class="tui-select-box-icon">select</span>
+                        </div>
+                        <div class="calendar">
+                            <div class="calendar-header">
+                                <button class="prev-month-btn">&lt;</button>
+                                <h2 class="current-month"></h2>
+                                <button class="next-month-btn">&gt;</button>
+                            </div>
+                            <div class="calendar-weekdays"></div>
+                            <div class="calendar-days"></div>
+                        </div>
+                    </div>
+                    <div class="direct-input-wrap hidden">
+                        <input type="text" placeholder="구입처를 입력하세요.">
+                    </div>
+
+                </div>
                 <input data-i18n-placeholder="b_bluemark_serial_code" class="bluemark_serial_code" type="text"
                     name="serial_code" placeholder="Bluemark 시리얼 코드">
             </div>
@@ -699,12 +875,14 @@
                     </div>
                     <div class="description_transfer">
                         <span class="flex_text">·&nbsp;&nbsp;
-                            <p data-i18n="b_bluemark_msg_06">하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크 
-                                <br class="notice_br">양도신청이 접수됩니다.</p>
+                            <p data-i18n="b_bluemark_msg_06">하단에 양도받을 아이디를 입력 후 버튼 클릭 시 블루마크
+                                <br class="notice_br">양도신청이 접수됩니다.
+                            </p>
                         </span>
                         <span class="flex_text">·&nbsp;&nbsp;
-                            <p data-i18n="b_bluemark_msg_07">정보는 향후 변경이 불가능하니 신청 전에 반드시 
-                                <br class="notice_br">확인해 주시길 바랍니다.</p>
+                            <p data-i18n="b_bluemark_msg_07">정보는 향후 변경이 불가능하니 신청 전에 반드시
+                                <br class="notice_br">확인해 주시길 바랍니다.
+                            </p>
                         </span>
                     </div>
                     <div>
@@ -736,24 +914,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        makeSelect('bluemark_country');
-
-        $('.bluemark__tab').not('.verify__form__wrap').hide();
-
-        $('.handover__btn').on('click', function () {
-            $('.bluemark__tab').hide();
-            $('.voucher__handover__wrap').show();
-        });
-        $('.bluemark_country').on('click', function () {
-            if ($('.bluemark_country').find('.select-hide').is(':visible') == true) {
-                $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_up_tab_btn.svg');
-            } else {
-                $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_down_tab_btn.svg');
-            }
-        })
-    })
-
+    
     function getBluemarkInfo(obj) {
         $('.bluemark__tab').not('.verify__list__wrap').hide();
         $('.voucher__handover__wrap').show();
@@ -1092,4 +1253,246 @@
     function initHandoverWrap() {
         $('.voucher__handover__wrap').hide();
     }
+
+
+    // 블루마크 구매처 셀렉트 박스 설정
+    let bluemarkMallSelectBox = new tui.SelectBox('.mall-select-box', {
+        placeholder: '구매처',
+        data: [
+            {
+                label: '자사 온라인 몰',
+                value: '1'
+            },
+            {
+                label: '자사 오프라인 몰',
+                value: '2'
+            },
+            {
+                label: 'W컨셉',
+                value: '3'
+            },
+            {
+                label: '카카오',
+                value: '4'
+            },
+            {
+                label: '트렌비',
+                value: '5'
+            },
+            {
+                label: '기타',
+                value: '6'
+            }
+
+        ],
+        autofocus: false
+    });
+
+    let bluemarkOfflineSelectBox = new tui.SelectBox('.offline-select-box', {
+        data: [
+            {
+                label: 'ADER Seongsu Space',
+                value: '1'
+            },
+            {
+                label: 'ADER Hongdae Space',
+                value: '2'
+            },
+            {
+                label: 'ADER Sinsa Space',
+                value: '3'
+            },
+            {
+                label: 'ADER Seomyeon Space',
+                value: '4'
+            },
+            {
+                label: 'ADER Haeundae Plug Shop',
+                value: '5'
+            },
+            {
+                label: 'ADER Daejeon Plug Shop',
+                value: '6'
+            },
+            {
+                label: 'ADER Hannam Plug Shop',
+                value: '7'
+            }
+
+        ],
+        autofocus: false
+    });
+    function bluemarkChangeEvent() {
+        bluemarkMallSelectBox.on('change', ev => {
+            let mallValue = document.querySelector(".bluemark-content");
+
+            let mall_select_label = ev.curr.getLabel();
+            let mall_select_value = ev.curr.getValue();
+            $('.mall-bluemark-box').find('.tui-select-box-placeholder').addClass('tui-selected');
+            purchaseDateStatus(mall_select_value);
+            function purchaseDateStatus(mall_select_value){
+                console.log(mall_select_value);
+                let offline = document.querySelector(".offline-bluemark-box");
+                let direct = document.querySelector('.direct-input-wrap');
+                let dateDrop = document.querySelector(".dropdown");
+                if(mall_select_value == 2){
+                    resetDate();
+                    direct.classList.add('hidden');
+                    document.querySelector('.direct-input-wrap input').value = ''
+                    offline.classList.remove("hidden");
+                }
+                else if (mall_select_value == 3 || mall_select_value == 4 || mall_select_value == 5) {
+                    offline.classList.add("hidden");
+                    direct.classList.add('hidden');
+                    document.querySelector('.direct-input-wrap input').value = ''
+                    dateDrop.classList.remove("hidden");
+
+                }else if(mall_select_value == 6){
+                    resetDate();
+                    offline.classList.add("hidden");
+                    direct.classList.remove('hidden');
+                }else {
+                    resetDate();
+                    offline.classList.add("hidden");
+                    direct.classList.add('hidden');
+                    document.querySelector('.direct-input-wrap input').value = ''
+                }
+            }
+            function resetDate(){
+                let dateDrop = document.querySelector(".dropdown");
+                dateDrop.classList.add("hidden");
+                document.querySelector('.purchase-date').dataset.selectdate = '';
+                document.querySelector('.purchase-date').innerHTML = `구매일`;
+            }
+        });
+
+        bluemarkOfflineSelectBox.on('change', ev => {
+            let offlinemallValue = document.querySelector(".bluemark-content");
+
+            let offline_select_label = ev.curr.getLabel();
+            let offline_select_value = ev.curr.getValue();
+
+            $('.offline-bluemark-box').find('.tui-select-box-placeholder').addClass('tui-selected');
+        });
+    }
+    function makeBluemarkCalendar() {
+        const dropdown = document.querySelector(".dropdown");
+        const calendar = document.querySelector(".calendar");
+        const header = calendar.querySelector(".calendar-header");
+        const prevBtn = header.querySelector(".prev-month-btn");
+        const nextBtn = header.querySelector(".next-month-btn");
+        const currentMonth = header.querySelector(".current-month");
+        const weekdays = calendar.querySelector(".calendar-weekdays");
+        const days = calendar.querySelector(".calendar-days");
+
+        // const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+        const weekdaysShort = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+        let date = new Date();
+        let selectedDate = new Date();
+
+        function renderCalendar(purchaseDate) {
+            weekdays.innerHTML = "";
+            days.innerHTML = "";
+
+            for (let i = 0; i < weekdaysShort.length; i++) {
+                const weekday = document.createElement("div");
+                weekday.classList.add("weekday");
+                weekday.textContent = weekdaysShort[i];
+                weekdays.appendChild(weekday);
+            }
+
+            const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+            const lastDayOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+            for (let i = 1; i <= lastDayOfMonth; i++) {
+                const day = document.createElement("button");
+                day.classList.add("day");
+                day.dataset.day= i ;
+                day.innerHTML = `<div>${i}</div>`;
+                days.appendChild(day);
+
+                if (i === new Date().getDate() && date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear()) {
+                    day.classList.add("today");
+                }
+
+                if (i === selectedDate.getDate() && date.getMonth() === selectedDate.getMonth() && date.getFullYear() === selectedDate.getFullYear()) {
+                    day.classList.add("selected");
+                }
+
+                if (purchaseDate && i === purchaseDate.getDate() && date.getMonth() === purchaseDate.getMonth() && date.getFullYear() === purchaseDate.getFullYear()) {
+                    day.classList.add("purchase");
+                }
+            }
+            currentMonth.textContent = `${date.getFullYear()}.${months[date.getMonth()]}`;
+            daysClickEvent();
+        }
+
+        function goToPrevMonth() {
+            date.setMonth(date.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function goToNextMonth() {
+            date.setMonth(date.getMonth() + 1);
+            renderCalendar();
+        }
+
+        prevBtn.addEventListener("click", () => {
+            goToPrevMonth();
+        });
+
+        nextBtn.addEventListener("click", () => {
+            goToNextMonth();
+        });
+
+        dropdown.addEventListener("click", () => {
+            calendar.style.display = "block";
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!dropdown.contains(event.target) && !calendar.contains(event.target)) {
+                calendar.style.display = "none";
+            }
+        });
+        function daysClickEvent() {
+            document.querySelectorAll('.calendar-days .day').forEach(el => el.addEventListener('click', function(ev) {
+                let selectDay ;
+                if(ev.currentTarget.classList.contains('selected')){
+                    ev.currentTarget.classList.remove('selected');
+                }else {
+                    document.querySelectorAll('.calendar-days .day').forEach(el => el.classList.remove('selected'))
+                    ev.currentTarget.classList.add('selected');
+                    let day = ev.currentTarget.dataset.day;
+                    let month = document.querySelector('.current-month').textContent;
+                    console.log(`${month}.${day}`);
+                    document.querySelector('.purchase-date').dataset.selectdate = `${month}.${day}`;
+                    document.querySelector('.purchase-date').innerHTML = `구매일 : ${month}.${day}`;
+                }
+            }));
+        }
+        renderCalendar();
+    }
+    
+    
+    $(document).ready(function () {
+        makeSelect('bluemark_country');
+
+        $('.bluemark__tab').not('.verify__form__wrap').hide();
+
+        $('.handover__btn').on('click', function () {
+            $('.bluemark__tab').hide();
+            $('.voucher__handover__wrap').show();
+        });
+        $('.bluemark_country').on('click', function () {
+            if ($('.bluemark_country').find('.select-hide').is(':visible') == true) {
+                $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_up_tab_btn.svg');
+            } else {
+                $('.bluemark_country').find('img').prop('src', '/images/mypage/mypage_down_tab_btn.svg');
+            }
+        })
+        bluemarkChangeEvent();
+        makeBluemarkCalendar();
+    })
 </script>

@@ -284,7 +284,7 @@
 
             </div> <span id="voucher_err_msg" data-i18n="v_register" style="float:right;color:red;display:none;">존재하지 않는 바우처 코드입니다.</span>
             <div class="footer">
-                <span class="flex_text">·&nbsp;<p data-i18n="v_voucher_msg_02">바우처의 발급 및 사용 기간을 꼭 확인해주세요.</p></span>
+                <span class="flex_text">·&nbsp;<p data-i18n="v_voucher_msg_02">바우처의 발급 및 사용 기간을 꼭 확인해 주세요.</p></span>
                 <span class="flex_text">·&nbsp;<p data-i18n="v_voucher_msg_03" style="margin-top: 0px">대소문자를 구분하여 입력해 주세요.</p></span>
             </div>
         </div>

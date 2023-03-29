@@ -449,7 +449,7 @@ function joinAction(){
 				if(data.code == "200") {
 					//location.reload();
 					notiModal("회원가입","회원가입에 성공하셨습니다.<br>로그인창으로 돌아갑니다.");
-					$('#exception-modal .close-btn').attr('onclick', 'location.href="/login"');
+					$('#notimodal-modal .close-btn').attr('onclick','location.href="/login"');
 				}
 				else {
 					if(data.code == "303"){

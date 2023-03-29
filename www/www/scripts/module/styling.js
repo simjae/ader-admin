@@ -113,6 +113,8 @@ export default function StylingRender(relevant_idx) {
                         domFrag.appendChild(prdListSlide);
                     });
                     swiperWrap.appendChild(domFrag);
+                } else{
+                    document.querySelector('.styling-with-wrap').style.display = 'none';
                 }
             }
         });

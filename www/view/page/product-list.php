@@ -48,11 +48,11 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                     </li>
                     <div class="sort-btn web rW sort__grid" data-grid="4">
                         <div class="d-i-b"><img src="/images/svg/grid-cols-2.svg" alt=""></div>
-                        <span class="layout_change_btn" data-i18n="pl_change_layout">2칸 보기</span>
+                        <span class="layout_change_btn" data-i18n="pl_change_layout_02">2칸 보기</span>
                     </div>
                     <div class="sort-btn mobile rM sort__grid" data-grid="2">
                         <div class="d-i-b"><img src="/images/svg/grid-cols-3.svg" alt=""></div>
-                        <span class="layout_change_btn" data-i18n="">3칸</span>
+                        <span class="layout_change_btn" data-i18n="pl_change_layout_03_m">3칸</span>
                     </div>
                 </div>
             </div>

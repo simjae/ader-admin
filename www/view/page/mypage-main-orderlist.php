@@ -455,7 +455,7 @@
 						display = "flex";
 						// data-i18n ="o_payment_complete";
 						order_btn = '<button class="order_status_box" data-i18n="o_canel_order" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'OCC\')">주문취소</button>';
-						order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+						order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 					} else if (order_status == "DPR" || order_status == "DPG") {
 						display = "block";
 						order_btn = '<div class="delivery_num" style="margin-top:10px;"><p style="margin-bottom:3px;">' + row.company_name + '</p><p>652013628816</p></div>';
@@ -566,7 +566,7 @@
 
 					if (order_status == "PCP") {
 						order_btn = '<button class="order_status_box" data-i18n="o_canel_order" style="font-size: 10px; float: right;" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-						order_cancel_msg = '<p class="order_status_before_msg_m">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+						order_cancel_msg = '<p class="order_status_before_msg_m">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 					} else if (order_status == "DPR" || order_status == "DPG") {
 						order_btn = '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>';
 					} else if (order_status == "DCP") {
@@ -815,7 +815,7 @@
 
 				if (order_status == "PCP") {
 					order_btn = '<button class="order_status_box" data-i18n="o_canel_order" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-					order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+					order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 				} else if (order_status == "DPR" || order_status == "DCP") {
 					display = "flex";
 					order_btn += '<div style= "width: 75px; display: grid; justify-content: right;">';
@@ -904,16 +904,16 @@
 			str_div += '            <p>주문 취소 안내</p>';
 			str_div += '        </div>';
 			str_div += '        <div class="list_orderlist_info">';
-			str_div += '            <p>·&nbsp;주문 접수 및 결제 완료 단계: 주문내역에서 취소 가능합니다.</p>';
-			str_div += '            <p>·&nbsp;배송 준비중 이후 단계: 주문취소 불가하며, 제품 수령 후 반품 진행 부탁드립니다.</p>';
+			str_div += `           <p>·&nbsp;'결제 완료' 단계에서만 취소가 가능합니다.</p>`;
+			str_div += '            <p>·&nbsp;주문 취소는 [마이페이지 - 주문내역] 에서 직접 취소가 가능합니다.</p>';
 			str_div += '        </div>';
 			str_div += '        <div class="title_orderlist_info" style="margin-top: 50px !important;">';
-			str_div += '            <p>반품 안내</p>';
+			str_div += '            <p>교환 및 반품 안내</p>';
 			str_div += '        </div>';
 			str_div += '        <div class="list_orderlist_info">';
-			str_div += '            <p>·&nbsp;반품 접수는 제품 수령 후 7일 이내 가능합니다.</p>';
-			str_div += '            <p>·&nbsp;주문 상태가 배송 완료일 경우 주문내역에서 반품 접수가능하며, 배송중으로 보여질 경우 고객 서비스팀으로 연락 주시기 바랍니다.</p>';
-			str_div += '            <p class="underline">교환 및 반품 안내 바로 가기</p>';
+			str_div += '            <p>·&nbsp;교환 및 반품 접수는 제품 수령일로부터 7일 이내 신청 가능합니다.</p>';
+			str_div += `            <p>·&nbsp;주문 상태가 '배송 완료' 일 경우, [마이페이지 - 주문내역] 에서 교환 및 반품 신청이 가능합니다.</p>`;
+			str_div += `            <p class="underline">주문 상태가 '배송 중' 으로 보여질 경우, 1:1 문의를 통하여 접수 부탁드립니다.</p>`;
 			str_div += '        </div>';
 			str_div += '    </div>';
 			str_div += '</div>';
@@ -965,7 +965,7 @@
 
 				if (order_status == "PCP") {
 					order_btn = '<button class="order_status_box" data-i18n="o_canel_order" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-					order_cancel_msg = '<p style="font-size: 10px; ">배송준비 단계로 넘어가면<br>취소 불가합니다.</p>';
+					order_cancel_msg = '<p style="font-size: 10px; ">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 				} else if (order_status == "DCP") {
 					display = "flex";
 					order_btn += '<div style ="display: grid;  margin-left: 0;">';
@@ -1054,16 +1054,16 @@
 			str_div += '            <p>주문 취소 안내</p>';
 			str_div += '        </div>';
 			str_div += '        <div class="list_orderlist_info">';
-			str_div += '            <p>·&nbsp;주문 접수 및 결제 완료 단계: 주문내역에서 취소 가능합니다.</p>';
-			str_div += '            <p>·&nbsp;배송 준비중 이후 단계: 주문취소 불가하며,<br>&nbsp;&nbsp;제품 수령 후 반품 진행 부탁드립니다.</p>';
+			str_div += `           <p>·&nbsp;'결제 완료' 단계에서만 취소가 가능합니다.</p>`;
+			str_div += '            <p>·&nbsp;주문 취소는 [마이페이지 - 주문내역] 에서 직접 취소가 가능합니다.</p>';
 			str_div += '        </div>';
 			str_div += '        <div class="title_orderlist_info" style="margin-top: 30px !important;">';
-			str_div += '            <p>반품 안내</p>';
+			str_div += '            <p>교환 및 반품 안내</p>';
 			str_div += '        </div>';
 			str_div += '        <div class="list_orderlist_info">';
-			str_div += '            <p>·&nbsp;반품 접수는 제품 수령 후 7일 이내 가능합니다.</p>';
-			str_div += '            <p>·&nbsp;주문 상태가 배송 완료일 경우 주문내역에서 반품 접수가능하며,<br>&nbsp;&nbsp;배송중으로 보여질 경우 고객 서비스팀으로 연락 주시기 바랍니다.</p>';
-			str_div += '            <p class="underline">교환 및 반품 안내 바로 가기</p>';
+			str_div += '            <p>·&nbsp;교환 및 반품 접수는 제품 수령일로부터 7일 이내 신청 가능합니다.</p>';
+			str_div += `            <p>·&nbsp;주문 상태가 '배송 완료' 일 경우, [마이페이지 - 주문내역] 에서 교환 및 반품 신청이 가능합니다.</p>`;
+			str_div += `            <p class="underline">주문 상태가 '배송 중' 으로 보여질 경우, 1:1 문의를 통하여 접수 부탁드립니다.</p>`;
 			str_div += '        </div>';
 			str_div += '    </div>';
 			str_div += '</div>';
@@ -1077,27 +1077,27 @@
 		let order_status = "";
 		switch (param_status) {
 			case "PCP":
-				order_status = '<div data-i18n="o_payment_complete">결제완료</div>';
+				order_status = '<div data-i18n="o_payment_complete">결제 완료</div>';
 				break;
 
 			case "PPR" || "POD":
-				order_status = "상품준비";
+				order_status = "제품 준비 중";
 				break;
 
 			case "DPR":
-				order_status = "배송준비";
+				order_status = "배송 준비 중";
 				break;
 
 			case "DPG":
-				order_status = '<div data-i18n="o_shipped">배송중</div>';
+				order_status = '<div data-i18n="o_shipped">배송 중</div>';
 				break;
 
 			case "DCP":
-				order_status = '<div data-i18n="o_delivered">배송완료</div>';
+				order_status = '<div data-i18n="o_delivered">배송 완료</div>';
 				break;
 
 			case "OCC":
-				order_status = '<div data-i18n="o_cancelled">취소완료</div>';
+				order_status = '<div data-i18n="o_cancelled">취소 완료</div>';
 				break;
 
 			case "OEX":
@@ -1105,7 +1105,7 @@
 				break;
 
 			case "OEP":
-				order_status = '<div data-i18n="o_exchanged">교환완료</div>';
+				order_status = '<div data-i18n="o_exchanged">교환 완료</div>';
 				break;
 
 			case "ORF":

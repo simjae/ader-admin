@@ -864,7 +864,7 @@
                 <p style="margin-bottom: 10px;" data-i18n="p_subscription_preferences">마케팅 정보 수신 및 활용 동의</p>
             </div>
             <div class="description">
-                <p data-i18n="p_receive_news">&nbsp;&nbsp;제품, 할인 정보, 멤버 혜택 관련 최신 소식을 받아보세요.</p>
+                <p data-i18n="p_receive_news">&nbsp;&nbsp;제품, 이벤트 및 프로모션, 멤버 혜택 관련 최신 소식을 받아보세요.</p>
             </div>
             <div style="margin-top:20px; margin-bottom:20px;">
                 <div class="input__form__rows marketing__receive">

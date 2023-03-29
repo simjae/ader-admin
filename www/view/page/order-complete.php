@@ -1259,17 +1259,17 @@
 									</span>
 								</div>
 								<div class="calculation-row">
-									<span>적립 포인트 사용</span>
+									<span>적립금 사용</span>
 									<span class="accumulate-point-use" data-accumulate="0">
 										<?= $order_info['price_mileage_point'] ?>
 									</span>
 								</div>
-								<div class="calculation-row">
+								<!-- <div class="calculation-row">
 									<span>충전 포인트 사용</span>
 									<span class="charge-point-use" data-charge="0">
 										<?= $order_info['price_charge_point'] ?>
 									</span>
-								</div>
+								</div> -->
 							</div>
 							<div class="calculation-row">
 								<span>배송비</span>
@@ -1294,23 +1294,20 @@
 			<div class="terms-service " data-group="4">
 				<div class="header-title">주문 취소 안내</div>
 				<div class="terms-info-list">
-					<p>·&nbsp;'주문 접수' 및 '결제 완료' 단계 : [회원정보>주문>주문상세] 에서 취소 가능
-						합니다.</p>
-					<p>·&nbsp;'배송 준비중' 이후 단계 : 주문취소 불가하며, 제품 수령 후 '반품'으로 진행
-						부탁드립니다.</p>
+					<p>·&nbsp;'결제 완료' 단계에서만 취소가 가능합니다.</p>
+					<p>·&nbsp;주문 취소는 [마이페이지 - 주문내역] 에서 직접 취소가 가능합니다.</p>
 				</div>
-				<div class="header-title">반품 안내</div>
+				<div class="header-title">교환 및 반품 안내</div>
 				<div class="terms-info-list">
-					<p>·&nbsp;반품 접수는 제품 수령 후 7일 이내 가능합니다.</p>
-					<p>·&nbsp;주문 상태가 '배송 완료' 일 경우 [회원정보>주문>주문상세] 에서 반품 접수 가능하며,
-						'배송중' 으로 보여질 경우 고객 서비스팀으로 연락 주시기 바랍니다.</p>
-					<p>·&nbsp;반품 절차는 아래 링크를 참고하시기 바랍니다.</p>
+					<p>·&nbsp;교환 및 반품 접수는 제품 수령일로부터 7일 이내 신청 가능합니다.</p>
+					<p>·&nbsp;주문 상태가 '배송 완료' 일 경우, [마이페이지 - 주문내역] 에서 교환 및 반품 신청이 가능합니다.</p>
+					<p>·&nbsp;주문 상태가 '배송 중' 으로 보여질 경우, 1:1 문의를 통하여 접수 부탁드립니다.</p>
 				</div>
 			</div>
 			<div class="step-btn-wrap">
 				<div class="step-btn pre" onClick="location.href='/order/basket/list'"><span>계속 쇼핑하기</span></div>
 				<div class="step-btn next" data-step="1" onClick="location.href='/mypage/main?mypage_type=orderlist'">
-					<span>주문/배송조회</span>
+					<span>주문내역 보러 가기</span>
 				</div>
 			</div>
 		</div>

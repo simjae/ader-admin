@@ -529,11 +529,12 @@ div::-webkit-scrollbar-track {
 
 .size__box li[data-soldout="STSO"]::after {
     /* 재고없음(재고 증가 없음) */
-    content: url('/images/svg/sold-line.svg');
-    position: absolute;
-    top: 50%;
+    content: url('/images/svg/sold-line.svg')!important;
+    position: absolute!important;
+    top: 50%!important;
     opacity: 0.5;
     left: 50%;
+    border-bottom: 0px;
     transform: translate(-50%, -50%);
 }
 
@@ -543,8 +544,8 @@ div::-webkit-scrollbar-track {
     position: absolute;
     opacity: 0.5;
     text-align: center;
-    right: 14px;
     top: 0px;
+    transform: translate(-50%, -50%);
 }
 
 .size__box li[data-soldout="STSO"][data-sizetype="S"]::after {
@@ -555,6 +556,7 @@ div::-webkit-scrollbar-track {
     text-align: center;
     right: 8px;
     top: 0px;
+    transform: translate(-50%, -50%);
 }
 
 .product .product-info .info-row .color__box {
@@ -578,6 +580,7 @@ div::-webkit-scrollbar-track {
     height: 0.8rem;
     border-radius: 50%;
     position: relative;
+    border: 0.5px solid #dcdcdc;
 }
 
 .product .product-info .info-row .color__box .color[data-color="#ffffff"] {
@@ -929,7 +932,7 @@ div::-webkit-scrollbar-track {
 #notimodal-modal .notimodal__wrap { background-color: white; height: 17%; width: 24.5%; min-width: 320px; max-height: 320px; display: flex; align-items: center; font-size: 2rem; position: relative; justify-content: center;}
 #notimodal-modal .title { font-size: 13px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; text-align: center; color: #343434; margin-bottom: 20px;} 
 #notimodal-modal p { font-size: 11px; font-weight: normal; font-stretch: normal; font-style: normal; line-height: normal; letter-spacing: normal; text-align: center; color: #343434; } 
-#notimodal-modal .close-btn { position: absolute; font-size: 2rem; right: 0; top: 0; margin: 30px; } 
+#notimodal-modal .close-btn { position: absolute; font-size: 2rem; right: 0; top: 0; margin: 30px; cursor: pointer;} 
 #notimodal-modal .close-btn svg:hover { transform: rotate(90deg); transition: transform 0.5s; }
 #notimodal-modal.open .notimodal__background { display: flex; background: rgba(0, 0, 0, 0.8); transition-duration: 1s; height: 100vh; justify-content: center; align-items: center; }
 .tung-data {
@@ -1118,6 +1121,11 @@ div::-webkit-scrollbar-track {
     .product-wrap[data-grid='2'] .product .product-info .info-row .price {
         position: relative;
         top: -4px;
+        line-height: 2.3;
+    }
+    .product-wrap[data-grid='2'] .product .product-info .info-row .price[data-soldout="STSO"] {
+        position: relative;
+        top: 10px;
         line-height: 2.3;
     }
 

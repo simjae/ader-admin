@@ -135,6 +135,8 @@ export function Basket(el, useSidebar) {
 			tungDiv.className = "tung-data";
 			tungDiv.innerHTML = `<h1>쇼핑백이 비어있습니다.</h1>`
 			list__body.appendChild(tungDiv);
+			$('.checkbox__box').hide();
+            $('.pay__box').hide();
 		}
 	}
 	

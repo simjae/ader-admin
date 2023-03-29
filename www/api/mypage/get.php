@@ -43,6 +43,7 @@ if($member_idx > 0 && $country != null){
 				FROM 
 					MILEAGE_INFO S_MI
 				WHERE 
+					S_MI.COUNTRY = '".$country."' AND
 					S_MI.MEMBER_IDX = MB.IDX
 				ORDER BY 
 					S_MI.IDX DESC 

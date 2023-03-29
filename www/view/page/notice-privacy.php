@@ -36,8 +36,13 @@
         text-align:center;
         color:#343434;
     }
-    .notice__privacy__wrap .tab__wrap{display:grid;gap:10px;grid-template-columns:1fr 1fr 1fr;align-items:center;margin:0 auto;width:350px;}
-        .notice__privacy__wrap .tab__btn{border:none;height:24px;cursor:pointer;}
+    .notice__privacy__wrap .tab__wrap{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+    }
+        .notice__privacy__wrap .tab__btn{border:none;height:24px;cursor:pointer;padding: 0 5px;}
         .notice__privacy__wrap .tab__btn span{line-height: 24px;}
         .notice__privacy__wrap .tab__btn.selected{border:1px solid;}
             .notice__privacy__wrap .tab__btn span{color:#B6B6B6;}

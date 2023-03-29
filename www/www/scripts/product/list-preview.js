@@ -13,7 +13,8 @@ const getProductList = () => {
     let { country, menu_idx, menu_sort, page_idx } = document.querySelector(".product__list__wrap").dataset;
 
     let last_idx = $('#last_idx').val();
-
+	let preview_flg = $('#preview_flg').val();
+	
     $.ajax({
         type: "post",
         url: "http://116.124.128.246:80/_api/product/list/get",
@@ -23,7 +24,8 @@ const getProductList = () => {
             "menu_sort": menu_sort,
             "page_idx": page_idx,
             "last_idx": last_idx,
-            "order_param": order_param
+            "order_param": order_param,
+			"preview_flg" : preview_flg
         },
         dataType: "json",
         error: function () {
@@ -101,7 +103,7 @@ const getProductList = () => {
 
             } else {
                 alert(d.msg);
-                location.href = "/main";
+                //location.href = "/main";
             }
         }
     });
@@ -215,6 +217,9 @@ function productWriteHtml(grid_info) {
                                 }
                                 let maxCnt = 5;
                                 let colorData = color.color_rgb;
+                                if(!colorData) {
+                                    return '컬러없음';
+                                }
                                 let multi = colorData.split(";");
                                 console.log(multi.length);
                                 if (idx < maxCnt) {
@@ -1011,7 +1016,7 @@ function sortProductList(obj) {
                     $(".product-wrap").append(productwriteData);
                 }
             } else {
-                exceptionHandler("디자인 필요", d.msg);
+                notiModal(d.msg)
             }
         }
     });

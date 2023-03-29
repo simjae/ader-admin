@@ -436,7 +436,12 @@ li {
     display: grid;
     place-items: center;
 }
-
+.prd__meun__box.select .prd__img {
+    border: 1px solid #808080;
+}
+.prd__meun__category .title.select {
+    border: 1px solid #000000;
+}
 .prd__meun__box:hover .prd__img {
     border: 1px solid #808080;
 }
@@ -471,7 +476,7 @@ li {
 }
 
 .show_more_btn {
-    border: 1px solid #dcdcdc;
+    border-top: 1px solid #dcdcdc;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -910,6 +915,10 @@ li {
         color: #808080;
         padding: 5px 16px;
     }
+    .product__list__wrap .prd__meun .prd__meun__category .title.select {
+        border: 1px solid #000000;
+        color: #000000;
+    }
 
     .prd__meun__category .swiper-slide {
         margin-right: 10px !important;
@@ -1011,17 +1020,9 @@ li {
     }
 
     .show_more_btn {
-        border: 1px solid #dcdcdc;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.3rem;
-        letter-spacing: normal;
-        color: #000;
         background-color: #fbfbfb;
         padding: 40px;
         margin-bottom: 150px;
-        cursor: pointer;
     }
 
     /* ----------------------------------------------------------------------------------------------- sort 버튼  --------------------*/

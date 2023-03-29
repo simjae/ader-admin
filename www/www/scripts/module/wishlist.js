@@ -36,7 +36,6 @@ export default function WishlistRender() {
                 let data = d.data;
 
                 if(data == null) {
-                    console.log("no whishlist");
                     let swiperContainer = document.querySelector(".swiper-grid");
                     let swiperMsgWrap = document.createElement("div");
                     swiperMsgWrap.className = "no_whishlist_msg";
@@ -47,28 +46,30 @@ export default function WishlistRender() {
                     const swiperWrap = document.querySelector(".wish-swiper .swiper-wrapper");
                     const domFrag = document.createDocumentFragment();
     
-    
-    
                     data.forEach(el => {
                         let prdListSlide = document.createElement("div");
                         prdListSlide.classList.add("swiper-slide");
                         let whish_img = "";
                         let whish_function = "";
     
-                        let whish_flg = `${el.whish_flg}`;
                         let login_status = getLoginStatus();
     
                         if (login_status == "true") {
-                            if (whish_flg == 'true') {
-                                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                                whish_function = "deleteWhishListBtn(this);";
-                            } else if (whish_flg == 'false') {
-                                whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                                whish_function = "setWhishListBtn(this);";
-                            }
+                            whish_img = `
+                                        <div class="remove-btn"> 
+                                            <img src="/images/svg/sold-line.svg">
+                                            <img src="/images/svg/sold-line.svg">
+                                        </div>
+                                        `;
+                            whish_function = `deleteWhish(this);`;
                         } else {
-                            whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                            whish_function = "return false;";
+                            whish_img = `
+                                        <div class="remove-btn"> 
+                                            <img src="/images/svg/sold-line.svg">
+                                            <img src="/images/svg/sold-line.svg">
+                                        </div>
+                                        `;
+                            whish_function = `return false;`;
                         }
     
                         let product_size = el.product_size;
@@ -77,8 +78,8 @@ export default function WishlistRender() {
                         let colorCtn = el.product_color.length;
     
                         productRecommendListHtml =
-                            `<div class="product">
-                                <div class="wish__btn" product_idx="${el.product_idx}" onClick="${whish_function}">
+                            `<div class="product whish_list_mp">
+                                <div class="wish__btn hidden" product_idx="${el.product_idx}" onClick="${whish_function}">
                                     ${whish_img}
                                 </div>
                                 
@@ -96,18 +97,18 @@ export default function WishlistRender() {
                                     <div class="info-row">
                                         <div class="color__box" data-maxcount="${colorCtn < 6 ? "" : "over"}" data-colorcount="${colorCtn < 6 ? colorCtn : colorCtn - 5}">
                                             ${el.product_color.map((color, idx) => {
-                                let maxCnt = 5;
-                                if (idx < maxCnt) {
-                                    return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
-                                }
-                            }).join("")
-                            }
+                                                let maxCnt = 5;
+                                                if (idx < maxCnt) {
+                                                    return `<div class="color" data-color="${color.color_rgb}" data-productidx="${color.product_idx}" data-soldout="${color.stock_status}" style="background-color:${color.color_rgb}"></div>`;
+                                                }
+                                            }).join("")
+                                            }
                                         </div>
                                         <div class="size__box">
                                             ${el.product_size.map((size) => {
-                                return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
-                            }).join("")
-                            }  
+                                                return `<li class="size" data-sizetype="" data-productidx="${size.product_idx}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}</li>`;
+                                            }).join("")
+                                            }  
                                         </div>
                                     </div>
                                 </div>
@@ -116,13 +117,23 @@ export default function WishlistRender() {
                         domFrag.appendChild(prdListSlide);
                     });
                     swiperWrap.appendChild(domFrag);
+                    let whish_list = document.querySelectorAll(".whish_list_mp");
+                    whish_list.forEach(list => list.addEventListener("mouseenter", function() {
+                        let remove_btn = list.querySelector(".wish__btn");
+                        remove_btn.classList.remove("hidden");
+                    }))
+                    whish_list.forEach(list => list.addEventListener("mouseleave", function() {
+                        let remove_btn = list.querySelector(".wish__btn");
+                        remove_btn.classList.add("hidden");
+                    }))
                 }
             }
         });
     })();
 
     this.swiper = (() => {
-        return new Swiper(".wish-swiper", {
+        return new Swiper(".swiper-grid .wish-swiper", {
+            watchOverflow: true,
             navigation: {
                 nextEl: ".wish-swiper .swiper-button-next",
                 prevEl: ".wish-swiper .swiper-button-prev",
@@ -132,6 +143,7 @@ export default function WishlistRender() {
                 clickable: true,
                 disabledClass: 'swiper-button-disabled'
             },
+            autoplayDisableOnInteraction: false,
             grabCursor: true,
             breakpoints: {
                 // when window width is >= 320px

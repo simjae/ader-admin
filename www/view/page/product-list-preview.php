@@ -12,11 +12,13 @@ $page_url = $_SERVER['REQUEST_URI'];
 $menu_sort = getUrlParamter($page_url, 'menu_sort');
 $menu_idx = getUrlParamter($page_url, 'menu_idx');
 $page_idx = getUrlParamter($page_url, 'page_idx');
+$preview_flg = getUrlParamter($page_url, 'preview_flg');
 ?>
 <main>
     <input id="menu_sort" type="hidden" value="<?= $menu_sort ?>">
     <input id="menu_idx" type="hidden" value="<?= $menu_idx ?>">
     <input id="page_idx" type="hidden" value="<?= $page_idx ?>">
+	<input id="preview_flg" type="hidden" value="<?= $preview_flg ?>">
 
     <input id="country" type="hidden" value="KR">
 
