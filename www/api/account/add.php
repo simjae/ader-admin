@@ -167,6 +167,7 @@ try {
 		INSERT INTO
 			MEMBER_".$country."
 		(   
+			COUNTRY,
 			MEMBER_STATUS,
 			".$member_id_arr[0]."
 			".$member_pw_arr[0]."
@@ -182,6 +183,7 @@ try {
 		)
 		VALUES
 		(
+			'".$country."',
 			'NML',
 			".$member_id_arr[1]."
 			".$member_pw_arr[1]."

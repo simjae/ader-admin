@@ -61,7 +61,18 @@ if($member_idx > 0 && $country != null){
 					S_VI.VOUCHER_ADD_DATE IS NOT NULL AND
 					S_VI.USED_FLG = FALSE AND
 					S_VI.USABLE_END_DATE > NOW()
-			) AS VOUCHER_CNT
+			) AS VOUCHER_CNT,
+			(SELECT 
+				COUNT(0) 
+			FROM 
+				dev.ORDER_INFO 
+			WHERE 
+				COUNTRY = '".$country."' 
+			AND 
+				MEMBER_IDX = ".$member_idx."
+			AND 
+				ORDER_STATUS IN ('PCP', 'PPR', 'DPR', 'DPG')
+			)					AS ORDER_ING_CNT
         FROM
             MEMBER_".$country." MB
         WHERE
@@ -76,7 +87,8 @@ if($member_idx > 0 && $country != null){
             'member_id'         		=>$data['MEMBER_ID'],
             'member_name'       		=>$data['MEMBER_NAME'],
             'mileage_balance_total'		=>$data['MILEAGE_BALANCE_TOTAL'],
-            'voucher_cnt'       		=>$data['VOUCHER_CNT']
+            'voucher_cnt'       		=>$data['VOUCHER_CNT'],
+			'order_ing_cnt'				=>$data['ORDER_ING_CNT']
         );
     }
 }

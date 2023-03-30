@@ -111,7 +111,7 @@ if ($add_type == "product" && $member_idx > 0 && $country != null && $product_id
 		$check_result_id = checkIdReorder($db,$member_idx,"PRD",$product_idx);
 		if ($check_result_id['result'] == false) {
 			$json_result['code'] = 401;
-			$json_result['msg'] = "회원별 1개씩만 구매 가능한 상품입니다.";
+			$json_result['msg'] = "ID당 1개씩만 구매 가능합니다.";
 			
 			return $json_result;
 		}
@@ -223,7 +223,7 @@ if ($add_type == "whish" && $member_idx > 0 && $country != null && count($whish_
 		$check_result_id = checkIdReorder($db,$member_idx,"WSH",$whish_idx);
 		if ($check_result_id['result'] == false) {
 			$json_result['code'] = 305;
-			$json_result['msg'] = "회원별 1개씩만 구매 가능한 상품입니다.";
+			$json_result['msg'] = "ID당 1개씩만 구매 가능합니다.";
 			
 			return $json_result;
 		}

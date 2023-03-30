@@ -258,6 +258,16 @@ if ($page_idx != null && $country != null) {
 					
 					foreach($db->fetch() as $product_data) {
 						$product_img = array();
+						$thumb_cnt = $db->count("dev.PRODUCT_IMG","PRODUCT_IDX = ".$product_idx." AND IMG_TYPE LIKE 'T%'");
+						
+						$img_type = "";
+						if ($thumb_cnt > 0) {
+							$p_img_type = 'TP';
+							$o_img_type = 'TO';
+						} else {
+							$p_img_type = 'P';
+							$o_img_type = 'O';
+						}
 						
 						$select_img_p_sql = "
 							SELECT
@@ -269,7 +279,7 @@ if ($page_idx != null && $country != null) {
 								PRODUCT_IMG PI
 							WHERE
 								PI.PRODUCT_IDX = ".$product_idx." AND
-								PI.IMG_TYPE = 'P' AND
+								PI.IMG_TYPE = '".$p_img_type."' AND
 								PI.IMG_SIZE = 'M'
 							ORDER BY
 								PI.IDX ASC
@@ -280,7 +290,7 @@ if ($page_idx != null && $country != null) {
 						$product_p_img = array();
 						foreach($db->fetch() as $img_data) {
 							$product_p_img[] = array(
-								'img_type'		=>$img_data['IMG_TYPE'],
+								'img_type'		=>"P",
 								'img_location'	=>$img_data['IMG_LOCATION']
 							);
 						}
@@ -295,18 +305,18 @@ if ($page_idx != null && $country != null) {
 								PRODUCT_IMG PI
 							WHERE
 								PI.PRODUCT_IDX = ".$product_idx." AND
-								PI.IMG_TYPE = 'O' AND
+								PI.IMG_TYPE = '".$o_img_type."' AND
 								PI.IMG_SIZE = 'M'
 							ORDER BY
 								PI.IDX ASC
 						";
-										
+						
 						$db->query($select_img_o_sql);
 						
 						$product_o_img = array();
 						foreach($db->fetch() as $img_data) {
 							$product_o_img[] = array(
-								'img_type'		=>$img_data['IMG_TYPE'],
+								'img_type'		=>"O",
 								'img_location'	=>$img_data['IMG_LOCATION']
 							);
 						}
@@ -488,7 +498,11 @@ function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
 			MF.OBJ_TITLE	AS OBJ_TITLE,
 			".$select_img_location."
 			MF.LINK_TYPE	AS LINK_TYPE,
-			MF.LINK_URL		AS LINK_URL
+			CONCAT(
+				MF.LINK_URL,
+				'&m_cate_s=',
+				MF.OBJ_TITLE
+			)				AS LINK_URL
 		FROM
 			".$filter_table."
 		WHERE

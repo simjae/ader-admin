@@ -85,7 +85,8 @@ if ($product_idx > 0 && $country != null) {
 					WHERE
 						S_PI.PRODUCT_IDX = ".$product_idx." AND
 						S_PI.IMG_TYPE = 'O' AND
-						S_PI.IMG_SIZE = 'S'
+						S_PI.IMG_SIZE = 'S' AND
+						S_PI.DEL_FLG = FALSE
 					ORDER BY
 						S_PI.IDX ASC
 					LIMIT
@@ -100,7 +101,8 @@ if ($product_idx > 0 && $country != null) {
 					WHERE
 						S_PI.PRODUCT_IDX = ".$product_idx." AND
 						S_PI.IMG_TYPE = 'P' AND
-						S_PI.IMG_SIZE = 'S'
+						S_PI.IMG_SIZE = 'S' AND
+						S_PI.DEL_FLG = FALSE
 					ORDER BY
 						IDX ASC
 					LIMIT
@@ -128,6 +130,7 @@ if ($product_idx > 0 && $country != null) {
 					PRODUCT_IMG PI
 				WHERE
 					PI.PRODUCT_IDX = ".$product_idx." AND
+					PI.IMG_TYPE NOT LIKE 'T%' AND
 					PI.IMG_SIZE = 'L'
 				ORDER BY
 					PI.IDX ASC
