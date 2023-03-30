@@ -579,6 +579,11 @@
 		color: #343434;
 	}
 
+	.reserves-info-list p {
+		text-indent: -6px;
+		margin-left: 6px;
+	}
+
 	.charge-info .body-wrap {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -651,9 +656,11 @@
 		color: #ff0000;
 		text-decoration: underline;
 	}
+
 	.edit-box {
 		margin-top: 10px;
 	}
+
 	.edit-box .input-row {
 		display: flex;
 		flex-direction: column;
@@ -761,6 +768,11 @@
 		padding: 10px 0;
 	}
 
+	.terms-info-list p {
+		text-indent: -6px;
+		margin-left: 6px;
+	}
+
 	.terms-service {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -780,6 +792,10 @@
 		background: #000000;
 	}
 
+	.check-text {
+		display: flex;
+		align-items: center;
+	}
 
 	/* 스탭 버튼 */
 
@@ -920,7 +936,7 @@
 		width: 10px;
 		height: 10px;
 		margin: 0px;
-		padding: 0px;
+		padding: 5px;
 	}
 
 	.addr-list-wrap {
@@ -1101,7 +1117,7 @@ if ($member_idx == 0 || $basket_idx == null) {
 
 <main data-basketStr="<?= $basket_idx ?>">
 	<div id="payment-method"></div>
-	
+
 	<div class="banner-wrap">
 		<div class="banner-box">
 			<span data-i18n="s_checkout">결제하기</span>
@@ -1153,8 +1169,8 @@ if ($member_idx == 0 || $basket_idx == null) {
 						</div>
 						<div class="total-price-wrap">
 							<div class="total-box">
-								<span>총 합계(Qty:</span>
-								<span class="product-qty"></span>)
+								<span>총 합계(제품 개수:</span>
+								<span class="product-qty"></span>개)
 							</div>
 							<span class="price_total">0</span>
 						</div>
@@ -1171,10 +1187,8 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="body-wrap">
 					<div class="voucher-select-box"></div>
-					<div class="voucher-info-list hidden">
-						<p>·&nbsp;바우처는 적립포인트와 중복 사용이 불가능합니다.</p>
-						<p>·&nbsp;바우처보다 제품 금액이 높을 시, 충전포인트와 중복 사용 또는 선택적 사용이 가능합니다.</p>
-						<p>·&nbsp;바우처보다 제품 금액이 낮을 시에는 반환금액이 없습니다.</p>
+					<div class="voucher-info-list">
+						<p>·&nbsp;사용을 원하시는 바우처를 선택해 주세요.</p>
 					</div>
 				</div>
 			</div>
@@ -1186,17 +1200,21 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="body-wrap">
 					<div class="point-row">
-						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립금을 입력해주세요." style="padding-left:10px;" onChange="setPriceMileagePoint(this);">
+						<input type="text" id="use_mileage" placeholder="사용하실 보유 적립금을 입력해주세요."
+							style="padding-left:10px;" onChange="setPriceMileagePoint(this);">
 						<div class="mileage_point_btn" onclick="getTotalMileage(true)">
-							<span class="mileage_point_msg">모두적용</span></div>
+							<span class="mileage_point_msg">모두적용</span>
+						</div>
 					</div>
 					<div class="get-point reserves">
 						<span>사용 가능 적립금</span>
 						<span id="txt_total_mileage" style="margin-left:5px;"></span>
 					</div>
-					<div class="reserves-info-list hidden">
-						<p>·&nbsp;주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 적립금으로 전환됩니다. 배송 완료 시점으로부터 7일 동안은 미가용 적립금으로 분류됩니다.</p>
-						<p>·&nbsp;미가용 적립금의 경우, 반품 및 취소의 경우에 대비하여 임시로 적립됩니다. 사용 가능 적립금으로 변환 완료된 이후 사용 가능합니다.</p>
+					<div class="reserves-info-list">
+						<p>·&nbsp;주문으로 발생한 적립금은 배송 완료 후 7일부터 실제 사용 가능한 적립금으로 전환됩니다.</p>
+						<p>·&nbsp;배송 완료 시점으로부터 7일 동안은 미가용 적립금으로 분류됩니다.</p>
+						<p>·&nbsp;미가용 적립금의 경우, 반품 및 취소의 경우에 대비하여 임시로 적립됩니다.</p>
+						<p>·&nbsp;사용 가능 적립금으로 변환 완료된 이후 사용 가능합니다.</p>
 					</div>
 				</div>
 			</div>
@@ -1312,7 +1330,8 @@ if ($member_idx == 0 || $basket_idx == null) {
 							<div class="edit-message-box">
 								<div class="addr-message-select-box"></div>
 								<!-- <input id="recent_order_msg" type="hidden"> -->
-								<textarea placeholder="내용을 입력해주세요.(최대 50자)" id="tmp_order_memo" class="tmp_order_memo" type="text"></textarea>
+								<textarea placeholder="내용을 입력해주세요.(최대 50자)" id="tmp_order_memo" class="tmp_order_memo"
+									type="text"></textarea>
 							</div>
 							<div class="save-message-box hidden">
 								<p class="message-content"></p>
@@ -1354,10 +1373,10 @@ if ($member_idx == 0 || $basket_idx == null) {
 				</div>
 				<div class="check-row">
 					<div class="check-text">
-						<input type="checkbox" class="check-self">
+						<input type="checkbox" class="check-self" style="margin-bottom: 20px;">
 						<label for="">
-							<span>뉴스레터 발송, 맞춤 서비스 및 이벤트 제공, 신규 서비스 개발 등 서비스 품질
-								향상을 위한 마케팅 정보 수신 및 활용에 동의합니다. (선택)</span></label>
+								<p>뉴스레터 발송, 맞춤 서비스 및 이벤트 제공, 신규 서비스 개발 등 서비스 품질 향상을 위한 마케팅 정보 수신 및 활용에 동의합니다. (선택)</p>
+						</label>
 					</div>
 				</div>
 			</div>
@@ -1372,1068 +1391,1068 @@ if ($member_idx == 0 || $basket_idx == null) {
 </main>
 
 <form id="frm-check" action="/order/check" style="display:none;" method="POST">
-	<input id="basket_idx"			type="hidden" name="basket_idx"				value="<?= $basket_idx ?>">
+	<input id="basket_idx" type="hidden" name="basket_idx" value="<?= $basket_idx ?>">
 
-	<input id="to_place"			type="hidden" name="to_place"				value="">
-	<input id="to_name"				type="hidden" name="to_name"				value="">
-	<input id="to_mobile"			type="hidden" name="to_mobile"				value="">
-	<input id="to_zipcode"			type="hidden" name="to_zipcode"				value="">
-	<input id="to_lot_addr" 		type="hidden" name="to_lot_addr"			value="">
-	<input id="to_road_addr"		type="hidden" name="to_road_addr"			value="">
-	<input id="to_detail_addr"		type="hidden" name="to_detail_addr"			value="">
-	<input id="order_memo"			type="hidden" name="order_memo"				value="">
-	
-	<input id="voucher_idx"			type="hidden" name="voucher_idx"			value="0">
+	<input id="to_place" type="hidden" name="to_place" value="">
+	<input id="to_name" type="hidden" name="to_name" value="">
+	<input id="to_mobile" type="hidden" name="to_mobile" value="">
+	<input id="to_zipcode" type="hidden" name="to_zipcode" value="">
+	<input id="to_lot_addr" type="hidden" name="to_lot_addr" value="">
+	<input id="to_road_addr" type="hidden" name="to_road_addr" value="">
+	<input id="to_detail_addr" type="hidden" name="to_detail_addr" value="">
+	<input id="order_memo" type="hidden" name="order_memo" value="">
 
-	<input id="price_mileage_point" type="hidden" name="price_mileage_point"	value="0">
-	<input id="price_charge_point"	type="hidden" name="price_charge_point"		value="0">
+	<input id="voucher_idx" type="hidden" name="voucher_idx" value="0">
+
+	<input id="price_mileage_point" type="hidden" name="price_mileage_point" value="0">
+	<input id="price_charge_point" type="hidden" name="price_charge_point" value="0">
 </form>
 
 <script src="https://js.tosspayments.com/v1/payment-widget"></script>
 
 <script>
-const clientKey = "test_ck_YZ1aOwX7K8meL9vyEe98yQxzvNPG";
-//const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";		//결제위젯용
-let tossPayments = TossPayments(clientKey);
+	const clientKey = "test_ck_YZ1aOwX7K8meL9vyEe98yQxzvNPG";
+	//const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";		//결제위젯용
+	let tossPayments = TossPayments(clientKey);
 
-const customerKey = "<?=$_SESSION['MEMBER_ID']?>";
-const paymentWidget = PaymentWidget(clientKey,customerKey);  // 결제위젯 초기화
+	const customerKey = "<?= $_SESSION['MEMBER_ID'] ?>";
+	const paymentWidget = PaymentWidget(clientKey, customerKey);  // 결제위젯 초기화
 
-$(document).ready(function() {
-	//paymentWidget.renderPaymentMethods('#payment-method', 15000);
-})
+	$(document).ready(function () {
+		//paymentWidget.renderPaymentMethods('#payment-method', 15000);
+	})
 
-let total_qty = 0;
-window.addEventListener("resize", function () {
-	resizeEvent();
-});
+	let total_qty = 0;
+	window.addEventListener("resize", function () {
+		resizeEvent();
+	});
 
-function resizeEvent() {
-	const chageOrderWrap = document.querySelector(".content .order-product");
-	const webContent = document.querySelector(".content.web");
-	const mobileContent = document.querySelector(".content.mobile");
-	const bodyWidth = document.querySelector("body").offsetWidth;
-	if (1024 <= bodyWidth) {
-		webContent.appendChild(chageOrderWrap);
-		prdToggleBtn.classList.add("hidden");
-		document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
-	} else if (1024 >= bodyWidth) {
-		document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
-		prdToggleBtn.classList.remove("hidden");
-		mobileContent.appendChild(chageOrderWrap);
-	}
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-	const urlParams = new URL(location.href).searchParams;
-	const param_value = urlParams.get('basket_idx');
-	let basket_idx = param_value.split(",");
-
-	const postResult = document.createElement("div")
-	postResult.classList.add("post-result");
-	document.getElementById("postcodify").appendChild(postResult);
-
-	$.ajax({
-		type: "post",
-		url: "http://116.124.128.246/_api/order/pg/get",
-		data: {
-			"basket_idx": basket_idx,
-		},
-		dataType: "json",
-		error: function () {
-			console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let data = d.data[0];
-				if (data.order_to_info.length == 0) {
-					let put_addr = document.querySelector(".edit-box");
-					put_addr.classList.remove("hidden");
-				} else {
-					getAddrInfo(data.order_to_info);
-				}
-				getProductForGA(data.product_info)
-				getOrderPgInfoList(data.product_info);
-				getMemberInfo(data.member_info);
-				
-				let voucher_cnt = data.voucher_cnt;
-				let voucher_info = data.voucher_info;
-				setVoucherInfoList(data.voucher_cnt, data.voucher_info);
-
-				getTotalMileage(false);
-			} else {
-				notiModal(d.msg);
-			}
+	function resizeEvent() {
+		const chageOrderWrap = document.querySelector(".content .order-product");
+		const webContent = document.querySelector(".content.web");
+		const mobileContent = document.querySelector(".content.mobile");
+		const bodyWidth = document.querySelector("body").offsetWidth;
+		if (1024 <= bodyWidth) {
+			webContent.appendChild(chageOrderWrap);
+			prdToggleBtn.classList.add("hidden");
+			document.querySelector(".order-product").querySelector(".header-list").classList.remove("hidden");
+		} else if (1024 >= bodyWidth) {
+			document.querySelector(".order-product").querySelector(".header-list").classList.add("hidden");
+			prdToggleBtn.classList.remove("hidden");
+			mobileContent.appendChild(chageOrderWrap);
 		}
-	});
-	orderMemoChangeEvent();
-	resizeEvent();
-});
-
-function getOrderPgInfoList(product) {
-	let domFrag = document.createDocumentFragment();
-	const orderWrapBody = document.querySelector(".order-product .body-wrap");
-	let width = document.querySelector("body").offsetWidth;
-	let wrap = document.createElement("div");
-	wrap.classList.add("product-wrap");
-	if (width <= 1024) {
-		wrap.classList.add("hidden");
 	}
 
-	let listHtml = "";
-	product.forEach(el => {
-		let product_qty = parseInt(el.product_qty);
-		total_qty += product_qty;
+	document.addEventListener("DOMContentLoaded", function () {
+		const urlParams = new URL(location.href).searchParams;
+		const param_value = urlParams.get('basket_idx');
+		let basket_idx = param_value.split(",");
 
-		let sales_price = el.sales_price.toLocaleString('ko-KR')
-		let total_price = el.total_price.toLocaleString('ko-KR')
+		const postResult = document.createElement("div")
+		postResult.classList.add("post-result");
+		document.getElementById("postcodify").appendChild(postResult);
 
-		listHtml += "";
-		listHtml += '<div class="body-list product">';
-		listHtml += '    <div class="product-info">';
-		listHtml += '        <a href="" class="docs-creator"><img class="prd-img" cnt="1" src="' + img_root + el.img_location + '" alt=""></a>';
-		listHtml += '        <div class="info-box">';
-		listHtml += '            <div class="info-row" data-refund="' + el.refund_flg + '">';
-		listHtml += '                <div class="name" data-soldout=""><span>' + el.product_name + '</span></div>';
-		listHtml += '            </div>';
-		listHtml += '            <div class="info-row mobile-saleprice">';
-		listHtml += '                <div class="product-price">' + sales_price + '</div>';
-		listHtml += '            </div>';
-		listHtml += '            <div class="info-row">';
-		listHtml += '                <div class="color-title"><span>' + el.color + '</span></div>';
-		listHtml += '                <div class="color__box" data-maxcount="" data-colorcount="1">';
-		listHtml += '                    <div class="color" data-color="' + el.color_rgb + '" data-productidx="1" data-soldout="STIN" style="background-color:' + el.color_rgb + '"></div>';
-		listHtml += '                </div>';
-		listHtml += '            </div>';
-		listHtml += '            <div class="info-row">';
-		listHtml += '                <div class="size__box">';
-		listHtml += '                    <li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">' + el.option_name + '</li>';
-		listHtml += '                </div>';
-		listHtml += '            </div>';
-		listHtml += '        </div>';
-		listHtml += '    </div>';
-
-		listHtml += '    <div class="list-row web-saleprice"><span class="product-price">' + sales_price + '</span></div>';
-		listHtml += '    <div class="list-row"><span class="product-count">' + el.product_qty + '</span></div>';
-		listHtml += '    <div class="list-row"><span class="price_total">' + total_price + '</span></div>';
-		listHtml += '</div>';
-	});
-
-	wrap.innerHTML = listHtml;
-	domFrag.appendChild(wrap);
-	orderWrapBody.prepend(domFrag);
-	calcPriceProduct();
-}
-
-function getMemberInfo(member_info) {
-	let member = member_info[0];
-
-	document.querySelector(".member_info .member_name").innerHTML = member.member_name;
-	document.querySelector(".member_info .member_mobile").innerHTML = member.member_mobile;
-	document.querySelector(".member_info .member_email").innerHTML = member.member_email;
-
-	$('#member_name').val(member.member_name);
-	$('#member_mobile').val(member.member_mobile);
-	$('#member_email').val(member.member_email);
-}
-
-function getAddrInfo(order_to_info) {
-	let order_to = order_to_info[0];
-
-	document.querySelector(".address-info .save-box .to_place").innerHTML = order_to.to_place;
-	document.querySelector(".address-info .save-box .to_name").innerHTML = order_to.to_name;
-	document.querySelector(".address-info .save-box .to_mobile").innerHTML = order_to.to_mobile;
-	document.querySelector(".address-info .save-box .to_zipcode").innerHTML = order_to.to_zipcode;
-
-	let to_addr = null;
-	if (order_to.to_road_addr == "" || order_to.to_road_addr == "" == null) {
-		to_addr = order_to.to_lot_addr;
-	} else {
-		to_addr = order_to.to_road_addr;
-	}
-
-	document.querySelector(".address-info .save-box .to_addr").innerHTML = to_addr;
-	document.querySelector(".address-info .save-box .to_detail_addr").innerHTML = order_to.to_detail_addr;
-
-	$('#to_place').val(order_to.to_place);
-	$('#to_name').val(order_to.to_name);
-	$('#to_mobile').val(order_to.to_mobile);
-	$('#to_zipcode').val(order_to.to_zipcode);
-	$('#to_road_addr').val(order_to.to_road_addr);
-	$('#to_lot_addr').val(order_to.to_lot_addr);
-	$('#to_detail_addr').val(order_to.to_detail_addr);
-}
-
-const put_addr_wrap = document.querySelector(".edit-box");
-const get_addr_wrap = document.querySelector(".save-box");
-const list_addr_wrap = document.querySelector(".list-box");
-
-const list_addr_btn = document.querySelector(".list_addr_btn");
-
-function listAdd() {
-	$.ajax({
-		type: "post",
-		dataType: "json",
-		url: "http://116.124.128.246/_api/order/pg/to/get",
-		error: function () {
-			console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let data = d.data;
-
-				if (data != null) {
-					let addrListBody = document.querySelector(".addrList-body");
-					addrListBody.innerHTML = "";
-
-					data.forEach(function (row) {
-						let addrListContent = document.createElement("div");
-						addrListContent.className = "addrList-content";
-
-						let strDiv = "";
-						strDiv += '<div class="to-place">' + row.to_place + '</div>';
-						strDiv += '<div class="addr-list-wrap">';
-						strDiv += '	<div class="cn-box" onClick="getOrderToInfo(' + row.order_to_idx + ')">';
-						strDiv += '    	<div class="addrList-row">';
-						strDiv += '       	 <span class="to-name">' + row.to_name + '</span>/<span class="to-phone">' + row.to_mobile + '</span>';
-						strDiv += '   	 </div>';
-						strDiv += '  	  <div class="addrList-row">';
-						strDiv += '   	     (<span class="to-zipcode">' + row.to_zipcode + '</span>)<span class="to-addr">' + row.to_road_addr + '</span><span class="to-detail">' + row.to_detail_addr + '</span>';
-						strDiv += '   	 </div>';
-						strDiv += '	</div>';
-						strDiv += '	<div id="delete-addr" style ="padding-top: 40px; width:50px;" onClick="deleteAdrr(' + row.order_to_idx + ')"><u>삭제하기</u></div>';
-						strDiv += '</div>';
-
-						addrListContent.innerHTML = strDiv;
-						addrListBody.appendChild(addrListContent)
-					});
-
-					get_addr_wrap.classList.add("hidden");
-					put_addr_wrap.classList.add("hidden");
-					list_addr_wrap.classList.remove("hidden");
-				}
-				else{
-					document.querySelector(".list-box").classList.add("hidden");
-				}
-			} else {
-				notiModal(d.msg);
-			}
-		}
-	});
-}
-
-
-function getOrderToInfo(order_to_idx) {
-	$.ajax({
-		type: "post",
-		data: {
-			'order_to_idx': order_to_idx
-		},
-		dataType: "json",
-		url: "http://116.124.128.246/_api/order/pg/to/get",
-		error: function () {
-			console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let data = d.data;
-
-				if (data != null) {
-					data.forEach(function (row) {
-						get_addr_wrap.querySelector(".to_place").innerHTML = row.to_place;
-						get_addr_wrap.querySelector(".to_name").innerHTML = row.to_name;
-						get_addr_wrap.querySelector(".to_mobile").innerHTML = row.to_mobile;
-						get_addr_wrap.querySelector(".to_zipcode").innerHTML = row.to_zipcode;
-
-						let to_addr = null;
-						if (row.to_road_addr == "" || row.to_road_addr == null) {
-							to_addr = row.to_lot_addr;
-						} else {
-							to_addr = row.to_lot_addr;
-						}
-
-						get_addr_wrap.querySelector(".to_addr").innerHTML = to_addr;
-						get_addr_wrap.querySelector(".to_detail_addr").innerHTML = row.to_detail_addr;
-
-						$('#to_place').val(row.to_place);
-						$('#to_name').val(row.to_name);
-						$('#to_mobile').val(row.to_mobile);
-						$('#to_zipcode').val(row.to_zipcode);
-						$('#to_road_addr').val(row.to_road_addr);
-						$('#to_lot_addr').val(row.to_lot_addr);
-						$('#to_detail_addr').val(row.to_detail_addr);
-
-						get_addr_wrap.classList.remove("hidden");
-						put_addr_wrap.classList.add("hidden");
-						list_addr_wrap.classList.add("hidden");
-					});
-				}
-			} else {
-				notiModal(d.msg);
-			}
-		}
-	});
-}
-
-$(function () {
-	$("#postcodify").postcodify({
-		insertPostcode: ".tmp_to_zipcode",
-		insertAddress: ".tmp_to_road_addr",
-		insertExtraInfo: ".tmp_to_lot_addr",
-		hideOldAddresses: false,
-		results: ".post-change-result",
-		hideSummary: true,
-		useFullJibeon: true,
-		onReady: function () {
-			document.querySelector(".post-change-result").style.display = "none";
-			$(".postcodify_search_controls .keyword").attr("placeholder", "예) 성동구 연무장길 53, 성수동2가 315-57");
-			// $(".post-change-result").hide();
-		},
-		onSuccess: function () {
-			document.querySelector(".post-change-result").style.display = "block";
-			$("#postcodify div.postcode_search_status.too_many").hide();
-			// $(".post-change-result").hide();
-		},
-		afterSelect: function (selectedEntry) {
-			$("#postcodify div.postcode_search_result").remove();
-			$("#postcodify div.postcode_search_status.too_many").hide();
-			$("#postcodify div.postcode_search_status.summary").hide();
-
-			document.querySelector(".post-change-result").style.display = "none";
-			$("#entry_box").show();
-			$("#entry_details").focus();
-			$(".postcodify_search_controls .keyword").val($(".tmp_to_road_addr").val());
-		}
-	});
-});
-
-const update_addr_btn = document.querySelector(".address-info .edit-btn");
-update_addr_btn.addEventListener("click", function () {
-	get_addr_wrap.classList.toggle("hidden");
-	put_addr_wrap.classList.toggle("hidden");
-	list_addr_wrap.classList.add("hidden");
-	$(".edit_box").removeClass("hidden");
-});
-const add_addr_btn = document.querySelector(".address-info .save-btn");
-add_addr_btn.addEventListener("click", function() {
-	let edditBox = document.querySelector(".edit-box");
-	listAddr();
-});
-
-function listAddr() {
-	let to_place = document.querySelector(".tmp_to_place");
-	let to_name = document.querySelector(".tmp_to_name");
-	let to_mobile = document.querySelector(".tmp_to_mobile");
-
-	let addrSearch = document.querySelector(".postcodify_search_controls .keyword");
-
-	if (to_place.value === "" || to_place.value == null) {
-		to_place.previousElementSibling.classList.add("check");
-		return false;
-	} else {
-		to_place.previousElementSibling.classList.remove("check")
-	}
-
-	if (to_name.value === "" || to_name.value == null) {
-		to_name.previousElementSibling.classList.add("check");
-		return false;
-	} else {
-		to_name.previousElementSibling.classList.remove("check");
-	}
-
-	if (to_mobile.value === "" || to_mobile == null) {
-		to_mobile.previousElementSibling.classList.add("check");
-		return false;
-	} else {
-		to_mobile.previousElementSibling.classList.remove("check");
-	}
-
-	if (addrSearch.value.length == 0) {
-		if (document.querySelector(".tmp_to_zipcode").value === document.querySelector(".postcodify_search_controls .keyword").value) {
-			notiModal('배송지를 선택해주세요');
-		}
-		return false;
-	}
-
-	addOrderToInfo();
-	document.querySelector("#to_place").value = to_place.value;
-	document.querySelector("#to_name").value = to_name.value;
-	document.querySelector("#to_mobile").value = to_mobile.value;
-	document.querySelector("#to_zipcode").value = put_addr_wrap.querySelector(".tmp_to_zipcode").value;
-	document.querySelector("#to_road_addr").value = put_addr_wrap.querySelector(".tmp_to_road_addr").value;
-	document.querySelector("#to_lot_addr").value = put_addr_wrap.querySelector(".tmp_to_lot_addr").value;
-	document.querySelector("#to_detail_addr").value = put_addr_wrap.querySelector(".tmp_to_detail_addr").value;
-
-	let resetInput = document.querySelectorAll(".edit-box .input-row input");
-	resetInput.forEach((el) => {
-		el.value = "";
-	});
-	$('.add_flg').prop('checked', false);
-
-	get_addr_wrap.classList.remove("hidden");
-	put_addr_wrap.classList.add("hidden");
-	list_addr_wrap.classList.add("hidden");
-}
-
-function addOrderToInfo() {
-	let to_place = put_addr_wrap.querySelector(".tmp_to_place").value;
-	let to_name = put_addr_wrap.querySelector(".tmp_to_name").value;
-	let to_mobile = put_addr_wrap.querySelector(".tmp_to_mobile").value;
-	let to_zipcode = put_addr_wrap.querySelector(".tmp_to_zipcode").value;
-	let to_road_addr = put_addr_wrap.querySelector(".tmp_to_road_addr").value;
-	let to_lot_addr = put_addr_wrap.querySelector(".tmp_to_lot_addr").value;
-	let to_detail_addr = put_addr_wrap.querySelector(".tmp_to_detail_addr").value;
-
-	//변경된 주소 박스 
-	let to_place_text = document.querySelector(".save-box .to_place");
-	let to_name_text = document.querySelector(".save-box .to_name");
-	let to_mobile_text = document.querySelector(".save-box .to_mobile");
-	let to_zipcode_text = document.querySelector(".save-box .to_zipcode");
-	let to_road_addr_text = document.querySelector(".save-box .to_addr");
-	let to_detail_addr_text = document.querySelector(".save-box .to_detail_addr");
-
-	to_place_text.innerHTML = to_place;
-	to_name_text.innerHTML = to_name;
-	to_mobile_text.innerHTML = to_mobile;
-	to_zipcode_text.innerHTML = to_zipcode;
-	to_road_addr_text.innerHTML = to_road_addr;
-	to_detail_addr_text.innerHTML = to_detail_addr;
-
-	if ($('.add_flg').prop('checked') == true) {
 		$.ajax({
-			type: "POST",
+			type: "post",
+			url: "http://116.124.128.246/_api/order/pg/get",
 			data: {
-				'to_place': to_place,
-				'to_name': to_name,
-				'to_mobile': to_mobile,
-				'to_zipcode': to_zipcode,
-				'to_road_addr': to_road_addr,
-				'to_lot_addr': to_lot_addr,
-				'to_detail_addr': to_detail_addr,
+				"basket_idx": basket_idx,
 			},
 			dataType: "json",
-			url: "http://116.124.128.246/_api/order/pg/to/add",
 			error: function () {
-				alert('배송지 저장처리중 오류가 발생했습니다.');
+				console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
 			},
 			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let data = d.data[0];
+					if (data.order_to_info.length == 0) {
+						let put_addr = document.querySelector(".edit-box");
+						put_addr.classList.remove("hidden");
+					} else {
+						getAddrInfo(data.order_to_info);
+					}
+					getProductForGA(data.product_info)
+					getOrderPgInfoList(data.product_info);
+					getMemberInfo(data.member_info);
 
-			}
-		});
-	}
-}
+					let voucher_cnt = data.voucher_cnt;
+					let voucher_info = data.voucher_info;
+					setVoucherInfoList(data.voucher_cnt, data.voucher_info);
 
-// 배송메모 셀렉트 박스 설정
-let orderMemoSelectBox = new tui.SelectBox('.addr-message-select-box', {
-	placeholder: '배송시 요청사항을 선택해주세요',
-	data: [
-		// {
-		// 	label: document.querySelector("#recent_order_msg").value,
-		// 	value: '1'
-		// },
-		{
-			label: '부재 시 문 앞에 놓아주세요.',
-			value: '1'
-		},
-		{
-			label: '택배함에 넣어주세요.',
-			value: '2'
-		},
-		{
-			label: '파손 위험이 있는 제품입니다. 배송 시 주의 부탁드립니다.',
-			value: '3'
-		},
-		{
-			label: '배송 전 연락 주세요.',
-			value: '4'
-		},
-		{
-			label: '직접입력',
-			value: 'direct'
-		}
-	],
-	autofocus: false
-});
-
-
-function orderMemoChangeEvent() {
-	orderMemoSelectBox.on('change', ev => {
-		let tmp_order_memo = document.querySelector("#tmp_order_memo");
-		let massageValue = document.querySelector(".message-content");
-		// let resent_msg = document.querySelector("#recent_order_msg").value;
-
-		let select_label = ev.curr.getLabel();
-		let select_value = ev.curr.getValue();
-
-		$('.edit-message-box').find('.tui-select-box-placeholder').addClass('tui-selected');
-
-		document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
-
-		if (ev.curr.getValue() === "direct") {
-			tmp_order_memo.style.display = "block";
-		} else {
-			tmp_order_memo.style.display = "none";
-		}
-	});
-}
-
-// 바우처 정보 셀렉트 박스 설정
-function setVoucherInfoList(voucher_cnt,voucher_info) {
-	let toast_data = [
-		{
-			'label': '선택안함',
-			'value': false
-		}
-	];
-	
-	let voucherInfoSelectBox = null;
-	if (voucher_cnt > 0 && voucher_info.length > 0 && voucher_info != null) {
-		voucher_info.forEach(function (voucher) {
-			let tmp_val = {
-				'voucher_idx'	: voucher.voucher_idx,
-				'sale_type'		: voucher.sale_type,
-				'sale_price'	: voucher.sale_price,
-				'mileage_flg'	: voucher.mileage_flg
-			};
-
-			let tmp_arr =
-			{
-				'label': voucher.voucher_name,
-				'value': JSON.stringify(tmp_val)
-			};
-
-			toast_data.push(tmp_arr);
-		});
-
-		let usable_cnt = voucher_info.length;
-		voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
-			{
-				placeholder: '사용가능 쿠폰 ' + voucher_cnt + '장 / 보유 ' + usable_cnt + '장',
-				data: toast_data
-			}
-		);
-	} else {
-		// 배송메모 셀렉트 박스 기본값 설정
-		voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
-			{
-				placeholder: '사용가능 가능한 쿠폰이 없습니다',
-				data: [{
-					'label': '선택안함',
-					'value': false
-				}]
-			}
-		);
-	}
-
-	voucherInfoSelectBox.on('change', ev => {
-		$('.voucher-select-box').find('.tui-select-box-placeholder').addClass('tui-selected');
-
-		let select_label = ev.curr.getLabel();
-		let select_value = ev.curr.getValue();
-		
-		let voucher_info = null
-
-		if (select_value != "false") {
-			document.querySelector('.voucher-info-list').classList.remove("hidden");
-			voucher_info = JSON.parse(select_value);
-
-			$('#voucher_idx').val(voucher_info['voucher_idx']);
-
-			let sale_type = voucher_info['sale_type'];
-			let sale_price = voucher_info['sale_price'];
-			
-			let tmp_discount = 0;
-			if (sale_type == "PRC") {
-				tmp_discount = voucher_info['sale_prices'];
-			} else if (sale_type == "PER") {
-				let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
-				tmp_discount = (price_product * (parseInt(sale_price) / 100));
-			}
-			
-			let price_discount = document.querySelector(".calculation-wrap .price_discount");
-			price_discount.innerHTML = tmp_discount.toLocaleString('ko-KR');
-			price_discount.dataset.price_discount = tmp_discount;
-			
-			let mileage_flg = voucher_info['mileage_flg'];
-			if (mileage_flg == false) {
-				$('#use_mileage').attr('disabled', false);
-				$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
-			} else {
-				$('#use_mileage').val(0);
-				$('#price_mileage_point').val(0);
-				$('#use_mileage').attr('disabled', true);
-				$('.mileage_point_btn').attr('onClick', 'return false;');
-
-				let price_mileage_point = document.querySelector(".price_mileage_point");
-				price_mileage_point.dataset.price_mileage_point = 0;
-				price_mileage_point.innerHTML = 0;
-			}
-		} else {
-			document.querySelector('.voucher-info-list').classList.add("hidden");
-			$('#voucher_idx').val(0);
-			$('#use_mileage').attr('disabled', false);
-			$('.mileage_point_btn').attr('onClick', 'return false;');
-
-			let price_discount = document.querySelector(".price_discount");
-			price_discount.dataset.price_discount = 0;
-			price_discount.innerHTML = 0;
-			
-			/*
-			let price_mileage_point = document.querySelector(".price_mileage_point");
-			price_mileage_point.dataset.price_mileage_point = 0;
-			price_mileage_point.innerHTML = 0;
-			*/
-			
-			$('#use_mileage').attr('disabled', false);
-			$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
-		}
-
-		calcPriceTotal();
-	});
-}
-
-function getTotalMileage(calc_flg) {
-	$.ajax({
-		type: "post",
-		dataType: "json",
-		url: "http://116.124.128.246/_api/mileage/get",
-		error: function () {
-			console.log("적립금 불러오기에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let mileage_point = d.data;
-				$('#txt_total_mileage').text(mileage_point.toLocaleString('ko-KR'));
-				$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
-
-				let price_mileage_point = document.querySelector(".price_mileage_point");
-				price_mileage_point.dataset.price_mileage_point = mileage_point;
-				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
-
-				if (calc_flg == true) {
-					$('.mileage_point_msg').text('적용취소');
-					$('.mileage_point_btn').attr('onClick', 'getTotalMileage(false);');
-					$('.reserves-info-list.hidden').removeClass('hidden');
-					calcPriceTotal();
-					
-					$('#price_mileage_point').val(mileage_point);
+					getTotalMileage(false);
 				} else {
-					price_mileage_point.dataset.price_mileage_point = '0';
-					price_mileage_point.innerHTML = 0;
-					$('#use_mileage').val('0');
-					$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
-					$('.mileage_point_msg').text('모두적용');
-					$('.reserves-info-list').addClass('hidden');
-					calcPriceTotal();
-					
-					$('#price_mileage_point').val(0);
+					notiModal(d.msg);
 				}
-			} else {
-				notiModal(d.msg);
 			}
-		}
+		});
+		orderMemoChangeEvent();
+		resizeEvent();
 	});
-}
 
-$('#use_mileage').keyup(function () {
-	var write_mileage = parseInt($('#use_mileage').val().replace(',', ''));
-	var temp_meileage = "";
-
-	if (isNaN(write_mileage)) {
-		// temp_meileage = "";
-		temp_meileage = 0;
-	} else {
-		temp_meileage = write_mileage;
-	}
-
-	$.ajax({
-		type: "post",
-		url: "http://116.124.128.246/_api/mileage/check",
-		data: {
-			'input_mileage': temp_meileage
-		},
-		dataType: "json",
-		error: function () {
-			console.log("적립금 불러오기에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-
-			if (code == 200 || code == 301) {
-				let mileage_point = d.data;
-				if (code == 301) {
-					mileage_point = 0;
-				}
-
-				$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
-
-				let price_mileage_point = document.querySelector(".price_mileage_point");
-				price_mileage_point.dataset.price_mileage_point = mileage_point;
-				$('#price_mileage_point').val(mileage_point);
-				price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
-				calcPriceTotal();
-			} else if (code == 403) {
-				notiModal(d.msg);
-			}
-		}
-	});
-});
-
-/* 다음단계, 이전단계 */
-//버튼
-const calculationWrap = document.querySelector(".calculation-wrap");
-const prdToggleBtn = document.querySelector(".product-toggle-btn");
-const next_step_btn = document.querySelector(".step-btn.next");
-const prev_step_btn = document.querySelector(".step-btn.pre");
-
-const $$wrapper = document.querySelectorAll(".wrapper");
-const $$group1 = document.querySelectorAll(".wrapper[data-group='1']");
-const $group2 = document.querySelector(".wrapper[data-group='2']");
-const $group3 = document.querySelector(".wrapper[data-group='3']");
-const $group4 = document.querySelector(".terms-service[data-group='4']");
-const calPointBox = document.querySelector(".calculation-box .point-box");
-
-prev_step_btn.addEventListener("click", function () {
-	if (prev_step_btn.dataset.step == "0") {
-		window.location.href = "/order/basket/list";
-	}
-	let width = document.querySelector("body").offsetWidth;
-	if (width <= 1024) {
-		let productWrap = document.querySelector(".product-wrap");
-		let toggleBtn = document.querySelector(".product-toggle-btn");
-		if (productWrap) {
-			productWrap.classList.add("hidden");
-		}
-		toggleBtn.classList.remove("hidden");
-	}
-	let next_step_level = next_step_btn.dataset.step;
-
-	next_step_btn.dataset.step = "1";
-	prev_step_btn.dataset.step = "0";
-	calculationWrap.dataset.step = "1";
-	next_step_btn.querySelector("span").innerHTML = "다음 단계";
-
-	header_box_btn = document.querySelector('.header-box-btn');
-	header_box_btn.classList.remove("hidden");
-	update_addr_btn.classList.remove("hidden");
-	list_addr_btn.classList.remove("hidden");
-
-	$$group1.forEach(el => {
-		el.classList.remove("next");
-	});
-	//terms-service
-	$group4.classList.add("hidden");
-
-	if (next_step_level > 2) {
-		document.querySelector(".address-info.next .header-box-btn").classList.remove("hidden");
-	}
-
-	//배송메시지 박스 
-	document.querySelector(".edit-message-box").classList.remove("hidden");
-	document.querySelector(".save-message-box").classList.add("hidden");
-
-	calPointBox.classList.add("hidden");
-	calcPriceTotal();
-});
-
-next_step_btn.addEventListener("click", function () {
-	let next_step_level = next_step_btn.dataset.step;
-	let checkBoxEssential = document.querySelectorAll("essential");
-	let orderSection = document.querySelector(".order-section");
-	let nameData = document.querySelector("#to_name").value;
-	let mobileData = document.querySelector("#to_mobile").value;
-	let zipcodeData = document.querySelector("#to_zipcode").value;
-
-	
-
-	let width = document.querySelector("body").offsetWidth;
-
-	if (width <= 1024) {
-		let productWrap = document.querySelector(".product-wrap.hidden");
-		let toggleBtn = document.querySelector(".product-toggle-btn");
-		if (productWrap) {
-			productWrap.classList.remove("hidden");
-		}
-		toggleBtn.classList.add("hidden");
-	}
-	if (nameData == '' || mobileData == '' || zipcodeData == '') {
-		exceptionHandling("","주소지를 적어주세요.");
-		return false;
-	}
-	if (next_step_level == 2) {
-		if (orderSection.dataset.status === "F") {
-			notiModal('이용약관에 동의가 필요합니다.');
-		} else if (orderSection.dataset.status === "T") {
-			addTmpOrderInfo();
-		}
-	} else {
-		next_step_btn.dataset.step = "2";
-		prev_step_btn.dataset.step = "1";
-		calculationWrap.dataset.step = "2";
-		orderSection.dataset.status = "F";
-
-		if (next_step_btn.dataset.step === "2") {
-			next_step_btn.querySelector("span").innerHTML = "결제하기";
+	function getOrderPgInfoList(product) {
+		let domFrag = document.createDocumentFragment();
+		const orderWrapBody = document.querySelector(".order-product .body-wrap");
+		let width = document.querySelector("body").offsetWidth;
+		let wrap = document.createElement("div");
+		wrap.classList.add("product-wrap");
+		if (width <= 1024) {
+			wrap.classList.add("hidden");
 		}
 
-		$$group1.forEach(el => {
-			el.classList.add("next");
+		let listHtml = "";
+		product.forEach(el => {
+			let product_qty = parseInt(el.product_qty);
+			total_qty += product_qty;
+
+			let sales_price = el.sales_price.toLocaleString('ko-KR')
+			let total_price = el.total_price.toLocaleString('ko-KR')
+
+			listHtml += "";
+			listHtml += '<div class="body-list product">';
+			listHtml += '    <div class="product-info">';
+			listHtml += '        <a href="" class="docs-creator"><img class="prd-img" cnt="1" src="' + img_root + el.img_location + '" alt=""></a>';
+			listHtml += '        <div class="info-box">';
+			listHtml += '            <div class="info-row" data-refund="' + el.refund_flg + '">';
+			listHtml += '                <div class="name" data-soldout=""><span>' + el.product_name + '</span></div>';
+			listHtml += '            </div>';
+			listHtml += '            <div class="info-row mobile-saleprice">';
+			listHtml += '                <div class="product-price">' + sales_price + '</div>';
+			listHtml += '            </div>';
+			listHtml += '            <div class="info-row">';
+			listHtml += '                <div class="color-title"><span>' + el.color + '</span></div>';
+			listHtml += '                <div class="color__box" data-maxcount="" data-colorcount="1">';
+			listHtml += '                    <div class="color" data-color="' + el.color_rgb + '" data-productidx="1" data-soldout="STIN" style="background-color:' + el.color_rgb + '"></div>';
+			listHtml += '                </div>';
+			listHtml += '            </div>';
+			listHtml += '            <div class="info-row">';
+			listHtml += '                <div class="size__box">';
+			listHtml += '                    <li class="size" data-sizetype="" data-productidx="1" data-optionidx="1" data-soldout="STIN">' + el.option_name + '</li>';
+			listHtml += '                </div>';
+			listHtml += '            </div>';
+			listHtml += '        </div>';
+			listHtml += '    </div>';
+
+			listHtml += '    <div class="list-row web-saleprice"><span class="product-price">' + sales_price + '</span></div>';
+			listHtml += '    <div class="list-row"><span class="product-count">' + el.product_qty + '</span></div>';
+			listHtml += '    <div class="list-row"><span class="price_total">' + total_price + '</span></div>';
+			listHtml += '</div>';
 		});
 
-		$group2.classList.add("next");
+		wrap.innerHTML = listHtml;
+		domFrag.appendChild(wrap);
+		orderWrapBody.prepend(domFrag);
+		calcPriceProduct();
+	}
 
-		$group3.classList.add("next");
-		if ($group3.classList.contains("next")) {
-			document.querySelector(".address-info.next .header-box-btn").classList.add("hidden");
+	function getMemberInfo(member_info) {
+		let member = member_info[0];
+
+		document.querySelector(".member_info .member_name").innerHTML = member.member_name;
+		document.querySelector(".member_info .member_mobile").innerHTML = member.member_mobile;
+		document.querySelector(".member_info .member_email").innerHTML = member.member_email;
+
+		$('#member_name').val(member.member_name);
+		$('#member_mobile').val(member.member_mobile);
+		$('#member_email').val(member.member_email);
+	}
+
+	function getAddrInfo(order_to_info) {
+		let order_to = order_to_info[0];
+
+		document.querySelector(".address-info .save-box .to_place").innerHTML = order_to.to_place;
+		document.querySelector(".address-info .save-box .to_name").innerHTML = order_to.to_name;
+		document.querySelector(".address-info .save-box .to_mobile").innerHTML = order_to.to_mobile;
+		document.querySelector(".address-info .save-box .to_zipcode").innerHTML = order_to.to_zipcode;
+
+		let to_addr = null;
+		if (order_to.to_road_addr == "" || order_to.to_road_addr == "" == null) {
+			to_addr = order_to.to_lot_addr;
+		} else {
+			to_addr = order_to.to_road_addr;
 		}
 
-		//terms-service
-		$group4.classList.remove("hidden");
+		document.querySelector(".address-info .save-box .to_addr").innerHTML = to_addr;
+		document.querySelector(".address-info .save-box .to_detail_addr").innerHTML = order_to.to_detail_addr;
 
-		//배송메시지 박스 
-		document.querySelector(".edit-message-box").classList.add("hidden");
-		document.querySelector(".save-message-box").classList.remove("hidden");
-		calPointBox.classList.remove("hidden");
+		$('#to_place').val(order_to.to_place);
+		$('#to_name').val(order_to.to_name);
+		$('#to_mobile').val(order_to.to_mobile);
+		$('#to_zipcode').val(order_to.to_zipcode);
+		$('#to_road_addr').val(order_to.to_road_addr);
+		$('#to_lot_addr').val(order_to.to_lot_addr);
+		$('#to_detail_addr').val(order_to.to_detail_addr);
+	}
+
+	const put_addr_wrap = document.querySelector(".edit-box");
+	const get_addr_wrap = document.querySelector(".save-box");
+	const list_addr_wrap = document.querySelector(".list-box");
+
+	const list_addr_btn = document.querySelector(".list_addr_btn");
+
+	function listAdd() {
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			url: "http://116.124.128.246/_api/order/pg/to/get",
+			error: function () {
+				console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let data = d.data;
+
+					if (data != null) {
+						let addrListBody = document.querySelector(".addrList-body");
+						addrListBody.innerHTML = "";
+
+						data.forEach(function (row) {
+							let addrListContent = document.createElement("div");
+							addrListContent.className = "addrList-content";
+
+							let strDiv = "";
+							strDiv += '<div class="to-place">' + row.to_place + '</div>';
+							strDiv += '<div class="addr-list-wrap">';
+							strDiv += '	<div class="cn-box" onClick="getOrderToInfo(' + row.order_to_idx + ')">';
+							strDiv += '    	<div class="addrList-row">';
+							strDiv += '       	 <span class="to-name">' + row.to_name + '</span>/<span class="to-phone">' + row.to_mobile + '</span>';
+							strDiv += '   	 </div>';
+							strDiv += '  	  <div class="addrList-row">';
+							strDiv += '   	     (<span class="to-zipcode">' + row.to_zipcode + '</span>)<span class="to-addr">' + row.to_road_addr + '</span><span class="to-detail">' + row.to_detail_addr + '</span>';
+							strDiv += '   	 </div>';
+							strDiv += '	</div>';
+							strDiv += '	<div id="delete-addr" style ="padding-top: 40px; width:50px;" onClick="deleteAdrr(' + row.order_to_idx + ')"><u>삭제하기</u></div>';
+							strDiv += '</div>';
+
+							addrListContent.innerHTML = strDiv;
+							addrListBody.appendChild(addrListContent)
+						});
+
+						get_addr_wrap.classList.add("hidden");
+						put_addr_wrap.classList.add("hidden");
+						list_addr_wrap.classList.remove("hidden");
+					}
+					else {
+						document.querySelector(".list-box").classList.add("hidden");
+					}
+				} else {
+					notiModal(d.msg);
+				}
+			}
+		});
+	}
+
+
+	function getOrderToInfo(order_to_idx) {
+		$.ajax({
+			type: "post",
+			data: {
+				'order_to_idx': order_to_idx
+			},
+			dataType: "json",
+			url: "http://116.124.128.246/_api/order/pg/to/get",
+			error: function () {
+				console.log("결제하기에 화면정보 조회처리에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let data = d.data;
+
+					if (data != null) {
+						data.forEach(function (row) {
+							get_addr_wrap.querySelector(".to_place").innerHTML = row.to_place;
+							get_addr_wrap.querySelector(".to_name").innerHTML = row.to_name;
+							get_addr_wrap.querySelector(".to_mobile").innerHTML = row.to_mobile;
+							get_addr_wrap.querySelector(".to_zipcode").innerHTML = row.to_zipcode;
+
+							let to_addr = null;
+							if (row.to_road_addr == "" || row.to_road_addr == null) {
+								to_addr = row.to_lot_addr;
+							} else {
+								to_addr = row.to_lot_addr;
+							}
+
+							get_addr_wrap.querySelector(".to_addr").innerHTML = to_addr;
+							get_addr_wrap.querySelector(".to_detail_addr").innerHTML = row.to_detail_addr;
+
+							$('#to_place').val(row.to_place);
+							$('#to_name').val(row.to_name);
+							$('#to_mobile').val(row.to_mobile);
+							$('#to_zipcode').val(row.to_zipcode);
+							$('#to_road_addr').val(row.to_road_addr);
+							$('#to_lot_addr').val(row.to_lot_addr);
+							$('#to_detail_addr').val(row.to_detail_addr);
+
+							get_addr_wrap.classList.remove("hidden");
+							put_addr_wrap.classList.add("hidden");
+							list_addr_wrap.classList.add("hidden");
+						});
+					}
+				} else {
+					notiModal(d.msg);
+				}
+			}
+		});
+	}
+
+	$(function () {
+		$("#postcodify").postcodify({
+			insertPostcode: ".tmp_to_zipcode",
+			insertAddress: ".tmp_to_road_addr",
+			insertExtraInfo: ".tmp_to_lot_addr",
+			hideOldAddresses: false,
+			results: ".post-change-result",
+			hideSummary: true,
+			useFullJibeon: true,
+			onReady: function () {
+				document.querySelector(".post-change-result").style.display = "none";
+				$(".postcodify_search_controls .keyword").attr("placeholder", "예) 성동구 연무장길 53, 성수동2가 315-57");
+				// $(".post-change-result").hide();
+			},
+			onSuccess: function () {
+				document.querySelector(".post-change-result").style.display = "block";
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				// $(".post-change-result").hide();
+			},
+			afterSelect: function (selectedEntry) {
+				$("#postcodify div.postcode_search_result").remove();
+				$("#postcodify div.postcode_search_status.too_many").hide();
+				$("#postcodify div.postcode_search_status.summary").hide();
+
+				document.querySelector(".post-change-result").style.display = "none";
+				$("#entry_box").show();
+				$("#entry_details").focus();
+				$(".postcodify_search_controls .keyword").val($(".tmp_to_road_addr").val());
+			}
+		});
+	});
+
+	const update_addr_btn = document.querySelector(".address-info .edit-btn");
+	update_addr_btn.addEventListener("click", function () {
+		get_addr_wrap.classList.toggle("hidden");
+		put_addr_wrap.classList.toggle("hidden");
+		list_addr_wrap.classList.add("hidden");
+		$(".edit_box").removeClass("hidden");
+	});
+	const add_addr_btn = document.querySelector(".address-info .save-btn");
+	add_addr_btn.addEventListener("click", function () {
+		let edditBox = document.querySelector(".edit-box");
+		listAddr();
+	});
+
+	function listAddr() {
+		let to_place = document.querySelector(".tmp_to_place");
+		let to_name = document.querySelector(".tmp_to_name");
+		let to_mobile = document.querySelector(".tmp_to_mobile");
+
+		let addrSearch = document.querySelector(".postcodify_search_controls .keyword");
+
+		if (to_place.value === "" || to_place.value == null) {
+			to_place.previousElementSibling.classList.add("check");
+			return false;
+		} else {
+			to_place.previousElementSibling.classList.remove("check")
+		}
+
+		if (to_name.value === "" || to_name.value == null) {
+			to_name.previousElementSibling.classList.add("check");
+			return false;
+		} else {
+			to_name.previousElementSibling.classList.remove("check");
+		}
+
+		if (to_mobile.value === "" || to_mobile == null) {
+			to_mobile.previousElementSibling.classList.add("check");
+			return false;
+		} else {
+			to_mobile.previousElementSibling.classList.remove("check");
+		}
+
+		if (addrSearch.value.length == 0) {
+			if (document.querySelector(".tmp_to_zipcode").value === document.querySelector(".postcodify_search_controls .keyword").value) {
+				notiModal('배송지를 선택해주세요');
+			}
+			return false;
+		}
+
+		addOrderToInfo();
+		document.querySelector("#to_place").value = to_place.value;
+		document.querySelector("#to_name").value = to_name.value;
+		document.querySelector("#to_mobile").value = to_mobile.value;
+		document.querySelector("#to_zipcode").value = put_addr_wrap.querySelector(".tmp_to_zipcode").value;
+		document.querySelector("#to_road_addr").value = put_addr_wrap.querySelector(".tmp_to_road_addr").value;
+		document.querySelector("#to_lot_addr").value = put_addr_wrap.querySelector(".tmp_to_lot_addr").value;
+		document.querySelector("#to_detail_addr").value = put_addr_wrap.querySelector(".tmp_to_detail_addr").value;
+
+		let resetInput = document.querySelectorAll(".edit-box .input-row input");
+		resetInput.forEach((el) => {
+			el.value = "";
+		});
+		$('.add_flg').prop('checked', false);
 
 		get_addr_wrap.classList.remove("hidden");
 		put_addr_wrap.classList.add("hidden");
+		list_addr_wrap.classList.add("hidden");
+	}
 
-		// 직접입력 배송메시지
-		let tmp_order_memo = document.querySelector("#tmp_order_memo").value;
-		if (tmp_order_memo.length > 0) {
-			document.querySelector(".save-message-box .message-content").innerHTML = tmp_order_memo;
-			$('#order_memo').val(tmp_order_memo);
-			// 최근 메세지 
-			// let resent_msg_strg = document.querySelector("#recent_order_msg").value;
-			// let resent_msg_label = orderMemoSelectBox.dropdown.items[0].label;
-			// document.querySelector("#recent_order_msg").value = $('#order_memo').val();
-			// console.log(document.querySelector("#recent_order_msg").value);
-			// orderMemoSelectBox.dropdown.items[0].label = '(최근) ' + document.querySelector("#recent_order_msg").value;
+	function addOrderToInfo() {
+		let to_place = put_addr_wrap.querySelector(".tmp_to_place").value;
+		let to_name = put_addr_wrap.querySelector(".tmp_to_name").value;
+		let to_mobile = put_addr_wrap.querySelector(".tmp_to_mobile").value;
+		let to_zipcode = put_addr_wrap.querySelector(".tmp_to_zipcode").value;
+		let to_road_addr = put_addr_wrap.querySelector(".tmp_to_road_addr").value;
+		let to_lot_addr = put_addr_wrap.querySelector(".tmp_to_lot_addr").value;
+		let to_detail_addr = put_addr_wrap.querySelector(".tmp_to_detail_addr").value;
+
+		//변경된 주소 박스 
+		let to_place_text = document.querySelector(".save-box .to_place");
+		let to_name_text = document.querySelector(".save-box .to_name");
+		let to_mobile_text = document.querySelector(".save-box .to_mobile");
+		let to_zipcode_text = document.querySelector(".save-box .to_zipcode");
+		let to_road_addr_text = document.querySelector(".save-box .to_addr");
+		let to_detail_addr_text = document.querySelector(".save-box .to_detail_addr");
+
+		to_place_text.innerHTML = to_place;
+		to_name_text.innerHTML = to_name;
+		to_mobile_text.innerHTML = to_mobile;
+		to_zipcode_text.innerHTML = to_zipcode;
+		to_road_addr_text.innerHTML = to_road_addr;
+		to_detail_addr_text.innerHTML = to_detail_addr;
+
+		if ($('.add_flg').prop('checked') == true) {
+			$.ajax({
+				type: "POST",
+				data: {
+					'to_place': to_place,
+					'to_name': to_name,
+					'to_mobile': to_mobile,
+					'to_zipcode': to_zipcode,
+					'to_road_addr': to_road_addr,
+					'to_lot_addr': to_lot_addr,
+					'to_detail_addr': to_detail_addr,
+				},
+				dataType: "json",
+				url: "http://116.124.128.246/_api/order/pg/to/add",
+				error: function () {
+					alert('배송지 저장처리중 오류가 발생했습니다.');
+				},
+				success: function (d) {
+
+				}
+			});
+		}
+	}
+
+	// 배송메모 셀렉트 박스 설정
+	let orderMemoSelectBox = new tui.SelectBox('.addr-message-select-box', {
+		placeholder: '배송시 요청사항을 선택해주세요',
+		data: [
+			// {
+			// 	label: document.querySelector("#recent_order_msg").value,
+			// 	value: '1'
+			// },
+			{
+				label: '부재 시 문 앞에 놓아주세요.',
+				value: '1'
+			},
+			{
+				label: '택배함에 넣어주세요.',
+				value: '2'
+			},
+			{
+				label: '파손 위험이 있는 제품입니다. 배송 시 주의 부탁드립니다.',
+				value: '3'
+			},
+			{
+				label: '배송 전 연락 주세요.',
+				value: '4'
+			},
+			{
+				label: '직접입력',
+				value: 'direct'
+			}
+		],
+		autofocus: false
+	});
+
+
+	function orderMemoChangeEvent() {
+		orderMemoSelectBox.on('change', ev => {
+			let tmp_order_memo = document.querySelector("#tmp_order_memo");
+			let massageValue = document.querySelector(".message-content");
+			// let resent_msg = document.querySelector("#recent_order_msg").value;
+
+			let select_label = ev.curr.getLabel();
+			let select_value = ev.curr.getValue();
+
+			$('.edit-message-box').find('.tui-select-box-placeholder').addClass('tui-selected');
+
+			document.querySelector(".save-message-box .message-content").innerHTML = ev.curr.getLabel();
+
+			if (ev.curr.getValue() === "direct") {
+				tmp_order_memo.style.display = "block";
+			} else {
+				tmp_order_memo.style.display = "none";
+			}
+		});
+	}
+
+	// 바우처 정보 셀렉트 박스 설정
+	function setVoucherInfoList(voucher_cnt, voucher_info) {
+		let toast_data = [
+			{
+				'label': '선택안함',
+				'value': false
+			}
+		];
+
+		let voucherInfoSelectBox = null;
+		if (voucher_cnt > 0 && voucher_info.length > 0 && voucher_info != null) {
+			voucher_info.forEach(function (voucher) {
+				let tmp_val = {
+					'voucher_idx': voucher.voucher_idx,
+					'sale_type': voucher.sale_type,
+					'sale_price': voucher.sale_price,
+					'mileage_flg': voucher.mileage_flg
+				};
+
+				let tmp_arr =
+				{
+					'label': voucher.voucher_name,
+					'value': JSON.stringify(tmp_val)
+				};
+
+				toast_data.push(tmp_arr);
+			});
+
+			let usable_cnt = voucher_info.length;
+			voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
+				{
+					placeholder: '사용가능 쿠폰 ' + voucher_cnt + '장 / 보유 ' + usable_cnt + '장',
+					data: toast_data
+				}
+			);
+		} else {
+			// 배송메모 셀렉트 박스 기본값 설정
+			voucherInfoSelectBox = new tui.SelectBox('.voucher-select-box',
+				{
+					placeholder: '사용가능 가능한 쿠폰이 없습니다',
+					data: [{
+						'label': '선택안함',
+						'value': false
+					}]
+				}
+			);
+		}
+
+		voucherInfoSelectBox.on('change', ev => {
+			$('.voucher-select-box').find('.tui-select-box-placeholder').addClass('tui-selected');
+
+			let select_label = ev.curr.getLabel();
+			let select_value = ev.curr.getValue();
+
+			let voucher_info = null
+
+			if (select_value != "false") {
+				// document.querySelector('.voucher-info-list').classList.remove("hidden");
+				voucher_info = JSON.parse(select_value);
+
+				$('#voucher_idx').val(voucher_info['voucher_idx']);
+
+				let sale_type = voucher_info['sale_type'];
+				let sale_price = voucher_info['sale_price'];
+
+				let tmp_discount = 0;
+				if (sale_type == "PRC") {
+					tmp_discount = voucher_info['sale_prices'];
+				} else if (sale_type == "PER") {
+					let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
+					tmp_discount = (price_product * (parseInt(sale_price) / 100));
+				}
+
+				let price_discount = document.querySelector(".calculation-wrap .price_discount");
+				price_discount.innerHTML = tmp_discount.toLocaleString('ko-KR');
+				price_discount.dataset.price_discount = tmp_discount;
+
+				let mileage_flg = voucher_info['mileage_flg'];
+				if (mileage_flg == false) {
+					$('#use_mileage').attr('disabled', false);
+					$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
+				} else {
+					$('#use_mileage').val(0);
+					$('#price_mileage_point').val(0);
+					$('#use_mileage').attr('disabled', true);
+					$('.mileage_point_btn').attr('onClick', 'return false;');
+
+					let price_mileage_point = document.querySelector(".price_mileage_point");
+					price_mileage_point.dataset.price_mileage_point = 0;
+					price_mileage_point.innerHTML = 0;
+				}
+			} else {
+				// document.querySelector('.voucher-info-list').classList.add("hidden");
+				$('#voucher_idx').val(0);
+				$('#use_mileage').attr('disabled', false);
+				$('.mileage_point_btn').attr('onClick', 'return false;');
+
+				let price_discount = document.querySelector(".price_discount");
+				price_discount.dataset.price_discount = 0;
+				price_discount.innerHTML = 0;
+
+				/*
+				let price_mileage_point = document.querySelector(".price_mileage_point");
+				price_mileage_point.dataset.price_mileage_point = 0;
+				price_mileage_point.innerHTML = 0;
+				*/
+
+				$('#use_mileage').attr('disabled', false);
+				$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
+			}
+
+			calcPriceTotal();
+		});
+	}
+
+	function getTotalMileage(calc_flg) {
+		$.ajax({
+			type: "post",
+			dataType: "json",
+			url: "http://116.124.128.246/_api/mileage/get",
+			error: function () {
+				console.log("적립금 불러오기에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let mileage_point = d.data;
+					$('#txt_total_mileage').text(mileage_point.toLocaleString('ko-KR'));
+					$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
+
+					let price_mileage_point = document.querySelector(".price_mileage_point");
+					price_mileage_point.dataset.price_mileage_point = mileage_point;
+					price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
+
+					if (calc_flg == true) {
+						$('.mileage_point_msg').text('적용취소');
+						$('.mileage_point_btn').attr('onClick', 'getTotalMileage(false);');
+						// $('.reserves-info-list.hidden').removeClass('hidden');
+						calcPriceTotal();
+
+						$('#price_mileage_point').val(mileage_point);
+					} else {
+						price_mileage_point.dataset.price_mileage_point = '0';
+						price_mileage_point.innerHTML = 0;
+						$('#use_mileage').val('0');
+						$('.mileage_point_btn').attr('onClick', 'getTotalMileage(true);');
+						$('.mileage_point_msg').text('모두적용');
+						// $('.reserves-info-list').addClass('hidden');
+						calcPriceTotal();
+
+						$('#price_mileage_point').val(0);
+					}
+				} else {
+					notiModal(d.msg);
+				}
+			}
+		});
+	}
+
+	$('#use_mileage').keyup(function () {
+		var write_mileage = parseInt($('#use_mileage').val().replace(',', ''));
+		var temp_meileage = "";
+
+		if (isNaN(write_mileage)) {
+			// temp_meileage = "";
+			temp_meileage = 0;
+		} else {
+			temp_meileage = write_mileage;
+		}
+
+		$.ajax({
+			type: "post",
+			url: "http://116.124.128.246/_api/mileage/check",
+			data: {
+				'input_mileage': temp_meileage
+			},
+			dataType: "json",
+			error: function () {
+				console.log("적립금 불러오기에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+
+				if (code == 200 || code == 301) {
+					let mileage_point = d.data;
+					if (code == 301) {
+						mileage_point = 0;
+					}
+
+					$('#use_mileage').val(mileage_point.toLocaleString('ko-KR'));
+
+					let price_mileage_point = document.querySelector(".price_mileage_point");
+					price_mileage_point.dataset.price_mileage_point = mileage_point;
+					$('#price_mileage_point').val(mileage_point);
+					price_mileage_point.innerHTML = mileage_point.toLocaleString('ko-KR');
+					calcPriceTotal();
+				} else if (code == 403) {
+					notiModal(d.msg);
+				}
+			}
+		});
+	});
+
+	/* 다음단계, 이전단계 */
+	//버튼
+	const calculationWrap = document.querySelector(".calculation-wrap");
+	const prdToggleBtn = document.querySelector(".product-toggle-btn");
+	const next_step_btn = document.querySelector(".step-btn.next");
+	const prev_step_btn = document.querySelector(".step-btn.pre");
+
+	const $$wrapper = document.querySelectorAll(".wrapper");
+	const $$group1 = document.querySelectorAll(".wrapper[data-group='1']");
+	const $group2 = document.querySelector(".wrapper[data-group='2']");
+	const $group3 = document.querySelector(".wrapper[data-group='3']");
+	const $group4 = document.querySelector(".terms-service[data-group='4']");
+	const calPointBox = document.querySelector(".calculation-box .point-box");
+
+	prev_step_btn.addEventListener("click", function () {
+		if (prev_step_btn.dataset.step == "0") {
+			window.location.href = "/order/basket/list";
+		}
+		let width = document.querySelector("body").offsetWidth;
+		if (width <= 1024) {
+			let productWrap = document.querySelector(".product-wrap");
+			let toggleBtn = document.querySelector(".product-toggle-btn");
+			if (productWrap) {
+				productWrap.classList.add("hidden");
+			}
+			toggleBtn.classList.remove("hidden");
+		}
+		let next_step_level = next_step_btn.dataset.step;
+
+		next_step_btn.dataset.step = "1";
+		prev_step_btn.dataset.step = "0";
+		calculationWrap.dataset.step = "1";
+		next_step_btn.querySelector("span").innerHTML = "다음 단계";
+
+		header_box_btn = document.querySelector('.header-box-btn');
+		header_box_btn.classList.remove("hidden");
+		update_addr_btn.classList.remove("hidden");
+		list_addr_btn.classList.remove("hidden");
+
+		$$group1.forEach(el => {
+			el.classList.remove("next");
+		});
+		//terms-service
+		$group4.classList.add("hidden");
+
+		if (next_step_level > 2) {
+			document.querySelector(".address-info.next .header-box-btn").classList.remove("hidden");
+		}
+
+		//배송메시지 박스 
+		document.querySelector(".edit-message-box").classList.remove("hidden");
+		document.querySelector(".save-message-box").classList.add("hidden");
+
+		calPointBox.classList.add("hidden");
+		calcPriceTotal();
+	});
+
+	next_step_btn.addEventListener("click", function () {
+		let next_step_level = next_step_btn.dataset.step;
+		let checkBoxEssential = document.querySelectorAll("essential");
+		let orderSection = document.querySelector(".order-section");
+		let nameData = document.querySelector("#to_name").value;
+		let mobileData = document.querySelector("#to_mobile").value;
+		let zipcodeData = document.querySelector("#to_zipcode").value;
+
+
+
+		let width = document.querySelector("body").offsetWidth;
+
+		if (width <= 1024) {
+			let productWrap = document.querySelector(".product-wrap.hidden");
+			let toggleBtn = document.querySelector(".product-toggle-btn");
+			if (productWrap) {
+				productWrap.classList.remove("hidden");
+			}
+			toggleBtn.classList.add("hidden");
+		}
+		if (nameData == '' || mobileData == '' || zipcodeData == '') {
+			exceptionHandling("", "주소지를 적어주세요.");
+			return false;
+		}
+		if (next_step_level == 2) {
+			if (orderSection.dataset.status === "F") {
+				notiModal('이용약관에 동의가 필요합니다.');
+			} else if (orderSection.dataset.status === "T") {
+				addTmpOrderInfo();
+			}
+		} else {
+			next_step_btn.dataset.step = "2";
+			prev_step_btn.dataset.step = "1";
+			calculationWrap.dataset.step = "2";
+			orderSection.dataset.status = "F";
+
+			if (next_step_btn.dataset.step === "2") {
+				next_step_btn.querySelector("span").innerHTML = "결제하기";
+			}
+
+			$$group1.forEach(el => {
+				el.classList.add("next");
+			});
+
+			$group2.classList.add("next");
+
+			$group3.classList.add("next");
+			if ($group3.classList.contains("next")) {
+				document.querySelector(".address-info.next .header-box-btn").classList.add("hidden");
+			}
+
+			//terms-service
+			$group4.classList.remove("hidden");
+
+			//배송메시지 박스 
+			document.querySelector(".edit-message-box").classList.add("hidden");
+			document.querySelector(".save-message-box").classList.remove("hidden");
+			calPointBox.classList.remove("hidden");
+
+			get_addr_wrap.classList.remove("hidden");
+			put_addr_wrap.classList.add("hidden");
+
+			// 직접입력 배송메시지
+			let tmp_order_memo = document.querySelector("#tmp_order_memo").value;
+			if (tmp_order_memo.length > 0) {
+				document.querySelector(".save-message-box .message-content").innerHTML = tmp_order_memo;
+				$('#order_memo').val(tmp_order_memo);
+				// 최근 메세지 
+				// let resent_msg_strg = document.querySelector("#recent_order_msg").value;
+				// let resent_msg_label = orderMemoSelectBox.dropdown.items[0].label;
+				// document.querySelector("#recent_order_msg").value = $('#order_memo').val();
+				// console.log(document.querySelector("#recent_order_msg").value);
+				// orderMemoSelectBox.dropdown.items[0].label = '(최근) ' + document.querySelector("#recent_order_msg").value;
+			}
+
+			calcPriceTotal();
+		}
+	});
+
+	function checkboxAll(allCheck) {
+		let selfChecks = document.querySelectorAll(".terms-service .check-self");
+		let essentialCheckBox = document.querySelector(".terms-service .check-self.essential");
+		let orderSection = document.querySelector(".order-section");
+		selfChecks.forEach(el => {
+			el.checked = allCheck.checked;
+		});
+		if (essentialCheckBox.checked) {
+			orderSection.dataset.status = "T";
+		} else {
+			orderSection.dataset.status = "F";
+		}
+	}
+	function essentialCheckBox(check) {
+		let orderSection = document.querySelector(".order-section");
+		if (check.checked) {
+			orderSection.dataset.status = "T";
+		} else {
+			orderSection.dataset.status = "F";
+		}
+	}
+
+	function calcPriceProduct() {
+		let price_total = document.querySelectorAll(".product .price_total");
+		let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product");
+		let price_delivery = document.querySelector(".calculation-wrap .price_delivery");
+
+		let product_qty = document.querySelector(".calculation-wrap .product-qty");
+		let product_len = price_total.length;
+
+		let product_sum = [...price_total].map((el) => {
+			let sum = + el.innerHTML.replace(/,/g, '');
+			return sum;
+		});
+		//합산
+		const sum = product_sum.reduce(function add(sum, currenValue) {
+			return sum + currenValue;
+		})
+
+		price_product.dataset.price_product = sum;
+		price_product.innerHTML = sum.toLocaleString("ko-KR");
+		//product_qty.innerHTML = product_len;
+		product_qty.innerHTML = total_qty;
+
+		//배송비 처리
+		if (product_sum < 50000) {
+			let set = 5000;
+			price_delivery.dataset.price_delivery = set;
+			price_delivery.innerHTML = set.toLocaleString("ko-KR");;
+		} else {
+			price_delivery.dataset.price_delivery = 0;
+			price_delivery.innerHTML = 0;
 		}
 
 		calcPriceTotal();
 	}
-});
 
-function checkboxAll(allCheck) {
-	let selfChecks = document.querySelectorAll(".terms-service .check-self");
-	let essentialCheckBox = document.querySelector(".terms-service .check-self.essential");
-	let orderSection = document.querySelector(".order-section");
-	selfChecks.forEach(el => {
-		el.checked = allCheck.checked;
-	});
-	if (essentialCheckBox.checked) {
-		orderSection.dataset.status = "T";
-	} else {
-		orderSection.dataset.status = "F";
-	}
-}
-function essentialCheckBox(check) {
-	let orderSection = document.querySelector(".order-section");
-	if (check.checked) {
-		orderSection.dataset.status = "T";
-	} else {
-		orderSection.dataset.status = "F";
-	}
-}
+	function calcPriceTotal() {
+		let step = calculationWrap.dataset.step;
 
-function calcPriceProduct() {
-	let price_total = document.querySelectorAll(".product .price_total");
-	let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product");
-	let price_delivery = document.querySelector(".calculation-wrap .price_delivery");
+		let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
+		let price_discount = document.querySelector(".calculation-wrap .price_discount").dataset.price_discount;
+		let price_mileage_point = document.querySelector(".calculation-wrap .price_mileage_point").dataset.price_mileage_point;
+		// let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
+		let price_delivery = document.querySelector(".calculation-wrap .price_delivery").dataset.price_delivery;
 
-	let product_qty = document.querySelector(".calculation-wrap .product-qty");
-	let product_len = price_total.length;
+		let price_total = document.querySelector(".calculation-wrap .price_total");
 
-	let product_sum = [...price_total].map((el) => {
-		let sum = + el.innerHTML.replace(/,/g, '');
-		return sum;
-	});
-	//합산
-	const sum = product_sum.reduce(function add(sum, currenValue) {
-		return sum + currenValue;
-	})
+		let result = 0;
+		//상품, 배송, 바우처, 적립, 충전 객체
+		let calWrap = [
+			{
+				"title": "price_product",
+				"price": price_product
+			},
+			{
+				"title": "price_discount",
+				"price": price_discount
+			},
+			{
+				"title": "price_mileage_point",
+				"price": price_mileage_point
+			},
+			// {
+			// 	"title": "price_charge_point",
+			// 	"price": price_charge_point
+			// },
+			/*{
+				"title": "price_delivery",
+				"price": price_delivery
+			}*/
+		]
 
-	price_product.dataset.price_product = sum;
-	price_product.innerHTML = sum.toLocaleString("ko-KR");
-	//product_qty.innerHTML = product_len;
-	product_qty.innerHTML = total_qty;
-
-	//배송비 처리
-	if (product_sum < 50000) {
-		let set = 5000;
-		price_delivery.dataset.price_delivery = set;
-		price_delivery.innerHTML = set.toLocaleString("ko-KR");;
-	} else {
-		price_delivery.dataset.price_delivery = 0;
-		price_delivery.innerHTML = 0;
-	}
-
-	calcPriceTotal();
-}
-
-function calcPriceTotal() {
-	let step = calculationWrap.dataset.step;
-
-	let price_product = document.querySelector(".calculation-wrap .price_product_wrap .price_product").dataset.price_product;
-	let price_discount = document.querySelector(".calculation-wrap .price_discount").dataset.price_discount;
-	let price_mileage_point = document.querySelector(".calculation-wrap .price_mileage_point").dataset.price_mileage_point;
-	// let price_charge_point = document.querySelector(".calculation-wrap .price_charge_point").dataset.price_charge_point;
-	let price_delivery = document.querySelector(".calculation-wrap .price_delivery").dataset.price_delivery;
-
-	let price_total = document.querySelector(".calculation-wrap .price_total");
-
-	let result = 0;
-	//상품, 배송, 바우처, 적립, 충전 객체
-	let calWrap = [
-		{
-			"title": "price_product",
-			"price": price_product
-		},
-		{
-			"title": "price_discount",
-			"price": price_discount
-		},
-		{
-			"title": "price_mileage_point",
-			"price": price_mileage_point
-		},
-		// {
-		// 	"title": "price_charge_point",
-		// 	"price": price_charge_point
-		// },
-		/*{
-			"title": "price_delivery",
-			"price": price_delivery
+		/*if (step === "1") {
+		} else if (step === "2") {
 		}*/
-	]
 
-	/*if (step === "1") {
-	} else if (step === "2") {
-	}*/
+		result = calWrap.map(item => item.price).reduce(
+			(prev, curr) => parseInt(prev) - parseInt(curr)
+		);
+		result = result + parseInt(price_delivery);
+		price_total.innerHTML = result.toLocaleString("ko-KR");
+	}
 
-	result = calWrap.map(item => item.price).reduce(
-		(prev, curr) => parseInt(prev) - parseInt(curr)
-	);
-	result = result + parseInt(price_delivery);
-	price_total.innerHTML = result.toLocaleString("ko-KR");
-}
+	(function () {
+		let orderWrap = document.querySelector(".product-toggle-btn").offsetParent;
+		prdToggleBtn.addEventListener("click", function () {
 
-(function () {
-	let orderWrap = document.querySelector(".product-toggle-btn").offsetParent;
-	prdToggleBtn.addEventListener("click", function () {
+			document.querySelector(".order-product").querySelector(".product-wrap").classList.toggle("hidden");
+		});
+	})();
 
-		document.querySelector(".order-product").querySelector(".product-wrap").classList.toggle("hidden");
-	});
-})();
+	//전화번호 하이푼 자동 입렵
+	const phoneAutoHyphen = (target) => {
+		target.value = target.value
+			.replace(/[^0-9]/g, '')
+			.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
+	}
 
-//전화번호 하이푼 자동 입렵
-const phoneAutoHyphen = (target) => {
-	target.value = target.value
-		.replace(/[^0-9]/g, '')
-		.replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
-}
+	//창 닫기
+	function closeBox() {
+		$('.close').on('click', function () {
+			document.querySelector(".list-box").classList.add("hidden");
+			document.querySelector(".save-box").classList.remove("hidden");
+		});
+	}
+	//배송지 정보 삭제
 
-//창 닫기
-function closeBox() {
-	$('.close').on('click', function () {
-		document.querySelector(".list-box").classList.add("hidden");
-		document.querySelector(".save-box").classList.remove("hidden");
-	});
-}
-//배송지 정보 삭제
-
-function deleteAdrr(to_idx) {
-	$.ajax({
-		type: "post",
-		data: {
-			"order_to_idx": to_idx
-		},
-		dataType: "json",
-		url: "http://116.124.128.246:80/_api/order/pg/to/delete",
-		error: function () {
-			alert("배송지 정보 삭제 처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				console.log("성공");
-				listAdd();
+	function deleteAdrr(to_idx) {
+		$.ajax({
+			type: "post",
+			data: {
+				"order_to_idx": to_idx
+			},
+			dataType: "json",
+			url: "http://116.124.128.246:80/_api/order/pg/to/delete",
+			error: function () {
+				alert("배송지 정보 삭제 처리에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					console.log("성공");
+					listAdd();
+				}
+				else {
+					alert(d.msg);
+				}
 			}
-			else {
-				alert(d.msg);
+		});
+	}
+
+	function addTmpOrderInfo() {
+		let frm = $("#frm-check")[0];
+		let formData = new FormData(frm);
+
+		$.ajax({
+			type: "post",
+			url: "http://116.124.128.246/_api/order/pg/tmp",
+			data: formData,
+			dataType: "json",
+			async: true,
+			enctype: "multipart/form-data",
+			processData: false,
+			contentType: false,
+			error: function () {
+				alert("주문정보 등록처리에 실패했습니다.");
+			},
+			success: function (d) {
+				let code = d.code;
+				if (code == 200) {
+					let order_info = d.data;
+					setTossPayment(order_info);
+				}
 			}
+		});
+	}
+
+	function setTossPayment(order_info) {
+		tossPayments.requestPayment('카드', {
+			amount: order_info.price_total,
+			orderId: order_info.order_code,
+			orderName: order_info.order_title,
+			customerName: order_info.member_name,
+			successUrl: 'http://116.124.128.246/order/check',
+			failUrl: 'http://116.124.128.246/order/check',
+		});
+	}
+
+	function setPriceMileagePoint(obj) {
+		let price_mileage_point = $(obj).val();
+		$('#price_mileage_point').val(price_mileage_point);
+	}
+
+	function getProductForGA(items) {
+		var products = [];
+		if (items != null) {
+			items.forEach(function (item) {
+				var product = {
+					'item_name': item.product_name,
+					'item_variant': item.option_name,
+					'price': item.sales_price,
+					'quantity': item.product_qty,
+					'brand': item.brand,
+					'item_category': ''
+				}
+				products.push(product);
+			})
 		}
-	});
-}
-
-function addTmpOrderInfo() {
-	let frm = $("#frm-check")[0];
-	let formData = new FormData(frm);
-	
-	$.ajax({
-		type: "post",
-		url: "http://116.124.128.246/_api/order/pg/tmp",
-		data: formData,
-		dataType: "json",
-		async: true,
-		enctype: "multipart/form-data",
-		processData: false,
-		contentType: false,
-		error: function () {
-			alert("주문정보 등록처리에 실패했습니다.");
-		},
-		success: function (d) {
-			let code = d.code;
-			if (code == 200) {
-				let order_info = d.data;
-				setTossPayment(order_info);
+		dataLayer.push({
+			'event': 'begin_checkout',
+			'ecommerce': {
+				'items': products
 			}
-		}
-	});
-}
- 
-function setTossPayment(order_info) {
-	tossPayments.requestPayment('카드', {
-		amount: order_info.price_total,
-		orderId: order_info.order_code,
-		orderName: order_info.order_title,
-		customerName: order_info.member_name,
-		successUrl: 'http://116.124.128.246/order/check',
-		failUrl: 'http://116.124.128.246/order/check',
-	});
-}
-
-function setPriceMileagePoint(obj) {
-	let price_mileage_point = $(obj).val();
-	$('#price_mileage_point').val(price_mileage_point);
-}
-
-function getProductForGA(items){
-    var products = [];
-    if(items != null){
-        items.forEach(function(item){
-            var product = {
-                'item_name': item.product_name,
-                'item_variant': item.option_name,
-                'price': item.sales_price,
-                'quantity': item.product_qty, 
-                'brand': item.brand,
-                'item_category': ''
-            } 
-            products.push(product);
-        })
-    }
-    dataLayer.push({
-        'event': 'begin_checkout',
-        'ecommerce': {
-        'items': products
-        }
-    });
-	console.log(dataLayer);
-}
+		});
+		console.log(dataLayer);
+	}
 </script>

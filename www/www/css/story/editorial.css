@@ -110,6 +110,7 @@ editorial-wrap
     width: 100%;
     object-fit: cover;
 }
+
 .editorial-wrap figcaption{
     display: none;    
 }

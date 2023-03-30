@@ -696,6 +696,11 @@
 		padding: 10px 0;
 	}
 
+	.terms-info-list p {
+		margin-left: 6px;
+		text-indent: -6px;
+	}
+
 	.terms-service {
 		font-family: var(--ft-no-fu);
 		font-size: 11px;
@@ -927,15 +932,19 @@
 			text-decoration: underline;
 		}
 
-		.number-info,.address-info {
+		.number-info,
+		.address-info {
 			margin-bottom: 17.5px;
 		}
+
 		.order-product .header-wrap {
 			margin: 20px 0 10px;
 		}
-		.address-info{
+
+		.address-info {
 			padding-bottom: 10px;
 		}
+
 		.calculation-box .point-box {
 			gap: 10px;
 		}
@@ -943,39 +952,47 @@
 		.terms-info-list {
 			padding-bottom: 0;
 		}
+
 		.order-product .header-list {
 			display: none;
 		}
-		.header-wrap,.option-info {
+
+		.header-wrap,
+		.option-info {
 			padding: 0;
 		}
-		.body-wrap.padding{
+
+		.body-wrap.padding {
 			padding-bottom: 10px;
+		}
+
+		.content {
+			width: 100%;
 		}
 	}
 </style>
 
 <?php
-	$country = null;
-	if (isset($_SESSION['COUNTRY'])) {
-		$country = $_SESSION['COUNTRY'];
-	}
-	
-	$member_idx = 0;
-	if (isset($_SESSION['MEMBER_IDX'])) {
-		$member_idx = $_SESSION['MEMBER_IDX'];
-	}
-	
-	$order_idx = 0;
-	if (isset($_GET['order_idx'])) {
-		$order_idx = $_GET['order_idx'];
-	}
-	
-	if ($member_idx > 0 && $order_idx > 0) {
-		$order_cnt = $db->count("ORDER_INFO", "IDX = ".$order_idx." AND MEMBER_IDX = ".$member_idx);
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
+}
 
-		if ($order_cnt > 0) {
-			$select_order_sql = "
+$member_idx = 0;
+if (isset($_SESSION['MEMBER_IDX'])) {
+	$member_idx = $_SESSION['MEMBER_IDX'];
+}
+
+$order_idx = 0;
+if (isset($_GET['order_idx'])) {
+	$order_idx = $_GET['order_idx'];
+}
+
+if ($member_idx > 0 && $order_idx > 0) {
+	$order_cnt = $db->count("ORDER_INFO", "IDX = " . $order_idx . " AND MEMBER_IDX = " . $member_idx);
+
+	if ($order_cnt > 0) {
+		$select_order_sql = "
 					SELECT
 						OI.IDX						AS ORDER_IDX,
 						OI.COUNTRY					AS COUNTRY,
@@ -1001,20 +1018,20 @@
 					FROM
 						ORDER_INFO OI
 					WHERE
-						OI.IDX = ".$order_idx.";
+						OI.IDX = " . $order_idx . ";
 				";
 
-			$db->query($select_order_sql);
+		$db->query($select_order_sql);
 
-			$order_info = array();
-			$order_product = array();
-			
-			foreach ($db->fetch() as $order_data) {
-				$order_idx = $order_data['ORDER_IDX'];
-				$country = $order_data['COUNTRY'];
-				
-				if (!empty($order_idx)) {
-					$select_order_product_sql = "
+		$order_info = array();
+		$order_product = array();
+
+		foreach ($db->fetch() as $order_data) {
+			$order_idx = $order_data['ORDER_IDX'];
+			$country = $order_data['COUNTRY'];
+
+			if (!empty($order_idx)) {
+				$select_order_product_sql = "
 						SELECT
 							(
 								SELECT
@@ -1038,7 +1055,7 @@
 							OM.COLOR						AS COLOR,
 							OM.COLOR_RGB					AS COLOR_RGB,
 							OP.OPTION_NAME					AS OPTION_NAME,
-							PR.SALES_PRICE_".$country."		AS SALES_PRICE,
+							PR.SALES_PRICE_" . $country . "		AS SALES_PRICE,
 							OP.PRODUCT_QTY					AS PRODUCT_QTY,
 							OP.PRODUCT_PRICE				AS PRODUCT_PRICE,
 							(
@@ -1051,57 +1068,57 @@
 							LEFT JOIN ORDERSHEET_MST OM ON
 							PR.ORDERSHEET_IDX = OM.IDX
 						WHERE
-							OP.ORDER_IDX = ".$order_idx." AND
+							OP.ORDER_IDX = " . $order_idx . " AND
 							OP.PRODUCT_CODE NOT LIKE 'VOUXXX%'
 					";
-					
-					$db->query($select_order_product_sql);
 
-					foreach ($db->fetch() as $product_data) {
-						$order_product[] = array(
-							'img_location'		=>$product_data['IMG_LOCATION'],
-							'product_name'		=>$product_data['PRODUCT_NAME'],
-							'color'				=>$product_data['COLOR'],
-							'color_rgb'			=>$product_data['COLOR_RGB'],
-							'option_name'		=>$product_data['OPTION_NAME'],
-							'sales_price'		=>number_format($product_data['SALES_PRICE']),
-							'product_qty'		=>$product_data['PRODUCT_QTY'],
-							'product_price'		=>number_format($product_data['PRODUCT_PRICE']),
-							'price_total'		=>number_format($product_data['PRICE_TOTAL'])
-						);
-					}
+				$db->query($select_order_product_sql);
 
-					$order_info = array(
-						'order_code'			=>$order_data['ORDER_CODE'],
-						'to_place'				=>$order_data['TO_PLACE'],
-						'to_name'				=>$order_data['TO_NAME'],
-						'to_mobile'				=>$order_data['TO_MOBILE'],
-						'to_zipcode'			=>$order_data['TO_ZIPCODE'],
-						'to_addr'				=>$order_data['TO_ADDR'],
-						'to_detail_addr'		=>$order_data['TO_DETAIL_ADDR'],
-						'order_memo'			=>$order_data['ORDER_MEMO'],
-						'pg_payment'			=>$order_data['PG_PAYMENT'],
-						'pg_date'				=>$order_data['PG_DATA'],
-						'pg_price'				=>$order_data['PG_PRICE'],
-						'price_product'			=>number_format($order_data['PRICE_PRODUCT']),
-						'price_discount'		=>number_format($order_data['PRICE_DISCOUNT']),
-						'price_mileage_point'	=>number_format($order_data['PRICE_MILEAGE_POINT']),
-						'price_charge_point'	=>number_format($order_data['PRICE_CHARGE_POINT']),
-						'price_delivery'		=>number_format($order_data['PRICE_DELIVERY']),
-						'price_total'			=>number_format($order_data['PRICE_TOTAL'])
+				foreach ($db->fetch() as $product_data) {
+					$order_product[] = array(
+						'img_location' => $product_data['IMG_LOCATION'],
+						'product_name' => $product_data['PRODUCT_NAME'],
+						'color' => $product_data['COLOR'],
+						'color_rgb' => $product_data['COLOR_RGB'],
+						'option_name' => $product_data['OPTION_NAME'],
+						'sales_price' => number_format($product_data['SALES_PRICE']),
+						'product_qty' => $product_data['PRODUCT_QTY'],
+						'product_price' => number_format($product_data['PRODUCT_PRICE']),
+						'price_total' => number_format($product_data['PRICE_TOTAL'])
 					);
 				}
+
+				$order_info = array(
+					'order_code' => $order_data['ORDER_CODE'],
+					'to_place' => $order_data['TO_PLACE'],
+					'to_name' => $order_data['TO_NAME'],
+					'to_mobile' => $order_data['TO_MOBILE'],
+					'to_zipcode' => $order_data['TO_ZIPCODE'],
+					'to_addr' => $order_data['TO_ADDR'],
+					'to_detail_addr' => $order_data['TO_DETAIL_ADDR'],
+					'order_memo' => $order_data['ORDER_MEMO'],
+					'pg_payment' => $order_data['PG_PAYMENT'],
+					'pg_date' => $order_data['PG_DATA'],
+					'pg_price' => $order_data['PG_PRICE'],
+					'price_product' => number_format($order_data['PRICE_PRODUCT']),
+					'price_discount' => number_format($order_data['PRICE_DISCOUNT']),
+					'price_mileage_point' => number_format($order_data['PRICE_MILEAGE_POINT']),
+					'price_charge_point' => number_format($order_data['PRICE_CHARGE_POINT']),
+					'price_delivery' => number_format($order_data['PRICE_DELIVERY']),
+					'price_total' => number_format($order_data['PRICE_TOTAL'])
+				);
 			}
-		} else {
-			/*
-			echo "
-					<script>
-						location.href='/main';
-					</script>
-				";
-			*/
 		}
+	} else {
+		/*
+		echo "
+		<script>
+		location.href='/main';
+		</script>
+		";
+		*/
 	}
+}
 ?>
 
 <main>
@@ -1239,7 +1256,7 @@
 								</span>
 							</div>
 						</div>
-					<?php
+						<?php
 					}
 					?>
 

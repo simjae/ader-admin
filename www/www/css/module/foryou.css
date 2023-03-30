@@ -75,7 +75,7 @@
     width: 1.2rem;
     margin: 24px;
     content: url('/images/svg/sw-ar-bk.svg');
-    top: calc(100% - 75%);
+    top: calc(100% - 65%);
     color: var(--bk);
 }
 
@@ -84,7 +84,7 @@
     margin: 24px;
     content: url('/images/svg/sw-ar-bk.svg');
     transform: rotate(180deg);
-    top: calc(100% - 75%);
+    top: calc(100% - 65%);
     color: var(--bk);
 }
 

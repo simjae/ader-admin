@@ -97,7 +97,7 @@ swiper
     .lookbook-result .lookbook-title-box {
         position: fixed;
         z-index: 20;
-        bottom: 10%;
+        bottom: 88px;
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;

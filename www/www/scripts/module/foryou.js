@@ -145,10 +145,10 @@ export default function ForyouRender() {
                     slidesPerView: 2.647
                 },
                 920: {
-                    slidesPerView: 5
+                    slidesPerView: 5.3
                 },
                 1400: {
-                    slidesPerView: 5
+                    slidesPerView: 5.3
                 }
             }
             });

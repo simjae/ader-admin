@@ -418,6 +418,10 @@ export function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".st__checked__btn");
 		$checkedDelete.addEventListener("click", () => {
 			selfCheckbox("stock",true);
+			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                getBasketProductList()
+            }
 		});
 	};
 
@@ -426,6 +430,10 @@ export function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".st__all__btn");
 		$checkedDelete.addEventListener("click", () => {
 			selfCheckbox("stock",false);
+			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                getBasketProductList()
+            }
 		});
 	};
 
@@ -434,6 +442,10 @@ export function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".so__checked__btn");
 		$checkedDelete.addEventListener("click", (e) => {
 			selfCheckbox("sold",true);
+			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                getBasketProductList()
+            }
 		});
 	};
 
@@ -442,6 +454,10 @@ export function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".so__all__btn");
 		$checkedDelete.addEventListener("click", () => {
 			selfCheckbox("sold",false);
+			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                getBasketProductList()
+            }
 		});
 	};
 

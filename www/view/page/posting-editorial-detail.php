@@ -129,7 +129,9 @@
 					<?php
 							if ($result_data['contents_info'][0]['contents_type'] == 'VID') {
 					?>
+					<figure class="vplayer">
 						<video controls="" autoplay="" muted="" loop="" src="http://116.124.128.246:81/<?= $result_data['contents_info'][0]['contents_url'] ?>"></video>
+					</figure>
 					<?php
 							} else {
 					?>

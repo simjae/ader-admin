@@ -37,14 +37,25 @@ lookbook-wrap
         gap: 8px;
         align-self: flex-end;
         margin: 10px 0;
-        margin-right: 147px;
-        padding-right: 20px;
+        margin-right: 120px;
         align-items: center;
+        width: 120px;
+        padding-right: 10px;
     }
-    @media (max-width: 1440px) { .lookbook-wrap .image-type-btn { margin-right: 77px; } }
-    @media (max-width: 1280px) { .lookbook-wrap .image-type-btn { margin-right: 0px; } }
-    
-    .lookbook-wrap .image-type-btn img{
+
+    @media (max-width: 1440px) {
+        .lookbook-wrap .image-type-btn {
+            margin-right: 77px;
+        }
+    }
+
+    @media (max-width: 1280px) {
+        .lookbook-wrap .image-type-btn {
+            margin-right: 0px;
+        }
+    }
+
+    .lookbook-wrap .image-type-btn img {
         height: 8px;
     }
 
@@ -87,22 +98,23 @@ lookbook
 swiper 
 ----------------------------------------------------
 */
-.lookbook-wrap .look-header-wrap {
-    display: flex;
-    justify-content: space-between;
-    height: 105px;
-    transition: all 0.1s;
-}
-.lookbook-wrap .look-header-wrap.hidden {
-    display: flex;
-    justify-content: space-between;
-    height: 105px;
-    position: sticky;
-    width: 100%;
-    z-index: 1;
-    background-color: rgb(255, 255, 255);
-    transition: all 0.1s;
-}
+    .lookbook-wrap .look-header-wrap {
+        display: flex;
+        justify-content: space-between;
+        height: 105px;
+        transition: all 0.1s;
+    }
+
+    .lookbook-wrap .look-header-wrap.hidden {
+        display: flex;
+        justify-content: space-between;
+        height: 105px;
+        position: sticky;
+        width: 100%;
+        z-index: 1;
+        background-color: rgb(255, 255, 255);
+        transition: all 0.1s;
+    }
 
     .lookbook-wrap .lookCategory-swiper {
         position: relative;
@@ -112,7 +124,7 @@ swiper
     .lookbook-result .lookbook-title-box {
         position: fixed;
         z-index: 20;
-        bottom: 10%;
+        bottom: 88px !important;
         font-size: 12px;
         font-weight: normal;
         font-stretch: normal;
@@ -123,6 +135,7 @@ swiper
         color: #343434;
         transition: all 0.8s;
     }
+
     .lookbook-title-box .lookbook-main__title {
         margin-bottom: 20px;
     }
@@ -215,7 +228,7 @@ lookbook-detail
         background-color: #ffffff;
         position: fixed;
         left: 0;
-        top:50px;
+        top: 50px;
         width: 100vw;
         height: 100vh;
         z-index: 1;
@@ -228,8 +241,8 @@ lookbook-detail
     .lookbook-detail-wrap.open .lookbook-title-box {
         position: absolute;
         z-index: 20;
-        bottom: 15%;
-        left: 10%;
+        bottom: 16.5%;
+        left: 6.2%;
     }
 
     .lookbook-detail-wrap .back-btn.web {
@@ -310,7 +323,7 @@ lookbook-detail
         width: 100%;
         padding: 10px 0px 10px 10px;
         position: absolute;
-        bottom: 50px;
+        bottom: 50px !important;
         right: 0;
         width: 300px;
         border: solid 1px #dcdcdc;
@@ -318,9 +331,7 @@ lookbook-detail
         z-index: 21;
         transition: all 0.8s;
     }
-    #related-wrap.web {
-        bottom: 10%;
-        }
+
     #related-wrap .wrap-title {
         margin-bottom: 10px;
     }
@@ -373,7 +384,7 @@ lookbook-detail
     }
 
     /*
-반은형
+반응형
 ----------------------------------------------------
 */
     @media(max-width:1025px) {
@@ -399,13 +410,16 @@ lookbook-detail
         .lookbook-result .lookbook-title-box {
             display: none;
         }
+
         .lookbook-wrap .look-header-wrap {
             height: 90px;
             padding: 6px 0 8px 0;
         }
-        .lookbook-title-box .lookbook-main__title{
+
+        .lookbook-title-box .lookbook-main__title {
             display: none;
         }
+
         /*
     swiper 
     ----------------------------------------------------
@@ -422,6 +436,7 @@ lookbook-detail
             justify-content: normal;
             gap: 4px;
         }
+
         .lookbook-wrap .lookCategory-swiper .swiper-slide .lookCategory-box {
             height: 60px;
         }
@@ -490,7 +505,8 @@ lookbook-detail
             margin-bottom: 20px;
             margin-left: 10px;
         }
-        .lookbook-main__title{
+
+        .lookbook-main__title {
             font-size: 12px;
             font-weight: normal;
             font-stretch: normal;
@@ -500,7 +516,8 @@ lookbook-detail
             text-align: left;
             color: #343434;
         }
-        .lookbook-sub__title{
+
+        .lookbook-sub__title {
             font-size: 12px;
             font-weight: normal;
             font-stretch: normal;
@@ -510,13 +527,14 @@ lookbook-detail
             text-align: left;
             color: #343434;
         }
+
         /*
     related-wrap
     ----------------------------------------------------
-    */  
-        
+    */
+
         #related-wrap {
-            position: fixed;
+            position: inherit;
             bottom: 0;
             margin: 0;
             width: 100%;
@@ -524,5 +542,9 @@ lookbook-detail
 
         #related-wrap .related-product-swiper {
             width: 90%;
+        }
+
+        #related-wrap .related-title {
+            text-align: left;
         }
     }

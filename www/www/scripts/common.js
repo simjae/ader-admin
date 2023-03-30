@@ -216,7 +216,7 @@ function setWhishListBtn(obj) {
                         $('.mobile-whishlist-wrap').append($('.quickview__content__wrap').clone());
                         sideQuickSwiper = new Swiper('.mobile-whishlist-wrap .quickview-whish-swiper',mobileProductDetailWhishSwiperOption);
                         $('.mobile-whishlist-wrap .remove-btn').on('click', function() {
-                            $('.mobile-whishlist-wrap').html('');
+                            $('.mobile-whishlist-wrap .quickview__content__wrap').removeClass('open');
                         })
                     }
                 }
@@ -254,7 +254,7 @@ function deleteWhishListBtn(obj) {
                         $('.mobile-whishlist-wrap').append($('.quickview__content__wrap').clone());
                         sideQuickSwiper = new Swiper('.mobile-whishlist-wrap .quickview-whish-swiper',mobileProductDetailWhishSwiperOption);
                         $('.mobile-whishlist-wrap .remove-btn').on('click', function() {
-                            $('.mobile-whishlist-wrap').html('');
+                            $('.mobile-whishlist-wrap .quickview__content__wrap').removeClass('open');
                         })
                     }
                 }

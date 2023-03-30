@@ -214,6 +214,7 @@
     border: solid 1px #dcdcdc;
     background-color: #ffffff;
     color: #343434;
+    cursor: pointer;
 }
 #sidebar .language-btn.select{
     border: solid 1px #343434;

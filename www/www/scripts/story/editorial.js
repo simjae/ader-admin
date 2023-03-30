@@ -6,7 +6,6 @@ window.addEventListener('DOMContentLoaded', function(){
     } else{
         getEditorialList();  
     }
-	
     scrollTop();
 })
 
@@ -80,7 +79,9 @@ function appendThumbnailBackground(thumbnail_background, title, page_idx, idx, s
 
     if (backgroundType === "mp4") {
         backgroundHtml = `
-        <video id="video-coustom-${idx}" autoplay muted loop playsinline src="${url}${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')"></video>
+        <figure class="vplayer">
+            <video id="video-coustom-${idx}" autoplay muted loop playsinline src="${url}${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')"></video>
+        </figure>
         `
     } else {
         backgroundHtml = `<img class="object-fit" src="http://116.124.128.246:81${thumbnail_background}" onclick="moveEditorialDtail(${page_idx}, '${size_type}')" ontouchend="moveEditorialDtail(${page_idx}, '${size_type}')">`
@@ -225,4 +226,9 @@ function scrollTop() {
             window.scrollTo({ top: 0,left: 0,behavior: 'smooth'});
         })
     }
+}
+
+// 클릭한 좌표로 프로그레스바 버튼 위치 이동시키기
+function moveTimeLineControl(x) {
+    $timelineControl.style.transform = `translateX(${x}px)`;
 }

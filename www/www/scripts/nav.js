@@ -776,6 +776,8 @@ const menuLrgClick = () => {
 			if(lrg_type == "ST"){
 				$(".mobile-store-search-wrap").hide();
 				$(".bottom").hide();
+
+				$(".top").hide();
 			}
 			$(this).addClass("open");
 			$(lrg__back__btn_obj).addClass("open");
@@ -785,8 +787,7 @@ const menuLrgClick = () => {
 			mobileMdlSwipe(this);
 			
 			if(lrg_type == "ST"){
-				console.log(ulInterval);
-				$("#mobile .side__menu").animate({scrollTop : ulInterval}, 400);
+				$("#mobile .side__menu").animate({scrollTop : ulInterval}, 0);
 			}
 			else{
 				let clickIdx = $(this).parent().index();
@@ -807,6 +808,7 @@ const menuLrgClick = () => {
 		$(".mobile__menu .lrg__back__btn").removeClass("open");
 		$(this).closest(".side__menu").removeClass("lrg__on");
 		$(".mobile-store-search-wrap").show();
+		$(".top").show();
 		$(".bottom").show();
 		$(".mobile__menu .lrg").slideDown(500);
 		$("#mobile .side__menu").animate({scrollTop : 0}, 500);
@@ -907,12 +909,14 @@ function changeLangEvent(btnParrentClass){
 	const languageBtns = Array.from(languageBtnWrap.querySelectorAll('div'));
 	
 	let currentLang = localStorage.getItem('lang') || 'KR';
+	
 	setSelectedLanguage(languageBtns, currentLang);
 	languageBtnWrap.addEventListener('click', e => {
 		const clickedBtn = e.target.closest('div');
 		if (!clickedBtn || !languageBtns.includes(clickedBtn)) { return; }
-	
+		let nowLang = currentLang;
 		currentLang = clickedBtn.dataset.ln;
+		
 		setSelectedLanguage(languageBtns, currentLang);
 	
 		localStorage.setItem('lang', currentLang);
@@ -924,7 +928,7 @@ function changeLangEvent(btnParrentClass){
 			window.location.reload();
 		}
 		else{
-			logout();
+			logout(nowLang);
 		}
 	});
 	
@@ -933,7 +937,7 @@ function changeLangEvent(btnParrentClass){
 			btn.classList.toggle('select', btn.dataset.ln === lang);
 		});
 	}
-	function logout(){
+	function logout(lang){
         $.ajax(
             {
                 url: "http://116.124.128.246:80/_api/account/logout",
@@ -942,8 +946,16 @@ function changeLangEvent(btnParrentClass){
 					if(btnParrentClass == '.mobile__language__btn__wrap'){
 						window.location.reload();
 					}
-					else{
-						notiModal('언어변경','로그아웃되었습니다.');
+					else {
+						if(lang == 'KR') {
+							notiModal('언어변경','로그아웃되었습니다.');
+						}
+						if(lang == 'EN') {
+							notiModal('Language has changed','It has been changed to a different language. We have logged you out of your account.');
+						}
+						if(lang == 'CN') {
+							notiModal('언어변경','로그아웃되었습니다.');
+						}
 						$('#notimodal-modal .close-btn').attr('onclick', 'window.location.reload();');
 					}
                 }

@@ -474,10 +474,12 @@
 
         .swiper-quick-container {
             min-height: auto;
+            justify-content: flex-start;
+            margin: 0 0 0 10px;
         }
 
         .all-btn.web {
-            display: none;
+            display: none!important;
         }
 
         .all-btn.mobile {
@@ -554,6 +556,8 @@
 
         .quickview-whish-swiper .swiper-box img {
             max-height: 55px;
+            width: 100%;
+            object-fit: cover;
         }
 
         .quickview__content__wrap.faq.open {
@@ -729,46 +733,13 @@
         }
     }
     const mobileSideQuickSwiperOption = {
-        // observer: true,
-        // observeParents: true,
         navigation: {
             nextEl: ".quickview-whish-swiper .swiper-button-next",
             prevEl: ".quickview-whish-swiper .swiper-button-prev",
         },
         autoHeight: true,
-        // grabCursor: true,
-        // slidesPerView: 'auto',
-        slidesPerView: 5.6
-        // breakpoints: {
-        //     320: {
-        //         spaceBetween: 3.2,
-        //         slidesPerView: 5.2
-        //     },
-        //     400: {
-        //         spaceBetween: 3.2,
-        //         slidesPerView: 6.2
-        //     },
-        //     500: {
-        //         spaceBetween: 3.2,
-        //         slidesPerView: 10
-        //     },
-        //     600: {
-        //         spaceBetween: 3.2,
-        //         slidesPerView: 10
-        //     },
-        //     700: {
-        //         spaceBetween: 3.2,
-        //         slidesPerView: 10
-        //     },
-        //     800: {
-        //         spaceBetween: 3.2,
-        //         slidesPerView: 10
-        //     }, 
-        //     900: {
-        //         spaceBetween: 3.2,
-        //         slidesPerView: 10
-        //     }
-        // }
+        spaceBetween: 5,
+        slidesPerView: 6.2
     }
     // function initSideQuickSwiper(el, option) {
     //     if (sideQuickSwiper !== undefined) {

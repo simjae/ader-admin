@@ -440,25 +440,26 @@ function Basket(el, useSidebar) {
 
     //재고상품 선택삭제 버튼
     function deleteBasketInfo() {
-        const $checkedDelete = document.querySelectorAll(".st__checked__btn");
-        let product__box = document.querySelector(".product__box");
+        const $checkedDelete = document.querySelector(".st__checked__btn");
         $checkedDelete.addEventListener("click", () => {
             selfCheckbox("stock", true);
-            // if (product__box.length == 0) {
-            //     productNull();
-            // }
+            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                console.log("체크")
+                getBasketProductList()
+            }
         });
     };
 
     //재고상품 전체삭제 버튼
     function deleteAllBasketInfo() {
-        const $checkedDelete = document.querySelectorAll(".st__all__btn");
-        let product__box = document.querySelector(".product__box");
+        const $checkedDelete = document.querySelector(".st__all__btn");
         $checkedDelete.addEventListener("click", () => {
             selfCheckbox("stock", false);
-            // if (product__box.length == 0) {
-            //     productNull();
-            // }
+            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                getBasketProductList()
+            }
         });
     };
 
@@ -467,6 +468,10 @@ function Basket(el, useSidebar) {
         const $checkedDelete = document.querySelector(".so__checked__btn");
         $checkedDelete.addEventListener("click", (e) => {
             selfCheckbox("sold", true);
+            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                getBasketProductList()
+            }
         });
     };
 
@@ -475,6 +480,10 @@ function Basket(el, useSidebar) {
         const $checkedDelete = document.querySelector(".so__all__btn");
         $checkedDelete.addEventListener("click", () => {
             selfCheckbox("sold", false);
+            let product__box = document.querySelectorAll(".basket__wrap .product__box");
+            if (product__box.length == 0) {
+                getBasketProductList()
+            }
         });
     };
 
@@ -1853,16 +1862,6 @@ function User() {
                     <p data-i18n="m_notify_me">재입고알림</p>
                 </div>
             </div>
-            <div class="icon__item" btn-type="draw">
-                <a href="http://116.124.128.246/mypage?mypage_type=draw_first">
-                    <div id="draw_icon" class="icon">
-                        <img src="/images/mypage/mypage_draw_icon.svg">
-                    </div>
-                </a>
-                <div class="icon__title">
-                    <p data-i18n="m_draw">드로우</p>
-                </div>
-            </div>
             <div class="icon__item" btn-type="membership">
                 <a href="http://116.124.128.246/mypage?mypage_type=membership_first">
                     <div class="icon">
@@ -1921,6 +1920,16 @@ function User() {
             <div class="user-button logoutBtn" data-i18n="m_logout" onclick="logout()">로그아웃</div>
         </div>
         `
+        // <div class="icon__item" btn-type="draw">
+        //     <a href="http://116.124.128.246/mypage?mypage_type=draw_first">
+        //         <div id="draw_icon" class="icon">
+        //             <img src="/images/mypage/mypage_draw_icon.svg">
+        //         </div>
+        //     </a>
+        //     <div class="icon__title">
+        //         <p data-i18n="m_draw">드로우</p>
+        //     </div>
+        // </div>
         sideBox.appendChild(userContent);
         changeLanguageR();
     };

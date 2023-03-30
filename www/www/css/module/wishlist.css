@@ -127,7 +127,14 @@
     font-size: 12px;
 }
 
+.hidden {
+    display: none;
+}
+
 @media (max-width: 1025px) {
+    .whish_list_mp .wish__btn {
+        display: block!important;
+    }
     .wish-wrap {
         margin-bottom: 40px;
     }
@@ -173,15 +180,15 @@
     }
 
     .wish-wrap .product .wish__btn {
-        padding: 15px 10px;
+        padding: 0;
     }
 
     .wish-wrap .product .name {
         font-size: 10px;
-        width: 45px !important;
     }
 
     .wish-wrap .product .name span {
+        width: 50px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;

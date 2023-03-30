@@ -12,7 +12,7 @@
             </div>
 
             <div class="image-type-btn" data-type="L">
-                <img src="/images/svg/grid-cols-4.svg" alt="">
+                <img src="/images/svg/grid-cols-6-2.svg" alt="">
                 <span data-i18n="lb_zoom_out">작게보기</span>
             </div>
         </div>

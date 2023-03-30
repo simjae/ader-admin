@@ -526,9 +526,8 @@ div::-webkit-scrollbar-track {
 .size__box li[data-soldout="STSO"] {
     opacity: 0.5;
 }
-
-.size__box li[data-soldout="STSO"]::after {
-    /* 재고없음(재고 증가 없음) */
+/* 재고없음(재고 증가 없음) */
+.size__box li[data-soldout="STSO"]::before {
     content: url('/images/svg/sold-line.svg')!important;
     position: absolute!important;
     top: 50%!important;
@@ -537,6 +536,16 @@ div::-webkit-scrollbar-track {
     border-bottom: 0px;
     transform: translate(-50%, -50%);
 }
+/* 재고없음(재고 증가 없음) */
+/* .size__box li[data-soldout="STSO"]::after {
+    content: url('/images/svg/sold-line.svg')!important;
+    position: absolute!important;
+    top: 50%!important;
+    opacity: 0.5;
+    left: 50%;
+    border-bottom: 0px;
+    transform: translate(-50%, -50%);
+} */
 
 .size__box li[data-soldout="STSO"][data-sizetype="O"]::after {
     /* 재고없음(재고 증가 없음)  onesize*/

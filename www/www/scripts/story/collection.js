@@ -355,7 +355,7 @@ function imgTypeBtn() {
             this.children[1].innerHTML = "작게보기"
             this.children[1].dataset.i18n = "lb_zoom_out";
             this.children[1].textContent = i18next.t("lb_zoom_out");
-            this.children[0].src = "/images/svg/grid-cols-4.svg"
+            this.children[0].src = "/images/svg/grid-cols-6-2.svg"
 
         }
     })

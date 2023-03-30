@@ -426,7 +426,7 @@
     }
 
     .size__box li:after {
-        padding-bottom: 1px;
+        margin-top: 0.5px;
         transform-origin: 0% 50%;
     }
 
@@ -467,6 +467,7 @@
         top: -3px;
         bottom: 15px;
         right: -3px;
+        pointer-events: none;
     }
 
     .size__box li[data-soldout="STSC"]:hover::after {
@@ -474,6 +475,9 @@
         position: absolute;
         right: 1px;
         top: -2px;
+    }
+    .size__box li[data-soldout="STSO"]::after {
+        border: 0;
     }
 
     .size__box .size.select[data-soldout="STSC"]::after {
@@ -585,8 +589,38 @@
     }
 
     @media (max-width:1025px) {
+        .no-whishlist-btn {
+            width: 90%;
+        }
+        .add-list-wrap .basket-link-btn-wrap {
+            align-items: center;
+        }
+        .shrink-list {
+            height: 0!important;
+        }
+        .size__box .size[data-soldout="STCL"]:hover::before {
+            content: "";
+            position: absolute;
+            width: 80px;
+            top: 17px;
+            left: -35px;
+            background-color: #ffffff;
+        }
+        .size__box .size.select[data-soldout="STCL"]:hover::before {
+            content: "Only a few left";
+            position: absolute;
+            width: 80px;
+            top: 17px;
+            left: -35px;
+            color: red;
+            background-color: #ffffff;
+        }
+        .size__box li:after {
+            border-bottom: 0;
+        }
         .content.right.open .add-list-wrap {
             position: sticky;
+            height: auto!important;
         }
 
         .product .product-info .info-row .name {
@@ -702,9 +736,9 @@
 
         .quick-menu-wrap .swiper-button-next {
             right: 20px;
-            height: 100%;
-            top: -5px;
-            margin: 0;
+            height: 10%;
+            /* top: -5px;
+            margin: 0; */
         }
 
         .quick-menu-wrap .swiper-button-prev {
@@ -741,7 +775,7 @@ if ($member_idx == 0) {
         </div>
     </div>
     <section class="whishlist-section">
-        <div class=temp-div></div>
+        <div class="temp-div"></div>
         <div class="content left">
             <div class="body-wrap list">
                 <input id="wish-product-cnt" type="hidden" />
@@ -826,16 +860,17 @@ if ($member_idx == 0) {
         navigation: {
             nextEl: ".quick-swiper .swiper-button-next",
             prevEl: ".quick-swiper .swiper-button-prev"
-
         }
-
     });
-    wish_quickSwiper.on('click', function () {
+    
+    wish_quickSwiper.on("click", function() {
         let idx = wish_quickSwiper.clickedIndex;
-        let whishIdx = wish_quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
-        console.log(whishIdx);
-        elementScroll("body-list", whishIdx);
+        if(idx != null) {
+            let whishIdx = wish_quickSwiper.wrapperEl.children[idx].children[0].dataset.no;
+            elementScroll("body-list", whishIdx);
+        }
     });
+    
     const getWhishProductList = () => {
         let country = "KR"
         $.ajax({
@@ -861,7 +896,7 @@ if ($member_idx == 0) {
                     contentWrap.innerHTML = `
                     <div class="no-whishlist-wrap">
                         <div class="no-whishlist-msg">위시리스트가 비어있습니다</div>
-                        <div class="no-whishlist-btn">쇼핑 계속하기</div>
+                        <div class="no-whishlist-btn" onclick="location.href='/product/list?page_idx=1&menu_sort=L&menu_idx=1'">쇼핑 계속하기</div>
                     </div>
                 `;
                 } else {
@@ -908,59 +943,59 @@ if ($member_idx == 0) {
             let productSizeHtml = "";
             if (product_size_head.stock_status == "STCL") {
                 productSizeHtml += `
-                <li class="size stock-stcl" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
-            `;
+                    <li class="size stock-stcl" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
+                `;
             } else if (product_size_head.stock_status == "STSC") {
                 productSizeHtml += `
-                <li class="size stock-stsc" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
-            `;
+                    <li class="size stock-stsc" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
+                `;
             } else {
                 productSizeHtml += `
-                <li class="size" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
-            `;
+                    <li class="size" data-reorder="false" data-sizetype="${product_size_head.size_type}" data-optionidx="${product_size_head.option_idx}" data-soldout="${product_size_head.stock_status}">${product_size_head.option_name}<p></p></li>
+                `;
             }
             product_size_tail.forEach(size => {
                 productSizeHtml += `
-                <li class="size" data-reorder="false" data-sizetype="${size.size_type}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}<p></p></li>
-            `;
+                    <li class="size" data-reorder="false" data-sizetype="${size.size_type}" data-optionidx="${size.option_idx}" data-soldout="${size.stock_status}">${size.option_name}<p></p></li>
+                `;
             });
 
             productHtml += `
-            <div class="body-list product" data-whish=${el.whish_idx}>
-                <div class="product-info">
-                    <div class="remove-btn"> 
-                        <img src="/images/svg/sold-line.svg">
-                        <img src="/images/svg/sold-line.svg">
-                    </div>
-                    <a href="/product/detail?product_idx=${el.product_idx}" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
-                    <div class="info-box">
-                        <div class="info-row">
-                            <div class="name" data-soldout=""><span>${el.product_name}</span></div>
-                            ${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price.toLocaleString('ko-KR')}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price.toLocaleString('ko-KR')}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
+                <div class="body-list product" data-whish=${el.whish_idx}>
+                    <div class="product-info">
+                        <div class="remove-btn"> 
+                            <img src="/images/svg/sold-line.svg">
+                            <img src="/images/svg/sold-line.svg">
                         </div>
-                        <div class="info-row">
-                            <div class="color-title"><span>${el.color}</span></div>
-                            <div class="color__box" data-maxcount="" data-colorcount="1">
-                                ${productColorHtml}
+                        <a href="/product/detail?product_idx=${el.product_idx}" class="docs-creator"><img class="prd-img" cnt="1" src="${url}${el.product_img}" alt=""></a>
+                        <div class="info-box">
+                            <div class="info-row">
+                                <div class="name" data-soldout=""><span>${el.product_name}</span></div>
+                                ${el.discount == 0 ? `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price.toLocaleString('ko-KR')}" data-discount="${el.discount}" data-dis="false">${el.price.toLocaleString('ko-KR')}</div>` : `<div class="price" data-soldout="${el.stock_status}" data-saleprice="${el.sales_price.toLocaleString('ko-KR')}" data-discount="${el.discount}" data-dis="true"><span>${el.price.toLocaleString('ko-KR')}</span></div>`} 
                             </div>
-                        </div>
-                        <div class="option-wrap">
-                            <div class="option-box">
-                                <div class="info-row">
-                                    <div class="size__box">
-                                        ${productSizeHtml}
-                                    </div>
+                            <div class="info-row">
+                                <div class="color-title"><span>${el.color}</span></div>
+                                <div class="color__box" data-maxcount="" data-colorcount="1">
+                                    ${productColorHtml}
                                 </div>
                             </div>
-                            <div data-optionidx="" data-idx="${el.product_idx}" class="product-select-btn">
-                                <span data-i18n="w_select">선택하기</span>
+                            <div class="option-wrap">
+                                <div class="option-box">
+                                    <div class="info-row">
+                                        <div class="size__box">
+                                            ${productSizeHtml}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-optionidx="" data-idx="${el.product_idx}" class="product-select-btn">
+                                    <span data-i18n="w_select">선택하기</span>
+                                </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
         });
         productWrap.innerHTML = productHtml;
         bodyWrap.appendChild(productWrap);
@@ -1246,19 +1281,14 @@ if ($member_idx == 0) {
             url: "http://116.124.128.246:80/_api/order/whish/delete",
             error: function () { },
             success: function (d) {
-                // let data = d.data;
-                // if(data == null) {
-                //     console.log("no-remove");
-                //     return;
-                // } else {
+                
                 let product = document.querySelectorAll(".product-wrap .product");
-                // [...product].find(el => el.dataset.whish === whishIdx).remove();
+                
                 let result = [...product].find(el => el.dataset.whish === whishIdx);
-                result.remove();
-                removeAddList(whishIdx);
-                console.log("remove");
-                // }
-
+                if(result != null) {
+                    result.remove();
+                    removeAddList(whishIdx);
+                }
             }
         });
     }
@@ -1437,7 +1467,7 @@ if ($member_idx == 0) {
                 bodyWrapL.innerHTML = `
                 <div class="no-whishlist-wrap">
                     <div class="no-whishlist-msg">위시리스트가 비어있습니다</div>
-                    <div class="no-whishlist-btn">쇼핑 계속하기</div>
+                    <div class="no-whishlist-btn" onclick="location.href='/product/list?page_idx=1&menu_sort=L&menu_idx=1'">쇼핑 계속하기</div>
                 </div>
             `;
             } else {

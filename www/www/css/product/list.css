@@ -477,6 +477,7 @@ li {
 
 .show_more_btn {
     border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -914,10 +915,6 @@ li {
         border: 1px solid #dcdcdc;
         color: #808080;
         padding: 5px 16px;
-    }
-    .product__list__wrap .prd__meun .prd__meun__category .title.select {
-        border: 1px solid #000000;
-        color: #000000;
     }
 
     .prd__meun__category .swiper-slide {
