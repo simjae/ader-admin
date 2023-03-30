@@ -220,7 +220,10 @@ function makeProductListFlag(d) {
                                 </svg>
                             </div>
                         </div>
-                        <div class='refund__msg' data-i18n="pd_refund_msg_01">제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
+                        <div class='refund__msg'>
+                            <p data-i18n="pd_refund_msg_01">제품의 특성상 교환 / 환불이 불가합니다.</p>
+                            <p data-i18n="pd_refund_msg_02">동의하시겠습니까?</p>
+                        </div>
                         <div class="refund-basket-btn"> 
                             <img src="/images/svg/basket.svg" alt=""> 
                             <span class="basket-title" data-i18n="pd_basket_msg_06">내용 확인 후 쇼핑백에 담기</span> 
@@ -288,7 +291,10 @@ function makeProductListFlag(d) {
                         </svg>
                     </div>
                 </div>
-                <div class='refund__msg' data-i18n="pd_refund_msg_01">제품의 특성상 교환 / 환불이 불가합니다.<br> 동의하시겠습니까?</div>
+                <div class='refund__msg'>
+                    <p data-i18n="pd_refund_msg_01">제품의 특성상 교환 / 환불이 불가합니다.</p>
+                    <p data-i18n="pd_refund_msg_02">동의하시겠습니까?</p>
+                </div>
                 <div class="refund-basket-btn"> 
                     <img src="/images/svg/basket.svg" alt=""> 
                     <span class="basket-title" data-i18n="pd_basket_msg_06">내용 확인 후 쇼핑백에 담기</span> 

@@ -650,22 +650,26 @@ li {
 .basket__wrap--btn.nav {
     display: none;
 }
-.basket__wrap--btn.nav .quickview__content__wrap.open{
+
+.basket__wrap--btn.nav .quickview__content__wrap.open {
     top: -110px;
     width: 100%;
     position: absolute;
     transform: translateX(0px);
 }
-.basket__wrap--btn.nav .quickview__content__wrap{
+
+.basket__wrap--btn.nav .quickview__content__wrap {
     top: -110px;
     width: 100%;
     position: absolute;
     transform: translateX(0px);
 }
-.basket__wrap--btn.nav .swiper-quick-container{
-   display: initial;
-}
-.basket__wrap--btn.nav .title__box{
+
+/* .basket__wrap--btn.nav .swiper-quick-container {
+    display: initial;
+} */
+
+.basket__wrap--btn.nav .title__box {
     display: flex;
     gap: 10px;
     margin-left: 10px;
@@ -1264,15 +1268,13 @@ li {
 
 .detail__refund__box .close-btn {
     cursor: pointer;
-    margin: 10px;
-    border: solid 5px #ffffff;
+    margin: 20px;
     text-align: right;
-    right: 10%;
 }
 
 .detail__refund__box .close-btn svg {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     background-color: #ffffff;
     transition: transform 0.5s;
 }
@@ -1284,7 +1286,7 @@ li {
 
 .detail__refund__box .refund__msg {
     font-family: var(--ft-no-fu);
-    margin-left: 20px;
+    margin: 0 auto;
     font-size: 11px;
     font-weight: 300;
     font-stretch: normal;
@@ -1301,12 +1303,10 @@ li {
     justify-content: center;
     align-items: center;
     margin: 0px 0px 14px 10px;
-    border: 1px solid #dcdcdc;
     width: 70%;
     height: 34px;
     border-radius: 1px;
     border: solid 1px #808080;
-    background-color: #fff;
 }
 
 .refund-basket-btn img {
@@ -1901,22 +1901,34 @@ li {
     .detail__refund__box.open {
         width: 99.9%;
         margin-left: 0.5px;
+        height: 212px;
+        top: -330px;
     }
 
-}
-
-
-
-
-
-
-
-@keyframes moveRight {
-    0% {
-        width: 0px;
-    }
-
-    100% {
+    .refund-basket-btn {
+        margin: 0;
+        padding: 12px 0;
         width: 100%;
+        border: unset;
+        border-top: solid 1px #808080;
     }
-}
+
+    .detail__refund__box .refund__msg {
+        padding-bottom: 40px;
+    }
+
+
+
+
+
+
+
+    @keyframes moveRight {
+        0% {
+            width: 0px;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
