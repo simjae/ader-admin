@@ -270,7 +270,7 @@
         padding-top: 40px;
         display: grid;
         place-items: center;
-        grid-template-columns: repeat(14, 80px);
+        grid-template-columns: repeat(13, 80px);
         margin: 0 auto;
     }
 
@@ -633,6 +633,11 @@
         display: flex;
     }
 
+    .long_text p {
+        text-indent: 0;
+        margin-left: -6px;
+    }
+
     /* 충전포인트 숨기기 */
     #charging_icon {
         display: none;
@@ -729,6 +734,7 @@
         .icon__item .icon {
             margin: 0 0px;
         }
+
         /* .icon__item .icon,
         .icon__item:hover .icon {
             margin: 0 0px;
@@ -804,14 +810,13 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                 </div>
             </div>
             <div class="mypage__items profile_info">
+                <div class="point__item" style="cursor:pointer" info-type="orderlist" onclick="memberInfoClick(this)">
+                    <div class="point__title" data-i18n="m_order_cnt">진행중 주문</div>
+                    <div class="point__value" id="order_value"></div>
+                </div>
                 <div class="point__item" style="cursor:pointer" info-type="mileage" onclick="memberInfoClick(this)">
                     <div class="point__title" data-i18n="m_mileage">적립금</div>
                     <div class="point__value" id="mileage_value"></div>
-
-                </div>
-                <div class="point__item" style="cursor:pointer" info-type="charging" onclick="memberInfoClick(this)">
-                    <div class="point__title" data-i18n="m_prepaid_mileage">예치금</div>
-                    <div class="point__value" id="charging_value"></div>
                 </div>
                 <div class="point__item" style="cursor:pointer" info-type="voucher" onclick="memberInfoClick(this)">
                     <div class="point__title" data-i18n="m_voucher">바우처</div>
@@ -827,7 +832,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                         <p data-i18n="m_my-page">마이페이지 홈</p>
                     </div>
                 </div>
-                <div class="icon__item" btn-type="orderlist" onclick="mypageTabBtnClick('orderlist',0)">
+                <div id="orderlist_icon" class="icon__item" btn-type="orderlist" onclick="mypageTabBtnClick('orderlist',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_orderlist_icon.svg" style="padding-top:15px;padding-left:17px;">
                     </div>
@@ -892,14 +897,14 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                         <p data-i18n="m_notify_me">재입고알림</p>
                     </div>
                 </div>
-                <div class="icon__item" btn-type="draw" onclick="mypageTabBtnClick('draw',0)">
+                <!-- <div class="icon__item" btn-type="draw" onclick="mypageTabBtnClick('draw',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_draw_icon.svg" style="padding-top:12px;padding-left:16px;">
                     </div>
                     <div class="icon__title">
                         <p data-i18n="m_draw">드로우</p>
                     </div>
-                </div>
+                </div> -->
                 <div class="icon__item" btn-type="membership" onclick="mypageTabBtnClick('membership',0)">
                     <div class="icon">
                         <img src="/images/mypage/mypage_membership_icon.svg"
@@ -1024,14 +1029,14 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                     <p data-i18n="m_notify_me">재입고알림</p>
                 </div>
             </div>
-            <div class="swiper-slide icon__item" btn-type="draw" onclick="mypageTabBtnClick('draw',0)">
+            <!-- <div class="swiper-slide icon__item" btn-type="draw" onclick="mypageTabBtnClick('draw',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_draw_icon.svg" style="padding-top:12px;padding-left:16px;">
                 </div>
                 <div class="icon__title">
                     <p data-i18n="m_draw">드로우</p>
                 </div>
-            </div>
+            </div> -->
             <div class="swiper-slide icon__item" btn-type="membership" onclick="mypageTabBtnClick('membership',0)">
                 <div class="icon">
                     <img src="/images/mypage/mypage_membership_icon.svg" style="padding-top:18px;padding-left:15px;">
@@ -1128,20 +1133,20 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
 </main>
 <script>
     var swiperMypage = '';
-    var searchEnterKeyHandler = function(e){
-		if(e.keyCode == '13'){
-			$('.search__icon__img').click();
-		}
-	}
+    var searchEnterKeyHandler = function (e) {
+        if (e.keyCode == '13') {
+            $('.search__icon__img').click();
+        }
+    }
     $(document).ready(function () {
         swiperMypage = new Swiper(".swiper.icon", {
             //옵션은 유동적으로 필요한부분만 추가해서 사용가능,
             navigation: {
-                nextEl: ".swiper .swiper-button-next",
-                prevEl: ".swiper .swiper-button-prev",
+                nextEl: ".swiper.icon .swiper-button-next",
+                prevEl: ".swiper.icon .swiper-button-prev",
             },
             pagination: {
-                el: ".swiper-pagination",
+                el: ".swiper.icon .swiper-pagination",
                 clickable: true,
             },
             autoHeight: true,
@@ -1153,11 +1158,11 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         swiperTabBtn = new Swiper(".swiper.tab__btn", {
             //옵션은 유동적으로 필요한부분만 추가해서 사용가능,
             navigation: {
-                nextEl: ".swiper .swiper-button-next",
-                prevEl: ".swiper .swiper-button-prev",
+                nextEl: ".swiper.tab__btn .swiper-button-next",
+                prevEl: ".swiper.tab__btn .swiper-button-prev",
             },
             pagination: {
-                el: ".swiper-pagination",
+                el: ".swiper.tab__btn .swiper-pagination",
                 clickable: true,
             },
             autoHeight: true,
@@ -1256,7 +1261,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
                     }
 
                     $('#mileage_value').text(`${balance}P`);
-                    $('#charging_value').text(`0`);
+                    $('#order_value').text(`${data.order_ing_cnt==null?0:data.order_ing_cnt}`);
                     $('#voucher_cnt').text(`${data.voucher_cnt}`);
                     $('#mypage_member_name').text(`${data.member_name}`);
                     $('#mypage_member_id').text(`${data.member_id}`);
@@ -1318,7 +1323,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
             }
         }
     });
-   
+
     function mypageTabBtnClick(type, tab_idx) {
         $('#btn_type').val(type);
 

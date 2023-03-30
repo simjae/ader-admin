@@ -1,4 +1,7 @@
 <style>
+    .children__category {
+        display: none;
+    }
     .inquiry__wrap .description::-webkit-scrollbar {
         width: 5px;
     }
@@ -86,6 +89,7 @@
         letter-spacing: normal;
         text-align: left;
         margin-bottom: 0px;
+        border-top: 1px solid #dcdcdc;
     }
 
     .inquiry__wrap {
@@ -225,8 +229,6 @@
         margin-top: 20px;
     }
 
-
-
     .faq__category__btn.click__btn {
         background-color: #dcdcdc;
     }
@@ -334,10 +336,6 @@
         border-top: 1px solid #dcdcdc;
     }
 
-    .child__category__btn.click__btn {
-        color: #343434;
-    }
-
     .delete_inquiry_btn {
         margin-top: 20px;
         text-align: right;
@@ -347,11 +345,21 @@
     .pc_inquiry_list {
         display: grid;
         grid-template-columns: 110px 1fr 110px 20px 110px;
-        min-height: 70px
+        min-height: 70px;
+        padding: 10px 0 20px;
     }
 
     .mobile_inquiry_list {
         display: none;
+    }
+
+    .inquiry_list_flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .toggle__item {
+        margin: 0;
     }
 
     @media (max-width: 1024px) {
@@ -362,7 +370,7 @@
         }
 
         .inquiry__wrap {
-            margin-top: 20px;
+            margin: 20px 0 59.5px;
         }
 
         .search__small {
@@ -445,6 +453,18 @@
 
         .pc_inquiry_list {
             display: none;
+        }
+
+        .delete_inquiry_btn {
+            margin-top: 0;
+        }
+
+        .toggle__list.inquiry__list {
+            padding-top: 0;
+        }
+
+        .toggle__item {
+            padding: 10px 0 20px;
         }
 
     }
@@ -561,7 +581,7 @@
                 </div>
 
                 <div class="title">
-                    <p>문의하기</p>
+                    <p>1:1 문의</p>
                 </div>
                 <div class="inquiry__info inquiry__title">
                     <span>
@@ -606,8 +626,10 @@
                         <div class="inquiry__photo__item" onclick="imageUplode(4)"><img
                                 src="/images/mypage/mypage_photo_btn.svg"></div>
                     </div>
-                    <p class="description">·&nbsp;제품 불량 및 오 배송의 경우, 수령하신 제품의 상태와 배송 패키지 사진을 등록 부탁드립니다.</p>
-                    <p style="margin-top: 10px;">·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
+                    <div class="description">
+                        <p>·&nbsp;제품 불량 및 오 배송의 경우, 수령하신 제품의 상태와 배송 패키지 사진을 등록 부탁드립니다.</p>
+                        <p style="margin-top: 10px;">·&nbsp;파일은 jpg, jpeg, png와 gif 형식만 업로드가 가능하며, 용량은 개당 10MB이하 최대 5개까지만 가능합니다.</p>
+                    </div>
                 </div>
                 <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
                 <button class="black__full__width__btn inquiry" onclick='registInquiry()'>등록</button>
@@ -622,7 +644,7 @@
             </div>
             <div class="description">
                 <p>
-                    ·&nbsp;C/S 운영시간 Mon-Fri AM10:00 - PM5:00
+                    ·&nbsp;고객센터 운영시간 월-금 / AM 9:30 - PM 1:00, PM 2:00 - PM 5:00
                 </p>
                 <p>
                     ·&nbsp;매월 15일 (공휴일인 경우 직전 영업일)은 당사의 CS 및 배송 시스템 점검일입니다.<br>
@@ -633,7 +655,7 @@
                     ·&nbsp;답변이 완료된 문의내역은 수정이 불가능합니다.
                 </p>
             </div>
-            <div class="toggle__list inquiry__list" style="border-top: 1px solid #dcdcdc;padding-top:20px;">
+            <div class="toggle__list inquiry__list">
                 <div class="toggle__list__tab"></div>
             </div>
         </div>
@@ -846,26 +868,30 @@
                                                     ${request_str}
                                                 </div>
                                             </div>
-                                            <div style="margin-top:20px;">${request_flg}</div>
-                                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="margin-top:20px;">
+                                            <div style="margin-top:20px; "color: #808080;">${request_flg}</div>
+                                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="margin-top:20px;" onclick="inquiryQuestionClick(this)">
                                             <div class="delete_inquiry_btn"><span onclick="deleteInquiry(${row.board_idx})" style="cursor: pointer;">삭제</span></div>
                                         </div>
                                         <div class="mobile_inquiry_list">
-                                            <div>
-                                                <p style="margin-bottom:10px;">${row.create_date}</p>
-                                                <p>${category_str}</p>
+                                            <div class="inquiry_list_flex" style="margin-bottom:10px;" >
+                                                <span style="display:flex;">
+                                                    <p style="margin-right:10px;">${row.create_date}</p>
+                                                    <p style="color: #808080;">${request_flg}</p>
+                                                </span>
+                                                <span class="delete_inquiry_btn" onclick="deleteInquiry(${row.board_idx})" style="cursor: pointer;">삭제</span>
                                             </div>
-                                            <div style="margin-top:20px;">
-                                                <div class="inquiry_question" style="cursor:pointer;" onclick="inquiryQuestionClick(this)">
-                                                    ${row.title}
+                                            <div style="margin-bottom:10px;">${category_str}</div>
+                                            <div class="inquiry_list_flex" onclick="inquiryQuestionClick(this)">
+                                                <div style="display:grid;">
+                                                    <div class="inquiry_question" style="cursor:pointer;">
+                                                        ${row.title}
+                                                    </div>
+                                                    <div class="inquiry_request" style="display:none; margin-top:10px;">
+                                                        ${request_str}
+                                                    </div>
                                                 </div>
-                                                <div class="inquiry_request" style="display:none; margin-top:20px;margin-bottom:20px;">
-                                                    ${request_str}
-                                                </div>
+                                                <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon">
                                             </div>
-                                            <div style="margin-top:20px;">${request_flg}</div>
-                                            <img src="/images/mypage/mypage_down_tab_btn.svg" class="down__up__icon" style="margin-top:20px;">
-                                            <div class="delete_inquiry_btn"><span onclick="deleteInquiry(${row.board_idx})" style="cursor: pointer;">삭제</span></div>
                                         </div>
                                     </div>
                                 `;

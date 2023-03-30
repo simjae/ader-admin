@@ -135,6 +135,10 @@
         .reorder__wrap .title {
             margin-top: 0;
         }
+        .long_text p{
+            text-indent: 0;
+            margin-left: -6px;
+        }
     }
 
     @media (min-width: 600px) {
@@ -186,12 +190,9 @@
                 <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_03">재입고 알림을 신청하시면 회원님의 SMS 수신 동의 여부와 관계없이 발송됩니다.</p></span>
             </div>
             <div class="description reorder__apply_mobile">
-                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="r_reorder_msg_01">해당제품이 재입고되면 메시지를 발송해드립니다.</p>
-                </span>
-                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="r_reorder_msg_02">스팸메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p>
-                </span>
-                <span class="flex_text">·&nbsp;&nbsp;<p data-i18n="r_reorder_msg_03">재입고 알림을 신청하시면 회원님의 SMS 수신 동의 여부와<br>
-                        관계없이 발송됩니다.</p></span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_01">해당 제품이 재입고되면 메시지를 발송해드립니다.</p></span>
+                <span class="flex_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_02">스팸 메시지로 등록 시 SMS 발송이 제한될 수 있습니다.</p></span>
+                <span class="flex_text long_text">·&nbsp;&nbsp;&nbsp;<p data-i18n="r_reorder_msg_03">재입고 알림을 신청하시면 회원님의 SMS 수신 동의 여부와<br>관계없이 발송됩니다.</p></span>
             </div>
             <form id="frm-reorder-list">
                 <input type="hidden" name="rows" value="10">

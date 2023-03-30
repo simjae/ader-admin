@@ -120,6 +120,15 @@
         margin-bottom: 10px;
     }
 
+    .marketing__receive label {
+        display: flex;
+        align-items: center;
+    }
+
+    .marketing__receive label span {
+        margin-left: 10px;
+    }
+
     .profile__tab .title {
         display: flex;
         justify-content: space-between;
@@ -568,7 +577,7 @@
                 </div>
             </div>
             <div>
-                <p data-i18n="p_member_msg_01"> 일회성 인증번호 발송을 위해 휴대폰 번호를 입력해 주세요.</p>
+                <p data-i18n="p_member_msg_01"> 일회성 인증번호 발송을 위해 휴대전화 번호를 입력해 주세요.</p>
             </div>
             <div class="description tel_update_error" style="width:100%;height:16.5px;margin-bottom: 4px;">
                 <p style="color:red;text-align:right;">&nbsp;</p>
@@ -583,9 +592,11 @@
                 <span class="flex_text">&nbsp;&nbsp;&nbsp;<p data-i18n="p_member_msg_03_2" style="margin-bottom: 5px;">
                         통신사의 문제로 인해 문자 메시지 발송이 지연될 수 있습니다.</p></span>
                 <span class="flex_text" style="margin-bottom: 36px;">·&nbsp;&nbsp;
-                    <p data-i18n="p_privacy_policy_01" class="underline" onclick="mypageTabBtnClick('service', 3)">zz개인정보처리방침&nbsp;</p>
+                    <p data-i18n="p_privacy_policy_01" class="underline" onclick="mypageTabBtnClick('service', 3)">
+                        zz개인정보처리방침&nbsp;</p>
                     <p data-i18n="p_privacy_policy_02">및</p>
-                    <p data-i18n="p_privacy_policy_03" class="underline" onclick="mypageTabBtnClick('service', 2)">&nbsp;이용약관</p>
+                    <p data-i18n="p_privacy_policy_03" class="underline" onclick="mypageTabBtnClick('service', 2)">
+                        &nbsp;이용약관</p>
                 </span>
             </div>
             <div class="input__form__rows">
@@ -596,7 +607,7 @@
                 </label>
             </div>
             <button class="black__btn" style="margin: 20px 0;" action-type="send_code" onclick="buttonAction(this)"
-                data-i18n="p_send_code">코드전송</button>
+                data-i18n="p_send_code">인증번호 발송</button>
         </div>
         <div class="profile__tab profile__tel__update__confirm__wrap">
             <div class="title" style="margin-bottom: 14px;">
@@ -732,6 +743,9 @@
                             <option name="payment_valid_year">2025</option>
                             <option name="payment_valid_year">2026</option>
                             <option name="payment_valid_year">2027</option>
+                            <option name="payment_valid_year">2028</option>
+                            <option name="payment_valid_year">2029</option>
+                            <option name="payment_valid_year">2030</option>
                         </select>
                     </div>
                 </div>
@@ -1221,12 +1235,12 @@
                         }
                         let headData = data.filter(el => el.default_flg == 1)[0];
                         let tailData = [...data.filter(el => el.default_flg == 0)];
-                        
+
                         let defaultList = $('.default__list');
                         let otherList = $('.other__list');
                         let strDiv = '';
 
-                        if(headData != null) {
+                        if (headData != null) {
                             defaultList.html('');
                             strDiv += '<tr class="default_destination">';
                             strDiv += '<td>' + headData.to_place + '</td>';

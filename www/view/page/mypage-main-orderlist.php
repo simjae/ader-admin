@@ -94,12 +94,18 @@
 		display: flex;
 	}
 
+	.order_cancel_msg {
+		font-size: 10px;
+		width: 155px;
+	}
+
 	@media (max-width: 1024px) {
 		.order_status_btn_box_else_m {
 			display: flex;
 			align-items: center;
 			line-height: 0.3;
 			margin-bottom: 5px;
+			justify-content: end;
 		}
 
 		.order_status_btn_box_dpr_m {
@@ -181,6 +187,11 @@
 
 		.product_info_mob p {
 			width: 80px;
+		}
+
+		.order_cancel_msg {
+			width: 120px;
+			float: right;
 		}
 	}
 
@@ -455,7 +466,7 @@
 						display = "flex";
 						// data-i18n ="o_payment_complete";
 						order_btn = '<button class="order_status_box" data-i18n="o_canel_order" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'OCC\')">주문취소</button>';
-						order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
+						order_cancel_msg = '<p class="order_cancel_msg">제품 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 					} else if (order_status == "DPR" || order_status == "DPG") {
 						display = "block";
 						order_btn = '<div class="delivery_num" style="margin-top:10px;"><p style="margin-bottom:3px;">' + row.company_name + '</p><p>652013628816</p></div>';
@@ -566,7 +577,7 @@
 
 					if (order_status == "PCP") {
 						order_btn = '<button class="order_status_box" data-i18n="o_canel_order" style="font-size: 10px; float: right;" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-						order_cancel_msg = '<p class="order_status_before_msg_m">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
+						order_cancel_msg = '<p class="order_status_before_msg_m">제품 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 					} else if (order_status == "DPR" || order_status == "DPG") {
 						order_btn = '<p class="delivery_num">' + row.company_name + '<br>652013628816</p>';
 					} else if (order_status == "DCP") {
@@ -575,7 +586,7 @@
 						order_btn += '    <button class="order_status_box" style ="margin-bottom: 5px; onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'ORF\')">반품접수</button>';
 						order_btn += '    <button class="order_status_box" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'OEX\')">교환접수</button>';
 						order_btn += '</div>';
-						order_cancel_msg = '<p style="font-size: 10px;float: right; margin: 5px 7px 0 0;">반품접수는 제품 수령 후<br>7일 이내 가능합니다.</p>';
+						order_cancel_msg = '<p class="order_cancel_msg"style="margin: 5px 7px 0 0;">반품접수는 제품 수령 후<br>7일 이내 가능합니다.</p>';
 					}
 
 					str_div += '        <tr id="order_product_' + product.order_product_idx + '_m">';
@@ -815,7 +826,7 @@
 
 				if (order_status == "PCP") {
 					order_btn = '<button class="order_status_box" data-i18n="o_canel_order" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-					order_cancel_msg = '<p style="font-size: 10px; width: 110px;">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
+					order_cancel_msg = '<p style="font-size: 10px; width: 110px;">제품 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 				} else if (order_status == "DPR" || order_status == "DCP") {
 					display = "flex";
 					order_btn += '<div style= "width: 75px; display: grid; justify-content: right;">';
@@ -965,7 +976,7 @@
 
 				if (order_status == "PCP") {
 					order_btn = '<button class="order_status_box" data-i18n="o_canel_order" onclick="putOrderInfo(' + row.order_idx + ',' + product.order_product_idx + ',\'' + order_status + '\')">주문취소</button>';
-					order_cancel_msg = '<p style="font-size: 10px; ">배송 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
+					order_cancel_msg = '<p style="font-size: 10px; ">제품 준비 중 단계로 변경될 경우, 취소가 불가합니다.</p>';
 				} else if (order_status == "DCP") {
 					display = "flex";
 					order_btn += '<div style ="display: grid;  margin-left: 0;">';

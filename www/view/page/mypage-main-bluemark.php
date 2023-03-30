@@ -831,7 +831,7 @@
                 <span class="flex_text">·&nbsp;&nbsp;&nbsp;
                     <p data-i18n="b_bluemark_msg_04">인증된 블루마크 이력을 아래에서 확인할 수 있습니다.</p>
                 </span>
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
+                <span class="flex_text long_text">·&nbsp;&nbsp;&nbsp;
                     <p data-i18n="b_bluemark_msg_05">블루마크 코드 양도를 희망하시는 경우 제품 양도하기를 클릭하여<br>정보 등록을 완료해 주시길 바랍니다.</p>
                 </span>
             </div>

@@ -174,17 +174,11 @@
                 </table>
             </div>
             <div class="description tab__total" style="margin-left: -6px;">
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
-                    <p data-i18n="ml_mileage_msg_01">주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
+                <span class="flex_text long_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_01">주문으로 발생한 적립금은 배송 완료 상태로 변경되고 나서<br class="notice_br">7일 이후에 사용 가능한 적립금으로 전환됩니다.</p>
                 </span>
                 <span class="flex_text">·&nbsp;&nbsp;&nbsp;
-                    <p data-i18n="ml_mileage_msg_02">적립금의 적립, 사용은 ADER 자사제품에 한하여 사용가능합니다.</p>
-                </span>
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
-                    <p data-i18n="ml_mileage_msg_03">적립금은 1,000원 단위로 사용 가능합니다.</p>
-                </span>
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
-                    <p data-i18n="ml_mileage_msg_04">적립금은 바우처와 함께 사용하실 수 없습니다.</p>
+                    <p data-i18n="ml_mileage_msg_02">적립금은 1,000원 단위로 사용 가능합니다.</p>
                 </span>
             </div>
         </div>
@@ -341,11 +335,11 @@
                 <p data-i18n="ml_ml_notice">적립금 유의사항</p>
             </div>
             <div class='description tab__notice' style="margin-left:-6px;">
-                <span class="flex_text">·&nbsp;&nbsp;&nbsp;
-                    <p data-i18n="ml_mileage_msg_01">주문으로 발생한 적립금은 배송완료 후 7일 부터 실제 사용 가능한 <br class="notice_br">적립금으로 전환됩니다.</p>
+                <span class="flex_text long_text">·&nbsp;&nbsp;&nbsp;
+                    <p data-i18n="ml_mileage_msg_01">주문으로 발생한 적립금은 배송 완료 상태로 변경되고 나서<br class="notice_br">7일 이후에 사용 가능한 적립금으로 전환됩니다.</p>
                 </span>
                 <span class="flex_text">·&nbsp;&nbsp;&nbsp;
-                    <p data-i18n="ml_mileage_msg_03">적립금은 1,000원 단위로 사용 가능합니다.</p>
+                    <p data-i18n="ml_mileage_msg_02">적립금은 1,000원 단위로 사용 가능합니다.</p>
                 </span>
             </div>
         </div>

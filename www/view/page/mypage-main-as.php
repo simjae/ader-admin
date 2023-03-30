@@ -1608,16 +1608,16 @@
             $('.as_status_title').text('A/S 현황');
         }
         else if (`${step_num}` === 'step_three') {
-            $('.as_status_title').text('A/S 진행중');
+            $('.as_status_title').text('A/S 현황');
         }
         else if (`${step_num}` === 'step_four') {
-            $('.as_status_title').text('결제 진행중');
+            $('.as_status_title').text('A/S 현황');
         }
         else if (`${step_num}` === 'step_five') {
-            $('.as_status_title').text('배송 진행중');
+            $('.as_status_title').text('A/S 현황');
         }
         else {
-            $('.as_status_title').text('A/S 완료');
+            $('.as_status_title').text('A/S 현황');
         }
     }
     function shippingForm() {
