@@ -156,25 +156,42 @@ function makeProductListFlag(d) {
             return sizeHtml;
         }
 
-
-        let whish_img = "";
-        let whish_function = "";
-
-        let whish_flg = `${el.whish_flg}`;
-        let login_status = getLoginStatus();
-
-        if (login_status == "true") {
-            if (whish_flg == 'true') {
-                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                whish_function = "deleteWhishListBtn(this);";
-            } else if (whish_flg == 'false') {
-                whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                whish_function = "setWhishListBtn(this);";
+        let wishBtnHtml = () => {
+            let wishObj = {
+                location : 'foryou',
+                wishStatus: el.whish_flg,
+                productIdx: el.product_idx,
+                url: new URL(location.href)
             }
-        } else {
-            whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-            whish_function = "return false;";
-
+            let whish_flg = `${el.whish_flg}`;
+            let whish_img = "";
+            let whish_function = "";
+            let login_status = getLoginStatus();
+            if (login_status == "true") {
+                if (whish_flg == 'true') {
+                    whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist-bk.svg" alt="">`;
+                    whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                } else if (whish_flg == 'false') {
+                    whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                    whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                }
+            } else {
+                whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+            }
+            function webHtml(){
+                return ` <div class="whish-btn" product_idx="${el.product_idx}" onClick=${whish_function}>${whish_img}</div>`
+            }
+            function mobileHtml(){
+                return `<div class="whish-btn" product_idx="${el.product_idx}" onClick=${whish_function}>
+                            ${whish_img}
+                            ${whish_flg == 'true' ? whishlistTitle : ""}
+                        </div>`
+            }
+            return {
+                webHtml: webHtml,
+                mobileHtml: mobileHtml
+            };
         }
         let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
         infoBoxHtml = `
@@ -194,7 +211,9 @@ function makeProductListFlag(d) {
                 ${productColorHtml()}
             </div>
             <div class="product__size">
-                <div style="width: 40px;">Size</div>
+            <div class="size__title">
+            <span>Size</span>
+            <span class="red_noti">Only a few left</span></div>
                 <div class="size__box">
                     ${productSizeHtml()}
                 </div>
@@ -206,9 +225,7 @@ function makeProductListFlag(d) {
                         <img src="/images/svg/basket.svg" alt="">
                         <span class="basket-title" data-i18n="pd_basket_msg_05">쇼핑백에 담기</span>
                     </div>
-                    <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
-                        ${whish_img}
-                    </div>
+                    ${wishBtnHtml().webHtml()}
                 </div>
                 ${refund_msg_flg == 1 ?
                 `<div class="detail__refund__box"> 
@@ -275,10 +292,7 @@ function makeProductListFlag(d) {
                 <img src="/images/svg/basket.svg" alt="">
                 <span class="basket-title" data-i18n="pd_basket_msg_05">쇼핑백에 담기</span>
             </div>
-            <div class="whish-btn" product_idx="${el.product_idx}" onClick="${whish_function}">
-                ${whish_img}
-                ${whish_flg == 'true' ? whishlistTitle : ""}
-            </div>
+            ${wishBtnHtml().mobileHtml()}
         </div>
         <div class="mobile-whishlist-wrap"></div>
         ${refund_msg_flg == 1 ?
@@ -652,37 +666,64 @@ function sizeBtnHandler() {
     const sizes = document.querySelectorAll(".detail__wrapper .size__box .size");
     let basketBtn = document.querySelector('.rM-detail-containner .basket-btn');
     let webBasketBtn = document.querySelector('.info__box .basket-btn');
+
     sizes.forEach(el => {
         el.addEventListener("click", function (e) {
+
             let { productidx, optionidx, status } = e.currentTarget.dataset;
+
             if (status == 2) {
                 sizes.forEach(el => { if (el.dataset.status !== "2") { el.classList.remove("select") }; })
                 e.currentTarget.classList.toggle("select");
+
                 if ($(".size.select[data-status='2']").length == 0) {
                     basketBtn.className = 'basket-btn';
                     webBasketBtn.className = 'basket-btn';
+                    $(".red_noti").hide();
+
                 } else {
                     basketBtn.className = 'basket-btn basket';
                     webBasketBtn.className = 'basket-btn basket';
+
+                    if (e.currentTarget.dataset.soldout == 'STIN') {
+                        $(".red_noti").hide();
+
+                    } else if (e.currentTarget.dataset.soldout == 'STCL') {
+                        $(".red_noti").show();
+                    }
                 }
+
                 basketBtnStatusChange($$productBtn, status);
             } else if (status == 1) {
                 sizes.forEach(el => { if (el.dataset.status !== "1") { el.classList.remove("select") }; })
                 e.currentTarget.classList.toggle("select");
+                $(".red_noti").hide();
                 if ($(".size.select[data-status='1']").length == 0) {
                     basketBtn.className = 'basket-btn';
                     webBasketBtn.className = 'basket-btn';
                     basketBtnStatusChange($$productBtn, 2);
+
                 } else {
                     basketBtn.className = 'basket-btn reorder';
                     webBasketBtn.className = 'basket-btn reorder';
                     basketBtnStatusChange($$productBtn, status);
-                }
-            } else if (status == 0) {
+                }} else if (status == 0) {
                 basketBtnStatusChange($$productBtn, status);
+
             }
         });
+
+        el.addEventListener("mouseenter", (e) => {
+            let { status } = e.currentTarget.dataset;
+            if (status == 2) {
+                if (e.currentTarget.dataset.soldout == 'STCL') {
+                    $(".red_noti").show();
+                } else {
+                    $(".red_noti").hide();
+                } } else { $(".red_noti").hide(); }
+        })
     });
+
 }
 /**
  * @author SIMJAE
@@ -1240,3 +1281,8 @@ window.addEventListener('resize', function () {
         pdResponsiveSwiper();
     }, delay);
 });
+
+// $(".size__box .size").hover(function(){
+//     if(el.dataset.soldout == 'STCL'){    
+//         $(".red_noti").show()}
+//     });

@@ -37,41 +37,44 @@ export default function ForyouRender() {
                     let productRecommendListHtml = "";
                     const swiperWrap = document.querySelector(".foryou-swiper .swiper-wrapper");
                     const domFrag = document.createDocumentFragment();
-                   
                     
                     data.forEach(el => {
                         let prdListSlide = document.createElement("div");
                         prdListSlide.classList.add("swiper-slide");
-                        let whish_img = "";
-                        let whish_function = "";
-    
-                        let whish_flg = `${el.whish_flg}`;
-                        let login_status = getLoginStatus();
-                        
-                        if (login_status == "true") {
-                            if (whish_flg == 'true') {
-                                whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                                whish_function = "deleteWhishListBtn(this);";
-                            } else if (whish_flg == 'false') {
-                                whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                                whish_function = "setWhishListBtn(this);";
+                        let wishEvent = () => {
+                            let wishObj = {
+                                location : 'foryou',
+                                wishStatus: el.whish_flg,
+                                productIdx: el.product_idx,
+                                url: new URL(location.href)
                             }
-                        } else {
-                            whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                            whish_function = "return false;";
+                            let whish_flg = `${el.whish_flg}`;
+                            let whish_img = "";
+                            let whish_function = "";
+                            let login_status = getLoginStatus();
+                            console.log("🏂 ~ file: foryou.js:55 ~ wishEvent ~ login_status:", login_status)
+                            if (login_status == "true") {
+                                if (whish_flg == 'true') {
+                                    whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist-bk.svg" alt="">`;
+                                    whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                                } else if (whish_flg == 'false') {
+                                    whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                                    whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                                }
+                            } else {
+                                whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                                whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                            }
+
+                            return ` <div class="wish__btn" product_idx="${el.product_idx}" onClick=${whish_function}>${whish_img}</div>`
                         }
-    
                         let product_size = el.product_size;
-    
                         let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
                         let colorCtn = el.product_color.length;
     
                         productRecommendListHtml =
                             `<div class="product">
-                                <div class="wish__btn" product_idx="${el.product_idx}" onClick="${whish_function}">
-                                    ${whish_img}
-                                </div>
-                                
+                                ${wishEvent()}
                                 <a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
                                     <div class="product-img swiper">
                                         <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${el.product_img}" alt="">
