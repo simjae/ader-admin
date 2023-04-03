@@ -76,7 +76,8 @@
 
     @media (max-width: 1024px) {
         .service__wrap {
-            margin: 143px auto 0;
+            width: 90%;
+            margin: 75px auto;
         }
 
         .login_service_wrap {

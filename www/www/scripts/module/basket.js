@@ -195,14 +195,14 @@ export function Basket(el, useSidebar) {
 						</label>
 						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content" data-sales_price="${el.sales_price}" >
-							${el.refund_flg && bodyWidth >= 1024 ? `<div class="prd__title">${el.product_name}<p class="refund_msg">교환 반품 불가</p></div>` : `<div class="prd__title">${el.product_name}</div>`}
+							${el.refund_msg_flg == 1 && bodyWidth >= 1024 ? `<div class="prd__title">${el.product_name}<p class="refund_msg">교환 반품 불가</p></div>` : `<div class="prd__title">${el.product_name}</div>`}
 							<div class="price">${sales_price}</div>
 							${color_html}
 							<div class="prd__size">
 								<div class="size__box">
 									<li data-soldout="${el.stock_status}">${el.option_name}</li>
 								</div>
-								${el.refund_flg && bodyWidth < 1024 ? `<p class="refund_msg">교환 반품 불가</p>` : ``}
+								${el.refund_msg_flg == 1 && bodyWidth < 1024 ? `<p class="refund_msg">교환 반품 불가</p>` : ``}
 							</div>
 							<div class="prd__qty">
 								<div>Qty</div>
@@ -417,11 +417,18 @@ export function Basket(el, useSidebar) {
 	function deleteBasketInfo(){
 		const $checkedDelete = document.querySelector(".st__checked__btn");
 		$checkedDelete.addEventListener("click", () => {
-			selfCheckbox("stock",true);
-			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
-            if (product__box.length == 0) {
-                getBasketProductList()
-            }
+			let selfCheckbox_cnt = document.querySelectorAll(".self__cb[name='stock']:checked").length;
+			let msgBox = document.querySelector(".pay__notiy");
+			if(selfCheckbox_cnt == 0) {
+				msgBox.innerText = '삭제하실 상품을 선택해주세요.';
+			} else {
+				msgBox.innerText = ' ';
+				selfCheckbox("stock",true);
+				let product__box = document.querySelectorAll(".basket__wrap .product__box");
+				if (product__box.length == 0) {
+						getBasketProductList()
+				}
+			}
 		});
 	};
 
@@ -430,10 +437,10 @@ export function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".st__all__btn");
 		$checkedDelete.addEventListener("click", () => {
 			selfCheckbox("stock",false);
-			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
-            if (product__box.length == 0) {
-                getBasketProductList()
-            }
+			let product__box = document.querySelectorAll(".basket__wrap .product__box");
+			if (product__box.length == 0) {
+					getBasketProductList()
+			}
 		});
 	};
 
@@ -442,10 +449,10 @@ export function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".so__checked__btn");
 		$checkedDelete.addEventListener("click", (e) => {
 			selfCheckbox("sold",true);
-			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
-            if (product__box.length == 0) {
-                getBasketProductList()
-            }
+			let product__box = document.querySelectorAll(".basket__wrap .product__box");
+			if (product__box.length == 0) {
+					getBasketProductList()
+			}
 		});
 	};
 
@@ -454,10 +461,10 @@ export function Basket(el, useSidebar) {
 		const $checkedDelete = document.querySelector(".so__all__btn");
 		$checkedDelete.addEventListener("click", () => {
 			selfCheckbox("sold",false);
-			            let product__box = document.querySelectorAll(".basket__wrap .product__box");
-            if (product__box.length == 0) {
-                getBasketProductList()
-            }
+			let product__box = document.querySelectorAll(".basket__wrap .product__box");
+			if (product__box.length == 0) {
+					getBasketProductList()
+			}
 		});
 	};
 

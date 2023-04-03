@@ -1536,23 +1536,37 @@
 
                     let product_link = "/product/detail?product_idx=" + `${el.product_idx}`;
 
-                    let whish_img = "";
-                    let whish_function = "";
+                    let wishBtnHtml = () => {
+                            let wishObj = {
+                                location : 'foryou',
+                                wishStatus: el.whish_flg,
+                                productIdx: el.product_idx,
+                                url: new URL(location.href)
+                            }
+                            let whish_flg = `${el.whish_flg}`;
+                            let whish_img = "";
+                            let whish_function = "";
+                            let login_status = getLoginStatus();
+                            console.log("🏂 ~ file: foryou.js:55 ~ wishBtnHtml ~ login_status:", login_status)
+                            if (login_status == "true") {
+                                if (whish_flg == 'true') {
+                                    whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist-bk.svg" alt="">`;
+                                    whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                                } else if (whish_flg == 'false') {
+                                    whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                                    whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                                }
+                            } else {
+                                whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                                whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                            }
 
-                    let whish_flg = `${el.whish_flg}`;
-                    if (whish_flg == 'true') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="" style="width:19px;">';
-                        whish_function = "deleteWhishList(this);";
-                    } else if (whish_flg == 'false') {
-                        whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                        whish_function = "setWhishList(this);";
-                    }
+                            return ` <div class="wish__btn" product_idx="${el.product_idx}" onClick=${whish_function}>${whish_img}</div>`
+                        }
 
                     productRecommendListHtml = `
                         <div>
-                            <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
-                                ${whish_img}
-                            </div>
+                            ${wishBtnHtml()}
                             <div onClick="location.href='${product_link}'">
                                 <img src="${imgUrl}${el.product_img}" alt="">
                                 <div class="prd-title">${el.product_name}</div>

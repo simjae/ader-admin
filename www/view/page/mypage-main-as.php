@@ -253,7 +253,9 @@
     .select-items div:hover {
         background-color: #dcdcdc;
         border: solid 1px #808080;
-        color: #f5f5f5;
+        color: #343434;
+        margin-top: 1px;
+        border-top: solid 1px #808080;
     }
 
 
@@ -692,7 +694,7 @@
                             <p class="description">
                                 ·&nbsp;제품 전체 및 상세 사진과 파손 부분의 사진을 함께 첨부해주시면 더욱 정확한 확인이 가능합니다.</p>
                             <p style="margin: 10px 0 19.5px;">
-                                ·&nbsp;파일형식은 jpg, png, gif,jpeg,jpe 파일용량은 10MB이하 최대 5개까지만 가능합니다.</p>
+                                ·&nbsp;파일은 jpg, jpeg, png와 gif 형식만 업로드가 가능하며, 용량은 개당 10MB이하 최대 5개까지만 가능합니다.</p>
                         </div>
                         <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
                         <button class="as__black__btn" onclick="asApplyComplete(this)">A/S 신청</button>

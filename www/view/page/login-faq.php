@@ -249,6 +249,10 @@
         display: none;
     }
 
+    .search__keyword ::placeholder {
+        color: #dcdcdc;
+    }
+
     @media (max-width: 1024px) {
         .pc__view {
             display: none

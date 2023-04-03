@@ -2,6 +2,7 @@
     .children__category {
         display: none;
     }
+
     .inquiry__wrap .description::-webkit-scrollbar {
         width: 5px;
     }
@@ -60,6 +61,7 @@
     }
 
     .select-items div:hover {
+        color: #343434;
         background-color: #dcdcdc;
         border: solid 1px #808080;
         border-top: none;
@@ -236,7 +238,9 @@
     .btn__row {
         margin-bottom: 10px;
     }
-
+    .inquiry__wrap .toggle__list .category__title {
+        margin: 10px 0;
+    }
     .category__title span {
         color: #999 !important;
     }
@@ -467,6 +471,10 @@
             padding: 10px 0 20px;
         }
 
+        .inquiry__tab__wrap .footer {
+            margin-bottom: 0;
+        }
+
     }
 
     @media (min-width: 600px) {
@@ -628,7 +636,8 @@
                     </div>
                     <div class="description">
                         <p>·&nbsp;제품 불량 및 오 배송의 경우, 수령하신 제품의 상태와 배송 패키지 사진을 등록 부탁드립니다.</p>
-                        <p style="margin-top: 10px;">·&nbsp;파일은 jpg, jpeg, png와 gif 형식만 업로드가 가능하며, 용량은 개당 10MB이하 최대 5개까지만 가능합니다.</p>
+                        <p style="margin-top: 10px;">·&nbsp;파일은 jpg, jpeg, png와 gif 형식만 업로드가 가능하며, 용량은 개당 10MB이하 최대
+                            5개까지만 가능합니다.</p>
                     </div>
                 </div>
                 <div style="border-top:1px solid #dcdcdc;padding-top:20px;"></div>
@@ -699,17 +708,17 @@
                                     <div class="parents__category">
                                         <div class="faq__category__btn" category-no="${row.no}" onclick="smallCateBtnAction(this)">${row.title}</div>
                                     </div>
-                                    <div class="children__category">
-                            `;
-                            if (row.children != null && row.children.length > 0) {
-                                var child_data = row.children;
-                                var child_data_len = child_data.length;
+                                    `;
+                                    // <div class="children__category">
+                                    // if (row.children != null && row.children.length > 0) {
+                            //     var child_data = row.children;
+                            //     var child_data_len = child_data.length;
 
-                                child_data.forEach(function (child_row) {
-                                    var cateChildDiv = `<div class="child__category__btn" category-no="${child_row.no}" onclick="childCateBtnAction(this)">${child_row.title}</div>`;
-                                    smallCateDiv += cateChildDiv;
-                                })
-                            }
+                            //     child_data.forEach(function (child_row) {
+                            //         var cateChildDiv = `<div class="child__category__btn" category-no="${child_row.no}" onclick="childCateBtnAction(this)">${child_row.title}</div>`;
+                            //         smallCateDiv += cateChildDiv;
+                            //     })
+                            // }
                             smallCateDiv += `
                             </div>
                         `;

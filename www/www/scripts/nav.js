@@ -129,7 +129,9 @@ const webWriteNavHtml = (d) => {
 										return`<li class="pobox"  data-mdl="${idx}">
 											<div class="colaboBox">
 												<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
-												<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}'>
+												<a href="${el.menu_link}">
+													<img src='http://116.124.128.246:80/images/${colaboImg[idx]}'>
+												</a>
 											</div>
 										</li>`
 									}).join("")
@@ -343,8 +345,8 @@ const webPostingStoryHtml = (d) => {
 											<li class="st__box" onClick="location.href='${row_NEW.page_url}'">
 												<div class="newsBox">
 													<img src ='${img_root}${row_NEW.img_location}'>
-													<div class="news-title kr" href="">${row_NEW.story_title}</div>
-													<div class="news-m-title en" href="">${row_NEW.story_sub_title}</div>
+													<div class="news-title kr" href="">${xssDecode(row_NEW.story_title)}</div>
+													<div class="news-m-title en" href="">${xssDecode(row_NEW.story_sub_title)}</div>
 												</div>
 											</li>
 		`;
@@ -492,8 +494,8 @@ const mobileWriteNavHtml = (d) => {
 						<ul class="mdl collaboration">
 							${
 							mdl.map((el,idx) => {
-									return `<a class="mdl__title po__wrap"  href="${el.menu_link}">
-												<img src ='http://116.124.128.246:80/images/${colaboImg[idx]}' class="po__image">
+									return `<a class="mdl__title po__wrap" href="${el.menu_link}">
+												<img src='http://116.124.128.246:80/images/${colaboImg[idx]}' class="po__image">
 												<div class="po__title">${el.menu_title}</div>
 											</a>`
 							}).join("")
@@ -523,7 +525,7 @@ const mobileWriteNavHtml = (d) => {
 				<li class="mobile-search-wrap">
 					<div class="mobile__search__btn lrg__title non_underline"><img src="/images/svg/search-bk.svg" style="width:14px" alt=""><span>검색</span></div>
 				</li>
-				<li class="mobile-customer-wrap">
+				<li class="flex customer">
 					<div class="mobile__customer__btn lrg__title non_underline"><img src="/images/svg/customer-bk.svg" style="width:14px" alt=""><span data-i18n="lm_customer_care_service">고객서비스</span></div>
 				</li>
 				<li class="flex bluemark">
@@ -566,6 +568,17 @@ const mobileWriteNavHtml = (d) => {
 						<div class="language__btn__kr" data-ln='KR'>한국어</div>
 						<div class="language__btn__en" data-ln='EN'>English</div>
 						<div class="language__btn__cn" data-ln='CN'>中文</div>
+					</div>
+				</div>
+			</div>
+			<div class="mobile__customer">
+				<div class="customer__back__btn"></div>
+				<div class="mobile__customer__wrap">
+					<div class="mobile__customer__title">고객서비스</div>
+					<div class="mobile__customer__btn__wrap">
+						<div class="customer__btn__service" onclick="location.href='/login/service'">공지사항</div>
+						<div class="customer__btn__faq" onclick="location.href='/login/faq'">자주 묻는 질문</div>
+						<div class="customer__btn__inquiry" onclick="location.href='http://116.124.128.246/login?r_url=/mypage?mypage_type=inquiry'">문의하기</div>
 					</div>
 				</div>
 			</div>
@@ -633,13 +646,14 @@ const mobilePostingStoryHtml = (d) => {
 	`;
 	
 	column_NEW.forEach(function(row_NEW) {
+		console.log(xssDecode(row_NEW.story_title));
 		storyHtml += `
 									<li class="st__box" onClick="location.href='${row_NEW.page_url}'">
 										<div class="newsBox">
 											<img src ='${img_root}${row_NEW.img_location}'>
 											<div class="news-title-wrap">
-												<div class="news-title" href="">${row_NEW.story_title}</div>
-												<div class="news-m-title" href="">${row_NEW.story_sub_title}</div>
+												<div class="news-title" href="">${xssDecode(row_NEW.story_title)}</div>
+												<div class="news-m-title" href="">${xssDecode(row_NEW.story_sub_title)}</div>
 											</div>
 										</div>
 									</li>
@@ -852,6 +866,19 @@ const menuLrgClick = () => {
 		$(".top, .mid, .bottom").slideDown(500);
 		$(this).closest(".side__menu").removeClass("lrg__on");
 		$(".mobile__language .language__back__btn").removeClass("open");
+	});
+
+	$(".mobile__customer__btn").click(function() {
+		$(".top, .mid, .bottom").slideUp(500);
+		$(".mobile__customer").slideDown(500);
+		$(this).closest(".side__menu").addClass("lrg__on");
+		$(".mobile__customer .customer__back__btn").addClass("open");
+	})
+	$(".mobile__customer .customer__back__btn").click(function(){
+		$(".mobile__customer").slideUp(500);
+		$(".top, .mid, .bottom").slideDown(500);
+		$(this).closest(".side__menu").removeClass("lrg__on");
+		$(".mobile__customer .customer__back__btn").removeClass("open");
 	});
 }
 const logoutClick = () => {
@@ -1169,7 +1196,7 @@ function disableUrlBtn() {
 		}
 		$wishlistBtn.addEventListener("click", function(){
 			if(this.classList.contains("open")){
-//					whishlistClose();
+				//					whishlistClose();
 				location.href="/order/whish";
 			}else {
 				location.href="/order/whish";
