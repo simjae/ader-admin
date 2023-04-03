@@ -136,6 +136,7 @@ function Basket(el, useSidebar) {
 						</div>
 						<div class="pay__btn" id="pay_btn"><span data-i18n="s_checkout">결제하기</span></div>
                         <div class="check_basket_btn" onClick="location.href='/order/basket/list'"><img src="/images/svg/basket-bk_v1.0.svg" alt=""><span data-i18n="s_goto_shoppingbag">쇼핑백 보러가기</span></div>
+                        <p class="pay__notiy">&nbsp;</p> 
 					</div>
 				</section>
 			`;
@@ -237,14 +238,14 @@ function Basket(el, useSidebar) {
 						</label>
 						<a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}"><div class="prd__img" style="background-image:url('http://116.124.128.246:81${el.product_img}') ;"></div></a>
 						<div class="prd__content" data-sales_price="${el.sales_price}" >
-                            ${el.refund_flg && bodyWidth >= 1024 ? `<div class="prd__title">${el.product_name}<p class="refund_msg">교환 반품 불가</p></div>` : `<div class="prd__title">${el.product_name}</div>`}
+                            ${el.refund_msg_flg == 1 && bodyWidth >= 1024 ? `<div class="prd__title">${el.product_name}<p class="refund_msg">교환 반품 불가</p></div>` : `<div class="prd__title">${el.product_name}</div>`}
 							<div class="price">${sales_price}</div>
 							${color_html}
 							<div class="prd__size">
 								<div class="size__box">
 									<li data-soldout="${el.stock_status}">${el.option_name}</li>
                                 </div>
-                                ${el.refund_flg && bodyWidth < 1024 ? `<p class="refund_msg">교환 반품 불가</p>` : ``}
+                                ${el.refund_msg_flg == 1 && bodyWidth < 1024 ? `<p class="refund_msg">교환 반품 불가</p>` : ``}
 							</div>
 							<div class="prd__qty">
                             <div>Qty</div>
@@ -442,11 +443,17 @@ function Basket(el, useSidebar) {
     function deleteBasketInfo() {
         const $checkedDelete = document.querySelector(".st__checked__btn");
         $checkedDelete.addEventListener("click", () => {
-            selfCheckbox("stock", true);
-            let product__box = document.querySelectorAll(".basket__wrap .product__box");
-            if (product__box.length == 0) {
-                console.log("체크")
-                getBasketProductList()
+            let selfCheckbox_cnt = document.querySelectorAll(".self__cb[name='stock']:checked").length;
+			let msgBox = document.querySelector(".pay__notiy");
+            if(selfCheckbox_cnt == 0) {
+                msgBox.innerText = '삭제하실 상품을 선택해주세요.';
+            } else {
+                msgBox.innerText = ' ';
+                selfCheckbox("stock", true);
+                let product__box = document.querySelectorAll(".basket__wrap .product__box");
+                if (product__box.length == 0) {
+                    getBasketProductList();
+                }
             }
         });
     };
@@ -557,9 +564,11 @@ function Basket(el, useSidebar) {
             }
             if (checkCnt == 0) {
                 msgBox.innerText = '결제하실 상품을 선택해주세요.';
+                return false;
             }
 
             if (selectArr.length > 0) {
+                msgBox.innerText = '';
                 location.href = "/order/confirm?&basket_idx=" + selectArr;
             }
         });
@@ -1772,15 +1781,15 @@ function User() {
             </div>
             <div class="user-content">
                 <div class="content-point left">
-                    <div data-i18n="m_mileage">적립금</div>
+                    <div>진행중 주문</div>
                     <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=mileage_first">
-                        <div class="user-mileage">${member_mileage}</div>
+                        <div class="user-orderlist-cnt">0</div>
                     </a>
                 </div>
                 <div class="content-point center">
-                    <div data-i18n="m_prepaid_mileage">예치금</div>
-                    <a class="content-link" href="http://116.124.128.246/mypage">
-                        <div class="user-point">0</div>
+                    <div data-i18n="m_mileage">적립금</div>
+                    <a class="content-link" href="http://116.124.128.246/mypage?mypage_type=mileage_first">
+                        <div class="user-mileage">${member_mileage}</div>
                     </a>
                 </div>
                 <div class="content-point right">
