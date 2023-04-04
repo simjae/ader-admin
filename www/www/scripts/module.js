@@ -1982,7 +1982,7 @@ function User() {
                         </div>
                     </div>
                     <div class="content__wrap login_btn">
-                        <input type="button" class="black_btn" id="login_btn" onclick="login()" value="로그인">
+                        <input type="button" class="black_btn" id="login_btn" onclick="login()" data-i18n="m_login" value="로그인">
                     </div>
                 </form>
                 <div class="content__wrap">
