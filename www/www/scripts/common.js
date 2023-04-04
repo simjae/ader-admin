@@ -173,6 +173,167 @@ let mobileProductDetailWhishSwiperOption = {
     spaceBetween: 5,
     slidesPerView: 5.6
 }
+
+
+
+
+/*------------------------------------------- 위시리스트 ------------------------------------------- */
+/**
+ * @author SIMJAE
+ * @description 모든 상황별 위시리스트 반영 
+ */
+async function updateWishlist(clickEl, data) {
+    let loginStatus = getLoginStatus();
+    let clickTarget = clickEl;
+    let targetLocation = data.location;
+    let targetStatus = data.wishStatus;
+    let targetProductIdx = data.productIdx;
+    let targetUrl = data.url;
+
+    if( loginStatus === 'true' ){
+        changeStatusWishBtn();
+        updateMeunCount();//상단 메뉴 카운트 반영 
+
+    } else {
+        notiModal('로그인 후 이용가능한 서비스 입니다.')
+        let beforUrl = location.href;
+        sessionStorage.setItem('before_url',beforUrl)
+        setTimeout(()=>{
+            location.href = '/login';
+        },1500)
+    }
+
+    
+    function updateCurrentPageUi(){
+        let urlParts = targetUrl.split('?')[0].split('/');
+        let path = '/' + urlParts.slice(3).join('/');
+        if(path === 'list'){
+            console.log('상품리스트');
+        } else if(path === '/product/detail'){
+            changeModuleWishBtn(productIdx)
+        } else if(path === '/mypage') {
+            wish.update();
+        } else if(targetUrl.includes('/order/whish')) {
+            getWhishProductList();
+        }
+    }
+    function changeModuleWishBtn(param) {
+        let $$wishBtn = document.querySelectorAll('.wish__btn');
+        $$wishBtn.forEach((el) => {
+            if(el.getAttribute('product_idx') == param){
+                if(clickTarget.querySelector('img').dataset.status == 'true'){
+                    el.querySelector('img').dataset.status = true;
+                    el.querySelector('img').setAttribute('src', '/images/svg/wishlist-bk.svg');
+                }else {
+                    el.querySelector('img').dataset.status = false;
+                    el.querySelector('img').setAttribute('src', '/images/svg/wishlist.svg');
+
+                }
+            }
+        })
+    }
+    //선택한 하트의 색상, 상태 반영 
+    function changeStatusWishBtn() {
+        clickTarget.querySelector('img').style.width = '19px';
+        if(clickTarget.querySelector('img').dataset.status == 'true'){
+            clickTarget.querySelector('img').dataset.status = false;
+            clickTarget.querySelector('img').setAttribute('src', '/images/svg/wishlist.svg');
+            mypageDeleteWishApi(targetProductIdx);
+
+        }else {
+            clickTarget.querySelector('img').dataset.status = true;
+            clickTarget.querySelector('img').setAttribute('src', '/images/svg/wishlist-bk.svg');
+            addWishApi(targetProductIdx);
+
+            
+        }
+    }
+    function addWishApi(productIdx){
+        if (productIdx != null) {
+            $.ajax({
+                type: "post",
+                data: {
+                    "product_idx": productIdx
+                },
+                dataType: "json",
+                url: "http://116.124.128.246:80/_api/order/whish/add",
+                error: function () {
+                    alert("위시리스트 등록/해제 처리에 실패했습니다.");
+                },
+                success: function (d) {
+                    let code = d.code;
+                    let msg = d.msg;
+                    let data =  d.data;
+                    if (code == "200") {
+                        document.querySelector('.header__wrap .wishlist__btn').dataset.cnt = data;
+                        updateCurrentPageUi();
+
+                        // let wishlist = [];
+                        // let wishlistCookie = getCookie('wishlist');
+                        // if (wishlistCookie) {
+                        //     wishlist = JSON.parse(wishlistCookie);
+                        // }
+                        // wishlist.push({ product_idx: product_idx });
+                        // wishlistCookie = JSON.stringify(wishlist);
+                        // setCookie('wishlist', wishlistCookie, 365);
+                    }
+                    return 
+                }
+            });
+        }
+    }
+    function mypageDeleteWishApi(productIdx){
+        if (productIdx != null) {
+            $.ajax({
+                type: "post",
+                data: {
+                    "product_idx": productIdx
+                },
+                dataType: "json",
+                url: "http://116.124.128.246:80/_api/order/whish/delete",
+                error: function () {
+                    alert("위시리스트 등록/해제 처리에 실패했습니다.");
+                },
+                success: function (d) {
+                    let code = d.code;
+                    let msg = d.msg;
+                    let data =  d.data;
+                    if (code == "200") {
+                        //
+                        document.querySelector('.header__wrap .wishlist__btn').dataset.cnt = data;
+                        updateCurrentPageUi();
+                        
+                    }
+                }
+            });
+        }
+    }   
+    function updateMeunCount() {
+        console.log('상단메뉴 위시리스트 카운트 업데이트')
+    }
+    function updateWhishList() {
+        console.log('위시리스트페이지 위시리스트 UI 업데이트')
+    }
+    function updateMypageWhishList() {
+        console.log('마이페이지 위시리스트 UI 업데이트')
+    }
+    function updateQuickViewWhishList() {
+        console.log('퀵뷰 스와이프 UI 업데이트')
+    }
+}
+function addWhishEvent() {
+    //상품 클래스 wish__btn
+    //메뉴 클래스 whihs__btn
+    let btn = document.querySelectorAll('.wish__btn');
+    [...btn].map((el, idx) => {
+        el.addEventListener('click', function(e){
+            let currentPage = e.currentTarget.dataset.product_idx;
+            console.log(e.target)
+            console.log(e.currentTarget.dataset.product_idx)
+            console.log(currentPage)
+        })
+    })
+}
 //위시리스트 함수 
 function setWhishListBtn(obj) {
     let product_idx = $(obj).attr('product_idx');
@@ -224,7 +385,49 @@ function setWhishListBtn(obj) {
         });
     }
 }
+const deleteWhish = (obj) => {
+    let product_idx = $(obj).attr('product_idx');
+    let basket_wrap = $(obj).parent().parent();
+    let whish_list_cnt = document.querySelectorAll('.whish_list_mp').length;
+    if (product_idx != null) {
+        $.ajax({
+            type: "post",
+            data: {
+                "product_idx": product_idx
+            },
+            dataType: "json",
+            url: "http://116.124.128.246:80/_api/order/whish/delete",
+            error: function () {
+                alert("위시리스트 등록/해제 처리에 실패했습니다.");
+            },
+            success: function (d) {
+                let code = d.code;
 
+                if (code == "200") {
+                    basket_wrap.remove();
+                    changeWishBtnStatus(product_idx);
+                    if(whish_list_cnt == 1) {
+                        let swiperContainer = document.querySelector(".swiper-grid");
+                        let swiperMsgWrap = document.createElement("div");
+                        swiperMsgWrap.className = "no_whishlist_msg";
+                        swiperMsgWrap.textContent = "위시리스트가 비어있습니다."
+                        swiperContainer.appendChild(swiperMsgWrap);
+                    }
+                    document.querySelector('.header__wrap .wishlist__btn').dataset.cnt = d.data;
+                }
+                function changeWishBtnStatus(params) {
+                    let $$wishBtn = document.querySelectorAll('.wish__btn');
+                    $$wishBtn.forEach((el) => {
+                        if(el.getAttribute('product_idx') == product_idx){
+                            el.querySelector('img').dataset.status = false;
+                            el.querySelector('img').setAttribute('src', '/images/svg/wishlist.svg');
+                        }
+                })
+                }
+            }
+        });
+    }
+}
 function deleteWhishListBtn(obj) {
     let product_idx = $(obj).attr('product_idx');
     let basket_wrap = $(obj).parent().parent();
@@ -262,38 +465,12 @@ function deleteWhishListBtn(obj) {
         });
     }
 }
-function deleteWhish(obj) {
-    let product_idx = $(obj).attr('product_idx');
-    let basket_wrap = $(obj).parent().parent();
-    let whish_list_cnt = document.querySelectorAll('.whish_list_mp').length;
-    if (product_idx != null) {
-        $.ajax({
-            type: "post",
-            data: {
-                "product_idx": product_idx
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/order/whish/delete",
-            error: function () {
-                alert("위시리스트 등록/해제 처리에 실패했습니다.");
-            },
-            success: function (d) {
-                let code = d.code;
 
-                if (code == "200") {
-                    basket_wrap.remove();
-                    if(whish_list_cnt == 1) {
-                        let swiperContainer = document.querySelector(".swiper-grid");
-                        let swiperMsgWrap = document.createElement("div");
-                        swiperMsgWrap.className = "no_whishlist_msg";
-                        swiperMsgWrap.textContent = "위시리스트가 비어있습니다."
-                        swiperContainer.appendChild(swiperMsgWrap);
-                    }
-                }
-            }
-        });
-    }
-}
+
+
+/*------------------------------------------- 위시리스트 ------------------------------------------- */
+
+
 
 function createFooterObserver() {
     let observer;
@@ -337,9 +514,6 @@ function createFooterObserver() {
     });
 */
 }
-
-
-
 /**
  * @author 김성식
  * @description 세로 스크롤바 사이즈 반환
