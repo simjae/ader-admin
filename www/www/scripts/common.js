@@ -1,4 +1,5 @@
-
+let cdn_img = "https://cdn-ader-orig.fastedge.net";
+let cdn_vid = "https://media-ader.fastedge.net/adervod/_definst_";
 /**
  * @author SIMJAE
  * @param {String} elem 해당레이아웃 클래스나 , id
@@ -210,7 +211,7 @@ async function updateWishlist(clickEl, data) {
         if(path === 'list'){
             console.log('상품리스트');
         } else if(path === '/product/detail'){
-            changeModuleWishBtn(productIdx)
+            changeModuleWishBtn(targetProductIdx)
         } else if(path === '/mypage') {
             wish.update();
         } else if(targetUrl.includes('/order/whish')) {
@@ -785,3 +786,4 @@ window.addEventListener("DOMContentLoaded", function () {
 window.addEventListener("load", function(){
     changeLanguage(); 
 })
+
