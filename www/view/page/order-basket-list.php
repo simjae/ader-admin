@@ -11,9 +11,6 @@
 ?>
 <style>main{overflow-x: initial;}</style>
 <script>
+	const basket = new BasketPage("basket");
 	const foryou = new ForyouRender();
-</script>
-<script type="module">
-    import { Basket} from '/scripts/module/basket.js';
-    const basket = new Basket("basket",false);
 </script>
