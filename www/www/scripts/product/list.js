@@ -112,23 +112,32 @@ function productWriteHtml(grid_info) {
     let productListHtml = "";
     grid_info.forEach(el => {
         if (el.grid_type == "PRD") {
-            let whish_img = "";
-            let whish_function = "";
-
-            let whish_flg = `${el.whish_flg}`;
-            let login_status = getLoginStatus();
-
-            if (login_status == "true") {
-                if (whish_flg == 'true') {
-                    whish_img = '<img class="whish_img" src="/images/svg/wishlist-bk.svg" alt="">';
-                    whish_function = "deleteWhishListBtn(this);";
-                } else if (whish_flg == 'false') {
-                    whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                    whish_function = "setWhishListBtn(this);";
+            let wishBtnHtml = () => {
+                let wishObj = {
+                    location : 'foryou',
+                    wishStatus: el.whish_flg,
+                    productIdx: el.product_idx,
+                    url: new URL(location.href)
                 }
-            } else {
-                whish_img = '<img class="whish_img" src="/images/svg/wishlist.svg" alt="">';
-                whish_function = "return false;";
+                let whish_flg = `${el.whish_flg}`;
+                let whish_img = "";
+                let whish_function = "";
+                let login_status = getLoginStatus();
+                console.log("🏂 ~ file: foryou.js:55 ~ wishBtnHtml ~ login_status:", login_status)
+                if (login_status == "true") {
+                    if (whish_flg == 'true') {
+                        whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist-bk.svg" alt="">`;
+                        whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                    } else if (whish_flg == 'false') {
+                        whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                        whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                    }
+                } else {
+                    whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist.svg" alt="">`;
+                    whish_function = `updateWishlist(this,${JSON.stringify(wishObj)});`;
+                }
+
+                return ` <div class="wish__btn" product_idx="${el.product_idx}" onClick=${whish_function}>${whish_img}</div>`
             }
 
             let saleprice = parseInt(el.sales_price).toLocaleString('ko-KR');
@@ -181,9 +190,7 @@ function productWriteHtml(grid_info) {
             }
             productListHtml +=
                 `<div class="product prd">
-                <div class="wish__btn" whish_idx="" product_idx="${el.product_idx}" onClick="${whish_function}">
-                    ${whish_img}
-                </div>
+                ${wishBtnHtml()}
                 <a href="http://116.124.128.246:80/${el.link_url}">
                     <div class="product-img swiper" onClick="location.href='/product/detail?product_idx=${el.product_idx}'">
                         <div class="swiper-wrapper">

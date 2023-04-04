@@ -36,11 +36,12 @@
 
     body {
         font-family: var(--ft-no-fu);
-        /* background-color: #222; */
-        /* color: #ffffff; */
         color: var(--bk);
     }
 
+    .product .product-info .info-row .color__box .color-line {
+        border-radius: 50%;
+    }
     .height-eraser {
         height: auto !important;
     }
@@ -172,10 +173,8 @@
     }
 
     .content.right.open .add-list-wrap {
-        /* display: block; */
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
         top: 200px;
         position: sticky;
         width: 360px;
@@ -245,6 +244,7 @@
         min-height: 40px;
         align-items: center;
         gap: 15px;
+        flex-wrap: wrap;
     }
 
     .info-box .option-box .size__box .size.select {
@@ -292,7 +292,8 @@
         position: absolute;
         right: 0;
         margin: 20px;
-        width: 13px;
+        height: 10px;
+        width: 10px;
     }
 
     .remove-btn img:nth-of-type(2) {
@@ -312,6 +313,7 @@
         justify-content: center;
         height: 30px;
         align-items: center;
+        font-family: var(--ft-no-fu);
     }
 
     .product-select-btn[data-status='0'] {
@@ -398,7 +400,9 @@
         text-align: right;
         color: var(--bk);
     }
-
+    .size__box li[data-soldout="STSO"]::after {
+        content: none;
+    }
     .size__box li {
         cursor: pointer;
         height: 15px;
@@ -434,34 +438,32 @@
         top: -2px;
     }
 
-    .size__box .stock-stcl:hover::before {
+    .whishlist-section .size__box .stock-stcl:hover::before {
         content: "Only a few left";
         position: absolute;
         width: 80px;
         top: 17px;
         left: -5px !important;
         color: red;
-        background-color: #ffffff;
     }
 
-    .size__box li[data-soldout="STCL"]:hover::before {
+    .whishlist-section .size__box li[data-soldout="STCL"]:hover::before {
         content: "Only a few left";
         position: absolute;
         width: 80px;
         top: 17px;
         left: -35px;
         color: red;
-        background-color: #ffffff;
     }
 
-    .size__box li[data-soldout="STCL"]::after {
+    .whishlist-section .size__box li[data-soldout="STCL"]::after {
         content: '';
         position: unset;
         bottom: 0;
         right: 0;
     }
 
-    .size__box li[data-soldout="STCL"] p {
+    .whishlist-section .size__box li[data-soldout="STCL"] p {
         content: url(/images/svg/wish-redsold.svg);
         position: absolute;
         top: -3px;
@@ -470,24 +472,26 @@
         pointer-events: none;
     }
 
-    .size__box li[data-soldout="STSC"]:hover::after {
+    .whishlist-section .size__box li[data-soldout="STSC"]:hover::after {
         content: url(/images/svg/sold-line.svg);
         position: absolute;
         right: 1px;
         top: -2px;
+        opacity: 0.5;
     }
-    .size__box li[data-soldout="STSO"]::after {
+    .whishlist-section .size__box li[data-soldout="STSO"]::after {
         border: 0;
+        content: none!important;
     }
 
-    .size__box .size.select[data-soldout="STSC"]::after {
+    .whishlist-section .size__box .size.select[data-soldout="STSC"]::after {
         content: url(/images/svg/sold-line.svg);
         position: absolute;
         right: 1px;
         top: -2px;
     }
 
-    .size__box .stock-stsc:hover::before {
+    .whishlist-section .size__box .stock-stsc:hover::before {
         content: "Re-order";
         position: absolute;
         width: 50px;
@@ -495,7 +499,7 @@
         left: -5px !important;
     }
 
-    .size__box li[data-soldout="STSC"]:hover::before {
+    .whishlist-section .size__box li[data-soldout="STSC"]:hover::before {
         content: "Re-order";
         position: absolute;
         width: 50px;
@@ -578,7 +582,6 @@
     }
 
     .option-noti .noti-text {
-        /* background-color: #ffffff; */
         width: 80%;
         text-align: right;
         text-decoration: underline;
@@ -590,7 +593,7 @@
 
     @media (max-width:1025px) {
         .no-whishlist-btn {
-            width: 90%;
+            width: 100%;
         }
         .add-list-wrap .basket-link-btn-wrap {
             align-items: center;
@@ -598,7 +601,7 @@
         .shrink-list {
             height: 0!important;
         }
-        .size__box .size[data-soldout="STCL"]:hover::before {
+        .whishlist-section .size__box .size[data-soldout="STCL"]:hover::before {
             content: "";
             position: absolute;
             width: 80px;
@@ -606,7 +609,7 @@
             left: -35px;
             background-color: #ffffff;
         }
-        .size__box .size.select[data-soldout="STCL"]:hover::before {
+        .whishlist-section .size__box .size.select[data-soldout="STCL"]:hover::before {
             content: "Only a few left";
             position: absolute;
             width: 80px;
@@ -619,6 +622,7 @@
             border-bottom: 0;
         }
         .content.right.open .add-list-wrap {
+            width: auto;
             position: sticky;
             height: auto!important;
         }
@@ -664,6 +668,7 @@
         }
 
         .content.right {
+            display: none;
             background-color: #ffffff;
             position: fixed;
             bottom: 0;
@@ -682,7 +687,7 @@
 
         .add-list-wrap {
             overflow-x: hidden;
-            padding: 10px 0 10px 10px;
+            padding: 10px 0;
             position: relative;
             z-index: 20;
         }
@@ -692,6 +697,7 @@
         }
 
         .add-list-wrap .quick-menu-wrap {
+            margin-left: 10px;
             width: calc(100% - 45px);
         }
 
@@ -737,8 +743,6 @@
         .quick-menu-wrap .swiper-button-next {
             right: 20px;
             height: 10%;
-            /* top: -5px;
-            margin: 0; */
         }
 
         .quick-menu-wrap .swiper-button-prev {
@@ -775,13 +779,14 @@ if ($member_idx == 0) {
         </div>
     </div>
     <section class="whishlist-section">
+        <input id="wish-product-cnt" type="hidden" />
         <div class="temp-div"></div>
         <div class="content left">
             <div class="body-wrap list">
-                <input id="wish-product-cnt" type="hidden" />
+                
             </div>
         </div>
-        <div class="content right hidden">
+        <div class="content right">
             <div class="add-list-wrap">
                 <div>
                     <div class="header-wrap">
@@ -820,14 +825,15 @@ if ($member_idx == 0) {
         let scroll = currentScroll();
         let banner = document.querySelector(".banner-wrap");
         let addList = document.querySelector(".add-list-wrap");
-        if (scroll >= shirinkStart) {
+        if (banner && addList && scroll >= shirinkStart) {
             banner.classList.add("shrink-banner");
             addList.classList.add("shrink-list");
         } else {
-            banner.classList.remove("shrink-banner");
-            addList.classList.remove("shrink-list");
+            banner && banner.classList.remove("shrink-banner");
+            addList && addList.classList.remove("shrink-list");
         }
     })
+
 
     function currentScroll() {
         return window.pageYOffset || document.documentElement.scrollTop;
@@ -876,8 +882,7 @@ if ($member_idx == 0) {
         $.ajax({
             type: "post",
             data: {
-                "country": getLanguage(),
-                "MEMBER_IDX": 1
+                "country": getLanguage()
             },
             dataType: "json",
             url: "http://116.124.128.246:80/_api/order/whish/list/get",
@@ -893,7 +898,7 @@ if ($member_idx == 0) {
                     contentWrap.classList.add("boder-eraser");
                     bodyWrap.classList.add("boder-eraser");
                     wishlistSection.classList.add("no-whishlist-section");
-                    contentWrap.innerHTML = `
+                    bodyWrap.innerHTML = `
                     <div class="no-whishlist-wrap">
                         <div class="no-whishlist-msg">위시리스트가 비어있습니다</div>
                         <div class="no-whishlist-btn" onclick="location.href='/product/list?page_idx=1&menu_sort=L&menu_idx=1'">쇼핑 계속하기</div>
@@ -912,6 +917,7 @@ if ($member_idx == 0) {
     }
     /*-------------------------화면 그리기-------------------------- */
     function whishListWrite(whishlist) {
+        document.querySelector(".content .body-wrap.list").innerHTML =''
         const bodyWrap = document.querySelector(".content .body-wrap.list");
         let productWrap = document.createElement("div");
         productWrap.classList.add("product-wrap");
@@ -925,13 +931,13 @@ if ($member_idx == 0) {
 
             if (multi.length === 2) {
                 productColorHtml += `
-                    <div class="color-line" style="--background:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
+                    <div class="color-line" style="background-color:linear-gradient(90deg, ${multi[0]} 50%, ${multi[1]} 50%);">
                         <div class="color multi" data-title="${multi}"></div>
                     </div>
                 `;
             } else {
                 productColorHtml += `
-                    <div class="color-line" style="--background-color:${multi[0]}" >
+                    <div class="color-line" style="background-color:${multi[0]}" >
                         <div class="color" data-title="${multi}"></div>
                     </div>
                 `;
@@ -961,7 +967,7 @@ if ($member_idx == 0) {
             });
 
             productHtml += `
-                <div class="body-list product" data-whish=${el.whish_idx}>
+                <div class="body-list product" data-whish=${el.whish_idx} data-idx=${el.product_idx}>
                     <div class="product-info">
                         <div class="remove-btn"> 
                             <img src="/images/svg/sold-line.svg">
@@ -1281,13 +1287,13 @@ if ($member_idx == 0) {
             url: "http://116.124.128.246:80/_api/order/whish/delete",
             error: function () { },
             success: function (d) {
-                
                 let product = document.querySelectorAll(".product-wrap .product");
-                
                 let result = [...product].find(el => el.dataset.whish === whishIdx);
                 if(result != null) {
                     result.remove();
                     removeAddList(whishIdx);
+                    foryou.changeWishBtnStatus(result.dataset.idx)
+                    document.querySelector('.header__wrap .wishlist__btn').dataset.cnt = d.data;
                 }
             }
         });
@@ -1430,13 +1436,13 @@ if ($member_idx == 0) {
 
             addListWrap.classList.remove("hidden");
             allRemoveBtn.classList.remove("hidden");
-            contentRight.classList.remove("hidden");
+            // contentRight.classList.remove("hidden");
         } else {
             contentRight.classList.remove("open");
 
             addListWrap.classList.add("hidden");
             allRemoveBtn.classList.add("hidden");
-            contentRight.classList.add("hidden");
+            // contentRight.classList.add("hidden");
         }
     }
     //퀵슬라이드 클릭시 스크롤 이동
@@ -1451,7 +1457,7 @@ if ($member_idx == 0) {
     }
     let cntTarget = document.getElementById("wish-product-cnt");
     let tempWrap = document.querySelector(".whishlist-section .body-wrap");
-    let bodyWrapL = document.querySelector(".whishlist-section .left");
+    let bodyWrapL = document.querySelector(".whishlist-section .body-wrap.list");
     let bodyWrapR = document.querySelector(".whishlist-section .right");
     let wishlistSection = document.querySelector(".whishlist-section");
 
@@ -1483,9 +1489,6 @@ if ($member_idx == 0) {
     }
     btnObserver.observe(cntTarget, btnObConfig);
 /*------------------------- css조작 스크립트 -------------------------- */
-</script>
+const foryou = new ForyouRender();
 
-<script type="module">
-    import ForyouRender from '/scripts/module/foryou.js';
-    const foryou = new ForyouRender();
 </script>

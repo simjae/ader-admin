@@ -6,6 +6,25 @@ const productIdx = urlParams.get('product_idx');
 const productDetailInfoArr = getProductDetailInfo(productIdx);
 const sizeGuideData = getSizeGudieApi(productIdx);
 
+
+const foryou = new ForyouRender();
+$.ajax({
+    type: "post",
+    data: {
+        "product_idx": productIdx,
+        "country": getLanguage()
+    },
+    dataType: "json",
+    url: "http://116.124.128.246:80/_api/product/get",
+    error: function () {
+        alert("상품 진열 페이지 불러오기 처리에 실패했습니다.");
+    },
+    success: function (d) {
+        let relevant_idx = d.data[0].relevant_idx;
+        const styling = new StylingRender(relevant_idx);
+    }
+})
+
 function getSizeGudieApi(productIdx) {
     let result;
     $.ajax({
@@ -213,7 +232,7 @@ function makeProductListFlag(d) {
             <div class="product__size">
             <div class="size__title">
             <span>Size</span>
-            <span class="red_noti">Only a few left</span></div>
+            <span class="red_noti">·&nbsp;Only a few left</span></div>
                 <div class="size__box">
                     ${productSizeHtml()}
                 </div>
