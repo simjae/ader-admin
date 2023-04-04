@@ -1,4 +1,4 @@
-export default function StylingRender(relevant_idx) {
+function StylingRender(relevant_idx) {
     let relevantIdx = relevant_idx;
     console.log("🏂 ~ file: styling.js:4 ~ StylingRender ~ relevantIdx", relevantIdx)
     this.makeHtml = (() => {
@@ -47,7 +47,7 @@ export default function StylingRender(relevant_idx) {
                     data.forEach(el => {
                         let prdListSlide = document.createElement("div");
                         prdListSlide.classList.add("swiper-slide");
-                        let wishEvent = () => {
+                        let wishBtnHtml = () => {
                             let wishObj = {
                                 location : 'foryou',
                                 wishStatus: el.whish_flg,
@@ -58,7 +58,7 @@ export default function StylingRender(relevant_idx) {
                             let whish_img = "";
                             let whish_function = "";
                             let login_status = getLoginStatus();
-                            console.log("🏂 ~ file: foryou.js:55 ~ wishEvent ~ login_status:", login_status)
+                            console.log("🏂 ~ file: foryou.js:55 ~ wishBtnHtml ~ login_status:", login_status)
                             if (login_status == "true") {
                                 if (whish_flg == 'true') {
                                     whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist-bk.svg" alt="">`;
@@ -81,7 +81,7 @@ export default function StylingRender(relevant_idx) {
     
                         productRecommendListHtml =
                             `<div class="product">
-                            ${wishEvent()}
+                            ${wishBtnHtml()}
                                 
                                 <a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
                                     <div class="product-img swiper">
@@ -151,4 +151,13 @@ export default function StylingRender(relevant_idx) {
             }
             });
     })();
+    this.changeWishBtnStatus = (productIdx) => {
+        let $$wishBtn = document.querySelectorAll('.wish__btn');
+        $$wishBtn.forEach((el) => {
+            if(el.getAttribute('product_idx') == productIdx){
+                el.querySelector('img').dataset.status = false;
+                el.querySelector('img').setAttribute('src', '/images/svg/wishlist.svg');
+            }
+        })
+    }
 }

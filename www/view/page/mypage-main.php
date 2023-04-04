@@ -1380,11 +1380,7 @@ $mypage_type = getUrlParamter($page_url, 'mypage_type');
         selectDiv.find('.select-selected').on('click', function () {
             selectDiv.find('.select-items').toggle();
         });
-    }
-</script>
-<script type="module">
-    import WishlistRender from '/scripts/module/wishlist.js';
-    import ForyouRender from '/scripts/module/foryou.js';
-    const wish = new WishlistRender();
+    }   
     const foryou = new ForyouRender();
+    const wish = new WishlistRender();
 </script>

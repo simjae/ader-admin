@@ -164,8 +164,7 @@
 	<section class="styling-with-wrap"></section>
 </main>
 <script src="/scripts/story/runway.js"></script>
-<script type="module">
-import StylingRender from '/scripts/module/styling.js';
+<script>
 let vctrbox  = new Vctrbox(".vplayer");
 
 let main = document.querySelector("main");

@@ -80,9 +80,13 @@
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 		<script src="/scripts/common.js" ></script>
+		<!-- 모듈 -->
 		<script src="/scripts/module.js" ></script>
+		<script src="/scripts/module/foryou.js" ></script>
+		<script src="/scripts/module/wishlist.js" ></script>
+		<script src="/scripts/module/styling.js" ></script>
+		<!-- 모듈 -->
 		<meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
-
 		<!-- Apple id -->
 		<meta name="appleid-signin-client-id" content="[CLIENT_ID]">
 		<meta name="appleid-signin-scope" content="[SCOPES]">

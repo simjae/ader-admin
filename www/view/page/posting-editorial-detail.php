@@ -167,8 +167,7 @@
 
 <script src="/scripts/story/editorial.js"></script>
 
-<script type="module">
-import StylingRender from '/scripts/module/styling.js';
+<script>
 let vctrbox  = new Vctrbox(".vplayer");
 
 let main = document.querySelector("main");

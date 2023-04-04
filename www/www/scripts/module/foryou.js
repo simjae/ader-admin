@@ -1,5 +1,5 @@
 
-export default function ForyouRender() {
+function ForyouRender() {
     this.makeHtml = (() => {
         const sectionWrap = document.querySelector(".recommend-wrap")
         const wrap = document.createElement("aside");
@@ -41,7 +41,7 @@ export default function ForyouRender() {
                     data.forEach(el => {
                         let prdListSlide = document.createElement("div");
                         prdListSlide.classList.add("swiper-slide");
-                        let wishEvent = () => {
+                        let wishBtnHtml = () => {
                             let wishObj = {
                                 location : 'foryou',
                                 wishStatus: el.whish_flg,
@@ -52,7 +52,6 @@ export default function ForyouRender() {
                             let whish_img = "";
                             let whish_function = "";
                             let login_status = getLoginStatus();
-                            console.log("🏂 ~ file: foryou.js:55 ~ wishEvent ~ login_status:", login_status)
                             if (login_status == "true") {
                                 if (whish_flg == 'true') {
                                     whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist-bk.svg" alt="">`;
@@ -74,7 +73,7 @@ export default function ForyouRender() {
     
                         productRecommendListHtml =
                             `<div class="product">
-                                ${wishEvent()}
+                                ${wishBtnHtml()}
                                 <a href="http://116.124.128.246:80/product/detail?product_idx=${el.product_idx}">
                                     <div class="product-img swiper">
                                         <img class="prd-img" cnt="${el.product_idx}" src="${imgUrl}${el.product_img}" alt="">
@@ -129,7 +128,6 @@ export default function ForyouRender() {
     // }
 
     // attrObserver.observe(attrTarget, attrObConfig);
-
     this.swiper = (() => {
         return new Swiper(".foryou-swiper", {
             navigation: {
@@ -156,4 +154,14 @@ export default function ForyouRender() {
             }
             });
     })();
+    this.changeWishBtnStatus = (productIdx) => {
+        let $$wishBtn = document.querySelectorAll('.wish__btn');
+        $$wishBtn.forEach((el) => {
+            if(el.getAttribute('product_idx') == productIdx){
+                el.querySelector('img').dataset.status = false;
+                el.querySelector('img').setAttribute('src', '/images/svg/wishlist.svg');
+            }
+        })
+    }
+    
 }

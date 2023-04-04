@@ -395,10 +395,7 @@ $product_idx = getUrlParamter($page_url, 'product_idx');
 
 </script>
 <script src="/scripts/product/detail.js"></script>
-<script type="module"></script> 
-<script type="module">
-	import StylingRender from '/scripts/module/styling.js';
-	import ForyouRender from '/scripts/module/foryou.js';
+<script>
 	const foryou = new ForyouRender();
 	let main = document.querySelector("main");
     let country = main.dataset.country;
