@@ -1,9 +1,3 @@
-// import {Sidebar} from '/scripts/module/sidebar.js';
-// import {Basket} from '/scripts/module/basket.js';
-// import {Bluemark} from '/scripts/module/bluemark.js';
-// import {Language} from '/scripts/module/language.js';
-// import {Search} from '/scripts/module/search-popular.js';
-// import {User} from '/scripts/module/user.js';
 var headerSwiperArr = new Array();
 	
 let clickPosition = 0; 
@@ -69,12 +63,14 @@ const webWriteNavHtml = (d) => {
 			<ul class="hover_bg_act menu__wrap left">
 	`;
 	
+	let menu_num = 1;
 	menu_info.forEach((el, idx) => {
-		let lrgDiv = document.createElement("div");
-		let mdl = el.menu_mdl;
-		if( el.menu_type !="PO") {
+		let menu_slide = el.menu_slide;
+		let menu_hl1 = el.menu_hl1;
+		
+		if (menu_num <= 4) {
 			menuHtml += `
-				<li class="drop web" data-type="${el.menu_type}" data-lrg="${idx}">
+				<li class="drop web" data-lrg="${idx}">
 					<a class="menu-ul lrg" href="${el.menu_link}">${el.menu_title}</a>
 					<div class="drop__menu">
 						<ul class="cont pr__menu">
@@ -82,10 +78,10 @@ const webWriteNavHtml = (d) => {
 								<div class="swiper swiper__box" data-id="${idx}" id="menuSwiper${idx}">
 									<div class="swiper-wrapper">
 										${
-											el.menu_slide.map((el, idx) => {
-												return`<div class="swiper-slide" data-title="${el.slide_name}">
+											menu_slide.map((el, idx) => {
+												return`<div class="swiper-slide" data-title="${el.slide_title}">
 														<div>
-															<img src="${img_root}${el.slide_img}" alt="" style="margin-left: auto;margin-right: auto;">
+															<img src="${cdn_img}${el.img_location}" alt="" style="margin-left: auto;margin-right: auto;">
 														</div>
 													</div>`
 											}).join("")
@@ -96,12 +92,12 @@ const webWriteNavHtml = (d) => {
 								</div>  
 							</li>
 							${
-								mdl.map((el , idx)=> {
+								menu_hl1.map((el , idx)=> {
 								return`<li data-mdl="${idx}">
 											<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
 											<ul class="sma__wrap">
 											${
-												el.menu_sml.map((el, idx)=> {
+												el.menu_hl2.map((el, idx)=> {
 													return`<li><a class="menu-ul sml" href="${el.menu_link}">${el.menu_title}</a></li>`
 												}).join("")
 											}
@@ -113,11 +109,9 @@ const webWriteNavHtml = (d) => {
 					</div>
 				</li>
 			`;
-		}
-		
-		if( el.menu_type =="PO") {
+		} else {
 			menuHtml += `
-				<li class="drop web" data-type="${el.menu_type}" data-lrg="${idx}">
+				<li class="drop web" data-lrg="${idx}">
 					<a class="menu-ul lrg" href="${el.menu_link}">${el.menu_title}</a>
 					<div class="drop__menu">
 						<ul class="cont po__menu">
@@ -125,7 +119,7 @@ const webWriteNavHtml = (d) => {
 							<li>
 								<ul class="po__cont">
 									${
-										mdl.map((el , idx)=> {
+										menu_hl1.map((el , idx)=> {
 										return`<li class="pobox"  data-mdl="${idx}">
 											<div class="colaboBox">
 												<a class="mid-a menu-ul" href="${el.menu_link}">${el.menu_title}</a>
@@ -152,6 +146,8 @@ const webWriteNavHtml = (d) => {
 				</li>
 			`;
 		}
+		
+		menu_num++;
 	});
 	
 	menuHtml +=`
@@ -344,7 +340,7 @@ const webPostingStoryHtml = (d) => {
 		storyHtml += `
 											<li class="st__box" onClick="location.href='${row_NEW.page_url}'">
 												<div class="newsBox">
-													<img src ='${img_root}${row_NEW.img_location}'>
+													<img src ='${cdn_img + row_NEW.img_location}'>
 													<div class="news-title kr" href="">${xssDecode(row_NEW.story_title)}</div>
 													<div class="news-m-title en" href="">${xssDecode(row_NEW.story_sub_title)}</div>
 												</div>
@@ -445,12 +441,14 @@ const mobileWriteNavHtml = (d) => {
 	domfrag.appendChild(mobileMenu);
 	let colaboImg = ["/sample/colabo1.png","/sample/colabo2.png","/sample/colabo3.png","/sample/colabo4.png","/sample/colabo5.png"];
 	let menuHtml = 
-	`<ul class="top">`
+	`<ul class="top">`;
 	
+	let menu_num = 1;
 	menu_info.forEach((el, idx) => {
-		let mdl = el.menu_mdl;
+		let menu_hl1 = el.menu_hl1;
+		let menu_slide = el.menu_slide;
 		
-		if( el.menu_type =="PR") {
+		if (menu_num <= 4) {
 			menuHtml += `
 				<li class="lrg" data-lrg="${idx}">
 					<div class="lrg__back__btn"></div>
@@ -459,7 +457,7 @@ const mobileWriteNavHtml = (d) => {
 						<ul class="mdl">
 							<a class="mdl__title" data-i18n="lm_view_all" href="${el.menu_link}">전체보기</a>
 							${
-							mdl.map((el,idx) => {
+							menu_hl1.map((el,idx) => {
 									return `<a class="mdl__title"  href="${el.menu_link}">${el.menu_title}</a>`
 							}).join("")
 							}
@@ -467,10 +465,10 @@ const mobileWriteNavHtml = (d) => {
 								<div class="swiper m__swiper__box" data-id="${idx}" id="mobileMenuSwiper${idx}">
 										<div class="swiper-wrapper">
 											${
-												el.menu_slide.map((el, idx) => {
-													return`<div class="swiper-slide" data-title="${el.slide_name}">
+												menu_slide.map((el, idx) => {
+													return`<div class="swiper-slide" data-title="${el.slide_title}">
 															<div>
-																<img src="${img_root}${el.slide_img}" alt="" style="max-height:110px;max-width:110px;">
+																<img src="${cdn_img}${el.img_location}" alt="" style="max-height:110px;max-width:110px;">
 															</div>
 														</div>`
 												}).join("")
@@ -484,14 +482,13 @@ const mobileWriteNavHtml = (d) => {
 					</div>
 				</li>
 			`;
-		}
-		if( el.menu_type =="PO") {
+		} else {
 			menuHtml += `
 				<li class="lrg" data-lrg="${idx}">
 					<div class="lrg__back__btn"></div>
 					<div class="lrg__title">${el.menu_title}</div>
 					<div class="mdlBox">
-						<ul class="mdl collaboration">
+						<div class="mdl collaboration">
 							${
 							mdl.map((el,idx) => {
 									return `<a class="mdl__title po__wrap" href="${el.menu_link}">
@@ -506,13 +503,13 @@ const mobileWriteNavHtml = (d) => {
 								</div>
 								<div class="po__title__all" data-i18n="lm_view_collaborations">콜라보레이션 전체보기</div>
 							</a>
-						</ul>
+						</div>
 					</div>
 				</li>
-			</ul>
 			`;
 		}
 	});
+	menuHtml += `</ul>`;
 	
 	let storyHtml = mobilePostingStoryHtml(posting_story);
 	menuHtml += storyHtml;
@@ -631,10 +628,10 @@ const mobilePostingStoryHtml = (d) => {
 	let column_RNWY = d.column_RNWY;
 	let column_EDTL = d.column_EDTL;
 	
-	let storyHtml = "";
+	let storyHtml = `
+			<ul class="mid">`;
 	
 	storyHtml += `
-			<ul class="mid">
 				<li class="lrg" data-lrg="6" data-type="ST">
 					<div class="lrg__back__btn"></div>
 					<div class="lrg__title non_underline"><span data-i18n="m_story">스토리</span></div>
@@ -650,7 +647,7 @@ const mobilePostingStoryHtml = (d) => {
 		storyHtml += `
 									<li class="st__box" onClick="location.href='${row_NEW.page_url}'">
 										<div class="newsBox">
-											<img src ='${img_root}${row_NEW.img_location}'>
+											<img src ='${cdn_img + row_NEW.img_location}'>
 											<div class="news-title-wrap">
 												<div class="news-title" href="">${xssDecode(row_NEW.story_title)}</div>
 												<div class="news-m-title" href="">${xssDecode(row_NEW.story_sub_title)}</div>

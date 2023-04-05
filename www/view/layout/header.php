@@ -67,7 +67,6 @@
 		<script src="/scripts/static/jquery.caret.js"></script>
 		<script src="/scripts/static/jquery.detectmobilebrowser.js"></script>
 		<script src="/scripts/static/farbtastic/farbtastic.js"></script>
-		<script src=" https://cdn.jsdelivr.net/npm/i18next@22.4.10/i18next.min.js "></script>
 		<script src="/scripts/static/taggingJS/tagging.min.js"></script>
 		<script src="/scripts/static/toast-selectbox/toastui-select-box.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
@@ -96,6 +95,8 @@
 		<script src="/scripts/module/language.js" ></script>
 		<script src="/scripts/module/basket-page.js" ></script>
 		<script src="/scripts/module/basket-sidebar.js" ></script>
+		<script src=" https://cdn.jsdelivr.net/npm/i18next@22.4.10/i18next.min.js "></script>
+
 	</head>
 	<body>
 		<!-- Google Tag Manager (noscript) -->
