@@ -193,8 +193,6 @@ async function updateWishlist(clickEl, data) {
 
     if( loginStatus === 'true' ){
         changeStatusWishBtn();
-        updateMeunCount();//상단 메뉴 카운트 반영 
-
     } else {
         notiModal('로그인 후 이용가능한 서비스 입니다.')
         let beforUrl = location.href;
@@ -203,17 +201,23 @@ async function updateWishlist(clickEl, data) {
             location.href = '/login';
         },1500)
     }
-
-    
     function updateCurrentPageUi(){
+
         let urlParts = targetUrl.split('?')[0].split('/');
         let path = '/' + urlParts.slice(3).join('/');
-        if(path === 'list'){
-            console.log('상품리스트');
+        if(path === '/product/list'){
+                getWhishlistProductList();
+                if(!document.querySelector('.btn__box.list__btn').classList.contains('select')){
+                    document.querySelector('.btn__box.list__btn').click();
+                }
         } else if(path === '/product/detail'){
             changeModuleWishBtn(targetProductIdx)
+            if(!document.querySelector('.btn__box.list__btn').classList.contains('select')){
+                document.querySelector('.btn__box.list__btn').click();
+            }
         } else if(path === '/mypage') {
             wish.update();
+
         } else if(targetUrl.includes('/order/whish')) {
             getWhishProductList();
         }
@@ -228,10 +232,10 @@ async function updateWishlist(clickEl, data) {
                 }else {
                     el.querySelector('img').dataset.status = false;
                     el.querySelector('img').setAttribute('src', '/images/svg/wishlist.svg');
-
                 }
             }
         })
+        getWhishlistProductList();
     }
     //선택한 하트의 색상, 상태 반영 
     function changeStatusWishBtn() {
@@ -239,17 +243,15 @@ async function updateWishlist(clickEl, data) {
         if(clickTarget.querySelector('img').dataset.status == 'true'){
             clickTarget.querySelector('img').dataset.status = false;
             clickTarget.querySelector('img').setAttribute('src', '/images/svg/wishlist.svg');
-            mypageDeleteWishApi(targetProductIdx);
+            heartDeleteWishApi(targetProductIdx);
 
         }else {
             clickTarget.querySelector('img').dataset.status = true;
             clickTarget.querySelector('img').setAttribute('src', '/images/svg/wishlist-bk.svg');
-            addWishApi(targetProductIdx);
-
-            
+            addWishApi(targetProductIdx,clickTarget);
         }
     }
-    function addWishApi(productIdx){
+    function addWishApi(productIdx,target){
         if (productIdx != null) {
             $.ajax({
                 type: "post",
@@ -268,22 +270,14 @@ async function updateWishlist(clickEl, data) {
                     if (code == "200") {
                         document.querySelector('.header__wrap .wishlist__btn').dataset.cnt = data;
                         updateCurrentPageUi();
-
-                        // let wishlist = [];
-                        // let wishlistCookie = getCookie('wishlist');
-                        // if (wishlistCookie) {
-                        //     wishlist = JSON.parse(wishlistCookie);
-                        // }
-                        // wishlist.push({ product_idx: product_idx });
-                        // wishlistCookie = JSON.stringify(wishlist);
-                        // setCookie('wishlist', wishlistCookie, 365);
                     }
-                    return 
+                    
                 }
             });
         }
     }
-    function mypageDeleteWishApi(productIdx){
+    function heartDeleteWishApi(productIdx){
+        console.log('heartDeleteWishApi')
         if (productIdx != null) {
             $.ajax({
                 type: "post",
@@ -300,7 +294,6 @@ async function updateWishlist(clickEl, data) {
                     let msg = d.msg;
                     let data =  d.data;
                     if (code == "200") {
-                        //
                         document.querySelector('.header__wrap .wishlist__btn').dataset.cnt = data;
                         updateCurrentPageUi();
                         
@@ -309,84 +302,14 @@ async function updateWishlist(clickEl, data) {
             });
         }
     }   
-    function updateMeunCount() {
-        console.log('상단메뉴 위시리스트 카운트 업데이트')
-    }
-    function updateWhishList() {
-        console.log('위시리스트페이지 위시리스트 UI 업데이트')
-    }
-    function updateMypageWhishList() {
-        console.log('마이페이지 위시리스트 UI 업데이트')
-    }
-    function updateQuickViewWhishList() {
-        console.log('퀵뷰 스와이프 UI 업데이트')
-    }
 }
-function addWhishEvent() {
-    //상품 클래스 wish__btn
-    //메뉴 클래스 whihs__btn
-    let btn = document.querySelectorAll('.wish__btn');
-    [...btn].map((el, idx) => {
-        el.addEventListener('click', function(e){
-            let currentPage = e.currentTarget.dataset.product_idx;
-            console.log(e.target)
-            console.log(e.currentTarget.dataset.product_idx)
-            console.log(currentPage)
-        })
-    })
-}
-//위시리스트 함수 
-function setWhishListBtn(obj) {
-    let product_idx = $(obj).attr('product_idx');
-    let basket_wrap = $(obj).parent().parent();
-    if (product_idx != null) {
-        $.ajax({
-            type: "post",
-            data: {
-                "product_idx": product_idx
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/order/whish/add",
-            error: function () {
-                alert("위시리스트 등록/해제 처리에 실패했습니다.");
-            },
-            success: function (d) {
-                let code = d.code;
-                let msg = d.msg;
-
-                if (code == "200") {
-                    let whish_img = $(obj).find('.whish_img');
-                    whish_img.attr('src', '/images/svg/wishlist-bk.svg');
-                    whish_img.attr('style', 'width:19px');
-                    $(obj).attr('onClick', 'deleteWhishListBtn(this);');
-
-
-                    let wishlist = [];
-                    let wishlistCookie = getCookie('wishlist');
-                    if (wishlistCookie) {
-                        wishlist = JSON.parse(wishlistCookie);
-                    }
-                    wishlist.push({ product_idx: product_idx });
-                    wishlistCookie = JSON.stringify(wishlist);
-                    setCookie('wishlist', wishlistCookie, 365);
-
-
-
-                    if (basket_wrap.hasClass("nav")) {
-                        basket_wrap.find(".whish-btn").append("<div class='whislist-tilte'>whislist</div>");
-                        $('.mobile-whishlist-wrap').html('');
-                        $('.mobile-whishlist-wrap').append($('.quickview__content__wrap').clone());
-                        sideQuickSwiper = new Swiper('.mobile-whishlist-wrap .quickview-whish-swiper',mobileProductDetailWhishSwiperOption);
-                        $('.mobile-whishlist-wrap .remove-btn').on('click', function() {
-                            $('.mobile-whishlist-wrap .quickview__content__wrap').removeClass('open');
-                        })
-                    }
-                }
-            }
-        });
-    }
-}
+/**
+ * 
+ * @param {*} obj 
+ * @description 상품의 x표일시 사용되는 delete함수
+ */
 const deleteWhish = (obj) => {
+    console.log("🏂 ~ file: common.js:393 ~ deleteWhish ~ deleteWhish:")
     let product_idx = $(obj).attr('product_idx');
     let basket_wrap = $(obj).parent().parent();
     let whish_list_cnt = document.querySelectorAll('.whish_list_mp').length;
@@ -429,46 +352,6 @@ const deleteWhish = (obj) => {
         });
     }
 }
-function deleteWhishListBtn(obj) {
-    let product_idx = $(obj).attr('product_idx');
-    let basket_wrap = $(obj).parent().parent();
-    if (product_idx != null) {
-        $.ajax({
-            type: "post",
-            data: {
-                "product_idx": product_idx
-            },
-            dataType: "json",
-            url: "http://116.124.128.246:80/_api/order/whish/delete",
-            error: function () {
-                alert("위시리스트 등록/해제 처리에 실패했습니다.");
-            },
-            success: function (d) {
-                let code = d.code;
-                let msg = d.msg;
-
-                if (code == "200") {
-                    let whish_img = $(obj).find('.whish_img');
-                    whish_img.attr('src', '/images/svg/wishlist.svg');
-                    $(obj).attr('onClick', 'setWhishListBtn(this);');
-                    if (basket_wrap.hasClass("nav")) {
-                        basket_wrap.find(".whislist-tilte").remove();
-                        $('.mobile-whishlist-wrap .quickview__content__wrap').remove();
-                        $('.mobile-whishlist-wrap').html('');
-                        $('.mobile-whishlist-wrap').append($('.quickview__content__wrap').clone());
-                        sideQuickSwiper = new Swiper('.mobile-whishlist-wrap .quickview-whish-swiper',mobileProductDetailWhishSwiperOption);
-                        $('.mobile-whishlist-wrap .remove-btn').on('click', function() {
-                            $('.mobile-whishlist-wrap .quickview__content__wrap').removeClass('open');
-                        })
-                    }
-                }
-            }
-        });
-    }
-}
-
-
-
 /*------------------------------------------- 위시리스트 ------------------------------------------- */
 
 

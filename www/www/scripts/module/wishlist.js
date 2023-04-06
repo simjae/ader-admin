@@ -171,7 +171,7 @@ function WishlistRender() {
                                             <img src="/images/svg/sold-line.svg">
                                         </div>
                                         `;
-                            whish_function = `mypageDeleteWishApi(this);`;
+                            whish_function = `heartDeleteWishApi(this);`;
                         } else {
                             whish_img = `
                                         <div class="remove-btn"> 
