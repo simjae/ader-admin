@@ -9,14 +9,14 @@ function getUrlParamter($url, $sch_tag)
 }
 
 $page_url = $_SERVER['REQUEST_URI'];
-$menu_sort = getUrlParamter($page_url, 'menu_sort');
+$menu_type = getUrlParamter($page_url, 'menu_type');
 $menu_idx = getUrlParamter($page_url, 'menu_idx');
 $page_idx = getUrlParamter($page_url, 'page_idx');
 ?>
 <main>
-    <input id="menu_sort" type="hidden" value="<?= $menu_sort ?>">
-    <input id="menu_idx" type="hidden" value="<?= $menu_idx ?>">
-    <input id="page_idx" type="hidden" value="<?= $page_idx ?>">
+    <input id="menu_type" type="hidden" value="<?=$menu_type?>">
+    <input id="menu_idx" type="hidden" value="<?=$menu_idx?>">
+    <input id="page_idx" type="hidden" value="<?=$page_idx?>">
 
     <input id="country" type="hidden" value="KR">
 
@@ -25,8 +25,7 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
     <input id="more_flg" type="hidden" value="false">
     <input id="product_total" type="hidden" value="">
 
-    <section class="product__list__wrap" data-country="KR" data-menu_idx="<?= $menu_idx ?>"
-        data-menu_sort="<?= $menu_sort ?>" data-page_idx="<?= $page_idx ?>">
+    <section class="product__list__wrap" data-country="KR" data-menu_idx="<?=$menu_idx?>" data-menu_type="<?=$menu_type?>" data-page_idx="<?=$page_idx?>">
         <div class="top__banner"></div>
         <div class="prd__meun">
             <div class="prd__meun__grid"></div>
@@ -54,11 +53,6 @@ $page_idx = getUrlParamter($page_url, 'page_idx');
                         <div class="d-i-b"><img src="/images/svg/grid-cols-3.svg" alt=""></div>
                         <span class="layout_change_btn" data-i18n="pl_change_layout_03_m">3칸</span>
                     </div>
-                </div>
-            </div>
-            <div class="line"></div>
-            <div class="prd__category__wrap">
-                <div class="prd__meun__category">
                 </div>
             </div>
             <div class="line"></div>

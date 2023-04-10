@@ -10,7 +10,7 @@ function clickShowMore() {
 
 //상품 불러오는 api
 const getProductList = () => {
-    let { country, menu_idx, menu_sort, page_idx } = document.querySelector(".product__list__wrap").dataset;
+    let { country, menu_idx, menu_type, page_idx } = document.querySelector(".product__list__wrap").dataset;
 
     let last_idx = $('#last_idx').val();
 
@@ -20,7 +20,7 @@ const getProductList = () => {
         data: {
             "country": getLanguage(),
             "menu_idx": menu_idx,
-            "menu_sort": menu_sort,
+            "menu_type": menu_type,
             "page_idx": page_idx,
             "last_idx": last_idx,
             "order_param": order_param
@@ -49,6 +49,7 @@ const getProductList = () => {
                 prdListBox.dataset.mobilepre = "3";
 
                 let menu_info = data.menu_info;
+				/*
                 if (menu_info != null) {
                     let menuHtml = `
 						<div class="prd__meun__swiper">
@@ -86,6 +87,38 @@ const getProductList = () => {
                         makeLowerFilterHtml(menu_info.lower_filter)
                     }
                 }
+				*/
+				
+				if (menu_info != null) {
+                    let menuHtml = `
+						<div class="prd__meun__swiper">
+							<div class="swiper-wrapper">
+					`;
+					
+					menu_info.forEach(el => {
+						let selected = "";
+						if (el.selected == true) {
+							selected = "select";
+						}
+						menuHtml += `
+								<div class="swiper-slide" onClick="location.href='${el.menu_link}'">
+									<div class="prd__meun__box ${selected}">
+										<div class="prd__img__wrap">
+											<img class="prd__img" src="${cdn_img}${el.img_location}" alt="">
+										</div>
+										<p class="prd__title">${el.menu_title}</p>
+									</div>
+								</div>
+						`;
+					});
+
+					menuHtml += `
+							</div>
+						</div>
+					`;
+
+                    menuList.innerHTML = menuHtml;
+                }
 
                 let grid_info = data.grid_info;
                 let productwriteData = productWriteHtml(grid_info);
@@ -97,7 +130,6 @@ const getProductList = () => {
                 productCategorySwiper();
                 productSml();
                 swiperStateCheck();
-                upperCateSelectEvent();
 
             } else {
                 alert(d.msg);
@@ -123,7 +155,6 @@ function productWriteHtml(grid_info) {
                 let whish_img = "";
                 let whish_function = "";
                 let login_status = getLoginStatus();
-                console.log("🏂 ~ file: foryou.js:55 ~ wishBtnHtml ~ login_status:", login_status)
                 if (login_status == "true") {
                     if (whish_flg == 'true') {
                         whish_img = `<img class="whish_img" data-status=${el.whish_flg} src="/images/svg/wishlist-bk.svg" alt="">`;
@@ -243,7 +274,6 @@ function productWriteHtml(grid_info) {
                         let maxCnt = 5;
                         let colorData = color.color_rgb;
                         let multi = colorData.split(";");
-                        console.log(multi.length);
                         if (idx < maxCnt) {
                             let style = "";
                             if (multi.length === 2) {
@@ -675,14 +705,14 @@ function clickFilterMotion() {
 }
 //상품 더 불러오기
 function getProductListByScroll(last_idx, more_flg) {
-    let { country, menu_idx, menu_sort, page_idx } = document.querySelector(".product__list__wrap").dataset;
+    let { country, menu_idx, menu_type, page_idx } = document.querySelector(".product__list__wrap").dataset;
 
     $.ajax({
         type: "post",
         url: "http://116.124.128.246:80/_api/product/list/get",
         data: {
             "country": getLanguage(),
-            "menu_sort": menu_sort,
+            "menu_type": menu_type,
             "menu_idx": menu_idx,
             "page_idx": page_idx,
             "last_idx": last_idx,
@@ -728,7 +758,7 @@ function getProductListByScroll(last_idx, more_flg) {
 
 //페이지 상품 별 필터 정보 취득
 function getFilterInfo() {
-    let { country, menu_idx, menu_sort, page_idx } = document.querySelector(".product__list__wrap").dataset;
+    let { country, menu_idx, menu_type, page_idx } = document.querySelector(".product__list__wrap").dataset;
 
     $.ajax({
         type: "POST",
@@ -736,7 +766,7 @@ function getFilterInfo() {
         data: {
             "country": getLanguage(),
             "menu_idx": menu_idx,
-            "menu_sort": menu_sort,
+            "menu_type": menu_type,
             "page_idx": page_idx
         },
         dataType: "json",
@@ -1003,7 +1033,7 @@ function sortProductList(obj) {
         order_param = null;
     }
 
-    let { country, menu_idx, menu_sort, page_idx } = document.querySelector(".product__list__wrap").dataset;
+    let { country, menu_idx, menu_type, page_idx } = document.querySelector(".product__list__wrap").dataset;
 
     let last_idx = $('#last_idx').val();
 
@@ -1013,7 +1043,7 @@ function sortProductList(obj) {
         data: {
             "country": getLanguage(),
             "menu_idx": menu_idx,
-            "menu_sort": menu_sort,
+            "menu_type": menu_type,
             "page_idx": page_idx,
             "order_param": order_param,
             "last_idx": last_idx,
@@ -1043,7 +1073,7 @@ function sortProductList(obj) {
         }
     });
 }
-
+/*
 function upperCateSelectEvent() {
     let { pathname, search } = getCurrentUrl();
 
@@ -1085,6 +1115,7 @@ function upperCateSelectEvent() {
         });
     }
 }
+*/
 
 
 function getCurrentUrl() {
@@ -1185,12 +1216,10 @@ window.addEventListener('resize', function () {
     let breakpoint = window.matchMedia('screen and (min-width:1025px)');
     if (breakpoint.matches === true) {
         let category = document.querySelector('.product__list__wrap .prd__meun');
-        // console.log(category.offsetHeight)
         filter.style.top = `${category.offsetHeight - 2}px`;
         sort.style.top = `${category.offsetHeight - 2}px`;
     } else {
         let category = document.querySelector('.product__list__wrap .prd__meun');
-        // console.log(category.offsetHeight)
         filter.style.top = `${category.offsetHeight - 2}px`;
         sort.style.top = `${category.offsetHeight - 2}px`;
     }

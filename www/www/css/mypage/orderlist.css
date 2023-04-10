@@ -1,0 +1,270 @@
+.orderlist__tab__wrap {
+    grid-column: 1/17;
+    width: 950px;
+    margin: 0 auto;
+    font-size: 11px;
+}
+
+.orderlist__tab__btn__container {
+    grid-column: 1/17;
+    margin: 0 auto;
+    display: grid;
+    gap: 10px;
+    font-size: 11px;
+    grid-template-columns: 50px 50px 50px 50px;
+}
+
+.info__title {
+    margin-right: 10px;
+}
+
+.info__value {
+    margin-right: 30px;
+}
+
+.orderlist__wrap table {
+    width: 100%;
+}
+
+.contents__table {
+    padding-top: 10px;
+}
+
+.orderlist__wrap table td {
+    padding-top: 0 !important;
+}
+
+.order_status_box {
+    border: 1px solid #343434;
+    height: 23px;
+    margin-left: 10px;
+    padding: 5px 10px;
+    float: right;
+}
+
+.title_orderlist_info {
+    font-size: 13px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    margin: 0;
+}
+
+.list_orderlist_info p {
+    font-size: 11px;
+    margin-top: 10px;
+    white-space: nowrap;
+}
+
+.list_orderlist_info .underline {
+    margin-left: 7px;
+}
+
+.orderlist__tab__contents .title {
+    margin-bottom: 0;
+}
+
+.oderlist_info_table .contents__table td {
+    padding: 0;
+}
+
+.oderlist_payment_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.oderlist_payment_info p {
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
+.oderlist_payment_info_border {
+    border-top: 1px solid #dcdcdc;
+    border-bottom: 1px solid #dcdcdc;
+    margin: 10px 0;
+    padding-top: 10px;
+}
+
+.orderlist__tab__contents .no_orderlist_msg {
+    height: 100px;
+    text-align: center;
+}
+
+.orderlist__tab__contents .contents__info .info {
+    display: flex;
+}
+
+.order_cancel_msg {
+    font-size: 10px;
+    width: 155px;
+}
+
+@media (max-width: 1024px) {
+    .order_status_btn_box_else_m {
+        display: flex;
+        align-items: center;
+        line-height: 0.3;
+        margin-bottom: 5px;
+        justify-content: end;
+    }
+
+    .order_status_btn_box_dpr_m {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        line-height: 0.3;
+    }
+
+    .order_status_before_msg_m {
+        font-size: 10px !important;
+        width: 110px;
+    }
+
+    .order_status_td_m {
+        padding-right: 0;
+        padding-left: 10px;
+    }
+
+    .orderlist__tab__contents .contents__info .info {
+        align-items: center;
+    }
+
+    .info__value {
+        margin-right: 20px;
+    }
+
+    .contents__info .info__value.order__code {
+        width: 65px;
+        word-wrap: break-word;
+    }
+
+    .contents__info {
+        align-items: center;
+    }
+
+    .orderlist__tab__wrap {
+        width: 100%;
+    }
+
+    .orderlist__tab__btn__container {
+        grid-column: 1/17;
+    }
+
+    .title p {
+        font-size: 11px;
+    }
+
+    .contents__info .info span {
+        font-size: 11px;
+    }
+
+    .oderlist_info_table {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .orderlist__wrap {
+        margin: 20px 0 60px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
+    }
+
+    .orderlist__tab__contents {
+        margin: 0 auto;
+        padding-bottom: 40px;
+    }
+
+    .mobile__view {
+        margin-top: 40px;
+    }
+
+    .order_status_box {
+        padding: 7px 8px;
+    }
+
+    .product_info_mob p {
+        width: 80px;
+    }
+
+    .order_cancel_msg {
+        width: 120px;
+        float: right;
+    }
+}
+
+@media (min-width: 600px) {
+    .orderlist__tab__wrap {
+        grid-column: 1/17;
+        width: 580px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 1024px) {
+    .orderlist__wrap {
+        margin: 40px 0 100px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
+    }
+
+    .orderlist__tab__wrap {
+        width: 100%;
+    }
+
+    .oderlist_info_table {
+        margin-top: 40px;
+        display: grid;
+        grid-template-columns: 600px 350px;
+    }
+
+    .orderlist__tab__contents {
+        margin: 0 auto;
+        grid-column: 1/17;
+        margin-top: 53px;
+    }
+
+    .orderlist__paging {
+        margin-top: 30px;
+    }
+
+    .orderlist__tab__contents .info__value {
+        margin-right: 10px;
+    }
+}
+
+.orderlist__wrap .detail__btn {
+    cursor: pointer;
+}
+
+.mypage--paging {
+    gap: 10px;
+}
+
+.mypage--paging .page {
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.product_name_mob {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product_info_mob {
+    vertical-align: top;
+}
+
+.product_info_mob p {
+    margin-bottom: 6px;
+}
+
+.orderlist__wrap .delivery_num {
+    text-decoration: underline;
+    font-size: 11px;
+    width: 110px;
+    cursor: pointer;
+}
