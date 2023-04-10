@@ -477,7 +477,7 @@
                         contents_footer.style.display = 'none';
                         $('.all-btn').hide();
                     }
-                    // quickviewContentClose(5000, targetData);
+                    quickviewContentClose(7000, targetData);
                 }
             });
         });

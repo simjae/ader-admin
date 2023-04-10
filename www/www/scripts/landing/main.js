@@ -237,8 +237,10 @@ const getMainInfo = () => {
                                     </picture>
                                 ` : `
                                     <video autoplay loop muted>
+                                        <source media="(max-width: 1024px)" src=${cdn_vid}${bannerRow.banner_location_mob}" type="video/mp4">
                                         <source src="${cdn_vid}${bannerLocation}" type="video/mp4">
                                     </video>
+
                                 `}
                                 <div class="new__project__content">
                                     <div class="cnt-box">
@@ -319,6 +321,9 @@ const getMainInfo = () => {
                 
                     main_newSwiper.update();
                     main_swiperResize();
+                    //비디오 포멧
+                    videoFomating();
+
                 }
                 
             }
@@ -327,8 +332,12 @@ const getMainInfo = () => {
 }
 
 const getProductRecommendList = () => {
+	let country = getLanguage();
     $.ajax({
         type: "post",
+		data: {
+			'country':country
+		},
         dataType: "json",
         url: "http://116.124.128.246:80/_api/common/recommend/get",
         error: function () {
@@ -418,13 +427,36 @@ const getProductRecommendList = () => {
         }
     });
 }
+
+const videoFomating = () => {
+    var videos = document.querySelectorAll('video');
+    console.log("🏂 ~ file: main.js:428 ~ videoFomating ~ videos:", videos)
+    for (var i = 0; i < videos.length; i++) {
+        var hslSource = null;
+        var sources = videos[i].querySelectorAll('source'), j;
+        for (j = 0; j < sources.length; ++j) {
+            if(sources[j].src.indexOf('.m3u8') > -1){
+                hslSource = sources[j].src;
+            }
+        }
+
+        if (hslSource !== null && Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(hslSource);
+            hls.attachMedia(videos[i]);
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                console.log('MANIFEST_PARSED');
+            });
+        }
+    }
+}
 window.addEventListener('DOMContentLoaded', () => {
     headerColorChange();
     getMainInfo();
     getProductRecommendList();
     mobileRecommandGrid();
-
 });
+
 window.addEventListener('resize', () => {
     document.querySelector("body").dataset
     main_swiperResize();

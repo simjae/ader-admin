@@ -164,7 +164,11 @@
     .new__project__wrap {
         position: relative;
     }
-
+    .new__project__wrap video{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
     .new__project__wrap img {
         width: 100%;
     }

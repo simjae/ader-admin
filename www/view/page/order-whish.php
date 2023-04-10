@@ -570,6 +570,8 @@
     .add-list-wrap .basket-link-btn-wrap {
         display: flex;
         flex-direction: column;
+        position: relative;
+        bottom: 100px;
     }
 
     .option-noti {

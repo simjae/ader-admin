@@ -52,6 +52,8 @@
 		<link rel="stylesheet" href="/css/common/basket.css">
 
 		<!-- 라이브러리 -->
+		<script src="//cdn.jsdelivr.net/npm/hls.js@latest"></script>
+		<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 		<script src="https://cdn.tailwindcss.com"></script>
 		<script src="//code.jquery.com/jquery-latest.min.js"></script>
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

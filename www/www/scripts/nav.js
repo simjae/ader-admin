@@ -68,10 +68,18 @@ const webWriteNavHtml = (d) => {
 		let menu_slide = el.menu_slide;
 		let menu_hl1 = el.menu_hl1;
 		
+		let menu_link = el.menu_link;
+		
+		let segment_click = "";
+		if (menu_link != null) {
+			segment_click = `onClick="location.href='${menu_link}'"`;
+		}
+		
 		if (menu_num <= 4) {
+			
 			menuHtml += `
 				<li class="drop web" data-lrg="${idx}">
-					<a class="menu-ul lrg" href="${el.menu_link}">${el.menu_title}</a>
+					<div class="menu-ul lrg" ${segment_click}>${el.menu_title}</div>
 					<div class="drop__menu">
 						<ul class="cont pr__menu">
 							<li class="swiper-li">
@@ -325,7 +333,7 @@ const webPostingStoryHtml = (d) => {
 	let storyHtml = "";
 	storyHtml += `
 				<li class="drop web story" data-type="ST" data-large="6">
-					<a class="menu-ul lrg" href="#">스토리</a>
+					<a class="menu-ul lrg" href="#" data-i18n="m_story">스토리</a>
 					<div class="drop__menu">
 						<ul class="cont st__menu">
 							<li></li>
@@ -1144,18 +1152,19 @@ function disableUrlBtn() {
 
 	}
 	if(path ==='/product/detail'){
-		$('.whish-btn').on("click", function(){
-			$('#quickview_observer').val('open');
-			$quickview.classList.remove("hidden");
-			$titleBoxSpan.innerText = "위시리스트";
-			$titleBoxImg.src = "/images/svg/wish-list-bk.svg";
-			$contentWrap.classList.add("open");
-			$listBtn.classList.add("select");
-			$whishlistBtn.classList.add("open");
-			setTimeout(() => {
-				getWhishlistProductList();
-			}, 100);
-		})
+		
+		// $('.whish-btn').on("click", function(){
+		// 	$('#quickview_observer').val('open');
+		// 	$quickview.classList.remove("hidden");
+		// 	$titleBoxSpan.innerText = "위시리스트";
+		// 	$titleBoxImg.src = "/images/svg/wish-list-bk.svg";
+		// 	$contentWrap.classList.add("open");
+		// 	$listBtn.classList.add("select");
+		// 	$whishlistBtn.classList.add("open");
+		// 	setTimeout(() => {
+		// 		getWhishlistProductList();
+		// 	}, 100);
+		// })
 	}
 	
 	function sideBarToggleEvent(target){
