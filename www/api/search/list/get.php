@@ -30,7 +30,7 @@ if ($country != null) {
 	$select_recommend_keyword_sql = "
 		SELECT
 			KEYWORD_TXT		AS KEYWORD_TXT,
-			MENU_SORT		AS MENU_SORT,
+			MENU_TYPE		AS MENU_TYPE,
 			MENU_IDX		AS MENU_IDX
 		FROM
 			RECOMMEND_KEYWORD RK
@@ -44,34 +44,33 @@ if ($country != null) {
 	
 	$keyword_info = array();
 	foreach($db->fetch() as $keyword_data) {
-		$menu_sort = $keyword_data['MENU_SORT'];
+		$menu_type = $keyword_data['MENU_TYPE'];
 		$menu_idx = $keyword_data['MENU_IDX'];
 		
-		$menu_param = "&menu_sort=".$menu_sort."&menu_idx=".$menu_idx;
-		
-		$menu_link = "";
-		if (!empty($menu_sort) && !empty($menu_idx)) {
-			$menu_table = "";
-			switch($menu_sort) {
-				case "L" :
-					$menu_table = " MENU_LRG ";
+		$menu_link = null;
+		if (!empty($menu_type) && !empty($menu_idx)) {
+			$menu_table = null;
+			switch($menu_type) {
+				case "SEG" :
+					$menu_table = "MENU_SEGMENT MI";
 					break;
 				
-				case "M" :
-					$menu_table = " MENU_MDL ";
+				case "HL1" :
+					$menu_table = "MENU_HL_1 MI";
 					break;
 				
-				case "S" :
-					$menu_table = " MENU_SML ";
+				case "HL2" :
+					$menu_table = "MENU_HL_2 MI";
 					break;
 			}
 			
 			$select_menu_sql = "
 				SELECT
-					MI.MENU_TITLE		AS MENU_TITLE,
-					MI.LINK_URL			AS LINK_URL
+					MI.IDX				AS MENU_IDX,
+					MI.EXT_LINK_FLG		AS EXT_LINK_FLG,
+					MI.MENU_LINK		AS MENU_LINK
 				FROM
-					".$menu_table." MI
+					".$menu_table."
 				WHERE
 					MI.IDX = ".$menu_idx."
 			";
@@ -79,7 +78,15 @@ if ($country != null) {
 			$db->query($select_menu_sql);
 			
 			foreach($db->fetch() as $menu_data) {
-				$menu_link = $menu_data['LINK_URL'].$menu_param;
+				$menu_param = "&menu_type=".$menu_type."&menu_idx=".$menu_data['MENU_IDX'];
+				
+				if ($menu_data['MENU_LINK'] != null) {
+					if ($menu_data['EXT_LINK_FLG'] == true) {
+						$menu_link = "http://".$menu_data['MENU_LINK'];
+					} else if ($menu_data['EXT_LINK_FLG'] == false) {
+						$menu_link = $menu_data['MENU_LINK'].$menu_param;
+					}
+				}
 			}
 		}
 		

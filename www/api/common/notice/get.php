@@ -15,8 +15,8 @@
 */
 
 $country = null;
-if (isset($_POST['COUNTRY'])) {
-	$country = $_POST['COUNTRY'];
+if (isset($_POST['country'])) {
+	$country = $_POST['country'];
 }
 if($country != null){
 	$select_notice_sql = "

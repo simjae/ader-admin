@@ -77,31 +77,25 @@ if ($member_idx > 0 && $country != null) {
 	$db->query($select_whish_sql);
 	
 	foreach($db->fetch() as $data) {
-		$product_idx = $data['PRODUCT_IDX'];
+		$product_color = getProductColor($db,$data['PRODUCT_IDX']);
+		$product_size = getProductSize($db,$data['PRODUCT_IDX']);
 		
-		if ($product_idx != null) {
-			
-			$product_color = getProductColor($db,$product_idx);
-			
-			$product_size = getProductSize($db,$product_idx);
-			
-			$json_result['data'][] = array(
-				'whish_idx'			=>$data['WHISH_IDX'],
-				'product_idx'		=>$data['PRODUCT_IDX'],
-				'product_img'		=>$data['PRODUCT_IMG'],
-				'product_name'		=>$data['PRODUCT_NAME'],
-				'price'				=>$data['PRICE'],
-				'discount'			=>$data['DISCOUNT'],
-				'sales_price'		=>$data['SALES_PRICE'],
-				'color'				=>$data['COLOR'],
-				'color_rgb'			=>$data['COLOR_RGB'],
-				'option_idx'		=>$data['OPTION_IDX'],
-				'option_name'		=>$data['OPTION_NAME'],
-				'product_qty'		=>$data['PRODUCT_QTY'],
-				'product_color'		=>$product_color,
-				'product_size'		=>$product_size
-			);
-		}
+		$json_result['data'][] = array(
+			'whish_idx'			=>$data['WHISH_IDX'],
+			'product_idx'		=>$data['PRODUCT_IDX'],
+			'product_img'		=>$data['PRODUCT_IMG'],
+			'product_name'		=>$data['PRODUCT_NAME'],
+			'price'				=>$data['PRICE'],
+			'discount'			=>$data['DISCOUNT'],
+			'sales_price'		=>$data['SALES_PRICE'],
+			'color'				=>$data['COLOR'],
+			'color_rgb'			=>$data['COLOR_RGB'],
+			'option_idx'		=>$data['OPTION_IDX'],
+			'option_name'		=>$data['OPTION_NAME'],
+			'product_qty'		=>$data['PRODUCT_QTY'],
+			'product_color'		=>$product_color,
+			'product_size'		=>$product_size
+		);
 	}
 }
 ?>

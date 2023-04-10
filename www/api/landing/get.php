@@ -29,11 +29,9 @@ if ($country == null) {
 if ($country != null) {
 	$select_main_banner_sql = "
 		SELECT
-			REPLACE(
-				MB.IMG_LOCATION,
-				'/var/www/admin/www',
-				''
-			)						AS IMG_LOCATION,
+			MB.BANNER_LOCATION		AS BANNER_LOCATION,
+			MB.BANNER_LOCATION_MOB	AS BANNER_LOCATION_MOB,
+			MB.CONTENT_TYPE			AS CONTENT_TYPE,
 			MB.TITLE				AS TITLE,
 			MB.SUB_TITLE			AS SUB_TITLE,
 			MB.BACKGROUND_COLOR		AS BACKGROUND_COLOR,
@@ -56,8 +54,20 @@ if ($country != null) {
 	
 	$banner_info = array();
 	foreach($db->fetch() as $banner_data) {
+		$banner_location = '';
+		$banner_location_mob = '';
+		if($banner_data['CONTENT_TYPE'] == 'MOV'){
+			$banner_location = convertMOV($banner_data['BANNER_LOCATION']);
+			$banner_location_mob = convertMOV($banner_data['BANNER_LOCATION_MOB']);
+		}
+		else{
+			$banner_location = $banner_data['BANNER_LOCATION'];
+			$banner_location_mob = $banner_data['BANNER_LOCATION_MOB'];
+		}
 		$banner_info[] = array(
-			'img_location'			=>$banner_data['IMG_LOCATION'],
+			'banner_location'		=>$banner_location,
+			'banner_location_mob'	=>$banner_location_mob,
+			'content_type'			=>$banner_data['CONTENT_TYPE'],
 			'title'					=>$banner_data['TITLE'],
 			'sub_title'				=>$banner_data['SUB_TITLE'],
 			'background_color'		=>$banner_data['BACKGROUND_COLOR'],
@@ -195,4 +205,10 @@ if ($country != null) {
 	);
 }
 
+
+function convertMOV($path){
+	$path_arr = explode('/',$path);
+	$path_arr[count($path_arr) - 1] = 'mp4:'.$path_arr[count($path_arr) - 1].'/playlist.m3u8';
+	return implode('/',$path_arr);
+}
 ?>

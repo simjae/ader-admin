@@ -37,13 +37,32 @@ if (isset($_SESSION['MEMBER_NAME'])) {
 }
 
 $login_flg = false;
-$member_info = array();
+$menu_info = array();
+$posting_story = array();
 
-if ($member_idx > 0) {
-	$login_flg = true;
-	
-	$whish_cnt = $db->count("WHISH_LIST","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
-	$basket_cnt = $db->count("BASKET_INFO","MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+if ($country != null) {
+	if ($member_idx > 0) {
+		$login_flg = true;
+		
+		$member_info = array();
+		$member_info = getMemberInfo($db,$country,$member_idx);
+		
+		$json_result['member_info'] = $member_info;
+	}
+
+	$menu_info = getMenuInfo($db,$country);
+	$posting_story = getPostingStory($db,$country);
+}
+
+$json_result['data'] = array(
+	'menu_info'			=>$menu_info,
+	'posting_story'		=>$posting_story
+);
+
+function getMemberInfo($db,$country,$member_idx) {
+	$whish_cnt = $db->count("WHISH_LIST","COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE");
+	$basket_cnt = $db->count("BASKET_INFO","COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx." AND DEL_FLG = FALSE ");
+	$order_cnt = $db->count("ORDER_INFO","COUNTRY = '".$country."' AND MEMBER_IDX = ".$member_idx." AND ORDER_STATUS NOT IN ('OCC','OEP','ORP','DCP')");
 	
 	$select_member_sql = "
 		SELECT
@@ -83,6 +102,7 @@ if ($member_idx > 0) {
 	
 	$db->query($select_member_sql);
 	
+	$member_info = array();
 	foreach($db->fetch() as $member_data) {
 		$member_info = array(
 			'member_id'			=>$member_data['MEMBER_ID'],
@@ -90,191 +110,214 @@ if ($member_idx > 0) {
 			'member_mileage'	=>number_format($member_data['MEMBER_MILEAGE']),
 			'member_voucher'	=>$member_data['MEMBER_VOUCHER'],
 			'whish_cnt'			=>$whish_cnt,
-			'basket_cnt'		=>$basket_cnt
+			'basket_cnt'		=>$basket_cnt,
+			'order_cnt'			=>$order_cnt
 		);
 	}
 	
-	$json_result['member_info'] = $member_info;
+	return $member_info;
 }
 
-$lrg_num = 0;
-$mdl_num = 0;
-$sml_num = 0;
-$dtl_num = 0;
-
-$menu_lrg = array();
-$posting_story = array();
-
-if ($country != null) {
-	$menu_lrg_sql = "
+function getMenuInfo($db,$country) {
+	$select_menu_segment_sql = "
 		SELECT
-			ML.IDX				AS MENU_IDX,
-			ML.MENU_TITLE		AS MENU_TITLE,
+			MS.IDX				AS SEGMENT_IDX,
+			MS.MENU_TITLE		AS MENU_TITLE,
 			
-			ML.LINK_TYPE		AS LINK_TYPE,
-			ML.LINK_URL			AS LINK_URL
+			MS.EXT_LINK_FLG		AS EXT_LINK_FLG,
+			IFNULL(
+				MS.MENU_LINK,''
+			)					AS MENU_LINK
 		FROM
-			MENU_LRG ML
+			MENU_SEGMENT MS
 		WHERE
-			ML.COUNTRY = '".$country."' AND
-			ML.DEL_FLG = FALSE
+			MS.COUNTRY = '".$country."'
 	";
 		
-	$db->query($menu_lrg_sql);
+	$db->query($select_menu_segment_sql);
 	
-	foreach($db->fetch() as $lrg_data) {
-		$menu_lrg_idx = $lrg_data['MENU_IDX'];
+	$menu_segment = array();
+	
+	$menu_info = array();
+	foreach($db->fetch() as $segment_data) {
+		$segment_idx = $segment_data['SEGMENT_IDX'];
+		$segment_param = "&menu_type=SEG&menu_idx=".$segment_idx;
 		
-		$menu_lrg_link = "";
-		if ($lrg_data['LINK_TYPE'] != "EC") {
-			$menu_lrg_link = $lrg_data['LINK_URL']."&menu_sort=L&menu_idx=".$menu_lrg_idx;
+		$segment_link = null;
+		if (strlen($segment_data['MENU_LINK']) > 0) {
+			if ($segment_data['EXT_LINK_FLG'] == true) {
+				$segment_link = "http://".$segment_data['MENU_LINK'];
+			} else if ($segment_data['EXT_LINK_FLG'] == false) {
+				$segment_link = $segment_data['MENU_LINK'].$segment_param;
+			}
 		} else {
-			$menu_lrg_link = "http://".$lrg_data['LINK_URL'];
+			$segment_link = $segment_data['MENU_LINK'];
 		}
 		
-		$menu_mdl = array();
-		if (!empty($menu_lrg_idx)) {
-			$menu_slide_sql ="
-				SELECT
-					ME.OBJ_TITLE		AS OBJ_TITLE,
-					ME.IMG_LOCATION		AS IMG_LOCATION,
-					
-					ME.LINK_TYPE		AS LINK_TYPE,
-					ME.LINK_URL			AS LINK_URL
-				FROM
-					MENU_SLIDE ME
-				WHERE
-					ME.MENU_IDX = ".$menu_lrg_idx." AND
-					ME.COUNTRY = '".$country."'
-				ORDER BY
-					ME.IDX ASC
-			";
-			
-			$db->query($menu_slide_sql);
-			
-			$menu_slide = array();
-			foreach($db->fetch() as $slide_data) {
-				$menu_slide_link = "";
-				if ($lrg_data['LINK_TYPE'] != "EC") {
-					$menu_slide_link = $slide_data['LINK_URL']."&menu_sort=L&menu_idx=".$menu_lrg_idx;
-				} else {
-					$menu_slide_link = "http://".$slide_data['LINK_URL'];
-				}
-				
-				$menu_slide[] = array(
-					'slide_name'		=>$slide_data['OBJ_TITLE'],
-					'slide_img'			=>$slide_data['IMG_LOCATION'],
-					
-					'slide_url'			=>$menu_slide_link
-				);
-			}
-			
-			$mdl_cnt = $db->count("MENU_MDL MM","MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND MM.DEL_FLG = FALSE");
-			
-			if ($mdl_cnt > 0) {
-				$menu_mdl_sql ="
+		$menu_slide = array();
+		if (!empty($segment_idx)) {
+			$slide_cnt = $db->count("MENU_SEG_SLIDE","COUNTRY = '".$country."' AND PARENT_IDX = ".$segment_idx);
+			if ($slide_cnt > 0) {
+				$select_menu_slide_sql ="
 					SELECT
-						MM.IDX			AS MENU_IDX,
-						MM.MENU_TITLE	AS MENU_TITLE,
+						MS.IDX				AS SLIDE_IDX,
+						MS.SLIDE_TITLE		AS SLIDE_TITLE,
+						MS.IMG_LOCATION		AS IMG_LOCATION,
 						
-						MM.LINK_TYPE	AS LINK_TYPE,
-						MM.LINK_URL		AS LINK_URL
+						MS.EXT_LINK_FLG		AS EXT_LINK_FLG,
+						IFNULL(
+							MS.SLIDE_LINK,''
+						)					AS SLIDE_LINK
 					FROM
-						MENU_MDL MM
+						MENU_SEG_SLIDE MS
 					WHERE
-						MM.MENU_LRG_IDX = ".$menu_lrg_idx." AND
-						MM.COUNTRY = '".$country."' AND
-						MM.DEL_FLG = FALSE
+						MS.COUNTRY = '".$country."' AND
+						MS.PARENT_IDX = ".$segment_idx."
+					ORDER BY
+						MS.DISPLAY_NUM ASC
 				";
 				
-				$db->query($menu_mdl_sql);
+				$db->query($select_menu_slide_sql);
 				
-				foreach($db->fetch() as $mdl_data) {
-					$menu_mdl_idx = $mdl_data['MENU_IDX'];
-					
-					$menu_mdl_type = $mdl_data['LINK_TYPE'];
-					
-					$menu_mdl_link = "";
-					if ($mdl_data['LINK_TYPE'] != "EC") {
-						$menu_mdl_link = $mdl_data['LINK_URL']."&menu_sort=M&menu_idx=".$menu_mdl_idx;
+				foreach($db->fetch() as $slide_data) {
+					$slide_link = null;
+					if (strlen($slide_data['SLIDE_LINK']) > 0) {
+						if ($slide_data['EXT_LINK_FLG'] == true) {
+							$slide_link = "http://".$slide_data['SLIDE_LINK'];
+						} else if ($slide_data['EXT_LINK_FLG'] == false) {
+							$slide_link = $slide_data['SLIDE_LINK'];
+						}
 					} else {
-						$menu_mdl_link = "http://".$mdl_data['LINK_URL'];
+						$slide_link = $slide_data['SLIDE_LINK'];
 					}
 					
-					$menu_sml = array();
-					if (!empty($menu_mdl_idx)) {
-						if ($menu_mdl_type != "PO") {
-							$sml_cnt = $db->count("MENU_SML MS","MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND MS.DEL_FLG = FALSE");
+					$menu_slide[] = array(
+						'slide_idx'			=>$slide_data['SLIDE_IDX'],
+						'slide_title'		=>$slide_data['SLIDE_TITLE'],
+						'img_location'		=>$slide_data['IMG_LOCATION'],
+						'slide_link'		=>$slide_link
+					);
+				}
+			}
+			
+			$menu_hl1 = array();
+			$hl1_cnt = $db->count("MENU_HL_1","COUNTRY = '".$country."' AND PARENT_IDX = ".$segment_idx);
+			if ($hl1_cnt > 0) {
+				$select_menu_hl1_sql = "
+					SELECT
+						HL1.IDX				AS HL1_IDX,
+						HL1.MENU_TITLE		AS MENU_TITLE,
+						
+						HL1.EXT_LINK_FLG	AS EXT_LINK_FLG,
+						IFNULL(
+							HL1.MENU_LINK,''
+						)					AS MENU_LINK
+					FROM
+						MENU_HL_1 HL1
+					WHERE
+						HL1.COUNTRY = '".$country."' AND
+						HL1.PARENT_IDX = ".$segment_idx." AND
+						HL1.A0_EXP_FLG = TRUE
+					ORDER BY
+						HL1.DISPLAY_NUM ASC
+				";
+				
+				$db->query($select_menu_hl1_sql);
+				
+				foreach($db->fetch() as $hl1_data) {
+					$hl1_idx = $hl1_data['HL1_IDX'];
+					$hl1_param = "&menu_type=HL1&menu_idx=".$hl1_idx;
+					
+					$hl1_link = null;
+					if (strlen($hl1_data['MENU_LINK']) > 0) {
+						if ($hl1_data['EXT_LINK_FLG'] == true) {
+							$hl1_link = "http://".$hl1_data['MENU_LINK'];
+						} else if ($hl1_data['EXT_LINK_FLG'] == false) {
+							$hl1_link = $hl1_data['MENU_LINK'].$hl1_param;
+						}
+					} else {
+						$hl1_link = $hl1_data['MENU_LINK'];
+					}
+					
+					$menu_hl2 = array();
+					if (!empty($hl1_idx)) {
+						$hl2_cnt = $db->count("MENU_HL_2","COUNTRY = '".$country."' AND PARENT_IDX = ".$hl1_idx);
+						
+						if ($hl2_cnt > 0) {
+							$select_menu_hl2_sql = "
+								SELECT
+									HL2.IDX				AS HL2_IDX,
+									HL2.MENU_TITLE		AS MENU_TITLE,
+									
+									HL2.EXT_LINK_FLG	AS EXT_LINK_FLG,
+									IFNULL(
+										HL2.MENU_LINK,''
+									)					AS MENU_LINK
+								FROM
+									MENU_HL_2 HL2
+								WHERE
+									HL2.PARENT_IDX = ".$hl1_idx." AND
+									HL2.COUNTRY = '".$country."' AND
+									HL2.A0_EXP_FLG = TRUE
+								ORDER BY
+									HL2.DISPLAY_NUM ASC
+							";
 							
-							if ($sml_cnt > 0) {
-								$menu_sml_sql ="
-									SELECT
-										MS.IDX			AS MENU_IDX,
-										MS.MENU_TITLE	AS MENU_TITLE,
-										
-										MS.LINK_TYPE	AS LINK_TYPE,
-										MS.LINK_URL		AS LINK_URL
-									FROM
-										MENU_SML MS
-									WHERE
-										MS.MENU_MDL_IDX = ".$menu_mdl_idx." AND
-										MS.COUNTRY = '".$country."' AND
-										MS.DEL_FLG = FALSE
-								";
+							$db->query($select_menu_hl2_sql);
+							
+							foreach($db->fetch() as $hl2_data) {
+								$hl2_link = null;
+								$hl2_param = "&menu_type=HL2&menu_idx=".$hl2_data['HL2_IDX'];
 								
-								$db->query($menu_sml_sql);
-								
-								foreach($db->fetch() as $sml_data) {
-									$menu_sml_idx = $sml_data['MENU_IDX'];
-									
-									$menu_sml_link = "";
-									if ($sml_data['LINK_TYPE'] != "EC") {
-										$menu_sml_link = $sml_data['LINK_URL']."&menu_sort=S&menu_idx=".$sml_data['MENU_IDX'];
-									} else {
-										$menu_sml_link = "http://".$sml_data['LINK_URL'];
+								if (strlen($hl2_data['MENU_LINK']) > 0) {
+									if ($hl2_data['EXT_LINK_FLG'] == true) {
+										$hl2_link = "http://".$hl2_data['MENU_LINK'];
+									} else if ($hl2_data['EXT_LINK_FLG'] == false) {
+										$hl2_link = $hl2_data['MENU_LINK'].$hl2_param;
 									}
-									
-									$menu_sml[] = array(
-										'menu_title'	=>$sml_data['MENU_TITLE'],
-										'menu_link'		=>$menu_sml_link,
-									);
+								} else {
+									$hl2_link = $hl2_data['MENU_LINK'];
 								}
+								
+								$menu_hl2[] = array(
+									'menu_idx'			=>$hl2_data['HL2_IDX'],
+									'menu_title'		=>$hl2_data['MENU_TITLE'],
+									'menu_link'			=>$hl2_link
+								);
 							}
 						}
-						
-						$menu_mdl[] = array(
-							'menu_title'	=>$mdl_data['MENU_TITLE'],
-							'menu_type'		=>$mdl_data['LINK_TYPE'],
-							
-							'menu_link'		=>$menu_mdl_link,
-							
-							'menu_sml'		=>$menu_sml
-						);
 					}
+					
+					$menu_hl1[] = array(
+						'menu_idx'		=>$hl1_idx,
+						'menu_title'	=>$hl1_data['MENU_TITLE'],
+						'menu_link'		=>$hl1_link,
+						
+						'menu_hl2'		=>$menu_hl2
+					);
 				}
 			}
 		}
 		
-		$menu_lrg[] = array(
-			'menu_title'	=>$lrg_data['MENU_TITLE'],
-			'menu_type'		=>$lrg_data['LINK_TYPE'],
+		$menu_info[] = array(
+			'menu_idx'			=>$segment_idx,
+			'menu_title'		=>$segment_data['MENU_TITLE'],
+			'menu_link'			=>$segment_link,
 			
-			'menu_link'		=>$menu_lrg_link,
-			
-			'menu_slide'	=>$menu_slide,
-			'menu_mdl'		=>$menu_mdl
+			'menu_slide'		=>$menu_slide,
+			'menu_hl1'			=>$menu_hl1
 		);
 	}
 	
+	return $menu_info;
+}
+
+function getPostingStory($db,$country) {
 	$select_posting_story_sql = "
 		SELECT
 			PS.STORY_TYPE		AS STORY_TYPE,
 			PS.PAGE_IDX			AS PAGE_IDX,
-			REPLACE(
-				PS.IMG_LOCATION,
-				'/var/www/admin/www',
-				''
-			)					AS IMG_LOCATION,
+			PS.IMG_LOCATION		AS IMG_LOCATION,
 			PS.STORY_TITLE		AS STORY_TITLE,
 			PS.STORY_SUB_TITLE	AS STORY_SUB_TITLE,
 			IFNULL(
@@ -303,6 +346,7 @@ if ($country != null) {
 	$column_RNWY = array();
 	$column_EDTL = array();
 	
+	$posting_story = array();
 	foreach($db->fetch() as $story_data) {
 		$story_type = $story_data['STORY_TYPE'];
 		
@@ -359,11 +403,8 @@ if ($country != null) {
 		'column_RNWY'		=>$column_RNWY,
 		'column_EDTL'		=>$column_EDTL
 	);
+	
+	return $posting_story;
 }
-
-$json_result['data'] = array(
-	'menu_info'			=>$menu_lrg,
-	'posting_story'		=>$posting_story
-);
 
 ?>

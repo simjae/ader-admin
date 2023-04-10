@@ -84,7 +84,7 @@ function getProductColor($db,$product_idx) {
 		$sql = "SELECT
 					PR.IDX			AS PRODUCT_IDX,
 					OM.COLOR		AS COLOR,
-					OM.COLOR_RGB	AS COLOR_RGB,
+					PR.COLOR_RGB	AS COLOR_RGB,
 					(
 						SELECT
 							IFNULL(SUM(STOCK_QTY),0)
@@ -109,7 +109,7 @@ function getProductColor($db,$product_idx) {
 					PR.ORDERSHEET_IDX = OM.IDX
 				WHERE
 					PR.SALE_FLG = TRUE AND
-					OM.STYLE_CODE = (
+					PR.STYLE_CODE = (
 						SELECT
 							S_PR.STYLE_CODE
 						FROM
@@ -196,7 +196,7 @@ function getProductSize($db,$product_idx) {
 						ORDER_PRODUCT S_OP
 					WHERE
 						S_OP.OPTION_IDX = OO.IDX AND
-						S_OP.ORDER_STATUS IN ('PCP','PPR','DPR','DPG','DCP')
+						S_OP.ORDER_STATUS IN ('PCP','PPR','POP','POD','DPR','DPG','DCP')
 				) AS ORDER_QTY
 			FROM
 				SHOP_PRODUCT PR

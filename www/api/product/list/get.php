@@ -29,9 +29,9 @@ if (isset($_SESSION['LEVEL_IDX'])) {
 	$member_level = $_SESSION['LEVEL_IDX'];
 }
 
-$menu_sort = null;
-if (isset($_POST['menu_sort'])) {
-	$menu_sort = $_POST['menu_sort'];
+$menu_type = null;
+if (isset($_POST['menu_type'])) {
+	$menu_type = $_POST['menu_type'];
 }
 
 $menu_idx = 0;
@@ -62,14 +62,8 @@ if (isset($_POST['preview_flg'])) {
 }
 
 $menu_info = array();
-if ($menu_sort != null && $menu_idx > 0) {
-	$upper_filter = getMenuFilter($db,$country,$menu_sort,$menu_idx,"UP");
-	$lower_filter = getMenuFilter($db,$country,$menu_sort,$menu_idx,"LW");
-	
-	$menu_info = array(
-		'upper_filter'	=>$upper_filter,
-		'lower_filter'	=>$lower_filter,
-	);
+if ($menu_type != null && $menu_idx > 0) {
+	$menu_info = getMenuInfo($db,$country,$menu_type,$menu_idx);
 }
 
 $filter_info = getProductFilter($db,$country,$page_idx);
@@ -352,7 +346,7 @@ if ($page_idx != null && $country != null) {
 						
 						if (count($product_size) == $soldout_cnt) {
 							$stock_status = "STSO";
-						} else if (count($product_size) == $stock_close_cnt) {
+						} else if ($stock_close_cnt > 0) {
 							$stock_status = "STCL";
 						}
 						
@@ -468,79 +462,169 @@ if ($page_idx != null && $country != null) {
 	}
 }
 
-function checkArrayValue($param) {
-	$value = null;
-	if (isset($param)) {
-		$value = $param;
-	}
-	return $value;
-}
-
-function getMenuFilter($db,$country,$menu_sort,$menu_idx,$filter_type) {
-	$filter_table = "";
-	$select_img_location = "";
-	$link_sql = "";
+function getMenuInfo($db,$country,$menu_type,$menu_idx) {
+	$menu_info = array();
 	
-	switch ($filter_type) {
-		case "UP" :
-			$filter_table = " MENU_UPPER_FILTER MF ";
-			$select_img_location = " MF.IMG_LOCATION		AS IMG_LOCATION, ";
-			break;
+	if ($menu_type == "HL1") {
+		$select_menu_sql = "
+			(
+				SELECT
+					HL1.IDX					AS MENU_IDX,
+					'HL1'					AS MENU_TYPE,
+					HL1.MENU_TITLE			AS MENU_TITLE,
+					HL1.IMG_LOCATION		AS IMG_LOCATION,
+					HL1.EXT_LINK_FLG		AS EXT_LINK_FLG,
+					IFNULL(
+						HL1.MENU_LINK,''
+					)						AS MENU_LINK
+				FROM
+					MENU_HL_1 HL1
+				WHERE
+					HL1.IDX = ".$menu_idx." AND
+					HL1.COUNTRY = '".$country."' AND
+					HL1.A1_EXP_FLG = TRUE
+			) UNION (
+				SELECT
+					HL2.IDX					AS MENU_IDX,
+					'HL2'					AS MENU_TYPE,
+					HL2.MENU_TITLE			AS MENU_TITLE,	
+					HL2.IMG_LOCATION		AS IMG_LOCATION,
+					HL2.EXT_LINK_FLG		AS EXT_LINK_FLG,
+					IFNULL(
+						HL2.MENU_LINK,''
+					)						AS MENU_LINK
+				FROM
+					MENU_HL_2 HL2
+				WHERE
+					HL2.COUNTRY = '".$country."' AND
+					HL2.PARENT_IDX = ".$menu_idx." AND
+					HL2.A1_EXP_FLG = TRUE
+			)
+		";
 		
-		case "LW" :
-			$filter_table = " MENU_LOWER_FILTER MF ";
-			break;
-	}
-	
-	
-	$filter_sql = "
-		SELECT
-			MF.OBJ_TITLE	AS OBJ_TITLE,
-			".$select_img_location."
-			MF.LINK_TYPE	AS LINK_TYPE,
-			CONCAT(
-				MF.LINK_URL,
-				'&m_cate_s=',
-				MF.OBJ_TITLE
-			)				AS LINK_URL
-		FROM
-			".$filter_table."
-		WHERE
-			MF.MENU_SORT = '".$menu_sort."' AND
-			MF.MENU_IDX = ".$menu_idx." AND
-			MF.COUNTRY = '".$country."'
-		ORDER BY
-			MF.DISPLAY_NUM ASC
+		$db->query($select_menu_sql);
+		
+		foreach($db->fetch() as $menu_data) {
+			$menu_param = "&menu_type=".$menu_data['MENU_TYPE']."&menu_idx=".$menu_data['MENU_IDX'];
 			
-	";
-	
-	$db->query($filter_sql);
-	
-	$filter_info = array();
-	foreach($db->fetch() as $data) {
-		$img_location = null;
-		$link_type = $data['LINK_TYPE'];
-		
-		$menu_link = "";
-		if ($link_type != "EC") {
-			$menu_link = $data['LINK_URL']."&menu_sort=".$menu_sort."&menu_idx=".$menu_idx;
-		} else {
-			$menu_link = "http://".$data['LINK_URL'];
+			$menu_link = null;
+			if (strlen($menu_data['MENU_LINK']) > 0) {
+				if ($menu_data['EXT_LINK_FLG'] == true) {
+					$menu_link = "http://".$menu_data['MENU_LINK'];
+				} else if ($menu_data['EXT_LINK_FLG'] == false) {
+					$menu_link = $menu_data['MENU_LINK'].$menu_param;
+				}
+			} else {
+				$menu_link = $menu_data['MENU_LINK'];
+			}
+			
+			$tmp_menu_type = $menu_data['MENU_TYPE'];
+			$tmp_menu_idx = $menu_data['MENU_IDX'];
+			
+			$selected = false;
+			if ($tmp_menu_type == "HL1" && ($tmp_menu_idx == $menu_idx)) {
+				$selected = true;
+			}
+			
+			$menu_info[] = array(
+				'menu_title'		=>$menu_data['MENU_TITLE'],
+				'img_location'		=>$menu_data['IMG_LOCATION'],
+				'menu_link'			=>$menu_link,
+				
+				'selected'			=>$selected
+			);
 		}
+	} else if ($menu_type == "HL2") {
+		$select_menu_sql = "
+			(
+				SELECT
+					HL1.IDX					AS MENU_IDX,
+					'HL1'					AS MENU_TYPE,
+					HL1.MENU_TITLE			AS MENU_TITLE,
+					HL1.IMG_LOCATION		AS IMG_LOCATION,
+					HL1.EXT_LINK_FLG		AS EXT_LINK_FLG,
+					IFNULL(
+						HL1.MENU_LINK,''
+					)						AS MENU_LINK
+				FROM
+					MENU_HL_1 HL1
+				WHERE
+					HL1.IDX = (
+						SELECT
+							S_HL2.PARENT_IDX
+						FROM
+							MENU_HL_2 S_HL2
+						WHERE
+							S_HL2.IDX = ".$menu_idx."
+					) AND
+					HL1.A1_EXP_FLG = TRUE
+			) UNION (
+				SELECT
+					HL2.IDX					AS MENU_IDX,
+					'HL2'					AS MENU_TYPE,
+					HL2.MENU_TITLE			AS MENU_TITLE,	
+					HL2.IMG_LOCATION		AS IMG_LOCATION,
+					HL2.EXT_LINK_FLG		AS EXT_LINK_FLG,
+					IFNULL(
+						HL2.MENU_LINK,''
+					)						AS MENU_LINK
+				FROM
+					MENU_HL_2 HL2
+				WHERE
+					(
+						HL2.PARENT_IDX = (
+							SELECT
+								S_HL2.PARENT_IDX
+							FROM
+								MENU_HL_2 S_HL2
+							WHERE
+								S_HL2.IDX = ".$menu_idx."
+						) AND
+						A1_EXP_FLG = TRUE
+					) OR
+					(
+						HL2.IDX = ".$menu_idx." AND
+						HL2.A0_EXP_FLG = FALSE AND
+						HL2.A1_EXP_FLG = FALSE
+					)
+			)
+		";
 		
-		if (!empty($data['IMG_LOCATION'])) {
-			$img_location = $data['IMG_LOCATION'];
+		$db->query($select_menu_sql);
+		
+		foreach($db->fetch() as $menu_data) {
+			$menu_param = "&menu_type=".$menu_data['MENU_TYPE']."&menu_idx=".$menu_data['MENU_IDX'];
+			
+			$menu_link = null;
+			if (strlen($menu_data['MENU_LINK']) > 0) {
+				if ($menu_data['EXT_LINK_FLG'] == true) {
+					$menu_link = "http://".$menu_data['MENU_LINK'];
+				} else if ($menu_data['EXT_LINK_FLG'] == false) {
+					$menu_link = $menu_data['MENU_LINK'].$menu_param;
+				}
+			} else {
+				$menu_link = $menu_data['MENU_LINK'];
+			}
+			
+			$tmp_menu_type = $menu_data['MENU_TYPE'];
+			$tmp_menu_idx = $menu_data['MENU_IDX'];
+			
+			$selected = false;
+			if ($tmp_menu_type == "HL2" && ($tmp_menu_idx == $menu_idx)) {
+				$selected = true;
+			}
+			
+			$menu_info[] = array(
+				'menu_title'		=>$menu_data['MENU_TITLE'],
+				'img_location'		=>$menu_data['IMG_LOCATION'],
+				'menu_link'			=>$menu_link,
+				
+				'selected'			=>$selected
+			);
 		}
-		
-		$filter_info[] = array(
-			'filter_title'	=>$data['OBJ_TITLE'],
-			'img_location'	=>$img_location,
-			'link_type'		=>$data['LINK_TYPE'],
-			'menu_link'		=>$menu_link
-		);
 	}
 	
-	return $filter_info;
+	return $menu_info;
 }
 
 function getProductFilter($db,$country,$page_idx) {

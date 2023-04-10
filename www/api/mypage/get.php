@@ -71,7 +71,7 @@ if($member_idx > 0 && $country != null){
 			AND 
 				MEMBER_IDX = ".$member_idx."
 			AND 
-				ORDER_STATUS IN ('PCP', 'PPR', 'DPR', 'DPG')
+				ORDER_STATUS NOT IN ('OCC', 'OEP', 'ORP', 'DCP')
 			)					AS ORDER_ING_CNT
         FROM
             MEMBER_".$country." MB

@@ -21,48 +21,48 @@ if (isset($_SESSION['MEMBER_IDX'])) {
 	$member_idx = $_SESSION['MEMBER_IDX'];
 }
 
-//$country		= $_POST['country'];
-$country = "KR";
-if (isset($_POST['country'])) {
-	$country = $_POST['country'];
+$country = null;
+if (isset($_SESSION['COUNTRY'])) {
+	$country = $_SESSION['COUNTRY'];
 }
 
 if ($country != null) {
-	$sql = "SELECT
-				RP.PRODUCT_IDX				AS PRODUCT_IDX,
-				(
-					SELECT
-						REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
-					FROM
-						PRODUCT_IMG S_PI
-					WHERE
-						S_PI.PRODUCT_IDX = PR.IDX AND
-						S_PI.IMG_TYPE = 'P' AND
-						S_PI.IMG_SIZE = 'M'
-					ORDER BY
-						S_PI.IDX ASC
-					LIMIT
-						0,1
-				)							AS PRODUCT_IMG,
-				PR.PRODUCT_NAME				AS PRODUCT_NAME,
-				OM.COLOR					AS COLOR,
-				PR.PRICE_".$country."		AS PRICE,
-				PR.DISCOUNT_".$country."	AS DISCOUNT_PRICE,
-				PR.SALES_PRICE_".$country."	AS SALES_PRICE,
-				OM.COLOR					AS COLOR
-			FROM
-				PAGE_RECOMMEND PRE
-				LEFT JOIN RECOMMEND_PRODUCT RP ON
-				PRE.IDX = RP.PAGE_IDX
-				LEFT JOIN SHOP_PRODUCT PR ON
-				RP.PRODUCT_IDX = PR.IDX
-				LEFT JOIN ORDERSHEET_MST OM ON
-				PR.ORDERSHEET_IDX = OM.IDX
-			WHERE
-				PRE.DEL_FLG = FALSE AND
-				PRE.ACTIVE_FLG = TRUE";
+	$select_recommend_product_sql = "
+		SELECT
+			RP.PRODUCT_IDX				AS PRODUCT_IDX,
+			(
+				SELECT
+					REPLACE(S_PI.IMG_LOCATION,'/var/www/admin/www','')
+				FROM
+					PRODUCT_IMG S_PI
+				WHERE
+					S_PI.PRODUCT_IDX = PR.IDX AND
+					S_PI.IMG_TYPE = 'P' AND
+					S_PI.IMG_SIZE = 'M'
+				ORDER BY
+					S_PI.IDX ASC
+				LIMIT
+					0,1
+			)							AS PRODUCT_IMG,
+			PR.PRODUCT_NAME				AS PRODUCT_NAME,
+			OM.COLOR					AS COLOR,
+			PR.COLOR_RGB				AS COLOR_RGB,
+			PR.PRICE_".$country."		AS PRICE,
+			PR.DISCOUNT_".$country."	AS DISCOUNT_PRICE,
+			PR.SALES_PRICE_".$country."	AS SALES_PRICE
+		FROM
+			PAGE_RECOMMEND PRE
+			LEFT JOIN RECOMMEND_PRODUCT RP ON
+			PRE.IDX = RP.PAGE_IDX
+			LEFT JOIN SHOP_PRODUCT PR ON
+			RP.PRODUCT_IDX = PR.IDX
+			LEFT JOIN ORDERSHEET_MST OM ON
+			PR.ORDERSHEET_IDX = OM.IDX
+		WHERE
+			PRE.IDX = 7
+	";
 	
-	$db->query($sql);
+	$db->query($select_recommend_product_sql);
 	
 	foreach($db->fetch() as $data) {		
 		$product_idx = $data['PRODUCT_IDX'];
